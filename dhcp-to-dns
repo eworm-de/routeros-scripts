@@ -1,0 +1,75 @@
+# RouterOS script: dhcp-to-dns
+# Copyright (c) 2013-2018 Christian Hesse <mail@eworm.de>
+#
+# check DHCP leases and add/remove/update DNS entries
+
+:global "identity";
+:global "domain";
+:global "hostname-in-zone";
+
+:local zone;
+:if ($"hostname-in-zone" = true) do={
+  :set zone ("dhcp." . $identity . "." . $domain);
+} else={
+  :set zone ("dhcp." . $domain);
+}
+:local ttl "00:05:00";
+:local hostname;
+:local fqdn;
+:local dnsip;
+:local dhcpip;
+:local dnsnode;
+:local dhcpnode;
+
+:foreach static in=[ / ip dns static find where name ~ (".*\\." . $zone) ] do={
+  :set fqdn [ / ip dns static get $static name ];
+  :set hostname [ :pick $fqdn 0 ( [ :len $fqdn ] - ( [ :len $zone ] + 1 ) ) ];
+  :set dhcpnode [ / ip dhcp-server lease find where host-name=$hostname dynamic=yes ];
+  :if ( [ :len $dhcpnode ] > 0) do={
+    :log debug ("Lease for " . $hostname . " still exists. Not deleting.");
+  } else={
+    :local found false;
+    :log info ("Lease expired for " . $hostname . ", deleting DNS entry.");
+    / ip dns static remove $static;
+  }
+}
+
+:foreach lease in=[ / ip dhcp-server lease find where dynamic=yes ] do={
+  :local mac [ / ip dhcp-server lease get $lease mac-address ];
+  :set dhcpip [ / ip dhcp-server lease get $lease address ];
+  :local comment ("managed by dhcp-to-dns for " . $mac);
+  :set hostname [ / ip dhcp-server lease get $lease host-name ];
+
+  :while ($hostname ~ " ") do={
+    :local pos [ :find $hostname " " ];
+    :set hostname ( [ :pick $hostname 0 $pos ] . [ :pick $hostname ($pos + 1) 999 ] );
+  };
+
+  :if ( [ :len $hostname ] > 0) do={
+    :set fqdn ( $hostname . "." . $zone );
+    :set dnsnode [ / ip dns static find where name=$fqdn ];
+    :if ( [ :len $dnsnode ] > 0 ) do={
+      :set dnsip [ / ip dns static get $dnsnode address ];
+
+      :local leases [ / ip dhcp-server lease find where host-name=$hostname dynamic=yes ];
+      :local hostnamecount [ :len [ / ip dhcp-server lease find where host-name=$hostname dynamic=yes ] ];
+      :if ( $hostnamecount > 1) do={
+        :foreach j,lease in=$leases do={
+          :if ($j + 1 = $hostnamecount) do={
+            :set dhcpip [ / ip dhcp-server lease get $lease address ];
+          }
+        }
+      }
+
+      :if ( $dnsip = $dhcpip ) do={
+        :log debug ("DNS entry for " . $fqdn . " does not need updating.");
+      } else={
+        :log info ("Replacing DNS entry for " . $fqdn . ", new address is " . $dhcpip . ".");
+        / ip dns static set name=$fqdn address=$dhcpip ttl=$ttl comment=$comment $dnsnode;
+      }
+    } else={
+      :log info ("Adding new DNS entry for " . $fqdn . ", address is " . $dhcpip . ".");
+      / ip dns static add name=$fqdn address=$dhcpip ttl=$ttl comment=$comment;
+    }
+  }
+}

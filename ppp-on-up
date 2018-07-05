@@ -1,0 +1,13 @@
+# RouterOS script: ppp-on-up
+# Copyright (c) 2013-2018 Christian Hesse <mail@eworm.de>
+#
+# run scripts on ppp up
+
+# variable $interface is available in ppp on-up script
+:local dhcpclient [ / ipv6 dhcp-client find where interface=$interface ];
+
+:if ( [ :len $dhcpclient ] > 0) do={
+  / ipv6 dhcp-client disable $dhcpclient;
+  :delay 1s;
+  / ipv6 dhcp-client enable $dhcpclient;
+}

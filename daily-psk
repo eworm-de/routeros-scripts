@@ -1,0 +1,41 @@
+# RouterOS script: daily-psk
+# Copyright (c) 2013-2018 Christian Hesse <mail@eworm.de>
+#
+# update daily PSK (pre shared key)
+
+:global "daily-psk-match-comment";
+
+# check mail server
+:if ([ / tool netwatch get [ find where comment=[ / tool e-mail get address ] ] status ] != "up" ) do={
+  :error "Mail server is not up.";
+}
+
+# check time
+:if ([ / system ntp client get status ] != "synchronized") do={
+  :error "Time is not yet synchronized from ntp.";
+}
+
+:local GeneratePSK [ :parse [ / system script get GeneratePSK source ] ];
+
+:local newpsk [ $GeneratePSK ];
+
+:local sendmail 0;
+
+:foreach acclist in=[ / interface wireless access-list find where comment~$"daily-psk-match-comment" ] do={
+  :local interface [ / interface wireless access-list get $acclist interface ];
+  :local ssid [ / interface wireless get $interface ssid ];
+  :local oldpsk [ / interface wireless access-list get $acclist private-pre-shared-key ];
+
+  :if ($newpsk != $oldpsk) do={
+    :log info ("Updating daily PSK for " . $interface . " to " . $newpsk . " (was " . $oldpsk . ")");
+    / interface wireless access-list set $acclist private-pre-shared-key=$newpsk;
+
+    :set sendmail 1;
+  }
+}
+
+:if ($sendmail = 1) do={
+  / system script run email-daily-psk;
+}
+
+/ system scheduler set disabled=yes [ find where name=daily-psk disabled=no ];

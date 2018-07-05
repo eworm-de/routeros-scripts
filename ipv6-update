@@ -1,0 +1,38 @@
+# RouterOS script: ipv6-update
+# Copyright (c) 2013-2018 Christian Hesse <mail@eworm.de>
+#
+# update firewall and dns settings on IPv6 prefix change
+
+:global "ipv6-interface";
+:global "ipv6-pool";
+
+:local addrlist [ / ipv6 firewall address-list find where comment=("ipv6-pool-" . $"ipv6-pool") ];
+:local oldprefix [ / ipv6 firewall address-list get $addrlist address ];
+
+# give the interfaces a moment to receive their addresses
+:delay 2s;
+
+if ($oldprefix != $"pd-prefix") do={
+  :log info ("Updating ipv6 address list with new IPv6 prefix " . $"pd-prefix");
+  / ipv6 firewall address-list set address=$"pd-prefix" $addrlist;
+
+  :local oldprefix56 [ :pick $oldprefix 0 [ :find $oldprefix "00::/56" ] ];
+  :local oldprefix64 [ :pick $oldprefix 0 [ :find $oldprefix "::/56" ] ];
+
+  :local newprefix [ / ipv6 address get [ / ipv6 address find where from-pool=$"ipv6-pool" interface=$"ipv6-interface" ] address ];
+  :local newprefix64 [ :pick $newprefix 0 [ :find $newprefix "::/64" ] ];
+
+  :foreach record in=[ / ip dns static find where address~$oldprefix56 ] do={
+    :local address [ / ip dns static get $record address ];
+    :local name [ / ip dns static get $record name ];
+
+    :if ( [ :len $name ] = 0) do={
+      :set name [ / ip dns static get $record regex ];
+    }
+
+    :local suffix [ :pick $address [ :len $oldprefix64 ] [ :len $address ] ];
+
+    :log info ("Updating dns record for " . $name . ": " . $address . " -> " . $newprefix64 . $suffix);
+    / ip dns static set address=($newprefix64 . $suffix) $record;
+  }
+}

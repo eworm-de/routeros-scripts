@@ -1,0 +1,30 @@
+# RouterOS script: update-gre-address
+# Copyright (c) 2013-2018 Christian Hesse <mail@eworm.de>
+#
+# update gre interface remote address with dynamic address from
+# ipsec remote peer
+
+:global "gre-cert-prefix";
+:global "gre-int-prefix";
+
+/ interface gre set remote-address=0.0.0.0 disabled=yes [ find where !running !disabled ];
+
+:foreach peer in=[ / ip ipsec remote-peers find ] do={
+  :local id [ / ip ipsec remote-peers get $peer id ];
+
+  :if ([ :pick $id 0 [ :len $"gre-cert-prefix" ] ] = $"gre-cert-prefix") do={
+    :local name [ :pick $id [ :len $"gre-cert-prefix" ] [ :len $id ] ];
+    :local addrnew [ / ip ipsec remote-peers get $peer dynamic-address ];
+    :local grename ($"gre-int-prefix" . $name);
+    :local greint [ / interface gre find where name=$grename ];
+    :if ([ :len $greint ] > 0) do={
+      :local addrold [ / interface gre get $greint remote-address ];
+      :local disabled [ / interface gre get $greint disabled ];
+      :if ($addrnew != $addrold || $disabled = true) do={
+        :log info ("Update remote address for interface " . $grename . " to " . $addrnew);
+        / interface gre set remote-address=0.0.0.0 disabled=yes [ find where remote-address=$addrnew name!=$grename ];
+        / interface gre set $greint remote-address=$addrnew disabled=no;
+      }
+    }
+  }
+}

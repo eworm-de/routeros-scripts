@@ -1,0 +1,6 @@
+# RouterOS script: remove-packages
+# Copyright (c) 2013-2018 Christian Hesse <mail@eworm.de>
+#
+# remove packages (*.npk) from storage
+
+/ file remove [ / file find type="package" ];

@@ -1,0 +1,6 @@
+# RouterOS script: leds-day-mode
+# Copyright (c) 2013-2018 Christian Hesse <mail@eworm.de>
+#
+# enable LEDs
+
+/ system leds settings set all-leds-off=never;

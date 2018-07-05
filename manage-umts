@@ -1,0 +1,26 @@
+# RouterOS script: manage-umts
+# Copyright (c) 2013-2018 Christian Hesse <mail@eworm.de>
+#
+# manage UMTS interface based on ethernet and wireless status
+
+:local etherint "en1";
+:local wlanint "wl-station";
+:local umtsint "t-mobile";
+
+:local etherstatus [ / interface ethernet get $etherint running ];
+:local wlanstatus [ / interface wireless get $wlanint running ];
+
+:if ( $etherstatus = true || wlanstatus = true ) do={
+  :if ( [ / interface get $umtsint disabled ] = false ) do={
+    :log info ("Ethernet (" . $etherint . " / " . $etherstatus . ") or " . \
+      "wireless (" . $wlanint . " / " . $wlanstatus . ") is running, " . \
+      "UMTS interface " . $umtsint . " is enabled. Disabling...");
+    / interface set disabled=yes $umtsint;
+  };
+} else={
+  :if ( [ / interface get $umtsint disabled ] = true ) do={
+    :log info ("Neither ethernet (" . $etherint . ") nor wireless (" . $wlanint . ") interface is running, " . \
+      "UMTS interface " . $umtsint . " is disabled. Enabling...");
+    / interface set disabled=no $umtsint;
+  };
+};

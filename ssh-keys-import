@@ -1,0 +1,10 @@
+# RouterOS script: ssh-keys-import
+# Copyright (c) 2013-2018 Christian Hesse <mail@eworm.de>
+#
+# import ssh keys from file
+
+# Split files with several keys from a shell...
+# while read type key name; do echo $type $key $name > $name.pub; done < keys.pub
+# ... then transfer with scp/sftp.
+
+:foreach key in=[ / file find where type="ssh key" ] do={ / user ssh-key import user=admin public-key-file=[ / file get $key name ]; }

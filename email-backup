@@ -1,0 +1,51 @@
+# RouterOS script: email-backup
+# Copyright (c) 2013-2018 Christian Hesse <mail@eworm.de>
+#
+# create and email backup and config file
+
+:global "identity";
+:global "domain";
+:global "email-backup-to";
+:global "email-backup-cc";
+:global "backup-send-binary";
+:global "backup-send-export";
+:global "backup-password";
+
+# filename based on identity
+:local filename ($identity . "." . $domain);
+
+# get some system information
+:local model [ / system routerboard get model ];
+:local serialnumber [ / system routerboard get serial-number ];
+:local channel [ / system package update get channel ];
+:local installedversion [ / system package update get installed-version ];
+
+# create and email binary backup
+:if ($"backup-send-binary" = true) do={
+  / system backup save name=$filename password=$"backup-password";
+  / delay delay-time=10;
+  / tool e-mail send to=$"email-backup-to" cc=$"email-backup-cc" \
+    subject=("[" . $identity . "] Backup") \
+    body=("Backup file for " . $identity . " is attached.\n\n" . \
+      "Routerboard:   " . $model . "\n" . \
+      "Serial number: " . $serialnumber . "\n" . \
+      "Hostname:      " . $identity . "\n" . \
+      "Channel:       " . $channel . "\n" . \
+      "RouterOS:      " . $installedversion) \
+    file=($filename . ".backup");
+}
+
+# create and email configuration export
+:if ($"backup-send-export"= true) do={
+  / export file=$filename;
+  / delay delay-time=10;
+  / tool e-mail send to=$"email-backup-to" cc=$"email-backup-cc" \
+    subject=("[" . $identity . "] Config") \
+    body=("Config file for " . $identity . " is attached.\n\n" . \
+      "Routerboard:   " . $model . "\n" . \
+      "Serial number: " . $serialnumber . "\n" . \
+      "Hostname:      " . $identity . "\n" . \
+      "Channel:       " . $channel . "\n" . \
+      "RouterOS:      " . $installedversion) \
+    file=($filename . ".rsc");
+}

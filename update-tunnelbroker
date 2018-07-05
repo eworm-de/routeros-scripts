@@ -1,0 +1,30 @@
+# RouterOS script: update-tunnelbroker
+# Copyright (c) 2013-2018 Christian Hesse <mail@eworm.de>
+
+:local tunnelurl "ipv4.tunnelbroker.net";
+:local tunneluser "user";
+:local tunnelpass "v3ry-s3cr3t";
+:local tunnelid "user-XXX.tunnel.tserv6.fra1.ipv6.he.net";
+
+# name of the local tunnel interface
+:local tunnelint "tunnelbroker";
+
+# get the last ip address from tunnel interface
+:local tunnellastip [ / interface 6to4 get [ / interface 6to4 find where name=$tunnelint ] local-address ];
+
+# Get the current ip address on interface with default route
+:local tunnelip [ / ip route get [ / ip route find where gateway=[ / ip route get [ / ip route find where dynamic=yes and dst-address="0.0.0.0/0" dynamic active=yes ] gateway ] dst-address!="0.0.0.0/0" ] pref-src ];
+
+# Did we get an IP address to compare?
+:if ([ :typeof $tunnelip ] = nil) do={
+  :log warning ("No default route? Could not get address, please check.");
+} else={
+  :if ($tunnelip != $tunnellastip) do={
+    :log info ("Local address changed, sending UPDATE to tunnelbroker! New address: " . $tunnelip);
+    / tool fetch mode=https address=$tunnelurl user=$tunneluser password=$tunnelpass \
+      src-path=("/nic/update\?hostname=" . $tunnelid) keep-result=no;
+    / interface 6to4 set [ / interface 6to4 find where name=$tunnelint ] local-address=$tunnelip;
+  } else={
+    :log debug "All tunnelbroker configuration is up to date.";
+  }
+}

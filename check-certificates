@@ -1,0 +1,52 @@
+# RouterOS script: check-certificates
+# Copyright (c) 2013-2018 Christian Hesse <mail@eworm.de>
+#
+# check for certificate validity
+
+:global "identity";
+:global "email-general-to";
+:global "email-general-cc";
+
+:local months ("jan","feb","mar","apr","may","jun","jul","aug","sep","oct","nov","dec");
+
+:local currentdate [ / system clock get date ];
+
+:local currentmonthstr [ :pick $currentdate 0 3 ];
+:local currentday [ :pick $currentdate 4 6 ];
+:local currentyear [ :pick $currentdate 7 11 ];
+:local currentmonth ([ :find $months $currentmonthstr -1 ] + 1);
+:local currentstamp ($currentyear * 365 + $currentmonth * 30 + $currentday);
+
+:foreach cert in=[ / certificate find where !revoked ] do={
+  :local certname [ / certificate get $cert name ];
+  :local invaliddate [ / certificate get $cert invalid-after ];
+
+  :if ([ :len $invaliddate ] > 0) do={
+    :local invalidmonthstr [ :pick $invaliddate 0 3 ];
+    :local invalidday [ :pick $invaliddate 4 6 ];
+    :local invalidyear [ :pick $invaliddate 7 11 ];
+    :local invalidmonth ([ :find $months $invalidmonthstr -1 ] + 1);
+    :local invalidstamp ($invalidyear * 365 + invalidmonth * 30 + invalidday);
+
+    :local remaining ($invalidstamp - $currentstamp);
+
+    :if ($remaining < 15) do={
+      :local commonname [ / certificate get $cert common-name ];
+      :local fingerprint [ / certificate get $cert fingerprint ];
+      :local invalidbefore [ / certificate get $cert invalid-before ];
+      :local invalidafter [ / certificate get $cert invalid-after ];
+      / tool e-mail send to=$"email-general-to" cc=$"email-general-cc" \
+        subject=("[" . $identity . "] Certificate warning!") \
+        body=("A certificate on " . $identity . " is about to expire.\n\n" . \
+          "Certificate Name: " . $certname . "\n" . \
+          "Common Name:      " . $commonname . "\n" . \
+          "Fingerprint:      " . $fingerprint . "\n" . \
+          "Validity:         " . $invalidbefore . " to " . $invalidafter);
+      :log warning ("A certificate is about to expire within " . $remaining . " days: " . $certname);
+    } else={
+      :log debug ("The certificate " . $certname . " expires in " . $remaining . " days.");
+    }
+  } else={
+    :log debug ("The certificate " . $certname . " is just a template.");
+  }
+}

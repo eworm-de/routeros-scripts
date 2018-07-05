@@ -1,0 +1,6 @@
+# RouterOS script: script2script
+# Copyright (c) 2013-2018 Christian Hesse <mail@eworm.de>
+#
+# change owner to "script"
+
+/ system script set owner=script [ find where owner!="script" ];

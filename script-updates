@@ -1,0 +1,17 @@
+# RouterOS script: script-updates
+# Copyright (c) 2013-2018 Christian Hesse <mail@eworm.de>
+#
+# update installed scripts from file
+
+:foreach script in=[ / system script find ] do={
+  :local scriptname [ / system script get $script name ];
+  :local scriptfile [ / file find where name=("script-updates/" . $scriptname) ];
+  :if ([ :len $scriptfile ] > 0) do={
+    :log info ("Updating script: " . $scriptname);
+    :local scriptcontent [ / file get $scriptfile content ];
+    / system script set owner=$scriptname source=$scriptcontent $script;
+    / file remove $scriptfile;
+  } else={
+    :log debug ("No update for script " . $scriptname);
+  }
+}

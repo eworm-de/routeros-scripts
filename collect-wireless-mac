@@ -1,0 +1,64 @@
+# RouterOS script: collect-wireless-mac
+# Copyright (c) 2013-2018 Christian Hesse <mail@eworm.de>
+#
+# collect wireless mac adresses in access list
+#
+# this supports local wireless and caps-man when updating paths:
+# $ sed -i '/^$/,$s/caps-man/interface wireless/' collect-wireless-mac
+# $ sed -i '/^$/,$s/interface wireless/caps-man/' collect-wireless-mac
+
+:global "identity";
+:global "email-general-to";
+:global "email-general-cc";
+
+:local "place-before" [ / caps-man access-list find where comment="--- collected above ---" disabled ];
+:if ([ :len $"place-before" ] = 0) do={
+  :error "Missing disabled access-list entry with comment '--- collected above ---'";
+}
+
+:foreach regtbl in=[ / caps-man registration-table find ] do={
+  :local mac [ / caps-man registration-table get $regtbl mac-address ];
+  :local acclst [ :pick [ / caps-man access-list find where mac-address=$mac ] 0 ];
+  :if ( [ :len $acclst ] = 0 ) do={
+    :local hostname "no dhcp lease";
+    :local address "no dhcp lease";
+    :local lease [ / ip dhcp-server lease find where mac-address=$mac ];
+    :if ( [ :len $lease ] > 0 ) do={
+      :set hostname [ / ip dhcp-server lease get $lease host-name ];
+      :set address [ / ip dhcp-server lease get $lease address ];
+    }
+    :if ( [ :len $hostname ] = 0 ) do={
+      :set hostname "no hostname";
+    }
+    :if ( [ :len $address ] = 0 ) do={
+      :set address "no address";
+    }
+    :local regentry [ / caps-man registration-table find where mac-address=$mac ];
+    :local interface [ / caps-man registration-table get $regentry interface ];
+    :local ssid;
+    :if ("caps-man" = ("caps" . "-man")) do={
+      :set ssid [ / caps-man registration-table get $regentry ssid ];
+    } else={
+      # keep two spaces here to protect against replace!
+      :set ssid [ / interface  wireless get [ find where name=$interface ] ssid ];
+    }
+    :local datetime ([ / system clock get date ] . " " . [ / system clock get time ]);
+    :local message ("unknown MAC address " . $mac . " (" . $hostname . ") first seen on " . \
+      $datetime . " connected to SSID " . $ssid . ", interface " . $interface);
+    / log info $message;
+    / caps-man access-list add place-before=$"place-before" comment=$message mac-address=$mac disabled=yes;
+    / tool e-mail send to=$"email-general-to" cc=$"email-general-cc" \
+      subject=("[" . $identity . "] " . $mac . " connected to " . $ssid) \
+      body=("A device with unknown MAC address connected to " . $ssid . " on " . $identity . ".\n\n" . \
+        "Controller: " . $identity . "\n" . \
+        "Interface:  " . $interface . "\n" . \
+        "SSID:       " . $ssid . "\n" . \
+        "MAC:        " . $mac . "\n" . \
+        "Hostname:   " . $hostname . "\n" . \
+        "Address:    " . $address . "\n" . \
+        "Date:       " . $datetime);
+  } else={
+    :local comment [ / caps-man access-list get $acclst comment ];
+    :log debug ("MAC address " . $mac . " already known: " . $comment);
+  }
+}

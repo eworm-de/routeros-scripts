@@ -1,0 +1,12 @@
+# RouterOS script: rotate-ntp
+# Copyright (c) 2013-2018 Christian Hesse <mail@eworm.de>
+#
+# rotate the ntp servers
+
+:global "ntp-pool";
+
+:local ntp1 [ :resolve ("0." . $"ntp-pool") ];
+:local ntp2 [ :resolve ("1." . $"ntp-pool") ];
+
+:log info ("Updating NTP servers to " . $ntp1 . " and " . $ntp2);
+/ system ntp client set primary-ntp=$ntp1 secondary-ntp=$ntp2;

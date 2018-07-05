@@ -1,0 +1,6 @@
+# RouterOS script: leds-night-mode
+# Copyright (c) 2013-2018 Christian Hesse <mail@eworm.de>
+#
+# disable LEDs
+
+/ system leds settings set all-leds-off=immediate;

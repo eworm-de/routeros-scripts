@@ -1,0 +1,17 @@
+# RouterOS script: lease-script
+# Copyright (c) 2013-2018 Christian Hesse <mail@eworm.de>
+#
+# run scripts on DHCP lease
+# ( / ip dhcp-server set lease-script=lease-script [ find ] )
+
+:local scripts { "dhcp-to-dns"; "collect-wireless-mac"; "dhcp-lease-comment" };
+
+# delay a second to give time to update the lease table
+:delay 1s;
+
+:foreach script in=$scripts do={
+  :if ([ :len [ / system script find where name=$script ] ] > 0) do={
+    :log debug ("Running script from lease-script: " . $script);
+    / system script run $script;
+  }
+}

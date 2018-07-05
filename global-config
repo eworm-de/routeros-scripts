@@ -1,0 +1,42 @@
+# RouterOS script: global-config
+# Copyright (c) 2013-2018 Christian Hesse <mail@eworm.de>
+#
+# global configuration
+
+# This is used for DNS and backup file.
+:global "domain" "example.com";
+:global "hostname-in-zone" true;
+
+# These addresses are used to send e-mails to. The to-addresses need
+# to be filled, cc-addresses can be empty, one address or a comma
+# separated list of addresses.
+:global "email-general-to" "mail@example.com";
+:global "email-general-cc" "another@example.com";
+:global "email-backup-to"  "mail@example.com";
+:global "email-backup-cc"  "";
+
+# This defines what backups to generate and what password to use.
+:global "backup-send-binary" false;
+:global "backup-send-export" true;
+:global "backup-password" "v3ry-s3cr3t";
+
+# This is used to update AAAA records and firewall address-list.
+:global "ipv6-interface" "br-local";
+:global "ipv6-pool" "telekom";
+
+# These settings are used to update gre interface settings based on
+# remote peer configuration.
+:global "gre-cert-prefix" "ikev2-";
+:global "gre-int-prefix" "gre-";
+
+# Access-list entries matching this comment are updated with daily
+# pseudo-random PSK.
+:global "daily-psk-match-comment" "Daily PSK";
+
+# This address should resolve ntp servers and is used to update
+# ntp settings. A pool can rotate servers.
+:global "ntp-pool" "pool.ntp.org";
+
+# Do *NOT* change these!
+:global "sent-routeros-update-notification" false;
+:global "identity" [ / system identity get name ];

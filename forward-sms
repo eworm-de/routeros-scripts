@@ -1,0 +1,29 @@
+# RouterOS script: forward-sms
+# Copyright (c) 2013-2018 Christian Hesse <mail@eworm.de>
+#
+# forward SMS to e-mail
+
+:global "identity";
+:global "email-general-to";
+:global "email-general-cc";
+
+# check mail server
+:if ([ / tool netwatch get [ find where comment=[ / tool e-mail get address ] ] status ] != "up" ) do={
+  :error "Mail server is not up.";
+}
+
+# forward SMS in a loop
+:foreach sms in=[ / tool sms inbox find ] do={
+  :local message   [ / tool sms inbox get $sms message ];
+  :local phone     [ / tool sms inbox get $sms phone ];
+  :local timestamp [ / tool sms inbox get $sms timestamp ];
+  :local type      [ / tool sms inbox get $sms type ];
+  / tool e-mail send to=$"email-general-to" cc=$"email-general-cc" \
+    subject=("[" . $identity . "] SMS Forwarding") \
+    body=("A message was received by " . $identity . ":\n\n" . \
+      "Phone:     " . $phone . "\n" . \
+      "Timestamp: " . $timestamp . "\n" . \
+      "Type:      " . $type . "\n\n" . \
+      "Message:\n" .  $message);
+  / tool sms inbox remove $sms;
+}
