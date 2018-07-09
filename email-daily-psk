@@ -17,9 +17,7 @@
 
   :local seen 0;
   :foreach "seen-ssid" in=$"seen-ssids" do={
-    :if ($"seen-ssid" = $ssid) do={
-      :set seen 1;
-    }
+    :if ($"seen-ssid" = $ssid) do={ :set seen 1; }
   }
 
   :if ($seen = 0) do={
