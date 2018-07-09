@@ -37,6 +37,12 @@
 # ntp settings. A pool can rotate servers.
 :global "ntp-pool" "pool.ntp.org";
 
+# Enable this to fetch scripts from given url.
+:global "script-updates-fetch" false;
+:global "script-updates-baseurl" "https://git.eworm.de/cgit.cgi/routeros-scripts/plain/";
+:global "script-updates-ignore" { "global-config"; "GeneratePSK" }
+:global "script-updates-fetch-ignore" { "" };
+
 # Do *NOT* change these!
 :global "sent-routeros-update-notification" false;
 :global "identity" [ / system identity get name ];
