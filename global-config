@@ -38,12 +38,11 @@
 :global "ntp-pool" "pool.ntp.org";
 
 # Enable this to fetch scripts from given url.
-:global "script-updates-fetch" false;
+:global "script-updates-fetch" true;
 :global "script-updates-baseurl" "https://git.eworm.de/cgit.cgi/routeros-scripts/plain/";
 #:global "script-updates-baseurl" "https://raw.githubusercontent.com/eworm-de/routeros-scripts/master/";
 #:global "script-updates-baseurl" "https://gitlab.com/eworm-de/routeros-scripts/raw/master/";
-:global "script-updates-ignore" { "global-config"; "GeneratePSK" }
-:global "script-updates-fetch-ignore" { "" };
+:global "script-updates-ignore" { "global-config"; "GeneratePSK" };
 
 # Do *NOT* change these!
 :global "sent-routeros-update-notification" false;
