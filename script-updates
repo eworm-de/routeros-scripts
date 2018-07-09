@@ -26,7 +26,9 @@
 
       :if ($ignore = 0) do={
         :log debug ("Fetching script from url: " . $scriptname);
-        / tool fetch dst-path=("script-updates/" . $scriptname) ($"script-updates-baseurl" . $scriptname);
+        / tool fetch check-certificate=yes-without-crl \
+          dst-path=("script-updates/" . $scriptname) \
+          ($"script-updates-baseurl" . $scriptname);
         :set scriptfile [ / file find where name=("script-updates/" . $scriptname) ];
       }
     }
