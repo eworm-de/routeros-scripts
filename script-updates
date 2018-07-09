@@ -26,10 +26,14 @@
 
       :if ($ignore = 0) do={
         :log debug ("Fetching script from url: " . $scriptname);
-        / tool fetch check-certificate=yes-without-crl \
-          dst-path=("script-updates/" . $scriptname) \
-          ($"script-updates-baseurl" . $scriptname);
-        :set scriptfile [ / file find where name=("script-updates/" . $scriptname) ];
+        :do {
+          / tool fetch check-certificate=yes-without-crl \
+            dst-path=("script-updates/" . $scriptname) \
+            ($"script-updates-baseurl" . $scriptname);
+          :set scriptfile [ / file find where name=("script-updates/" . $scriptname) ];
+        } on-error={
+          :log debug ("Failed fetching " . $scriptname);
+        }
       }
     }
 
