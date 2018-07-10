@@ -6,11 +6,10 @@
 :local date [ / system clock get date ];
 
 # 0-30 for days of month
-:local
-secret1 { "Abusive"; "Aggressive"; "Bored"; "Chemical"; "Cold"; "Cruel";
-  "Curved"; "Delightful"; "Discreet"; "Elite"; "Evasive"; "Faded"; "Flat";
-  "Future"; "Grandiose"; "Hanging"; "Humorous"; "Interesting"; "Magenta";
-  "Magnificent"; "Numerous"; "Optimal"; "Pathetic"; "Possessive";
+:local secret1 { "Abusive"; "Aggressive"; "Bored"; "Chemical"; "Cold";
+  "Cruel"; "Curved"; "Delightful"; "Discreet"; "Elite"; "Evasive"; "Faded";
+  "Flat"; "Future"; "Grandiose"; "Hanging"; "Humorous"; "Interesting";
+  "Magenta"; "Magnificent"; "Numerous"; "Optimal"; "Pathetic"; "Possessive";
   "Remarkable"; "Rightful"; "Ruthless"; "Stale"; "Unusual"; "Useless";
   "Various" };
 # 0-11 for month of year
