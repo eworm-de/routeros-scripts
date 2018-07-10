@@ -1,4 +1,4 @@
-# RouterOS script: dhcp-lease-comment
+# RouterOS script: dhcp-lease-comment.capsman
 # Copyright (c) 2013-2018 Christian Hesse <mail@eworm.de>
 #
 # update dhcp-server lease comment with infos from access-list

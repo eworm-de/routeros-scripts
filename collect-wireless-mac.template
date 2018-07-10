@@ -1,9 +1,9 @@
-# RouterOS script: collect-wireless-mac
+# RouterOS script: collect-wireless-mac%TEMPL%
 # Copyright (c) 2013-2018 Christian Hesse <mail@eworm.de>
 #
 # collect wireless mac adresses in access list
 #
-# !! This is just a template! Replace '%PATH%' with 'capsman'
+# !! This is just a template! Replace '%PATH%' with 'caps-man'
 # !! or 'interface wireless'!
 
 :global "identity";
@@ -34,13 +34,8 @@
     }
     :local regentry [ / %PATH% registration-table find where mac-address=$mac ];
     :local interface [ / %PATH% registration-table get $regentry interface ];
-    :local ssid;
-    :if ("%PATH%" = ("caps" . "-man")) do={
-      :set ssid [ / %PATH% registration-table get $regentry ssid ];
-    } else={
-      # keep two spaces here to protect against replace!
-      :set ssid [ / interface  wireless get [ find where name=$interface ] ssid ];
-    }
+    :local ssid [ / caps-man registration-table get $regentry ssid ];
+    :local ssid [ / interface wireless get [ find where name=$interface ] ssid ];
     :local datetime ([ / system clock get date ] . " " . [ / system clock get time ]);
     :local message ("unknown MAC address " . $mac . " (" . $hostname . ") first seen on " . \
       $datetime . " connected to SSID " . $ssid . ", interface " . $interface);

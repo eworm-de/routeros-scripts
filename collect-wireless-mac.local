@@ -1,4 +1,4 @@
-# RouterOS script: collect-wireless-mac
+# RouterOS script: collect-wireless-mac.local
 # Copyright (c) 2013-2018 Christian Hesse <mail@eworm.de>
 #
 # collect wireless mac adresses in access list
@@ -33,13 +33,7 @@
     }
     :local regentry [ / interface wireless registration-table find where mac-address=$mac ];
     :local interface [ / interface wireless registration-table get $regentry interface ];
-    :local ssid;
-    :if ("interface wireless" = ("caps" . "-man")) do={
-      :set ssid [ / interface wireless registration-table get $regentry ssid ];
-    } else={
-      # keep two spaces here to protect against replace!
-      :set ssid [ / interface  wireless get [ find where name=$interface ] ssid ];
-    }
+    :local ssid [ / interface wireless get [ find where name=$interface ] ssid ];
     :local datetime ([ / system clock get date ] . " " . [ / system clock get time ]);
     :local message ("unknown MAC address " . $mac . " (" . $hostname . ") first seen on " . \
       $datetime . " connected to SSID " . $ssid . ", interface " . $interface);

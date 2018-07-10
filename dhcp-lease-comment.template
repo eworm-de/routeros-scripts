@@ -1,9 +1,9 @@
-# RouterOS script: dhcp-lease-comment
+# RouterOS script: dhcp-lease-comment%TEMPL%
 # Copyright (c) 2013-2018 Christian Hesse <mail@eworm.de>
 #
 # update dhcp-server lease comment with infos from access-list
 #
-# !! This is just a template! Replace '%PATH%' with 'capsman'
+# !! This is just a template! Replace '%PATH%' with 'caps-man'
 # !! or 'interface wireless'!
 
 :foreach lease in=[ / ip dhcp-server lease find where dynamic=yes ] do={
