@@ -13,7 +13,7 @@
 }
 
 # forward SMS in a loop
-:foreach sms in=[ / tool sms inbox find ] do={
+:foreach sms in=[ / tool sms inbox find where message~"^([^:][^c][^m][^d][^ ])" ] do={
   :local message   [ / tool sms inbox get $sms message ];
   :local phone     [ / tool sms inbox get $sms phone ];
   :local timestamp [ / tool sms inbox get $sms timestamp ];

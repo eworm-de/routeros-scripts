@@ -1,0 +1,26 @@
+# RouterOS script: sms-action
+# Copyright (c) 2018 Christian Hesse <mail@eworm.de>
+#
+# run action on received SMS
+
+:log info ("Received SMS with action '" . $action . "'");
+
+:if ($action = "reboot") do={
+  / system reboot;
+}
+
+:if ($action = "shutdown") do={
+  / system shutdown;
+}
+
+:if ($action = "update") do={
+  / system package update install;
+}
+
+:if ($action= "trackon") do={
+  / system scheduler enable gps-track;
+}
+
+:if ($action = "trackoff") do={
+  / system scheduler disable gps-track;
+}
