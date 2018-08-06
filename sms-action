@@ -4,6 +4,8 @@
 # run action on received SMS
 
 :log info ("Received SMS with action '" . $action . "'");
+# delay a second to give log servers a chance to get the info
+:delay 1s;
 
 :if ($action = "reboot") do={
   / system reboot;
