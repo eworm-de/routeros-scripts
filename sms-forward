@@ -1,4 +1,4 @@
-# RouterOS script: forward-sms
+# RouterOS script: sms-forward
 # Copyright (c) 2013-2018 Christian Hesse <mail@eworm.de>
 #
 # forward SMS to e-mail
@@ -8,7 +8,7 @@
 :global "email-general-cc";
 
 # check mail server
-:if ([ / tool netwatch get [ find where comment=[ / tool e-mail get address ] ] status ] != "up" ) do={
+:if ([ / tool netwatch get [ find where comment=[ / tool e-mail get address ] ] status ] != "up") do={
   :error "Mail server is not up.";
 }
 
