@@ -1,0 +1,10 @@
+# RouterOS script: leds-toggle-mode
+# Copyright (c) 2018 Christian Hesse <mail@eworm.de>
+#
+# toggle LEDs mode
+
+:if ([ / system leds settings get all-leds-off ] = "never") do={
+  / system leds settings set all-leds-off=immediate
+} else={
+  / system leds settings set all-leds-off=never
+}
