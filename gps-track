@@ -1,0 +1,33 @@
+# RouterOS script: gps-track
+# Copyright (c) 2018 Christian Hesse <mail@eworm.de>
+#
+# track gps data by sending json data to http server
+
+:global "identity";
+:global "gps-track-url";
+
+:local gpslat;
+:local gpslon;
+:local gpsvalid;
+
+/ system gps monitor once do={
+  :set $gpslat $("latitude");
+  :set $gpslon $("longitude");
+  :set $gpsvalid $("valid");
+}
+
+if ($gpsvalid) do={ 
+  :tool fetch mode=http \
+    url=$"gps-track-url" \
+    check-certificate=yes-without-crl \
+    http-method=post \
+    http-content-type="application/json" \
+    http-data=("{" . \
+      "\"lat\":\"" . $gpslat . "\"," . \
+      "\"lon\":\"" . $gpslon . "\"," . \
+      "\"identity\":\"" . $identity . "\"" . \
+    "}");
+  :log debug ("Sending gps data for tracking: " . \
+    "lat: " . $gpslat . " " . \
+    "lon: " . $gpslon);
+}

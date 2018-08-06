@@ -37,6 +37,9 @@
 # ntp settings. A pool can rotate servers.
 :global "ntp-pool" "pool.ntp.org";
 
+# This is the address used to send gps data to.
+:global "gps-track-url" "https://example.com/index.php";
+
 # Enable this to fetch scripts from given url.
 :global "script-updates-fetch" true;
 :global "script-updates-baseurl" "https://git.eworm.de/cgit.cgi/routeros-scripts/plain/";
