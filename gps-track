@@ -20,6 +20,7 @@ if ($gpsvalid) do={
   :tool fetch mode=http \
     url=$"gps-track-url" \
     check-certificate=yes-without-crl \
+    keep-result=no \
     http-method=post \
     http-content-type="application/json" \
     http-data=("{" . \
