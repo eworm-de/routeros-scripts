@@ -8,20 +8,31 @@
 :global "email-general-cc";
 :global "daily-psk-match-comment";
 
-:local "seen-ssids" { "" };
+:local seen { "" };
 
 :foreach acclist in=[ / interface wireless access-list find where comment~$"daily-psk-match-comment" ] do={
-  :local interface [ / interface wireless access-list get $acclist interface ];
-  :local ssid [ / interface wireless get $interface ssid ];
+  :local skip 0;
+  :local intname [ / interface wireless access-list get $acclist interface ];
   :local psk [ / interface wireless access-list get $acclist private-pre-shared-key ];
+  :local interface [ / interface wireless find where name=$intname disabled=no ];
+  :local ssid;
 
-  :local seen 0;
-  :foreach "seen-ssid" in=$"seen-ssids" do={
-    :if ($"seen-ssid" = $ssid) do={ :set seen 1; }
+  :if ([ :len $interface ] = 1) do={
+    :set ssid [ / interface wireless get $interface ssid ];
+  } else={
+    :log debug "Missing active interface for access list entry, skipping.";
+    :set skip 1;
   }
 
-  :if ($seen = 0) do={
-    :set $"seen-ssids" { $"seen-ssids"; $ssid };
+  :foreach "seen-ssid" in=$seen do={
+    :if ($"seen-ssid" = $ssid) do={
+      :log debug ("Already sent a mail for SSID " . $ssid . ", skipping.");
+      :set skip 1;
+    }
+  }
+
+  :if ($skip = 0) do={
+    :set $seen { $seen; $ssid };
 
     :local host "www.eworm.de"
     :local srcpath ("/cgi-bin/cqrlogo-wifi.cgi" . \
