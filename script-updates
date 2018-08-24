@@ -13,35 +13,38 @@
   :local ignore 0;
   :local scriptname [ / system script get $script name ];
   :local scriptfile [ / file find where name=("script-updates/" . $scriptname) ];
+  :local sourcenew;
+  :if ([ :len $scriptfile ] > 0) do={
+    :set sourcenew [ / file get $scriptfile content ];
+    / file remove $scriptfile;
+  }
 
-  :if ([ :len $scriptfile ] = 0 && $"script-updates-fetch" = true) do={
+  :if ([ :len $sourcenew ] = 0 && $"script-updates-fetch" = true) do={
     :foreach "ignore-loop" in=$"script-updates-ignore" do={
       :if ($"ignore-loop" = $scriptname) do={ :set ignore 1; }
     }
 
     :if ($ignore = 0) do={
       :log debug ("Fetching script from url: " . $scriptname);
-      :do {
-        / tool fetch check-certificate=yes-without-crl \
-          dst-path=("script-updates/" . $scriptname) \
-          ($"script-updates-baseurl" . $scriptname . $"script-updates-urlsuffix");
-        :set scriptfile [ / file find where name=("script-updates/" . $scriptname) ];
-      } on-error={
+      :local result [ / tool fetch check-certificate=yes-without-crl \
+          ($"script-updates-baseurl" . $scriptname . $"script-updates-urlsuffix") \
+          output=user as-value ];
+      :if ($result->"status" = "finished") do={
+        :set sourcenew ($result->"data");
+      } else={
         :log debug ("Failed fetching " . $scriptname);
       }
     }
   }
 
-  :if ([ :len $scriptfile ] > 0) do={
-    :local filecontent [ / file get $scriptfile content ];
-    :local scriptsource [ / system script get $script source ];
-    :if ($filecontent = $scriptsource) do={
+  :if ([ :len $sourcenew ] > 0) do={
+    :local sourcecurrent [ / system script get $script source ];
+    :if ($sourcenew = $sourcecurrent) do={
       :log debug ("Script " .  $scriptname . " did not change");
     } else={
       :log info ("Updating script: " . $scriptname);
-      / system script set owner=$scriptname source=$filecontent $script;
+      / system script set owner=$scriptname source=$sourcenew $script;
     }
-    / file remove $scriptfile;
   } else={
     :log debug ("No update for script " . $scriptname);
   }
