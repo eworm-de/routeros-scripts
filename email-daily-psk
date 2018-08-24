@@ -9,7 +9,7 @@
 :global "email-general-cc";
 :global "daily-psk-match-comment";
 
-:local seen { "" };
+:local seen [ :toarray "" ];
 
 :foreach acclist in=[ / interface wireless access-list find where comment~$"daily-psk-match-comment" ] do={
   :local skip 0;
