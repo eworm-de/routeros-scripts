@@ -1,8 +1,8 @@
 #
-# RouterOS script: ethernet-to-default
+# RouterOS script: bridge-port-to-default
 # Copyright (c) 2013-2018 Christian Hesse <mail@eworm.de>
 #
-# reset ethernet interfaces to default bridge
+# reset bridge ports to default bridge
 
 :foreach interface in=[ / interface bridge port find where comment~"^default:" ] do={
   :local comment [ / interface bridge port get $interface comment ];
