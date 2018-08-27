@@ -13,6 +13,6 @@
     :log info ("Reverting interface " . $"interface-name" . " to default bridge " . $"bridge-default");
     / interface bridge port set bridge=$"bridge-default" $interface;
   } else={
-    :log debug ("Interface " . $"interface-name" . " already connected to default bridge " $"bridge-default");
+    :log debug ("Interface " . $"interface-name" . " already connected to default bridge " . $"bridge-default");
   }
 }
