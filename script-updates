@@ -6,6 +6,7 @@
 
 :global "script-updates-fetch";
 :global "script-updates-baseurl";
+:global "script-updates-urlsuffix";
 :global "script-updates-ignore";
 
 :foreach script in=[ / system script find ] do={
@@ -23,7 +24,7 @@
       :do {
         / tool fetch check-certificate=yes-without-crl \
           dst-path=("script-updates/" . $scriptname) \
-          ($"script-updates-baseurl" . $scriptname);
+          ($"script-updates-baseurl" . $scriptname . $"script-updates-urlsuffix");
         :set scriptfile [ / file find where name=("script-updates/" . $scriptname) ];
       } on-error={
         :log debug ("Failed fetching " . $scriptname);
