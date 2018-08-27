@@ -8,6 +8,17 @@ to manage RouterOS devices or extend their functionality.
 
 *Use at your own risk!*
 
+Requirements
+------------
+
+Latest version of the scripts require at least **RouterOS 6.43** to function
+properly. The changelog lists the corresponding change as follows:
+
+> *) fetch - added "as-value" output format;
+
+See branch `pre-6-43` if you want to use the scripts on devices with older
+RouterOS version.
+
 Initial setup
 -------------
 
@@ -51,22 +62,8 @@ Then we import the certificates.
 
 Now let's download the main scripts, add them in configuration and remove the files.
 
-    [admin@MikroTik] > / tool fetch check-certificate=yes-without-crl dst-path="script-updates/global-config" "https://git.eworm.de/cgit.cgi/routeros-scripts/plain/global-config"
-          status: finished
-      downloaded: 1KiBC-z pause]
-           total: 1KiB
-        duration: 0s
-
-    [admin@MikroTik] > / tool fetch check-certificate=yes-without-crl dst-path="script-updates/script-updates" "https://git.eworm.de/cgit.cgi/routeros-scripts/plain/script-updates"
-          status: finished
-      downloaded: 1KiBC-z pause]
-           total: 1KiB
-        duration: 1s
-
-    [admin@MikroTik] > / system script add name=global-config source=[ / file get script-updates/global-config contents ]
-    [admin@MikroTik] > / file remove script-updates/global-config
-    [admin@MikroTik] > / system script add name=script-updates source=[ / file get script-updates/script-updates contents ]
-    [admin@MikroTik] > / file remove script-updates/script-updates
+    [admin@MikroTik] > / system script add name=global-config source=([ / tool fetch check-certificate=yes-without-crl "https://git.eworm.de/cgit.cgi/routeros-scripts/plain/global-config" output=user as-value]->"data")
+    [admin@MikroTik] > / system script add name=script-updates source=([ / tool fetch check-certificate=yes-without-crl "https://git.eworm.de/cgit.cgi/routeros-scripts/plain/script-updates" output=user as-value]->"data")
 
 The configuration needs to be tweaked for your needs. Make sure not to send your mails to `mail@example.com`!
 
