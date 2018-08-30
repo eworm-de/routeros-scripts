@@ -7,6 +7,7 @@
 :global "identity";
 :global "email-general-to";
 :global "email-general-cc";
+:global "safe-update-url";
 :global "sent-routeros-update-notification";
 
 :if ([ :len [ / system package find where name="wireless" disabled=no ] ] > 0) do={
@@ -20,14 +21,24 @@
 :local installedversion [ / system package update get installed-version ];
 :local latestversion [ / system package update get latest-version ];
 
-:if ($"sent-routeros-update-notification" = $latestversion) do={
-  :error ("Already sent the RouterOS update notification for version" . $latestversion . ".");
-}
-
 :if ($installedversion != $latestversion) do={
   :local channel [ / system package update get channel ];
   :local model [ / system routerboard get model ];
   :local serialnumber [ / system routerboard get serial-number ];
+
+  :if ([ :len $"safe-update-url" ] > 0) do={
+    :local result [ / tool fetch check-certificate=yes-without-crl \
+        ($"safe-update-url" . $channel) output=user as-value ];
+    :if ($result->"status" = "finished" && $result->"data" = $latestversion) do={
+      :log info ("Version " . $latestversion . " is assumed safe, updating...");
+      / system package update install;
+      :error "Waiting for system to reboot.";
+    }
+  }
+
+  :if ($"sent-routeros-update-notification" = $latestversion) do={
+    :error ("Already sent the RouterOS update notification for version" . $latestversion . ".");
+  }
 
   / tool e-mail send to=$"email-general-to" cc=$"email-general-cc" \
     subject=("[" . $identity . "] RouterOS update notification") \

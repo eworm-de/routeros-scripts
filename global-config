@@ -21,6 +21,11 @@
 :global "backup-send-export" true;
 :global "backup-password" "v3ry-s3cr3t";
 
+# Specify an address to enable auto update to version assumed safe.
+# The configured channel (bugfix, current, release-candidate) is appended.
+:global "safe-update-url" "";
+#:global "safe-update-url" "https://example.com/ros/safe-update/";
+
 # This is used to update AAAA records and firewall address-list.
 :global "ipv6-interface" "br-local";
 :global "ipv6-pool" "telekom";
