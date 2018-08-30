@@ -16,21 +16,19 @@
   }
 }
 
-:if ($"sent-routeros-update-notification" = true) do={
-  :error "Already sent the RouterOS update notification.";
-}
-
-# get some information
-:local model [ / system routerboard get model ];
-:local serialnumber [ / system routerboard get serial-number ];
-
-# check for RouterOS
 / system package update check-for-updates without-paging;
 :local installedversion [ / system package update get installed-version ];
 :local latestversion [ / system package update get latest-version ];
-:local channel [ / system package update get channel ];
+
+:if ($"sent-routeros-update-notification" = $latestversion) do={
+  :error ("Already sent the RouterOS update notification for version" . $latestversion . ".");
+}
 
 :if ($installedversion != $latestversion) do={
+  :local channel [ / system package update get channel ];
+  :local model [ / system routerboard get model ];
+  :local serialnumber [ / system routerboard get serial-number ];
+
   / tool e-mail send to=$"email-general-to" cc=$"email-general-cc" \
     subject=("[" . $identity . "] RouterOS update notification") \
     body=("There is a RouterOS update available\n\n" . \
@@ -40,5 +38,5 @@
       "Channel:       " . $channel . "\n" . \
       "Installed:     " . $installedversion . "\n" . \
       "Available:     " . $latestversion);
-  :set "sent-routeros-update-notification" true;
+  :set "sent-routeros-update-notification" $latestversion;
 }

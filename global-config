@@ -50,5 +50,5 @@
 :global "script-updates-ignore" { "global-config"; "GeneratePSK" };
 
 # Do *NOT* change these!
-:global "sent-routeros-update-notification" false;
+:global "sent-routeros-update-notification" "-";
 :global "identity" [ / system identity get name ];
