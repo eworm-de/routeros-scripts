@@ -14,13 +14,13 @@ Initial setup
 The update script does server certificate verification, so first step is to
 download the certificates.
 
-    [admin@MikroTik] > / tool fetch https://letsencrypt.org/certs/isrgrootx1.pem.txt
+    [admin@MikroTik] > / tool fetch "https://letsencrypt.org/certs/isrgrootx1.pem.txt"
           status: finished
       downloaded: 1KiBC-z pause]
            total: 1KiB
         duration: 1s
 
-    [admin@MikroTik] > / tool fetch https://letsencrypt.org/certs/letsencryptauthorityx3.pem.txt
+    [admin@MikroTik] > / tool fetch "https://letsencrypt.org/certs/letsencryptauthorityx3.pem.txt"
           status: finished
       downloaded: 1KiBC-z pause]
            total: 1KiB
@@ -51,13 +51,13 @@ Then we import the certificates.
 
 Now let's download the main scripts, add them in configuration and remove the files.
 
-    [admin@MikroTik] > / tool fetch check-certificate=yes-without-crl dst-path="script-updates/global-config" https://git.eworm.de/cgit.cgi/routeros-scripts/plain/global-config
+    [admin@MikroTik] > / tool fetch check-certificate=yes-without-crl dst-path="script-updates/global-config" "https://git.eworm.de/cgit.cgi/routeros-scripts/plain/global-config"
           status: finished
       downloaded: 1KiBC-z pause]
            total: 1KiB
         duration: 0s
 
-    [admin@MikroTik] > / tool fetch check-certificate=yes-without-crl dst-path="script-updates/script-updates" https://git.eworm.de/cgit.cgi/routeros-scripts/plain/script-updates
+    [admin@MikroTik] > / tool fetch check-certificate=yes-without-crl dst-path="script-updates/script-updates" "https://git.eworm.de/cgit.cgi/routeros-scripts/plain/script-updates"
           status: finished
       downloaded: 1KiBC-z pause]
            total: 1KiB
