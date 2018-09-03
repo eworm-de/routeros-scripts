@@ -2,6 +2,16 @@
 # RouterOS script: remove-packages
 # Copyright (c) 2013-2018 Christian Hesse <mail@eworm.de>
 #
-# remove packages (*.npk) from storage
+# remove packages (*.npk) not matching installed version
 
-/ file remove [ / file find type="package" ];
+:local version [ / system package update get installed-version ];
+
+:foreach package in=[ / file find type="package" ] do={
+  :local filename [ / file get $package name ];
+  :if ($filename~$version) do={
+    :log debug ("Package file " . $filename . " is up-to-date.");
+  } else={
+    :log debug ("Removing old packge file: " . $filename);
+    / file remove $package;
+  }
+}
