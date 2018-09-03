@@ -1,4 +1,4 @@
-GENERATE = collect-wireless-mac.capsman collect-wireless-mac.local dhcp-lease-comment.capsman dhcp-lease-comment.local
+GENERATE = *.capsman *.local
 
 all: $(GENERATE) README.html
 

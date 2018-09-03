@@ -1,0 +1,28 @@
+#
+# RouterOS script: accesslist-duplicates%TEMPL%
+# Copyright (c) 2018 Christian Hesse <mail@eworm.de>
+#
+# print duplicate antries in wireless access list
+#
+# !! This is just a template! Replace '%PATH%' with 'caps-man'
+# !! or 'interface wireless'!
+
+:local seen [ :toarray "" ];
+:local shown [ :toarray "" ];
+
+:foreach acclist in=[ / %PATH% access-list find where mac-address!="00:00:00:00:00:00" ] do={
+  :local mac [ / %PATH% access-list get $acclist mac-address ];
+  :foreach "seen-mac" in=$seen do={
+    :if ($"seen-mac" = $mac) do={
+      :local skip 0;
+      :foreach "shown-mac" in=$shown do={
+        :if ($"shown-mac" = $mac) do={ :set skip 1; }
+      }
+      :if ($skip = 0) do={
+        / %PATH% access-list print where mac-address=$mac;
+        :set $shown ( $shown , $mac );
+      }
+    }
+  }
+  :set $seen ( $seen , $mac );
+}
