@@ -33,7 +33,7 @@
   }
 
   :if ($skip = 0) do={
-    :set $seen { $seen; $ssid };
+    :set $seen ( $seen, $ssid );
 
     :local host "www.eworm.de"
     :local srcpath ("/cgi-bin/cqrlogo-wifi.cgi" . \
