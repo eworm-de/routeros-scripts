@@ -39,6 +39,14 @@
 # pseudo-random PSK.
 :global "daily-psk-match-comment" "Daily PSK";
 
+# Run different commands with multiple mode-button presses.
+:global "mode-button" {
+  1="/ system script run leds-toggle-mode;";
+  2="/ system shutdown";
+  3="/ system reboot";
+# add mode here...
+};
+
 # This address should resolve ntp servers and is used to update
 # ntp settings. A pool can rotate servers.
 :global "ntp-pool" "pool.ntp.org";

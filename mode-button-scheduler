@@ -1,0 +1,16 @@
+#
+# RouterOS script: mode-button-scheduler
+# Copyright (c) 2018 Christian Hesse <mail@eworm.de>
+#
+# act on multiple mode-botton presses from scheduler
+
+:global "mode-button";
+
+:local count ($"mode-button"->"count");
+:local action [ :parse ($"mode-button"->[ :tostr $count ]) ];
+
+:set ($"mode-button"->"count") 0;
+/ system scheduler remove mode-button-scheduler;
+
+:log info ("Acting on " . $count . " mode-button presses.");
+$action;

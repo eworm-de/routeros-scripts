@@ -1,0 +1,14 @@
+#
+# RouterOS script: mode-button-event
+# Copyright (c) 2018 Christian Hesse <mail@eworm.de>
+#
+# run on mode-button event and count button presses
+
+:global "mode-button";
+
+:set ($"mode-button"->"count") ($"mode-button"->"count" + 1);
+
+:if ([ :len [ / system scheduler find where name="mode-button-scheduler" ] ] = 0) do={
+  :log info "Creating mode-button scheduler...";
+  / system scheduler add name=mode-button-scheduler on-event=mode-button-scheduler interval=5s;
+}
