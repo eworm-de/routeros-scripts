@@ -5,7 +5,7 @@
 # toggle LEDs mode
 
 :if ([ / system leds settings get all-leds-off ] = "never") do={
-  / system leds settings set all-leds-off=immediate
+  / system leds settings set all-leds-off=immediate;
 } else={
-  / system leds settings set all-leds-off=never
+  / system leds settings set all-leds-off=never;
 }
