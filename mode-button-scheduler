@@ -7,11 +7,12 @@
 :global "mode-button";
 
 :local count ($"mode-button"->"count");
-:local action ($"mode-button"->[ :tostr $count ]);
-:local parsed [ :parse $action ];
+:local code ($"mode-button"->[ :tostr $count ]);
+:local parsed [ :parse $code ];
 
 :set ($"mode-button"->"count") 0;
 / system scheduler remove mode-button-scheduler;
 
-:log info ("Acting on " . $count . " mode-button presses: " . $action);
+:log info ("Acting on " . $count . " mode-button presses: " . $code);
+:delay 1s;
 $parsed;
