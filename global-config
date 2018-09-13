@@ -44,7 +44,7 @@
   1="/ system script run leds-toggle-mode;";
   2="/ system shutdown";
   3="/ system reboot";
-# add mode here...
+# add more here...
 };
 
 # Run commands on SMS action.

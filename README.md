@@ -77,7 +77,7 @@ And finally load the configuration and add a scheduler.
 Updating scripts
 ----------------
 
-To update existing script just run `script-updates`.
+To update existing scripts just run `script-updates`.
 
     [admin@MikroTik] > / system script run script-updates
 
