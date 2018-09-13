@@ -4,26 +4,11 @@
 #
 # run action on received SMS
 
-:log info ("Received SMS with action '" . $action . "'");
-# delay a second to give log servers a chance to get the info
+:global "sms-action";
+
+:local code ($"sms-action"->$action);
+:local parsed [ :parse $code ];
+
+:log info ("Acting on SMS action '" . $action . "': " . $code);
 :delay 1s;
-
-:if ($action = "reboot") do={
-  / system reboot;
-}
-
-:if ($action = "shutdown") do={
-  / system shutdown;
-}
-
-:if ($action = "update") do={
-  / system package update install;
-}
-
-:if ($action= "trackon") do={
-  / system scheduler enable gps-track;
-}
-
-:if ($action = "trackoff") do={
-  / system scheduler disable gps-track;
-}
+$parsed;

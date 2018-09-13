@@ -47,6 +47,13 @@
 # add mode here...
 };
 
+# Run commands on SMS action.
+:global "sms-action" {
+  shutdown="/ system shutdown";
+  reboot="/ system reboot";
+# add more here...
+}
+
 # This address should resolve ntp servers and is used to update
 # ntp settings. A pool can rotate servers.
 :global "ntp-pool" "pool.ntp.org";
