@@ -12,11 +12,21 @@
 :foreach script in=[ / system script find ] do={
   :local ignore 0;
   :local scriptname [ / system script get $script name ];
+  :local scriptpolicy [ / system script get $script policy ];
   :local scriptfile [ / file find where name=("script-updates/" . $scriptname) ];
   :local sourcenew;
   :if ([ :len $scriptfile ] > 0) do={
     :set sourcenew [ / file get $scriptfile content ];
     / file remove $scriptfile;
+  }
+
+  :foreach scheduler in=[ / system scheduler find where on-event=$scriptname ] do={
+    :local schedulername [ / system scheduler get $scheduler name ];
+    :local schedulerpolicy [ / system scheduler get $scheduler policy ];
+    :if ($scriptpolicy != schedulerpolicy) do={
+      :log warning ("Policies differ for script " . $scriptname . \
+        " and its scheduler " . $schedulername . "!");
+    }
   }
 
   :if ([ :len $sourcenew ] = 0 && $"script-updates-fetch" = true) do={
