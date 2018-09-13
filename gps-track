@@ -7,17 +7,9 @@
 :global "identity";
 :global "gps-track-url";
 
-:local gpslat;
-:local gpslon;
-:local gpsvalid;
+:local gps [ / system gps monitor once as-value ];
 
-/ system gps monitor once do={
-  :set $gpslat $("latitude");
-  :set $gpslon $("longitude");
-  :set $gpsvalid $("valid");
-}
-
-if ($gpsvalid) do={ 
+if ($gps->"valid" = true) do={
   :tool fetch mode=http \
     url=$"gps-track-url" \
     check-certificate=yes-without-crl \
@@ -25,11 +17,13 @@ if ($gpsvalid) do={
     http-method=post \
     http-content-type="application/json" \
     http-data=("{" . \
-      "\"lat\":\"" . $gpslat . "\"," . \
-      "\"lon\":\"" . $gpslon . "\"," . \
+      "\"lat\":\"" . ($gps->"latitude") . "\"," . \
+      "\"lon\":\"" . ($gps->"longitude") . "\"," . \
       "\"identity\":\"" . $identity . "\"" . \
     "}");
-  :log debug ("Sending gps data for tracking: " . \
-    "lat: " . $gpslat . " " . \
-    "lon: " . $gpslon);
+  :log debug ("Sending GPS data for tracking: " . \
+    "lat: " . ($gps->"latitude") . " " . \
+    "lon: " . ($gps->"longitude"));
+} else={
+  :log debug ("GPS data not valid.");
 }
