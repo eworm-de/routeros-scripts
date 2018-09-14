@@ -36,13 +36,15 @@
 
     :if ($ignore = 0) do={
       :log debug ("Fetching script from url: " . $scriptname);
-      :local result [ / tool fetch check-certificate=yes-without-crl \
-          ($"script-updates-baseurl" . $scriptname . $"script-updates-urlsuffix") \
-          output=user as-value ];
-      :if ($result->"status" = "finished") do={
-        :set sourcenew ($result->"data");
-      } else={
-        :log debug ("Failed fetching " . $scriptname);
+      :do {
+        :local result [ / tool fetch check-certificate=yes-without-crl \
+            ($"script-updates-baseurl" . $scriptname . $"script-updates-urlsuffix") \
+            output=user as-value ];
+        :if ($result->"status" = "finished") do={
+          :set sourcenew ($result->"data");
+        }
+      } on-error={
+        :log info ("Failed fetching " . $scriptname);
       }
     }
   }
