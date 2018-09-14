@@ -23,7 +23,9 @@ Initial setup
 -------------
 
 The update script does server certificate verification, so first step is to
-download the certificates.
+download the certificates. If you intend to download the scripts from a
+different location (for example from github.com) install the corresponding
+certificate chain.
 
     [admin@MikroTik] > / tool fetch "https://letsencrypt.org/certs/isrgrootx1.pem.txt"
           status: finished
@@ -60,7 +62,8 @@ Then we import the certificates.
            decryption-failures: 0
       keys-with-no-certificate: 0
 
-For basic verification we rename and print the certifiactes. Make sure two certificates are listed.
+For basic verification we rename and print the certifiactes. Make sure two
+certificates are listed.
 
     [admin@MikroTik] > / certificate set name="ISRG-Root-X1" [ find where fingerprint="96bcec06264976f37460779acf28c5a7cfe8a3c0aae11a8ffcee05c0bddf08c6" ]
     [admin@MikroTik] > / certificate set name="Let-s-Encrypt-Authority-X3" [ find where fingerprint="731d3d9cfaa061487a1d71445a42f67df0afca2a6c2d2f98ff7b3ce112b1f568" ]
@@ -68,12 +71,15 @@ For basic verification we rename and print the certifiactes. Make sure two certi
      0        T name=ISRG-Root-X1 issuer=C=US,O=Internet Security Research Group,CN=ISRG Root X1 country=US organization=Internet Security Research Group common-name=ISRG Root X1 key-size=4096 days-valid=7305 trusted=yes key-usage=key-cert-sign,crl-sign serial-number=8210CFB0D240E3594463E0BB63828B00 fingerprint=96bcec06264976f37460779acf28c5a7cfe8a3c0aae11a8ffcee05c0bddf08c6 invalid-before=jun/04/2015 13:04:38 invalid-after=jun/04/2035 13:04:38 expires-after=872w3d7m34s
      1   L    T name=Let-s-Encrypt-Authority-X3 issuer=C=US,O=Internet Security Research Group,CN=ISRG Root X1 country=US organization=Let's Encrypt common-name=Let's Encrypt Authority X3 key-size=2048 days-valid=1826 trusted=yes key-usage=digital-signature,key-cert-sign,crl-sign serial-number=D3B17226342332DCF40528512AEC9C6A fingerprint=731d3d9cfaa061487a1d71445a42f67df0afca2a6c2d2f98ff7b3ce112b1f568 invalid-before=oct/06/2016 17:43:55 invalid-after=oct/06/2021 17:43:55 expires-after=159w5d4h46m51s
 
+Always make sure there are no certificates installed you do not know or want!
+
 Now let's download the main scripts and add them in configuration on the fly.
 
     [admin@MikroTik] > / system script add name=global-config source=([ / tool fetch check-certificate=yes-without-crl "https://git.eworm.de/cgit.cgi/routeros-scripts/plain/global-config" output=user as-value]->"data")
     [admin@MikroTik] > / system script add name=script-updates source=([ / tool fetch check-certificate=yes-without-crl "https://git.eworm.de/cgit.cgi/routeros-scripts/plain/script-updates" output=user as-value]->"data")
 
-The configuration needs to be tweaked for your needs. Make sure not to send your mails to `mail@example.com`!
+The configuration needs to be tweaked for your needs. Make sure not to send
+your mails to `mail@example.com`!
 
     [admin@MikroTik] > / system script edit global-config source
 
