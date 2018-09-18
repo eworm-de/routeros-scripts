@@ -9,5 +9,9 @@
 :local ntp1 [ :resolve ("0." . $"ntp-pool") ];
 :local ntp2 [ :resolve ("1." . $"ntp-pool") ];
 
+:if ([ / system ntp client get enabled ] != true) do={
+  :log warning "NTP client is not enabled!";
+}
+
 :log info ("Updating NTP servers to " . $ntp1 . " and " . $ntp2);
 / system ntp client set primary-ntp=$ntp1 secondary-ntp=$ntp2;
