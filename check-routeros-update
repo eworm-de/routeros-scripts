@@ -28,7 +28,8 @@
 
   :if ([ :len $"safe-update-url" ] > 0) do={
     :local result [ / tool fetch check-certificate=yes-without-crl \
-        ($"safe-update-url" . $channel) output=user as-value ];
+        ($"safe-update-url" . $channel . "?installed=" . $installedversion . \
+        "&latest=" . $latestversion) output=user as-value ];
     :if ($result->"status" = "finished" && $result->"data" = $latestversion) do={
       :log info ("Version " . $latestversion . " is assumed safe, updating...");
       / system package update install;
