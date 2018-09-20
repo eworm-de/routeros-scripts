@@ -38,7 +38,8 @@
   }
 
   :if ($"sent-routeros-update-notification" = $latestversion) do={
-    :error ("Already sent the RouterOS update notification for version" . $latestversion . ".");
+    :error ("Already sent the RouterOS update notification for version " . \
+        $latestversion . ".");
   }
 
   / tool e-mail send to=$"email-general-to" cc=$"email-general-cc" \
