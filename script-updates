@@ -50,12 +50,16 @@
   }
 
   :if ([ :len $sourcenew ] > 0) do={
-    :local sourcecurrent [ / system script get $script source ];
-    :if ($sourcenew = $sourcecurrent) do={
-      :log debug ("Script " .  $scriptname . " did not change");
+    :if ([ :pick $sourcenew 0 5 ] = "#!rsc") do={
+      :local sourcecurrent [ / system script get $script source ];
+      :if ($sourcenew != $sourcecurrent) do={
+        :log info ("Updating script: " . $scriptname);
+        / system script set owner=$scriptname source=$sourcenew $script;
+      } else={
+        :log debug ("Script " .  $scriptname . " did not change");
+      }
     } else={
-      :log info ("Updating script: " . $scriptname);
-      / system script set owner=$scriptname source=$sourcenew $script;
+      :log warning ("Looks like new script " . $scriptname . " is not valid. Ignoring!");
     }
   } else={
     :log debug ("No update for script " . $scriptname);
