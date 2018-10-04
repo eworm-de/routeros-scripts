@@ -1,0 +1,15 @@
+#!rsc
+# RouterOS script: bridge-port-toggle
+# Copyright (c) 2013-2018 Christian Hesse <mail@eworm.de>
+#
+# toggle bridge ports between default and alt bridge
+
+:global "bridge-port-to";
+
+:if ($"bridge-port-to" != "default") do={
+  :set "bridge-port-to" "default";
+} else={
+  :set "bridge-port-to" "alt";
+}
+
+/ system script run bridge-port-to-default;

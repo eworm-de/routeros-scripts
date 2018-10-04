@@ -47,6 +47,7 @@
   1="/ system script run leds-toggle-mode;";
   2="/ system shutdown;";
   3="/ system reboot;";
+  4="/ system script run bridge-port-toggle;";
 # add more here...
 };
 
