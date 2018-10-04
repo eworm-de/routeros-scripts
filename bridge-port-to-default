@@ -4,15 +4,23 @@
 #
 # reset bridge ports to default bridge
 
-:foreach interface in=[ / interface bridge port find where comment~"^default:" ] do={
-  :local comment [ / interface bridge port get $interface comment ];
-  :local "interface-name" [ / interface bridge port get $interface interface ];
-  :local "bridge-default" [ :pick $comment 8 [ :len $comment ] ];
-  :local "bridge-current" [ / interface bridge port get $interface bridge ];
-  :if ($"bridge-default" != $"bridge-current") do={
-    :log info ("Reverting interface " . $"interface-name" . " to default bridge " . $"bridge-default");
-    / interface bridge port set bridge=$"bridge-default" $interface;
-  } else={
-    :log debug ("Interface " . $"interface-name" . " already connected to default bridge " . $"bridge-default");
+:global "bridge-port-to";
+
+:local "len" ([ :len $"bridge-port-to" ] + 1);
+
+:foreach interface in=[ / interface bridge port find where comment!="" ] do={
+  :foreach comment in=[ :toarray [ / interface bridge port get $interface comment ] ] do={
+    :if ([ :pick $comment 0 $len ] = ($"bridge-port-to" . ":")) do={
+      :local "interface-name" [ / interface bridge port get $interface interface ];
+      :local "bridge-default" [ :pick $comment $len [ :len $comment ] ];
+      :local "bridge-current" [ / interface bridge port get $interface bridge ];
+      :if ($"bridge-default" != $"bridge-current") do={
+        :log info ("Changing interface " . $"interface-name" . " to " . $"bridge-port-to" . " bridge " . $"bridge-default");
+        / interface bridge port set bridge=$"bridge-default" $interface;
+        / ip dhcp-client renew [ find where interface=$"bridge-default" ];
+      } else={
+        :log debug ("Interface " . $"interface-name" . " already connected to " . $"bridge-port-to" . " bridge " . $"bridge-default");
+      }
+    }
   }
 }

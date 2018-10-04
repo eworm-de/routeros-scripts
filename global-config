@@ -26,6 +26,9 @@
 :global "safe-update-url" "";
 #:global "safe-update-url" "https://example.com/ros/safe-update/";
 
+# This controls what configuration is activated by bridge-port-to-default.
+:global "bridge-port-to" "default";
+
 # This is used to update AAAA records and firewall address-list.
 :global "ipv6-interface" "br-local";
 :global "ipv6-pool" "telekom";
