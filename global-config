@@ -42,17 +42,17 @@
 # Run different commands with multiple mode-button presses.
 :global "mode-button" {
   1="/ system script run leds-toggle-mode;";
-  2="/ system shutdown";
-  3="/ system reboot";
+  2="/ system shutdown;";
+  3="/ system reboot;";
 # add more here...
 };
 
 # Run commands on SMS action.
 :global "sms-action" {
-  shutdown="/ system shutdown";
-  reboot="/ system reboot";
+  shutdown="/ system shutdown;";
+  reboot="/ system reboot;";
 # add more here...
-}
+};
 
 # This address should resolve ntp servers and is used to update
 # ntp settings. A pool can rotate servers.
