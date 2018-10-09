@@ -38,9 +38,23 @@
 :global "gre-cert-prefix" "ikev2-";
 :global "gre-int-prefix" "gre-";
 
-# Access-list entries matching this comment are updated with daily
-# pseudo-random PSK.
+# Access-list entries matching this comment are updated
+# with daily pseudo-random PSK.
 :global "daily-psk-match-comment" "Daily PSK";
+:global "daily-psk-secrets" {
+  { "Abusive"; "Aggressive"; "Bored"; "Chemical"; "Cold";
+    "Cruel"; "Curved"; "Delightful"; "Discreet"; "Elite";
+    "Evasive"; "Faded"; "Flat"; "Future"; "Grandiose";
+    "Hanging"; "Humorous"; "Interesting"; "Magenta";
+    "Magnificent"; "Numerous"; "Optimal"; "Pathetic";
+    "Possessive"; "Remarkable"; "Rightful"; "Ruthless";
+    "Stale"; "Unusual"; "Useless"; "Various" };
+  { "Adhesive"; "Amusing"; "Astonishing"; "Frantic";
+    "Kindhearted"; "Limping"; "Roasted"; "Robust";
+    "Staking"; "Thundering"; "Ultra"; "Unusual" };
+  { "Belief"; "Button"; "Curtain"; "Edge"; "Jewel";
+    "String"; "Whistle" }
+}
 
 # Run different commands with multiple mode-button presses.
 :global "mode-button" {
