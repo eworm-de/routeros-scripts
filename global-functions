@@ -45,3 +45,38 @@
 
   :return $return;
 }
+
+# send notification via e-mail and telegram
+# Note that subject and attachment are ignored for telegram!
+:global SendNotification do={
+  :local subject $1;
+  :local message $2;
+  :local attach $3;
+
+  :global "email-general-to";
+  :global "email-general-cc";
+  :global "telegram-tokenid";
+  :global "telegram-chatid";
+
+  :if ([ :len $"email-general-to" ] > 0) do={
+    :do {
+      / tool e-mail send to=$"email-general-to" cc=$"email-general-cc" \
+        subject=$subject body=$message file=$attach;
+    } on-error={
+      :log warning "Failed sending notification mail!";
+    }
+  }
+
+  # You need to import the certificate chain for api.telegram.org!
+  # https://certs.godaddy.com/repository/gdroot-g2.crt
+  # https://certs.godaddy.com/repository/gdig2.crt.pem
+  :if ([ :len $"telegram-tokenid" ] > 0 && [ :len $"telegram-chatid" ] > 0) do={
+    do {
+     / tool fetch check-certificate=yes-without-crl keep-result=no http-method=post \
+        ("https://api.telegram.org/bot" . $"telegram-tokenid" . "/sendMessage") \
+        http-data=("chat_id=" . $"telegram-chatid" . "&text=" . $message);
+    } on-error={
+      :log warning "Failed sending telegram notification!";
+    }
+  }
+}
