@@ -8,6 +8,8 @@
 :global "email-general-to";
 :global "email-general-cc";
 
+:global SendNotification;
+
 # check mail server
 :if ([ / tool netwatch get [ find where comment=[ / tool e-mail get address ] ] status ] != "up") do={
   :error "Mail server is not up.";
@@ -26,9 +28,8 @@
   :if ($phone = $allowed && message~("^:cmd " . $secret . " script ")) do={
     :log debug "Ignoring SMS, which starts a script.";
   } else={
-    / tool e-mail send to=$"email-general-to" cc=$"email-general-cc" \
-      subject=("[" . $identity . "] SMS Forwarding") \
-      body=("A message was received by " . $identity . ":\n\n" . \
+    $SendNotification ("[" . $identity . "] SMS Forwarding") \
+      ("A message was received by " . $identity . ":\n\n" . \
         "Phone:     " . $phone . "\n" . \
         "Timestamp: " . $timestamp . "\n" . \
         "Type:      " . $type . "\n\n" . \
