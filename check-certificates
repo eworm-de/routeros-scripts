@@ -8,6 +8,8 @@
 :global "email-general-to";
 :global "email-general-cc";
 
+:global SendNotification;
+
 :local months ("jan","feb","mar","apr","may","jun","jul","aug","sep","oct","nov","dec");
 
 :local currentdate [ / system clock get date ];
@@ -36,9 +38,8 @@
       :local fingerprint [ / certificate get $cert fingerprint ];
       :local invalidbefore [ / certificate get $cert invalid-before ];
       :local invalidafter [ / certificate get $cert invalid-after ];
-      / tool e-mail send to=$"email-general-to" cc=$"email-general-cc" \
-        subject=("[" . $identity . "] Certificate warning!") \
-        body=("A certificate on " . $identity . " is about to expire.\n\n" . \
+      $SendNotification ("[" . $identity . "] Certificate warning!") \
+        ("A certificate on " . $identity . " is about to expire.\n\n" . \
           "Certificate Name: " . $certname . "\n" . \
           "Common Name:      " . $commonname . "\n" . \
           "Fingerprint:      " . $fingerprint . "\n" . \
