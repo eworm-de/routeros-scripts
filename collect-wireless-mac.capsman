@@ -10,6 +10,8 @@
 :global "email-general-to";
 :global "email-general-cc";
 
+:global SendNotification;
+
 :local "place-before" [ / caps-man access-list find where comment="--- collected above ---" disabled ];
 :if ([ :len $"place-before" ] = 0) do={
   :error "Missing disabled access-list entry with comment '--- collected above ---'";
@@ -40,9 +42,8 @@
       $datetime . " connected to SSID " . $ssid . ", interface " . $interface);
     / log info $message;
     / caps-man access-list add place-before=$"place-before" comment=$message mac-address=$mac disabled=yes;
-    / tool e-mail send to=$"email-general-to" cc=$"email-general-cc" \
-      subject=("[" . $identity . "] " . $mac . " connected to " . $ssid) \
-      body=("A device with unknown MAC address connected to " . $ssid . " on " . $identity . ".\n\n" . \
+    $SendNotification ("[" . $identity . "] " . $mac . " connected to " . $ssid) \
+      ("A device with unknown MAC address connected to " . $ssid . " on " . $identity . ".\n\n" . \
         "Controller: " . $identity . "\n" . \
         "Interface:  " . $interface . "\n" . \
         "SSID:       " . $ssid . "\n" . \
