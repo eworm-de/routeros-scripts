@@ -4,3 +4,55 @@
 #
 # global functions
 
+# return pseudo-random string for PSK
+:global GeneratePSK do={
+  :local date $1;
+
+  # 0-30 for days of month
+  :local secret1 { "Abusive"; "Aggressive"; "Bored"; "Chemical"; "Cold";
+    "Cruel"; "Curved"; "Delightful"; "Discreet"; "Elite"; "Evasive"; "Faded";
+    "Flat"; "Future"; "Grandiose"; "Hanging"; "Humorous"; "Interesting";
+    "Magenta"; "Magnificent"; "Numerous"; "Optimal"; "Pathetic"; "Possessive";
+    "Remarkable"; "Rightful"; "Ruthless"; "Stale"; "Unusual"; "Useless";
+    "Various" }
+  # 0-11 for month of year
+  :local secret2 { "Adhesive"; "Amusing"; "Astonishing"; "Frantic";
+    "Kindhearted"; "Limping"; "Roasted"; "Robust"; "Staking"; "Thundering";
+    "Ultra"; "Unusual" }
+  # 0-6 for days of week
+  :local secret3 { "Belief"; "Button"; "Curtain"; "Edge"; "Jewel"; "String";
+    "Whistle" }
+
+  :local months {
+    "jan"; "feb"; "mar"; "apr"; "may"; "jun";
+    "jul"; "aug"; "sep"; "oct"; "nov"; "dec"
+  }
+  :local monthtbl {
+    0; 3; 3; 6; 1; 4; 6; 2; 5; 0; 3; 5
+  }
+
+  :local monthstr [ :pick $date 0 3 ];
+  :local month;
+  :local day [ :pick $date 4 6 ];
+  :local century [ :pick $date 7 9 ];
+  :local year [ :pick $date 9 11 ];
+
+  # get numeric value for month
+  :for mindex from=0 to=[ :len $months ] do={
+    :if ([ :pick $months $mindex ] = $monthstr) do={
+      :set month $mindex;
+    }
+  }
+
+  # calculate day of week
+  :local sum 0;
+  :set sum ($sum + (2 * (3 - ($century - (($century / 4) * 4)))));
+  :set sum ($sum + ($year / 4));
+  :set sum ($sum + $year + $day);
+  :set sum ($sum + $month);
+  :set sum ($sum - (($sum / 7) * 7));
+
+  :local return ([ :pick $secret1 ($day - 1) ] . [ :pick $secret2 $month ] . [ :pick $secret3 $sum ]);
+
+  :return $return;
+}

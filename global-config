@@ -71,7 +71,9 @@
 #:global "script-updates-baseurl" "https://raw.githubusercontent.com/eworm-de/routeros-scripts/master/";
 #:global "script-updates-baseurl" "https://gitlab.com/eworm-de/routeros-scripts/raw/master/";
 :global "script-updates-urlsuffix" "";
-:global "script-updates-ignore" { "global-config"; "GeneratePSK" };
+:global "script-updates-ignore" {
+  "global-config"
+}
 
 # Do *NOT* change these!
 :global "sent-routeros-update-notification" "-";

@@ -6,6 +6,8 @@
 
 :global "daily-psk-match-comment";
 
+:global "GeneratePSK";
+
 # check mail server
 :if ([ / tool netwatch get [ find where comment=[ / tool e-mail get address ] ] status ] != "up" ) do={
   :error "Mail server is not up.";
@@ -16,9 +18,8 @@
   :error "Time is not yet synchronized from ntp.";
 }
 
-:local GeneratePSK [ :parse [ / system script get GeneratePSK source ] ];
-
-:local newpsk [ $GeneratePSK ];
+:local date [ / system clock get date ];
+:local newpsk [ $GeneratePSK $date ];
 
 :local sendmail 0;
 
