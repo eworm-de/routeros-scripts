@@ -10,6 +10,8 @@
 :global "safe-update-url";
 :global "sent-routeros-update-notification";
 
+:global SendNotification;
+
 :if ([ :len [ / system package find where name="wireless" disabled=no ] ] > 0) do={
   :if ([ / interface wireless cap get enabled ] = true && \
       [ / caps-man manager get enabled ] = false) do={
@@ -42,9 +44,8 @@
         $latestversion . ".");
   }
 
-  / tool e-mail send to=$"email-general-to" cc=$"email-general-cc" \
-    subject=("[" . $identity . "] RouterOS update notification") \
-    body=("There is a RouterOS update available\n\n" . \
+  $SendNotification ("[" . $identity . "] RouterOS update notification") \
+    ("There is a RouterOS update available\n\n" . \
       "Routerboard:   " . $model . "\n" . \
       "Serial number: " . $serialnumber . "\n" . \
       "Hostname:      " . $identity . "\n" . \
