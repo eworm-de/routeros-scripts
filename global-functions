@@ -46,6 +46,28 @@
   :return $return;
 }
 
+# url encoding
+:global UrlEncode do={
+  :local return "";
+
+  :if ([ :len $1 ] > 0) do={
+    :local chars " %&";
+    :local subs { "%20"; "%25"; "%26" };
+
+    :for i from=0 to=([ :len $1 ] - 1) do={
+      :local char [ :pick $1 $i ];
+      :local replace [ :find $chars $char ];
+
+      :if ([ :len $replace ] > 0) do={
+        :set $char ($subs->$replace);
+      }
+      :set $return ($return . $char);
+    }
+  }
+
+  :return $return;
+}
+
 # send notification via e-mail and telegram
 # Note that subject and attachment are ignored for telegram!
 :global SendNotification do={
@@ -57,6 +79,8 @@
   :global "email-general-cc";
   :global "telegram-tokenid";
   :global "telegram-chatid";
+
+  :global UrlEncode;
 
   :if ([ :len $"email-general-to" ] > 0) do={
     :do {
@@ -74,7 +98,7 @@
     do {
      / tool fetch check-certificate=yes-without-crl keep-result=no http-method=post \
         ("https://api.telegram.org/bot" . $"telegram-tokenid" . "/sendMessage") \
-        http-data=("chat_id=" . $"telegram-chatid" . "&text=" . $message);
+        http-data=("chat_id=" . $"telegram-chatid" . "&text=" . [ $UrlEncode $message ]);
     } on-error={
       :log warning "Failed sending telegram notification!";
     }
