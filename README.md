@@ -76,6 +76,7 @@ Always make sure there are no certificates installed you do not know or want!
 Now let's download the main scripts and add them in configuration on the fly.
 
     [admin@MikroTik] > / system script add name=global-config source=([ / tool fetch check-certificate=yes-without-crl "https://git.eworm.de/cgit.cgi/routeros-scripts/plain/global-config" output=user as-value]->"data")
+    [admin@MikroTik] > / system script add name=global-functions source=([ / tool fetch check-certificate=yes-without-crl "https://git.eworm.de/cgit.cgi/routeros-scripts/plain/global-functions" output=user as-value]->"data")
     [admin@MikroTik] > / system script add name=script-updates source=([ / tool fetch check-certificate=yes-without-crl "https://git.eworm.de/cgit.cgi/routeros-scripts/plain/script-updates" output=user as-value]->"data")
 
 The configuration needs to be tweaked for your needs. Make sure not to send
