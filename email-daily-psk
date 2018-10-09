@@ -9,6 +9,8 @@
 :global "email-general-cc";
 :global "daily-psk-match-comment";
 
+:global SendNotification;
+
 :local seen [ :toarray "" ];
 
 :foreach acclist in=[ / interface wireless access-list find where comment~$"daily-psk-match-comment" ] do={
@@ -45,13 +47,12 @@
     / tool fetch mode=https check-certificate=yes-without-crl address=$host host=$host \
       src-path=$srcpath dst-path=qrcode-daily.png;
 
-    / tool e-mail send to=$"email-general-to" cc=$"email-general-cc" \
-      subject=("[" . $identity . "] daily PSK " . $ssid) \
-      body=("This is the daily PSK on " . $identity . ":\n\n" . \
+    $SendNotification ("[" . $identity . "] daily PSK " . $ssid) \
+      ("This is the daily PSK on " . $identity . ":\n\n" . \
         "SSID: " . $ssid . "\n" . \
         "PSK:  " . $psk . "\n" . \
         "Date: " . [ / system clock get date ] . "\n\n" . \
         "https://" . $host . $srcpath) \
-      file=qrcode-daily.png;
+      "qrcode-daily.png";
   }
 }
