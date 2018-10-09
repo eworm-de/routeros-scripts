@@ -5,9 +5,13 @@
 # run scripts on DHCP lease
 # ( / ip dhcp-server set lease-script=lease-script [ find ] )
 
-:local scripts { "dhcp-to-dns";
-  "collect-wireless-mac.local"; "dhcp-lease-comment.local";
-  "collect-wireless-mac.capsman"; "dhcp-lease-comment.capsman" };
+:local scripts {
+  "dhcp-to-dns";
+  "collect-wireless-mac.local";
+  "dhcp-lease-comment.local";
+  "collect-wireless-mac.capsman";
+  "dhcp-lease-comment.capsman"
+}
 
 # delay a second to give time to update the lease table
 :delay 1s;
