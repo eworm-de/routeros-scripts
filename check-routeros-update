@@ -34,6 +34,9 @@
         "&latest=" . $latestversion) output=user as-value ];
     :if ($result->"status" = "finished" && $result->"data" = $latestversion) do={
       :log info ("Version " . $latestversion . " is assumed safe, updating...");
+       $SendNotification ("[" . $identity . "] RouterOS update notification") \
+         ("Version " . $latestversion . " is assumed safe for " . $channel . \
+         ", updating on " . $identity . "...");
       / system package update install;
       :error "Waiting for system to reboot.";
     }
