@@ -18,8 +18,10 @@
 
 # You can send Telegram notifications. Register a bot
 # and add the token and chat ids here.
-:global "telegram-tokenid" "123456:ABCDEF-GHI";
-:global "telegram-chatid" "12345678";
+:global "telegram-tokenid" "";
+:global "telegram-chatid" "";
+#:global "telegram-tokenid" "123456:ABCDEF-GHI";
+#:global "telegram-chatid" "12345678";
 
 # This defines what backups to generate and what password to use.
 :global "backup-send-binary" false;
