@@ -6,7 +6,47 @@
 
 :global "daily-psk-match-comment";
 
-:global "GeneratePSK";
+# return pseudo-random string for PSK
+:local GeneratePSK do={
+  :local date $1;
+
+  :global "daily-psk-secrets";
+
+  :local months {
+    "jan"; "feb"; "mar"; "apr"; "may"; "jun";
+    "jul"; "aug"; "sep"; "oct"; "nov"; "dec"
+  }
+  :local monthtbl {
+    0; 3; 3; 6; 1; 4; 6; 2; 5; 0; 3; 5
+  }
+
+  :local monthstr [ :pick $date 0 3 ];
+  :local month;
+  :local day [ :pick $date 4 6 ];
+  :local century [ :pick $date 7 9 ];
+  :local year [ :pick $date 9 11 ];
+
+  # get numeric value for month
+  :for mindex from=0 to=[ :len $months ] do={
+    :if ([ :pick $months $mindex ] = $monthstr) do={
+      :set month $mindex;
+    }
+  }
+
+  # calculate day of week
+  :local sum 0;
+  :set sum ($sum + (2 * (3 - ($century - (($century / 4) * 4)))));
+  :set sum ($sum + ($year / 4));
+  :set sum ($sum + $year + $day);
+  :set sum ($sum + $month);
+  :set sum ($sum - (($sum / 7) * 7));
+
+  :local return ([ :pick [ :pick $"daily-psk-secrets" 0 ] ($day - 1) ] . \
+    [ :pick [ :pick $"daily-psk-secrets" 1 ] $month ] . \
+    [ :pick [ :pick $"daily-psk-secrets" 2 ] $sum ]);
+
+  :return $return;
+}
 
 # check mail server
 :if ([ / tool netwatch get [ find where comment=[ / tool e-mail get address ] ] status ] != "up" ) do={
