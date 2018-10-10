@@ -4,7 +4,14 @@
 #
 # update daily PSK (pre shared key)
 
+:global "identity";
+:global "email-general-to";
+:global "email-general-cc";
 :global "daily-psk-match-comment";
+
+:global SendNotification;
+
+:local seen [ :toarray "" ];
 
 # return pseudo-random string for PSK
 :local GeneratePSK do={
@@ -61,23 +68,50 @@
 :local date [ / system clock get date ];
 :local newpsk [ $GeneratePSK $date ];
 
-:local sendmail 0;
-
 :foreach acclist in=[ / interface wireless access-list find where comment~$"daily-psk-match-comment" ] do={
-  :local interface [ / interface wireless access-list get $acclist interface ];
-  :local ssid [ / interface wireless get $interface ssid ];
+  :local intname [ / interface wireless access-list get $acclist interface ];
+  :local interface [ / interface wireless find where name=$intname disabled=no ];
+  :local ssid [ / interface wireless get $intname ssid ];
   :local oldpsk [ / interface wireless access-list get $acclist private-pre-shared-key ];
+  :local skip 0;
 
   :if ($newpsk != $oldpsk) do={
-    :log info ("Updating daily PSK for " . $interface . " to " . $newpsk . " (was " . $oldpsk . ")");
+    :log info ("Updating daily PSK for " . $intname . " to " . $newpsk . " (was " . $oldpsk . ")");
     / interface wireless access-list set $acclist private-pre-shared-key=$newpsk;
 
-    :set sendmail 1;
-  }
-}
+    :if ([ :len $interface ] = 1) do={
+      :foreach "seen-ssid" in=$seen do={
+        :if ($"seen-ssid" = $ssid) do={
+          :log debug ("Already sent a mail for SSID " . $ssid . ", skipping.");
+          :set skip 1;
+        }
+      }
 
-:if ($sendmail = 1) do={
-  / system script run email-daily-psk;
+      :if ($skip = 0) do={
+        :set $seen ( $seen, $ssid );
+
+        :local host "www.eworm.de"
+        :local srcpath ("/cgi-bin/cqrlogo-wifi.cgi" . \
+          "?scale=8" . \
+          "&level=1" . \
+          "&ssid=" . $ssid . \
+          "&pass=" . $newpsk);
+
+        / tool fetch mode=https check-certificate=yes-without-crl address=$host host=$host \
+          src-path=$srcpath dst-path=qrcode-daily.png;
+
+        $SendNotification ("[" . $identity . "] daily PSK " . $ssid) \
+          ("This is the daily PSK on " . $identity . ":\n\n" . \
+            "SSID: " . $ssid . "\n" . \
+            "PSK:  " . $newpsk . "\n" . \
+            "Date: " . [ / system clock get date ] . "\n\n" . \
+            "https://" . $host . $srcpath) \
+          "qrcode-daily.png";
+      }
+    } else={
+      :log debug ("Missing active interface " . $intname . " for access list entry.");
+    }
+  }
 }
 
 / system scheduler set disabled=yes [ find where name=daily-psk disabled=no ];
