@@ -5,8 +5,6 @@
 # check for RouterOS update, send notification e-mails
 
 :global "identity";
-:global "email-general-to";
-:global "email-general-cc";
 :global "safe-update-url";
 :global "sent-routeros-update-notification";
 

@@ -5,8 +5,6 @@
 # update daily PSK (pre shared key)
 
 :global "identity";
-:global "email-general-to";
-:global "email-general-cc";
 :global "daily-psk-match-comment";
 
 :global SendNotification;

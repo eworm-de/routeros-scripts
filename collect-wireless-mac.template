@@ -8,8 +8,6 @@
 # !! or 'interface wireless'!
 
 :global "identity";
-:global "email-general-to";
-:global "email-general-cc";
 
 :global SendNotification;
 
