@@ -2,6 +2,8 @@
 # RouterOS script: netwatch-syslog
 # Copyright (c) 2013-2018 Christian Hesse <mail@eworm.de>
 #
+# requires: dont-require-permissions=yes
+#
 # manage remote logging facilities
 
 :local remote [ /system logging action get [ :pick [ find where target=remote ] 0 ] remote ];
@@ -11,5 +13,3 @@ if ([ / tool netwatch get [ find where host=$remote ] status ] = "up") do={
 } else={
   / system logging set disabled=yes [ find where action=remote disabled=no ];
 }
-
-/ system scheduler set disabled=yes [ find where name=netwatch-syslog disabled=no ];
