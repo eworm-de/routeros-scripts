@@ -6,14 +6,15 @@
 
 # url encoding
 :global UrlEncode do={
+  :local input [ :tostr $1 ];
   :local return "";
 
-  :if ([ :len $1 ] > 0) do={
+  :if ([ :len $input ] > 0) do={
     :local chars " %&";
     :local subs { "%20"; "%25"; "%26" };
 
-    :for i from=0 to=([ :len $1 ] - 1) do={
-      :local char [ :pick $1 $i ];
+    :for i from=0 to=([ :len $input ] - 1) do={
+      :local char [ :pick $input $i ];
       :local replace [ :find $chars $char ];
 
       :if ([ :len $replace ] > 0) do={
@@ -29,9 +30,9 @@
 # send notification via e-mail and telegram
 # Note that subject and attachment are ignored for telegram!
 :global SendNotification do={
-  :local subject $1;
-  :local message $2;
-  :local attach $3;
+  :local subject [ :tostr $1 ];
+  :local message [ :tostr $2 ];
+  :local attach [ :tostr $3 ];
 
   :global "email-general-to";
   :global "email-general-cc";
