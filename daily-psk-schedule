@@ -1,0 +1,23 @@
+#!rsc
+# RouterOS script: daily-psk-schedule
+# Copyright (c) 2013-2018 Christian Hesse <mail@eworm.de>
+#
+# schedule daily-psk on startup
+
+:local scheduler [ / system scheduler find where name=daily-psk-schedule ];
+
+:if ([ / system scheduler get $scheduler interval ] = "00:00:00") do={
+  / system scheduler set interval=15s $scheduler;
+} else={
+  :if ([ / tool netwatch get [ find where comment=[ / tool e-mail get address ] ] status ] != "up" ) do={
+    :error "Mail server is not up.";
+  }
+
+  :if ([ / system ntp client get status ] != "synchronized") do={
+    :error "Time is not yet synchronized from ntp.";
+  }
+
+  / system script run daily-psk;
+
+  / system scheduler set interval=0s $scheduler;
+}

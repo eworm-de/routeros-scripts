@@ -53,16 +53,6 @@
   :return $return;
 }
 
-# check mail server
-:if ([ / tool netwatch get [ find where comment=[ / tool e-mail get address ] ] status ] != "up" ) do={
-  :error "Mail server is not up.";
-}
-
-# check time
-:if ([ / system ntp client get status ] != "synchronized") do={
-  :error "Time is not yet synchronized from ntp.";
-}
-
 :local date [ / system clock get date ];
 :local newpsk [ $GeneratePSK $date ];
 
@@ -111,5 +101,3 @@
     }
   }
 }
-
-/ system scheduler set disabled=yes [ find where name=daily-psk disabled=no ];
