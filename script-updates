@@ -53,8 +53,11 @@
     :if ([ :pick $sourcenew 0 5 ] = "#!rsc") do={
       :local sourcecurrent [ / system script get $script source ];
       :if ($sourcenew != $sourcecurrent) do={
+        :local "dont-require-permissions" \
+            ($sourcenew~"\n# requires: dont-require-permissions=yes\n");
         :log info ("Updating script: " . $scriptname);
-        / system script set owner=$scriptname source=$sourcenew $script;
+        / system script set owner=$scriptname source=$sourcenew \
+            dont-require-permissions=$"dont-require-permissions" $script;
       } else={
         :log debug ("Script " .  $scriptname . " did not change");
       }
