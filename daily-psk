@@ -13,7 +13,7 @@
 
 # return pseudo-random string for PSK
 :local GeneratePSK do={
-  :local date $1;
+  :local date [ :tostr $1 ];
 
   :global "daily-psk-secrets";
 
@@ -84,9 +84,14 @@
           "&level=1" . \
           "&ssid=" . $ssid . \
           "&pass=" . $newpsk);
+        :local attach "qrcode-daily.png";
 
-        / tool fetch mode=https check-certificate=yes-without-crl address=$host host=$host \
-          src-path=$srcpath dst-path=qrcode-daily.png;
+        :do {
+          / tool fetch mode=https check-certificate=yes-without-crl address=$host \
+              host=$host src-path=$srcpath dst-path=$attach;
+        } on-error={
+          :set attach "";
+        }
 
         $SendNotification ("[" . $identity . "] daily PSK " . $ssid) \
           ("This is the daily PSK on " . $identity . ":\n\n" . \
@@ -94,7 +99,7 @@
             "PSK:  " . $newpsk . "\n" . \
             "Date: " . [ / system clock get date ] . "\n\n" . \
             "https://" . $host . $srcpath) \
-          "qrcode-daily.png";
+          $attach;
       }
     } else={
       :log debug ("Missing active interface " . $intname . " for access list entry.");
