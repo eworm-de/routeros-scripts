@@ -54,8 +54,8 @@
   # https://certs.godaddy.com/repository/gdroot-g2.crt
   # https://certs.godaddy.com/repository/gdig2.crt.pem
   :if ([ :len $"telegram-tokenid" ] > 0 && [ :len $"telegram-chatid" ] > 0) do={
-    do {
-     / tool fetch check-certificate=yes-without-crl keep-result=no http-method=post \
+    :do {
+      / tool fetch check-certificate=yes-without-crl keep-result=no http-method=post \
         ("https://api.telegram.org/bot" . $"telegram-tokenid" . "/sendMessage") \
         http-data=("chat_id=" . $"telegram-chatid" . "&text=" . [ $UrlEncode $message ]);
     } on-error={
