@@ -27,16 +27,10 @@ download the certificates. If you intend to download the scripts from a
 different location (for example from github.com) install the corresponding
 certificate chain.
 
-    [admin@MikroTik] > / tool fetch "https://letsencrypt.org/certs/isrgrootx1.pem.txt"
+    [admin@MikroTik] > / tool fetch "https://git.eworm.de/cgit.cgi/routeros-scripts/plain/certs/731d3d9cfaa061487a1d71445a42f67df0afca2a6c2d2f98ff7b3ce112b1f568.pem" dst-path=letsencrypt.pem
           status: finished
-      downloaded: 1KiBC-z pause]
-           total: 1KiB
-        duration: 1s
-
-    [admin@MikroTik] > / tool fetch "https://letsencrypt.org/certs/letsencryptauthorityx3.pem.txt"
-          status: finished
-      downloaded: 1KiBC-z pause]
-           total: 1KiB
+      downloaded: 3KiBC-z pause]
+           total: 3KiB
         duration: 1s
 
 Note that the commands above do *not* verify server certificate, so if you
@@ -48,15 +42,8 @@ files to your MikroTik device.
 
 Then we import the certificates.
 
-    [admin@MikroTik] > / certificate import file-name=isrgrootx1.pem.txt passphrase=""
-         certificates-imported: 1
-         private-keys-imported: 0
-                files-imported: 1
-           decryption-failures: 0
-      keys-with-no-certificate: 0
-
-    [admin@MikroTik] > / certificate import file-name=letsencryptauthorityx3.pem.txt passphrase=""
-         certificates-imported: 1
+    [admin@MikroTik] > / certificate import file-name=letsencrypt.pem passphrase=""
+         certificates-imported: 2
          private-keys-imported: 0
                 files-imported: 1
            decryption-failures: 0
