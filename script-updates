@@ -58,6 +58,9 @@
         :log info ("Updating script: " . $scriptname);
         / system script set owner=$scriptname source=$sourcenew \
             dont-require-permissions=$"dont-require-permissions" $script;
+        :if ($scriptname = "global-functions") do={
+          / system script run global-functions;
+        }
       } else={
         :log debug ("Script " .  $scriptname . " did not change");
       }
