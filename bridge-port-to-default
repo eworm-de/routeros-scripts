@@ -4,6 +4,9 @@
 #
 # reset bridge ports to default bridge
 
+# delay for global-config
+:delay 1s;
+
 :global "bridge-port-to";
 
 :local "len" ([ :len $"bridge-port-to" ] + 1);
