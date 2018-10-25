@@ -11,7 +11,7 @@
 :foreach interface in=[ / interface bridge port find where comment!="" ] do={
   :foreach comment in=[ :toarray [ / interface bridge port get $interface comment ] ] do={
     :if ([ :pick $comment 0 ] = " ") do={
-      :set comment [ :pick $commecnt 1 [ :len $commecnt ] ];
+      :set comment [ :pick $comment 1 [ :len $comment ] ];
     }
     :if ([ :pick $comment 0 $len ] = ($"bridge-port-to" . ":")) do={
       :local "interface-name" [ / interface bridge port get $interface interface ];
