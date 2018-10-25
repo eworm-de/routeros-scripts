@@ -4,12 +4,14 @@
 #
 # reset bridge ports to default bridge
 
-# delay for global-config
-:delay 1s;
-
 :global "bridge-port-to";
 
 :local "len" ([ :len $"bridge-port-to" ] + 1);
+
+:if ($"len" = 1) do={
+  :delay 1s;
+  :set "len" ([ :len $"bridge-port-to" ] + 1);
+}
 
 :foreach interface in=[ / interface bridge port find where comment!="" ] do={
   :foreach comment in=[ :toarray [ / interface bridge port get $interface comment ] ] do={
