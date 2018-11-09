@@ -39,7 +39,7 @@
   :global "script-updates-baseurl";
   :global "script-updates-urlsuffix";
 
-  :if ([ :len [ / certificate find where fingerprint=$fprint ] ] = 0) do={
+  :if ([ / certificate print count-only where fingerprint=$fprint ] = 0) do={
     :log info ("Certificate with fingerprint " . $fprint . \
       " not available, downloading and importing.");
     :do {
