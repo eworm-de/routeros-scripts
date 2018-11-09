@@ -4,6 +4,11 @@
 #
 # global functions
 
+# read input from user
+:global Read do={
+  :return;
+}
+
 # url encoding
 :global UrlEncode do={
   :local input [ :tostr $1 ];
