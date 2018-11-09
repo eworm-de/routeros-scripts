@@ -1,0 +1,14 @@
+#!rsc
+# RouterOS script: ip-addr-bridge
+# Copyright (c) 2018 Christian Hesse <mail@eworm.de>
+#
+# enable or disable ip addresses based on bridge port state
+
+:foreach bridge in=[ / interface bridge find ] do={
+  :local brname [ / interface bridge get $bridge name ];
+  :if ([ / interface bridge port print count-only where bridge=$brname and inactive=no ] = 0) do={
+    / ip address disable [ find where !dynamic interface=$brname ];
+  } else={
+    / ip address enable [ find where !dynamic interface=$brname ];
+  }
+}
