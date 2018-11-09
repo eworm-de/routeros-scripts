@@ -53,7 +53,7 @@
       :set dnsip [ / ip dns static get $dnsnode address ];
 
       :local leases [ / ip dhcp-server lease find where host-name=$hostname dynamic=yes ];
-      :local hostnamecount [ :len [ / ip dhcp-server lease find where host-name=$hostname dynamic=yes ] ];
+      :local hostnamecount [ / ip dhcp-server lease print count-only where host-name=$hostname dynamic=yes ];
       :if ( $hostnamecount > 1) do={
         :foreach j,lease in=$leases do={
           :if ($j + 1 = $hostnamecount) do={
