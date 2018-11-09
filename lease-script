@@ -17,7 +17,7 @@
 :delay 1s;
 
 :foreach script in=$scripts do={
-  :if ([ :len [ / system script find where name=$script ] ] > 0) do={
+  :if ([ / system script print count-only where name=$script ] > 0) do={
     :log debug ("Running script from lease-script: " . $script);
     / system script run $script;
   }
