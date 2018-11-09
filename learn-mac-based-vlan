@@ -8,6 +8,6 @@
 
 / log info ("MAC-based-VLAN: learning MAC address " . $leaseActMAC . " for VLAN " . $NewVlanId . ".");
 
-:if ( [ :len [ / interface ethernet switch mac-based-vlan find where src-mac-address=$leaseActMAC ] ] = 0 ) do={
+:if ( [ / interface ethernet switch mac-based-vlan print count-only where src-mac-address=$leaseActMAC ] = 0 ) do={
   / interface ethernet switch mac-based-vlan add src-mac-address=$leaseActMAC new-customer-vid=$NewVlanId;
 };
