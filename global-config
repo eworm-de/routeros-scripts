@@ -75,9 +75,9 @@
 
 # Run commands on SMS action.
 :global "sms-action" {
-  shutdown="/ system shutdown;";
-  reboot="/ system reboot;";
   bridge-port-toggle="/ system script run bridge-port-toggle;";
+  reboot="/ system reboot;";
+  shutdown="/ system shutdown;";
 # add more here...
 };
 
