@@ -66,9 +66,10 @@
 # Run different commands with multiple mode-button presses.
 :global "mode-button" {
   1="/ system script run leds-toggle-mode;";
-  2="/ system shutdown;";
-  3="/ system reboot;";
-  4="/ system script run bridge-port-toggle;";
+  2=":global SendNotification; :global identity; \$SendNotification \"Hello...\" (\"Hello world, \" . \$identity . \" calling!\");";
+  3="/ system shutdown;";
+  4="/ system reboot;";
+  5="/ system script run bridge-port-toggle;";
 # add more here...
 };
 
@@ -76,6 +77,7 @@
 :global "sms-action" {
   shutdown="/ system shutdown;";
   reboot="/ system reboot;";
+  bridge-port-toggle="/ system script run bridge-port-toggle;";
 # add more here...
 };
 
