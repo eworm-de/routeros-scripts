@@ -93,7 +93,7 @@
           :set attach "";
         }
 
-        $SendNotification ("[" . $identity . "] daily PSK " . $ssid) \
+        $SendNotification ("daily PSK " . $ssid) \
           ("This is the daily PSK on " . $identity . ":\n\n" . \
             "SSID: " . $ssid . "\n" . \
             "PSK:  " . $newpsk . "\n" . \

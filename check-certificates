@@ -36,7 +36,7 @@
       :local fingerprint [ / certificate get $cert fingerprint ];
       :local invalidbefore [ / certificate get $cert invalid-before ];
       :local invalidafter [ / certificate get $cert invalid-after ];
-      $SendNotification ("[" . $identity . "] Certificate warning!") \
+      $SendNotification ("Certificate warning!") \
         ("A certificate on " . $identity . " is about to expire.\n\n" . \
           "Certificate Name: " . $certname . "\n" . \
           "Common Name:      " . $commonname . "\n" . \

@@ -61,6 +61,7 @@
   :local message [ :tostr $2 ];
   :local attach [ :tostr $3 ];
 
+  :global "identity";
   :global "email-general-to";
   :global "email-general-cc";
   :global "telegram-tokenid";
@@ -72,7 +73,7 @@
   :if ([ :len $"email-general-to" ] > 0) do={
     :do {
       / tool e-mail send to=$"email-general-to" cc=$"email-general-cc" \
-        subject=$subject body=$message file=$attach;
+        subject=("[" . $"identity" . "] " . $subject) body=$message file=$attach;
     } on-error={
       :log warning "Failed sending notification mail!";
     }
@@ -83,7 +84,8 @@
     :do {
       / tool fetch check-certificate=yes-without-crl keep-result=no http-method=post \
         ("https://api.telegram.org/bot" . $"telegram-tokenid" . "/sendMessage") \
-        http-data=("chat_id=" . $"telegram-chatid" . "&text=" . [ $UrlEncode $message ]);
+        http-data=("chat_id=" . $"telegram-chatid" . "&text=" . \
+        [ $UrlEncode ("[" . $"identity" . "] " . $subject . "\n\n" . $message) ]);
     } on-error={
       :log warning "Failed sending telegram notification!";
     }

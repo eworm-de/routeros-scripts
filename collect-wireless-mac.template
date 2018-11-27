@@ -42,7 +42,7 @@
       $datetime . " connected to SSID " . $ssid . ", interface " . $interface);
     / log info $message;
     / %PATH% access-list add place-before=$"place-before" comment=$message mac-address=$mac disabled=yes;
-    $SendNotification ("[" . $identity . "] " . $mac . " connected to " . $ssid) \
+    $SendNotification ($mac . " connected to " . $ssid) \
       ("A device with unknown MAC address connected to " . $ssid . " on " . $identity . ".\n\n" . \
         "Controller: " . $identity . "\n" . \
         "Interface:  " . $interface . "\n" . \

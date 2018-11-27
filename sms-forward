@@ -26,7 +26,7 @@
   :if ($phone = $allowed && message~("^:cmd " . $secret . " script ")) do={
     :log debug "Ignoring SMS, which starts a script.";
   } else={
-    $SendNotification ("[" . $identity . "] SMS Forwarding") \
+    $SendNotification ("SMS Forwarding") \
       ("A message was received by " . $identity . ":\n\n" . \
         "Phone:     " . $phone . "\n" . \
         "Timestamp: " . $timestamp . "\n" . \

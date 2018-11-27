@@ -32,7 +32,7 @@
         "&latest=" . $latestversion) output=user as-value ];
     :if ($result->"status" = "finished" && $result->"data" = $latestversion) do={
       :log info ("Version " . $latestversion . " is assumed safe, updating...");
-       $SendNotification ("[" . $identity . "] RouterOS update notification") \
+       $SendNotification ("RouterOS update notification") \
          ("Version " . $latestversion . " is assumed safe for " . $channel . \
          ", updating on " . $identity . "...");
       / system package update install;
@@ -45,7 +45,7 @@
         $latestversion . ".");
   }
 
-  $SendNotification ("[" . $identity . "] RouterOS update notification") \
+  $SendNotification ("RouterOS update notification") \
     ("There is a RouterOS update available\n\n" . \
       "Routerboard:   " . $model . "\n" . \
       "Serial number: " . $serialnumber . "\n" . \
