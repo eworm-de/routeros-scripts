@@ -12,8 +12,13 @@
 :global "backup-send-export";
 :global "backup-password";
 
+:if ($"backup-send-binary" = false && $"backup-send-export" = false) do={
+  :error ("Configured to send neither backup nor config export.");
+}
+
 # filename based on identity
 :local filename ($identity . "." . $domain);
+:local attach [ :toarray "" ];
 
 # get some system information
 :local model [ / system routerboard get model ];
@@ -21,32 +26,30 @@
 :local channel [ / system package update get channel ];
 :local installedversion [ / system package update get installed-version ];
 
-# create and email binary backup
+# create binary backup
 :if ($"backup-send-binary" = true) do={
   / system backup save name=$filename password=$"backup-password";
   / delay delay-time=10;
-  / tool e-mail send to=$"email-backup-to" cc=$"email-backup-cc" \
-    subject=("[" . $identity . "] Backup") \
-    body=("Backup file for " . $identity . " is attached.\n\n" . \
-      "Routerboard:   " . $model . "\n" . \
-      "Serial number: " . $serialnumber . "\n" . \
-      "Hostname:      " . $identity . "\n" . \
-      "Channel:       " . $channel . "\n" . \
-      "RouterOS:      " . $installedversion) \
-    file=($filename . ".backup");
+  :set attach ( $attach, ($filename . ".backup") );
 }
 
-# create and email configuration export
+# create configuration export
 :if ($"backup-send-export" = true) do={
   / export terse file=$filename;
   / delay delay-time=10;
-  / tool e-mail send to=$"email-backup-to" cc=$"email-backup-cc" \
-    subject=("[" . $identity . "] Config") \
-    body=("Config file for " . $identity . " is attached.\n\n" . \
-      "Routerboard:   " . $model . "\n" . \
-      "Serial number: " . $serialnumber . "\n" . \
-      "Hostname:      " . $identity . "\n" . \
-      "Channel:       " . $channel . "\n" . \
-      "RouterOS:      " . $installedversion) \
-    file=($filename . ".rsc");
+  :set attach ( $attach, ($filename . ".rsc") );
+}
+
+# email files
+/ tool e-mail send to=$"email-backup-to" cc=$"email-backup-cc" \
+    subject=("[" . $identity . "] Backup & Config") \
+    body=("Backup and config export for " . $identity . ".\n\n" . \
+      "Routerboard:     " . $model . "\n" . \
+      "Serial number:   " . $serialnumber . "\n" . \
+      "Hostname:        " . $identity . "\n" . \
+      "Channel:         " . $channel . "\n" . \
+      "RouterOS:        " . $installedversion . "\n\n" . \
+      "Backup attached: " . $"backup-send-binary" . "\n" . \
+      "Config attached: " . $"backup-send-export") \
+    file=$attach;
 }
