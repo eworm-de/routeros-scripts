@@ -37,8 +37,8 @@
 }
 
 # create and email configuration export
-:if ($"backup-send-export"= true) do={
-  / export file=$filename;
+:if ($"backup-send-export" = true) do={
+  / export terse file=$filename;
   / delay delay-time=10;
   / tool e-mail send to=$"email-backup-to" cc=$"email-backup-cc" \
     subject=("[" . $identity . "] Config") \
