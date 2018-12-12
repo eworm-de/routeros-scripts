@@ -22,7 +22,7 @@
       }
       :if ($skip = 0) do={
         / %PATH% access-list print where mac-address=$mac;
-        :set $shown ( $shown , $mac );
+        :set shown ( $shown , $mac );
 
         :put "\nEnter to skip, numeric id to remove!";
         :local remove [ $Read ];
@@ -33,5 +33,5 @@
       }
     }
   }
-  :set $seen ( $seen , $mac );
+  :set seen ( $seen , $mac );
 }

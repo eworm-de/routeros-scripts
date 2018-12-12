@@ -23,9 +23,9 @@
       :local replace [ :find $chars $char ];
 
       :if ([ :len $replace ] > 0) do={
-        :set $char ($subs->$replace);
+        :set char ($subs->$replace);
       }
-      :set $return ($return . $char);
+      :set return ($return . $char);
     }
   }
 
