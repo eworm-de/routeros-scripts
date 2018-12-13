@@ -29,14 +29,12 @@
 # create binary backup
 :if ($"backup-send-binary" = true) do={
   / system backup save name=$filename password=$"backup-password";
-  / delay delay-time=10;
   :set attach ( $attach, ($filename . ".backup") );
 }
 
 # create configuration export
 :if ($"backup-send-export" = true) do={
   / export terse file=$filename;
-  / delay delay-time=10;
   :set attach ( $attach, ($filename . ".rsc") );
 }
 
