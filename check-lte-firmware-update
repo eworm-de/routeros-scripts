@@ -1,0 +1,32 @@
+#!rsc
+# RouterOS script: check-lte-firmware-update
+# Copyright (c) 2018 Christian Hesse <mail@eworm.de>
+#
+# check for LTE firmware update, send notification e-mails
+
+:global "identity";
+:global "sent-lte-firmware-update-notification";
+
+:global SendNotification;
+
+:foreach interface in=[ / interface lte find ] do={
+  :local intname [ / interface lte get $interface name ];
+  :do {
+    :local firmware [ / interface lte firmware-upgrade $interface once as-value ];
+    
+    :if ($"sent-lte-firmware-update-notification" = ($firmware->"latest")) do={
+      :log debug ("Already sent the LTE firmware update notification for version " . \
+        ($firmware->"latest") . ".");
+    } else={
+      :if (($firmware->"installed") != ($firmware->"latest")) do={
+        $SendNotification ("LTE firmware update notification") \
+          ("A new firmware version " . ($firmware->"latest") . " is available for " . \
+          "LTE interface " . $intname . " on " . $identity . ".");
+        :set "sent-lte-firmware-update-notification" ($firmware->"latest");
+      }
+    }
+  } on-error={
+    :log debug ("Could not get latest LTE firmware version for interface " . \
+      $intname . ".");
+  }
+}

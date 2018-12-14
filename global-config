@@ -100,5 +100,6 @@
 
 # Do *NOT* change these!
 :global "sent-routeros-update-notification" "-";
+:global "sent-lte-firmware-update-notification" "-";
 :global "identity" [ / system identity get name ];
 / system script run global-functions;
