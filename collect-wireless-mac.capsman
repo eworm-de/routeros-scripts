@@ -41,7 +41,7 @@
     :do {
       $CertificateAvailable "731d3d9cfaa061487a1d71445a42f67df0afca2a6c2d2f98ff7b3ce112b1f568";
       :set vendor ([ / tool fetch mode=https check-certificate=yes-without-crl \
-         url=("https://api.macvendors.com/" . $mac) output=user as-value ]->"data");
+         url=("https://api.macvendors.com/" . [ :pick $mac 0 8 ]) output=user as-value ]->"data");
     } on-error={
       :set vendor "unknown vendor";
     }
