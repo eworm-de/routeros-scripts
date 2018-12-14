@@ -8,6 +8,7 @@
 
 :global "identity";
 
+:global CertificateAvailable;
 :global SendNotification;
 
 :local "place-before" [ / caps-man access-list find where comment="--- collected above ---" disabled ];
@@ -36,8 +37,16 @@
     :local interface [ / caps-man registration-table get $regentry interface ];
     :local ssid [ / caps-man registration-table get $regentry ssid ];
     :local datetime ([ / system clock get date ] . " " . [ / system clock get time ]);
-    :local message ("unknown MAC address " . $mac . " (" . $hostname . ") first seen on " . \
-      $datetime . " connected to SSID " . $ssid . ", interface " . $interface);
+    :local vendor;
+    :do {
+      $CertificateAvailable "731d3d9cfaa061487a1d71445a42f67df0afca2a6c2d2f98ff7b3ce112b1f568";
+      :set vendor ([ / tool fetch mode=https check-certificate=yes-without-crl \
+         url=("https://api.macvendors.com/" . $mac) output=user as-value ]->"data");
+    } on-error={
+      :set vendor "unknown vendor";
+    }
+    :local message ("unknown MAC address " . $mac . " (" . $vendor . ", " . $hostname . ") " . \
+      "first seen on " . $datetime . " connected to SSID " . $ssid . ", interface " . $interface);
     / log info $message;
     / caps-man access-list add place-before=$"place-before" comment=$message mac-address=$mac disabled=yes;
     $SendNotification ($mac . " connected to " . $ssid) \
@@ -46,6 +55,7 @@
         "Interface:  " . $interface . "\n" . \
         "SSID:       " . $ssid . "\n" . \
         "MAC:        " . $mac . "\n" . \
+        "Vendor:     " . $vendor . "\n" . \
         "Hostname:   " . $hostname . "\n" . \
         "Address:    " . $address . "\n" . \
         "Date:       " . $datetime);
