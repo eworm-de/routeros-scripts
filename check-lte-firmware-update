@@ -13,6 +13,8 @@
   :local intname [ / interface lte get $interface name ];
   :do {
     :local firmware [ / interface lte firmware-upgrade $interface once as-value ];
+    # strip the extra line break (TODO: remove when fixed upstream)
+    :set ($firmware->"latest") [ :pick ($firmware->"latest") 0 [ :find ($firmware->"latest") "\n" ] ];
     
     :if ($"sent-lte-firmware-update-notification" = ($firmware->"latest")) do={
       :log debug ("Already sent the LTE firmware update notification for version " . \
