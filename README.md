@@ -22,6 +22,15 @@ RouterOS version.
 Initial setup
 -------------
 
+### Get me ready!
+
+If you know how things work just copy and paste the
+[initial commands](initial-commands). Remember to edit and rerun
+`global-config`!
+First time useres should take the long way below.
+
+### The long way in detail
+
 The update script does server certificate verification, so first step is to
 download the certificates. If you intend to download the scripts from a
 different location (for example from github.com) install the corresponding
