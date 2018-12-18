@@ -26,6 +26,7 @@
 # This defines what backups to generate and what password to use.
 :global "backup-send-binary" false;
 :global "backup-send-export" true;
+:global "backup-cloud" false;
 :global "backup-password" "v3ry-s3cr3t";
 
 # Specify an address to enable auto update to version assumed safe.
