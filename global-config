@@ -37,11 +37,6 @@
 # This controls what configuration is activated by bridge-port-to-default.
 :global "bridge-port-to" "default";
 
-# These settings are used to update gre interface settings based on
-# remote peer configuration.
-:global "gre-cert-prefix" "ikev2-";
-:global "gre-int-prefix" "gre-";
-
 # Access-list entries matching this comment are updated
 # with daily pseudo-random PSK.
 :global "daily-psk-match-comment" "Daily PSK";
