@@ -34,20 +34,21 @@
 
 # check and import required certificates
 :global CertificateAvailable do={
-  :local fprint [ :tostr $1 ];
+  :local commonname [ :tostr $1 ];
+  :local filename ([ :tostr $2 ] . ".pem");
 
   :global "script-updates-baseurl";
   :global "script-updates-urlsuffix";
 
-  :if ([ / certificate print count-only where fingerprint=$fprint ] = 0) do={
-    :log info ("Certificate with fingerprint " . $fprint . \
+  :if ([ / certificate print count-only where common-name=$commonname ] = 0) do={
+    :log info ("Certificate with CommonName " . $commonname . \
       " not available, downloading and importing.");
     :do {
       / tool fetch check-certificate=yes-without-crl \
         ($"script-updates-baseurl" . "certs/" . \
-        $fprint . ".pem" . $"script-updates-urlsuffix") \
-        dst-path=($fprint . ".pem");
-      / certificate import file-name=($fprint . ".pem") passphrase="";
+        $filename . $"script-updates-urlsuffix") \
+        dst-path=$filename;
+      / certificate import file-name=$filename passphrase="";
     } on-error={
       :log warning "Failed imprting certificate!";
     }
@@ -80,7 +81,7 @@
   }
 
   :if ([ :len $"telegram-tokenid" ] > 0 && [ :len $"telegram-chatid" ] > 0) do={
-    $CertificateAvailable "973a41276ffd01e027a2aad49e34c37846d3e976ff6a620b6712e33832041aa6";
+    $CertificateAvailable "Go Daddy Secure Certificate Authority - G2" "godaddy";
     :do {
       / tool fetch check-certificate=yes-without-crl keep-result=no http-method=post \
         ("https://api.telegram.org/bot" . $"telegram-tokenid" . "/sendMessage") \
