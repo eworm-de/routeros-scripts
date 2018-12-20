@@ -90,6 +90,11 @@
   "global-config"
 }
 
+# Use this for certificate auto-renew
+:global "cert-renew-url" "";
+#:global "cert-renew-url" "https://example.com/certificates/";
+:global "cert-renew-pass" "v3ry-s3cr3t";
+
 # Do *NOT* change these!
 :global "sent-routeros-update-notification" "-";
 :global "sent-lte-firmware-update-notification" "-";

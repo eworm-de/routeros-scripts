@@ -5,6 +5,8 @@
 # check for certificate validity
 
 :global "identity";
+:global "cert-renew-url";
+:global "cert-renew-pass";
 
 :global SendNotification;
 
@@ -33,16 +35,48 @@
 
     :if ($remaining < 15) do={
       :local commonname [ / certificate get $cert common-name ];
-      :local fingerprint [ / certificate get $cert fingerprint ];
-      :local invalidbefore [ / certificate get $cert invalid-before ];
-      :local invalidafter [ / certificate get $cert invalid-after ];
-      $SendNotification ("Certificate warning!") \
-        ("A certificate on " . $identity . " is about to expire.\n\n" . \
-          "Certificate Name: " . $certname . "\n" . \
-          "Common Name:      " . $commonname . "\n" . \
-          "Fingerprint:      " . $fingerprint . "\n" . \
-          "Validity:         " . $invalidbefore . " to " . $invalidafter);
-      :log warning ("A certificate is about to expire within " . $remaining . " days: " . $certname);
+      :local fprint [ / certificate get $cert fingerprint ];
+
+      :do {
+        :if ([ :len $"cert-renew-url" ] = 0) do={
+          :error "No renew-url given.";
+        }
+
+        / tool fetch mode=https check-certificate=yes-without-crl url=($"cert-renew-url" . $commonname . ".pem");
+        / certificate import file-name=($commonname . ".pem") passphrase=$"cert-renew-pass";
+        / file remove [ find where name=($commonname . ".pem") ];
+
+        :local certnew [ / certificate find where common-name=$commonname fingerprint!=$fprint ];
+        :local certnamenew [ / certificate get $certnew name ];
+
+        :foreach ipservice in=[ / ip service find where certificate=$certname ] do={
+          / ip service set $ipservice certificate=$certnamenew;
+        }
+
+        :do {
+          :foreach hotspot in=[ / ip hotspot profile find where ssl-certificate=$certname ] do={
+            / ip hotspot profile set $hotspot ssl-certificate=$certnamenew;
+          }
+        } on-error={
+          :log debug ("Setting hotspot certificates failed. Hotspot package not installed?");
+        }
+
+        / certificate remove $cert;
+        / certificate set $certnew name=$certname;
+      } on-error={
+        :log warning ("Failed to auto-update certificate " . $certname);
+
+        :local invalidbefore [ / certificate get $cert invalid-before ];
+        :local invalidafter [ / certificate get $cert invalid-after ];
+
+        $SendNotification ("Certificate warning!") \
+          ("A certificate on " . $identity . " is about to expire.\n\n" . \
+            "Certificate Name: " . $certname . "\n" . \
+            "Common Name:      " . $commonname . "\n" . \
+            "Fingerprint:      " . $fprint . "\n" . \
+            "Validity:         " . $invalidbefore . " to " . $invalidafter);
+        :log warning ("A certificate is about to expire within " . $remaining . " days: " . $certname);
+      }
     } else={
       :log debug ("The certificate " . $certname . " expires in " . $remaining . " days.");
     }
