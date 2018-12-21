@@ -4,6 +4,8 @@
 #
 # remove packages (*.npk) not matching installed version
 
+:if ([ /system resource get uptime ] < 1m) do={ :delay 1m; }
+
 :local version [ / system package update get installed-version ];
 
 :foreach package in=[ / file find type="package" ] do={
