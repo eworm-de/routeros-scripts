@@ -10,6 +10,7 @@
 :global "identity";
 
 :global CertificateAvailable;
+:global GetMacVendor;
 :global SendNotification;
 
 :local "place-before" [ / %PATH% access-list find where comment="--- collected above ---" disabled ];
@@ -39,14 +40,7 @@
     :local ssid [ / caps-man registration-table get $regentry ssid ];
     :local ssid [ / interface wireless get [ find where name=$interface ] ssid ];
     :local datetime ([ / system clock get date ] . " " . [ / system clock get time ]);
-    :local vendor;
-    :do {
-      $CertificateAvailable "Let's Encrypt Authority X3" "letsencrypt";
-      :set vendor ([ / tool fetch mode=https check-certificate=yes-without-crl \
-         url=("https://api.macvendors.com/" . [ :pick $mac 0 8 ]) output=user as-value ]->"data");
-    } on-error={
-      :set vendor "unknown vendor";
-    }
+    :local vendor [ $GetMacVendor $mac ];
     :local message ("unknown MAC address " . $mac . " (" . $vendor . ", " . $hostname . ") " . \
       "first seen on " . $datetime . " connected to SSID " . $ssid . ", interface " . $interface);
     / log info $message;

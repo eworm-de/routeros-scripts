@@ -92,3 +92,18 @@
     }
   }
 }
+
+# get MAC vendor
+:global GetMacVendor do={
+  :local mac [ :tostr $1 ];
+
+  :do {
+    :local vendor;
+    $CertificateAvailable "Let's Encrypt Authority X3" "letsencrypt";
+    :set vendor ([ / tool fetch mode=https check-certificate=yes-without-crl \
+      url=("https://api.macvendors.com/" . [ :pick $mac 0 8 ]) output=user as-value ]->"data");
+    :return $vendor;
+  } on-error={
+    :return "unknown vendor";
+  }
+}
