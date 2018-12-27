@@ -1,6 +1,7 @@
 #!rsc
 # RouterOS script: capsman-download-packages
 # Copyright (c) 2018 Christian Hesse <mail@eworm.de>
+#                    Michael Gisbers <michael@gisbers.de>
 #
 # requires: dont-require-permissions=yes
 #
@@ -18,6 +19,9 @@
     :local "package-architecture" [ / file get $package package-architecture ];
     :if ($"package-architecture" = "mips") do={
       :set "package-architecture" "mipsbe";
+    }
+    :if ($"package-name" = "wireless@") do={
+      :set "package-name" "wireless";
     }
     :local "package-file" ($"package-name" . "-" . $"installed-version" . "-" . $"package-architecture" . ".npk");
     $CertificateAvailable "Let's Encrypt Authority X3" "letsencrypt";
