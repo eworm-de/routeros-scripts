@@ -33,6 +33,6 @@
   }
 }
 
-:if ($updated = true && [ / caps-man manager get enabled ] = true) do={
-  / caps-man manager set enabled=yes;
+:if ($updated = true) do={
+  / caps-man remote-cap remove [ find where version!=$"installed-version" ];
 }
