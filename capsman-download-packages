@@ -10,10 +10,13 @@
 :global CertificateAvailable;
 
 :local "package-path" [ / caps-man manager get package-path ];
+:if ([ :pick $"package-path" 0 ] = "/") do={
+  :set "package-path" [ :pick $"package-path" 1 [ :len $"package-path" ] ];
+}
 :local "installed-version" [ / system package update get installed-version ];
 :local updated false;
 
-:foreach package in=[ / file find where type=package ] do={
+:foreach package in=[ / file find where type=package name~("^" . $"package-path") ] do={
   :if ([ / file get $package package-version ] != $"installed-version") do={
     :local "package-name" [ / file get $package package-name ];
     :local "package-architecture" [ / file get $package package-architecture ];
