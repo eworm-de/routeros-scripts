@@ -16,24 +16,23 @@
 :local "installed-version" [ / system package update get installed-version ];
 :local updated false;
 
-:foreach package in=[ / file find where type=package name~("^" . $"package-path") ] do={
-  :if ([ / file get $package package-version ] != $"installed-version") do={
-    :local "package-name" [ / file get $package package-name ];
-    :local "package-architecture" [ / file get $package package-architecture ];
-    :if ($"package-architecture" = "mips") do={
-      :set "package-architecture" "mipsbe";
-    }
-    :if ($"package-name" = "wireless@") do={
-      :set "package-name" "wireless";
-    }
-    :local "package-file" ($"package-name" . "-" . $"installed-version" . "-" . $"package-architecture" . ".npk");
-    $CertificateAvailable "Let's Encrypt Authority X3" "letsencrypt";
-    / tool fetch mode=https check-certificate=yes-without-crl \
-      ("https://upgrade.mikrotik.com/routeros/" . $"installed-version" . "/" . $"package-file") \
-      dst-path=($"package-path" . "/" . $"package-file");
-    :set updated true;
-    / file remove $package;
+:foreach package in=[ / file find where type=package \
+      package-version!=$"installed-version" name~("^" . $"package-path") ] do={
+  :local "package-name" [ / file get $package package-name ];
+  :local "package-architecture" [ / file get $package package-architecture ];
+  :if ($"package-architecture" = "mips") do={
+    :set "package-architecture" "mipsbe";
   }
+  :if ($"package-name" = "wireless@") do={
+    :set "package-name" "wireless";
+  }
+  :local "package-file" ($"package-name" . "-" . $"installed-version" . "-" . $"package-architecture" . ".npk");
+  $CertificateAvailable "Let's Encrypt Authority X3" "letsencrypt";
+  / tool fetch mode=https check-certificate=yes-without-crl \
+    ("https://upgrade.mikrotik.com/routeros/" . $"installed-version" . "/" . $"package-file") \
+    dst-path=($"package-path" . "/" . $"package-file");
+  :set updated true;
+  / file remove $package;
 }
 
 :if ($updated = true) do={
