@@ -7,7 +7,7 @@
 #
 # download and cleanup packages for CAP installation from CAPsMAN
 
-:global CertificateAvailable;
+:global DownloadPackage;
 
 :local "package-path" [ / caps-man manager get package-path ];
 :if ([ :pick $"package-path" 0 ] = "/") do={
@@ -26,13 +26,10 @@
   :if ($"package-name" = "wireless@") do={
     :set "package-name" "wireless";
   }
-  :local "package-file" ($"package-name" . "-" . $"installed-version" . "-" . $"package-architecture" . ".npk");
-  $CertificateAvailable "Let's Encrypt Authority X3" "letsencrypt";
-  / tool fetch mode=https check-certificate=yes-without-crl \
-    ("https://upgrade.mikrotik.com/routeros/" . $"installed-version" . "/" . $"package-file") \
-    dst-path=($"package-path" . "/" . $"package-file");
-  :set updated true;
-  / file remove $package;
+  :if ([ $DownloadPackage $"package-name" $"installed-version" $"package-architecture" $"package-path" ] = true) do={
+    :set updated true;
+    / file remove $package;
+  }
 }
 
 :if ($updated = true) do={

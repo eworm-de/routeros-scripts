@@ -107,3 +107,28 @@
     :return "unknown vendor";
   }
 }
+
+# download package from upgrade server
+:global DownloadPackage do={
+  :local pkgname [ :tostr $1 ];
+  :local pkgver  [ :tostr $2 ];
+  :local pkgarch [ :tostr $3 ];
+  :local pkgdest [ :tostr $4 ];
+
+  :global CertificateAvailable;
+
+  :if ([ :len $pkgname ] = 0) do={ return false; }
+  :if ([ :len $pkgver  ] = 0) do={ :set pkgver  [ / system package update get installed-version ]; }
+  :if ([ :len $pkgarch ] = 0) do={ :set pkgarch [ / system resource get architecture-name ]; }
+
+  $CertificateAvailable "Let's Encrypt Authority X3" "letsencrypt";
+  do {
+    :local pkgfile ($pkgname . "-" . $pkgver . "-" . $pkgarch . ".npk");
+    / tool fetch mode=https check-certificate=yes-without-crl \
+      ("https://upgrade.mikrotik.com/routeros/" . $pkgver . "/" . $pkgfile) \
+      dst-path=($pkgdest . "/" . $pkgfile);
+    return true;
+  } on-error={
+    return false;
+  }
+}
