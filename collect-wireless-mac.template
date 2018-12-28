@@ -9,7 +9,6 @@
 
 :global "identity";
 
-:global CertificateAvailable;
 :global GetMacVendor;
 :global SendNotification;
 

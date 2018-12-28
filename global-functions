@@ -97,6 +97,8 @@
 :global GetMacVendor do={
   :local mac [ :tostr $1 ];
 
+  :global CertificateAvailable;
+
   :do {
     :local vendor;
     $CertificateAvailable "Let's Encrypt Authority X3" "letsencrypt";
