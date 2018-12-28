@@ -56,7 +56,7 @@
 }
 
 # send notification via e-mail and telegram
-# Note that subject and attachment are ignored for telegram!
+# Note that attachment is ignored for telegram!
 :global SendNotification do={
   :local subject [ :tostr $1 ];
   :local message [ :tostr $2 ];
