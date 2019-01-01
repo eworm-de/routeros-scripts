@@ -1,6 +1,6 @@
 #!rsc
 # RouterOS script: lease-script
-# Copyright (c) 2013-2018 Christian Hesse <mail@eworm.de>
+# Copyright (c) 2013-2019 Christian Hesse <mail@eworm.de>
 #
 # run scripts on DHCP lease
 # ( / ip dhcp-server set lease-script=lease-script [ find ] )

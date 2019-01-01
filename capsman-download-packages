@@ -1,7 +1,7 @@
 #!rsc
 # RouterOS script: capsman-download-packages
-# Copyright (c) 2018 Christian Hesse <mail@eworm.de>
-#                    Michael Gisbers <michael@gisbers.de>
+# Copyright (c) 2018-2019 Christian Hesse <mail@eworm.de>
+#                         Michael Gisbers <michael@gisbers.de>
 #
 # requires: dont-require-permissions=yes
 #

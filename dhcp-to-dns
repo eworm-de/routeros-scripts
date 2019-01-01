@@ -1,6 +1,6 @@
 #!rsc
 # RouterOS script: dhcp-to-dns
-# Copyright (c) 2013-2018 Christian Hesse <mail@eworm.de>
+# Copyright (c) 2013-2019 Christian Hesse <mail@eworm.de>
 #
 # check DHCP leases and add/remove/update DNS entries
 

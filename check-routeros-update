@@ -1,6 +1,6 @@
 #!rsc
 # RouterOS script: check-routeros-update
-# Copyright (c) 2013-2018 Christian Hesse <mail@eworm.de>
+# Copyright (c) 2013-2019 Christian Hesse <mail@eworm.de>
 #
 # check for RouterOS update, send notification e-mails
 

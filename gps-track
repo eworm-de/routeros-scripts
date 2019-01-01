@@ -1,6 +1,6 @@
 #!rsc
 # RouterOS script: gps-track
-# Copyright (c) 2018 Christian Hesse <mail@eworm.de>
+# Copyright (c) 2018-2019 Christian Hesse <mail@eworm.de>
 #
 # track gps data by sending json data to http server
 
