@@ -33,7 +33,7 @@
           ($"safe-update-url" . $channel . "?installed=" . $installedversion . \
           "&latest=" . $latestversion) output=user as-value ];
     } on-error={
-      :log debug ("Failed receiving safe version.");
+      :log warning ("Failed receiving safe version for " . $channel . ".");
     }
     :if ($result->"status" = "finished" && $result->"data" = $latestversion) do={
       :log info ("Version " . $latestversion . " is assumed safe, updating...");
