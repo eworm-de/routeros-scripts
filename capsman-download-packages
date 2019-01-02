@@ -33,5 +33,5 @@
 }
 
 :if ($updated = true) do={
-  / caps-man remote-cap remove [ find where version!=$"installed-version" ];
+  / caps-man remote-cap upgrade [ find where version!=$"installed-version" ];
 }
