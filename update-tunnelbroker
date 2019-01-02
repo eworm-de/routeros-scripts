@@ -9,6 +9,8 @@
 :global tunnelid;
 :global tunnelint;
 
+:global CertificateAvailable;
+
 :if ([ / ip cloud get ddns-enabled ] != true) do={
   :error "IP cloud DDNS is not enabled.";
 }
@@ -24,9 +26,11 @@ while ([ / ip cloud get status ] != "updated" ) do={
 :local tunnelip [ / ip cloud get public-address ];
 
 :if ($tunnelip != $tunnellastip) do={
+  $CertificateAvailable "Starfield Secure Certificate Authority - G2" "starfield";
   :log info ("Local address changed, sending UPDATE to tunnelbroker! New address: " . $tunnelip);
-  / tool fetch mode=https address=$tunnelurl user=$tunneluser password=$tunnelpass \
-      src-path=("/nic/update\?hostname=" . $tunnelid) keep-result=no;
+  / tool fetch mode=https check-certificate=yes-without-crl \
+      ("https://" . $tunnelurl . "/nic/update\?hostname=" . $tunnelid) \
+      user=$tunneluser password=$tunnelpass keep-result=no;
   / interface 6to4 set [ / interface 6to4 find where name=$tunnelint ] local-address=$tunnelip;
 } else={
   :log debug "All tunnelbroker configuration is up to date.";
