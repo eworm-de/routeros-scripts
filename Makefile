@@ -12,7 +12,7 @@ HTML =  $(MARKDOWN:.md=.html)
 all: $(CAPSMAN) $(LOCAL) $(HTML)
 
 %.html: %.md Makefile
-	markdown $< > $@
+	markdown $< | sed 's/href="\([-[:alnum:]]*\)\.md"/href="\1.html"/g' > $@
 
 %.local: %.template Makefile
 	sed -e '/\/ caps-man/d' -e 's|%PATH%|interface wireless|' -e 's|%TEMPL%|$(suffix $@)|' \
