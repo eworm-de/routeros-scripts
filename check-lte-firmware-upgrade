@@ -1,11 +1,11 @@
 #!rsc
-# RouterOS script: check-lte-firmware-update
+# RouterOS script: check-lte-firmware-upgrade
 # Copyright (c) 2018-2019 Christian Hesse <mail@eworm.de>
 #
-# check for LTE firmware update, send notification e-mails
+# check for LTE firmware upgrade, send notification e-mails
 
 :global "identity";
-:global "sent-lte-firmware-update-notification";
+:global "sent-lte-firmware-upgrade-notification";
 
 :global SendNotification;
 
@@ -16,15 +16,15 @@
     # strip the extra line break (TODO: remove when fixed upstream)
     :set ($firmware->"latest") [ :pick ($firmware->"latest") 0 [ :find ($firmware->"latest") "\n" ] ];
     
-    :if ($"sent-lte-firmware-update-notification" = ($firmware->"latest")) do={
-      :log debug ("Already sent the LTE firmware update notification for version " . \
+    :if ($"sent-lte-firmware-upgrade-notification" = ($firmware->"latest")) do={
+      :log debug ("Already sent the LTE firmware upgrade notification for version " . \
         ($firmware->"latest") . ".");
     } else={
       :if (($firmware->"installed") != ($firmware->"latest")) do={
-        $SendNotification ("LTE firmware update notification") \
+        $SendNotification ("LTE firmware upgrade notification") \
           ("A new firmware version " . ($firmware->"latest") . " is available for " . \
           "LTE interface " . $intname . " on " . $identity . ".");
-        :set "sent-lte-firmware-update-notification" ($firmware->"latest");
+        :set "sent-lte-firmware-upgrade-notification" ($firmware->"latest");
       }
     }
   } on-error={
