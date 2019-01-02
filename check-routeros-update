@@ -27,14 +27,19 @@
   :local serialnumber [ / system routerboard get serial-number ];
 
   :if ([ :len $"safe-update-url" ] > 0) do={
-    :local result [ / tool fetch check-certificate=yes-without-crl \
-        ($"safe-update-url" . $channel . "?installed=" . $installedversion . \
-        "&latest=" . $latestversion) output=user as-value ];
+    :local result;
+    :do {
+      :set result [ / tool fetch check-certificate=yes-without-crl \
+          ($"safe-update-url" . $channel . "?installed=" . $installedversion . \
+          "&latest=" . $latestversion) output=user as-value ];
+    } on-error={
+      :log debug ("Failed receiving safe version.");
+    }
     :if ($result->"status" = "finished" && $result->"data" = $latestversion) do={
       :log info ("Version " . $latestversion . " is assumed safe, updating...");
-       $SendNotification ("RouterOS update notification") \
-         ("Version " . $latestversion . " is assumed safe for " . $channel . \
-         ", updating on " . $identity . "...");
+      $SendNotification ("RouterOS update notification") \
+          ("Version " . $latestversion . " is assumed safe for " . $channel . \
+          ", updating on " . $identity . "...");
       / system package update install;
       :error "Waiting for system to reboot.";
     }
