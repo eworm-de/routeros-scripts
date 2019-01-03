@@ -4,11 +4,13 @@
 #
 # run action on received SMS
 
-:global "sms-action";
+:global SmsAction;
 
-:local code ($"sms-action"->$action);
-:local parsed [ :parse $code ];
+:local Action $action;
 
-:log info ("Acting on SMS action '" . $action . "': " . $code);
+:local Code ($SmsAction->$Action);
+:local Parsed [ :parse $Code ];
+
+:log info ("Acting on SMS action '" . $Action . "': " . $Code);
 :delay 1s;
-$parsed;
+$Parsed;

@@ -4,7 +4,7 @@
 #
 # forward SMS to e-mail
 
-:global "identity";
+:global Identity;
 
 :global SendNotification;
 
@@ -13,25 +13,25 @@
   :error "Mail server is not up.";
 }
 
-:local allowed [ / tool sms get allowed-number ];
-:local secret [ / tool sms get secret ];
+:local Allowed [ / tool sms get allowed-number ];
+:local Secret [ / tool sms get secret ];
 
 # forward SMS in a loop
-:foreach sms in=[ / tool sms inbox find ] do={
-  :local message   [ / tool sms inbox get $sms message ];
-  :local phone     [ / tool sms inbox get $sms phone ];
-  :local timestamp [ / tool sms inbox get $sms timestamp ];
-  :local type      [ / tool sms inbox get $sms type ];
+:foreach Sms in=[ / tool sms inbox find ] do={
+  :local Message   [ / tool sms inbox get $Sms message ];
+  :local Phone     [ / tool sms inbox get $Sms phone ];
+  :local TimeStamp [ / tool sms inbox get $Sms timestamp ];
+  :local Type      [ / tool sms inbox get $Sms type ];
 
-  :if ($phone = $allowed && message~("^:cmd " . $secret . " script ")) do={
+  :if ($Phone = $Allowed && $Message~("^:cmd " . $Secret . " script ")) do={
     :log debug "Ignoring SMS, which starts a script.";
   } else={
     $SendNotification ("SMS Forwarding") \
-      ("A message was received by " . $identity . ":\n\n" . \
-        "Phone:     " . $phone . "\n" . \
-        "Timestamp: " . $timestamp . "\n" . \
-        "Type:      " . $type . "\n\n" . \
-        "Message:\n" .  $message);
-    / tool sms inbox remove $sms;
+      ("A message was received by " . $Identity . ":\n\n" . \
+        "Phone:     " . $Phone . "\n" . \
+        "Timestamp: " . $TimeStamp . "\n" . \
+        "Type:      " . $Type . "\n\n" . \
+        "Message:\n" .  $Message);
+    / tool sms inbox remove $Sms;
   }
 }

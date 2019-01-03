@@ -4,27 +4,27 @@
 #
 # reset bridge ports to default bridge
 
-:global "bridge-port-to";
+:global BridgePortTo;
 
-:local "len" ([ :len $"bridge-port-to" ] + 1);
+:local Len ([ :len $BridgePortTo ] + 1);
 
-:if ($"len" = 1) do={
+:if ($Len = 1) do={
   :delay 1s;
-  :set "len" ([ :len $"bridge-port-to" ] + 1);
+  :set Len ([ :len $BridgePortTo ] + 1);
 }
 
-:foreach interface in=[ / interface bridge port find where comment!="" ] do={
-  :foreach comment in=[ :toarray [ / interface bridge port get $interface comment ] ] do={
-    :if ([ :pick $comment 0 $len ] = ($"bridge-port-to" . ":")) do={
-      :local "interface-name" [ / interface bridge port get $interface interface ];
-      :local "bridge-default" [ :pick $comment $len [ :len $comment ] ];
-      :local "bridge-current" [ / interface bridge port get $interface bridge ];
-      :if ($"bridge-default" != $"bridge-current") do={
-        :log info ("Changing interface " . $"interface-name" . " to " . $"bridge-port-to" . " bridge " . $"bridge-default");
-        / interface bridge port set bridge=$"bridge-default" $interface;
-        / ip dhcp-client renew [ find where interface=$"bridge-default" ];
+:foreach Interface in=[ / interface bridge port find where comment!="" ] do={
+  :foreach Comment in=[ :toarray [ / interface bridge port get $Interface comment ] ] do={
+    :if ([ :pick $Comment 0 $Len ] = ($BridgePortTo . ":")) do={
+      :local InterfaceName [ / interface bridge port get $Interface interface ];
+      :local BridgeDefault [ :pick $Comment $Len [ :len $Comment ] ];
+      :local BridgeCurrent [ / interface bridge port get $Interface bridge ];
+      :if ($BridgeDefault != $BridgeCurrent) do={
+        :log info ("Changing interface " . $InterfaceName . " to " . $BridgePortTo . " bridge " . $BridgeDefault);
+        / interface bridge port set bridge=$BridgeDefault $Interface;
+        / ip dhcp-client renew [ find where interface=$BridgeDefault ];
       } else={
-        :log debug ("Interface " . $"interface-name" . " already connected to " . $"bridge-port-to" . " bridge " . $"bridge-default");
+        :log debug ("Interface " . $InterfaceName . " already connected to " . $BridgePortTo . " bridge " . $BridgeDefault);
       }
     }
   }

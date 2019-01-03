@@ -4,9 +4,9 @@
 #
 # check for RouterOS update, send notification e-mails
 
-:global "identity";
-:global "safe-update-url";
-:global "sent-routeros-update-notification";
+:global Identity;
+:global SafeUpdateUrl;
+:global SentRouterosUpdateNotification;
 
 :global SendNotification;
 
@@ -18,45 +18,45 @@
 }
 
 / system package update check-for-updates without-paging;
-:local installedversion [ / system package update get installed-version ];
-:local latestversion [ / system package update get latest-version ];
+:local InstalledVersion [ / system package update get installed-version ];
+:local LatestVersion [ / system package update get latest-version ];
 
-:if ($installedversion != $latestversion) do={
-  :local channel [ / system package update get channel ];
-  :local model [ / system routerboard get model ];
-  :local serialnumber [ / system routerboard get serial-number ];
+:if ($InstalledVersion != $LatestVersion) do={
+  :local Channel [ / system package update get channel ];
+  :local Model [ / system routerboard get model ];
+  :local SerialNumber [ / system routerboard get serial-number ];
 
-  :if ([ :len $"safe-update-url" ] > 0) do={
-    :local result;
+  :if ([ :len $SafeUpdateUrl ] > 0) do={
+    :local Result;
     :do {
-      :set result [ / tool fetch check-certificate=yes-without-crl \
-          ($"safe-update-url" . $channel . "?installed=" . $installedversion . \
-          "&latest=" . $latestversion) output=user as-value ];
+      :set Result [ / tool fetch check-certificate=yes-without-crl \
+          ($SafeUpdateUrl . $Channel . "?installed=" . $InstalledVersion . \
+          "&latest=" . $LatestVersion) output=user as-value ];
     } on-error={
-      :log warning ("Failed receiving safe version for " . $channel . ".");
+      :log warning ("Failed receiving safe version for " . $Channel . ".");
     }
-    :if ($result->"status" = "finished" && $result->"data" = $latestversion) do={
-      :log info ("Version " . $latestversion . " is assumed safe, updating...");
+    :if ($Result->"status" = "finished" && $Result->"data" = $LatestVersion) do={
+      :log info ("Version " . $LatestVersion . " is considered safe, updating...");
       $SendNotification ("RouterOS update notification") \
-          ("Version " . $latestversion . " is assumed safe for " . $channel . \
-          ", updating on " . $identity . "...");
+          ("Version " . $LatestVersion . " is considered safe for " . $Channel . \
+          ", updating on " . $Identity . "...");
       / system package update install;
       :error "Waiting for system to reboot.";
     }
   }
 
-  :if ($"sent-routeros-update-notification" = $latestversion) do={
+  :if ($SentRouterosUpdateNotification = $LatestVersion) do={
     :error ("Already sent the RouterOS update notification for version " . \
-        $latestversion . ".");
+        $LatestVersion . ".");
   }
 
   $SendNotification ("RouterOS update notification") \
     ("There is a RouterOS update available\n\n" . \
-      "Routerboard:   " . $model . "\n" . \
-      "Serial number: " . $serialnumber . "\n" . \
-      "Hostname:      " . $identity . "\n" . \
-      "Channel:       " . $channel . "\n" . \
-      "Installed:     " . $installedversion . "\n" . \
-      "Available:     " . $latestversion);
-  :set "sent-routeros-update-notification" $latestversion;
+      "Routerboard:   " . $Model . "\n" . \
+      "Serial number: " . $SerialNumber . "\n" . \
+      "Hostname:      " . $Identity . "\n" . \
+      "Channel:       " . $Channel . "\n" . \
+      "Installed:     " . $InstalledVersion . "\n" . \
+      "Available:     " . $LatestVersion);
+  :set SentRouterosUpdateNotification $LatestVersion;
 }

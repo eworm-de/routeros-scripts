@@ -5,12 +5,12 @@
 # global functions
 
 # expected configuration version
-:global ExpectedConfigVersion 1;
+:global ExpectedConfigVersion 2;
 
 # global variables not to be changed by user
-:global "sent-routeros-update-notification" "-";
-:global "sent-lte-firmware-upgrade-notification" "-";
-:global "identity" [ / system identity get name ];
+:global SentRouterosUpdateNotification "-";
+:global SentLteFirmwareUpgradeNotification "-";
+:global Identity [ / system identity get name ];
 
 # read input from user
 :global Read do={
@@ -19,44 +19,44 @@
 
 # url encoding
 :global UrlEncode do={
-  :local input [ :tostr $1 ];
-  :local return "";
+  :local Input [ :tostr $1 ];
+  :local Return "";
 
-  :if ([ :len $input ] > 0) do={
-    :local chars " %&";
-    :local subs { "%20"; "%25"; "%26" };
+  :if ([ :len $Input ] > 0) do={
+    :local Chars " %&";
+    :local Subs { "%20"; "%25"; "%26" };
 
-    :for i from=0 to=([ :len $input ] - 1) do={
-      :local char [ :pick $input $i ];
-      :local replace [ :find $chars $char ];
+    :for I from=0 to=([ :len $Input ] - 1) do={
+      :local Char [ :pick $Input $I ];
+      :local Replace [ :find $Chars $Char ];
 
-      :if ([ :len $replace ] > 0) do={
-        :set char ($subs->$replace);
+      :if ([ :len $Replace ] > 0) do={
+        :set Char ($Subs->$Replace);
       }
-      :set return ($return . $char);
+      :set Return ($Return . $Char);
     }
   }
 
-  :return $return;
+  :return $Return;
 }
 
 # check and import required certificates
 :global CertificateAvailable do={
-  :local commonname [ :tostr $1 ];
-  :local filename ([ :tostr $2 ] . ".pem");
+  :local CommonName [ :tostr $1 ];
+  :local FileName ([ :tostr $2 ] . ".pem");
 
-  :global "script-updates-baseurl";
-  :global "script-updates-urlsuffix";
+  :global ScriptUpdatesBaseUrl;
+  :global ScriptUpdatesUrlSuffix;
 
-  :if ([ / certificate print count-only where common-name=$commonname ] = 0) do={
-    :log info ("Certificate with CommonName " . $commonname . \
+  :if ([ / certificate print count-only where common-name=$CommonName ] = 0) do={
+    :log info ("Certificate with CommonName " . $CommonName . \
       " not available, downloading and importing.");
     :do {
       / tool fetch check-certificate=yes-without-crl \
-        ($"script-updates-baseurl" . "certs/" . \
-        $filename . $"script-updates-urlsuffix") \
-        dst-path=$filename;
-      / certificate import file-name=$filename passphrase="";
+        ($ScriptUpdatesBaseUrl . "certs/" . \
+        $FileName . $ScriptUpdatesUrlSuffix) \
+        dst-path=$FileName;
+      / certificate import file-name=$FileName passphrase="";
     } on-error={
       :log warning "Failed imprting certificate!";
     }
@@ -66,35 +66,35 @@
 # send notification via e-mail and telegram
 # Note that attachment is ignored for telegram!
 :global SendNotification do={
-  :local subject [ :tostr $1 ];
-  :local message [ :tostr $2 ];
-  :local attach [ :tostr $3 ];
+  :local Subject [ :tostr $1 ];
+  :local Message [ :tostr $2 ];
+  :local Attach [ :tostr $3 ];
 
-  :global "identity";
-  :global "email-general-to";
-  :global "email-general-cc";
-  :global "telegram-tokenid";
-  :global "telegram-chatid";
+  :global Identity;
+  :global EmailGeneralTo;
+  :global EmailGeneralCc;
+  :global TelegramTokenId;
+  :global TelegramChatId;
 
   :global UrlEncode;
   :global CertificateAvailable;
 
-  :if ([ :len $"email-general-to" ] > 0) do={
+  :if ([ :len $EmailGeneralTo ] > 0) do={
     :do {
-      / tool e-mail send to=$"email-general-to" cc=$"email-general-cc" \
-        subject=("[" . $"identity" . "] " . $subject) body=$message file=$attach;
+      / tool e-mail send to=$EmailGeneralTo cc=$EmailGeneralCc \
+        subject=("[" . $Identity . "] " . $Subject) body=$Message file=$Attach;
     } on-error={
       :log warning "Failed sending notification mail!";
     }
   }
 
-  :if ([ :len $"telegram-tokenid" ] > 0 && [ :len $"telegram-chatid" ] > 0) do={
+  :if ([ :len $TelegramTokenId ] > 0 && [ :len $TelegramChatId ] > 0) do={
     $CertificateAvailable "Go Daddy Secure Certificate Authority - G2" "godaddy";
     :do {
       / tool fetch check-certificate=yes-without-crl keep-result=no http-method=post \
-        ("https://api.telegram.org/bot" . $"telegram-tokenid" . "/sendMessage") \
-        http-data=("chat_id=" . $"telegram-chatid" . "&text=" . \
-        [ $UrlEncode ("[" . $"identity" . "] " . $subject . "\n\n" . $message) ]);
+        ("https://api.telegram.org/bot" . $TelegramTokenId . "/sendMessage") \
+        http-data=("chat_id=" . $TelegramChatId . "&text=" . \
+        [ $UrlEncode ("[" . $Identity . "] " . $Subject . "\n\n" . $Message) ]);
     } on-error={
       :log warning "Failed sending telegram notification!";
     }
@@ -103,16 +103,16 @@
 
 # get MAC vendor
 :global GetMacVendor do={
-  :local mac [ :tostr $1 ];
+  :local Mac [ :tostr $1 ];
 
   :global CertificateAvailable;
 
   :do {
-    :local vendor;
+    :local Vendor;
     $CertificateAvailable "Let's Encrypt Authority X3" "letsencrypt";
-    :set vendor ([ / tool fetch mode=https check-certificate=yes-without-crl \
-      url=("https://api.macvendors.com/" . [ :pick $mac 0 8 ]) output=user as-value ]->"data");
-    :return $vendor;
+    :set Vendor ([ / tool fetch mode=https check-certificate=yes-without-crl \
+        ("https://api.macvendors.com/" . [ :pick $Mac 0 8 ]) output=user as-value ]->"data");
+    :return $Vendor;
   } on-error={
     :return "unknown vendor";
   }
@@ -120,25 +120,25 @@
 
 # download package from upgrade server
 :global DownloadPackage do={
-  :local pkgname [ :tostr $1 ];
-  :local pkgver  [ :tostr $2 ];
-  :local pkgarch [ :tostr $3 ];
-  :local pkgdest [ :tostr $4 ];
+  :local PkgName [ :tostr $1 ];
+  :local PkgVer  [ :tostr $2 ];
+  :local PkgArch [ :tostr $3 ];
+  :local PkgDest [ :tostr $4 ];
 
   :global CertificateAvailable;
 
-  :if ([ :len $pkgname ] = 0) do={ return false; }
-  :if ([ :len $pkgver  ] = 0) do={ :set pkgver  [ / system package update get installed-version ]; }
-  :if ([ :len $pkgarch ] = 0) do={ :set pkgarch [ / system resource get architecture-name ]; }
+  :if ([ :len $PkgName ] = 0) do={ return false; }
+  :if ([ :len $PkgVer  ] = 0) do={ :set PkgVer  [ / system package update get installed-version ]; }
+  :if ([ :len $PkgArch ] = 0) do={ :set PkgArch [ / system resource get architecture-name ]; }
 
   $CertificateAvailable "Let's Encrypt Authority X3" "letsencrypt";
   do {
-    :local pkgfile ($pkgname . "-" . $pkgver . "-" . $pkgarch . ".npk");
+    :local PkgFile ($PkgName . "-" . $PkgVer . "-" . $PkgArch . ".npk");
     / tool fetch mode=https check-certificate=yes-without-crl \
-      ("https://upgrade.mikrotik.com/routeros/" . $pkgver . "/" . $pkgfile) \
-      dst-path=($pkgdest . "/" . $pkgfile);
-    return true;
+      ("https://upgrade.mikrotik.com/routeros/" . $PkgVer . "/" . $PkgFile) \
+      dst-path=($PkgDest . "/" . $PkgFile);
+    :return true;
   } on-error={
-    return false;
+    :return false;
   }
 }

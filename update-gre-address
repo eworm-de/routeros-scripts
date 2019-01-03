@@ -7,18 +7,18 @@
 
 / interface gre set remote-address=0.0.0.0 disabled=yes [ find where !running !disabled ];
 
-:foreach peer in=[ / ip ipsec remote-peers find ] do={
-  :local id [ / ip ipsec remote-peers get $peer id ];
-  :local greint [ / interface gre find where comment=$id ];
-  :if ([ :len $greint ] > 0) do={
-    :local grename [ / interface gre get $greint name ];
-    :local addrold [ / interface gre get $greint remote-address ];
-    :local disabled [ / interface gre get $greint disabled ];
-    :local addrnew [ / ip ipsec remote-peers get $peer dynamic-address ];
-    :if ($addrnew != $addrold || $disabled = true) do={
-      :log info ("Update remote address for interface " . $grename . " to " . $addrnew);
-      / interface gre set remote-address=0.0.0.0 disabled=yes [ find where remote-address=$addrnew name!=$grename ];
-      / interface gre set $greint remote-address=$addrnew disabled=no;
+:foreach Peer in=[ / ip ipsec remote-peers find ] do={
+  :local Id [ / ip ipsec remote-peers get $Peer id ];
+  :local GreInt [ / interface gre find where comment=$Id ];
+  :if ([ :len $GreInt ] > 0) do={
+    :local GreName [ / interface gre get $GreInt name ];
+    :local AddrOld [ / interface gre get $GreInt remote-address ];
+    :local Disabled [ / interface gre get $GreInt disabled ];
+    :local AddrNew [ / ip ipsec remote-peers get $Peer dynamic-address ];
+    :if ($AddrNew != $AddrOld || $Disabled = true) do={
+      :log info ("Update remote address for interface " . $GreName . " to " . $AddrNew);
+      / interface gre set remote-address=0.0.0.0 disabled=yes [ find where remote-address=$AddrNew name!=$GreName ];
+      / interface gre set $GreInt remote-address=$AddrNew disabled=no;
     }
   }
 }

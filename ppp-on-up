@@ -5,10 +5,11 @@
 # run scripts on ppp up
 
 # variable $interface is available in ppp on-up script
-:local dhcpclient [ / ipv6 dhcp-client find where interface=$interface ];
+:local Interface $interface;
+:local DhcpClient [ / ipv6 dhcp-client find where interface=$Interface ];
 
-:if ( [ :len $dhcpclient ] > 0) do={
-  / ipv6 dhcp-client disable $dhcpclient;
+:if ([ :len $DhcpClient ] > 0) do={
+  / ipv6 dhcp-client disable $DhcpClient;
   :delay 1s;
-  / ipv6 dhcp-client enable $dhcpclient;
+  / ipv6 dhcp-client enable $DhcpClient;
 }

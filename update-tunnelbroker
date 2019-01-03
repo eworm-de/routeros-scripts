@@ -3,11 +3,11 @@
 # Copyright (c) 2013-2019 Christian Hesse <mail@eworm.de>
 #                         Michael Gisbers <michael@gisbers.de>
 
-:global tunnelurl;
-:global tunneluser;
-:global tunnelpass;
-:global tunnelid;
-:global tunnelint;
+:global TunnelUrl;
+:global TunnelUser;
+:global TunnelPass;
+:global TunnelId;
+:global TunnelInt;
 
 :global CertificateAvailable;
 
@@ -16,22 +16,22 @@
 }
 
 # get the last ip address from tunnel interface
-:local tunnellastip [ / interface 6to4 get [ / interface 6to4 find where name=$tunnelint ] local-address ];
+:local TunnelLastIp [ / interface 6to4 get [ / interface 6to4 find where name=$TunnelInt ] local-address ];
 
 # Get the current ip address from cloud
 / ip cloud force-update;
-while ([ / ip cloud get status ] != "updated" ) do={
+:while ([ / ip cloud get status ] != "updated") do={
   :delay 1s;
 }
-:local tunnelip [ / ip cloud get public-address ];
+:local TunnelIp [ / ip cloud get public-address ];
 
-:if ($tunnelip != $tunnellastip) do={
+:if ($TunnelIp != $TunnelLastIp) do={
   $CertificateAvailable "Starfield Secure Certificate Authority - G2" "starfield";
-  :log info ("Local address changed, sending UPDATE to tunnelbroker! New address: " . $tunnelip);
+  :log info ("Local address changed, sending UPDATE to tunnelbroker! New address: " . $TunnelIp);
   / tool fetch mode=https check-certificate=yes-without-crl \
-      ("https://" . $tunnelurl . "/nic/update\?hostname=" . $tunnelid) \
-      user=$tunneluser password=$tunnelpass keep-result=no;
-  / interface 6to4 set [ / interface 6to4 find where name=$tunnelint ] local-address=$tunnelip;
+      ("https://" . $TunnelUrl . "/nic/update\?hostname=" . $TunnelId) \
+      user=$TunnelUser password=$TunnelPass keep-result=no;
+  / interface 6to4 set [ / interface 6to4 find where name=$TunnelInt ] local-address=$TunnelIp;
 } else={
   :log debug "All tunnelbroker configuration is up to date.";
 }

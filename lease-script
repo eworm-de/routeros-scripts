@@ -5,7 +5,7 @@
 # run scripts on DHCP lease
 # ( / ip dhcp-server set lease-script=lease-script [ find ] )
 
-:local scripts {
+:local Scripts {
   "dhcp-to-dns";
   "collect-wireless-mac.local";
   "dhcp-lease-comment.local";
@@ -16,9 +16,9 @@
 # delay a second to give time to update the lease table
 :delay 1s;
 
-:foreach script in=$scripts do={
-  :if ([ / system script print count-only where name=$script ] > 0) do={
-    :log debug ("Running script from lease-script: " . $script);
-    / system script run $script;
+:foreach Script in=$Scripts do={
+  :if ([ / system script print count-only where name=$Script ] > 0) do={
+    :log debug ("Running script from lease-script: " . $Script);
+    / system script run $Script;
   }
 }

@@ -4,12 +4,12 @@
 #
 # toggle bridge ports between default and alt bridge
 
-:global "bridge-port-to";
+:global BridgePortTo;
 
-:if ($"bridge-port-to" != "default") do={
-  :set "bridge-port-to" "default";
+:if ($BridgePortTo != "default") do={
+  :set BridgePortTo "default";
 } else={
-  :set "bridge-port-to" "alt";
+  :set BridgePortTo "alt";
 }
 
 / system script run bridge-port-to-default;

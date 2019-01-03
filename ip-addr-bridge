@@ -4,13 +4,13 @@
 #
 # enable or disable ip addresses based on bridge port state
 
-:foreach bridge in=[ / interface bridge find ] do={
-  :local brname [ / interface bridge get $bridge name ];
-  :if ([ / interface bridge port print count-only where bridge=$brname ] > 0) do={
-    :if ([ / interface bridge port print count-only where bridge=$brname and inactive=no ] = 0) do={
-      / ip address disable [ find where !dynamic interface=$brname ];
+:foreach Bridge in=[ / interface bridge find ] do={
+  :local BrName [ / interface bridge get $Bridge name ];
+  :if ([ / interface bridge port print count-only where bridge=$BrName ] > 0) do={
+    :if ([ / interface bridge port print count-only where bridge=$BrName and inactive=no ] = 0) do={
+      / ip address disable [ find where !dynamic interface=$BrName ];
     } else={
-      / ip address enable [ find where !dynamic interface=$brname ];
+      / ip address enable [ find where !dynamic interface=$BrName ];
     }
   }
 }

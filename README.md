@@ -78,7 +78,7 @@ crap and a good example how to *not* do it.
 
 Now let's download the main scripts and add them in configuration on the fly.
 
-    [admin@MikroTik] > :foreach script in={ "global-config"; "global-functions"; "script-updates" } do={ / system script add name=$script source=([ / tool fetch check-certificate=yes-without-crl ("https://git.eworm.de/cgit.cgi/routeros-scripts/plain/" . $script) output=user as-value]->"data"); }
+    [admin@MikroTik] > :foreach Script in={ "global-config"; "global-functions"; "script-updates" } do={ / system script add name=$Script source=([ / tool fetch check-certificate=yes-without-crl ("https://git.eworm.de/cgit.cgi/routeros-scripts/plain/" . $Script) output=user as-value]->"data"); }
 
 The configuration needs to be tweaked for your needs. Make sure not to send
 your mails to `mail@example.com`!

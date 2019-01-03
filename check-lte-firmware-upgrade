@@ -4,31 +4,31 @@
 #
 # check for LTE firmware upgrade, send notification e-mails
 
-:global "identity";
-:global "sent-lte-firmware-upgrade-notification";
+:global Identity;
+:global SentLteFirmwareUpgradeNotification;
 
 :global SendNotification;
 
-:foreach interface in=[ / interface lte find ] do={
-  :local intname [ / interface lte get $interface name ];
+:foreach Interface in=[ / interface lte find ] do={
+  :local IntName [ / interface lte get $Interface name ];
   :do {
-    :local firmware [ / interface lte firmware-upgrade $interface once as-value ];
+    :local Firmware [ / interface lte firmware-upgrade $Interface once as-value ];
     # strip the extra line break (TODO: remove when fixed upstream)
-    :set ($firmware->"latest") [ :pick ($firmware->"latest") 0 [ :find ($firmware->"latest") "\n" ] ];
+    :set ($Firmware->"latest") [ :pick ($Firmware->"latest") 0 [ :find ($Firmware->"latest") "\n" ] ];
     
-    :if ($"sent-lte-firmware-upgrade-notification" = ($firmware->"latest")) do={
+    :if ($SentLteFirmwareUpgradeNotification = ($Firmware->"latest")) do={
       :log debug ("Already sent the LTE firmware upgrade notification for version " . \
-        ($firmware->"latest") . ".");
+        ($Firmware->"latest") . ".");
     } else={
-      :if (($firmware->"installed") != ($firmware->"latest")) do={
+      :if (($Firmware->"installed") != ($Firmware->"latest")) do={
         $SendNotification ("LTE firmware upgrade notification") \
-          ("A new firmware version " . ($firmware->"latest") . " is available for " . \
-          "LTE interface " . $intname . " on " . $identity . ".");
-        :set "sent-lte-firmware-upgrade-notification" ($firmware->"latest");
+          ("A new firmware version " . ($Firmware->"latest") . " is available for " . \
+          "LTE interface " . $IntName . " on " . $Identity . ".");
+        :set SentLteFirmwareUpgradeNotification ($Firmware->"latest");
       }
     }
   } on-error={
     :log debug ("Could not get latest LTE firmware version for interface " . \
-      $intname . ".");
+      $IntName . ".");
   }
 }

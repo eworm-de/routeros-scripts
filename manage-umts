@@ -4,24 +4,25 @@
 #
 # manage UMTS interface based on ethernet and wireless status
 
-:local etherint "en1";
-:local wlanint "wl-station";
-:local umtsint "t-mobile";
+:local EtherInt "en1";
+:local WlanInt "wl-station";
+:local UmtsInt "t-mobile";
 
-:local etherstatus [ / interface ethernet get $etherint running ];
-:local wlanstatus [ / interface wireless get $wlanint running ];
+:local EtherStatus [ / interface ethernet get $EtherInt running ];
+:local WlanStatus [ / interface wireless get $WlanInt running ];
 
-:if ( $etherstatus = true || wlanstatus = true ) do={
-  :if ( [ / interface get $umtsint disabled ] = false ) do={
-    :log info ("Ethernet (" . $etherint . " / " . $etherstatus . ") or " . \
-      "wireless (" . $wlanint . " / " . $wlanstatus . ") is running, " . \
-      "UMTS interface " . $umtsint . " is enabled. Disabling...");
-    / interface set disabled=yes $umtsint;
-  };
+:if ($EtherStatus = true || $WlanStatus = true) do={
+  :if ([ / interface get $UmtsInt disabled ] = false) do={
+    :log info ("Ethernet (" . $EtherInt . " / " . $EtherStatus . ") or " . \
+      "wireless (" . $WlanInt . " / " . $WlanStatus . ") is running, " . \
+      "UMTS interface " . $UmtsInt . " is enabled. Disabling...");
+    / interface set disabled=yes $UmtsInt;
+  }
 } else={
-  :if ( [ / interface get $umtsint disabled ] = true ) do={
-    :log info ("Neither ethernet (" . $etherint . ") nor wireless (" . $wlanint . ") interface is running, " . \
-      "UMTS interface " . $umtsint . " is disabled. Enabling...");
-    / interface set disabled=no $umtsint;
-  };
-};
+  :if ([ / interface get $UmtsInt disabled ] = true) do={
+    :log info ("Neither ethernet (" . $EtherInt . ") nor wireless (" . \
+      $WlanInt . ") interface is running, UMTS interface " . $UmtsInt . \
+      " is disabled. Enabling...");
+    / interface set disabled=no $UmtsInt;
+  }
+}

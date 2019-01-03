@@ -9,29 +9,29 @@
 
 :global DownloadPackage;
 
-:local "package-path" [ / caps-man manager get package-path ];
-:if ([ :pick $"package-path" 0 ] = "/") do={
-  :set "package-path" [ :pick $"package-path" 1 [ :len $"package-path" ] ];
+:local PackagePath [ / caps-man manager get package-path ];
+:if ([ :pick $PackagePath 0 ] = "/") do={
+  :set PackagePath [ :pick $PackagePath 1 [ :len $PackagePath ] ];
 }
-:local "installed-version" [ / system package update get installed-version ];
-:local updated false;
+:local InstalledVersion [ / system package update get installed-version ];
+:local Updated false;
 
-:foreach package in=[ / file find where type=package \
-      package-version!=$"installed-version" name~("^" . $"package-path") ] do={
-  :local "package-name" [ / file get $package package-name ];
-  :local "package-architecture" [ / file get $package package-architecture ];
-  :if ($"package-architecture" = "mips") do={
-    :set "package-architecture" "mipsbe";
+:foreach Package in=[ / file find where type=package \
+      package-version!=$InstalledVersion name~("^" . $PackagePath) ] do={
+  :local PackageName [ / file get $Package package-name ];
+  :local PackageArchitecture [ / file get $Package package-architecture ];
+  :if ($PackageArchitecture = "mips") do={
+    :set PackageArchitecture "mipsbe";
   }
-  :if ($"package-name" = "wireless@") do={
-    :set "package-name" "wireless";
+  :if ($PackageName = "wireless@") do={
+    :set PackageName "wireless";
   }
-  :if ([ $DownloadPackage $"package-name" $"installed-version" $"package-architecture" $"package-path" ] = true) do={
-    :set updated true;
-    / file remove $package;
+  :if ([ $DownloadPackage $PackageName $InstalledVersion $PackageArchitecture $PackagePath ] = true) do={
+    :set Updated true;
+    / file remove $Package;
   }
 }
 
-:if ($updated = true) do={
-  / caps-man remote-cap upgrade [ find where version!=$"installed-version" ];
+:if ($Updated = true) do={
+  / caps-man remote-cap upgrade [ find where version!=$InstalledVersion ];
 }

@@ -4,26 +4,26 @@
 #
 # schedule unattended lte firmware upgrade
 
-:foreach interface in=[ / interface lte find ] do={
-  :local firmware;
-  :local intname [ / interface lte get $interface name ];
+:foreach Interface in=[ / interface lte find ] do={
+  :local Firmware;
+  :local IntName [ / interface lte get $Interface name ];
   do {
-    :set firmware [ / interface lte firmware-upgrade $interface once as-value ];
+    :set Firmware [ / interface lte firmware-upgrade $Interface once as-value ];
     # strip the extra line break (TODO: remove when fixed upstream)
-    :set ($firmware->"latest") [ :pick ($firmware->"latest") 0 [ :find ($firmware->"latest") "\n" ] ];
+    :set ($Firmware->"latest") [ :pick ($Firmware->"latest") 0 [ :find ($Firmware->"latest") "\n" ] ];
   } on-error={
-    :log debug ("Could not get latest LTE firmware version for interface " . $intname . ".");
+    :log debug ("Could not get latest LTE firmware version for interface " . $IntName . ".");
   }
 
-  :if (($firmware->"installed") != ($firmware->"latest")) do={
-    :log info ("Scheduling LTE firmware upgrade for interface " . $intname . ".");
-    / system script add name=($intname . "-firmware-upgrade") source=("# unattended-lte-firmware-upgrade\n" . \
-       "/ system scheduler remove " . $intname . "-firmware-upgrade;\n" . \
-       "/ system script remove " . $intname . "-firmware-upgrade;\n" . \
-       "/ interface lte firmware-upgrade " . $intname . " upgrade=yes;\n" . \
+  :if (($Firmware->"installed") != ($Firmware->"latest")) do={
+    :log info ("Scheduling LTE firmware upgrade for interface " . $IntName . ".");
+    / system script add name=($IntName . "-firmware-upgrade") source=("# unattended-lte-firmware-upgrade\n" . \
+       "/ system scheduler remove " . $IntName . "-firmware-upgrade;\n" . \
+       "/ system script remove " . $IntName . "-firmware-upgrade;\n" . \
+       "/ interface lte firmware-upgrade " . $IntName . " upgrade=yes;\n" . \
        ":log info (\"LTE firmware upgrade finished, waiting for installation before reset.\");\n" . \
        ":delay 150s;\n" . \
-       "/ interface lte at-chat " . $intname . " input=\"AT+RESET\";");
-    / system scheduler add name=($intname . "-firmware-upgrade") on-event=($intname . "-firmware-upgrade") interval=1m;
+       "/ interface lte at-chat " . $IntName . " input=\"AT+RESET\";");
+    / system scheduler add name=($IntName . "-firmware-upgrade") on-event=($IntName . "-firmware-upgrade") interval=1m;
   }
 }

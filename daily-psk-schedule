@@ -4,12 +4,12 @@
 #
 # schedule daily-psk on startup
 
-:local scheduler [ / system scheduler find where name=daily-psk-schedule ];
+:local Scheduler [ / system scheduler find where name="daily-psk-schedule" ];
 
-:if ([ / system scheduler get $scheduler interval ] = 0s) do={
-  / system scheduler set interval=15s $scheduler;
+:if ([ / system scheduler get $Scheduler interval ] = 0s) do={
+  / system scheduler set interval=15s $Scheduler;
 } else={
-  :if ([ / tool netwatch get [ find where comment=[ / tool e-mail get address ] ] status ] != "up" ) do={
+  :if ([ / tool netwatch get [ find where comment=[ / tool e-mail get address ] ] status ] != "up") do={
     :error "Mail server is not up.";
   }
 
@@ -19,5 +19,5 @@
 
   / system script run daily-psk;
 
-  / system scheduler set interval=0s $scheduler;
+  / system scheduler set interval=0s $Scheduler;
 }

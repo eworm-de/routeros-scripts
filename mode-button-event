@@ -4,16 +4,16 @@
 #
 # run on mode-button event and count button presses
 
-:global "mode-button";
+:global ModeButton;
 
-:set ($"mode-button"->"count") ($"mode-button"->"count" + 1);
+:set ($ModeButton->"count") ($ModeButton->"count" + 1);
 
-:local scheduler [ / system scheduler find where name="mode-button-scheduler" ];
+:local Scheduler [ / system scheduler find where name="mode-button-scheduler" ];
 
-:if ([ :len $scheduler ] = 0) do={
+:if ([ :len $Scheduler ] = 0) do={
   :log info "Creating mode-button scheduler, counting presses...";
   / system scheduler add name=mode-button-scheduler on-event=mode-button-scheduler interval=3s;
 } else={
   :log debug "Updating mode-button-scheduler...";
-  / system scheduler set $scheduler start-time=[ /system clock get time ];
+  / system scheduler set $Scheduler start-time=[ /system clock get time ];
 }

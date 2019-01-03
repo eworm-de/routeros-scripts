@@ -4,15 +4,15 @@
 #
 # act on multiple mode-botton presses from scheduler
 
-:global "mode-button";
+:global ModeButton;
 
-:local count ($"mode-button"->"count");
-:local code ($"mode-button"->[ :tostr $count ]);
-:local parsed [ :parse $code ];
+:local Count ($ModeButton->"count");
+:local Code ($ModeButton->[ :tostr $Count ]);
+:local Parsed [ :parse $Code ];
 
-:set ($"mode-button"->"count") 0;
+:set ($ModeButton->"count") 0;
 / system scheduler remove mode-button-scheduler;
 
-:log info ("Acting on " . $count . " mode-button presses: " . $code);
+:log info ("Acting on " . $Count . " mode-button presses: " . $Code);
 :delay 1s;
-$parsed;
+$Parsed;

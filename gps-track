@@ -4,26 +4,23 @@
 #
 # track gps data by sending json data to http server
 
-:global "identity";
-:global "gps-track-url";
+:global Identity;
+:global GpsTrackUrl;
 
-:local gps [ / system gps monitor once as-value ];
+:local Gps [ / system gps monitor once as-value ];
 
-if ($gps->"valid" = true) do={
-  :tool fetch mode=http \
-    url=$"gps-track-url" \
-    check-certificate=yes-without-crl \
-    keep-result=no \
-    http-method=post \
-    http-content-type="application/json" \
+if ($Gps->"valid" = true) do={
+  :tool fetch mode=https check-certificate=yes-without-crl \
+    $GpsTrackUrl keep-result=no \
+    http-method=post http-content-type="application/json" \
     http-data=("{" . \
-      "\"lat\":\"" . ($gps->"latitude") . "\"," . \
-      "\"lon\":\"" . ($gps->"longitude") . "\"," . \
-      "\"identity\":\"" . $identity . "\"" . \
+      "\"lat\":\"" . ($Gps->"latitude") . "\"," . \
+      "\"lon\":\"" . ($Gps->"longitude") . "\"," . \
+      "\"identity\":\"" . $Identity . "\"" . \
     "}");
   :log debug ("Sending GPS data for tracking: " . \
-    "lat: " . ($gps->"latitude") . " " . \
-    "lon: " . ($gps->"longitude"));
+    "lat: " . ($Gps->"latitude") . " " . \
+    "lon: " . ($Gps->"longitude"));
 } else={
   :log debug ("GPS data not valid.");
 }

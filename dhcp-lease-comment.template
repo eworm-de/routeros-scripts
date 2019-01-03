@@ -7,16 +7,16 @@
 # !! This is just a template! Replace '%PATH%' with 'caps-man'
 # !! or 'interface wireless'!
 
-:foreach lease in=[ / ip dhcp-server lease find where dynamic=yes ] do={
-  :local macaddress [ / ip dhcp-server lease get $lease mac-address ];
-  :local oldcomment [ / ip dhcp-server lease get $lease comment ];
-  :local newcomment;
-  :local accesslst [ :pick [ / %PATH% access-list find where mac-address=$macaddress ] 0 ];
-  :if ( [ :len $accesslst ] > 0 ) do={
-    :set newcomment [ / %PATH% access-list get $accesslst comment ];
+:foreach Lease in=[ / ip dhcp-server lease find where dynamic=yes ] do={
+  :local MacAddress [ / ip dhcp-server lease get $Lease mac-address ];
+  :local OldComment [ / ip dhcp-server lease get $Lease comment ];
+  :local NewComment;
+  :local AccessList [ :pick [ / %PATH% access-list find where mac-address=$MacAddress ] 0 ];
+  :if ([ :len $AccessList ] > 0) do={
+    :set NewComment [ / %PATH% access-list get $AccessList comment ];
   }
-  :if ([ :len $newcomment ] != 0 && $oldcomment != $newcomment) do={
-    :log info ("Updating comment for DHCP lease " . $macaddress . ": " . $newcomment);
-    / ip dhcp-server lease set comment=$newcomment $lease;
+  :if ([ :len $NewComment ] != 0 && $OldComment != $NewComment) do={
+    :log info ("Updating comment for DHCP lease " . $MacAddress . ": " . $NewComment);
+    / ip dhcp-server lease set comment=$NewComment $Lease;
   }
 }

@@ -4,7 +4,7 @@
 #
 # play Super Mario theme
 
-:local beeps {
+:local Beeps {
   {  660; 100 }; 150; {  660; 100 }; 300; {  660; 100 }; 300;
   {  510; 100 }; 100; {  660; 100 }; 300; {  770; 100 }; 550;
   {  380; 100 }; 575; {  510; 100 }; 450; {  380; 100 }; 400;
@@ -58,10 +58,10 @@
   {  660; 100 }; 300; {  660; 100 }; 300; {  510; 100 }; 100;
   {  660; 100 }; 300; {  770; 100 }; 550; {  380; 100 }; 575 };
 
-:foreach beep in=$beeps do={
-  :if ([ :len $beep ] = 2) do={
-    :beep frequency=[ :pick $beep 0 ] length=([ :pick $beep 1 ] . "ms");
+:foreach Beep in=$Beeps do={
+  :if ([ :len $Beep ] = 2) do={
+    :beep frequency=[ :pick $Beep 0 ] length=([ :pick $Beep 1 ] . "ms");
   } else={
-    :delay ($beep . "ms");
+    :delay ($Beep . "ms");
   }
 }

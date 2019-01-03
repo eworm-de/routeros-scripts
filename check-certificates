@@ -4,83 +4,82 @@
 #
 # check for certificate validity
 
-:global "identity";
-:global "cert-renew-url";
-:global "cert-renew-pass";
+:global Identity;
+:global CertRenewUrl;
+:global CertRenewPass;
 
 :global SendNotification;
 
-:local months ("jan","feb","mar","apr","may","jun","jul","aug","sep","oct","nov","dec");
+:local Months { "jan"; "feb"; "mar"; "apr"; "may"; "jun";
+                "jul"; "aug"; "sep"; "oct"; "nov"; "dec" };
 
-:local currentdate [ / system clock get date ];
+:local CurrentDate [ / system clock get date ];
 
-:local currentmonthstr [ :pick $currentdate 0 3 ];
-:local currentday [ :pick $currentdate 4 6 ];
-:local currentyear [ :pick $currentdate 7 11 ];
-:local currentmonth ([ :find $months $currentmonthstr -1 ] + 1);
-:local currentstamp ($currentyear * 365 + $currentmonth * 30 + $currentday);
+:local CurrentDay [ :pick $CurrentDate 4 6 ];
+:local CurrentYear [ :pick $CurrentDate 7 11 ];
+:local CurrentMonth ([ :find $Months [ :pick $CurrentDate 0 3 ] ] + 1);
+:local CurrentStamp ($CurrentYear * 365 + $CurrentMonth * 30 + $CurrentDay);
 
-:foreach cert in=[ / certificate find where !revoked ] do={
-  :local certname [ / certificate get $cert name ];
-  :local invaliddate [ / certificate get $cert invalid-after ];
+:foreach Cert in=[ / certificate find where !revoked ] do={
+  :local CertName [ / certificate get $Cert name ];
+  :local InvalidDate [ / certificate get $Cert invalid-after ];
 
-  :if ([ :len $invaliddate ] > 0) do={
-    :local invalidmonthstr [ :pick $invaliddate 0 3 ];
-    :local invalidday [ :pick $invaliddate 4 6 ];
-    :local invalidyear [ :pick $invaliddate 7 11 ];
-    :local invalidmonth ([ :find $months $invalidmonthstr -1 ] + 1);
-    :local invalidstamp ($invalidyear * 365 + invalidmonth * 30 + invalidday);
+  :if ([ :len $InvalidDate ] > 0) do={
+    :local InvalidDay [ :pick $InvalidDate 4 6 ];
+    :local InvalidYear [ :pick $InvalidDate 7 11 ];
+    :local InvalidMonth ([ :find $Months [ :pick $InvalidDate 0 3 ] ] + 1);
+    :local InvalidStamp ($InvalidYear * 365 + $InvalidMonth * 30 + $InvalidDay);
 
-    :local remaining ($invalidstamp - $currentstamp);
+    :local Remaining ($InvalidStamp - $CurrentStamp);
 
-    :if ($remaining < 15) do={
-      :local commonname [ / certificate get $cert common-name ];
-      :local fprint [ / certificate get $cert fingerprint ];
+    :if ($Remaining < 15) do={
+      :local CommonName [ / certificate get $Cert common-name ];
+      :local FingerPrint [ / certificate get $Cert fingerprint ];
 
       :do {
-        :if ([ :len $"cert-renew-url" ] = 0) do={
-          :error "No renew-url given.";
+        :if ([ :len $CertRenewUrl ] = 0) do={
+          :error "No CertRenewUrl given.";
         }
 
-        / tool fetch mode=https check-certificate=yes-without-crl url=($"cert-renew-url" . $commonname . ".pem");
-        / certificate import file-name=($commonname . ".pem") passphrase=$"cert-renew-pass";
-        / file remove [ find where name=($commonname . ".pem") ];
+        / tool fetch mode=https check-certificate=yes-without-crl url=($CertRenewUrl . $CommonName . ".pem");
+        / certificate import file-name=($CommonName . ".pem") passphrase=$CertRenewPass;
+        / file remove [ find where name=($CommonName . ".pem") ];
 
-        :local certnew [ / certificate find where common-name=$commonname fingerprint!=$fprint ];
-        :local certnamenew [ / certificate get $certnew name ];
+        :local CertNew [ / certificate find where common-name=$CommonName fingerprint!=$FingerPrint ];
+        :local CertNameNew [ / certificate get $CertNew name ];
 
-        :foreach ipservice in=[ / ip service find where certificate=$certname ] do={
-          / ip service set $ipservice certificate=$certnamenew;
+        :foreach IpService in=[ / ip service find where certificate=$CertName ] do={
+          / ip service set $IpService certificate=$CertNameNew;
         }
 
         :do {
-          :foreach hotspot in=[ / ip hotspot profile find where ssl-certificate=$certname ] do={
-            / ip hotspot profile set $hotspot ssl-certificate=$certnamenew;
+          :foreach Hotspot in=[ / ip hotspot profile find where ssl-certificate=$CertName ] do={
+            / ip hotspot profile set $Hotspot ssl-certificate=$CertNameNew;
           }
         } on-error={
           :log debug ("Setting hotspot certificates failed. Hotspot package not installed?");
         }
 
-        / certificate remove $cert;
-        / certificate set $certnew name=$certname;
+        / certificate remove $Cert;
+        / certificate set $CertNew name=$CertName;
       } on-error={
-        :log warning ("Failed to auto-update certificate " . $certname);
+        :log warning ("Failed to auto-update certificate " . $CertName);
 
-        :local invalidbefore [ / certificate get $cert invalid-before ];
-        :local invalidafter [ / certificate get $cert invalid-after ];
+        :local InvalidBefore [ / certificate get $Cert invalid-before ];
+        :local InvalidAfter [ / certificate get $Cert invalid-after ];
 
         $SendNotification ("Certificate warning!") \
-          ("A certificate on " . $identity . " is about to expire.\n\n" . \
-            "Certificate Name: " . $certname . "\n" . \
-            "Common Name:      " . $commonname . "\n" . \
-            "Fingerprint:      " . $fprint . "\n" . \
-            "Validity:         " . $invalidbefore . " to " . $invalidafter);
-        :log warning ("A certificate is about to expire within " . $remaining . " days: " . $certname);
+          ("A certificate on " . $Identity . " is about to expire.\n\n" . \
+            "Certificate Name: " . $CertName . "\n" . \
+            "Common Name:      " . $CommonName . "\n" . \
+            "Fingerprint:      " . $FingerPrint . "\n" . \
+            "Validity:         " . $InvalidBefore . " to " . $InvalidAfter);
+        :log warning ("A certificate is about to expire within " . $Remaining . " days: " . $CertName);
       }
     } else={
-      :log debug ("The certificate " . $certname . " expires in " . $remaining . " days.");
+      :log debug ("The certificate " . $CertName . " expires in " . $Remaining . " days.");
     }
   } else={
-    :log debug ("The certificate " . $certname . " is just a template.");
+    :log debug ("The certificate " . $CertName . " is just a template.");
   }
 }

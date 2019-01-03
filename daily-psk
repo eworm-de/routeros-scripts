@@ -4,105 +4,96 @@
 #
 # update daily PSK (pre shared key)
 
-:global "identity";
-:global "daily-psk-match-comment";
+:global Identity;
+:global DailyPskMatchComment;
 
 :global SendNotification;
 
-:local seen [ :toarray "" ];
+:local Seen [ :toarray "" ];
 
 # return pseudo-random string for PSK
 :local GeneratePSK do={
-  :local date [ :tostr $1 ];
+  :local Date [ :tostr $1 ];
 
-  :global "daily-psk-secrets";
+  :global DailyPskSecrets;
 
-  :local months {
-    "jan"; "feb"; "mar"; "apr"; "may"; "jun";
-    "jul"; "aug"; "sep"; "oct"; "nov"; "dec"
-  }
-  :local monthtbl {
-    0; 3; 3; 6; 1; 4; 6; 2; 5; 0; 3; 5
-  }
+  :local Months { "jan"; "feb"; "mar"; "apr"; "may"; "jun";
+                  "jul"; "aug"; "sep"; "oct"; "nov"; "dec" };
+  :local MonthTbl { 0; 3; 3; 6; 1; 4; 6; 2; 5; 0; 3; 5 };
 
-  :local monthstr [ :pick $date 0 3 ];
-  :local month;
-  :local day [ :pick $date 4 6 ];
-  :local century [ :pick $date 7 9 ];
-  :local year [ :pick $date 9 11 ];
+  :local MonthStr [ :pick $Date 0 3 ];
+  :local Month;
+  :local Day [ :pick $Date 4 6 ];
+  :local Century [ :pick $Date 7 9 ];
+  :local Year [ :pick $Date 9 11 ];
 
   # get numeric value for month
-  :for mindex from=0 to=[ :len $months ] do={
-    :if ([ :pick $months $mindex ] = $monthstr) do={
-      :set month $mindex;
+  :for MIndex from=0 to=[ :len $Months ] do={
+    :if ([ :pick $Months $MIndex ] = $MonthStr) do={
+      :set Month $MIndex;
     }
   }
 
   # calculate day of week
-  :local sum 0;
-  :set sum ($sum + (2 * (3 - ($century - (($century / 4) * 4)))));
-  :set sum ($sum + ($year / 4));
-  :set sum ($sum + $year + $day);
-  :set sum ($sum + $month);
-  :set sum ($sum - (($sum / 7) * 7));
+  :local Sum 0;
+  :set Sum ($Sum + (2 * (3 - ($Century - (($Century / 4) * 4)))));
+  :set Sum ($Sum + ($Year / 4));
+  :set Sum ($Sum + $Year + $Day);
+  :set Sum ($Sum + $Month);
+  :set Sum ($Sum - (($Sum / 7) * 7));
 
-  :local return ([ :pick [ :pick $"daily-psk-secrets" 0 ] ($day - 1) ] . \
-    [ :pick [ :pick $"daily-psk-secrets" 1 ] $month ] . \
-    [ :pick [ :pick $"daily-psk-secrets" 2 ] $sum ]);
+  :local Return ([ :pick [ :pick $DailyPskSecrets 0 ] ($Day - 1) ] . \
+    [ :pick [ :pick $DailyPskSecrets 1 ] $Month ] . \
+    [ :pick [ :pick $DailyPskSecrets 2 ] $Sum ]);
 
-  :return $return;
+  :return $Return;
 }
 
-:local date [ / system clock get date ];
-:local newpsk [ $GeneratePSK $date ];
+:local Date [ / system clock get date ];
+:local NewPsk [ $GeneratePSK $Date ];
 
-:foreach acclist in=[ / interface wireless access-list find where comment~$"daily-psk-match-comment" ] do={
-  :local intname [ / interface wireless access-list get $acclist interface ];
-  :local interface [ / interface wireless find where name=$intname disabled=no ];
-  :local ssid [ / interface wireless get $intname ssid ];
-  :local oldpsk [ / interface wireless access-list get $acclist private-pre-shared-key ];
-  :local skip 0;
+:foreach AccList in=[ / interface wireless access-list find where comment~$DailyPskMatchComment ] do={
+  :local IntName [ / interface wireless access-list get $AccList interface ];
+  :local Interface [ / interface wireless find where name=$IntName disabled=no ];
+  :local Ssid [ / interface wireless get $IntName ssid ];
+  :local OldPsk [ / interface wireless access-list get $AccList private-pre-shared-key ];
+  :local Skip 0;
 
-  :if ($newpsk != $oldpsk) do={
-    :log info ("Updating daily PSK for " . $intname . " to " . $newpsk . " (was " . $oldpsk . ")");
-    / interface wireless access-list set $acclist private-pre-shared-key=$newpsk;
+  :if ($NewPsk != $OldPsk) do={
+    :log info ("Updating daily PSK for " . $IntName . " to " . $NewPsk . " (was " . $OldPsk . ")");
+    / interface wireless access-list set $AccList private-pre-shared-key=$NewPsk;
 
-    :if ([ :len $interface ] = 1) do={
-      :foreach "seen-ssid" in=$seen do={
-        :if ($"seen-ssid" = $ssid) do={
-          :log debug ("Already sent a mail for SSID " . $ssid . ", skipping.");
-          :set skip 1;
+    :if ([ :len $Interface ] = 1) do={
+      :foreach SeenSsid in=$Seen do={
+        :if ($SeenSsid = $Ssid) do={
+          :log debug ("Already sent a mail for SSID " . $Ssid . ", skipping.");
+          :set Skip 1;
         }
       }
 
-      :if ($skip = 0) do={
-        :set seen ( $seen, $ssid );
+      :if ($Skip = 0) do={
+        :set Seen ($Seen, $Ssid);
 
-        :local host "www.eworm.de"
-        :local srcpath ("/cgi-bin/cqrlogo-wifi.cgi" . \
-          "?scale=8" . \
-          "&level=1" . \
-          "&ssid=" . $ssid . \
-          "&pass=" . $newpsk);
-        :local attach "qrcode-daily.png";
+        :local Url ("https://www.eworm.de/cgi-bin/cqrlogo-wifi.cgi" . \
+            "?scale=8&level=1&ssid=" . $Ssid . "&pass=" . $NewPsk);
+        :local Attach "qrcode-daily.png";
 
         :do {
-          / tool fetch mode=https check-certificate=yes-without-crl address=$host \
-              host=$host src-path=$srcpath dst-path=$attach;
+          / tool fetch mode=https check-certificate=yes-without-crl \
+              $Url dst-path=$Attach;
         } on-error={
-          :set attach "";
+          :set Attach "";
         }
 
-        $SendNotification ("daily PSK " . $ssid) \
-          ("This is the daily PSK on " . $identity . ":\n\n" . \
-            "SSID: " . $ssid . "\n" . \
-            "PSK:  " . $newpsk . "\n" . \
-            "Date: " . [ / system clock get date ] . "\n\n" . \
-            "https://" . $host . $srcpath) \
-          $attach;
+        $SendNotification ("daily PSK " . $Ssid) \
+          ("This is the daily PSK on " . $Identity . ":\n\n" . \
+            "SSID: " . $Ssid . "\n" . \
+            "PSK:  " . $NewPsk . "\n" . \
+            "Date: " . $Date . "\n\n" . \
+            $Url) $Attach;
       }
     } else={
-      :log debug ("Missing active interface " . $intname . " for access list entry.");
+      :log debug ("Missing active interface " . $IntName . " for access list entry.");
     }
   }
 }

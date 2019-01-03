@@ -4,72 +4,72 @@
 #
 # create and email backup and config file
 
-:global "identity";
-:global "domain";
-:global "email-backup-to";
-:global "email-backup-cc";
-:global "backup-send-binary";
-:global "backup-send-export";
-:global "backup-cloud";
-:global "backup-password";
+:global Identity;
+:global Domain;
+:global EmailBackupTo;
+:global EmailBackupCc;
+:global BackupSendBinary;
+:global BackupSendExport;
+:global BackupCloud;
+:global BackupPassword;
 
-:if ($"backup-send-binary" != true && \
-     $"backup-send-export" != true && \
-     $"backup-cloud" != true) do={
+:if ($BackupSendBinary != true && \
+     $BackupSendExport != true && \
+     $BackupCloud != true) do={
   :error ("Configured to send neither backup nor config export.");
 }
 
 # filename based on identity
-:local filename ($identity . "." . $domain);
-:local cloudstatus $"backup-cloud";
-:local attach [ :toarray "" ];
+:local FileName ($Identity . "." . $Domain);
+:local CloudStatus $BackupCloud;
+:local Attach [ :toarray "" ];
 
 # get some system information
-:local model [ / system routerboard get model ];
-:local serialnumber [ / system routerboard get serial-number ];
-:local channel [ / system package update get channel ];
-:local installedversion [ / system package update get installed-version ];
+:local Model [ / system routerboard get model ];
+:local SerialNumber [ / system routerboard get serial-number ];
+:local Channel [ / system package update get channel ];
+:local InstalledVersion [ / system package update get installed-version ];
 
 # binary backup
-:if ($"backup-send-binary" = true || \
-     $"backup-cloud" = true) do={
-  / system backup save encryption=aes-sha256 name=$filename password=$"backup-password";
+:if ($BackupSendBinary = true || \
+     $BackupCloud = true) do={
+  / system backup save encryption=aes-sha256 name=$FileName password=$BackupPassword;
 
   # attach to mail
-  :if ($"backup-send-binary" = true) do={
-    :set attach ( $attach, ($filename . ".backup") );
+  :if ($BackupSendBinary = true) do={
+    :set Attach ($Attach, ($FileName . ".backup"));
   }
 
   # upload to cloud
-  :if ($"backup-cloud" = true) do={
+  :if ($BackupCloud = true) do={
     :do {
       :if ([ / system backup cloud print count-only ] > 0) do={
         / system backup cloud remove-file [ find ];
       }
-      / system backup cloud upload-file action=upload src-file=($filename . ".backup");
+      / system backup cloud upload-file action=upload src-file=($FileName . ".backup");
     } on-error={
-      :set cloudstatus "failed";
+      :set CloudStatus "failed";
     }
   }
 }
 
 # create configuration export
-:if ($"backup-send-export" = true) do={
-  / export terse file=$filename;
-  :set attach ( $attach, ($filename . ".rsc") );
+:if ($BackupSendExport = true) do={
+  / export terse file=$FileName;
+  :set Attach ($Attach, ($FileName . ".rsc"));
 }
 
 # send email with status and files
-/ tool e-mail send to=$"email-backup-to" cc=$"email-backup-cc" \
-    subject=("[" . $identity . "] Backup & Config") \
-    body=("Backup and config export for " . $identity . ".\n\n" . \
-      "Routerboard:     " . $model . "\n" . \
-      "Serial number:   " . $serialnumber . "\n" . \
-      "Hostname:        " . $identity . "\n" . \
-      "Channel:         " . $channel . "\n" . \
-      "RouterOS:        " . $installedversion . "\n\n" . \
-      "Backup attached: " . $"backup-send-binary" . "\n" . \
-      "Config attached: " . $"backup-send-export" . "\n" . \
-      "Cloud backup:    " . $cloudstatus) \
-    file=$attach;
+/ tool e-mail send to=$EmailBackupTo cc=$EmailBackupCc \
+    subject=("[" . $Identity . "] Backup & Config") \
+    body=("Backup and config export for " . $Identity . ".\n\n" . \
+      "Routerboard:     " . $Model . "\n" . \
+      "Serial number:   " . $SerialNumber . "\n" . \
+      "Hostname:        " . $Identity . "\n" . \
+      "Channel:         " . $Channel . "\n" . \
+      "RouterOS:        " . $InstalledVersion . "\n\n" . \
+      "Backup attached: " . $BackupSendBinary . "\n" . \
+      "Config attached: " . $BackupSendExport . "\n" . \
+      "Cloud backup:    " . $CloudStatus) \
+    file=$Attach;
 }

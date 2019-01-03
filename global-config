@@ -6,45 +6,45 @@
 
 # Make sure all configuration properties are up to date and this
 # value is in sync with value in script 'global-functions'!
-:global GlobalConfigVersion 1;
+:global GlobalConfigVersion 2;
 
 # This is used for DNS and backup file.
-:global "domain" "example.com";
-:global "hostname-in-zone" true;
+:global Domain "example.com";
+:global HostNameInZone true;
 
 # These addresses are used to send e-mails to. The to-addresses need
 # to be filled, cc-addresses can be empty, one address or a comma
 # separated list of addresses.
-:global "email-general-to" "mail@example.com";
-:global "email-general-cc" "another@example.com";
-:global "email-backup-to"  "mail@example.com";
-:global "email-backup-cc"  "";
+:global EmailGeneralTo "mail@example.com";
+:global EmailGeneralCc "another@example.com";
+:global EmailBackupTo  "mail@example.com";
+:global EmailBackupCc  "";
 
 # You can send Telegram notifications. Register a bot
 # and add the token and chat ids here.
-:global "telegram-tokenid" "";
-:global "telegram-chatid" "";
-#:global "telegram-tokenid" "123456:ABCDEF-GHI";
-#:global "telegram-chatid" "12345678";
+:global TelegramTokenId "";
+:global TelegramChatId "";
+#:global TelegramTokenId "123456:ABCDEF-GHI";
+#:global TelegramChatId "12345678";
 
 # This defines what backups to generate and what password to use.
-:global "backup-send-binary" false;
-:global "backup-send-export" true;
-:global "backup-cloud" false;
-:global "backup-password" "v3ry-s3cr3t";
+:global BackupSendBinary false;
+:global BackupSendExport true;
+:global BackupCloud false;
+:global BackupPassword "v3ry-s3cr3t";
 
 # Specify an address to enable auto update to version assumed safe.
 # The configured channel (bugfix, current, release-candidate) is appended.
-:global "safe-update-url" "";
-#:global "safe-update-url" "https://example.com/ros/safe-update/";
+:global SafeUpdateUrl "";
+#:global SafeUpdateUrl "https://example.com/ros/safe-update/";
 
 # This controls what configuration is activated by bridge-port-to-default.
-:global "bridge-port-to" "default";
+:global BridgePortTo "default";
 
 # Access-list entries matching this comment are updated
 # with daily pseudo-random PSK.
-:global "daily-psk-match-comment" "Daily PSK";
-:global "daily-psk-secrets" {
+:global DailyPskMatchComment "Daily PSK";
+:global DailyPskSecrets {
   { "Abusive"; "Aggressive"; "Bored"; "Chemical"; "Cold";
     "Cruel"; "Curved"; "Delightful"; "Discreet"; "Elite";
     "Evasive"; "Faded"; "Flat"; "Future"; "Grandiose";
@@ -60,9 +60,9 @@
 }
 
 # Run different commands with multiple mode-button presses.
-:global "mode-button" {
+:global ModeButton {
   1="/ system script run leds-toggle-mode;";
-  2=":global SendNotification; :global identity; \$SendNotification (\"Hello...\") (\"Hello world, \" . \$identity . \" calling!\");";
+  2=":global SendNotification; :global Identity; \$SendNotification (\"Hello...\") (\"Hello world, \" . \$Identity . \" calling!\");";
   3="/ system shutdown;";
   4="/ system reboot;";
   5="/ system script run bridge-port-toggle;";
@@ -70,7 +70,7 @@
 };
 
 # Run commands on SMS action.
-:global "sms-action" {
+:global SmsAction {
   bridge-port-toggle="/ system script run bridge-port-toggle;";
   reboot="/ system reboot;";
   shutdown="/ system shutdown;";
@@ -79,29 +79,29 @@
 
 # This address should resolve ntp servers and is used to update
 # ntp settings. A pool can rotate servers.
-:global "ntp-pool" "pool.ntp.org";
+:global NtpPool "pool.ntp.org";
 
 # This is the address used to send gps data to.
-:global "gps-track-url" "https://example.com/index.php";
+:global GpsTrackUrl "https://example.com/index.php";
 
 # Enable this to fetch scripts from given url.
-:global "script-updates-fetch" true;
-:global "script-updates-baseurl" "https://git.eworm.de/cgit.cgi/routeros-scripts/plain/";
-#:global "script-updates-baseurl" "https://raw.githubusercontent.com/eworm-de/routeros-scripts/master/";
-#:global "script-updates-baseurl" "https://gitlab.com/eworm-de/routeros-scripts/raw/master/";
-:global "script-updates-urlsuffix" "";
-:global "script-updates-ignore" {
+:global ScriptUpdatesFetch true;
+:global ScriptUpdatesBaseUrl "https://git.eworm.de/cgit.cgi/routeros-scripts/plain/";
+#:global ScriptUpdatesBaseUrl "https://raw.githubusercontent.com/eworm-de/routeros-scripts/master/";
+#:global ScriptUpdatesBaseUrl "https://gitlab.com/eworm-de/routeros-scripts/raw/master/";
+:global ScriptUpdatesUrlSuffix "";
+:global ScriptUpdatesIgnore {
   "global-config"
 }
 
 # Use this for certificate auto-renew
-:global "cert-renew-url" "";
-#:global "cert-renew-url" "https://example.com/certificates/";
-:global "cert-renew-pass" "v3ry-s3cr3t";
+:global CertRenewUrl "";
+#:global CertRenewUrl "https://example.com/certificates/";
+:global CertRenewPass "v3ry-s3cr3t";
 
 # Configuration for update-tunnelbroker
-#:global tunnelurl "ipv4.tunnelbroker.net";
-#:global tunneluser "user";
-#:global tunnelpass "v3ry-s3cr3t";
-#:global tunnelid "user-XXX.tunnel.tserv6.fra1.ipv6.he.net";
-#:global tunnelint "tunnelbroker";
+#:global TunnelUrl "ipv4.tunnelbroker.net";
+#:global TunnelUser "user";
+#:global TunnelPass "v3ry-s3cr3t";
+#:global TunnelId "user-XXX.tunnel.tserv6.fra1.ipv6.he.net";
+#:global TunnelInt "tunnelbroker";
