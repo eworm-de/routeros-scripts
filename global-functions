@@ -4,6 +4,9 @@
 #
 # global functions
 
+# expected configuration version
+:global ExpectedConfigVersion 0;
+
 # read input from user
 :global Read do={
   :return;

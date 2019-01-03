@@ -4,6 +4,10 @@
 #
 # global configuration
 
+# Make sure all configuration properties are up to date and this
+# value is in sync with value in script 'global-functions'!
+:global GlobalConfigVersion 0;
+
 # This is used for DNS and backup file.
 :global "domain" "example.com";
 :global "hostname-in-zone" true;
