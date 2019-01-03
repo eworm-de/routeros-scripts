@@ -6,7 +6,7 @@
 
 :local scheduler [ / system scheduler find where name=daily-psk-schedule ];
 
-:if ([ / system scheduler get $scheduler interval ] = "00:00:00") do={
+:if ([ / system scheduler get $scheduler interval ] = 0s) do={
   / system scheduler set interval=15s $scheduler;
 } else={
   :if ([ / tool netwatch get [ find where comment=[ / tool e-mail get address ] ] status ] != "up" ) do={
