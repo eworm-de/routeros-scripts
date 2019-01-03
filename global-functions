@@ -5,7 +5,12 @@
 # global functions
 
 # expected configuration version
-:global ExpectedConfigVersion 0;
+:global ExpectedConfigVersion 1;
+
+# global variables not to be changed by user
+:global "sent-routeros-update-notification" "-";
+:global "sent-lte-firmware-upgrade-notification" "-";
+:global "identity" [ / system identity get name ];
 
 # read input from user
 :global Read do={

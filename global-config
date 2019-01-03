@@ -6,7 +6,7 @@
 
 # Make sure all configuration properties are up to date and this
 # value is in sync with value in script 'global-functions'!
-:global GlobalConfigVersion 0;
+:global GlobalConfigVersion 1;
 
 # This is used for DNS and backup file.
 :global "domain" "example.com";
@@ -105,9 +105,3 @@
 #:global tunnelpass "v3ry-s3cr3t";
 #:global tunnelid "user-XXX.tunnel.tserv6.fra1.ipv6.he.net";
 #:global tunnelint "tunnelbroker";
-
-# Do *NOT* change these!
-:global "sent-routeros-update-notification" "-";
-:global "sent-lte-firmware-upgrade-notification" "-";
-:global "identity" [ / system identity get name ];
-/ system script run global-functions;

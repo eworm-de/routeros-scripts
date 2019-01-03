@@ -85,10 +85,12 @@ your mails to `mail@example.com`!
 
     [admin@MikroTik] > / system script edit global-config source
 
-And finally load the configuration and add a scheduler.
+And finally load configuration and functions and add the schedulers.
 
     [admin@MikroTik] > / system script run global-config
+    [admin@MikroTik] > / system script run global-functions
     [admin@MikroTik] > / system scheduler add name=global-config start-time=startup on-event=global-config
+    [admin@MikroTik] > / system scheduler add name=global-functions start-time=startup on-event=global-functions
 
 Updating scripts
 ----------------
