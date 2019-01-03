@@ -14,7 +14,7 @@
 } else={
   :set zone ("dhcp." . $domain);
 }
-:local ttl "00:05:00";
+:local ttl 5m;
 :local hostname;
 :local fqdn;
 :local dnsip;
