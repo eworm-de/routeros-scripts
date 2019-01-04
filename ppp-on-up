@@ -15,3 +15,14 @@
   :delay 1s;
   / ipv6 dhcp-client enable $DhcpClient;
 }
+
+:local Scripts {
+  "update-tunnelbroker"
+}
+
+:foreach Script in=$Scripts do={
+  :if ([ / system script print count-only where name=$Script ] > 0) do={
+    :log debug ("Running script from ppp-on-up: " . $Script);
+    / system script run $Script;
+  }
+}
