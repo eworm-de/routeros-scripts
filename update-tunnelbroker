@@ -3,35 +3,36 @@
 # Copyright (c) 2013-2019 Christian Hesse <mail@eworm.de>
 #                         Michael Gisbers <michael@gisbers.de>
 
-:global TunnelUrl;
-:global TunnelUser;
-:global TunnelPass;
-:global TunnelId;
-:global TunnelInt;
-
 :global CertificateAvailable;
 
 :if ([ / ip cloud get ddns-enabled ] != true) do={
   :error "IP cloud DDNS is not enabled.";
 }
 
-# get the last ip address from tunnel interface
-:local TunnelLastIp [ / interface 6to4 get [ / interface 6to4 find where name=$TunnelInt ] local-address ];
-
 # Get the current ip address from cloud
 / ip cloud force-update;
 :while ([ / ip cloud get status ] != "updated") do={
   :delay 1s;
 }
-:local TunnelIp [ / ip cloud get public-address ];
+:local PublicAddress [ / ip cloud get public-address ];
 
-:if ($TunnelIp != $TunnelLastIp) do={
-  $CertificateAvailable "Starfield Secure Certificate Authority - G2" "starfield";
-  :log info ("Local address changed, sending UPDATE to tunnelbroker! New address: " . $TunnelIp);
-  / tool fetch mode=https check-certificate=yes-without-crl \
-      ("https://" . $TunnelUrl . "/nic/update\?hostname=" . $TunnelId) \
-      user=$TunnelUser password=$TunnelPass keep-result=no;
-  / interface 6to4 set [ / interface 6to4 find where name=$TunnelInt ] local-address=$TunnelIp;
-} else={
-  :log debug "All tunnelbroker configuration is up to date.";
+:foreach Interface in=[ / interface 6to4 find where comment~"^tunnelbroker" !disabled ] do={
+  :local IntName [ / interface 6to4 get $Interface name ];
+  :local LastAddress [ / interface 6to4 get $Interface local-address ];
+
+  :if ($PublicAddress != $LastAddress) do={
+    :local Comment [ :toarray [ / interface 6to4 get $Interface comment ] ];
+    :local User [ :pick [ :pick $Comment 1 ] 5 99 ];
+    :local Pass [ :pick [ :pick $Comment 2 ] 5 99 ];
+    :local Id [ :pick [ :pick $Comment 3 ] 5 99 ];
+
+    $CertificateAvailable "Starfield Secure Certificate Authority - G2" "starfield";
+    :log info ("Local address changed, sending UPDATE to tunnelbroker! New address: " . $PublicAddress);
+    / tool fetch mode=https check-certificate=yes-without-crl \
+        ("https://ipv4.tunnelbroker.net/nic/update\?hostname=" . $Id) \
+        user=$User password=$Pass keep-result=no;
+    / interface 6to4 set $Interface local-address=$PublicAddress;
+  } else={
+    :log debug ("All tunnelbroker configuration is up to date for interface " . $IntName . ".");
+  }
 }

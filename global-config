@@ -98,10 +98,3 @@
 :global CertRenewUrl "";
 #:global CertRenewUrl "https://example.com/certificates/";
 :global CertRenewPass "v3ry-s3cr3t";
-
-# Configuration for update-tunnelbroker
-#:global TunnelUrl "ipv4.tunnelbroker.net";
-#:global TunnelUser "user";
-#:global TunnelPass "v3ry-s3cr3t";
-#:global TunnelId "user-XXX.tunnel.tserv6.fra1.ipv6.he.net";
-#:global TunnelInt "tunnelbroker";
