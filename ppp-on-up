@@ -9,12 +9,7 @@
 :local IntName [ / interface get $Interface name ];
 :log info ("PPP interface " . $IntName . " is up.");
 
-:local DhcpClient [ / ipv6 dhcp-client find where interface=$IntName ];
-:if ([ :len $DhcpClient ] > 0) do={
-  / ipv6 dhcp-client disable $DhcpClient;
-  :delay 1s;
-  / ipv6 dhcp-client enable $DhcpClient;
-}
+/ ipv6 dhcp-client release [ find where interface=$IntName !disabled ];
 
 :local Scripts {
   "update-tunnelbroker"
