@@ -43,6 +43,9 @@
   # upload to cloud
   :if ($BackupCloud = true) do={
     :do {
+      # we are not interested in output, but print without count-only is
+      # required to fetch information from cloud
+      / system backup cloud print;
       :if ([ / system backup cloud print count-only ] > 0) do={
         / system backup cloud remove-file [ find ];
       }
