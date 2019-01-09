@@ -48,6 +48,7 @@
 
         :local InvalidBefore [ / certificate get $CertNew invalid-before ];
         :local InvalidAfter [ / certificate get $CertNew invalid-after ];
+        :set CommonName [ / certificate get $CertNew common-name ];
         :set FingerPrint [ / certificate get $CertNew fingerprint ];
 
         $SendNotification ("Certificate renewed") \
