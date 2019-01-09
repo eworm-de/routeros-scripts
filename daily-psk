@@ -19,34 +19,26 @@
 
   :local Months { "jan"; "feb"; "mar"; "apr"; "may"; "jun";
                   "jul"; "aug"; "sep"; "oct"; "nov"; "dec" };
-  :local MonthTbl { 0; 3; 3; 6; 1; 4; 6; 2; 5; 0; 3; 5 };
 
-  :local MonthStr [ :pick $Date 0 3 ];
-  :local Month;
-  :local Day [ :pick $Date 4 6 ];
-  :local Century [ :pick $Date 7 9 ];
-  :local Year [ :pick $Date 9 11 ];
+  :local Month [ :pick $Date 0 3 ];
+  :local Day [ :tonum [ :pick $Date 4 6 ] ];
+  :local Year [ :pick $Date 7 11 ];
 
-  # get numeric value for month
   :for MIndex from=0 to=[ :len $Months ] do={
-    :if ([ :pick $Months $MIndex ] = $MonthStr) do={
-      :set Month $MIndex;
+    :if ($Months->$MIndex = $Month) do={
+      :set Month ($MIndex + 1);
     }
   }
 
-  # calculate day of week
-  :local Sum 0;
-  :set Sum ($Sum + (2 * (3 - ($Century - (($Century / 4) * 4)))));
-  :set Sum ($Sum + ($Year / 4));
-  :set Sum ($Sum + $Year + $Day);
-  :set Sum ($Sum + $Month);
-  :set Sum ($Sum - (($Sum / 7) * 7));
+  :local A ((14 - $Month) / 12);
+  :local B ($Year - $A);
+  :local C ($Month + 12 * $A - 2);
+  :local WeekDay (7000 + $Day + $B + ($B / 4) - ($B / 100) + ($B / 400) + ((31 * $C) / 12));
+  :set WeekDay ($WeekDay - (($WeekDay / 7) * 7));
 
-  :local Return ([ :pick [ :pick $DailyPskSecrets 0 ] ($Day - 1) ] . \
-    [ :pick [ :pick $DailyPskSecrets 1 ] $Month ] . \
-    [ :pick [ :pick $DailyPskSecrets 2 ] $Sum ]);
-
-  :return $Return;
+  :return (($DailyPskSecrets->0->($Day - 1)) . \
+    ($DailyPskSecrets->1->($Month - 1)) . \
+    ($DailyPskSecrets->2->$WeekDay));
 }
 
 :local Date [ / system clock get date ];
