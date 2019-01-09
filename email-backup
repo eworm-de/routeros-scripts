@@ -22,6 +22,8 @@
 # filename based on identity
 :local FileName ($Identity . "." . $Domain);
 :local CloudStatus $BackupCloud;
+:local BackupStatus $BackupSendBinary;
+:local ConfigStatus $BackupSendExport;
 :local Attach [ :toarray "" ];
 
 # get some system information
@@ -37,7 +39,8 @@
 
   # attach to mail
   :if ($BackupSendBinary = true) do={
-    :set Attach ($Attach, ($FileName . ".backup"));
+    :set BackupStatus ($FileName . ".backup");
+    :set Attach ($Attach, $BackupStatus);
   }
 
   # upload to cloud
@@ -50,6 +53,7 @@
         / system backup cloud remove-file [ find ];
       }
       / system backup cloud upload-file action=upload src-file=($FileName . ".backup");
+      :set CloudStatus [ / system backup cloud get [ find ] secret-download-key ];
     } on-error={
       :set CloudStatus "failed";
     }
@@ -59,7 +63,8 @@
 # create configuration export
 :if ($BackupSendExport = true) do={
   / export terse file=$FileName;
-  :set Attach ($Attach, ($FileName . ".rsc"));
+  :set ConfigStatus ($FileName . ".rsc");
+  :set Attach ($Attach, $ConfigStatus);
 }
 
 # send email with status and files
@@ -71,8 +76,8 @@
       "Hostname:        " . $Identity . "\n" . \
       "Channel:         " . $Channel . "\n" . \
       "RouterOS:        " . $InstalledVersion . "\n\n" . \
-      "Backup attached: " . $BackupSendBinary . "\n" . \
-      "Config attached: " . $BackupSendExport . "\n" . \
+      "Backup attached: " . $BackupStatus . "\n" . \
+      "Config attached: " . $ConfigStatus . "\n" . \
       "Cloud backup:    " . $CloudStatus) \
     file=$Attach;
 }
