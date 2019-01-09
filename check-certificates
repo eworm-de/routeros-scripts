@@ -63,11 +63,11 @@
 
         $SendNotification ("Certificate renewed") \
           ("A certificate on " . $Identity . " has been renewed.\n\n" . \
-            "Certificate Name: " . $CertName . "\n" . \
-            "Common Name:      " . $CommonName . "\n" . \
-            "Fingerprint:      " . $FingerPrint . "\n" . \
-            "Issuer:           " . $Issuer . "\n" . \
-            "Validity:         " . $InvalidBefore . " to " . $InvalidAfter);
+            "Name:        " . $CertName . "\n" . \
+            "Common Name: " . $CommonName . "\n" . \
+            "Fingerprint: " . $FingerPrint . "\n" . \
+            "Issuer:      " . $Issuer . "\n" . \
+            "Validity:    " . $InvalidBefore . " to " . $InvalidAfter);
         :log info ("The certificate " . $CertName . " has been renewed.");
       } on-error={
         :local InvalidBefore [ / certificate get $Cert invalid-before ];
@@ -76,11 +76,11 @@
 
         $SendNotification ("Certificate warning!") \
           ("A certificate on " . $Identity . " is about to expire.\n\n" . \
-            "Certificate Name: " . $CertName . "\n" . \
-            "Common Name:      " . $CommonName . "\n" . \
-            "Fingerprint:      " . $FingerPrint . "\n" . \
-            "Issuer:           " . $Issuer . "\n" . \
-            "Validity:         " . $InvalidBefore . " to " . $InvalidAfter);
+            "Name:        " . $CertName . "\n" . \
+            "Common Name: " . $CommonName . "\n" . \
+            "Fingerprint: " . $FingerPrint . "\n" . \
+            "Issuer:      " . $Issuer . "\n" . \
+            "Validity:    " . $InvalidBefore . " to " . $InvalidAfter);
         :log warning ("The certificate " . $CertName . " is about to expire in " . $ExpiresAfter . ".");
       }
     } else={
