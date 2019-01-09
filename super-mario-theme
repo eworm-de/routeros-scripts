@@ -60,7 +60,7 @@
 
 :foreach Beep in=$Beeps do={
   :if ([ :len $Beep ] = 2) do={
-    :beep frequency=[ :pick $Beep 0 ] length=([ :pick $Beep 1 ] . "ms");
+    :beep frequency=($Beep->0) length=(($Beep->1) . "ms");
   } else={
     :delay ($Beep . "ms");
   }
