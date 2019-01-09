@@ -10,6 +10,14 @@
 
 :global SendNotification;
 
+:local GetIssuerCN do={
+  :foreach IssuerI in=$1 do={
+    :if ([ :pick $IssuerI 0 3 ] = "CN=") do={
+      :return $IssuerI;
+    }
+  }
+}
+
 :foreach Cert in=[ / certificate find where !revoked ] do={
   :local CertName [ / certificate get $Cert name ];
   :local ExpiresAfter [ / certificate get $Cert expires-after ];
@@ -48,9 +56,10 @@
 
         :local InvalidBefore [ / certificate get $CertNew invalid-before ];
         :local InvalidAfter [ / certificate get $CertNew invalid-after ];
-        :local Issuer [ / certificate get $CertNew issuer ];
+        :local Issuer [ $GetIssuerCN [ / certificate get $CertNew issuer ] ];
         :set CommonName [ / certificate get $CertNew common-name ];
         :set FingerPrint [ / certificate get $CertNew fingerprint ];
+
 
         $SendNotification ("Certificate renewed") \
           ("A certificate on " . $Identity . " has been renewed.\n\n" . \
@@ -63,7 +72,7 @@
       } on-error={
         :local InvalidBefore [ / certificate get $Cert invalid-before ];
         :local InvalidAfter [ / certificate get $Cert invalid-after ];
-        :local Issuer [ / certificate get $Cert issuer ];
+        :local Issuer [ $GetIssuerCN [ / certificate get $Cert issuer ] ];
 
         $SendNotification ("Certificate warning!") \
           ("A certificate on " . $Identity . " is about to expire.\n\n" . \
