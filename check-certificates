@@ -63,8 +63,6 @@
         / certificate remove $Cert;
         / certificate set $CertNew name=$CertName;
       } on-error={
-        :log warning ("Failed to auto-update certificate " . $CertName);
-
         :local InvalidBefore [ / certificate get $Cert invalid-before ];
         :local InvalidAfter [ / certificate get $Cert invalid-after ];
 
