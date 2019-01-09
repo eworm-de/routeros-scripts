@@ -10,30 +10,12 @@
 
 :global SendNotification;
 
-:local Months { "jan"; "feb"; "mar"; "apr"; "may"; "jun";
-                "jul"; "aug"; "sep"; "oct"; "nov"; "dec" };
-
-:local CurrentDate [ / system clock get date ];
-
-:local CurrentDay [ :pick $CurrentDate 4 6 ];
-:local CurrentYear [ :pick $CurrentDate 7 11 ];
-:local CurrentMonth ([ :find $Months [ :pick $CurrentDate 0 3 ] ] + 1);
-:local CurrentStamp ($CurrentYear * 365 + $CurrentMonth * 30 + $CurrentDay);
-
 :foreach Cert in=[ / certificate find where !revoked ] do={
   :local CertName [ / certificate get $Cert name ];
-  :local InvalidBefore [ / certificate get $Cert invalid-before ];
-  :local InvalidAfter [ / certificate get $Cert invalid-after ];
+  :local ExpiresAfter [ / certificate get $Cert expires-after ];
 
-  :if ([ :len $InvalidAfter ] > 0) do={
-    :local InvalidDay [ :pick $InvalidAfter 4 6 ];
-    :local InvalidYear [ :pick $InvalidAfter 7 11 ];
-    :local InvalidMonth ([ :find $Months [ :pick $InvalidAfter 0 3 ] ] + 1);
-    :local InvalidStamp ($InvalidYear * 365 + $InvalidMonth * 30 + $InvalidDay);
-
-    :local Remaining ($InvalidStamp - $CurrentStamp);
-
-    :if ($Remaining < 15) do={
+  :if ([ :typeof $ExpiresAfter ] = "time") do={
+    :if ($ExpiresAfter < 2w) do={
       :local CommonName [ / certificate get $Cert common-name ];
       :local FingerPrint [ / certificate get $Cert fingerprint ];
 
@@ -64,8 +46,8 @@
         / certificate remove $Cert;
         / certificate set $CertNew name=$CertName;
 
-        :set InvalidBefore [ / certificate get $CertNew invalid-before ];
-        :set InvalidAfter [ / certificate get $CertNew invalid-after ];
+        :local InvalidBefore [ / certificate get $CertNew invalid-before ];
+        :local InvalidAfter [ / certificate get $CertNew invalid-after ];
         :set FingerPrint [ / certificate get $CertNew fingerprint ];
 
         $SendNotification ("Certificate renewed") \
@@ -76,16 +58,19 @@
             "Validity:         " . $InvalidBefore . " to " . $InvalidAfter);
         :log info ("The certificate " . $CertName . " has been renewed.");
       } on-error={
+        :local InvalidBefore [ / certificate get $Cert invalid-before ];
+        :local InvalidAfter [ / certificate get $Cert invalid-after ];
+
         $SendNotification ("Certificate warning!") \
           ("A certificate on " . $Identity . " is about to expire.\n\n" . \
             "Certificate Name: " . $CertName . "\n" . \
             "Common Name:      " . $CommonName . "\n" . \
             "Fingerprint:      " . $FingerPrint . "\n" . \
             "Validity:         " . $InvalidBefore . " to " . $InvalidAfter);
-        :log warning ("A certificate is about to expire within " . $Remaining . " days: " . $CertName);
+        :log warning ("The certificate " . $CertName . " is about to expire in " . $ExpiresAfter . ".");
       }
     } else={
-      :log debug ("The certificate " . $CertName . " expires in " . $Remaining . " days.");
+      :log debug ("The certificate " . $CertName . " expires in " . $ExpiresAfter . ".");
     }
   } else={
     :log debug ("The certificate " . $CertName . " is just a template.");
