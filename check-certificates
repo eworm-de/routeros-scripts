@@ -22,12 +22,13 @@
 
 :foreach Cert in=[ / certificate find where !revoked ] do={
   :local CertName [ / certificate get $Cert name ];
-  :local InvalidDate [ / certificate get $Cert invalid-after ];
+  :local InvalidBefore [ / certificate get $Cert invalid-before ];
+  :local InvalidAfter [ / certificate get $Cert invalid-after ];
 
-  :if ([ :len $InvalidDate ] > 0) do={
-    :local InvalidDay [ :pick $InvalidDate 4 6 ];
-    :local InvalidYear [ :pick $InvalidDate 7 11 ];
-    :local InvalidMonth ([ :find $Months [ :pick $InvalidDate 0 3 ] ] + 1);
+  :if ([ :len $InvalidAfter ] > 0) do={
+    :local InvalidDay [ :pick $InvalidAfter 4 6 ];
+    :local InvalidYear [ :pick $InvalidAfter 7 11 ];
+    :local InvalidMonth ([ :find $Months [ :pick $InvalidAfter 0 3 ] ] + 1);
     :local InvalidStamp ($InvalidYear * 365 + $InvalidMonth * 30 + $InvalidDay);
 
     :local Remaining ($InvalidStamp - $CurrentStamp);
@@ -62,10 +63,19 @@
 
         / certificate remove $Cert;
         / certificate set $CertNew name=$CertName;
-      } on-error={
-        :local InvalidBefore [ / certificate get $Cert invalid-before ];
-        :local InvalidAfter [ / certificate get $Cert invalid-after ];
 
+        :set InvalidBefore [ / certificate get $CertNew invalid-before ];
+        :set InvalidAfter [ / certificate get $CertNew invalid-after ];
+        :set FingerPrint [ / certificate get $CertNew fingerprint ];
+
+        $SendNotification ("Certificate renewed") \
+          ("A certificate on " . $Identity . " has been renewed.\n\n" . \
+            "Certificate Name: " . $CertName . "\n" . \
+            "Common Name:      " . $CommonName . "\n" . \
+            "Fingerprint:      " . $FingerPrint . "\n" . \
+            "Validity:         " . $InvalidBefore . " to " . $InvalidAfter);
+        :log info ("The certificate " . $CertName . " has been renewed.");
+      } on-error={
         $SendNotification ("Certificate warning!") \
           ("A certificate on " . $Identity . " is about to expire.\n\n" . \
             "Certificate Name: " . $CertName . "\n" . \
