@@ -18,75 +18,65 @@
   }
 }
 
-:foreach Cert in=[ / certificate find where !revoked ] do={
+:foreach Cert in=[ / certificate find where !revoked expires-after<2w expires-after>0 ] do={
   :local CertName [ / certificate get $Cert name ];
-  :local ExpiresAfter [ / certificate get $Cert expires-after ];
+  :local CommonName [ / certificate get $Cert common-name ];
+  :local FingerPrint [ / certificate get $Cert fingerprint ];
 
-  :if ([ :typeof $ExpiresAfter ] = "time") do={
-    :if ($ExpiresAfter < 2w) do={
-      :local CommonName [ / certificate get $Cert common-name ];
-      :local FingerPrint [ / certificate get $Cert fingerprint ];
-
-      :do {
-        :if ([ :len $CertRenewUrl ] = 0) do={
-          :error "No CertRenewUrl given.";
-        }
-
-        / tool fetch mode=https check-certificate=yes-without-crl url=($CertRenewUrl . $CommonName . ".pem");
-        / certificate import file-name=($CommonName . ".pem") passphrase=$CertRenewPass;
-        / file remove [ find where name=($CommonName . ".pem") ];
-
-        :local CertNew [ / certificate find where common-name=$CommonName fingerprint!=$FingerPrint ];
-        :local CertNameNew [ / certificate get $CertNew name ];
-
-        :foreach IpService in=[ / ip service find where certificate=$CertName ] do={
-          / ip service set $IpService certificate=$CertNameNew;
-        }
-
-        :do {
-          :foreach Hotspot in=[ / ip hotspot profile find where ssl-certificate=$CertName ] do={
-            / ip hotspot profile set $Hotspot ssl-certificate=$CertNameNew;
-          }
-        } on-error={
-          :log debug ("Setting hotspot certificates failed. Hotspot package not installed?");
-        }
-
-        / certificate remove $Cert;
-        / certificate set $CertNew name=$CertName;
-
-        :local InvalidBefore [ / certificate get $CertNew invalid-before ];
-        :local InvalidAfter [ / certificate get $CertNew invalid-after ];
-        :local Issuer [ $GetIssuerCN [ / certificate get $CertNew issuer ] ];
-        :set CommonName [ / certificate get $CertNew common-name ];
-        :set FingerPrint [ / certificate get $CertNew fingerprint ];
-
-
-        $SendNotification ("Certificate renewed") \
-          ("A certificate on " . $Identity . " has been renewed.\n\n" . \
-            "Name:        " . $CertName . "\n" . \
-            "Common Name: " . $CommonName . "\n" . \
-            "Fingerprint: " . $FingerPrint . "\n" . \
-            "Issuer:      " . $Issuer . "\n" . \
-            "Validity:    " . $InvalidBefore . " to " . $InvalidAfter);
-        :log info ("The certificate " . $CertName . " has been renewed.");
-      } on-error={
-        :local InvalidBefore [ / certificate get $Cert invalid-before ];
-        :local InvalidAfter [ / certificate get $Cert invalid-after ];
-        :local Issuer [ $GetIssuerCN [ / certificate get $Cert issuer ] ];
-
-        $SendNotification ("Certificate warning!") \
-          ("A certificate on " . $Identity . " is about to expire.\n\n" . \
-            "Name:        " . $CertName . "\n" . \
-            "Common Name: " . $CommonName . "\n" . \
-            "Fingerprint: " . $FingerPrint . "\n" . \
-            "Issuer:      " . $Issuer . "\n" . \
-            "Validity:    " . $InvalidBefore . " to " . $InvalidAfter);
-        :log warning ("The certificate " . $CertName . " is about to expire in " . $ExpiresAfter . ".");
-      }
-    } else={
-      :log debug ("The certificate " . $CertName . " expires in " . $ExpiresAfter . ".");
+  :do {
+    :if ([ :len $CertRenewUrl ] = 0) do={
+      :error "No CertRenewUrl given.";
     }
-  } else={
-    :log debug ("The certificate " . $CertName . " is just a template.");
+
+    / tool fetch mode=https check-certificate=yes-without-crl url=($CertRenewUrl . $CommonName . ".pem");
+    / certificate import file-name=($CommonName . ".pem") passphrase=$CertRenewPass;
+    / file remove [ find where name=($CommonName . ".pem") ];
+
+    :local CertNew [ / certificate find where common-name=$CommonName fingerprint!=$FingerPrint expires-after>2w ];
+    :local CertNameNew [ / certificate get $CertNew name ];
+
+    :foreach IpService in=[ / ip service find where certificate=$CertName ] do={
+      / ip service set $IpService certificate=$CertNameNew;
+    }
+
+    :do {
+      :foreach Hotspot in=[ / ip hotspot profile find where ssl-certificate=$CertName ] do={
+        / ip hotspot profile set $Hotspot ssl-certificate=$CertNameNew;
+      }
+    } on-error={
+      :log debug ("Setting hotspot certificates failed. Hotspot package not installed?");
+    }
+
+    / certificate remove $Cert;
+    / certificate set $CertNew name=$CertName;
+
+    :local InvalidBefore [ / certificate get $CertNew invalid-before ];
+    :local InvalidAfter [ / certificate get $CertNew invalid-after ];
+    :local Issuer [ $GetIssuerCN [ / certificate get $CertNew issuer ] ];
+    :set CommonName [ / certificate get $CertNew common-name ];
+    :set FingerPrint [ / certificate get $CertNew fingerprint ];
+
+    $SendNotification ("Certificate renewed") \
+      ("A certificate on " . $Identity . " has been renewed.\n\n" . \
+        "Name:        " . $CertName . "\n" . \
+        "CommonName:  " . $CommonName . "\n" . \
+        "Fingerprint: " . $FingerPrint . "\n" . \
+        "Issuer:      " . $Issuer . "\n" . \
+        "Validity:    " . $InvalidBefore . " to " . $InvalidAfter);
+    :log info ("The certificate " . $CertName . " has been renewed.");
+  } on-error={
+    :local ExpiresAfter [ / certificate get $Cert expires-after ];
+    :local InvalidBefore [ / certificate get $Cert invalid-before ];
+    :local InvalidAfter [ / certificate get $Cert invalid-after ];
+    :local Issuer [ $GetIssuerCN [ / certificate get $Cert issuer ] ];
+
+    $SendNotification ("Certificate warning!") \
+      ("A certificate on " . $Identity . " is about to expire.\n\n" . \
+        "Name:        " . $CertName . "\n" . \
+        "CommonName:  " . $CommonName . "\n" . \
+        "Fingerprint: " . $FingerPrint . "\n" . \
+        "Issuer:      " . $Issuer . "\n" . \
+        "Validity:    " . $InvalidBefore . " to " . $InvalidAfter);
+    :log warning ("The certificate " . $CertName . " is about to expire in " . $ExpiresAfter . ".");
   }
 }
