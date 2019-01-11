@@ -18,7 +18,7 @@
   }
 }
 
-:foreach Cert in=[ / certificate find where !revoked expires-after<2w expires-after>0 ] do={
+:foreach Cert in=[ / certificate find where !revoked expires-after<2w ] do={
   :local CertName [ / certificate get $Cert name ];
   :local CommonName [ / certificate get $Cert common-name ];
   :local FingerPrint [ / certificate get $Cert fingerprint ];
@@ -65,18 +65,25 @@
         "Validity:    " . $InvalidBefore . " to " . $InvalidAfter);
     :log info ("The certificate " . $CertName . " has been renewed.");
   } on-error={
-    :local ExpiresAfter [ / certificate get $Cert expires-after ];
     :local InvalidBefore [ / certificate get $Cert invalid-before ];
     :local InvalidAfter [ / certificate get $Cert invalid-after ];
     :local Issuer [ $GetIssuerCN [ / certificate get $Cert issuer ] ];
 
+    :local State;
+    :if ([ / certificate get $Cert expired ] = true) do={
+      :set State "expired";
+    } else={
+      :set State "is about to expire";
+    }
+
     $SendNotification ("Certificate warning!") \
-      ("A certificate on " . $Identity . " is about to expire.\n\n" . \
+      ("A certificate on " . $Identity . " " . $State . ".\n\n" . \
         "Name:        " . $CertName . "\n" . \
         "CommonName:  " . $CommonName . "\n" . \
         "Fingerprint: " . $FingerPrint . "\n" . \
         "Issuer:      " . $Issuer . "\n" . \
         "Validity:    " . $InvalidBefore . " to " . $InvalidAfter);
-    :log warning ("The certificate " . $CertName . " is about to expire in " . $ExpiresAfter . ".");
+    :log warning ("The certificate " . $CertName . " " . $State . \
+        ", it is invalid after " . $InvalidAfter . ".");
   }
 }
