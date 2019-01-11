@@ -13,7 +13,7 @@
 :local GetIssuerCN do={
   :foreach IssuerI in=$1 do={
     :if ([ :pick $IssuerI 0 3 ] = "CN=") do={
-      :return $IssuerI;
+      :return [ :pick $IssuerI 3 99 ];
     }
   }
 }
