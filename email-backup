@@ -27,6 +27,7 @@
 :local Attach [ :toarray "" ];
 
 # get some system information
+:local BoardName [ / system resource get board-name ];
 :local Model [ / system routerboard get model ];
 :local SerialNumber [ / system routerboard get serial-number ];
 :local Channel [ / system package update get channel ];
@@ -71,7 +72,8 @@
 / tool e-mail send to=$EmailBackupTo cc=$EmailBackupCc \
     subject=("[" . $Identity . "] Backup & Config") \
     body=("Backup and config export for " . $Identity . ".\n\n" . \
-      "Routerboard:     " . $Model . "\n" . \
+      "Board name:      " . $BoardName . "\n" . \
+      "Model:           " . $Model . "\n" . \
       "Serial number:   " . $SerialNumber . "\n" . \
       "Hostname:        " . $Identity . "\n" . \
       "Channel:         " . $Channel . "\n" . \
