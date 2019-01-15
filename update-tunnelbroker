@@ -24,7 +24,7 @@
     :local Comment [ :toarray [ / interface 6to4 get $Interface comment ] ];
     :local User [ :pick ($Comment->1) 5 99 ];
     :local Pass [ :pick ($Comment->2) 5 99 ];
-    :local Id [ :pick ($Comment->3) 5 99 ];
+    :local Id [ :pick ($Comment->3) 3 99 ];
 
     $CertificateAvailable "Starfield Secure Certificate Authority - G2" "starfield";
     :log info ("Local address changed, sending UPDATE to tunnelbroker! New address: " . $PublicAddress);
