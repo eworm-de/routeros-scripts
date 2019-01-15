@@ -10,7 +10,7 @@
   :local MacAddress [ / ip dhcp-server lease get $Lease mac-address ];
   :local OldComment [ / ip dhcp-server lease get $Lease comment ];
   :local NewComment;
-  :local AccessList [ :pick [ / interface wireless access-list find where mac-address=$MacAddress ] 0 ];
+  :local AccessList ([ / interface wireless access-list find where mac-address=$MacAddress ]->0);
   :if ([ :len $AccessList ] > 0) do={
     :set NewComment [ / interface wireless access-list get $AccessList comment ];
   }

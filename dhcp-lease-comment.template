@@ -11,7 +11,7 @@
   :local MacAddress [ / ip dhcp-server lease get $Lease mac-address ];
   :local OldComment [ / ip dhcp-server lease get $Lease comment ];
   :local NewComment;
-  :local AccessList [ :pick [ / %PATH% access-list find where mac-address=$MacAddress ] 0 ];
+  :local AccessList ([ / %PATH% access-list find where mac-address=$MacAddress ]->0);
   :if ([ :len $AccessList ] > 0) do={
     :set NewComment [ / %PATH% access-list get $AccessList comment ];
   }

@@ -10,7 +10,7 @@
   :local MacAddress [ / ip dhcp-server lease get $Lease mac-address ];
   :local OldComment [ / ip dhcp-server lease get $Lease comment ];
   :local NewComment;
-  :local AccessList [ :pick [ / caps-man access-list find where mac-address=$MacAddress ] 0 ];
+  :local AccessList ([ / caps-man access-list find where mac-address=$MacAddress ]->0);
   :if ([ :len $AccessList ] > 0) do={
     :set NewComment [ / caps-man access-list get $AccessList comment ];
   }
