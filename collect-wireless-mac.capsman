@@ -18,7 +18,7 @@
 
 :foreach RegTbl in=[ / caps-man registration-table find ] do={
   :local Mac [ / caps-man registration-table get $RegTbl mac-address ];
-  :local AccessList [ :pick [ / caps-man access-list find where mac-address=$Mac ] 0 ];
+  :local AccessList ([ / caps-man access-list find where mac-address=$Mac ]->0);
   :if ([ :len $AccessList ] = 0) do={
     :local HostName "no dhcp lease";
     :local Address "no dhcp lease";

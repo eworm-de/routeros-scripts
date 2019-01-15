@@ -18,7 +18,7 @@
 
 :foreach RegTbl in=[ / interface wireless registration-table find ] do={
   :local Mac [ / interface wireless registration-table get $RegTbl mac-address ];
-  :local AccessList [ :pick [ / interface wireless access-list find where mac-address=$Mac ] 0 ];
+  :local AccessList ([ / interface wireless access-list find where mac-address=$Mac ]->0);
   :if ([ :len $AccessList ] = 0) do={
     :local HostName "no dhcp lease";
     :local Address "no dhcp lease";

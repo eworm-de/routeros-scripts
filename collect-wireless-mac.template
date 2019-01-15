@@ -19,7 +19,7 @@
 
 :foreach RegTbl in=[ / %PATH% registration-table find ] do={
   :local Mac [ / %PATH% registration-table get $RegTbl mac-address ];
-  :local AccessList [ :pick [ / %PATH% access-list find where mac-address=$Mac ] 0 ];
+  :local AccessList ([ / %PATH% access-list find where mac-address=$Mac ]->0);
   :if ([ :len $AccessList ] = 0) do={
     :local HostName "no dhcp lease";
     :local Address "no dhcp lease";
