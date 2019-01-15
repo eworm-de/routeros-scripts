@@ -6,7 +6,7 @@
 #
 # manage remote logging facilities
 
-:local Remote [ /system logging action get [ :pick [ find where target=remote ] 0 ] remote ];
+:local Remote [ /system logging action get ([ find where target=remote ]->0) remote ];
 
 if ([ / tool netwatch get [ find where host=$Remote ] status ] = "up") do={
   / system logging set disabled=no [ find where action=remote disabled=yes ];
