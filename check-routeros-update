@@ -36,6 +36,9 @@
       :log warning ("Failed receiving safe version for " . $Channel . ".");
     }
     :if ($Result->"status" = "finished" && $Result->"data" = $LatestVersion) do={
+      :if ([ / system script print count-only where name="email-backup" ] > 0) do={
+        / system script run email-backup;
+      }
       :log info ("Version " . $LatestVersion . " is considered safe, updating...");
       $SendNotification ("RouterOS update notification") \
           ("Version " . $LatestVersion . " is considered safe for " . $Channel . \
