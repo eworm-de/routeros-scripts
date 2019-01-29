@@ -7,6 +7,7 @@
 :global Identity;
 :global GpsTrackUrl;
 
+:local CoordinateFormat [ /system gps get coordinate-format ];
 :local Gps [ / system gps monitor once as-value ];
 
 if ($Gps->"valid" = true) do={
@@ -18,7 +19,7 @@ if ($Gps->"valid" = true) do={
       "\"lon\":\"" . ($Gps->"longitude") . "\"," . \
       "\"identity\":\"" . $Identity . "\"" . \
     "}");
-  :log debug ("Sending GPS data for tracking: " . \
+  :log debug ("Sending GPS data in " . $CoordinateFormat . " format: " . \
     "lat: " . ($Gps->"latitude") . " " . \
     "lon: " . ($Gps->"longitude"));
 } else={
