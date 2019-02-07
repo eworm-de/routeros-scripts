@@ -32,6 +32,13 @@
   }
 }
 
-:if ($Updated = true) do={
-  / caps-man remote-cap upgrade [ find where version!=$InstalledVersion ];
+:local RemoteCapCount [ /caps-man remote-cap print count-only ];
+:if ($Updated = true && $RemoteCapCount > 0) do={
+  :local Delay (600 / $RemoteCapCount);
+  :if ($Delay > 120) do={ :set Delay 120; }
+  :foreach RemoteCap in=[ / caps-man remote-cap find where version!=$InstalledVersion ] do={
+    :log debug ("Starting upgrade for CAP " . [ / caps-man remote-cap get $RemoteCap name ] . "...");
+    / caps-man remote-cap upgrade $RemoteCap;
+    :delay ($Delay . "s");
+  }
 }
