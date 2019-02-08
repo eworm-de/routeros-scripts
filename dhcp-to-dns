@@ -42,6 +42,9 @@
   :set DhcpIp [ / ip dhcp-server lease get $Lease address ];
   :local Comment ("managed by dhcp-to-dns for " . $Mac);
   :set HostName [ $CharacterReplace [ / ip dhcp-server lease get $Lease host-name ] " " "" ];
+  :if ($HostName = "") do={
+    :set HostName [ $CharacterReplace [ / ip dhcp-server lease get $Lease mac-address ] ":" "-" ];
+  }
 
   :if ([ :len $HostName ] > 0) do={
     :set Fqdn ($HostName . "." . $Zone);
