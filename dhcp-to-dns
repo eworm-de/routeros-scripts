@@ -17,60 +17,52 @@
   :set Zone ("dhcp." . $Domain);
 }
 :local Ttl 5m;
-:local HostName;
-:local Fqdn;
-:local DnsIp;
-:local DhcpIp;
-:local DnsNode;
-:local DhcpNode;
+:local CommentPrefix "managed by dhcp-to-dns for ";
 
-:foreach Static in=[ / ip dns static find where name ~ (".*\\." . $Zone) ] do={
-  :set Fqdn [ / ip dns static get $Static name ];
-  :set HostName [ :pick $Fqdn 0 ([ :len $Fqdn ] - ([ :len $Zone ] + 1)) ];
-  :set DhcpNode [ / ip dhcp-server lease find where host-name=$HostName dynamic=yes ];
-  :if ([ :len $DhcpNode ] > 0) do={
-    :log debug ("Lease for " . $HostName . " still exists. Not deleting.");
+:foreach Static in=[ / ip dns static find where comment ~ $CommentPrefix ] do={
+  :local MacAddress [ $CharacterReplace [ / ip dns static get $Static comment ] $CommentPrefix "" ];
+  :local IpAddress [ / ip dns static get $Static address ];
+  :local HostName [ / ip dns static get $Static name ];
+  :if ([ / ip dhcp-server lease print count-only where mac-address=$MacAddress address=$IpAddress dynamic=yes ] > 0) do={
+    :log debug ("Lease for " . $MacAddress . " (" . $HostName . ") still exists. Not deleting DNS entry.");
   } else={
     :local Found false;
-    :log info ("Lease expired for " . $HostName . ", deleting DNS entry.");
+    :log info ("Lease expired for " . $MacAddress . " (" . $HostName . "), deleting DNS entry.");
     / ip dns static remove $Static;
   }
 }
 
 :foreach Lease in=[ / ip dhcp-server lease find where dynamic=yes ] do={
   :local Mac [ / ip dhcp-server lease get $Lease mac-address ];
-  :set DhcpIp [ / ip dhcp-server lease get $Lease address ];
-  :local Comment ("managed by dhcp-to-dns for " . $Mac);
-  :set HostName [ $CharacterReplace [ / ip dhcp-server lease get $Lease host-name ] " " "" ];
+  :local DhcpIp [ / ip dhcp-server lease get $Lease address ];
+  :local Comment ($CommentPrefix . $Mac);
+  :local HostName [ $CharacterReplace [ / ip dhcp-server lease get $Lease host-name ] " " "" ];
   :if ($HostName = "") do={
     :set HostName [ $CharacterReplace [ / ip dhcp-server lease get $Lease mac-address ] ":" "-" ];
   }
 
-  :if ([ :len $HostName ] > 0) do={
-    :set Fqdn ($HostName . "." . $Zone);
-    :set DnsNode [ / ip dns static find where name=$Fqdn ];
-    :if ([ :len $DnsNode ] > 0) do={
-      :set DnsIp [ / ip dns static get $DnsNode address ];
-
-      :local Leases [ / ip dhcp-server lease find where host-name=$HostName dynamic=yes ];
-      :local HostNameCount [ / ip dhcp-server lease print count-only where host-name=$HostName dynamic=yes ];
-      :if ($HostNameCount > 1) do={
-        :foreach J,Lease in=$Leases do={
-          :if ($J + 1 = $HostNameCount) do={
-            :set DhcpIp [ / ip dhcp-server lease get $Lease address ];
-          }
+  :local Fqdn ($HostName . "." . $Zone);
+  :local DnsNode [ / ip dns static find where name=$Fqdn ];
+  :if ([ :len $DnsNode ] > 0) do={
+    :local DnsIp [ / ip dns static get $DnsNode address ];
+    :local Leases [ / ip dhcp-server lease find where host-name=$HostName dynamic=yes ];
+    :local HostNameCount [ / ip dhcp-server lease print count-only where host-name=$HostName dynamic=yes ];
+    :if ($HostNameCount > 1) do={
+      :foreach J,Lease in=$Leases do={
+        :if ($J + 1 = $HostNameCount) do={
+          :set DhcpIp [ / ip dhcp-server lease get $Lease address ];
         }
       }
-
-      :if ($DnsIp = $DhcpIp) do={
-        :log debug ("DNS entry for " . $Fqdn . " does not need updating.");
-      } else={
-        :log info ("Replacing DNS entry for " . $Fqdn . ", new address is " . $DhcpIp . ".");
-        / ip dns static set name=$Fqdn address=$DhcpIp ttl=$Ttl comment=$Comment $DnsNode;
-      }
-    } else={
-      :log info ("Adding new DNS entry for " . $Fqdn . ", address is " . $DhcpIp . ".");
-      / ip dns static add name=$Fqdn address=$DhcpIp ttl=$Ttl comment=$Comment;
     }
+
+    :if ($DnsIp = $DhcpIp) do={
+      :log debug ("DNS entry for " . $Fqdn . " does not need updating.");
+    } else={
+      :log info ("Replacing DNS entry for " . $Fqdn . ", new address is " . $DhcpIp . ".");
+      / ip dns static set name=$Fqdn address=$DhcpIp ttl=$Ttl comment=$Comment $DnsNode;
+    }
+  } else={
+    :log info ("Adding new DNS entry for " . $Fqdn . ", address is " . $DhcpIp . ".");
+    / ip dns static add name=$Fqdn address=$DhcpIp ttl=$Ttl comment=$Comment;
   }
 }
