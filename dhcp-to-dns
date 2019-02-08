@@ -4,6 +4,8 @@
 #
 # check DHCP leases and add/remove/update DNS entries
 
+:global CharacterReplace;
+
 :global Identity;
 :global Domain;
 :global HostNameInZone;
@@ -39,12 +41,7 @@
   :local Mac [ / ip dhcp-server lease get $Lease mac-address ];
   :set DhcpIp [ / ip dhcp-server lease get $Lease address ];
   :local Comment ("managed by dhcp-to-dns for " . $Mac);
-  :set HostName [ / ip dhcp-server lease get $Lease host-name ];
-
-  :while ($HostName ~ " ") do={
-    :local Pos [ :find $HostName " " ];
-    :set HostName ([ :pick $HostName 0 $Pos ] . [ :pick $HostName ($Pos + 1) 999 ]);
-  };
+  :set HostName [ $CharacterReplace [ / ip dhcp-server lease get $Lease host-name ] " " "" ];
 
   :if ([ :len $HostName ] > 0) do={
     :set Fqdn ($HostName . "." . $Zone);
