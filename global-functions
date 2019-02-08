@@ -47,6 +47,10 @@
   :local ReplaceWith [ :tostr $3 ];
   :local Len [ :len $ReplaceFrom ];
 
+  :if ($ReplaceFrom = "") do={
+    :return $String;
+  }
+
   :while ($String ~ $ReplaceFrom) do={
     :local Pos [ :find $String $ReplaceFrom ];
     :set String ([ :pick $String 0 $Pos ] . $ReplaceWith . [ :pick $String ($Pos + $Len) 999 ]);
