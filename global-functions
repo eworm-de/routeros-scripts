@@ -40,6 +40,21 @@
   :return $Return;
 }
 
+# character replace
+:global CharacterReplace do={
+  :local String [ :tostr $1 ];
+  :local ReplaceFrom [ :tostr $2 ];
+  :local ReplaceWith [ :tostr $3 ];
+  :local Len [ :len $ReplaceFrom ];
+
+  :while ($String ~ $ReplaceFrom) do={
+    :local Pos [ :find $String $ReplaceFrom ];
+    :set String ([ :pick $String 0 $Pos ] . $ReplaceWith . [ :pick $String ($Pos + $Len) 999 ]);
+  }
+
+  :return $String;
+}
+
 # check and import required certificates
 :global CertificateAvailable do={
   :local CommonName [ :tostr $1 ];
