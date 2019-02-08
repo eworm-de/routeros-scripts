@@ -19,8 +19,8 @@ if ($OldPrefix != $PdPrefix) do={
 
   :foreach Record in=[ / ip dns static find where comment~("ipv6-pool-" . $Pool) ] do={
     :local Comment [ :toarray [ / ip dns static get $Record comment ] ];
-    :local IntName [ :pick [ :pick $Comment 1 ] 10 99 ];
-    :local Suffix [ :pick [ :pick $Comment 2 ] 7 99 ];
+    :local IntName [ :pick ($Comment->1) 10 99 ];
+    :local Suffix [ :pick ($Comment->2) 7 99 ];
 
     :local Prefix [ / ipv6 address get [ find where interface=$IntName from-pool=$Pool global ] address ];
     :local Prefix64 [ :pick $Prefix 0 [ :find $Prefix "::/64" ] ];
