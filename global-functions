@@ -151,7 +151,7 @@
   :if ([ :len $PkgArch ] = 0) do={ :set PkgArch [ / system resource get architecture-name ]; }
 
   $CertificateAvailable "Let's Encrypt Authority X3" "letsencrypt";
-  do {
+  :do {
     :local PkgFile ($PkgName . "-" . $PkgVer . "-" . $PkgArch . ".npk");
     / tool fetch mode=https check-certificate=yes-without-crl \
       ("https://upgrade.mikrotik.com/routeros/" . $PkgVer . "/" . $PkgFile) \
