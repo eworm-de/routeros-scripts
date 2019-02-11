@@ -9,8 +9,6 @@
   :local IntName [ / interface lte get $Interface name ];
   :do {
     :set Firmware [ / interface lte firmware-upgrade $Interface once as-value ];
-    # strip the extra line break (TODO: remove when fixed upstream)
-    :set ($Firmware->"latest") [ :pick ($Firmware->"latest") 0 [ :find ($Firmware->"latest") "\n" ] ];
   } on-error={
     :log debug ("Could not get latest LTE firmware version for interface " . $IntName . ".");
   }
