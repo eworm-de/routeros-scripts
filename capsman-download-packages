@@ -8,11 +8,9 @@
 # download and cleanup packages for CAP installation from CAPsMAN
 
 :global DownloadPackage;
+:global CleanFilePath;
 
-:local PackagePath [ / caps-man manager get package-path ];
-:if ([ :pick $PackagePath 0 ] = "/") do={
-  :set PackagePath [ :pick $PackagePath 1 [ :len $PackagePath ] ];
-}
+:local PackagePath [ $CleanFilePath [ / caps-man manager get package-path ] ];
 :local InstalledVersion [ / system package update get installed-version ];
 :local Updated false;
 
