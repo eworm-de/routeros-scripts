@@ -142,7 +142,7 @@
   :local PkgName [ :tostr $1 ];
   :local PkgVer  [ :tostr $2 ];
   :local PkgArch [ :tostr $3 ];
-  :local PkgDest [ :tostr $4 ];
+  :local PkgDir  [ :tostr $4 ];
 
   :global CertificateAvailable;
 
@@ -150,14 +150,20 @@
   :if ([ :len $PkgVer  ] = 0) do={ :set PkgVer  [ / system package update get installed-version ]; }
   :if ([ :len $PkgArch ] = 0) do={ :set PkgArch [ / system resource get architecture-name ]; }
 
+  :local PkgFile ($PkgName . "-" . $PkgVer . "-" . $PkgArch . ".npk");
+  :local PkgDest $PkgFile;
+  :if ($PkgDir != "") do={
+    :set PkgDest ($PkgDir . "/" . $PkgFile);
+  }
+
   $CertificateAvailable "Let's Encrypt Authority X3" "letsencrypt";
   :do {
-    :local PkgFile ($PkgName . "-" . $PkgVer . "-" . $PkgArch . ".npk");
     / tool fetch mode=https check-certificate=yes-without-crl \
       ("https://upgrade.mikrotik.com/routeros/" . $PkgVer . "/" . $PkgFile) \
-      dst-path=($PkgDest . "/" . $PkgFile);
+      dst-path=$PkgDest;
     :return true;
   } on-error={
+    / file remove [ find where name=$PkgDest ];
     :return false;
   }
 }
