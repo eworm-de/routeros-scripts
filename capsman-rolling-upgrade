@@ -1,0 +1,20 @@
+#!rsc
+# RouterOS script: capsman-rolling-upgrade
+# Copyright (c) 2018-2019 Christian Hesse <mail@eworm.de>
+#                         Michael Gisbers <michael@gisbers.de>
+#
+# upgrade CAPs one after another
+
+:local InstalledVersion [ / system package update get installed-version ];
+
+:local RemoteCapCount [ /caps-man remote-cap print count-only ];
+:if ($RemoteCapCount > 0) do={
+  :local Delay (600 / $RemoteCapCount);
+  :if ($Delay > 120) do={ :set Delay 120; }
+  :foreach RemoteCap in=[ / caps-man remote-cap find where version!=$InstalledVersion ] do={
+    :local RemoteCapName [ / caps-man remote-cap get $RemoteCap name ];
+    :log debug ("Starting upgrade for CAP " . $RemoteCapName . "...");
+    / caps-man remote-cap upgrade $RemoteCap;
+    :delay ($Delay . "s");
+  }
+}
