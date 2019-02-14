@@ -178,9 +178,17 @@
     / tool fetch mode=https check-certificate=yes-without-crl \
       ("https://upgrade.mikrotik.com/routeros/" . $PkgVer . "/" . $PkgFile) \
       dst-path=$PkgDest;
-    :return true;
   } on-error={
     / file remove [ find where name=$PkgDest ];
     :return false;
   }
+
+  # Fetch tool in RouterOS has an issue where it truncates files on slow
+  # storage. Detect that... TODO: Remove when fixed. (Ticket#2019021122006199)
+  :if ([ / file get [ find where name=$PkgDest ] type ] != "package") do={
+    / file remove [ find where name=$PkgDest ];
+    :return false;
+  }
+
+  :return true;
 }
