@@ -43,7 +43,7 @@
       $SendNotification ("RouterOS update notification") \
           ("Version " . $LatestVersion . " is considered safe for " . $Channel . \
           ", updating on " . $Identity . "...");
-      / system package update install;
+      / system package update install without-paging;
       :error "Waiting for system to reboot.";
     }
   }
