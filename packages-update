@@ -1,0 +1,29 @@
+#!rsc
+# RouterOS script: packages-update
+# Copyright (c) 2019 Christian Hesse <mail@eworm.de>
+#
+# download packages and reboot for installation
+
+:global DownloadPackage;
+
+:local InstalledVersion [ / system package update get installed-version ];
+:local LatestVersion [ / system package update get latest-version ];
+
+:if ($InstalledVersion = $LatestVersion) do={
+  :error ("Version " . $LatestVersion . " is already installed.");
+}
+
+:foreach Package in=[ / system package find where !bundle ] do={
+  :local PkgName [ / system package get $Package name ];
+  if ([ $DownloadPackage $PkgName $LatestVersion ] = false) do={
+    :error ("Download for package " . $PkgName . " failed.");
+  }
+}
+
+:if ([ / system script print count-only where name="email-backup" ] > 0) do={
+  / system script run email-backup;
+}
+
+:log info ("Rebooting for update.");
+:delay 1s;
+/ system reboot;
