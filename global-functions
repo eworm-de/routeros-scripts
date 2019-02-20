@@ -12,11 +12,6 @@
 :global SentLteFirmwareUpgradeNotification "-";
 :global Identity [ / system identity get name ];
 
-# read input from user
-:global Read do={
-  :return;
-}
-
 # url encoding
 :global UrlEncode do={
   :local Input [ :tostr $1 ];

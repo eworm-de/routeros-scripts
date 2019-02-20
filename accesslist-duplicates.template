@@ -7,8 +7,6 @@
 # !! This is just a template! Replace '%PATH%' with 'caps-man'
 # !! or 'interface wireless'!
 
-:global Read;
-
 :local Seen [ :toarray "" ];
 :local Shown [ :toarray "" ];
 
@@ -25,7 +23,7 @@
         :set Shown ($Shown, $Mac);
 
         :put "\nEnter to skip, numeric id to remove!";
-        :local Remove [ $Read ];
+        :local Remove [ :return ];
         :if ($Remove != "") do={
           :put ("Removing numeric id " . $Remove . "...\n");
           / %PATH% access-list remove $Remove;
