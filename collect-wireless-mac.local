@@ -10,6 +10,9 @@
 
 :global GetMacVendor;
 :global SendNotification;
+:global ScriptLock;
+
+$ScriptLock "collect-wireless-mac.local";
 
 :local PlaceBefore [ / interface wireless access-list find where comment="--- collected above ---" disabled ];
 :if ([ :len $PlaceBefore ] = 0) do={

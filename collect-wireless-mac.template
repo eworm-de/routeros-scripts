@@ -11,6 +11,9 @@
 
 :global GetMacVendor;
 :global SendNotification;
+:global ScriptLock;
+
+$ScriptLock "collect-wireless-mac%TEMPL%";
 
 :local PlaceBefore [ / %PATH% access-list find where comment="--- collected above ---" disabled ];
 :if ([ :len $PlaceBefore ] = 0) do={
