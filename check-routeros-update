@@ -10,6 +10,15 @@
 
 :global SendNotification;
 
+:local Update do={
+  :if ([ / system script print count-only where name="packages-update" ] > 0) do={
+    / system script run packages-update;
+  } else={
+    / system package update install without-paging;
+  }
+  :error "Waiting for system to reboot.";
+}
+
 :if ([ / system package print count-only where name="wireless" disabled=no ] > 0) do={
   :if ([ / interface wireless cap get enabled ] = true && \
       [ / caps-man manager get enabled ] = false) do={
@@ -41,12 +50,16 @@
       $SendNotification ("RouterOS update notification") \
           ("Version " . $LatestVersion . " is considered safe for " . $Channel . \
           ", updating on " . $Identity . "...");
-      :if ([ / system script print count-only where name="packages-update" ] > 0) do={
-        / system script run packages-update;
-      } else={
-        / system package update install without-paging;
-      }
-      :error "Waiting for system to reboot.";
+      $Update;
+    }
+  }
+
+  :if ([ / system script job print count-only where script="check-routeros-update" parent~"." ] > 0) do={
+    :put ("Do you want to install RouterOS version " . $LatestVersion . "? (y/n)");
+    :if ([ :terminal inkey timeout=60 ] = 121) do={
+      $Update;
+    } else={
+      :put "Canceled...";
     }
   }
 
