@@ -55,7 +55,7 @@
   }
 
   :if ([ / system script job print count-only where script="check-routeros-update" parent~"." ] > 0) do={
-    :put ("Do you want to install RouterOS version " . $LatestVersion . "? (y/n)");
+    :put ("Do you want to install RouterOS version " . $LatestVersion . "? [y/N]");
     :if ([ :terminal inkey timeout=60 ] = 121) do={
       $Update;
     } else={
