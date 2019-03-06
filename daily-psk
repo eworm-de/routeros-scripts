@@ -1,11 +1,13 @@
 #!rsc
 # RouterOS script: daily-psk
 # Copyright (c) 2013-2019 Christian Hesse <mail@eworm.de>
+#                         Michael Gisbers <michael@gisbers.de>
 #
 # update daily PSK (pre shared key)
 
 :global Identity;
 :global DailyPskMatchComment;
+:global UrlEncode;
 
 :global SendNotification;
 
@@ -67,7 +69,7 @@
         :set Seen ($Seen, $Ssid);
 
         :local Url ("https://www.eworm.de/cgi-bin/cqrlogo-wifi.cgi" . \
-            "?scale=8&level=1&ssid=" . $Ssid . "&pass=" . $NewPsk);
+            "?scale=8&level=1&ssid=" . [ $UrlEncode $Ssid ] . "&pass=" . [ $UrlEncode $NewPsk ]);
         :local Attach "qrcode-daily.png";
 
         :do {
