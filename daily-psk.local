@@ -1,0 +1,90 @@
+#!rsc
+# RouterOS script: daily-psk.local
+# Copyright (c) 2013-2019 Christian Hesse <mail@eworm.de>
+#                         Michael Gisbers <michael@gisbers.de>
+#
+# update daily PSK (pre shared key)
+
+:global Identity;
+:global DailyPskMatchComment;
+:global UrlEncode;
+
+:global SendNotification;
+
+:local Seen [ :toarray "" ];
+
+# return pseudo-random string for PSK
+:local GeneratePSK do={
+  :local Date [ :tostr $1 ];
+
+  :global DailyPskSecrets;
+
+  :local Months { "jan"; "feb"; "mar"; "apr"; "may"; "jun";
+                  "jul"; "aug"; "sep"; "oct"; "nov"; "dec" };
+
+  :local Month [ :pick $Date 0 3 ];
+  :local Day [ :tonum [ :pick $Date 4 6 ] ];
+  :local Year [ :pick $Date 7 11 ];
+
+  :for MIndex from=0 to=[ :len $Months ] do={
+    :if ($Months->$MIndex = $Month) do={
+      :set Month ($MIndex + 1);
+    }
+  }
+
+  :local A ((14 - $Month) / 12);
+  :local B ($Year - $A);
+  :local C ($Month + 12 * $A - 2);
+  :local WeekDay (7000 + $Day + $B + ($B / 4) - ($B / 100) + ($B / 400) + ((31 * $C) / 12));
+  :set WeekDay ($WeekDay - (($WeekDay / 7) * 7));
+
+  :return (($DailyPskSecrets->0->($Day - 1)) . \
+    ($DailyPskSecrets->1->($Month - 1)) . \
+    ($DailyPskSecrets->2->$WeekDay));
+}
+
+:local Date [ / system clock get date ];
+:local NewPsk [ $GeneratePSK $Date ];
+
+:foreach AccList in=[ / interface wireless access-list find where comment~$DailyPskMatchComment ] do={
+  :local IntName [ / interface wireless access-list get $AccList interface ];
+  :local Ssid [ / interface wireless get $IntName ssid ];
+  :local OldPsk [ / interface wireless access-list get $AccList private-pre-shared-key ];
+  :local Skip 0;
+
+  :if ($NewPsk != $OldPsk) do={
+    :log info ("Updating daily PSK for " . $Ssid . " to " . $NewPsk . " (was " . $OldPsk . ")");
+    / interface wireless access-list set $AccList private-pre-shared-key=$NewPsk;
+
+    :if ([ / interface wireless print count-only where name=$IntName disabled=no ] = 1) do={
+      :foreach SeenSsid in=$Seen do={
+        :if ($SeenSsid = $Ssid) do={
+          :log debug ("Already sent a mail for SSID " . $Ssid . ", skipping.");
+          :set Skip 1;
+        }
+      }
+
+      :if ($Skip = 0) do={
+        :set Seen ($Seen, $Ssid);
+
+        :local Url ("https://www.eworm.de/cgi-bin/cqrlogo-wifi.cgi" . \
+            "?scale=8&level=1&ssid=" . [ $UrlEncode $Ssid ] . "&pass=" . [ $UrlEncode $NewPsk ]);
+        :local Attach "qrcode-daily.png";
+
+        :do {
+          / tool fetch mode=https check-certificate=yes-without-crl \
+              $Url dst-path=$Attach;
+        } on-error={
+          :set Attach "";
+        }
+
+        $SendNotification ("daily PSK " . $Ssid) \
+          ("This is the daily PSK on " . $Identity . ":\n\n" . \
+            "SSID: " . $Ssid . "\n" . \
+            "PSK:  " . $NewPsk . "\n" . \
+            "Date: " . $Date . "\n\n" . \
+            $Url) $Attach;
+      }
+    }
+  }
+}

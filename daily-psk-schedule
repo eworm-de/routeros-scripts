@@ -17,7 +17,7 @@
     :error "Time is not yet synchronized from ntp.";
   }
 
-  / system script run daily-psk;
+  / system script run [ find where name~"daily-psk\\.(capsman|local)" ];
 
   / system scheduler set interval=0s $Scheduler;
 }
