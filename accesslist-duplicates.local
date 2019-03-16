@@ -21,9 +21,9 @@
         / interface wireless access-list print where mac-address=$Mac;
         :set Shown ($Shown, $Mac);
 
-        :put "\nEnter to skip, numeric id to remove!";
-        :local Remove [ :return ];
-        :if ($Remove != "") do={
+        :put "\nNumeric id to remove, any key to skip!";
+        :local Remove ([ :terminal inkey ] - 48);
+        :if ($Remove >= 0 && $Remove <= 9) do={
           :put ("Removing numeric id " . $Remove . "...\n");
           / interface wireless access-list remove $Remove;
         }
