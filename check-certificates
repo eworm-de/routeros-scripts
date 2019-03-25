@@ -40,11 +40,22 @@
     }
 
     :do {
+      :foreach Identity in=[ / ip ipsec identity find where certificate=$CertName ] do={
+        / ip ipsec identity set $Identity certificate=$CertNameNew;
+      }
+      :foreach Identity in=[ / ip ipsec identity find where remote-certificate=$CertName ] do={
+        / ip ipsec identity set $Identity remote-certificate=$CertNameNew;
+      }
+    } on-error={
+      :log debug ("Setting IPSEC certificates failed. Package 'security' not installed?");
+    }
+
+    :do {
       :foreach Hotspot in=[ / ip hotspot profile find where ssl-certificate=$CertName ] do={
         / ip hotspot profile set $Hotspot ssl-certificate=$CertNameNew;
       }
     } on-error={
-      :log debug ("Setting hotspot certificates failed. Hotspot package not installed?");
+      :log debug ("Setting hotspot certificates failed. Package 'hotspot' not installed?");
     }
 
     / certificate remove $Cert;
