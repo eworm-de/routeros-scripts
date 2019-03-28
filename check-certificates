@@ -18,6 +18,11 @@
   }
 }
 
+:local FormatExpire do={
+  :global CharacterReplace;
+  :return [ $CharacterReplace [ $CharacterReplace [ :tostr $1 ] "w" "w " ] "d" "d " ];
+}
+
 :foreach Cert in=[ / certificate find where !revoked expires-after<3w ] do={
   :local CertName [ / certificate get $Cert name ];
   :local CommonName [ / certificate get $Cert common-name ];
@@ -61,11 +66,12 @@
     / certificate remove $Cert;
     / certificate set $CertNew name=$CertName;
 
-    :local InvalidBefore [ / certificate get $CertNew invalid-before ];
-    :local InvalidAfter [ / certificate get $CertNew invalid-after ];
-    :local Issuer [ $GetIssuerCN [ / certificate get $CertNew issuer ] ];
     :set CommonName [ / certificate get $CertNew common-name ];
     :set FingerPrint [ / certificate get $CertNew fingerprint ];
+    :local Issuer [ $GetIssuerCN [ / certificate get $CertNew issuer ] ];
+    :local InvalidBefore [ / certificate get $CertNew invalid-before ];
+    :local InvalidAfter [ / certificate get $CertNew invalid-after ];
+    :local ExpiresAfter [ $FormatExpire [ / certificate get $CertNew expires-after ] ];
 
     $SendNotification ("Certificate renewed") \
       ("A certificate on " . $Identity . " has been renewed.\n\n" . \
@@ -73,7 +79,8 @@
         "CommonName:  " . $CommonName . "\n" . \
         "Fingerprint: " . $FingerPrint . "\n" . \
         "Issuer:      " . $Issuer . "\n" . \
-        "Validity:    " . $InvalidBefore . " to " . $InvalidAfter);
+        "Validity:    " . $InvalidBefore . " to " . $InvalidAfter . "\n" . \
+        "Expires in:  " . $ExpiresAfter);
     :log info ("The certificate " . $CertName . " has been renewed.");
   } on-error={
     :log debug ("Could not renew certificate " . $CertName ".");
@@ -88,11 +95,11 @@
   :local InvalidBefore [ / certificate get $Cert invalid-before ];
   :local InvalidAfter [ / certificate get $Cert invalid-after ];
 
-  :local State;
+  :local ExpiresAfter [ $FormatExpire [ / certificate get $Cert expires-after ] ];
+  :local State "is about to expire";
   :if ([ / certificate get $Cert expired ] = true) do={
+    :set ExpiresAfter "expired";
     :set State "expired";
-  } else={
-    :set State "is about to expire";
   }
 
   $SendNotification ("Certificate warning!") \
@@ -101,7 +108,8 @@
       "CommonName:  " . $CommonName . "\n" . \
       "Fingerprint: " . $FingerPrint . "\n" . \
       "Issuer:      " . $Issuer . "\n" . \
-      "Validity:    " . $InvalidBefore . " to " . $InvalidAfter);
+      "Validity:    " . $InvalidBefore . " to " . $InvalidAfter . "\n" . \
+      "Expires in:  " . $ExpiresAfter);
   :log warning ("The certificate " . $CertName . " " . $State . \
       ", it is invalid after " . $InvalidAfter . ".");
 }
