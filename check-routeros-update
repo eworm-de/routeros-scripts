@@ -76,6 +76,7 @@
       "Hostname:      " . $Identity . "\n" . \
       "Channel:       " . $Channel . "\n" . \
       "Installed:     " . $InstalledVersion . "\n" . \
-      "Available:     " . $LatestVersion);
+      "Available:     " . $LatestVersion . "\n\n" .\
+      "https://upgrade.mikrotik.com/routeros/" . $LatestVersion . "/CHANGELOG");
   :set SentRouterosUpdateNotification $LatestVersion;
 }
