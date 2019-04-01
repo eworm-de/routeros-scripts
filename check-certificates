@@ -34,7 +34,9 @@
     }
 
     / tool fetch mode=https check-certificate=yes-without-crl url=($CertRenewUrl . $CommonName . ".pem");
-    / certificate import file-name=($CommonName . ".pem") passphrase=$CertRenewPass;
+    :foreach PassPhrase in=$CertRenewPass do={
+      / certificate import file-name=($CommonName . ".pem") passphrase=$PassPhrase;
+    }
     / file remove [ find where name=($CommonName . ".pem") ];
 
     :local CertNew [ / certificate find where common-name=$CommonName fingerprint!=$FingerPrint expires-after>3w ];

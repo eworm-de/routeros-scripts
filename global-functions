@@ -5,7 +5,7 @@
 # global functions
 
 # expected configuration version
-:global ExpectedConfigVersion 2;
+:global ExpectedConfigVersion 3;
 
 # global variables not to be changed by user
 :global SentRouterosUpdateNotification "-";

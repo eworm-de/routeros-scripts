@@ -5,4 +5,5 @@
 :global GlobalConfigChanges {
   1="moved variables from global-config to global-functions for independence";
   2="variable names became CamelCase to work around scripting issues";
+  3="variable for certificate renew passphrase became an array to support multiple passphrases";
 };
