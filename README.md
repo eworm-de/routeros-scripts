@@ -16,9 +16,6 @@ properly. The changelog lists the corresponding change as follows:
 
 > *) fetch - added "as-value" output format;
 
-See branch `pre-6-43` if you want to use the scripts on devices with older
-RouterOS version.
-
 Initial setup
 -------------
 
