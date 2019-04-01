@@ -16,6 +16,9 @@ properly. The changelog lists the corresponding change as follows:
 
 > *) fetch - added "as-value" output format;
 
+Specific scripts may require even newer RouterOS version, for example cloud
+backup was added in 6.44.
+
 Initial setup
 -------------
 
