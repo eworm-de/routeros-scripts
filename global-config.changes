@@ -1,0 +1,8 @@
+# RouterOS global-config changes
+# Copyright (c) 2019 Christian Hesse <mail@eworm.de>
+
+# Changes for global-config to be added to notification on script-updates
+:global GlobalConfigChanges {
+  1="moved variables from global-config to global-functions for independence";
+  2="variable names became CamelCase to work around scripting issues";
+};

@@ -78,9 +78,30 @@
 }
 
 :if ($GlobalConfigVersion < $ExpectedConfigVersion) do={
+  :global GlobalConfigChanges;
+  :local ChangeLogCode;
+  :local Changes;
+
+  :log debug ("Fetching changelog.");
+  :do {
+    :local Result [ / tool fetch check-certificate=yes-without-crl \
+        ($ScriptUpdatesBaseUrl . "global-config.changes" . $ScriptUpdatesUrlSuffix) \
+        output=user as-value ];
+    :if ($Result->"status" = "finished") do={
+      :set ChangeLogCode ($Result->"data");
+    }
+  } on-error={
+    :log info ("Failed fetching changes!");
+  }
+  [ :parse $ChangeLogCode ];
+  :for I from=($GlobalConfigVersion + 1) to=$ExpectedConfigVersion do={
+    :set Changes ( $Changes . "\n * " . $GlobalConfigChanges->[ :tostr $I ] );
+  }
+
   $SendNotification "Configuration warning!" \
       ("Current configuration on " . $Identity . " is out of date. " . \
       "Please update global-config, then increase variable " . \
       "GlobalConfigVersion (currently " . $GlobalConfigVersion . \
-      ") to " . $ExpectedConfigVersion . " and re-run global-config.");
+      ") to " . $ExpectedConfigVersion . " and re-run global-config.\n\n" . \
+      "Changes:" . $Changes);
 }
