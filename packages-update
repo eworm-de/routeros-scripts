@@ -10,13 +10,15 @@
 :local LatestVersion [ / system package update get latest-version ];
 
 :if ($InstalledVersion = $LatestVersion) do={
-  :error ("Version " . $LatestVersion . " is already installed.");
+  :log info ("Version " . $LatestVersion . " is already installed.");
+  :error "No updates available.";
 }
 
 :foreach Package in=[ / system package find where !bundle ] do={
   :local PkgName [ / system package get $Package name ];
   if ([ $DownloadPackage $PkgName $LatestVersion ] = false) do={
-    :error ("Download for package " . $PkgName . " failed.");
+    :log error ("Download for package " . $PkgName . " failed.");
+    :error "Error: See log for details.";
   }
 }
 

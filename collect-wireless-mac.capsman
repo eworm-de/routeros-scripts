@@ -16,7 +16,8 @@ $ScriptLock "collect-wireless-mac.capsman";
 
 :local PlaceBefore [ / caps-man access-list find where comment="--- collected above ---" disabled ];
 :if ([ :len $PlaceBefore ] = 0) do={
-  :error "Missing disabled access-list entry with comment '--- collected above ---'";
+  :log error "Missing disabled access-list entry with comment '--- collected above ---'";
+  :error "Error: See log for details.";
 }
 
 :foreach RegTbl in=[ / caps-man registration-table find ] do={

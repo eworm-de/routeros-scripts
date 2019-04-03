@@ -10,7 +10,8 @@
 
 # check mail server
 :if ([ / tool netwatch get [ find where comment=[ / tool e-mail get address ] ] status ] != "up") do={
-  :error "Mail server is not up.";
+  :log warning "Mail server is not up.";
+  :error "Warning: See log for details.";
 }
 
 :local Allowed [ / tool sms get allowed-number ];

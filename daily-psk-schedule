@@ -10,11 +10,13 @@
   / system scheduler set interval=15s $Scheduler;
 } else={
   :if ([ / tool netwatch get [ find where comment=[ / tool e-mail get address ] ] status ] != "up") do={
-    :error "Mail server is not up.";
+    :log warning "Mail server is not up.";
+    :error "Warning: See log for details.";
   }
 
   :if ([ / system ntp client get status ] != "synchronized") do={
-    :error "Time is not yet synchronized from ntp.";
+    :log warning "Time is not yet synchronized from ntp.";
+    :error "Warning: See log for details.";
   }
 
   / system script run [ find where name~"daily-psk\\.(capsman|local)" ];

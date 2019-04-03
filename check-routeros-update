@@ -22,7 +22,8 @@
 :if ([ / system package print count-only where name="wireless" disabled=no ] > 0) do={
   :if ([ / interface wireless cap get enabled ] = true && \
       [ / caps-man manager get enabled ] = false) do={
-    :error "System is managed by CAPsMAN, not checking.";
+    :log warning "System is managed by CAPsMAN, not checking.";
+    :error "Warning: See log for details.";
   }
 }
 
@@ -64,8 +65,9 @@
   }
 
   :if ($SentRouterosUpdateNotification = $LatestVersion) do={
-    :error ("Already sent the RouterOS update notification for version " . \
+    :log info ("Already sent the RouterOS update notification for version " . \
         $LatestVersion . ".");
+    :error "Already sent notification.";
   }
 
   $SendNotification ("RouterOS update notification") \

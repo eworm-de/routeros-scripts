@@ -16,7 +16,8 @@
 :if ($BackupSendBinary != true && \
      $BackupSendExport != true && \
      $BackupCloud != true) do={
-  :error ("Configured to send neither backup nor config export.");
+  :log error ("Configured to send neither backup nor config export.");
+  :error "Error: See log for details.";
 }
 
 # filename based on identity

@@ -30,6 +30,7 @@
 
   :do {
     :if ([ :len $CertRenewUrl ] = 0) do={
+      :log info "No CertRenewUrl given.";
       :error "No CertRenewUrl given.";
     }
 

@@ -6,7 +6,8 @@
 :global CertificateAvailable;
 
 :if ([ / ip cloud get ddns-enabled ] != true) do={
-  :error "IP cloud DDNS is not enabled.";
+  :log error "IP cloud DDNS is not enabled.";
+  :error "Error: See log for details.";
 }
 
 # Get the current ip address from cloud

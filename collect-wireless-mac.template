@@ -17,7 +17,8 @@ $ScriptLock "collect-wireless-mac%TEMPL%";
 
 :local PlaceBefore [ / %PATH% access-list find where comment="--- collected above ---" disabled ];
 :if ([ :len $PlaceBefore ] = 0) do={
-  :error "Missing disabled access-list entry with comment '--- collected above ---'";
+  :log error "Missing disabled access-list entry with comment '--- collected above ---'";
+  :error "Error: See log for details.";
 }
 
 :foreach RegTbl in=[ / %PATH% registration-table find ] do={
