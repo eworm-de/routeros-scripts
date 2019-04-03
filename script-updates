@@ -101,6 +101,7 @@
   :for I from=($GlobalConfigVersion + 1) to=$ExpectedConfigVersion do={
     :set Changes ( $Changes . "\n * " . $GlobalConfigChanges->[ :tostr $I ] );
   }
+  :set GlobalConfigChanges;
 
   $SendNotification "Configuration warning!" \
       ("Current configuration on " . $Identity . " is out of date. " . \
