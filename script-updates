@@ -4,9 +4,10 @@
 #
 # update installed scripts from file or url
 
-:global GlobalConfigVersion;
 :global ExpectedConfigVersion;
+:global GlobalConfigVersion;
 :global Identity;
+:global SentConfigChangesNotification;
 :global ScriptUpdatesFetch;
 :global ScriptUpdatesBaseUrl;
 :global ScriptUpdatesUrlSuffix;
@@ -78,7 +79,9 @@
   }
 }
 
-:if ($ScriptUpdatesConfigChangesIgnore!=true && $GlobalConfigVersion < $ExpectedConfigVersion) do={
+:if ($ScriptUpdatesConfigChangesIgnore!=true && \
+     $SentConfigChangesNotification!=$ExpectedConfigVersion && \
+     $GlobalConfigVersion < $ExpectedConfigVersion) do={
   :global GlobalConfigChanges;
   :local ChangeLogCode;
   :local Changes;
@@ -105,4 +108,5 @@
       "GlobalConfigVersion (currently " . $GlobalConfigVersion . \
       ") to " . $ExpectedConfigVersion . " and re-run global-config.\n\n" . \
       "Changes:" . $Changes);
+  :set SentConfigChangesNotification $ExpectedConfigVersion;
 }
