@@ -4,6 +4,9 @@
 #                         Michael Gisbers <michael@gisbers.de>
 #
 # update daily PSK (pre shared key)
+#
+# !! This is just a template! Replace '%PATH%' with 'caps-man'
+# !! or 'interface wireless'!
 
 :global Identity;
 :global DailyPskMatchComment;
@@ -46,8 +49,7 @@
 :local Date [ / system clock get date ];
 :local NewPsk [ $GeneratePSK $Date ];
 
-:foreach AccList in=[ / interface wireless access-list find where comment~$DailyPskMatchComment ] do={
-:foreach AccList in=[ / caps-man access-list find where comment~$DailyPskMatchComment ] do={
+:foreach AccList in=[ / %PATH% access-list find where comment~$DailyPskMatchComment ] do={
   :local IntName [ / interface wireless access-list get $AccList interface ];
   :local Ssid [ / interface wireless get $IntName ssid ];
   :local Ssid [ / caps-man access-list get $AccList ssid-regexp ];
