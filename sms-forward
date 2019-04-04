@@ -18,21 +18,32 @@
 :local Secret [ / tool sms get secret ];
 
 # forward SMS in a loop
-:foreach Sms in=[ / tool sms inbox find ] do={
-  :local Message   [ / tool sms inbox get $Sms message ];
-  :local Phone     [ / tool sms inbox get $Sms phone ];
-  :local TimeStamp [ / tool sms inbox get $Sms timestamp ];
-  :local Type      [ / tool sms inbox get $Sms type ];
+:while ([ / tool sms inbox print count-only ] > 0) do={
+  :local Phone [ / tool sms inbox get ([ find ]->0) phone ];
+  :local Messages "";
+  :local Delete [ :toarray "" ];
 
-  :if ($Phone = $Allowed && $Message~("^:cmd " . $Secret . " script ")) do={
-    :log debug "Ignoring SMS, which starts a script.";
-  } else={
+  :foreach Sms in=[ / tool sms inbox find where phone=$Phone ] do={
+    :local Message   [ / tool sms inbox get $Sms message ];
+    :local TimeStamp [ / tool sms inbox get $Sms timestamp ];
+    :local Type      [ / tool sms inbox get $Sms type ];
+
+    :if ($Phone = $Allowed && $Message~("^:cmd " . $Secret . " script ")) do={
+      :log debug "Removing SMS, which started a script.";
+      / tool sms inbox remove $Sms;
+    } else={
+      :set Messages ($Messages . "\n\nOn " . $TimeStamp . \
+          " type " . $Type . ":\n" . $Message);
+      :set Delete ($Delete, $Sms);
+    }
+  }
+
+  :if ([ :len $Messages ] > 0) do={
     $SendNotification ("SMS Forwarding") \
-      ("A message was received by " . $Identity . ":\n\n" . \
-        "Phone:     " . $Phone . "\n" . \
-        "Timestamp: " . $TimeStamp . "\n" . \
-        "Type:      " . $Type . "\n\n" . \
-        "Message:\n" .  $Message);
-    / tool sms inbox remove $Sms;
+        ("These message(s) were received by " . $Identity . \
+        " from " . $Phone . ":" . $Messages);
+    :foreach Sms in=$Delete do={
+      / tool sms inbox remove $Sms;
+    }
   }
 }
