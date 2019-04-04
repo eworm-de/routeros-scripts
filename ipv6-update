@@ -23,14 +23,17 @@ if ($OldPrefix != $PdPrefix) do={
     :local Suffix [ :pick ($Comment->2) 7 99 ];
 
     :local Prefix [ / ipv6 address get [ find where interface=$IntName from-pool=$Pool global ] address ];
-    :local Prefix64 [ :pick $Prefix 0 [ :find $Prefix "::/64" ] ];
+    :set Prefix [ :pick $Prefix 0 [ :find $Prefix "::/64" ] ];
+    :if ($Prefix~"^[0-9a-f]+:[0-9a-f]+:[0-9a-f]+:") do={ } else={
+      :set Prefix ($Prefix . ":");
+    }
 
     :local Name [ / ip dns static get $Record name ];
     :if ([ :len $Name ] = 0) do={
       :set Name [ / ip dns static get $Record regex ];
     }
 
-    :log info ("Updating DNS record for " . $Name . " to " . $Prefix64 . ":" . $Suffix);
-    / ip dns static set address=($Prefix64 . ":" . $Suffix) $Record;
+    :log info ("Updating DNS record for " . $Name . " to " . $Prefix . ":" . $Suffix);
+    / ip dns static set address=($Prefix . ":" . $Suffix) $Record;
   }
 }
