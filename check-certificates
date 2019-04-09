@@ -34,7 +34,7 @@
       :error "No CertRenewUrl given.";
     }
 
-    / tool fetch mode=https check-certificate=yes-without-crl url=($CertRenewUrl . $CommonName . ".pem");
+    / tool fetch check-certificate=yes-without-crl ($CertRenewUrl . $CommonName . ".pem");
     :foreach PassPhrase in=$CertRenewPass do={
       / certificate import file-name=($CommonName . ".pem") passphrase=$PassPhrase;
     }

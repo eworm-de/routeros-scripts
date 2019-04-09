@@ -13,7 +13,7 @@
 if ($Gps->"valid" = true) do={
   :set ($Gps->"latitude") [ :pick ($Gps->"latitude") 0 [ :find ($Gps->"latitude") "\00" ] ];
   :set ($Gps->"longitude") [ :pick ($Gps->"longitude") 0 [ :find ($Gps->"longitude") "\00" ] ];
-  :tool fetch mode=https check-certificate=yes-without-crl \
+  :tool fetch check-certificate=yes-without-crl \
     $GpsTrackUrl keep-result=no \
     http-method=post http-header-field="Content-Type: application/json" \
     http-data=("{" . \

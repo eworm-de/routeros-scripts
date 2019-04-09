@@ -130,7 +130,7 @@
   :do {
     :local Vendor;
     $CertificateAvailable "Let's Encrypt Authority X3" "letsencrypt";
-    :set Vendor ([ / tool fetch mode=https check-certificate=yes-without-crl \
+    :set Vendor ([ / tool fetch check-certificate=yes-without-crl \
         ("https://api.macvendors.com/" . [ :pick $Mac 0 8 ]) output=user as-value ]->"data");
     :return $Vendor;
   } on-error={
@@ -176,7 +176,7 @@
 
   $CertificateAvailable "Let's Encrypt Authority X3" "letsencrypt";
   :do {
-    / tool fetch mode=https check-certificate=yes-without-crl \
+    / tool fetch check-certificate=yes-without-crl \
       ("https://upgrade.mikrotik.com/routeros/" . $PkgVer . "/" . $PkgFile) \
       dst-path=$PkgDest;
   } on-error={

@@ -29,7 +29,7 @@
 
     $CertificateAvailable "Starfield Secure Certificate Authority - G2" "starfield";
     :log info ("Local address changed, sending UPDATE to tunnelbroker! New address: " . $PublicAddress);
-    / tool fetch mode=https check-certificate=yes-without-crl \
+    / tool fetch check-certificate=yes-without-crl \
         ("https://ipv4.tunnelbroker.net/nic/update\?hostname=" . $Id) \
         user=$User password=$Pass keep-result=no;
     / interface 6to4 set $Interface local-address=$PublicAddress;

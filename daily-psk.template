@@ -80,7 +80,7 @@
         :local Attach "qrcode-daily.png";
 
         :do {
-          / tool fetch mode=https check-certificate=yes-without-crl \
+          / tool fetch check-certificate=yes-without-crl \
               $Url dst-path=$Attach;
         } on-error={
           :set Attach "";
