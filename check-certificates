@@ -9,6 +9,7 @@
 :global CertRenewPass;
 
 :global SendNotification;
+:global UrlEncode;
 
 :local GetIssuerCN do={
   :foreach IssuerI in=$1 do={
@@ -35,14 +36,15 @@
     }
 
     :foreach Type in={ ".pem"; ".p12" } do={
+      :local CertFileName ([ $UrlEncode $CommonName ] . $Type);
       :do {
-        / tool fetch check-certificate=yes-without-crl ($CertRenewUrl . $CommonName . $Type);
+        / tool fetch check-certificate=yes-without-crl ($CertRenewUrl . $CertFileName);
         :foreach PassPhrase in=$CertRenewPass do={
-          / certificate import file-name=($CommonName . $Type) passphrase=$PassPhrase;
+          / certificate import file-name=$CertFileName passphrase=$PassPhrase;
         }
-        / file remove [ find where name=($CommonName . $Type) ];
+        / file remove [ find where name=$CertFileName ];
       } on-error={
-        :log debug ("Could not download certificate file " . $CommonName . $Type);
+        :log debug ("Could not download certificate file " . $CertFileName);
       }
     }
 
