@@ -43,25 +43,17 @@
     :local CertNew [ / certificate find where common-name=$CommonName fingerprint!=$FingerPrint expires-after>3w ];
     :local CertNameNew [ / certificate get $CertNew name ];
 
-    :foreach IpService in=[ / ip service find where certificate=$CertName ] do={
-      / ip service set $IpService certificate=$CertNameNew;
-    }
+    / ip service set certificate=$CertNameNew [ find where certificate=$CertName ];
 
     :do {
-      :foreach Identity in=[ / ip ipsec identity find where certificate=$CertName ] do={
-        / ip ipsec identity set $Identity certificate=$CertNameNew;
-      }
-      :foreach Identity in=[ / ip ipsec identity find where remote-certificate=$CertName ] do={
-        / ip ipsec identity set $Identity remote-certificate=$CertNameNew;
-      }
+      / ip ipsec identity set certificate=$CertNameNew [ find where certificate=$CertName ];
+      / ip ipsec identity set remote-certificate=$CertNameNew [ find where remote-certificate=$CertName ];
     } on-error={
       :log debug ("Setting IPSEC certificates failed. Package 'security' not installed?");
     }
 
     :do {
-      :foreach Hotspot in=[ / ip hotspot profile find where ssl-certificate=$CertName ] do={
-        / ip hotspot profile set $Hotspot ssl-certificate=$CertNameNew;
-      }
+      / ip hotspot profile set ssl-certificate=$CertNameNew [ find where ssl-certificate=$CertName ];
     } on-error={
       :log debug ("Setting hotspot certificates failed. Package 'hotspot' not installed?");
     }
