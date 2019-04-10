@@ -34,11 +34,17 @@
       :error "No CertRenewUrl given.";
     }
 
-    / tool fetch check-certificate=yes-without-crl ($CertRenewUrl . $CommonName . ".pem");
-    :foreach PassPhrase in=$CertRenewPass do={
-      / certificate import file-name=($CommonName . ".pem") passphrase=$PassPhrase;
+    :foreach Type in={ ".pem"; ".p12" } do={
+      :do {
+        / tool fetch check-certificate=yes-without-crl ($CertRenewUrl . $CommonName . $Type);
+        :foreach PassPhrase in=$CertRenewPass do={
+          / certificate import file-name=($CommonName . $Type) passphrase=$PassPhrase;
+        }
+        / file remove [ find where name=($CommonName . $Type) ];
+      } on-error={
+        :log debug ("Could not download certificate file " . $CommonName . $Type);
+      }
     }
-    / file remove [ find where name=($CommonName . ".pem") ];
 
     :local CertNew [ / certificate find where common-name=$CommonName fingerprint!=$FingerPrint expires-after>3w ];
     :local CertNameNew [ / certificate get $CertNew name ];
