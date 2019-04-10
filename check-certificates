@@ -46,14 +46,14 @@
     / ip service set certificate=$CertNameNew [ find where certificate=$CertName ];
 
     :do {
-      / ip ipsec identity set certificate=$CertNameNew [ find where certificate=$CertName ];
-      / ip ipsec identity set remote-certificate=$CertNameNew [ find where remote-certificate=$CertName ];
+      / ip ipsec identity set certificate=$CertNameNew [ / ip ipsec identity find where certificate=$CertName ];
+      / ip ipsec identity set remote-certificate=$CertNameNew [ / ip ipsec identity find where remote-certificate=$CertName ];
     } on-error={
       :log debug ("Setting IPSEC certificates failed. Package 'security' not installed?");
     }
 
     :do {
-      / ip hotspot profile set ssl-certificate=$CertNameNew [ find where ssl-certificate=$CertName ];
+      / ip hotspot profile set ssl-certificate=$CertNameNew [ / ip hotspot profile find where ssl-certificate=$CertName ];
     } on-error={
       :log debug ("Setting hotspot certificates failed. Package 'hotspot' not installed?");
     }
