@@ -28,7 +28,7 @@
 :foreach Cert in=[ / certificate find where !revoked expires-after<3w ] do={
   :local CertName [ / certificate get $Cert name ];
   :local CommonName [ / certificate get $Cert common-name ];
-  :local FingerPrint [ / certificate get $Cert fingerprint ];
+  :local FingerPrint [ :tostr [ / certificate get $Cert fingerprint ] ];
 
   :do {
     :if ([ :len $CertRenewUrl ] = 0) do={
