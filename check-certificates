@@ -17,6 +17,7 @@
       :return [ :pick $IssuerI 3 99 ];
     }
   }
+  :return "";
 }
 
 :local FormatExpire do={
