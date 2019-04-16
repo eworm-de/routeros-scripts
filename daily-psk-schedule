@@ -15,6 +15,9 @@
   }
 
   :if ([ / system ntp client get status ] != "synchronized") do={
+    :if ([ / system resource get uptime ] > 5m) do={
+      / system script run [ find where name="rotate-ntp" ];
+    }
     :log warning "Time is not yet synchronized from ntp.";
     :error "Warning: See log for details.";
   }
