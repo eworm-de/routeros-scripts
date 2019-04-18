@@ -10,6 +10,7 @@
 
 :global SendNotification;
 :global UrlEncode;
+:global WaitForFile;
 
 :local GetIssuerCN do={
   :foreach IssuerI in=$1 do={
@@ -39,7 +40,9 @@
     :foreach Type in={ ".pem"; ".p12" } do={
       :local CertFileName ([ $UrlEncode $CommonName ] . $Type);
       :do {
-        / tool fetch check-certificate=yes-without-crl ($CertRenewUrl . $CertFileName);
+        / tool fetch check-certificate=yes-without-crl \
+            ($CertRenewUrl . $CertFileName) dst-path=$CertFileName;
+        $WaitForFile $CertFileName;
         :foreach PassPhrase in=$CertRenewPass do={
           / certificate import file-name=$CertFileName passphrase=$PassPhrase;
         }

@@ -68,6 +68,8 @@
   :global ScriptUpdatesBaseUrl;
   :global ScriptUpdatesUrlSuffix;
 
+  :global WaitForFile;
+
   :if ([ / certificate print count-only where common-name=$CommonName ] = 0) do={
     :log info ("Certificate with CommonName " . $CommonName . \
       " not available, downloading and importing.");
@@ -76,6 +78,7 @@
         ($ScriptUpdatesBaseUrl . "certs/" . \
         $FileName . $ScriptUpdatesUrlSuffix) \
         dst-path=$FileName;
+      $WaitForFile $FileName;
       / certificate import file-name=$FileName passphrase="";
     } on-error={
       :log warning "Failed imprting certificate!";
@@ -166,6 +169,7 @@
 
   :global CertificateAvailable;
   :global CleanFilePath;
+  :global WaitForFile;
 
   :if ([ :len $PkgName ] = 0) do={ return false; }
   :if ([ :len $PkgVer  ] = 0) do={ :set PkgVer  [ / system package update get installed-version ]; }
@@ -179,6 +183,7 @@
     / tool fetch check-certificate=yes-without-crl \
       ("https://upgrade.mikrotik.com/routeros/" . $PkgVer . "/" . $PkgFile) \
       dst-path=$PkgDest;
+    $WaitForFile $PkgDest;
   } on-error={
     / file remove [ find where name=$PkgDest ];
     :return false;
@@ -195,4 +200,21 @@
     :log debug ("Script " . $Script . " started more than once... Aborting.");
     :error "Locked."
   }
+}
+
+# wait for file to be available
+:global WaitForFile do={
+  :global CleanFilePath;
+
+  :local FileName [ $CleanFilePath [ :tostr $1 ] ];
+  :local I 0;
+
+  :while ([ file print count-only where name=$FileName ] = 0) do={
+    :if ($I > 20) do={
+      :return false;
+    }
+    :delay 100ms;
+    :set I ($I + 1);
+  }
+  :return true;
 }

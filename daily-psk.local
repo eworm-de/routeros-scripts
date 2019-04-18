@@ -9,9 +9,10 @@
 
 :global Identity;
 :global DailyPskMatchComment;
-:global UrlEncode;
 
 :global SendNotification;
+:global UrlEncode;
+:global WaitForFile;
 
 :local Seen [ :toarray "" ];
 
@@ -76,6 +77,7 @@
         :do {
           / tool fetch check-certificate=yes-without-crl \
               $Url dst-path=$Attach;
+          $WaitForFile $Attach;
         } on-error={
           :set Attach "";
         }
