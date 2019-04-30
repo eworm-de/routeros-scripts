@@ -27,7 +27,7 @@
     :local Pass [ :pick ($Comment->2) 5 99 ];
     :local Id [ :pick ($Comment->3) 3 99 ];
 
-    $CertificateAvailable "Starfield Secure Certificate Authority - G2" "starfield";
+    $CertificateAvailable "Starfield Secure Certificate Authority - G2";
     :log info ("Local address changed, sending UPDATE to tunnelbroker! New address: " . $PublicAddress);
     / tool fetch check-certificate=yes-without-crl \
         ("https://ipv4.tunnelbroker.net/nic/update\?hostname=" . $Id) \

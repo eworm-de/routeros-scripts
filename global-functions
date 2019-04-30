@@ -63,23 +63,26 @@
 # check and import required certificates
 :global CertificateAvailable do={
   :local CommonName [ :tostr $1 ];
-  :local FileName ([ :tostr $2 ] . ".pem");
 
   :global ScriptUpdatesBaseUrl;
   :global ScriptUpdatesUrlSuffix;
 
+  :global UrlEncode;
   :global WaitForFile;
 
   :if ([ / certificate print count-only where common-name=$CommonName ] = 0) do={
     :log info ("Certificate with CommonName " . $CommonName . \
       " not available, downloading and importing.");
     :do {
+      :local LocalFileName ($CommonName . ".pem");
+      :local UrlFileName ([ $UrlEncode $CommonName ] . ".pem");
       / tool fetch check-certificate=yes-without-crl \
         ($ScriptUpdatesBaseUrl . "certs/" . \
-        $FileName . $ScriptUpdatesUrlSuffix) \
-        dst-path=$FileName;
-      $WaitForFile $FileName;
-      / certificate import file-name=$FileName passphrase="";
+        $UrlFileName . $ScriptUpdatesUrlSuffix) \
+        dst-path=$LocalFileName;
+      $WaitForFile $LocalFileName;
+      / certificate import file-name=$LocalFileName passphrase="";
+      / file remove $LocalFileName;
     } on-error={
       :log warning "Failed imprting certificate!";
     }
@@ -112,7 +115,7 @@
   }
 
   :if ([ :len $TelegramTokenId ] > 0 && [ :len $TelegramChatId ] > 0) do={
-    $CertificateAvailable "Go Daddy Secure Certificate Authority - G2" "godaddy";
+    $CertificateAvailable "Go Daddy Secure Certificate Authority - G2";
     :do {
       / tool fetch check-certificate=yes-without-crl keep-result=no http-method=post \
         ("https://api.telegram.org/bot" . $TelegramTokenId . "/sendMessage") \
@@ -132,7 +135,7 @@
 
   :do {
     :local Vendor;
-    $CertificateAvailable "Let's Encrypt Authority X3" "letsencrypt";
+    $CertificateAvailable "Let's Encrypt Authority X3";
     :set Vendor ([ / tool fetch check-certificate=yes-without-crl \
         ("https://api.macvendors.com/" . [ :pick $Mac 0 8 ]) output=user as-value ]->"data");
     :return $Vendor;
@@ -178,7 +181,7 @@
   :local PkgFile ($PkgName . "-" . $PkgVer . "-" . $PkgArch . ".npk");
   :local PkgDest [ $CleanFilePath ($PkgDir . "/" . $PkgFile) ];
 
-  $CertificateAvailable "Let's Encrypt Authority X3" "letsencrypt";
+  $CertificateAvailable "Let's Encrypt Authority X3";
   :do {
     / tool fetch check-certificate=yes-without-crl \
       ("https://upgrade.mikrotik.com/routeros/" . $PkgVer . "/" . $PkgFile) \

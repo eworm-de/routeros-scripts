@@ -43,7 +43,7 @@ download the certificates. If you intend to download the scripts from a
 different location (for example from github.com) install the corresponding
 certificate chain.
 
-    [admin@MikroTik] > / tool fetch "https://git.eworm.de/cgit.cgi/routeros-scripts/plain/certs/letsencrypt.pem" dst-path="letsencrypt.pem"
+    [admin@MikroTik] > / tool fetch "https://git.eworm.de/cgit.cgi/routeros-scripts/plain/certs/Let%27s%20Encrypt%20Authority%20X3.pem" dst-path="letsencrypt.pem"
           status: finished
       downloaded: 3KiBC-z pause]
            total: 3KiB
