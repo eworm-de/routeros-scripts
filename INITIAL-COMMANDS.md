@@ -10,7 +10,7 @@ procedure please follow [the long way in detail](README.md#the-long-way-in-detai
       / tool fetch "https://git.eworm.de/cgit/routeros-scripts/plain/certs/R3.pem" dst-path="letsencrypt-R3.pem";
       :delay 1s;
       / certificate import file-name=letsencrypt-R3.pem passphrase="";
-      :if ([ :len [ / certificate find where fingerprint="67add1166b020ae61b8f5fc96813c04c2aa589960796865572a3c7e737613dfd" or fingerprint="96bcec06264976f37460779acf28c5a7cfe8a3c0aae11a8ffcee05c0bddf08c6" or fingerprint="0687260331a72403d909f105e69bcf0d32e1bd2493ffc6d9206d11bcd6770739" ] ] != 3) do={
+      :if ([ :len [ / certificate find where fingerprint="67add1166b020ae61b8f5fc96813c04c2aa589960796865572a3c7e737613dfd" or fingerprint="96bcec06264976f37460779acf28c5a7cfe8a3c0aae11a8ffcee05c0bddf08c6" ] ] != 2) do={
         :error "Something is wrong with your certificates!";
       }
       / file remove "letsencrypt-R3.pem";
@@ -22,7 +22,6 @@ procedure please follow [the long way in detail](README.md#the-long-way-in-detai
       :global CertificateNameByCN;
       $CertificateNameByCN "R3";
       $CertificateNameByCN "ISRG Root X1";
-      $CertificateNameByCN "DST Root CA X3";
     }
 
 Optional to update the scripts automatically:

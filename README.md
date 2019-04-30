@@ -66,29 +66,21 @@ files to your MikroTik device.
 Then we import the certificates.
 
     [admin@MikroTik] > / certificate import file-name=letsencrypt-R3.pem passphrase=""
-         certificates-imported: 3
+         certificates-imported: 2
          private-keys-imported: 0
                 files-imported: 1
            decryption-failures: 0
       keys-with-no-certificate: 0
 
 For basic verification we rename the certificates and print their count. Make
-sure the certificate count is **three**.
+sure the certificate count is **two**.
 
     [admin@MikroTik] > / certificate set name="R3" [ find where fingerprint="67add1166b020ae61b8f5fc96813c04c2aa589960796865572a3c7e737613dfd" ]
     [admin@MikroTik] > / certificate set name="ISRG-Root-X1" [ find where fingerprint="96bcec06264976f37460779acf28c5a7cfe8a3c0aae11a8ffcee05c0bddf08c6" ]
-    [admin@MikroTik] > / certificate set name="DST-Root-CA-X3" [ find where fingerprint="0687260331a72403d909f105e69bcf0d32e1bd2493ffc6d9206d11bcd6770739" ]
-    [admin@MikroTik] > / certificate print count-only where fingerprint="67add1166b020ae61b8f5fc96813c04c2aa589960796865572a3c7e737613dfd" or fingerprint="96bcec06264976f37460779acf28c5a7cfe8a3c0aae11a8ffcee05c0bddf08c6" or fingerprint="0687260331a72403d909f105e69bcf0d32e1bd2493ffc6d9206d11bcd6770739"
-    3
+    [admin@MikroTik] > / certificate print count-only where fingerprint="67add1166b020ae61b8f5fc96813c04c2aa589960796865572a3c7e737613dfd" or fingerprint="96bcec06264976f37460779acf28c5a7cfe8a3c0aae11a8ffcee05c0bddf08c6"
+    2
 
 Always make sure there are no certificates installed you do not know or want!
-
-Actually we do not require the certificate named `DST Root CA X3`, but as it
-is used by `Let's Encrypt` to cross-sign we install it anyway - this makes
-sure things do not go wrong if the intermediate certificate is replaced.
-The IdenTrust certificate *should* be available from their
-[download page](https://www.identrust.com/support/downloads). The site is
-crap and a good example how to *not* do it.
 
 Now let's download the main scripts and add them in configuration on the fly.
 
