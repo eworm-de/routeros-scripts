@@ -98,6 +98,7 @@
   :local CertName [ / certificate get $Cert name ];
   :local CommonName [ / certificate get $Cert common-name ];
   :local FingerPrint [ / certificate get $Cert fingerprint ];
+  :local Ca [ / certificate get $Cert ca ];
   :local Issuer [ $GetIssuerCN [ / certificate get $Cert issuer ] ];
   :local InvalidBefore [ / certificate get $Cert invalid-before ];
   :local InvalidAfter [ / certificate get $Cert invalid-after ];
@@ -114,7 +115,7 @@
       "Name:        " . $CertName . "\n" . \
       "CommonName:  " . $CommonName . "\n" . \
       "Fingerprint: " . $FingerPrint . "\n" . \
-      "Issuer:      " . $Issuer . "\n" . \
+      "Issuer:      " . $Ca . $Issuer . "\n" . \
       "Validity:    " . $InvalidBefore . " to " . $InvalidAfter . "\n" . \
       "Expires in:  " . $ExpiresAfter);
   :log warning ("The certificate " . $CertName . " " . $State . \
