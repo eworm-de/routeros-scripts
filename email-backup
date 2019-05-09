@@ -52,10 +52,10 @@
       # required to fetch information from cloud
       / system backup cloud print as-value;
       :if ([ / system backup cloud print count-only ] > 0) do={
-        / system backup cloud remove-file [ find ];
+        / system backup cloud remove-file ([ find ]->0);
       }
       / system backup cloud upload-file action=upload src-file=($FileName . ".backup");
-      :set CloudStatus [ / system backup cloud get [ find ] secret-download-key ];
+      :set CloudStatus [ / system backup cloud get ([ find ]->0) secret-download-key ];
     } on-error={
       :set CloudStatus "failed";
     }
