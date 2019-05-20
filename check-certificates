@@ -27,9 +27,7 @@
 }
 
 :foreach Cert in=[ / certificate find where !revoked !ca expires-after<3w ] do={
-  :local CertName [ / certificate get $Cert name ];
-  :local CommonName [ / certificate get $Cert common-name ];
-  :local FingerPrint [ :tostr [ / certificate get $Cert fingerprint ] ];
+  :local CertVal [ / certificate get $Cert ];
 
   :do {
     :if ([ :len $CertRenewUrl ] = 0) do={
@@ -38,7 +36,7 @@
     }
 
     :foreach Type in={ ".pem"; ".p12" } do={
-      :local CertFileName ([ $UrlEncode $CommonName ] . $Type);
+      :local CertFileName ([ $UrlEncode ($CertVal->"common-name") ] . $Type);
       :do {
         / tool fetch check-certificate=yes-without-crl \
             ($CertRenewUrl . $CertFileName) dst-path=$CertFileName;
@@ -52,72 +50,59 @@
       }
     }
 
-    :local CertNew [ / certificate find where common-name=$CommonName fingerprint!=$FingerPrint expires-after>3w ];
-    :local CertNameNew [ / certificate get $CertNew name ];
+    :local CertNew [ / certificate find where common-name=($CertVal->"common-name") fingerprint!=[ :tostr ($CertVal->"fingerprint") ] expires-after>3w ];
+    :local CertNewVal [ / certificate get $CertNew ];
 
-    / ip service set certificate=$CertNameNew [ find where certificate=$CertName ];
+    / ip service set certificate=($CertNewVal->"name") [ find where certificate=($CertVal->"name") ];
 
     :do {
-      / ip ipsec identity set certificate=$CertNameNew [ / ip ipsec identity find where certificate=$CertName ];
-      / ip ipsec identity set remote-certificate=$CertNameNew [ / ip ipsec identity find where remote-certificate=$CertName ];
+      / ip ipsec identity set certificate=($CertNewVal->"name") [ / ip ipsec identity find where certificate=($CertVal->"name") ];
+      / ip ipsec identity set remote-certificate=($CertNewVal->"name") [ / ip ipsec identity find where remote-certificate=($CertVal->"name") ];
     } on-error={
       :log debug ("Setting IPSEC certificates failed. Package 'security' not installed?");
     }
 
     :do {
-      / ip hotspot profile set ssl-certificate=$CertNameNew [ / ip hotspot profile find where ssl-certificate=$CertName ];
+      / ip hotspot profile set ssl-certificate=($CertNewVal->"name") [ / ip hotspot profile find where ssl-certificate=($CertVal->"name") ];
     } on-error={
       :log debug ("Setting hotspot certificates failed. Package 'hotspot' not installed?");
     }
 
     / certificate remove $Cert;
-    / certificate set $CertNew name=$CertName;
-
-    :set CommonName [ / certificate get $CertNew common-name ];
-    :set FingerPrint [ / certificate get $CertNew fingerprint ];
-    :local Issuer [ $GetIssuerCN [ / certificate get $CertNew issuer ] ];
-    :local InvalidBefore [ / certificate get $CertNew invalid-before ];
-    :local InvalidAfter [ / certificate get $CertNew invalid-after ];
-    :local ExpiresAfter [ $FormatExpire [ / certificate get $CertNew expires-after ] ];
+    / certificate set $CertNew name=($CertVal->"name")
 
     $SendNotification ("Certificate renewed") \
       ("A certificate on " . $Identity . " has been renewed.\n\n" . \
-        "Name:        " . $CertName . "\n" . \
-        "CommonName:  " . $CommonName . "\n" . \
-        "Fingerprint: " . $FingerPrint . "\n" . \
-        "Issuer:      " . $Issuer . "\n" . \
-        "Validity:    " . $InvalidBefore . " to " . $InvalidAfter . "\n" . \
-        "Expires in:  " . $ExpiresAfter);
-    :log info ("The certificate " . $CertName . " has been renewed.");
+        "Name:        " . ($CertVal->"name") . "\n" . \
+        "CommonName:  " . ($CertNewVal->"common-name") . "\n" . \
+        "Fingerprint: " . ($CertNewVal->"fingerprint") . "\n" . \
+        "Issuer:      " . [ $GetIssuerCN ($CertNewVal->"issuer") ] . "\n" . \
+        "Validity:    " . ($CertNewVal->"invalid-before") . " to " . ($CertNewVal->"invalid-after") . "\n" . \
+        "Expires in:  " . [ $FormatExpire ($CertNewVal->"expires-after") ]);
+    :log info ("The certificate " . ($CertVal->"name") . " has been renewed.");
   } on-error={
-    :log debug ("Could not renew certificate " . $CertName ".");
+    :log debug ("Could not renew certificate " . ($CertVal->"name") . ".");
   }
 }
 
 :foreach Cert in=[ / certificate find where !revoked expires-after<2w fingerprint~"."] do={
-  :local CertName [ / certificate get $Cert name ];
-  :local CommonName [ / certificate get $Cert common-name ];
-  :local FingerPrint [ / certificate get $Cert fingerprint ];
-  :local Ca [ / certificate get $Cert ca ];
-  :local Issuer [ $GetIssuerCN [ / certificate get $Cert issuer ] ];
-  :local InvalidBefore [ / certificate get $Cert invalid-before ];
-  :local InvalidAfter [ / certificate get $Cert invalid-after ];
+  :local CertVal [ / certificate get $Cert ];
 
-  :local ExpiresAfter [ $FormatExpire [ / certificate get $Cert expires-after ] ];
+  :local ExpiresAfter [ $FormatExpire ($CertVal->"expires-after") ];
   :local State "is about to expire";
-  :if ([ / certificate get $Cert expired ] = true) do={
+  :if (($CertVal->"expired") = true) do={
     :set ExpiresAfter "expired";
     :set State "expired";
   }
 
   $SendNotification ("Certificate warning!") \
     ("A certificate on " . $Identity . " " . $State . ".\n\n" . \
-      "Name:        " . $CertName . "\n" . \
-      "CommonName:  " . $CommonName . "\n" . \
-      "Fingerprint: " . $FingerPrint . "\n" . \
-      "Issuer:      " . $Ca . $Issuer . "\n" . \
-      "Validity:    " . $InvalidBefore . " to " . $InvalidAfter . "\n" . \
+      "Name:        " . ($CertVal->"name") . "\n" . \
+      "CommonName:  " . ($CertVal->"common-name") . "\n" . \
+      "Fingerprint: " . ($CertVal->"fingerprint") . "\n" . \
+      "Issuer:      " . ($CertVal->"ca") . [ $GetIssuerCN ($CertVal->"issuer") ] . "\n" . \
+      "Validity:    " . ($CertVal->"invalid-before") . " to " . ($CertVal->"invalid-after") . "\n" . \
       "Expires in:  " . $ExpiresAfter);
-  :log warning ("The certificate " . $CertName . " " . $State . \
-      ", it is invalid after " . $InvalidAfter . ".");
+  :log warning ("The certificate " . ($CertVal->"name") . " " . $State . \
+      ", it is invalid after " . ($CertVal->"invalid-after") . ".");
 }
