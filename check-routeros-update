@@ -2,7 +2,7 @@
 # RouterOS script: check-routeros-update
 # Copyright (c) 2013-2019 Christian Hesse <mail@eworm.de>
 #
-# check for RouterOS update, send notification e-mails
+# check for RouterOS update, send notification and/or install
 
 :global Identity;
 :global SafeUpdateUrl;
@@ -48,7 +48,7 @@
     }
     :if ($Result->"status" = "finished" && $Result->"data" = $LatestVersion) do={
       :log info ("Version " . $LatestVersion . " is considered safe, updating...");
-      $SendNotification ("RouterOS update notification") \
+      $SendNotification ("RouterOS update") \
           ("Version " . $LatestVersion . " is considered safe for " . $Channel . \
           ", updating on " . $Identity . "...");
       $Update;
@@ -70,8 +70,8 @@
     :error "Already sent notification.";
   }
 
-  $SendNotification ("RouterOS update notification") \
-    ("There is a RouterOS update available\n\n" . \
+  $SendNotification ("RouterOS update") \
+    ("There is a RouterOS update available.\n\n" . \
       "Board name:    " . $BoardName . "\n" . \
       "Model:         " . $Model . "\n" . \
       "Serial number: " . $SerialNumber . "\n" . \
