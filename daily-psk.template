@@ -54,7 +54,7 @@
   :local IntName [ / interface wireless access-list get $AccList interface ];
   :local Ssid [ / interface wireless get $IntName ssid ];
   :local Ssid [ / caps-man access-list get $AccList ssid-regexp ];
-  :local Configuration [ / caps-man configuration get [ find where ssid=$Ssid ] name ];
+  :local Configuration [ / caps-man configuration get ([ find where ssid=$Ssid ]->0) name ];
   :local OldPsk [ / interface wireless access-list get $AccList private-pre-shared-key ];
   :local OldPsk [ / caps-man access-list get $AccList private-passphrase ];
   :local Skip 0;

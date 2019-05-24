@@ -51,7 +51,7 @@
 
 :foreach AccList in=[ / caps-man access-list find where comment~$DailyPskMatchComment ] do={
   :local Ssid [ / caps-man access-list get $AccList ssid-regexp ];
-  :local Configuration [ / caps-man configuration get [ find where ssid=$Ssid ] name ];
+  :local Configuration [ / caps-man configuration get ([ find where ssid=$Ssid ]->0) name ];
   :local OldPsk [ / caps-man access-list get $AccList private-passphrase ];
   :local Skip 0;
 
