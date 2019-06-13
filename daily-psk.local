@@ -87,6 +87,7 @@
             "SSID: " . $Ssid . "\n" . \
             "PSK:  " . $NewPsk . "\n" . \
             "Date: " . $Date . "\n\n" . \
+            "A client device specific rule must not exist!\n\n" . \
             $Url) $Attach;
       }
     }
