@@ -6,7 +6,7 @@
 
 # Make sure all configuration properties are up to date and this
 # value is in sync with value in script 'global-functions'!
-:global GlobalConfigVersion 4;
+:global GlobalConfigVersion 5;
 
 # This is used for DNS and backup file.
 :global Domain "example.com";
@@ -30,7 +30,6 @@
 # This defines what backups to generate and what password to use.
 :global BackupSendBinary false;
 :global BackupSendExport true;
-:global BackupCloud false;
 :global BackupPassword "v3ry-s3cr3t";
 
 # Specify an address to enable auto update to version assumed safe.

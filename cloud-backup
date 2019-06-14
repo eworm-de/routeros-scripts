@@ -1,0 +1,42 @@
+#!rsc
+# RouterOS script: cloud-backup
+# Copyright (c) 2013-2019 Christian Hesse <mail@eworm.de>
+#
+# upload backup to MikroTik cloud
+
+:global Identity;
+:global BackupPassword;
+
+:global SendNotification;
+
+# get some system information
+:local BoardName [ / system resource get board-name ];
+:local Model [ / system routerboard get model ];
+:local SerialNumber [ / system routerboard get serial-number ];
+:local Channel [ / system package update get channel ];
+:local InstalledVersion [ / system package update get installed-version ];
+
+:do {
+  # we are not interested in output, but print without count-only is
+  # required to fetch information from cloud
+  / system backup cloud print as-value;
+  :if ([ / system backup cloud print count-only ] > 0) do={
+    / system backup cloud remove-file ([ find ]->0);
+  }
+  / system backup cloud upload-file action=create-and-upload password=$BackupPassword;
+  :local Cloud [ / system backup cloud get ([ find ]->0) ];
+
+  $SendNotification "Cloud backup" \
+    ("Uploaded backup for " . $Identity . " to cloud.\n\n" . \
+      "Board name:     " . $BoardName . "\n" . \
+      "Model:          " . $Model . "\n" . \
+      "Serial number:  " . $SerialNumber . "\n" . \
+      "Hostname:       " . $Identity . "\n" . \
+      "Channel:        " . $Channel . "\n" . \
+      "RouterOS:       " . $InstalledVersion . "\n\n" . \
+      "Name:           " . $Cloud->"name" . "\n" . \
+      "Size:           " . $Cloud->"size" . "\n" . \
+      "Download key:   " . $Cloud->"secret-download-key");
+} on-error={
+  :log error ("Failed uploading backup for " . $Identity . " to cloud.");
+}

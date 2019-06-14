@@ -10,21 +10,18 @@
 :global EmailBackupCc;
 :global BackupSendBinary;
 :global BackupSendExport;
-:global BackupCloud;
 :global BackupPassword;
 
 :if ($BackupSendBinary != true && \
-     $BackupSendExport != true && \
-     $BackupCloud != true) do={
+     $BackupSendExport != true) do={
   :log error ("Configured to send neither backup nor config export.");
   :error "Error: See log for details.";
 }
 
 # filename based on identity
 :local FileName ($Identity . "." . $Domain);
-:local CloudStatus $BackupCloud;
-:local BackupStatus $BackupSendBinary;
-:local ConfigStatus $BackupSendExport;
+:local BackupFile "none";
+:local ConfigFile "none";
 :local Attach [ :toarray "" ];
 
 # get some system information
@@ -35,52 +32,30 @@
 :local InstalledVersion [ / system package update get installed-version ];
 
 # binary backup
-:if ($BackupSendBinary = true || \
-     $BackupCloud = true) do={
+:if ($BackupSendBinary = true) do={
   / system backup save encryption=aes-sha256 name=$FileName password=$BackupPassword;
-
-  # attach to mail
-  :if ($BackupSendBinary = true) do={
-    :set BackupStatus ($FileName . ".backup");
-    :set Attach ($Attach, $BackupStatus);
-  }
-
-  # upload to cloud
-  :if ($BackupCloud = true) do={
-    :do {
-      # we are not interested in output, but print without count-only is
-      # required to fetch information from cloud
-      / system backup cloud print as-value;
-      :if ([ / system backup cloud print count-only ] > 0) do={
-        / system backup cloud remove-file ([ find ]->0);
-      }
-      / system backup cloud upload-file action=upload src-file=($FileName . ".backup");
-      :set CloudStatus [ / system backup cloud get ([ find ]->0) secret-download-key ];
-    } on-error={
-      :set CloudStatus "failed";
-    }
-  }
+  :set BackupFile ($FileName . ".backup");
+  :set Attach ($Attach, $BackupFile);
 }
 
 # create configuration export
 :if ($BackupSendExport = true) do={
   / export terse file=$FileName;
-  :set ConfigStatus ($FileName . ".rsc");
-  :set Attach ($Attach, $ConfigStatus);
+  :set ConfigFile ($FileName . ".rsc");
+  :set Attach ($Attach, $ConfigFile);
 }
 
 # send email with status and files
 / tool e-mail send to=$EmailBackupTo cc=$EmailBackupCc \
     subject=("[" . $Identity . "] Backup & Config") \
     body=("Backup and config export for " . $Identity . ".\n\n" . \
-      "Board name:      " . $BoardName . "\n" . \
-      "Model:           " . $Model . "\n" . \
-      "Serial number:   " . $SerialNumber . "\n" . \
-      "Hostname:        " . $Identity . "\n" . \
-      "Channel:         " . $Channel . "\n" . \
-      "RouterOS:        " . $InstalledVersion . "\n\n" . \
-      "Backup attached: " . $BackupStatus . "\n" . \
-      "Config attached: " . $ConfigStatus . "\n" . \
-      "Cloud backup:    " . $CloudStatus) \
+      "Board name:    " . $BoardName . "\n" . \
+      "Model:         " . $Model . "\n" . \
+      "Serial number: " . $SerialNumber . "\n" . \
+      "Hostname:      " . $Identity . "\n" . \
+      "Channel:       " . $Channel . "\n" . \
+      "RouterOS:      " . $InstalledVersion . "\n\n" . \
+      "Backup file:   " . $BackupFile . "\n" . \
+      "Config file:   " . $ConfigFile) \
     file=$Attach;
 }
