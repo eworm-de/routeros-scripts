@@ -19,9 +19,12 @@
   # required to fetch information from cloud
   / system backup cloud print as-value;
   :if ([ / system backup cloud print count-only ] > 0) do={
-    / system backup cloud remove-file ([ find ]->0);
+    / system backup cloud upload-file action=create-and-upload \
+        password=$BackupPassword replace=[ get ([ find ]->0) name ];
+  } else={
+    / system backup cloud upload-file action=create-and-upload \
+        password=$BackupPassword;
   }
-  / system backup cloud upload-file action=create-and-upload password=$BackupPassword;
   :local Cloud [ / system backup cloud get ([ find ]->0) ];
 
   $SendNotification "Cloud backup" \
