@@ -1,0 +1,14 @@
+#!rsc
+# RouterOS script: certificate-renew-issued
+# Copyright (c) 2019 Christian Hesse <mail@eworm.de>
+#
+# renew locally issued certificates
+
+:foreach Cert in=[ / certificate find where issued expires-after<3w ] do={
+  :local CertVal [ / certificate get $Cert ];
+  / certificate issued-revoke $Cert;
+  / certificate set name=($CertVal->"name" . "-revoked-" . [ / system clock get date ]) $Cert;
+  / certificate add name=($CertVal->"name") common-name=($CertVal->"common-name") \
+      key-usage=($CertVal->"key-usage") subject-alt-name=($CertVal->"subject-alt-name");
+  / certificate sign ($CertVal->"name") ca=($CertVal->"ca");
+}
