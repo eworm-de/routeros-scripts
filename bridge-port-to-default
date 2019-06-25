@@ -18,12 +18,24 @@
   :foreach Comment in=[ :toarray ($BridgePortVal->"comment") ] do={
     :if ([ :pick $Comment 0 $Len ] = ($BridgePortTo . ":")) do={
       :local BridgeDefault [ :pick $Comment $Len [ :len $Comment ] ];
-      :if ($BridgeDefault != $BridgePortVal->"bridge") do={
-        :log info ("Changing interface " . $BridgePortVal->"interface" . " to " . $BridgePortTo . " bridge " . $BridgeDefault);
-        / interface bridge port set bridge=$BridgeDefault $BridgePort;
-        / ip dhcp-client renew [ find where interface=$BridgeDefault ];
+      :if ($BridgeDefault = "dhcp-client") do={
+        :if ($BridgePortVal->"disabled" = false) do={
+          :log info ("Disabling bridge port for interface " . $BridgePortVal->"interface" . ", enabling dhcp client.");
+          / interface bridge port disable $BridgePort;
+          / ip dhcp-client enable [ find where interface=$BridgePortVal->"interface" comment="toggle with bridge port" disabled=yes ];
+        }
       } else={
-        :log debug ("Interface " . $BridgePortVal->"interface" . " already connected to " . $BridgePortTo . " bridge " . $BridgeDefault);
+        :if ($BridgePortVal->"disabled" = true) do={
+          :log info ("Enabling bridge port for interface " . $BridgePortVal->"interface" . ", disabling dhcp client.");
+          / ip dhcp-client disable [ find where interface=$BridgePortVal->"interface" comment="toggle with bridge port" disabled=no ];
+          / interface bridge port enable $BridgePort;
+        }
+        :if ($BridgeDefault != $BridgePortVal->"bridge") do={
+          :log info ("Changing interface " . $BridgePortVal->"interface" . " to " . $BridgePortTo . " bridge " . $BridgeDefault);
+          / interface bridge port set bridge=$BridgeDefault $BridgePort;
+        } else={
+          :log debug ("Interface " . $BridgePortVal->"interface" . " already connected to " . $BridgePortTo . " bridge " . $BridgeDefault);
+        }
       }
     }
   }
