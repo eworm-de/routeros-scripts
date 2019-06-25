@@ -12,10 +12,10 @@
 
 if ($Gps->"valid" = true) do={
   # TODO: remove workaround when trailing zero bytes are gone
-  :if (($Gps->"latitude") ~ "\00") do={
+  :if ([ :find ($Gps->"latitude") "\00" ] > 0) do={
     :set ($Gps->"latitude") [ :pick ($Gps->"latitude") 0 [ :find ($Gps->"latitude") "\00" ] ];
   }
-  :if (($Gps->"longitude") ~ "\00") do={
+  :if ([ :find ($Gps->"longitude") "\00" ] > 0) do={
     :set ($Gps->"longitude") [ :pick ($Gps->"longitude") 0 [ :find ($Gps->"longitude") "\00" ] ];
   }
   :tool fetch check-certificate=yes-without-crl \
