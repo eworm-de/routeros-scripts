@@ -13,18 +13,17 @@
   :set Len ([ :len $BridgePortTo ] + 1);
 }
 
-:foreach Interface in=[ / interface bridge port find where comment!="" ] do={
-  :foreach Comment in=[ :toarray [ / interface bridge port get $Interface comment ] ] do={
+:foreach BridgePort in=[ / interface bridge port find where comment!="" ] do={
+  :local BridgePortVal [ / interface bridge port get $BridgePort ];
+  :foreach Comment in=[ :toarray ($BridgePortVal->"comment") ] do={
     :if ([ :pick $Comment 0 $Len ] = ($BridgePortTo . ":")) do={
-      :local InterfaceName [ / interface bridge port get $Interface interface ];
       :local BridgeDefault [ :pick $Comment $Len [ :len $Comment ] ];
-      :local BridgeCurrent [ / interface bridge port get $Interface bridge ];
-      :if ($BridgeDefault != $BridgeCurrent) do={
-        :log info ("Changing interface " . $InterfaceName . " to " . $BridgePortTo . " bridge " . $BridgeDefault);
-        / interface bridge port set bridge=$BridgeDefault $Interface;
+      :if ($BridgeDefault != $BridgePortVal->"bridge") do={
+        :log info ("Changing interface " . $BridgePortVal->"interface" . " to " . $BridgePortTo . " bridge " . $BridgeDefault);
+        / interface bridge port set bridge=$BridgeDefault $BridgePort;
         / ip dhcp-client renew [ find where interface=$BridgeDefault ];
       } else={
-        :log debug ("Interface " . $InterfaceName . " already connected to " . $BridgePortTo . " bridge " . $BridgeDefault);
+        :log debug ("Interface " . $BridgePortVal->"interface" . " already connected to " . $BridgePortTo . " bridge " . $BridgeDefault);
       }
     }
   }
