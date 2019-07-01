@@ -79,6 +79,6 @@
       "Channel:       " . $Channel . "\n" . \
       "Installed:     " . $InstalledVersion . "\n" . \
       "Available:     " . $LatestVersion . "\n\n" .\
-      "https://upgrade.mikrotik.com/routeros/" . $LatestVersion . "/CHANGELOG");
+      "https://mikrotik.com/download/changelogs/" . $Channel . "-release-tree");
   :set SentRouterosUpdateNotification $LatestVersion;
 }
