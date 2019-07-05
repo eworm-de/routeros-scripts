@@ -4,6 +4,14 @@
 #
 # run scripts on DHCP lease
 
+:if ([ :typeof $leaseActIP ] = "nothing" || \
+     [ :typeof $leaseActMAC ] = "nothing" || \
+     [ :typeof $leaseServerName ] = "nothing" || \
+     [ :typeof $leaseBound ] = "nothing") do={
+  :log error "This script is supposed to run from ip dhcp-client.";
+  :error "Error: See log for details.";
+}
+
 :local Scripts;
 :local ScriptsAssign {
   "dhcp-to-dns";
