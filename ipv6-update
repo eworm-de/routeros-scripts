@@ -6,6 +6,11 @@
 
 :local PdPrefix $"pd-prefix";
 
+:if ([ :typeof $PdPrefix ] = "nothing") do={
+  :log error "This script is supposed to run from ipv6 dhcp-client.";
+  :error "Error: See log for details.";
+}
+
 :local Pool [ / ipv6 pool get [ find where prefix=$PdPrefix ] name ];
 :local AddrList [ / ipv6 firewall address-list find where comment=("ipv6-pool-" . $Pool) ];
 :local OldPrefix [ / ipv6 firewall address-list get $AddrList address ];
