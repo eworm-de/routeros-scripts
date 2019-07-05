@@ -4,8 +4,13 @@
 #
 # run scripts on ppp up
 
-# variable $interface is available in ppp on-up script
 :local Interface $interface;
+
+:if ([ :typeof $Interface ] = "nothing") do={
+  :log error "This script is supposed to run from ppp on-up script hook.";
+  :error "Error: See log for details.";
+}
+
 :local IntName [ / interface get $Interface name ];
 :log info ("PPP interface " . $IntName . " is up.");
 
