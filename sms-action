@@ -8,6 +8,11 @@
 
 :local Action $action;
 
+:if ([ :typeof $Action ] = "nothing") do={
+  :log error "This script is supposed to run from SMS hook with action=...";
+  :error "Error: See log for details.";
+}
+
 :local Code ($SmsAction->$Action);
 :local Parsed [ :parse $Code ];
 
