@@ -8,4 +8,5 @@
   3="variable for certificate renew passphrase became an array to support multiple passphrases";
   4="added option to ignore global-config changes";
   5="split off new script cloud-backup from email-backup";
+  6="introduced script 'upload-backup' with new configuration parameters";
 };

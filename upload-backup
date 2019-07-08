@@ -1,0 +1,75 @@
+#!rsc
+# RouterOS script: upload-backup
+# Copyright (c) 2013-2019 Christian Hesse <mail@eworm.de>
+#
+# create and upload backup and config file
+
+:global Identity;
+:global Domain;
+:global BackupUploadUrl;
+:global BackupUploadUser;
+:global BackupUploadPass;
+:global BackupSendBinary;
+:global BackupSendExport;
+:global BackupPassword;
+
+:global CharacterReplace;
+:global SendNotification;
+
+:if ($BackupSendBinary != true && \
+     $BackupSendExport != true) do={
+  :log error ("Configured to send neither backup nor config export.");
+  :error "Error: See log for details.";
+}
+
+# filename based on identity
+:local FileName [ $CharacterReplace ($Identity . "." . $Domain) "." "_" ];
+:local BackupFile "none";
+:local ConfigFile "none";
+
+# get some system information
+:local BoardName [ / system resource get board-name ];
+:local Model [ / system routerboard get model ];
+:local SerialNumber [ / system routerboard get serial-number ];
+:local Channel [ / system package update get channel ];
+:local InstalledVersion [ / system package update get installed-version ];
+
+# binary backup
+:if ($BackupSendBinary = true) do={
+  / system backup save encryption=aes-sha256 name=$FileName password=$BackupPassword;
+
+  :do {
+    / tool fetch upload=yes url=($BackupUploadUrl . "/" . $FileName . ".backup") \
+        user=$BackupUploadUser password=$BackupUploadPass src-path=($FileName . ".backup");
+    :set BackupFile ($FileName . ".backup");
+  } on-error={
+    :log error ("Uploading backup file failed!");
+    :set BackupFile "failed";
+  }
+}
+
+# create configuration export
+:if ($BackupSendExport = true) do={
+  / export terse file=$FileName;
+
+  :do {
+    / tool fetch upload=yes url=($BackupUploadUrl . "/" . $FileName . ".rsc") \
+        user=$BackupUploadUser password=$BackupUploadPass src-path=($FileName . ".rsc");
+    :set ConfigFile ($FileName . ".rsc");
+  } on-error={
+    :log error ("Uploading configuration export failed!");
+    :set ConfigFile "failed";
+  }
+}
+
+$SendNotification "Backup & Config Upload" \
+  ("Backup and config export for " . $Identity . ".\n\n" . \
+    "Board name:      " . $BoardName . "\n" . \
+    "Model:           " . $Model . "\n" . \
+    "Serial number:   " . $SerialNumber . "\n" . \
+    "Hostname:        " . $Identity . "\n" . \
+    "Channel:         " . $Channel . "\n" . \
+    "RouterOS:        " . $InstalledVersion . "\n\n" . \
+    "Backup uploaded: " . $BackupFile . "\n" . \
+    "Config uploaded: " . $ConfigFile);
+}

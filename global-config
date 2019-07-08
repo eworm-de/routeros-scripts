@@ -6,7 +6,7 @@
 
 # Make sure all configuration properties are up to date and this
 # value is in sync with value in script 'global-functions'!
-:global GlobalConfigVersion 5;
+:global GlobalConfigVersion 6;
 
 # This is used for DNS and backup file.
 :global Domain "example.com";
@@ -32,6 +32,12 @@
 # These addresses are used to send backup and config export files to.
 :global EmailBackupTo "mail@example.com";
 :global EmailBackupCc "another@example.com";
+# These credentials are used to upload backup and config export files.
+# SFTP authentication is tricky, you may have to limit authentication
+# methods for your SSH server.
+:global BackupUploadUrl "sftp://example.com/backup/";
+:global BackupUploadUser "mikrotik";
+:global BackupUploadPass "v3ry-s3cr3t";
 
 # Specify an address to enable auto update to version assumed safe.
 # The configured channel (bugfix, current, release-candidate) is appended.
