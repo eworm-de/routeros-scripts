@@ -12,8 +12,9 @@
   :local Delay (600 / $RemoteCapCount);
   :if ($Delay > 120) do={ :set Delay 120; }
   :foreach RemoteCap in=[ / caps-man remote-cap find where version!=$InstalledVersion ] do={
-    :local RemoteCapName [ / caps-man remote-cap get $RemoteCap name ];
-    :log debug ("Starting upgrade for CAP " . $RemoteCapName . "...");
+    :local RemoteCapVal [ / caps-man remote-cap get $RemoteCap ];
+    :log info ("Starting upgrade for " . $RemoteCapVal->"name" . \
+        " (" . $RemoteCapVal->"identity" . ")...");
     / caps-man remote-cap upgrade $RemoteCap;
     :delay ($Delay . "s");
   }
