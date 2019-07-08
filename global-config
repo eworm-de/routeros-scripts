@@ -12,13 +12,11 @@
 :global Domain "example.com";
 :global HostNameInZone true;
 
-# These addresses are used to send e-mails to. The to-addresses need
-# to be filled, cc-addresses can be empty, one address or a comma
+# These addresses are used to send e-mails to. The to-address needs
+# to be filled; cc-address can be empty, one address or a comma
 # separated list of addresses.
 :global EmailGeneralTo "mail@example.com";
 :global EmailGeneralCc "another@example.com";
-:global EmailBackupTo  "mail@example.com";
-:global EmailBackupCc  "";
 
 # You can send Telegram notifications. Register a bot
 # and add the token and chat ids here.
@@ -31,6 +29,9 @@
 :global BackupSendBinary false;
 :global BackupSendExport true;
 :global BackupPassword "v3ry-s3cr3t";
+# These addresses are used to send backup and config export files to.
+:global EmailBackupTo "mail@example.com";
+:global EmailBackupCc "another@example.com";
 
 # Specify an address to enable auto update to version assumed safe.
 # The configured channel (bugfix, current, release-candidate) is appended.
