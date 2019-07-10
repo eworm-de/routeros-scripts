@@ -12,8 +12,10 @@
   :local GreInt [ / interface gre find where comment=$PeerVal->"id" ];
   :if ([ :len $GreInt ] > 0) do={
     :local GreIntVal [ / interface gre get $GreInt ];
-    :if ($PeerVal->"dynamic-address" != $GreIntVal->"remote-address" || $GreIntVal->"disabled" = true) do={
-      :log info ("Update remote address for interface " . $GreIntVal->"name" . " to " . $PeerVal->"dynamic-address");
+    :if ([ :typeof ($PeerVal->"dynamic-address") ] = "str" && \
+         ($PeerVal->"dynamic-address" != $GreIntVal->"remote-address" || \
+          $GreIntVal->"disabled" = true)) do={
+      :log info ("Updating remote address for interface " . $GreIntVal->"name" . " to " . $PeerVal->"dynamic-address");
       / interface gre set remote-address=0.0.0.0 disabled=yes [ find where remote-address=$PeerVal->"dynamic-address" name!=$GreIntVal->"name" ];
       / interface gre set $GreInt remote-address=($PeerVal->"dynamic-address") disabled=no;
     }
