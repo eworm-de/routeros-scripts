@@ -107,8 +107,13 @@
 
   :if ([ :len $EmailGeneralTo ] > 0) do={
     :do {
+      :local Signature [ / system note get note ];
+      :if ([ :len $Signature ] > 0) do={
+        :set Signature ("\n-- \n" . $Signature);
+      }
       / tool e-mail send to=$EmailGeneralTo cc=$EmailGeneralCc \
-        subject=("[" . $Identity . "] " . $Subject) body=$Message file=$Attach;
+        subject=("[" . $Identity . "] " . $Subject) \
+        body=($Message . $Signature) file=$Attach;
     } on-error={
       :log warning "Failed sending notification mail!";
     }
