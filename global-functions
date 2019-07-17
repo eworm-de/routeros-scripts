@@ -226,3 +226,19 @@
   }
   :return true;
 }
+
+# parse key value store
+:global ParseKeyValueStore do={
+  :global CharacterReplace;
+
+  :local Source $1;
+  :if ([ :typeof $Source ] != "array") do={
+    :set Source [ :tostr $1 ];
+  }
+  :local Result [ :toarray "" ];
+  :foreach KeyValue in=[ :toarray $Source ] do={
+    :set KeyValue [ :toarray [ $CharacterReplace $KeyValue "=" "," ] ];
+    :set ($Result->($KeyValue->0)) ($KeyValue->1);
+  }
+  :return $Result;
+}
