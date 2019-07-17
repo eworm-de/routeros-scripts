@@ -8,18 +8,10 @@
 :global CertRenewUrl;
 :global CertRenewPass;
 
+:global ParseKeyValueStore;
 :global SendNotification;
 :global UrlEncode;
 :global WaitForFile;
-
-:local GetIssuerCN do={
-  :foreach IssuerI in=$1 do={
-    :if ([ :pick $IssuerI 0 3 ] = "CN=") do={
-      :return [ :pick $IssuerI 3 99 ];
-    }
-  }
-  :return "";
-}
 
 :local FormatExpire do={
   :global CharacterReplace;
@@ -76,7 +68,7 @@
         "Name:        " . ($CertVal->"name") . "\n" . \
         "CommonName:  " . ($CertNewVal->"common-name") . "\n" . \
         "Fingerprint: " . ($CertNewVal->"fingerprint") . "\n" . \
-        "Issuer:      " . [ $GetIssuerCN ($CertNewVal->"issuer") ] . "\n" . \
+        "Issuer:      " . ([ $ParseKeyValueStore ($CertNewVal->"issuer") ]->"CN") . "\n" . \
         "Validity:    " . ($CertNewVal->"invalid-before") . " to " . ($CertNewVal->"invalid-after") . "\n" . \
         "Expires in:  " . [ $FormatExpire ($CertNewVal->"expires-after") ]);
     :log info ("The certificate " . ($CertVal->"name") . " has been renewed.");
@@ -100,7 +92,7 @@
       "Name:        " . ($CertVal->"name") . "\n" . \
       "CommonName:  " . ($CertVal->"common-name") . "\n" . \
       "Fingerprint: " . ($CertVal->"fingerprint") . "\n" . \
-      "Issuer:      " . ($CertVal->"ca") . [ $GetIssuerCN ($CertVal->"issuer") ] . "\n" . \
+      "Issuer:      " . ($CertVal->"ca") . ([ $ParseKeyValueStore ($CertVal->"issuer") ]->"CN") . "\n" . \
       "Validity:    " . ($CertVal->"invalid-before") . " to " . ($CertVal->"invalid-after") . "\n" . \
       "Expires in:  " . $ExpiresAfter);
   :log warning ("The certificate " . ($CertVal->"name") . " " . $State . \
