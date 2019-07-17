@@ -4,6 +4,7 @@
 #                         Michael Gisbers <michael@gisbers.de>
 
 :global CertificateAvailable;
+:global ParseKeyValueStore;
 
 :if ([ / ip cloud get ddns-enabled ] != true) do={
   :log error "IP cloud DDNS is not enabled.";
@@ -22,16 +23,13 @@
   :local LastAddress [ / interface 6to4 get $Interface local-address ];
 
   :if ($PublicAddress != $LastAddress) do={
-    :local Comment [ :toarray [ / interface 6to4 get $Interface comment ] ];
-    :local User [ :pick ($Comment->1) 5 99 ];
-    :local Pass [ :pick ($Comment->2) 5 99 ];
-    :local Id [ :pick ($Comment->3) 3 99 ];
+    :local Comment [ $ParseKeyValueStore [ / interface 6to4 get $Interface comment ] ];
 
     $CertificateAvailable "Starfield Secure Certificate Authority - G2";
     :log info ("Local address changed, sending UPDATE to tunnelbroker! New address: " . $PublicAddress);
     / tool fetch check-certificate=yes-without-crl \
-        ("https://ipv4.tunnelbroker.net/nic/update\?hostname=" . $Id) \
-        user=$User password=$Pass keep-result=no;
+        ("https://ipv4.tunnelbroker.net/nic/update\?hostname=" . $Comment->"id") \
+        user=($Comment->"user") password=($Comment->"pass") keep-result=no;
     / interface 6to4 set $Interface local-address=$PublicAddress;
   } else={
     :log debug ("All tunnelbroker configuration is up to date for interface " . $IntName . ".");
