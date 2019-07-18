@@ -12,6 +12,8 @@
 :global BackupSendExport;
 :global BackupPassword;
 
+:global CharacterReplace;
+
 :if ($BackupSendBinary != true && \
      $BackupSendExport != true) do={
   :log error ("Configured to send neither backup nor config export.");
@@ -19,7 +21,7 @@
 }
 
 # filename based on identity
-:local FileName ($Identity . "." . $Domain);
+:local FileName [ $CharacterReplace ($Identity . "." . $Domain) "." "_" ];
 :local BackupFile "none";
 :local ConfigFile "none";
 :local Attach [ :toarray "" ];
