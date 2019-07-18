@@ -22,7 +22,7 @@
     :error "Warning: See log for details.";
   }
 
-  / system script run [ find where name~"daily-psk\\.(capsman|local)" ];
+  / system script run [ find where name~"^daily-psk\\.(capsman|local)\$" ];
 
   / system scheduler set interval=0s $Scheduler;
 }
