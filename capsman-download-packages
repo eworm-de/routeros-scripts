@@ -3,8 +3,6 @@
 # Copyright (c) 2018-2019 Christian Hesse <mail@eworm.de>
 #                         Michael Gisbers <michael@gisbers.de>
 #
-# requires: dont-require-permissions=yes
-#
 # download and cleanup packages for CAP installation from CAPsMAN
 
 :global DownloadPackage;
