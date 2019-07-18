@@ -22,8 +22,8 @@
   }
 }
 
-:if ([ / system script print count-only where name="email-backup" ] > 0) do={
-  / system script run email-backup;
+:foreach Script in=[ / system script find where name~"^(email|upload)-backup\$" ] do={
+  / system script run $Script;
 }
 
 :log info ("Rebooting for update.");
