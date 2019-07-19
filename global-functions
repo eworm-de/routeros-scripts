@@ -184,6 +184,9 @@
   :if ([ :len $PkgArch ] = 0) do={ :set PkgArch [ / system resource get architecture-name ]; }
 
   :local PkgFile ($PkgName . "-" . $PkgVer . "-" . $PkgArch . ".npk");
+  :if ($PkgArch = "x86_64") do={
+    :set PkgFile ($PkgName . "-" . $PkgVer . ".npk");
+  }
   :local PkgDest [ $CleanFilePath ($PkgDir . "/" . $PkgFile) ];
 
   $CertificateAvailable "Let's Encrypt Authority X3";
