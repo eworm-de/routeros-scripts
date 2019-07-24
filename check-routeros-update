@@ -32,8 +32,7 @@
 
 :if ($Update->"installed-version" != $Update->"latest-version") do={
   :local BoardName [ / system resource get board-name ];
-  :local Model [ / system routerboard get model ];
-  :local SerialNumber [ / system routerboard get serial-number ];
+  :local RouterBoard [ / system routerboard get ];
 
   :if ([ :len $SafeUpdateUrl ] > 0) do={
     :local Result;
@@ -71,8 +70,8 @@
   $SendNotification ("RouterOS update") \
     ("There is a RouterOS update available.\n\n" . \
       "Board name:    " . $BoardName . "\n" . \
-      "Model:         " . $Model . "\n" . \
-      "Serial number: " . $SerialNumber . "\n" . \
+      "Model:         " . $RouterBoard->"model" . "\n" . \
+      "Serial number: " . $RouterBoard->"serial-number" . "\n" . \
       "Hostname:      " . $Identity . "\n" . \
       "Channel:       " . $Update->"channel" . "\n" . \
       "Installed:     " . $Update->"installed-version" . "\n" . \
