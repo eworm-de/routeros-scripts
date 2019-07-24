@@ -6,17 +6,16 @@
 
 :global DownloadPackage;
 
-:local InstalledVersion [ / system package update get installed-version ];
-:local LatestVersion [ / system package update get latest-version ];
+:local Update [ / system package update get ];
 
-:if ($InstalledVersion = $LatestVersion) do={
-  :log info ("Version " . $LatestVersion . " is already installed.");
+:if ($Update->"installed-version" = $Update->"latest-version") do={
+  :log info ("Version " . $Update->"latest-version" . " is already installed.");
   :error "No updates available.";
 }
 
 :foreach Package in=[ / system package find where !bundle ] do={
   :local PkgName [ / system package get $Package name ];
-  if ([ $DownloadPackage $PkgName $LatestVersion ] = false) do={
+  if ([ $DownloadPackage $PkgName ($Update->"latest-version") ] = false) do={
     :log error ("Download for package " . $PkgName . " failed.");
     :error "Error: See log for details.";
   }
