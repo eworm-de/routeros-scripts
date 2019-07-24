@@ -8,6 +8,11 @@
 
 :local Update [ / system package update get ];
 
+:if ([ :typeof ($Update->"latest-version") ] = "nothing") do={
+  :log warning "Latest version is not known.";
+  :error "Latest version is not known.";
+}
+
 :if ($Update->"installed-version" = $Update->"latest-version") do={
   :log info ("Version " . $Update->"latest-version" . " is already installed.");
   :error "No updates available.";
