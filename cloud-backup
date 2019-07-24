@@ -11,8 +11,7 @@
 
 # get some system information
 :local BoardName [ / system resource get board-name ];
-:local Model [ / system routerboard get model ];
-:local SerialNumber [ / system routerboard get serial-number ];
+:local RouterBoard [ / system routerboard get ];
 :local Update [ / system package update get ];
 
 :do {
@@ -28,8 +27,8 @@
   $SendNotification "Cloud backup" \
     ("Uploaded backup for " . $Identity . " to cloud.\n\n" . \
       "Board name:     " . $BoardName . "\n" . \
-      "Model:          " . $Model . "\n" . \
-      "Serial number:  " . $SerialNumber . "\n" . \
+      "Model:          " . $RouterBoard->"model" . "\n" . \
+      "Serial number:  " . $RouterBoard->"serial-number" . "\n" . \
       "Hostname:       " . $Identity . "\n" . \
       "Channel:        " . $Update->"channel" . "\n" . \
       "RouterOS:       " . $Update->"installed-version" . "\n\n" . \
