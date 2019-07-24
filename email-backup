@@ -30,8 +30,7 @@
 :local BoardName [ / system resource get board-name ];
 :local Model [ / system routerboard get model ];
 :local SerialNumber [ / system routerboard get serial-number ];
-:local Channel [ / system package update get channel ];
-:local InstalledVersion [ / system package update get installed-version ];
+:local Update [ / system package update get ];
 
 # binary backup
 :if ($BackupSendBinary = true) do={
@@ -55,8 +54,8 @@
       "Model:         " . $Model . "\n" . \
       "Serial number: " . $SerialNumber . "\n" . \
       "Hostname:      " . $Identity . "\n" . \
-      "Channel:       " . $Channel . "\n" . \
-      "RouterOS:      " . $InstalledVersion . "\n\n" . \
+      "Channel:       " . $Update->"channel" . "\n" . \
+      "RouterOS:      " . $Update->"installed-version" . "\n\n" . \
       "Backup file:   " . $BackupFile . "\n" . \
       "Config file:   " . $ConfigFile) \
     file=$Attach;
