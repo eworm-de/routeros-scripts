@@ -10,7 +10,7 @@
 
 :global SendNotification;
 
-:local Update do={
+:local DoUpdate do={
   :if ([ / system script print count-only where name="packages-update" ] > 0) do={
     / system script run packages-update;
   } else={
@@ -28,11 +28,9 @@
 }
 
 / system package update check-for-updates without-paging;
-:local InstalledVersion [ / system package update get installed-version ];
-:local LatestVersion [ / system package update get latest-version ];
+:local Update [ / system package update get ];
 
-:if ($InstalledVersion != $LatestVersion) do={
-  :local Channel [ / system package update get channel ];
+:if ($Update->"installed-version" != $Update->"latest-version") do={
   :local BoardName [ / system resource get board-name ];
   :local Model [ / system routerboard get model ];
   :local SerialNumber [ / system routerboard get serial-number ];
@@ -41,32 +39,32 @@
     :local Result;
     :do {
       :set Result [ / tool fetch check-certificate=yes-without-crl \
-          ($SafeUpdateUrl . $Channel . "?installed=" . $InstalledVersion . \
-          "&latest=" . $LatestVersion) output=user as-value ];
+          ($SafeUpdateUrl . $Update->"channel" . "?installed=" . $Update->"installed-version" . \
+          "&latest=" . $Update->"latest-version") output=user as-value ];
     } on-error={
-      :log warning ("Failed receiving safe version for " . $Channel . ".");
+      :log warning ("Failed receiving safe version for " . $Update->"channel" . ".");
     }
-    :if ($Result->"status" = "finished" && $Result->"data" = $LatestVersion) do={
-      :log info ("Version " . $LatestVersion . " is considered safe, updating...");
+    :if ($Result->"status" = "finished" && $Result->"data" = $Update->"latest-version") do={
+      :log info ("Version " . $Update->"latest-version" . " is considered safe, updating...");
       $SendNotification ("RouterOS update") \
-          ("Version " . $LatestVersion . " is considered safe for " . $Channel . \
+          ("Version " . $Update->"latest-version" . " is considered safe for " . $Update->"channel" . \
           ", updating on " . $Identity . "...");
-      $Update;
+      $DoUpdate;
     }
   }
 
   :if ([ / system script job print count-only where script="check-routeros-update" parent~"." ] > 0) do={
-    :put ("Do you want to install RouterOS version " . $LatestVersion . "? [y/N]");
+    :put ("Do you want to install RouterOS version " . $Update->"latest-version" . "? [y/N]");
     :if ([ :terminal inkey timeout=60 ] = 121) do={
-      $Update;
+      $DoUpdate;
     } else={
       :put "Canceled...";
     }
   }
 
-  :if ($SentRouterosUpdateNotification = $LatestVersion) do={
+  :if ($SentRouterosUpdateNotification = $Update->"latest-version") do={
     :log info ("Already sent the RouterOS update notification for version " . \
-        $LatestVersion . ".");
+        $Update->"latest-version" . ".");
     :error "Already sent notification.";
   }
 
@@ -76,9 +74,9 @@
       "Model:         " . $Model . "\n" . \
       "Serial number: " . $SerialNumber . "\n" . \
       "Hostname:      " . $Identity . "\n" . \
-      "Channel:       " . $Channel . "\n" . \
-      "Installed:     " . $InstalledVersion . "\n" . \
-      "Available:     " . $LatestVersion . "\n\n" .\
-      "https://mikrotik.com/download/changelogs/" . $Channel . "-release-tree");
-  :set SentRouterosUpdateNotification $LatestVersion;
+      "Channel:       " . $Update->"channel" . "\n" . \
+      "Installed:     " . $Update->"installed-version" . "\n" . \
+      "Available:     " . $Update->"latest-version" . "\n\n" .\
+      "https://mikrotik.com/download/changelogs/" . $Update->"channel" . "-release-tree");
+  :set SentRouterosUpdateNotification ($Update->"latest-version");
 }
