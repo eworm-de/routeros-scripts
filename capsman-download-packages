@@ -14,15 +14,14 @@
 
 :foreach Package in=[ / file find where type=package \
       package-version!=$InstalledVersion name~("^" . $PackagePath) ] do={
-  :local PackageName [ / file get $Package package-name ];
-  :local PackageArchitecture [ / file get $Package package-architecture ];
-  :if ($PackageArchitecture = "mips") do={
-    :set PackageArchitecture "mipsbe";
+  :local File [ / file get $Package ];
+  :if ($File->"package-architecture" = "mips") do={
+    :set ($File->"package-architecture") "mipsbe";
   }
-  :if ($PackageName = "wireless@") do={
-    :set PackageName "wireless";
+  :if ($File->"package-name" = "wireless@") do={
+    :set ($File->"package-name") "wireless";
   }
-  :if ([ $DownloadPackage $PackageName $InstalledVersion $PackageArchitecture $PackagePath ] = true) do={
+  :if ([ $DownloadPackage ($File->"package-name") $InstalledVersion $File->"package-architecture" $PackagePath ] = true) do={
     :set Updated true;
     / file remove $Package;
   }
