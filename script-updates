@@ -56,8 +56,7 @@
 
   :if ([ :len $SourceNew ] > 0) do={
     :if ([ :pick $SourceNew 0 5 ] = "#!rsc") do={
-      :local SourceCurrent [ / system script get $Script source ];
-      :if ($SourceNew != $SourceCurrent) do={
+      :if ($SourceNew != $ScriptVal->"source") do={
         :local DontRequirePermissions \
             ($SourceNew~"\n# requires: dont-require-permissions=yes\n");
         :log info ("Updating script: " . $ScriptVal->"name");
