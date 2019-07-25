@@ -19,50 +19,44 @@
 :local Ttl 5m;
 :local CommentPrefix "managed by dhcp-to-dns for ";
 
-:foreach Static in=[ / ip dns static find where comment ~ $CommentPrefix ] do={
-  :local MacAddress [ $CharacterReplace [ / ip dns static get $Static comment ] $CommentPrefix "" ];
-  :local IpAddress [ / ip dns static get $Static address ];
-  :local HostName [ / ip dns static get $Static name ];
-  :if ([ / ip dhcp-server lease print count-only where mac-address=$MacAddress address=$IpAddress dynamic=yes ] > 0) do={
-    :log debug ("Lease for " . $MacAddress . " (" . $HostName . ") still exists. Not deleting DNS entry.");
+:foreach DnsRecord in=[ / ip dns static find where comment ~ $CommentPrefix ] do={
+  :local DnsRecordVal [ / ip dns static get $DnsRecord ];
+  :local MacAddress [ $CharacterReplace ($DnsRecordVal->"comment") $CommentPrefix "" ];
+  :if ([ / ip dhcp-server lease print count-only where mac-address=$MacAddress address=($DnsRecordVal->"address") dynamic=yes ] > 0) do={
+    :log debug ("Lease for " . $MacAddress . " (" . $DnsRecordVal->"host-name" . ") still exists. Not deleting DNS entry.");
   } else={
     :local Found false;
-    :log info ("Lease expired for " . $MacAddress . " (" . $HostName . "), deleting DNS entry.");
-    / ip dns static remove $Static;
+    :log info ("Lease expired for " . $MacAddress . " (" . $DnsRecordVal->"name" . "), deleting DNS entry.");
+    / ip dns static remove $DnsRecord;
   }
 }
 
 :foreach Lease in=[ / ip dhcp-server lease find where dynamic=yes ] do={
-  :local Mac [ / ip dhcp-server lease get $Lease mac-address ];
-  :local DhcpIp [ / ip dhcp-server lease get $Lease address ];
-  :local Comment ($CommentPrefix . $Mac);
-  :local HostName [ $CharacterReplace [ / ip dhcp-server lease get $Lease host-name ] " " "" ];
+  :local LeaseVal [ / ip dhcp-server lease get $Lease ];
+  :local Comment ($CommentPrefix . $LeaseVal->"mac-address");
+  :local HostName [ $CharacterReplace ($LeaseVal->"host-name") " " "" ];
   :if ($HostName = "") do={
-    :set HostName [ $CharacterReplace [ / ip dhcp-server lease get $Lease mac-address ] ":" "-" ];
+    :set HostName [ $CharacterReplace ($LeaseVal->"mac-address") ":" "-" ];
   }
 
   :local Fqdn ($HostName . "." . $Zone);
-  :local DnsNode [ / ip dns static find where name=$Fqdn ];
-  :if ([ :len $DnsNode ] > 0) do={
-    :local DnsIp [ / ip dns static get $DnsNode address ];
-    :local Leases [ / ip dhcp-server lease find where host-name=$HostName dynamic=yes ];
-    :local HostNameCount [ / ip dhcp-server lease print count-only where host-name=$HostName dynamic=yes ];
-    :if ($HostNameCount > 1) do={
-      :foreach J,Lease in=$Leases do={
-        :if ($J + 1 = $HostNameCount) do={
-          :set DhcpIp [ / ip dhcp-server lease get $Lease address ];
-        }
-      }
+  :local DnsRecord [ / ip dns static find where name=$Fqdn ];
+  :if ([ :len $DnsRecord ] > 0) do={
+    :local DnsIp [ / ip dns static get $DnsRecord address ];
+
+    :local HostLeases [ / ip dhcp-server lease find where host-name=($LeaseVal->"host-name") dynamic=yes ];
+    :if ([ :len $HostLeases ] > 1) do={
+      :set ($LeaseVal->"address") [ / ip dhcp-server lease get ($HostLeases->([ :len $HostLeases ] - 1)) address ];
     }
 
-    :if ($DnsIp = $DhcpIp) do={
+    :if ($DnsIp = $LeaseVal->"address") do={
       :log debug ("DNS entry for " . $Fqdn . " does not need updating.");
     } else={
-      :log info ("Replacing DNS entry for " . $Fqdn . ", new address is " . $DhcpIp . ".");
-      / ip dns static set name=$Fqdn address=$DhcpIp ttl=$Ttl comment=$Comment $DnsNode;
+      :log info ("Replacing DNS entry for " . $Fqdn . ", new address is " . $LeaseVal->"address" . ".");
+      / ip dns static set name=$Fqdn address=($LeaseVal->"address") ttl=$Ttl comment=$Comment $DnsRecord;
     }
   } else={
-    :log info ("Adding new DNS entry for " . $Fqdn . ", address is " . $DhcpIp . ".");
-    / ip dns static add name=$Fqdn address=$DhcpIp ttl=$Ttl comment=$Comment;
+    :log info ("Adding new DNS entry for " . $Fqdn . ", address is " . $LeaseVal->"address" . ".");
+    / ip dns static add name=$Fqdn address=($LeaseVal->"address") ttl=$Ttl comment=$Comment;
   }
 }
