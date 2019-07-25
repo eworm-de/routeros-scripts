@@ -14,8 +14,7 @@
   :error "Warning: See log for details.";
 }
 
-:local Allowed [ / tool sms get allowed-number ];
-:local Secret [ / tool sms get secret ];
+:local Settings [ / tool sms get ];
 
 # forward SMS in a loop
 :while ([ / tool sms inbox print count-only ] > 0) do={
@@ -24,16 +23,14 @@
   :local Delete [ :toarray "" ];
 
   :foreach Sms in=[ / tool sms inbox find where phone=$Phone ] do={
-    :local Message   [ / tool sms inbox get $Sms message ];
-    :local TimeStamp [ / tool sms inbox get $Sms timestamp ];
-    :local Type      [ / tool sms inbox get $Sms type ];
+    :local SmsVal [ / tool sms inbox get $Sms ];
 
-    :if ($Phone = $Allowed && $Message~("^:cmd " . $Secret . " script ")) do={
+    :if ($Phone = $Settings->"allowed" && ($SmsVal->"message")~("^:cmd " . $Settings->"secret" . " script ")) do={
       :log debug "Removing SMS, which started a script.";
       / tool sms inbox remove $Sms;
     } else={
-      :set Messages ($Messages . "\n\nOn " . $TimeStamp . \
-          " type " . $Type . ":\n" . $Message);
+      :set Messages ($Messages . "\n\nOn " . $SmsVal->"timestamp" . \
+          " type " . $SmsVal->"type" . ":\n" . $SmsVal->"message");
       :set Delete ($Delete, $Sms);
     }
   }
