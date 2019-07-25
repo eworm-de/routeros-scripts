@@ -18,40 +18,38 @@
 
 :foreach Script in=[ / system script find ] do={
   :local Ignore 0;
-  :local ScriptName [ / system script get $Script name ];
-  :local ScriptPolicy [ / system script get $Script policy ];
-  :local ScriptFile [ / file find where name=("script-updates/" . $ScriptName) ];
+  :local ScriptVal [ / system script get $Script ];
+  :local ScriptFile [ / file find where name=("script-updates/" . $ScriptVal->"name") ];
   :local SourceNew;
   :if ([ :len $ScriptFile ] > 0) do={
     :set SourceNew [ / file get $ScriptFile content ];
     / file remove $ScriptFile;
   }
 
-  :foreach Scheduler in=[ / system scheduler find where on-event=$ScriptName ] do={
-    :local SchedulerName [ / system scheduler get $Scheduler name ];
-    :local SchedulerPolicy [ / system scheduler get $Scheduler policy ];
-    :if ($ScriptPolicy != $SchedulerPolicy) do={
-      :log warning ("Policies differ for script " . $ScriptName . \
-        " and its scheduler " . $SchedulerName . "!");
+  :foreach Scheduler in=[ / system scheduler find where on-event=($ScriptVal->"name") ] do={
+    :local SchedulerVal [ / system scheduler get $Scheduler ];
+    :if ($ScriptVal->"policy" != $SchedulerVal->"policy") do={
+      :log warning ("Policies differ for script " . $ScriptVal->"name" . \
+        " and its scheduler " . $SchedulerVal->"name" . "!");
     }
   }
 
   :if ([ :len $SourceNew ] = 0 && $ScriptUpdatesFetch = true) do={
     :foreach IgnoreLoop in=$ScriptUpdatesIgnore do={
-      :if ($IgnoreLoop = $ScriptName) do={ :set Ignore 1; }
+      :if ($IgnoreLoop = $ScriptVal->"name") do={ :set Ignore 1; }
     }
 
     :if ($Ignore = 0) do={
-      :log debug ("Fetching script from url: " . $ScriptName);
+      :log debug ("Fetching script from url: " . $ScriptVal->"name");
       :do {
         :local Result [ / tool fetch check-certificate=yes-without-crl \
-            ($ScriptUpdatesBaseUrl . $ScriptName . $ScriptUpdatesUrlSuffix) \
+            ($ScriptUpdatesBaseUrl . $ScriptVal->"name" . $ScriptUpdatesUrlSuffix) \
             output=user as-value ];
         :if ($Result->"status" = "finished") do={
           :set SourceNew ($Result->"data");
         }
       } on-error={
-        :log info ("Failed fetching " . $ScriptName);
+        :log info ("Failed fetching " . $ScriptVal->"name");
       }
     }
   }
@@ -62,20 +60,20 @@
       :if ($SourceNew != $SourceCurrent) do={
         :local DontRequirePermissions \
             ($SourceNew~"\n# requires: dont-require-permissions=yes\n");
-        :log info ("Updating script: " . $ScriptName);
-        / system script set owner=$ScriptName source=$SourceNew \
+        :log info ("Updating script: " . $ScriptVal->"name");
+        / system script set owner=($ScriptVal->"name") source=$SourceNew \
             dont-require-permissions=$DontRequirePermissions $Script;
-        :if ($ScriptName = "global-functions") do={
+        :if ($ScriptVal->"name" = "global-functions") do={
           / system script run global-functions;
         }
       } else={
-        :log debug ("Script " .  $ScriptName . " did not change.");
+        :log debug ("Script " .  $ScriptVal->"name" . " did not change.");
       }
     } else={
-      :log warning ("Looks like new script " . $ScriptName . " is not valid. Ignoring!");
+      :log warning ("Looks like new script " . $ScriptVal->"name" . " is not valid. Ignoring!");
     }
   } else={
-    :log debug ("No update for script " . $ScriptName . ".");
+    :log debug ("No update for script " . $ScriptVal->"name" . ".");
   }
 }
 
