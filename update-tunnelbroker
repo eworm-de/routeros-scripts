@@ -19,11 +19,10 @@
 :local PublicAddress [ / ip cloud get public-address ];
 
 :foreach Interface in=[ / interface 6to4 find where comment~"^tunnelbroker" !disabled ] do={
-  :local IntName [ / interface 6to4 get $Interface name ];
-  :local LastAddress [ / interface 6to4 get $Interface local-address ];
+  :local InterfaceVal [ / interface 6to4 get $Interface ];
 
-  :if ($PublicAddress != $LastAddress) do={
-    :local Comment [ $ParseKeyValueStore [ / interface 6to4 get $Interface comment ] ];
+  :if ($PublicAddress != $InterfaceVal->"local-address") do={
+    :local Comment [ $ParseKeyValueStore ($InterfaceVal->"comment") ];
 
     $CertificateAvailable "Starfield Secure Certificate Authority - G2";
     :log info ("Local address changed, sending UPDATE to tunnelbroker! New address: " . $PublicAddress);
@@ -32,6 +31,6 @@
         user=($Comment->"user") password=($Comment->"pass") keep-result=no;
     / interface 6to4 set $Interface local-address=$PublicAddress;
   } else={
-    :log debug ("All tunnelbroker configuration is up to date for interface " . $IntName . ".");
+    :log debug ("All tunnelbroker configuration is up to date for interface " . $InterfaceVal->"name" . ".");
   }
 }
