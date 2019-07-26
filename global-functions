@@ -245,3 +245,16 @@
   }
   :return $Result;
 }
+
+# generate random number
+# Warning: This is a *very* weak algorithm and in *no way*
+# useful for cryptography or similar!
+:global GetRandom do={
+  :local Max ([ :tonum $1 ] + 1);
+  :local Sum 0;
+
+  :foreach Interface in=[ /interface find ] do={
+    :set Sum ($Sum + [ /interface get $Interface tx-byte ]);
+  }
+  :return ($Sum % $Max);
+}
