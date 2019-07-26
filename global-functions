@@ -258,3 +258,10 @@
   }
   :return ($Sum % $Max);
 }
+
+# delay a random amount of seconds
+:global RandomDelay do={
+  :global GetRandom;
+
+  :delay ([ $GetRandom $1 ] . "s");
+}
