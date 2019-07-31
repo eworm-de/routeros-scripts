@@ -45,23 +45,27 @@
     :local CertNew [ / certificate find where common-name=($CertVal->"common-name") fingerprint!=[ :tostr ($CertVal->"fingerprint") ] expires-after>3w ];
     :local CertNewVal [ / certificate get $CertNew ];
 
-    / ip service set certificate=($CertNewVal->"name") [ find where certificate=($CertVal->"name") ];
+    :if ($Cert != $CertNew) do={
+      :log debug ("Certificate '" . $CertVal->"name" . "' was not updated, but replaced.");
 
-    :do {
-      / ip ipsec identity set certificate=($CertNewVal->"name") [ / ip ipsec identity find where certificate=($CertVal->"name") ];
-      / ip ipsec identity set remote-certificate=($CertNewVal->"name") [ / ip ipsec identity find where remote-certificate=($CertVal->"name") ];
-    } on-error={
-      :log debug ("Setting IPSEC certificates failed. Package 'security' not installed?");
+      / ip service set certificate=($CertNewVal->"name") [ find where certificate=($CertVal->"name") ];
+
+      :do {
+        / ip ipsec identity set certificate=($CertNewVal->"name") [ / ip ipsec identity find where certificate=($CertVal->"name") ];
+        / ip ipsec identity set remote-certificate=($CertNewVal->"name") [ / ip ipsec identity find where remote-certificate=($CertVal->"name") ];
+      } on-error={
+        :log debug ("Setting IPSEC certificates failed. Package 'security' not installed?");
+      }
+
+      :do {
+        / ip hotspot profile set ssl-certificate=($CertNewVal->"name") [ / ip hotspot profile find where ssl-certificate=($CertVal->"name") ];
+      } on-error={
+        :log debug ("Setting hotspot certificates failed. Package 'hotspot' not installed?");
+      }
+
+      / certificate remove $Cert;
+      / certificate set $CertNew name=($CertVal->"name");
     }
-
-    :do {
-      / ip hotspot profile set ssl-certificate=($CertNewVal->"name") [ / ip hotspot profile find where ssl-certificate=($CertVal->"name") ];
-    } on-error={
-      :log debug ("Setting hotspot certificates failed. Package 'hotspot' not installed?");
-    }
-
-    / certificate remove $Cert;
-    / certificate set $CertNew name=($CertVal->"name")
 
     $SendNotification ("Certificate renewed") \
       ("A certificate on " . $Identity . " has been renewed.\n\n" . \
