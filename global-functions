@@ -200,6 +200,11 @@
     :return false;
   }
 
+  :if ([ / file get [ find where name=$PkgDest ] type ] != "package") do={
+    / file remove [ find where name=$PkgDest ];
+    :return false;
+  }
+
   :return true;
 }
 
