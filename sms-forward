@@ -25,7 +25,8 @@
   :foreach Sms in=[ / tool sms inbox find where phone=$Phone ] do={
     :local SmsVal [ / tool sms inbox get $Sms ];
 
-    :if ($Phone = $Settings->"allowed" && ($SmsVal->"message")~("^:cmd " . $Settings->"secret" . " script ")) do={
+    :if ($Phone = $Settings->"allowed-number" && \
+        ($SmsVal->"message")~("^:cmd " . $Settings->"secret" . " script ")) do={
       :log debug "Removing SMS, which started a script.";
       / tool sms inbox remove $Sms;
     } else={
