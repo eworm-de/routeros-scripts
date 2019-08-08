@@ -30,6 +30,11 @@
 / system package update check-for-updates without-paging;
 :local Update [ / system package update get ];
 
+:if ([ :len ($Update->"latest-version") ] = 0) do={
+  :log warning "An empty string is not a valid version.";
+  :error "Warning: See log for details.";
+}
+
 :if ($Update->"installed-version" != $Update->"latest-version") do={
   :local BoardName [ / system resource get board-name ];
   :local RouterBoard [ / system routerboard get ];
