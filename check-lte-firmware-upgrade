@@ -21,7 +21,7 @@
       :if (($Firmware->"installed") != ($Firmware->"latest")) do={
         $SendNotification ("LTE firmware upgrade") \
           ("A new firmware version " . ($Firmware->"latest") . " is available for " . \
-          "LTE interface " . $IntName . " on " . $Identity . ".");
+          "LTE interface " . $IntName . " on " . $Identity . ".") "" "true";
         :set SentLteFirmwareUpgradeNotification ($Firmware->"latest");
       }
     }
