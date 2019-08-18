@@ -118,6 +118,7 @@
 :global SendTelegram do={
   :local Subject [ :tostr $1 ];
   :local Message [ :tostr $2 ];
+  :local Silent  [ :tostr $3 ];
 
   :global Identity;
   :global TelegramTokenId;
@@ -131,8 +132,8 @@
     :do {
       / tool fetch check-certificate=yes-without-crl keep-result=no http-method=post \
         ("https://api.telegram.org/bot" . $TelegramTokenId . "/sendMessage") \
-        http-data=("chat_id=" . $TelegramChatId . "&text=" . \
-        [ $UrlEncode ("[" . $Identity . "] " . $Subject . "\n\n" . $Message) ]);
+        http-data=("chat_id=" . $TelegramChatId . "&disable_notification=" . $Silent . \
+        "&text=" . [ $UrlEncode ("[" . $Identity . "] " . $Subject . "\n\n" . $Message) ]);
     } on-error={
       :log warning "Failed sending telegram notification!";
     }
@@ -140,17 +141,18 @@
 }
 
 # send notification via e-mail and telegram
-# Note that attachment is ignored for telegram!
+# Note that attachment is ignored for telegram, silent is ignored for e-mail!
 :global SendNotification do={
   :local Subject [ :tostr $1 ];
   :local Message [ :tostr $2 ];
   :local Attach  [ :tostr $3 ];
+  :local Silent  [ :tostr $4 ];
 
   :global SendEMail;
   :global SendTelegram;
 
   $SendEMail $Subject $Message $Attach;
-  $SendTelegram $Subject $Message;
+  $SendTelegram $Subject $Message $Silent;
 }
 
 
