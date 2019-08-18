@@ -37,7 +37,7 @@
       "RouterOS:       " . $Update->"installed-version" . "\n\n" . \
       "Name:           " . $Cloud->"name" . "\n" . \
       "Size:           " . $Cloud->"size" . "\n" . \
-      "Download key:   " . $Cloud->"secret-download-key");
+      "Download key:   " . $Cloud->"secret-download-key") "" "true";
 } on-error={
   :log error ("Failed uploading backup for " . $Identity . " to cloud.");
 }
