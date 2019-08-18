@@ -69,5 +69,5 @@ $SendNotification "Backup & Config Upload" \
     "Channel:         " . $Update->"channel" . "\n" . \
     "RouterOS:        " . $Update->"installed-version" . "\n\n" . \
     "Backup uploaded: " . $BackupFile . "\n" . \
-    "Config uploaded: " . $ConfigFile);
+    "Config uploaded: " . $ConfigFile) "" "true";
 }
