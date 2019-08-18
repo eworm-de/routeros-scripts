@@ -52,7 +52,7 @@
       :log info ("Version " . $Update->"latest-version" . " is considered safe, updating...");
       $SendNotification ("RouterOS update") \
           ("Version " . $Update->"latest-version" . " is considered safe for " . $Update->"channel" . \
-          ", updating on " . $Identity . "...");
+          ", updating on " . $Identity . "...") "" "true";
       $DoUpdate;
     }
   }
@@ -81,6 +81,7 @@
       "Channel:       " . $Update->"channel" . "\n" . \
       "Installed:     " . $Update->"installed-version" . "\n" . \
       "Available:     " . $Update->"latest-version" . "\n\n" .\
-      "https://mikrotik.com/download/changelogs/" . $Update->"channel" . "-release-tree");
+      "https://mikrotik.com/download/changelogs/" . $Update->"channel" . "-release-tree") \
+    "" "true";
   :set SentRouterosUpdateNotification ($Update->"latest-version");
 }
