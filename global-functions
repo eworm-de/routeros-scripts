@@ -89,21 +89,15 @@
   }
 }
 
-# send notification via e-mail and telegram
-# Note that attachment is ignored for telegram!
-:global SendNotification do={
+# send notification via e-mail
+:global SendEMail do={
   :local Subject [ :tostr $1 ];
   :local Message [ :tostr $2 ];
-  :local Attach [ :tostr $3 ];
+  :local Attach  [ :tostr $3 ];
 
   :global Identity;
   :global EmailGeneralTo;
   :global EmailGeneralCc;
-  :global TelegramTokenId;
-  :global TelegramChatId;
-
-  :global UrlEncode;
-  :global CertificateAvailable;
 
   :if ([ :len $EmailGeneralTo ] > 0) do={
     :do {
@@ -118,6 +112,19 @@
       :log warning "Failed sending notification mail!";
     }
   }
+}
+
+# send notification via telegram
+:global SendTelegram do={
+  :local Subject [ :tostr $1 ];
+  :local Message [ :tostr $2 ];
+
+  :global Identity;
+  :global TelegramTokenId;
+  :global TelegramChatId;
+
+  :global UrlEncode;
+  :global CertificateAvailable;
 
   :if ([ :len $TelegramTokenId ] > 0 && [ :len $TelegramChatId ] > 0) do={
     $CertificateAvailable "Go Daddy Secure Certificate Authority - G2";
@@ -131,6 +138,21 @@
     }
   }
 }
+
+# send notification via e-mail and telegram
+# Note that attachment is ignored for telegram!
+:global SendNotification do={
+  :local Subject [ :tostr $1 ];
+  :local Message [ :tostr $2 ];
+  :local Attach  [ :tostr $3 ];
+
+  :global SendEMail;
+  :global SendTelegram;
+
+  $SendEMail $Subject $Message $Attach;
+  $SendTelegram $Subject $Message;
+}
+
 
 # get MAC vendor
 :global GetMacVendor do={
