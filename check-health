@@ -36,6 +36,11 @@
     $SendNotification ("Health warning: " . $PSU . " state") \
         ("The power supply unit '" . $PSU . "' on " . $Identity . " failed!");
   }
+  :if ($CheckHealthLast->($PSU . "-state") != "ok" && \
+       $CheckHealthCurrent->($PSU . "-state") = "ok") do={
+    $SendNotification ("Health recovery: " . $PSU . " state") \
+        ("The power supply unit '" . $PSU . "' on " . $Identity . " recovered!");
+  }
 }
 
 :foreach Temperature in={ "temperature"; "cpu-temperature"; "board-temperature1"; "board-temperature2" } do={
@@ -49,6 +54,12 @@
          $CheckHealthCurrent->$Temperature > $CheckHealthTemperature->$Temperature) do={
       $SendNotification ("Health warning: " . $Temperature) \
           ("The " . $Temperature . " on " . $Identity . " is above threshold: " .  \
+          $CheckHealthCurrent->$Temperature . "C");
+    }
+    :if ($CheckHealthLast->$Temperature > $CheckHealthTemperature->$Temperature && \
+         $CheckHealthCurrent->$Temperature <= $CheckHealthTemperature->$Temperature) do={
+      $SendNotification ("Health recovery: " . $Temperature) \
+          ("The " . $Temperature . " on " . $Identity . " dropped below threshold: " .  \
           $CheckHealthCurrent->$Temperature . "C");
     }
   }
