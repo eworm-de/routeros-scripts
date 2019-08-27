@@ -6,7 +6,7 @@
 
 # Make sure all configuration properties are up to date and this
 # value is in sync with value in script 'global-functions'!
-:global GlobalConfigVersion 6;
+:global GlobalConfigVersion 7;
 
 # This is used for DNS and backup file.
 :global Domain "example.com";
@@ -43,6 +43,14 @@
 # The configured channel (bugfix, current, release-candidate) is appended.
 :global SafeUpdateUrl "";
 #:global SafeUpdateUrl "https://example.com/ros/safe-update/";
+
+# These thresholds control when to send notification on temperature.
+:global CheckHealthTemperature {
+  temperature=50;
+  cpu-temperature=70;
+  board-temperature1=50;
+  board-temperature2=50;
+}
 
 # This controls what configuration is activated by bridge-port-to-default.
 :global BridgePortTo "default";
