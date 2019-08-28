@@ -31,15 +31,18 @@
 }
 
 :foreach PSU in={ "psu1"; "psu2" } do={
-  :if ($CheckHealthLast->($PSU . "-state") = "ok" && \
-       $CheckHealthCurrent->($PSU . "-state") != "ok") do={
-    $SendNotification ("Health warning: " . $PSU . " state") \
-        ("The power supply unit '" . $PSU . "' on " . $Identity . " failed!");
-  }
-  :if ($CheckHealthLast->($PSU . "-state") != "ok" && \
-       $CheckHealthCurrent->($PSU . "-state") = "ok") do={
-    $SendNotification ("Health recovery: " . $PSU . " state") \
-        ("The power supply unit '" . $PSU . "' on " . $Identity . " recovered!");
+  :if ([ :typeof ($CheckHealthLast->($PSU . "-state")) ] = "str" && \
+       [ :typeof ($CheckHealthCurrent->($PSU . "-state")) ] = "str") do={
+    :if ($CheckHealthLast->($PSU . "-state") = "ok" && \
+         $CheckHealthCurrent->($PSU . "-state") != "ok") do={
+      $SendNotification ("Health warning: " . $PSU . " state") \
+          ("The power supply unit '" . $PSU . "' on " . $Identity . " failed!");
+    }
+    :if ($CheckHealthLast->($PSU . "-state") != "ok" && \
+         $CheckHealthCurrent->($PSU . "-state") = "ok") do={
+      $SendNotification ("Health recovery: " . $PSU . " state") \
+          ("The power supply unit '" . $PSU . "' on " . $Identity . " recovered!");
+    }
   }
 }
 
