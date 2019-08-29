@@ -26,7 +26,7 @@
     / file remove $ScriptFile;
   }
 
-  :foreach Scheduler in=[ / system scheduler find where on-event=($ScriptVal->"name") ] do={
+  :foreach Scheduler in=[ / system scheduler find where on-event~("\\b" . $ScriptVal->"name" . "\\b") ] do={
     :local SchedulerVal [ / system scheduler get $Scheduler ];
     :if ($ScriptVal->"policy" != $SchedulerVal->"policy") do={
       :log warning ("Policies differ for script " . $ScriptVal->"name" . \
