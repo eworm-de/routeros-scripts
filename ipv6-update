@@ -29,13 +29,10 @@ if ($OldPrefix != $PdPrefix) do={
     :local Comment [ $ParseKeyValueStore ($RecordVal->"comment") ];
 
     :local Prefix [ / ipv6 address get [ find where interface=($Comment->"interface") from-pool=$Pool global ] address ];
-    :set Prefix [ :pick $Prefix 0 [ :find $Prefix "::/64" ] ];
-    :if ($Prefix~"^[0-9a-f]+:[0-9a-f]+:[0-9a-f]+:") do={ } else={
-      :set Prefix ($Prefix . ":");
-    }
+    :set Prefix [ :toip6 [ :pick $Prefix 0 [ :find $Prefix "/64" ] ] ];
+    :local Address ($Prefix | ([ :toip6 ($RecordVal->"address") ] & ::ffff:ffff:ffff:ffff));
 
-    :log info ("Updating DNS record for " . ($RecordVal->"name") . ($RecordVal->"regexp") . \
-        " to " . $Prefix . ":" . ($Comment->"suffix"));
-    / ip dns static set address=($Prefix . ":" . ($Comment->"suffix")) $Record;
+    :log info ("Updating DNS record for " . ($RecordVal->"name") . ($RecordVal->"regexp") . " to " . $Address);
+    / ip dns static set address=$Address $Record;
   }
 }
