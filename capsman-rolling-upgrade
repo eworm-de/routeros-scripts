@@ -15,7 +15,7 @@
     :local RemoteCapVal [ / caps-man remote-cap get $RemoteCap ];
     :log info ("Starting upgrade for " . $RemoteCapVal->"name" . \
         " (" . $RemoteCapVal->"identity" . ")...");
-    / caps-man remote-cap upgrade $RemoteCap;
+    / caps-man remote-cap upgrade [ find where name=$RemoteCapVal->"name" ];
     :delay ($Delay . "s");
   }
 }
