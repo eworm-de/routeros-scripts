@@ -12,7 +12,8 @@
 
 :if ([ :len $Scheduler ] = 0) do={
   :log info "Creating mode-button scheduler, counting presses...";
-  / system scheduler add name=mode-button-scheduler on-event=mode-button-scheduler interval=3s;
+  / system scheduler add name="mode-button-scheduler" \
+      on-event="/ system script run mode-button-scheduler;" interval=3s;
 } else={
   :log debug "Updating mode-button-scheduler...";
   / system scheduler set $Scheduler start-time=[ /system clock get time ];
