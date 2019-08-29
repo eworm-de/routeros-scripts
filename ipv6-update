@@ -25,7 +25,8 @@ if ($OldPrefix != $PdPrefix) do={
   / ipv6 firewall address-list set address=$PdPrefix $AddrList;
 
   :foreach Record in=[ / ip dns static find where comment~("^ipv6-pool-" . $Pool . ",") ] do={
-    :local Comment [ $ParseKeyValueStore [ / ip dns static get $Record comment ] ];
+    :local RecordVal [ / ip dns static get $Record ];
+    :local Comment [ $ParseKeyValueStore ($RecordVal->"comment") ];
 
     :local Prefix [ / ipv6 address get [ find where interface=($Comment->"interface") from-pool=$Pool global ] address ];
     :set Prefix [ :pick $Prefix 0 [ :find $Prefix "::/64" ] ];
@@ -33,12 +34,8 @@ if ($OldPrefix != $PdPrefix) do={
       :set Prefix ($Prefix . ":");
     }
 
-    :local Name [ / ip dns static get $Record name ];
-    :if ([ :len $Name ] = 0) do={
-      :set Name [ / ip dns static get $Record regex ];
-    }
-
-    :log info ("Updating DNS record for " . $Name . " to " . $Prefix . ":" . ($Comment->"suffix"));
+    :log info ("Updating DNS record for " . ($RecordVal->"name") . ($RecordVal->"regexp") . \
+        " to " . $Prefix . ":" . ($Comment->"suffix"));
     / ip dns static set address=($Prefix . ":" . ($Comment->"suffix")) $Record;
   }
 }
