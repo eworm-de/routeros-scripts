@@ -22,6 +22,7 @@
        ":log info (\"LTE firmware upgrade finished, waiting for installation before reset.\");\n" . \
        ":delay 150s;\n" . \
        "/ interface lte at-chat " . $IntName . " input=\"AT+RESET\";");
-    / system scheduler add name=($IntName . "-firmware-upgrade") on-event=($IntName . "-firmware-upgrade") interval=1m;
+    / system scheduler add name=($IntName . "-firmware-upgrade") \
+       on-event=("/ system script run " . $IntName . "-firmware-upgrade;") interval=1m;
   }
 }
