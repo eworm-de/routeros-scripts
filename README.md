@@ -96,8 +96,8 @@ And finally load configuration and functions and add the schedulers.
 
     [admin@MikroTik] > / system script run global-config
     [admin@MikroTik] > / system script run global-functions
-    [admin@MikroTik] > / system scheduler add name=global-config start-time=startup on-event=global-config
-    [admin@MikroTik] > / system scheduler add name=global-functions start-time=startup on-event=global-functions
+    [admin@MikroTik] > / system scheduler add name="global-config" start-time=startup on-event="/ system script run global-config;"
+    [admin@MikroTik] > / system scheduler add name="global-functions" start-time=startup on-event="/ system script run global-functions;"
 
 Updating scripts
 ----------------
@@ -112,7 +112,7 @@ Adding a script
 To add a script from the repository create a configuration item first, then
 update scripts to fetch the source.
 
-    [admin@MikroTik] > / system script add name=check-routeros-update
+    [admin@MikroTik] > / system script add name="check-routeros-update"
     [admin@MikroTik] > / system script run script-updates
 
 Scheduler and events
@@ -123,16 +123,16 @@ Most scripts are designed to run regularly from
 added `check-routeros-update`, so let's run it every hour to make sure not to
 miss an update.
 
-    [admin@MikroTik] > / system scheduler add name=check-routeros-update interval=1h on-event=check-routeros-update
+    [admin@MikroTik] > / system scheduler add name="check-routeros-update" interval=1h on-event="/ system script run check-routeros-update;"
 
 Some events can run a script. If you want your DHCP hostnames to be available
 in DNS use `dhcp-to-dns` with the events from dhcp server. For a regular
 cleanup add a scheduler entry.
 
-    [admin@MikroTik] > / system script add name=dhcp-to-dns
+    [admin@MikroTik] > / system script add name="dhcp-to-dns"
     [admin@MikroTik] > / system script run script-updates
     [admin@MikroTik] > / ip dhcp-server set lease-script=dhcp-to-dns [ find ]
-    [admin@MikroTik] > / system scheduler add name=dhcp-to-dns interval=5m on-event=dhcp-to-dns
+    [admin@MikroTik] > / system scheduler add name="dhcp-to-dns" interval=5m on-event="/ system script run dhcp-to-dns;"
 
 There's much more to explore... Have fun!
 
