@@ -138,6 +138,8 @@ There's much more to explore... Have fun!
 
 ## Contribute
 
+Thanks a lot for [past contributions](CONTRIBUTIONS.md)!
+
 ### Patches, issues and whishlist
 
 Feel free to contact me via e-mail or open an
