@@ -3,7 +3,7 @@
 # Copyright (c) 2018-2019 Christian Hesse <mail@eworm.de>
 
 {
-  / tool fetch "https://git.eworm.de/cgit.cgi/routeros-scripts/plain/certs/Let%27s%20Encrypt%20Authority%20X3.pem" dst-path="letsencrypt.pem";
+  / tool fetch "https://git.eworm.de/cgit/routeros-scripts/plain/certs/Let%27s%20Encrypt%20Authority%20X3.pem" dst-path="letsencrypt.pem";
   :delay 1s;
   / certificate {
     import file-name=letsencrypt.pem passphrase="";
@@ -16,7 +16,7 @@
   }
   / file remove "letsencrypt.pem";
   :foreach Script in={ "global-config"; "global-functions"; "script-updates" } do={
-    / system script add name=$Script source=([ / tool fetch check-certificate=yes-without-crl ("https://git.eworm.de/cgit.cgi/routeros-scripts/plain/" . $Script) output=user as-value]->"data");
+    / system script add name=$Script source=([ / tool fetch check-certificate=yes-without-crl ("https://git.eworm.de/cgit/routeros-scripts/plain/" . $Script) output=user as-value]->"data");
   }
   / system script {
     run global-config;
