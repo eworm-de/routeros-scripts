@@ -10,4 +10,5 @@
   5="split off new script 'cloud-backup' from 'email-backup'";
   6="introduced script 'upload-backup' with new configuration parameters";
   7="introduced script 'check-health' with new configuration parameters";
+  8="added donation hint and option to silence it";
 };

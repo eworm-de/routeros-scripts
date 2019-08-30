@@ -7,6 +7,7 @@
 :global ExpectedConfigVersion;
 :global GlobalConfigVersion;
 :global Identity;
+:global IDonate;
 :global SentConfigChangesNotification;
 :global ScriptUpdatesFetch;
 :global ScriptUpdatesBaseUrl;
@@ -81,7 +82,10 @@
      $GlobalConfigVersion < $ExpectedConfigVersion) do={
   :global GlobalConfigChanges;
   :local ChangeLogCode;
-  :local Changes;
+  :local NotificationMessage ("Current configuration on " . $Identity . \
+      " is out of date. Please update global-config, then increase " . \
+      "variable GlobalConfigVersion (currently " . $GlobalConfigVersion . \
+      ") to " . $ExpectedConfigVersion . " and re-run global-config.");
 
   :log debug ("Fetching changelog.");
   :do {
@@ -91,20 +95,28 @@
     :if ($Result->"status" = "finished") do={
       :set ChangeLogCode ($Result->"data");
     }
+    :set NotificationMessage ($NotificationMessage . "\n\nChanges:");
+    [ :parse $ChangeLogCode ];
+    :for I from=($GlobalConfigVersion + 1) to=$ExpectedConfigVersion do={
+      :set NotificationMessage ($NotificationMessage . \
+          "\n * " . $GlobalConfigChanges->[ :tostr $I ]);
+    }
+    :set GlobalConfigChanges;
   } on-error={
     :log info ("Failed fetching changes!");
+    :set NotificationMessage ($NotificationMessage . \
+        "\n\nChanges are not available.");
   }
-  [ :parse $ChangeLogCode ];
-  :for I from=($GlobalConfigVersion + 1) to=$ExpectedConfigVersion do={
-    :set Changes ( $Changes . "\n * " . $GlobalConfigChanges->[ :tostr $I ] );
-  }
-  :set GlobalConfigChanges;
 
-  $SendNotification "Configuration warning!" \
-      ("Current configuration on " . $Identity . " is out of date. " . \
-      "Please update global-config, then increase variable " . \
-      "GlobalConfigVersion (currently " . $GlobalConfigVersion . \
-      ") to " . $ExpectedConfigVersion . " and re-run global-config.\n\n" . \
-      "Changes:" . $Changes);
+  :if ($IDonate != true) do={
+    :set NotificationMessage ($NotificationMessage . \
+      "\n\n==== donation hint ====\n" . \
+      "This project is developed in private spare time and usage is " . \
+      "free of charge for you. If you like the scripts and think this is " . \
+      "of value for you or your business please consider a donation:\n" . \
+      "https://git.eworm.de/cgit/routeros-scripts/about/#donate");
+  }
+
+  $SendNotification "Configuration warning!" $NotificationMessage;
   :set SentConfigChangesNotification $ExpectedConfigVersion;
 }

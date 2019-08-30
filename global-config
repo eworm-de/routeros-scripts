@@ -6,7 +6,7 @@
 
 # Make sure all configuration properties are up to date and this
 # value is in sync with value in script 'global-functions'!
-:global GlobalConfigVersion 7;
+:global GlobalConfigVersion 8;
 
 # This is used for DNS and backup file.
 :global Domain "example.com";
@@ -107,7 +107,14 @@
 :global ScriptUpdatesIgnore {
   "global-config"
 }
+# Enable this to silence all configuration warnings.
 :global ScriptUpdatesConfigChangesIgnore false;
+# This project is developed in private spare time and usage is free of charge
+# for you. If you like the scripts and think this is of value for you or your
+# business please consider a donation:
+# https://git.eworm.de/cgit/routeros-scripts/about/#donate
+# Enable this to silence donation hint.
+:global IDonate false;
 
 # Use this for certificate auto-renew
 :global CertRenewUrl "";
