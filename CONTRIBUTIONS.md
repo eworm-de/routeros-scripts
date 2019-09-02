@@ -16,3 +16,4 @@ Add yourself to the list,
 
 * Reiner Vehrenkamp
 * Linux-Schmie.de Michael Gisbers
+* Christoph Boss (@Kampfwurst)
