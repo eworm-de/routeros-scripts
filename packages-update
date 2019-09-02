@@ -39,6 +39,14 @@
   }
 }
 
+:put "Do you want to (s)chedule reboot instead of (r)eboot now? [s/R]";
+:if ([ :terminal inkey timeout=60 ] = 115) do={
+  / system scheduler add name="reboot-for-update" start-time=03:00:00 interval=1d \
+      on-event="/ system scheduler remove reboot-for-update; / system reboot;"
+  :log info ("Scheduled reboot for update at 03:00.");
+  :error ("Scheduled reboot.");
+}
+
 :log info ("Rebooting for update.");
 :delay 1s;
 / system reboot;
