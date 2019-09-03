@@ -22,8 +22,5 @@
     run global-config;
     run global-functions;
   }
-  / system scheduler {
-    add name="global-config" start-time=startup on-event="/ system script run global-config;";
-    add name="global-functions" start-time=startup on-event="/ system script run global-functions;";
-  }
+  / system scheduler add name="global-scripts" start-time=startup on-event="/ system script { run global-config; run global-functions; }"
 }
