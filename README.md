@@ -26,7 +26,7 @@ Initial setup
 
 If you know how things work just copy and paste the
 [initial commands](initial-commands). Remember to edit and rerun
-`global-config`!
+`global-config-overlay`!
 First time useres should take the long way below.
 
 ### Live presentation
@@ -85,18 +85,18 @@ crap and a good example how to *not* do it.
 
 Now let's download the main scripts and add them in configuration on the fly.
 
-    [admin@MikroTik] > :foreach Script in={ "global-config"; "global-functions"; "script-updates" } do={ / system script add name=$Script source=([ / tool fetch check-certificate=yes-without-crl ("https://git.eworm.de/cgit/routeros-scripts/plain/" . $Script) output=user as-value]->"data"); }
+    [admin@MikroTik] > :foreach Script in={ "global-config"; "global-config-overlay"; "global-functions"; "script-updates" } do={ / system script add name=$Script source=([ / tool fetch check-certificate=yes-without-crl ("https://git.eworm.de/cgit/routeros-scripts/plain/" . $Script) output=user as-value]->"data"); }
 
 The configuration needs to be tweaked for your needs. Make sure not to send
-your mails to `mail@example.com`!
+your mails to `mail@example.com`! Edit `global-config-overlay`, copy
+configuration from `global-config`.
 
-    [admin@MikroTik] > / system script edit global-config source
+    [admin@MikroTik] > / system script edit global-config-overlay source
 
 And finally load configuration and functions and add the scheduler.
 
-    [admin@MikroTik] > / system script run global-config
-    [admin@MikroTik] > / system script run global-functions
-    [admin@MikroTik] > / system scheduler add name="global-scripts" start-time=startup on-event="/ system script { run global-config; run global-functions; }"
+    [admin@MikroTik] > / system script { run global-config; run global-config-overlay; run global-functions; }
+    [admin@MikroTik] > / system scheduler add name="global-scripts" start-time=startup on-event="/ system script { run global-config; run global-config-overlay; run global-functions; }"
 
 Updating scripts
 ----------------

@@ -15,12 +15,9 @@
     :error "Anything is wrong with your certificates!";
   }
   / file remove "letsencrypt.pem";
-  :foreach Script in={ "global-config"; "global-functions"; "script-updates" } do={
+  :foreach Script in={ "global-config"; "global-config-overlay"; "global-functions"; "script-updates" } do={
     / system script add name=$Script source=([ / tool fetch check-certificate=yes-without-crl ("https://git.eworm.de/cgit/routeros-scripts/plain/" . $Script) output=user as-value]->"data");
   }
-  / system script {
-    run global-config;
-    run global-functions;
-  }
-  / system scheduler add name="global-scripts" start-time=startup on-event="/ system script { run global-config; run global-functions; }"
+  / system script { run global-config; run global-config-overlay; run global-functions; }
+  / system scheduler add name="global-scripts" start-time=startup on-event="/ system script { run global-config; run global-config-overlay; run global-functions; }"
 }

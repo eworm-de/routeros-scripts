@@ -63,6 +63,10 @@
         :log info ("Updating script: " . $ScriptVal->"name");
         / system script set owner=($ScriptVal->"name") source=$SourceNew \
             dont-require-permissions=$DontRequirePermissions $Script;
+        :if ($ScriptVal->"name" = "global-config" && \
+             [ / system script print count-only where name="global-config-overlay" ] > 0) do={
+          / system script { run global-config; run global-config-overlay; }
+        }
         :if ($ScriptVal->"name" = "global-functions") do={
           / system script run global-functions;
         }
@@ -82,10 +86,14 @@
      $GlobalConfigVersion < $ExpectedConfigVersion) do={
   :global GlobalConfigChanges;
   :local ChangeLogCode;
+  :local ConfigScript "global-config";
+  :if ([ /system script print count-only where name="global-config-overlay" ] > 0) do={
+    :set ConfigScript "global-config-overlay";
+  }
   :local NotificationMessage ("Current configuration on " . $Identity . \
-      " is out of date. Please update global-config, then increase " . \
+      " is out of date. Please update " . $ConfigScript . ", then increase " . \
       "variable GlobalConfigVersion (currently " . $GlobalConfigVersion . \
-      ") to " . $ExpectedConfigVersion . " and re-run global-config.");
+      ") to " . $ExpectedConfigVersion . " and re-run " . $ConfigScript . ".");
 
   :log debug ("Fetching changelog.");
   :do {
