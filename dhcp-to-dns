@@ -44,7 +44,7 @@
   :if ([ :len $DnsRecord ] > 0) do={
     :local DnsIp [ / ip dns static get $DnsRecord address ];
 
-    :local HostLeases [ / ip dhcp-server lease find where host-name=($LeaseVal->"host-name") dynamic=yes ];
+    :local HostLeases [ / ip dhcp-server lease find where mac-address=($LeaseVal->"mac-address") dynamic=yes ];
     :if ([ :len $HostLeases ] > 1) do={
       :set ($LeaseVal->"address") [ / ip dhcp-server lease get ($HostLeases->([ :len $HostLeases ] - 1)) address ];
     }
