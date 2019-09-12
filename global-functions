@@ -1,6 +1,7 @@
 #!rsc
 # RouterOS script: global-functions
 # Copyright (c) 2013-2019 Christian Hesse <mail@eworm.de>
+#                         Michael Gisbers <michael@gisbers.de>
 #
 # global functions
 
@@ -297,6 +298,8 @@
 
 # get readable device info
 :global DeviceInfo do={
+  :global ExpectedConfigVersion;
+  :global GlobalConfigVersion;
   :global Identity;
 
   :local BoardName [ / system resource get board-name ];
@@ -319,6 +322,13 @@
        $Update->"installed-version" != $Update->"latest-version") do={
     :set Info ($Info . "\n" . \
       "  Available:    " . $Update->"latest-version");
+  }
+  :set Info ($Info . "\n" . \
+      "RouterOS-Scripts Configuration Version:\n" . \
+      "  Current:      " . $GlobalConfigVersion);
+  :if ($GlobalConfigVersion != $ExpectedConfigVersion) do={
+    :set Info ($Info . "\n" . \
+      "  Expected:     " . $ExpectedConfigVersion);
   }
 
   :return $Info;
