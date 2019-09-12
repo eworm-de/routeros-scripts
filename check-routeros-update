@@ -8,6 +8,7 @@
 :global SafeUpdateUrl;
 :global SentRouterosUpdateNotification;
 
+:global DeviceInfo;
 :global SendNotification;
 
 :local DoUpdate do={
@@ -36,9 +37,6 @@
 }
 
 :if ($Update->"installed-version" != $Update->"latest-version") do={
-  :local BoardName [ / system resource get board-name ];
-  :local RouterBoard [ / system routerboard get ];
-
   :if ([ :len $SafeUpdateUrl ] > 0) do={
     :local Result;
     :do {
@@ -74,13 +72,7 @@
 
   $SendNotification ("RouterOS update") \
     ("There is a RouterOS update available.\n\n" . \
-      "Board name:    " . $BoardName . "\n" . \
-      "Model:         " . $RouterBoard->"model" . "\n" . \
-      "Serial number: " . $RouterBoard->"serial-number" . "\n" . \
-      "Hostname:      " . $Identity . "\n" . \
-      "Channel:       " . $Update->"channel" . "\n" . \
-      "Installed:     " . $Update->"installed-version" . "\n" . \
-      "Available:     " . $Update->"latest-version" . "\n\n" .\
+      [ $DeviceInfo ] . "\n\n" . \
       "https://mikrotik.com/download/changelogs/" . $Update->"channel" . "-release-tree") \
     "" "true";
   :set SentRouterosUpdateNotification ($Update->"latest-version");

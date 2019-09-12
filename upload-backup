@@ -14,6 +14,7 @@
 :global BackupPassword;
 
 :global CharacterReplace;
+:global DeviceInfo;
 :global SendNotification;
 
 :if ($BackupSendBinary != true && \
@@ -26,11 +27,6 @@
 :local FileName [ $CharacterReplace ($Identity . "." . $Domain) "." "_" ];
 :local BackupFile "none";
 :local ConfigFile "none";
-
-# get some system information
-:local BoardName [ / system resource get board-name ];
-:local RouterBoard [ / system routerboard get ];
-:local Update [ / system package update get ];
 
 # binary backup
 :if ($BackupSendBinary = true) do={
@@ -62,12 +58,7 @@
 
 $SendNotification "Backup & Config Upload" \
   ("Backup and config export for " . $Identity . ".\n\n" . \
-    "Board name:      " . $BoardName . "\n" . \
-    "Model:           " . $RouterBoard->"model" . "\n" . \
-    "Serial number:   " . $RouterBoard->"serial-number" . "\n" . \
-    "Hostname:        " . $Identity . "\n" . \
-    "Channel:         " . $Update->"channel" . "\n" . \
-    "RouterOS:        " . $Update->"installed-version" . "\n\n" . \
-    "Backup uploaded: " . $BackupFile . "\n" . \
-    "Config uploaded: " . $ConfigFile) "" "true";
+    [ $DeviceInfo ] . "\n\n" . \
+    "Backup file:    " . $BackupFile . "\n" . \
+    "Config file:    " . $ConfigFile) "" "true";
 }
