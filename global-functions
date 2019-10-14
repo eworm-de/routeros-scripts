@@ -6,7 +6,7 @@
 # global functions
 
 # expected configuration version
-:global ExpectedConfigVersion 9;
+:global ExpectedConfigVersion 10;
 
 # global variables not to be changed by user
 :global SentConfigChangesNotification "-";

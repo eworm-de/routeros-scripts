@@ -6,7 +6,7 @@
 
 # Make sure all configuration properties are up to date and this
 # value is in sync with value in script 'global-functions'!
-:global GlobalConfigVersion 9;
+:global GlobalConfigVersion 10;
 
 # The global-config script is updated by script-updates,
 # global-config-overlay becomes an overlay for your changes.

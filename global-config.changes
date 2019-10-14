@@ -12,4 +12,5 @@
   7="introduced script 'check-health' with new configuration parameters";
   8="added donation hint and option to silence it";
   9="introduced configuration overlay 'global-config-overlay'";
+  10="make health threshold for voltage configurable";
 };

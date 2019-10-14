@@ -6,6 +6,7 @@
 
 :global CheckHealthLast;
 :global CheckHealthTemperature;
+:global CheckHealthVoltagePercent;
 :global Identity;
 
 :global SendNotification;
@@ -20,10 +21,10 @@
 :foreach Voltage in={ "psu1-voltage"; "psu2-voltage"; "voltage" } do={
   :if ([ :typeof ($CheckHealthLast->$Voltage) ] = "num" && \
        [ :typeof ($CheckHealthCurrent->$Voltage) ] = "num") do={
-    :if ($CheckHealthLast->$Voltage * 115 / 100 < $CheckHealthCurrent->$Voltage || \
-         $CheckHealthLast->$Voltage * 100 / 115 > $CheckHealthCurrent->$Voltage) do={
+    :if ($CheckHealthLast->$Voltage * (100 + $CheckHealthVoltagePercent) / 100 < $CheckHealthCurrent->$Voltage || \
+         $CheckHealthLast->$Voltage * 100 / (100 + $CheckHealthVoltagePercent) > $CheckHealthCurrent->$Voltage) do={
       $SendNotification ("Health warning: " . $Voltage) \
-          ("The " . $Voltage . " on " . $Identity . " jumped more than 15%.\n\n" . \
+          ("The " . $Voltage . " on " . $Identity . " jumped more than " . $CheckHealthVoltagePercent . "%.\n\n" . \
           "old value: " . [ $FormatVoltage ($CheckHealthLast->$Voltage) ] . "\n" . \
           "new value: " . [ $FormatVoltage ($CheckHealthCurrent->$Voltage) ]);
     }
