@@ -18,7 +18,7 @@
 
 :local CheckHealthCurrent [ / system health get ];
 
-:foreach Voltage in={ "psu1-voltage"; "psu2-voltage"; "voltage" } do={
+:foreach Voltage in={ "battery"; "psu1-voltage"; "psu2-voltage"; "voltage" } do={
   :if ([ :typeof ($CheckHealthLast->$Voltage) ] = "num" && \
        [ :typeof ($CheckHealthCurrent->$Voltage) ] = "num") do={
     :if ($CheckHealthLast->$Voltage * (100 + $CheckHealthVoltagePercent) / 100 < $CheckHealthCurrent->$Voltage || \
