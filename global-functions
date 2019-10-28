@@ -302,13 +302,14 @@
   :global GlobalConfigVersion;
   :global Identity;
 
-  :local BoardName [ / system resource get board-name ];
+  :local Resource [ / system resource get ];
   :local RouterBoard [ / system routerboard get ];
   :local Update [ / system package update get ];
 
   :local Info ( \
     "Hostname:       " . $Identity . "\n" . \
-    "Board name:     " . $BoardName);
+    "Board name:     " . $Resource->"board-name" . "\n" . \
+    "Architecture:   " . $Resource->"architecture-name");
   :if ($RouterBoard->"routerboard" = true) do={
     :set Info ($Info . "\n" . \
       "Model:          " . $RouterBoard->"model" . "\n" . \
