@@ -27,7 +27,7 @@ Initial setup
 If you know how things work just copy and paste the
 [initial commands](initial-commands). Remember to edit and rerun
 `global-config-overlay`!
-First time useres should take the long way below.
+First time users should take the long way below.
 
 ### Live presentation
 
