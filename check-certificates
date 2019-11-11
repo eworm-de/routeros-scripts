@@ -74,7 +74,7 @@
         "Fingerprint: " . ($CertNewVal->"fingerprint") . "\n" . \
         "Issuer:      " . ([ $ParseKeyValueStore ($CertNewVal->"issuer") ]->"CN") . "\n" . \
         "Validity:    " . ($CertNewVal->"invalid-before") . " to " . ($CertNewVal->"invalid-after") . "\n" . \
-        "Expires in:  " . [ $FormatExpire ($CertNewVal->"expires-after") ]);
+        "Expires in:  " . [ $FormatExpire ($CertNewVal->"expires-after") ]) "" "true";
     :log info ("The certificate " . ($CertVal->"name") . " has been renewed.");
   } on-error={
     :log debug ("Could not renew certificate " . ($CertVal->"name") . ".");
