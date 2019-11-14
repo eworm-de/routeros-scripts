@@ -49,7 +49,9 @@
       :set ($LeaseVal->"address") [ / ip dhcp-server lease get ($DupMacLeases->([ :len $DupMacLeases ] - 1)) address ];
     }
 
-    :set ($LeaseVal->"address") [ / ip dhcp-server lease get ([ find where host-name=($LeaseVal->"host-name") dynamic=yes ]->0) address ];
+    :if ([ :len ($LeaseVal->"host-name") ] > 0) do={
+      :set ($LeaseVal->"address") [ / ip dhcp-server lease get ([ find where host-name=($LeaseVal->"host-name") dynamic=yes ]->0) address ];
+    }
 
     :if ($DnsIp = $LeaseVal->"address") do={
       :log debug ("DNS entry for " . $Fqdn . " does not need updating.");
