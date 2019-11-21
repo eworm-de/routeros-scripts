@@ -57,7 +57,7 @@
 }
 
 $SendNotification "Backup & Config Upload" \
-  ("Backup and config export for " . $Identity . ".\n\n" . \
+  ("Backup and config export upload for " . $Identity . ".\n\n" . \
     [ $DeviceInfo ] . "\n\n" . \
     "Backup file:    " . $BackupFile . "\n" . \
     "Config file:    " . $ConfigFile) "" "true";

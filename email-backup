@@ -44,7 +44,8 @@
 # send email with status and files
 / tool e-mail send to=$EmailBackupTo cc=$EmailBackupCc \
     subject=("[" . $Identity . "] Backup & Config") \
-    body=("Backup and config export for " . $Identity . ".\n\n" . \
+    body=("See attached files for backup and config export for " . \
+      $Identity . ".\n\n" . \
       [ $DeviceInfo ] . "\n\n" . \
       "Backup file:    " . $BackupFile . "\n" . \
       "Config file:    " . $ConfigFile) \
