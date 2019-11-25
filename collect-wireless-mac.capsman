@@ -24,17 +24,14 @@ $ScriptLock "collect-wireless-mac.capsman";
   :local Mac [ / caps-man registration-table get $RegTbl mac-address ];
   :local AccessList ([ / caps-man access-list find where mac-address=$Mac ]->0);
   :if ([ :len $AccessList ] = 0) do={
-    :local HostName "no dhcp lease";
     :local Address "no dhcp lease";
+    :local HostName "no dhcp lease";
     :local Lease [ / ip dhcp-server lease find where mac-address=$Mac ];
     :if ([ :len $Lease ] > 0) do={
-      :set HostName [ / ip dhcp-server lease get $Lease host-name ];
       :set Address [ / ip dhcp-server lease get $Lease address ];
+      :set HostName [ / ip dhcp-server lease get $Lease host-name ];
       :if ([ :len $HostName ] = 0) do={
         :set HostName "no hostname";
-      }
-      :if ([ :len $Address ] = 0) do={
-        :set Address "no address";
       }
     }
     :local RegEntry [ / caps-man registration-table find where mac-address=$Mac ];
