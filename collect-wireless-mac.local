@@ -25,6 +25,7 @@ $ScriptLock "collect-wireless-mac.local";
   :local AccessList ([ / interface wireless access-list find where mac-address=$Mac ]->0);
   :if ([ :len $AccessList ] = 0) do={
     :local Address "no dhcp lease";
+    :local DnsName "no dhcp lease";
     :local HostName "no dhcp lease";
     :local Lease [ / ip dhcp-server lease find where mac-address=$Mac ];
     :if ([ :len $Lease ] > 0) do={
@@ -32,6 +33,10 @@ $ScriptLock "collect-wireless-mac.local";
       :set HostName [ / ip dhcp-server lease get $Lease host-name ];
       :if ([ :len $HostName ] = 0) do={
         :set HostName "no hostname";
+      }
+      :set DnsName [ / ip dns static get ([ find where address=$Address ]->0) name ];
+      :if ([ :len $DnsName ] = 0) do={
+        :set DnsName "no dns name";
       }
     }
     :local RegEntry [ / interface wireless registration-table find where mac-address=$Mac ];
@@ -52,6 +57,7 @@ $ScriptLock "collect-wireless-mac.local";
         "Vendor:     " . $Vendor . "\n" . \
         "Hostname:   " . $HostName . "\n" . \
         "Address:    " . $Address . "\n" . \
+        "DNS name:   " . $DnsName . "\n" . \
         "Date:       " . $DateTime);
   } else={
     :local Comment [ / interface wireless access-list get $AccessList comment ];
