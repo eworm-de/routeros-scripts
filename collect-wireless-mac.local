@@ -30,12 +30,12 @@ $ScriptLock "collect-wireless-mac.local";
     :if ([ :len $Lease ] > 0) do={
       :set HostName [ / ip dhcp-server lease get $Lease host-name ];
       :set Address [ / ip dhcp-server lease get $Lease address ];
-    }
-    :if ([ :len $HostName ] = 0) do={
-      :set HostName "no hostname";
-    }
-    :if ([ :len $Address ] = 0) do={
-      :set Address "no address";
+      :if ([ :len $HostName ] = 0) do={
+        :set HostName "no hostname";
+      }
+      :if ([ :len $Address ] = 0) do={
+        :set Address "no address";
+      }
     }
     :local RegEntry [ / interface wireless registration-table find where mac-address=$Mac ];
     :local Interface [ / interface wireless registration-table get $RegEntry interface ];
