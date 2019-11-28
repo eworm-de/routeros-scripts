@@ -311,8 +311,12 @@
     "Board name:     " . $Resource->"board-name" . "\n" . \
     "Architecture:   " . $Resource->"architecture-name");
   :if ($RouterBoard->"routerboard" = true) do={
+    :local Revision "";
+    :if ([ :len ($RouterBoard->"revision") ] > 0) do={
+      :set Revision (" " . $RouterBoard->"revision");
+    }
     :set Info ($Info . "\n" . \
-      "Model:          " . $RouterBoard->"model" . "\n" . \
+      "Model:          " . $RouterBoard->"model" . $Revision . "\n" . \
       "Serial number:  " . $RouterBoard->"serial-number");
   }
   :set Info ($Info . "\n" . \
