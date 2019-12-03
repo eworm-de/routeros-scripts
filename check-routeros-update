@@ -9,6 +9,7 @@
 :global SentRouterosUpdateNotification;
 
 :global DeviceInfo;
+:global ScriptFromTerminal;
 :global SendNotification;
 
 :local DoUpdate do={
@@ -55,7 +56,7 @@
     }
   }
 
-  :if ([ / system script job print count-only where script="check-routeros-update" parent~"." ] > 0) do={
+  :if ([ $ScriptFromTerminal "check-routeros-update" ] = true) do={
     :put ("Do you want to install RouterOS version " . $Update->"latest-version" . "? [y/N]");
     :if ([ :terminal inkey timeout=60 ] = 121) do={
       $DoUpdate;
