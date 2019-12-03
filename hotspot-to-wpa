@@ -16,5 +16,14 @@
 }
 
 / caps-man access-list remove [ find where mac-address=$MacAddress comment~"^hotspot-to-wpa: " ];
-/ caps-man access-list add comment=("hotspot-to-wpa: " . $UserName . ", " . $MacAddress . ", " . $Date) \
-  mac-address=$MacAddress private-passphrase=$PassWord ssid-regexp="-wpa\$" place-before=$PlaceBefore;
+
+:local Limits [ / caps-man access-list get $PlaceBefore ];
+:if (($Limits->"ap-tx-limit") > 0 && ($Limits->"client-tx-limit") > 0) do={
+  / caps-man access-list add comment=("hotspot-to-wpa: " . $UserName . ", " . $MacAddress . ", " . $Date) \
+      mac-address=$MacAddress private-passphrase=$PassWord ssid-regexp="-wpa\$" \
+      ap-tx-limit=($Limits->"ap-tx-limit") client-tx-limit=($Limits->"client-tx-limit") \
+      place-before=$PlaceBefore;
+} else={
+  / caps-man access-list add comment=("hotspot-to-wpa: " . $UserName . ", " . $MacAddress . ", " . $Date) \
+      mac-address=$MacAddress private-passphrase=$PassWord ssid-regexp="-wpa\$" place-before=$PlaceBefore;
+}
