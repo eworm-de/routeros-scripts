@@ -243,6 +243,24 @@
   }
 }
 
+# check if script is run from terminal
+:global ScriptFromTerminal do={
+  :local Script [ :tostr $1 ];
+
+  :foreach Job in=[ / system script job find where script=$Script ] do={
+    :set Job [ / system script job get $Job ];
+    :while ([ :typeof ($Job->"parent") ] = "id") do={
+      :set Job [ / system script job get [ find where .id=($Job->"parent") ] ];
+    }
+    :if (($Job->"type") = "login") do={
+      :log debug ("Script " . $Script . " started from terminal.");
+      :return true;
+    }
+  }
+
+  :return false;
+}
+
 # wait for file to be available
 :global WaitForFile do={
   :global CleanFilePath;
