@@ -5,6 +5,7 @@
 # download packages and reboot for installation
 
 :global DownloadPackage;
+:global ScriptFromTerminal;
 
 :local Update [ / system package update get ];
 
@@ -30,22 +31,24 @@
   / system script run $Script;
 }
 
-:if (!([ /system resource get version ] ~ ($Update->"channel"))) do={
-  :put "Update channel changed. Want to downgrade? [y/N]";
-  :if ([ :terminal inkey timeout=60 ] = 121) do={
-    :log info ("Rebooting for downgrade.");
-    :delay 1s;
-    / system package downgrade;
+:if ([ $ScriptFromTerminal "packages-update" ] = true) do={
+  :if (!([ /system resource get version ] ~ ($Update->"channel"))) do={
+    :put "Update channel changed. Want to downgrade? [y/N]";
+    :if ([ :terminal inkey timeout=60 ] = 121) do={
+      :log info ("Rebooting for downgrade.");
+      :delay 1s;
+      / system package downgrade;
+    }
   }
-}
 
-:put "Do you want to (s)chedule reboot instead of (r)eboot now? [s/R]";
-:if ([ :terminal inkey timeout=60 ] = 115) do={
-  / system scheduler add name="reboot-for-update" start-time=03:00:00 interval=1d \
-      on-event=(":global RandomDelay; \$RandomDelay 3600; " . \
-      "/ system scheduler remove reboot-for-update; / system reboot;");
-  :log info ("Scheduled reboot for update between 03:00 and 04:00.");
-  :error ("Scheduled reboot.");
+  :put "Do you want to (s)chedule reboot instead of (r)eboot now? [s/R]";
+  :if ([ :terminal inkey timeout=60 ] = 115) do={
+    / system scheduler add name="reboot-for-update" start-time=03:00:00 interval=1d \
+        on-event=(":global RandomDelay; \$RandomDelay 3600; " . \
+        "/ system scheduler remove reboot-for-update; / system reboot;");
+    :log info ("Scheduled reboot for update between 03:00 and 04:00.");
+    :error ("Scheduled reboot.");
+  }
 }
 
 :log info ("Rebooting for update.");
