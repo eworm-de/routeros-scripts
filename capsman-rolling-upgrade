@@ -5,6 +5,10 @@
 #
 # upgrade CAPs one after another
 
+:global ScriptLock;
+
+$ScriptLock "capsman-rolling-upgrade";
+
 :local InstalledVersion [ / system package update get installed-version ];
 
 :local RemoteCapCount [ /caps-man remote-cap print count-only ];
