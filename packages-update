@@ -6,6 +6,9 @@
 
 :global DownloadPackage;
 :global ScriptFromTerminal;
+:global ScriptLock;
+
+$ScriptLock "packages-update";
 
 :local Update [ / system package update get ];
 
