@@ -5,8 +5,11 @@
 #
 # download and cleanup packages for CAP installation from CAPsMAN
 
-:global DownloadPackage;
 :global CleanFilePath;
+:global DownloadPackage;
+:global ScriptLock;
+
+$ScriptLock "capsman-download-packages";
 
 :local PackagePath [ $CleanFilePath [ / caps-man manager get package-path ] ];
 :local InstalledVersion [ / system package update get installed-version ];
