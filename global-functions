@@ -215,22 +215,27 @@
   :local PkgDest [ $CleanFilePath ($PkgDir . "/" . $PkgFile) ];
 
   $CertificateAvailable "Let's Encrypt Authority X3";
-  :do {
-    / tool fetch check-certificate=yes-without-crl \
-      ("https://upgrade.mikrotik.com/routeros/" . $PkgVer . "/" . $PkgFile) \
-      dst-path=$PkgDest;
-    $WaitForFile $PkgDest;
-  } on-error={
+
+  :local Retry 3;
+  :while ($Retry > 0) do={
+    :do {
+      / tool fetch check-certificate=yes-without-crl \
+        ("https://upgrade.mikrotik.com/routeros/" . $PkgVer . "/" . $PkgFile) \
+        dst-path=$PkgDest;
+      $WaitForFile $PkgDest;
+
+      :if ([ / file get [ find where name=$PkgDest ] type ] = "package") do={
+        :return true;
+      }
+    } on-error={
+      # catch error and fall through
+    }
+
     / file remove [ find where name=$PkgDest ];
-    :return false;
+    :set Retry ($Retry - 1);
   }
 
-  :if ([ / file get [ find where name=$PkgDest ] type ] != "package") do={
-    / file remove [ find where name=$PkgDest ];
-    :return false;
-  }
-
-  :return true;
+  :return false;
 }
 
 # lock script against multiple invocation
