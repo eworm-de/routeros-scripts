@@ -14,8 +14,26 @@
 :global SentLteFirmwareUpgradeNotification "-";
 :global Identity [ / system identity get name ];
 
+# global functions
+:global UrlEncode;
+:global CharacterReplace;
+:global CertificateAvailable;
+:global SendEMail;
+:global SendTelegram;
+:global SendNotification;
+:global GetMacVendor;
+:global CleanFilePath;
+:global DownloadPackage;
+:global ScriptLock;
+:global ScriptFromTerminal;
+:global WaitForFile;
+:global ParseKeyValueStore;
+:global GetRandom;
+:global RandomDelay;
+:global DeviceInfo;
+
 # url encoding
-:global UrlEncode do={
+:set UrlEncode do={
   :local Input [ :tostr $1 ];
   :local Return "";
 
@@ -41,7 +59,7 @@
 }
 
 # character replace
-:global CharacterReplace do={
+:set CharacterReplace do={
   :local String [ :tostr $1 ];
   :local ReplaceFrom [ :tostr $2 ];
   :local ReplaceWith [ :tostr $3 ];
@@ -62,7 +80,7 @@
 }
 
 # check and import required certificates
-:global CertificateAvailable do={
+:set CertificateAvailable do={
   :local CommonName [ :tostr $1 ];
 
   :global ScriptUpdatesBaseUrl;
@@ -91,7 +109,7 @@
 }
 
 # send notification via e-mail
-:global SendEMail do={
+:set SendEMail do={
   :local Subject [ :tostr $1 ];
   :local Message [ :tostr $2 ];
   :local Attach  [ :tostr $3 ];
@@ -116,7 +134,7 @@
 }
 
 # send notification via telegram
-:global SendTelegram do={
+:set SendTelegram do={
   :local Subject [ :tostr $1 ];
   :local Message [ :tostr $2 ];
   :local Silent  [ :tostr $3 ];
@@ -143,7 +161,7 @@
 
 # send notification via e-mail and telegram
 # Note that attachment is ignored for telegram, silent is ignored for e-mail!
-:global SendNotification do={
+:set SendNotification do={
   :local Subject [ :tostr $1 ];
   :local Message [ :tostr $2 ];
   :local Attach  [ :tostr $3 ];
@@ -158,7 +176,7 @@
 
 
 # get MAC vendor
-:global GetMacVendor do={
+:set GetMacVendor do={
   :local Mac [ :tostr $1 ];
 
   :global CertificateAvailable;
@@ -175,7 +193,7 @@
 }
 
 # clean file path
-:global CleanFilePath do={
+:set CleanFilePath do={
   :local Path [ :tostr $1 ];
 
   :global CharacterReplace;
@@ -194,7 +212,7 @@
 }
 
 # download package from upgrade server
-:global DownloadPackage do={
+:set DownloadPackage do={
   :local PkgName [ :tostr $1 ];
   :local PkgVer  [ :tostr $2 ];
   :local PkgArch [ :tostr $3 ];
@@ -239,7 +257,7 @@
 }
 
 # lock script against multiple invocation
-:global ScriptLock do={
+:set ScriptLock do={
   :local Script [ :tostr $1 ];
 
   :if ([ / system script job print count-only where script=$Script ] > 1) do={
@@ -249,7 +267,7 @@
 }
 
 # check if script is run from terminal
-:global ScriptFromTerminal do={
+:set ScriptFromTerminal do={
   :local Script [ :tostr $1 ];
 
   :foreach Job in=[ / system script job find where script=$Script ] do={
@@ -267,7 +285,7 @@
 }
 
 # wait for file to be available
-:global WaitForFile do={
+:set WaitForFile do={
   :global CleanFilePath;
 
   :local FileName [ $CleanFilePath [ :tostr $1 ] ];
@@ -284,7 +302,7 @@
 }
 
 # parse key value store
-:global ParseKeyValueStore do={
+:set ParseKeyValueStore do={
   :global CharacterReplace;
 
   :local Source $1;
@@ -302,7 +320,7 @@
 # generate random number
 # Warning: This is a *very* weak algorithm and in *no way*
 # useful for cryptography or similar!
-:global GetRandom do={
+:set GetRandom do={
   :local Max ([ :tonum $1 ] + 1);
   :local Sum 0;
 
@@ -313,14 +331,14 @@
 }
 
 # delay a random amount of seconds
-:global RandomDelay do={
+:set RandomDelay do={
   :global GetRandom;
 
   :delay ([ $GetRandom $1 ] . "s");
 }
 
 # get readable device info
-:global DeviceInfo do={
+:set DeviceInfo do={
   :global ExpectedConfigVersion;
   :global GlobalConfigVersion;
   :global Identity;
