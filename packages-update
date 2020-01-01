@@ -1,6 +1,6 @@
 #!rsc
 # RouterOS script: packages-update
-# Copyright (c) 2019 Christian Hesse <mail@eworm.de>
+# Copyright (c) 2019-2020 Christian Hesse <mail@eworm.de>
 #
 # download packages and reboot for installation
 

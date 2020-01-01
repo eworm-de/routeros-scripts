@@ -1,6 +1,6 @@
 #!rsc
 # RouterOS script: accesslist-duplicates%TEMPL%
-# Copyright (c) 2018-2019 Christian Hesse <mail@eworm.de>
+# Copyright (c) 2018-2020 Christian Hesse <mail@eworm.de>
 #
 # print duplicate antries in wireless access list
 #

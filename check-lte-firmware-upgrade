@@ -1,6 +1,6 @@
 #!rsc
 # RouterOS script: check-lte-firmware-upgrade
-# Copyright (c) 2018-2019 Christian Hesse <mail@eworm.de>
+# Copyright (c) 2018-2020 Christian Hesse <mail@eworm.de>
 #
 # check for LTE firmware upgrade, send notification
 

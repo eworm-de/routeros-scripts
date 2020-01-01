@@ -1,6 +1,6 @@
 #!rsc
 # RouterOS script: bridge-port-to-default
-# Copyright (c) 2013-2019 Christian Hesse <mail@eworm.de>
+# Copyright (c) 2013-2020 Christian Hesse <mail@eworm.de>
 #
 # reset bridge ports to default bridge
 

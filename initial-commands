@@ -1,6 +1,6 @@
 #!rsc
 # RouterOS script: initial-commands
-# Copyright (c) 2018-2019 Christian Hesse <mail@eworm.de>
+# Copyright (c) 2018-2020 Christian Hesse <mail@eworm.de>
 
 {
   / tool fetch "https://git.eworm.de/cgit/routeros-scripts/plain/certs/Let%27s%20Encrypt%20Authority%20X3.pem" dst-path="letsencrypt.pem";

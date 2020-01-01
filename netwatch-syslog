@@ -1,6 +1,6 @@
 #!rsc
 # RouterOS script: netwatch-syslog
-# Copyright (c) 2013-2019 Christian Hesse <mail@eworm.de>
+# Copyright (c) 2013-2020 Christian Hesse <mail@eworm.de>
 #
 # requires: dont-require-permissions=yes
 #

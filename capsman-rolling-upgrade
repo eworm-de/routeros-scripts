@@ -1,6 +1,6 @@
 #!rsc
 # RouterOS script: capsman-rolling-upgrade
-# Copyright (c) 2018-2019 Christian Hesse <mail@eworm.de>
+# Copyright (c) 2018-2020 Christian Hesse <mail@eworm.de>
 #                         Michael Gisbers <michael@gisbers.de>
 #
 # upgrade CAPs one after another

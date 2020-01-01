@@ -1,6 +1,6 @@
 #!rsc
 # RouterOS script: certificate-renew-issued
-# Copyright (c) 2019 Christian Hesse <mail@eworm.de>
+# Copyright (c) 2019-2020 Christian Hesse <mail@eworm.de>
 #
 # renew locally issued certificates
 

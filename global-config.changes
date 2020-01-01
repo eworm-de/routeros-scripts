@@ -1,5 +1,5 @@
 # RouterOS global-config changes
-# Copyright (c) 2019 Christian Hesse <mail@eworm.de>
+# Copyright (c) 2019-2020 Christian Hesse <mail@eworm.de>
 
 # Changes for global-config to be added to notification on script-updates
 :global GlobalConfigChanges {

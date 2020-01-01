@@ -1,6 +1,6 @@
 #!rsc
 # RouterOS script: ipv6-update
-# Copyright (c) 2013-2019 Christian Hesse <mail@eworm.de>
+# Copyright (c) 2013-2020 Christian Hesse <mail@eworm.de>
 #
 # update firewall and dns settings on IPv6 prefix change
 

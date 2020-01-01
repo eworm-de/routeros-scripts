@@ -1,6 +1,6 @@
 #!rsc
 # RouterOS script: leds-night-mode
-# Copyright (c) 2013-2019 Christian Hesse <mail@eworm.de>
+# Copyright (c) 2013-2020 Christian Hesse <mail@eworm.de>
 #
 # disable LEDs
 

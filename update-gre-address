@@ -1,6 +1,6 @@
 #!rsc
 # RouterOS script: update-gre-address
-# Copyright (c) 2013-2019 Christian Hesse <mail@eworm.de>
+# Copyright (c) 2013-2020 Christian Hesse <mail@eworm.de>
 #
 # update gre interface remote address with dynamic address from
 # ipsec remote peer

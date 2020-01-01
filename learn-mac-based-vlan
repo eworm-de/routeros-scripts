@@ -1,6 +1,6 @@
 #!rsc
 # RouterOS script: learn-mac-based-vlan
-# Copyright (c) 2013-2019 Christian Hesse <mail@eworm.de>
+# Copyright (c) 2013-2020 Christian Hesse <mail@eworm.de>
 #
 # learn MAC address for MAC-based-VLAN
 

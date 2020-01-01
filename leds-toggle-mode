@@ -1,6 +1,6 @@
 #!rsc
 # RouterOS script: leds-toggle-mode
-# Copyright (c) 2018-2019 Christian Hesse <mail@eworm.de>
+# Copyright (c) 2018-2020 Christian Hesse <mail@eworm.de>
 #
 # toggle LEDs mode
 
