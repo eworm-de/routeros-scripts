@@ -91,7 +91,7 @@
   :global WaitForFile;
 
   :log info ("Downloading and importing certificate with " . \
-      "CommonName " . $CommonName . ".");
+      "CommonName \"" . $CommonName . "\".");
   :do {
     :local LocalFileName ($CommonName . ".pem");
     :local UrlFileName ([ $UrlEncode $CommonName ] . ".pem");
@@ -114,7 +114,7 @@
   :global CertificateDownload;
 
   :if ([ / certificate print count-only where common-name=$CommonName ] = 0) do={
-    :log info ("Certificate with CommonName " . $CommonName . " not available.");
+    :log info ("Certificate with CommonName \"" . $CommonName . "\" not available.");
     $CertificateDownload $CommonName;
   }
 }
