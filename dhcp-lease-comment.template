@@ -7,7 +7,7 @@
 # !! This is just a template! Replace '%PATH%' with 'caps-man'
 # !! or 'interface wireless'!
 
-:foreach Lease in=[ / ip dhcp-server lease find where dynamic=yes ] do={
+:foreach Lease in=[ / ip dhcp-server lease find where dynamic=yes status=bound ] do={
   :local LeaseVal [ / ip dhcp-server lease get $Lease ];
   :local NewComment;
   :local AccessList ([ / %PATH% access-list find where mac-address=($LeaseVal->"mac-address") ]->0);
