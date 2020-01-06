@@ -8,20 +8,24 @@
 
 :local Count ($ModeButton->"count");
 :local Code ($ModeButton->[ :tostr $Count ]);
-:local Parsed [ :parse $Code ];
 
 :set ($ModeButton->"count") 0;
 / system scheduler remove mode-button-scheduler;
 
-:log info ("Acting on " . $Count . " mode-button presses: " . $Code);
+:if ([ :len $Code ] > 0) do={
+  :log info ("Acting on " . $Count . " mode-button presses: " . $Code);
 
-:if ([ / system routerboard settings get silent-boot ] = false) do={
-  :for I from=1 to=$Count do={
-    :beep length=200ms;
-    :delay 200ms;
+  :if ([ / system routerboard settings get silent-boot ] = false) do={
+    :for I from=1 to=$Count do={
+      :beep length=200ms;
+      :delay 200ms;
+    }
+  } else={
+    :delay 1s;
   }
-} else={
-  :delay 1s;
-}
 
-$Parsed;
+  :local Parsed [ :parse $Code ];
+  $Parsed;
+} else={
+  :log info ("No action defined for " . $Count . " mode-button presses.");
+}
