@@ -86,6 +86,7 @@
   :global ScriptUpdatesBaseUrl;
   :global ScriptUpdatesUrlSuffix;
 
+  :global CharacterReplace;
   :global UrlEncode;
   :global WaitForFile;
 
@@ -101,6 +102,10 @@
     $WaitForFile $LocalFileName;
     / certificate import file-name=$LocalFileName passphrase="";
     / file remove $LocalFileName;
+
+    :foreach Cert in=[ / certificate find where name~("^" . $LocalFileName . "_[0-9]+\$") ] do={
+      / certificate set $Cert name=[ $CharacterReplace [ $CharacterReplace [ get $Cert common-name ] " " "-" ] "---" "-" ];
+    }
   } on-error={
     :log warning "Failed imprting certificate!";
   }
