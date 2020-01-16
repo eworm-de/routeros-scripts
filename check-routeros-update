@@ -29,6 +29,10 @@
   }
 }
 
+:if ([ / system scheduler print count-only where name="reboot-for-update" ] > 0) do={
+  :error "A reboot for update is already scheduled.";
+}
+
 / system package update check-for-updates without-paging;
 :local Update [ / system package update get ];
 
