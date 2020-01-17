@@ -14,11 +14,11 @@
 
 $ScriptLock "collect-wireless-mac.local";
 
-:local PlaceBefore [ / interface wireless access-list find where comment="--- collected above ---" disabled ];
-:if ([ :len $PlaceBefore ] = 0) do={
-  :log error "Missing disabled access-list entry with comment '--- collected above ---'";
-  :error "Error: See log for details.";
+:if ([ / interface wireless access-list print count-only where comment="--- collected above ---" disabled ] = 0) do={
+  / interface wireless access-list add comment="--- collected above ---" disabled=yes;
+  :log warn "Added disabled access-list entry with comment '--- collected above ---'.";
 }
+:local PlaceBefore [ / interface wireless access-list find where comment="--- collected above ---" disabled ];
 
 :foreach RegTbl in=[ / interface wireless registration-table find ] do={
   :local Mac [ / interface wireless registration-table get $RegTbl mac-address ];
