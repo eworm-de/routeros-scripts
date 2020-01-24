@@ -22,7 +22,7 @@
   :if ([ :typeof ($CheckHealthLast->$Voltage) ] = "num" && \
        [ :typeof ($CheckHealthCurrent->$Voltage) ] = "num") do={
     :if ($CheckHealthLast->$Voltage * (100 + $CheckHealthVoltagePercent) / 100 < $CheckHealthCurrent->$Voltage || \
-         $CheckHealthLast->$Voltage * 100 / (100 + $CheckHealthVoltagePercent) > $CheckHealthCurrent->$Voltage) do={
+         $CheckHealthLast->$Voltage > $CheckHealthCurrent->$Voltage * (100 + $CheckHealthVoltagePercent) / 100) do={
       $SendNotification ("Health warning: " . $Voltage) \
           ("The " . $Voltage . " on " . $Identity . " jumped more than " . $CheckHealthVoltagePercent . "%.\n\n" . \
           "old value: " . [ $FormatVoltage ($CheckHealthLast->$Voltage) ] . "\n" . \
