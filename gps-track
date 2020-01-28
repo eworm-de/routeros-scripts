@@ -12,7 +12,7 @@
 
 if ($Gps->"valid" = true) do={
   :tool fetch check-certificate=yes-without-crl \
-    $GpsTrackUrl keep-result=no \
+    $GpsTrackUrl output=none \
     http-method=post http-header-field="Content-Type: application/json" \
     http-data=("{" . \
       "\"lat\":\"" . ($Gps->"latitude") . "\"," . \
