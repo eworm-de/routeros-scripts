@@ -164,7 +164,7 @@
   :if ([ :len $TelegramTokenId ] > 0 && [ :len $TelegramChatId ] > 0) do={
     $CertificateAvailable "Go Daddy Secure Certificate Authority - G2";
     :do {
-      / tool fetch check-certificate=yes-without-crl keep-result=no http-method=post \
+      / tool fetch check-certificate=yes-without-crl output=none http-method=post \
         ("https://api.telegram.org/bot" . $TelegramTokenId . "/sendMessage") \
         http-data=("chat_id=" . $TelegramChatId . "&disable_notification=" . $Silent . \
         "&text=" . [ $UrlEncode ("[" . $Identity . "] " . $Subject . "\n\n" . $Message) ]);
