@@ -28,7 +28,7 @@
     :log info ("Local address changed, sending UPDATE to tunnelbroker! New address: " . $PublicAddress);
     / tool fetch check-certificate=yes-without-crl \
         ("https://ipv4.tunnelbroker.net/nic/update\?hostname=" . $Comment->"id") \
-        user=($Comment->"user") password=($Comment->"pass") keep-result=no;
+        user=($Comment->"user") password=($Comment->"pass") output=none;
     / interface 6to4 set $Interface local-address=$PublicAddress;
   } else={
     :log debug ("All tunnelbroker configuration is up to date for interface " . $InterfaceVal->"name" . ".");
