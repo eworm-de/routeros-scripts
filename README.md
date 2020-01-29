@@ -105,14 +105,17 @@ To update existing scripts just run `script-updates`.
 
     [admin@MikroTik] > / system script run script-updates
 
+Calling function `$ScriptInstallUpdate` does the same.
+
+    [admin@MikroTik] > $ScriptInstallUpdate
+
 Adding a script
 ---------------
 
-To add a script from the repository create a configuration item first, then
-update scripts to fetch the source.
+To add a script from the repository run function `$ScriptInstallUpdate` with
+a comma separated list of script names.
 
-    [admin@MikroTik] > / system script add name="check-routeros-update"
-    [admin@MikroTik] > / system script run script-updates
+    [admin@MikroTik] > $ScriptInstallUpdate check-certificates,check-routeros-update
 
 Scheduler and events
 --------------------
@@ -128,9 +131,8 @@ Some events can run a script. If you want your DHCP hostnames to be available
 in DNS use `dhcp-to-dns` with the events from dhcp server. For a regular
 cleanup add a scheduler entry.
 
-    [admin@MikroTik] > / system script add name="dhcp-to-dns"
-    [admin@MikroTik] > / system script run script-updates
-    [admin@MikroTik] > / ip dhcp-server set lease-script=dhcp-to-dns [ find ]
+    [admin@MikroTik] > $ScriptInstallUpdate dhcp-to-dns,lease-script
+    [admin@MikroTik] > / ip dhcp-server set lease-script=lease-script [ find ]
     [admin@MikroTik] > / system scheduler add name="dhcp-to-dns" interval=5m on-event="/ system script run dhcp-to-dns;"
 
 There's much more to explore... Have fun!
