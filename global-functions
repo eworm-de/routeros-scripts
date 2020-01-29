@@ -32,6 +32,7 @@
 :global GetRandom;
 :global RandomDelay;
 :global DeviceInfo;
+:global ScriptInstallUpdate;
 
 # url encoding
 :set UrlEncode do={
@@ -411,4 +412,17 @@
   }
 
   :return $Info;
+}
+
+# install new scripts, update existing scripts
+:set ScriptInstallUpdate do={
+  :local Scripts [ :toarray $1 ];
+
+  :foreach Script in=$Scripts do={
+    :if ([ / system script print count-only where name=$Script ] = 0) do={
+      :log info ("Adding new script: " . $Script);
+      / system script add name=$Script source="#!rsc";
+    }
+  }
+  / system script run script-updates;
 }
