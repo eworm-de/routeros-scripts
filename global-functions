@@ -116,6 +116,7 @@
   :local CommonName [ :tostr $1 ];
 
   :global CertificateDownload;
+  :global ParseKeyValueStore;
 
   :if ([ / system resource get free-hdd-space ] < 8388608 && \
        [ / certificate settings get crl-download ] = true && \
@@ -126,6 +127,17 @@
   :if ([ / certificate print count-only where common-name=$CommonName ] = 0) do={
     :log info ("Certificate with CommonName \"" . $CommonName . "\" not available.");
     $CertificateDownload $CommonName;
+  }
+
+  :local CertVal [ / certificate get [ find where common-name=$CommonName ] ];
+  :local Issuer ([ $ParseKeyValueStore ($CertVal->"issuer") ]->"CN");
+  :while ($Issuer != $CertVal->"common-name") do={
+    :if ([ / certificate print count-only where common-name=$Issuer ] = 0) do={
+      :log info ("Certificate chain for \"" . $CommonName . "\" is incomplete, missing \"" . $Issuer . "\".");
+      $CertificateDownload $CommonName;
+    }
+    :set CertVal [ / certificate get [ find where common-name=$Issuer ] ];
+    :set Issuer ([ $ParseKeyValueStore ($CertVal->"issuer") ]->"CN");
   }
 }
 
