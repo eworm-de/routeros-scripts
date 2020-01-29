@@ -117,6 +117,12 @@
 
   :global CertificateDownload;
 
+  :if ([ / system resource get free-hdd-space ] < 8388608 && \
+       [ / certificate settings get crl-download ] = true && \
+       [ / certificate settings get crl-store ] = "system") do={
+    :log warn "This system has low free flash space but is configured to download certificate CRLs to system!";
+  }
+
   :if ([ / certificate print count-only where common-name=$CommonName ] = 0) do={
     :log info ("Certificate with CommonName \"" . $CommonName . "\" not available.");
     $CertificateDownload $CommonName;
