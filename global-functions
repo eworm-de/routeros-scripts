@@ -130,16 +130,16 @@
     $CertificateDownload $CommonName;
   }
 
-  :local CertVal [ / certificate get [ find where common-name=$CommonName ] ];
-  :local Issuer ([ $ParseKeyValueStore ($CertVal->"issuer") ]->"CN");
-  :while ($Issuer != $CertVal->"common-name") do={
+  :local CertVal;
+  :local Issuer $CommonName;
+  :do {
     :if ([ / certificate print count-only where common-name=$Issuer ] = 0) do={
       :log info ("Certificate chain for \"" . $CommonName . "\" is incomplete, missing \"" . $Issuer . "\".");
       $CertificateDownload $CommonName;
     }
     :set CertVal [ / certificate get [ find where common-name=$Issuer ] ];
     :set Issuer ([ $ParseKeyValueStore ($CertVal->"issuer") ]->"CN");
-  }
+  } while=($Issuer != $CertVal->"common-name");
 }
 
 # send notification via e-mail
