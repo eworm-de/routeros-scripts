@@ -64,7 +64,6 @@
   :local String [ :tostr $1 ];
   :local ReplaceFrom [ :tostr $2 ];
   :local ReplaceWith [ :tostr $3 ];
-  :local Len [ :len $ReplaceFrom ];
   :local Return "";
 
   :if ($ReplaceFrom = "") do={
@@ -74,7 +73,7 @@
   :while ([ :typeof [ :find $String $ReplaceFrom ] ] != "nil") do={
     :local Pos [ :find $String $ReplaceFrom ];
     :set Return ($Return . [ :pick $String 0 $Pos ] . $ReplaceWith);
-    :set String [ :pick $String ($Pos + $Len) 999 ];
+    :set String [ :pick $String ($Pos + [ :len $ReplaceFrom ]) [ :len $String ] ];
   }
 
   :return ($Return . $String);
