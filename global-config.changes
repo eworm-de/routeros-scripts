@@ -14,4 +14,5 @@
   9="introduced configuration overlay 'global-config-overlay'";
   10="make health threshold for voltage configurable";
   11="introduced function '\$ScriptInstallUpdate' to install new and update existing scripts";
+  12="removed '\$ScriptUpdatesConfigChangesIgnore', comment '\$GlobalConfigVersion' in 'global-config-overlay' to disable change notifications";
 };

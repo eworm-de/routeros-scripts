@@ -13,7 +13,6 @@
 :global ScriptUpdatesBaseUrl;
 :global ScriptUpdatesUrlSuffix;
 :global ScriptUpdatesIgnore;
-:global ScriptUpdatesConfigChangesIgnore;
 
 :global SendNotification;
 
@@ -81,8 +80,7 @@
   }
 }
 
-:if ($ScriptUpdatesConfigChangesIgnore!=true && \
-     $SentConfigChangesNotification!=$ExpectedConfigVersion && \
+:if ($SentConfigChangesNotification!=$ExpectedConfigVersion && \
      $GlobalConfigVersion < $ExpectedConfigVersion) do={
   :global GlobalConfigChanges;
   :local ChangeLogCode;
