@@ -90,7 +90,7 @@
   }
   :local NotificationMessage ("Current configuration on " . $Identity . \
       " is out of date. Please update " . $ConfigScript . ", then increase " . \
-      "variable GlobalConfigVersion (currently " . $GlobalConfigVersion . \
+      "\$GlobalConfigVersion (currently " . $GlobalConfigVersion . \
       ") to " . $ExpectedConfigVersion . " and re-run " . $ConfigScript . ".");
 
   :log debug ("Fetching changelog.");
