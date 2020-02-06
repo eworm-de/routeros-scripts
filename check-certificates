@@ -8,6 +8,7 @@
 :global CertRenewUrl;
 :global CertRenewPass;
 
+:global CertificateNameByCN;
 :global ParseKeyValueStore;
 :global SendNotification;
 :global UrlEncode;
@@ -37,6 +38,10 @@
           / certificate import file-name=$CertFileName passphrase=$PassPhrase;
         }
         / file remove [ find where name=$CertFileName ];
+
+        :foreach CertInChain in=[ / certificate find where name~("^" . $CertFileName . "_[0-9]+\$") common-name!=($CertVal->"common-name") ] do={
+          $CertificateNameByCN [ / certificate get $CertInChain common-name ];
+        }
       } on-error={
         :log debug ("Could not download certificate file " . $CertFileName);
       }
