@@ -17,6 +17,7 @@
 # global functions
 :global UrlEncode;
 :global CharacterReplace;
+:global CertificateNameByCN;
 :global CertificateDownload;
 :global CertificateAvailable;
 :global SendEMail;
@@ -79,6 +80,16 @@
   :return ($Return . $String);
 }
 
+# name a certificate by its common-name
+:set CertificateNameByCN do={
+  :local CommonName [ :tostr $1 ];
+
+  :global CharacterReplace;
+
+  :local Cert [ / certificate find where common-name=$CommonName ];
+  / certificate set $Cert name=[ $CharacterReplace [ $CharacterReplace $CommonName " " "-" ] "---" "-" ];
+}
+
 # download and import certificate
 :set CertificateDownload do={
   :local CommonName [ :tostr $1 ];
@@ -86,7 +97,7 @@
   :global ScriptUpdatesBaseUrl;
   :global ScriptUpdatesUrlSuffix;
 
-  :global CharacterReplace;
+  :global CertificateNameByCN;
   :global UrlEncode;
   :global WaitForFile;
 
@@ -104,7 +115,7 @@
     / file remove $LocalFileName;
 
     :foreach Cert in=[ / certificate find where name~("^" . $LocalFileName . "_[0-9]+\$") ] do={
-      / certificate set $Cert name=[ $CharacterReplace [ $CharacterReplace [ get $Cert common-name ] " " "-" ] "---" "-" ];
+      $CertificateNameByCN [ / certificate get $Cert common-name ];
     }
   } on-error={
     :log warning "Failed imprting certificate!";
