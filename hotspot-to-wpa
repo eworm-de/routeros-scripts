@@ -9,11 +9,11 @@
 :local Date [ / system clock get date ];
 :local PassWord [ / ip hotspot user get [ find where name=$UserName ] password ];
 
-:local PlaceBefore [ / caps-man access-list find where comment="--- hotspot-to-wpa above ---" disabled ];
-:if ([ :len $PlaceBefore ] = 0) do={
-  :log error "Missing disabled access-list entry with comment '--- hotspot-to-wpa above ---'";
-  :error "Error: See log for details.";
+:if ([ / caps-man access-list print count-only where comment="--- hotspot-to-wpa above ---" disabled ] = 0) do={
+  / caps-man access-list add comment="--- hotspot-to-wpa above ---" disabled;
+  log warn "Added disabled access-list entry with comment '--- hotspot-to-wpa above ---'.";
 }
+:local PlaceBefore [ / caps-man access-list find where comment="--- hotspot-to-wpa above ---" disabled ];
 
 / caps-man access-list remove [ find where mac-address=$MacAddress comment~"^hotspot-to-wpa: " ];
 
