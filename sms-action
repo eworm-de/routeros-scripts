@@ -6,11 +6,12 @@
 
 :global SmsAction;
 
+:global LogAndError;
+
 :local Action $action;
 
 :if ([ :typeof $Action ] = "nothing") do={
-  :log error "This script is supposed to run from SMS hook with action=...";
-  :error "Error: See log for details.";
+  $LogAndError "This script is supposed to run from SMS hook with action=...";
 }
 
 :local Code ($SmsAction->$Action);
