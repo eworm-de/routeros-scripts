@@ -37,6 +37,7 @@
 :global MailServerIsUp;
 :global TimeIsSync;
 :global WaitTimeSync;
+:global LogAndError;
 
 # url encoding
 :set UrlEncode do={
@@ -487,4 +488,12 @@
     }
     :delay 1s;
   }
+}
+
+# log and error with same text
+:set LogAndError do={
+  :local Message [ :tostr $1 ];
+
+  :log warn $Message;
+  :error $Message;
 }
