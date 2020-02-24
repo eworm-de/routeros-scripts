@@ -6,13 +6,6 @@
 
 :global BridgePortTo;
 
-:local Len ([ :len $BridgePortTo ] + 1);
-
-:if ($Len = 1) do={
-  :delay 1s;
-  :set Len ([ :len $BridgePortTo ] + 1);
-}
-
 :foreach BridgePort in=[ / interface bridge port find where comment!="" ] do={
   :local BridgePortVal [ / interface bridge port get $BridgePort ];
   :foreach Comment in=[ :toarray ($BridgePortVal->"comment") ] do={
