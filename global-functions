@@ -34,6 +34,7 @@
 :global RandomDelay;
 :global DeviceInfo;
 :global ScriptInstallUpdate;
+:global MailServerIsUp;
 
 # url encoding
 :set UrlEncode do={
@@ -435,4 +436,25 @@
     }
   }
   / system script run script-updates;
+}
+
+# check if mail server is up
+:set MailServerIsUp do={
+  :local MailServer [ / tool e-mail get address ];
+  :local MailHost $MailServer;
+
+  :if ([ / tool netwatch print count-only where comment=$MailServer ] = 0) do={
+    :log warn ("Adding netwatch entry for mail server.");
+    :local MailHost $MailServer;
+    :if ([ :typeof [ :toip $MailHost ] ] != "ip" ) do={
+      :set MailHost [ :resolve $MailServer ];
+    }
+    / tool netwatch add comment=$MailServer host=[ :resolve $MailServer ];
+  }
+
+  :if ([ / tool netwatch get [ find where comment=$MailServer ] status ] = "up") do={
+    :return true;
+  }
+
+  :return false;
 }
