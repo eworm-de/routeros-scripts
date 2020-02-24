@@ -11,6 +11,7 @@
 :global DeviceInfo;
 :global ScriptFromTerminal;
 :global SendNotification;
+:global LogAndError;
 
 :local DoUpdate do={
   :if ([ / system script print count-only where name="packages-update" ] > 0) do={
@@ -24,8 +25,7 @@
 :if ([ / system package print count-only where name="wireless" disabled=no ] > 0) do={
   :if ([ / interface wireless cap get enabled ] = true && \
       [ / caps-man manager get enabled ] = false) do={
-    :log warning "System is managed by CAPsMAN, not checking.";
-    :error "Warning: See log for details.";
+    $LogAndError "System is managed by CAPsMAN, not checking.";
   }
 }
 
@@ -37,8 +37,7 @@
 :local Update [ / system package update get ];
 
 :if ([ :len ($Update->"latest-version") ] = 0) do={
-  :log warning "An empty string is not a valid version.";
-  :error "Warning: See log for details.";
+  $LogAndError "An empty string is not a valid version.";
 }
 
 :if ($Update->"installed-version" != $Update->"latest-version") do={
