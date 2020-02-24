@@ -4,12 +4,14 @@
 #
 # schedule daily-psk on startup
 
+:global MailServerIsUp;
+
 :local Scheduler [ / system scheduler find where name="daily-psk-schedule" ];
 
 :if ([ / system scheduler get $Scheduler interval ] = 0s) do={
   / system scheduler set interval=15s $Scheduler;
 } else={
-  :if ([ / tool netwatch get [ find where comment=[ / tool e-mail get address ] ] status ] != "up") do={
+  :if ($MailServerIsUp = false) do={
     :log warning "Mail server is not up.";
     :error "Warning: See log for details.";
   }
