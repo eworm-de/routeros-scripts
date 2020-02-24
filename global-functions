@@ -36,6 +36,7 @@
 :global ScriptInstallUpdate;
 :global MailServerIsUp;
 :global TimeIsSync;
+:global WaitTimeSync;
 
 # url encoding
 :set UrlEncode do={
@@ -473,4 +474,13 @@
   }
 
   :return false;
+}
+
+# wait for time to become synced
+:set WaitTimeSync do={
+  :global TimeIsSync;
+
+  :while ([ $TimeIsSync ] = false) do={
+    :delay 1s;
+  }
 }
