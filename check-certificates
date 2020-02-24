@@ -11,12 +11,18 @@
 :global CertificateNameByCN;
 :global ParseKeyValueStore;
 :global SendNotification;
+:global TimeIsSync;
 :global UrlEncode;
 :global WaitForFile;
 
 :local FormatExpire do={
   :global CharacterReplace;
   :return [ $CharacterReplace [ $CharacterReplace [ :tostr $1 ] "w" "w " ] "d" "d " ];
+}
+
+:if ($TimeIsSync = false) do={
+  :log warning "Time is not yet synchronized.";
+  :error "Warning: See log for details.";
 }
 
 :foreach Cert in=[ / certificate find where !revoked !ca expires-after<3w ] do={
