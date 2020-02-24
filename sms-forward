@@ -7,9 +7,10 @@
 :global Identity;
 
 :global SendNotification;
+:global MailServerIsUp;
 
 # check mail server
-:if ([ / tool netwatch get [ find where comment=[ / tool e-mail get address ] ] status ] != "up") do={
+:if ($MailServerIsUp = false) do={
   :log warning "Mail server is not up.";
   :error "Warning: See log for details.";
 }
