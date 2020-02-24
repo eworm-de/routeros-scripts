@@ -35,6 +35,7 @@
 :global DeviceInfo;
 :global ScriptInstallUpdate;
 :global MailServerIsUp;
+:global TimeIsSync;
 
 # url encoding
 :set UrlEncode do={
@@ -453,6 +454,21 @@
   }
 
   :if ([ / tool netwatch get [ find where comment=$MailServer ] status ] = "up") do={
+    :return true;
+  }
+
+  :return false;
+}
+
+# check if system time is sync
+:set TimeIsSync do={
+  :if ([ / system ntp client get enabled ] = true && \
+       [ / system ntp client get status ] = "synchronized") do={
+    :return true;
+  }
+
+  :if ([ / ip cloud get update-time ] = true && \
+       [ :typeof [ / ip cloud get public-address ] ] = "ip") do={
     :return true;
   }
 
