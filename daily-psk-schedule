@@ -5,6 +5,7 @@
 # schedule daily-psk on startup
 
 :global MailServerIsUp;
+:global TimeIsSync;
 
 :local Scheduler [ / system scheduler find where name="daily-psk-schedule" ];
 
@@ -16,11 +17,8 @@
     :error "Warning: See log for details.";
   }
 
-  :if ([ / system ntp client get status ] != "synchronized") do={
-    :if ([ / system resource get uptime ] > 5m) do={
-      / system script run [ find where name="rotate-ntp" ];
-    }
-    :log warning "Time is not yet synchronized from ntp.";
+  :if ($TimeIsSync = false) do={
+    :log warning "Time is not yet synchronized.";
     :error "Warning: See log for details.";
   }
 
