@@ -4,11 +4,12 @@
 #
 # run scripts on ppp up
 
+:global LogAndError;
+
 :local Interface $interface;
 
 :if ([ :typeof $Interface ] = "nothing") do={
-  :log error "This script is supposed to run from ppp on-up script hook.";
-  :error "Error: See log for details.";
+  $LogAndError "This script is supposed to run from ppp on-up script hook.";
 }
 
 :local IntName [ / interface get $Interface name ];
