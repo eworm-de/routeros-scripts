@@ -7,6 +7,7 @@
 :global DownloadPackage;
 :global ScriptFromTerminal;
 :global ScriptLock;
+:global LogAndError;
 
 $ScriptLock "packages-update";
 
@@ -25,8 +26,7 @@ $ScriptLock "packages-update";
 :foreach Package in=[ / system package find where !bundle ] do={
   :local PkgName [ / system package get $Package name ];
   if ([ $DownloadPackage $PkgName ($Update->"latest-version") ] = false) do={
-    :log error ("Download for package " . $PkgName . " failed.");
-    :error "Error: See log for details.";
+    $LogAndError ("Download for package " . $PkgName . " failed.");
   }
 }
 
