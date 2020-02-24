@@ -14,6 +14,7 @@
 :global TimeIsSync;
 :global UrlEncode;
 :global WaitForFile;
+:global LogAndError;
 
 :local FormatExpire do={
   :global CharacterReplace;
@@ -21,8 +22,7 @@
 }
 
 :if ($TimeIsSync = false) do={
-  :log warning "Time is not yet synchronized.";
-  :error "Warning: See log for details.";
+  $LogAndError "Time is not yet synchronized.";
 }
 
 :foreach Cert in=[ / certificate find where !revoked !ca expires-after<3w ] do={
