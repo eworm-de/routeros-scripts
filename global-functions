@@ -38,6 +38,7 @@
 :global TimeIsSync;
 :global WaitTimeSync;
 :global LogAndError;
+:global LogAndPut;
 
 # url encoding
 :set UrlEncode do={
@@ -497,4 +498,13 @@
 
   [ :parse (":log " . $Severity . " \$Message") ];
   :error ($Severity . ": " . $Message);
+}
+
+# log and put (print on terminal) same text
+:set LogAndPut do={
+  :local Severity [ :tostr $1 ];
+  :local Message [ :tostr $2 ];
+
+  [ :parse (":log " . $Severity . " \$Message") ];
+  :put ($Severity . ": " . $Message);
 }
