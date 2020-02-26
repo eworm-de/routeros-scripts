@@ -15,7 +15,7 @@
 :global ScriptUpdatesIgnore;
 
 :global SendNotification;
-:global LogAndPut;
+:global LogPrintExit;
 
 :foreach Script in=[ / system script find where source~"^#!rsc" ] do={
   :local Ignore 0;
@@ -30,15 +30,15 @@
   :foreach Scheduler in=[ / system scheduler find where on-event~("\\b" . $ScriptVal->"name" . "\\b") ] do={
     :local SchedulerVal [ / system scheduler get $Scheduler ];
     :if ($ScriptVal->"policy" != $SchedulerVal->"policy") do={
-      $LogAndPut warning ("Policies differ for script " . $ScriptVal->"name" . \
-        " and its scheduler " . $SchedulerVal->"name" . "!");
+      $LogPrintExit warning ("Policies differ for script " . $ScriptVal->"name" . \
+        " and its scheduler " . $SchedulerVal->"name" . "!") false;
     }
     :if ($SchedulerVal->"name" != "global-scripts" && \
          $SchedulerVal->"start-time" = "startup" && \
          $SchedulerVal->"interval" = 0s && \
          [ :pick ($SchedulerVal->"on-event") 0 7 ] != ":delay ") do={
-      $LogAndPut warning ("Scheduler " . $SchedulerVal->"name" . " starts on startup, " . \
-        "without interval. Add delay to make sure the configuration is available!");
+      $LogPrintExit warning ("Scheduler " . $SchedulerVal->"name" . " starts on startup, " . \
+        "without interval. Add delay to make sure the configuration is available!") false;
     }
   }
 
@@ -57,7 +57,7 @@
           :set SourceNew ($Result->"data");
         }
       } on-error={
-        $LogAndPut warning ("Failed fetching " . $ScriptVal->"name");
+        $LogPrintExit warning ("Failed fetching " . $ScriptVal->"name") false;
       }
     }
   }
@@ -67,7 +67,7 @@
       :if ($SourceNew != $ScriptVal->"source") do={
         :local DontRequirePermissions \
             ($SourceNew~"\n# requires: dont-require-permissions=yes\n");
-        $LogAndPut info ("Updating script: " . $ScriptVal->"name");
+        $LogPrintExit info ("Updating script: " . $ScriptVal->"name") false;
         / system script set owner=($ScriptVal->"name") source=$SourceNew \
             dont-require-permissions=$DontRequirePermissions $Script;
         :if ($ScriptVal->"name" = "global-config" && \
@@ -81,7 +81,7 @@
         :log debug ("Script " .  $ScriptVal->"name" . " did not change.");
       }
     } else={
-      $LogAndPut warning ("Looks like new script " . $ScriptVal->"name" . " is not valid. Ignoring!");
+      $LogPrintExit warning ("Looks like new script " . $ScriptVal->"name" . " is not valid. Ignoring!") false;
     }
   } else={
     :log debug ("No update for script " . $ScriptVal->"name" . ".");
@@ -117,7 +117,7 @@
     }
     :set GlobalConfigChanges;
   } on-error={
-    $LogAndPut warning ("Failed fetching changes!");
+    $LogPrintExit warning ("Failed fetching changes!") false;
     :set NotificationMessage ($NotificationMessage . \
         "\n\nChanges are not available.");
   }

@@ -7,10 +7,10 @@
 :local PdPrefix $"pd-prefix";
 
 :global ParseKeyValueStore;
-:global LogAndError;
+:global LogPrintExit;
 
 :if ([ :typeof $PdPrefix ] = "nothing") do={
-  $LogAndError error "This script is supposed to run from ipv6 dhcp-client.";
+  $LogPrintExit error "This script is supposed to run from ipv6 dhcp-client." true;
 }
 
 :local Pool [ / ipv6 pool get [ find where prefix=$PdPrefix ] name ];

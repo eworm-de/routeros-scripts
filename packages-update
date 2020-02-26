@@ -7,24 +7,24 @@
 :global DownloadPackage;
 :global ScriptFromTerminal;
 :global ScriptLock;
-:global LogAndError;
+:global LogPrintExit;
 
 $ScriptLock "packages-update";
 
 :local Update [ / system package update get ];
 
 :if ([ :typeof ($Update->"latest-version") ] = "nothing") do={
-  $LogAndError warning "Latest version is not known.";
+  $LogPrintExit warning "Latest version is not known." true;
 }
 
 :if ($Update->"installed-version" = $Update->"latest-version") do={
-  $LogAndError info ("Version " . $Update->"latest-version" . " is already installed.");
+  $LogPrintExit info ("Version " . $Update->"latest-version" . " is already installed.") true;
 }
 
 :foreach Package in=[ / system package find where !bundle ] do={
   :local PkgName [ / system package get $Package name ];
   if ([ $DownloadPackage $PkgName ($Update->"latest-version") ] = false) do={
-    $LogAndError error ("Download for package " . $PkgName . " failed.");
+    $LogPrintExit error ("Download for package " . $PkgName . " failed.") true;
   }
 }
 
@@ -47,7 +47,7 @@ $ScriptLock "packages-update";
     / system scheduler add name="reboot-for-update" start-time=03:00:00 interval=1d \
         on-event=(":global RandomDelay; \$RandomDelay 3600; " . \
         "/ system scheduler remove reboot-for-update; / system reboot;");
-    $LogAndError info ("Scheduled reboot for update between 03:00 and 04:00.");
+    $LogPrintExit info ("Scheduled reboot for update between 03:00 and 04:00.") true;
   }
 }
 

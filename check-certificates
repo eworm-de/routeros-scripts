@@ -14,8 +14,7 @@
 :global TimeIsSync;
 :global UrlEncode;
 :global WaitForFile;
-:global LogAndError;
-:global LogAndPut;
+:global LogPrintExit;
 
 :local FormatExpire do={
   :global CharacterReplace;
@@ -23,7 +22,7 @@
 }
 
 :if ($TimeIsSync = false) do={
-  $LogAndError warning "Time is not yet synchronized.";
+  $LogPrintExit warning "Time is not yet synchronized." true;
 }
 
 :foreach Cert in=[ / certificate find where !revoked !ca expires-after<3w ] do={
@@ -31,7 +30,7 @@
 
   :do {
     :if ([ :len $CertRenewUrl ] = 0) do={
-      $LogAndError warning "No CertRenewUrl given.";
+      $LogPrintExit warning "No CertRenewUrl given." true;
     }
 
     :foreach Type in={ ".pem"; ".p12" } do={
@@ -86,7 +85,7 @@
         "Issuer:      " . ([ $ParseKeyValueStore ($CertNewVal->"issuer") ]->"CN") . "\n" . \
         "Validity:    " . ($CertNewVal->"invalid-before") . " to " . ($CertNewVal->"invalid-after") . "\n" . \
         "Expires in:  " . [ $FormatExpire ($CertNewVal->"expires-after") ]) "" "true";
-    $LogAndPut info ("The certificate " . ($CertVal->"name") . " has been renewed.");
+    $LogPrintExit info ("The certificate " . ($CertVal->"name") . " has been renewed.") false;
   } on-error={
     :log debug ("Could not renew certificate " . ($CertVal->"name") . ".");
   }
@@ -110,6 +109,6 @@
       "Issuer:      " . ($CertVal->"ca") . ([ $ParseKeyValueStore ($CertVal->"issuer") ]->"CN") . "\n" . \
       "Validity:    " . ($CertVal->"invalid-before") . " to " . ($CertVal->"invalid-after") . "\n" . \
       "Expires in:  " . $ExpiresAfter);
-  $LogAndPut warning ("The certificate " . ($CertVal->"name") . " " . $State . \
-      ", it is invalid after " . ($CertVal->"invalid-after") . ".");
+  $LogPrintExit warning ("The certificate " . ($CertVal->"name") . " " . $State . \
+      ", it is invalid after " . ($CertVal->"invalid-after") . ".") false;
 }

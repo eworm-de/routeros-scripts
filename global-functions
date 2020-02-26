@@ -37,8 +37,7 @@
 :global MailServerIsUp;
 :global TimeIsSync;
 :global WaitTimeSync;
-:global LogAndError;
-:global LogAndPut;
+:global LogPrintExit;
 
 # url encoding
 :set UrlEncode do={
@@ -491,20 +490,22 @@
   }
 }
 
-# log and error with same text
-:set LogAndError do={
+# log and print with same text, optionally exit
+:set LogPrintExit do={
   :local Severity [ :tostr $1 ];
-  :local Message [ :tostr $2 ];
+  :local Message  [ :tostr $2 ];
+  :local Exit     [ :tostr $3 ];
 
-  [ :parse (":log " . $Severity . " \$Message") ];
-  :error ($Severity . ": " . $Message);
-}
+  :if ($Severity ~ "^(error|info)\$") do={
+    :if ($Severity = "error" ) do={ :log error $Message; }
+    :if ($Severity = "info"  ) do={ :log info  $Message; }
+  } else={
+    :log warning $Message;
+  }
 
-# log and put (print on terminal) same text
-:set LogAndPut do={
-  :local Severity [ :tostr $1 ];
-  :local Message [ :tostr $2 ];
-
-  [ :parse (":log " . $Severity . " \$Message") ];
-  :put ($Severity . ": " . $Message);
+  :if ($Exit = "true") do={
+    :error ($Severity . ": " . $Message);
+  } else={
+    :put ($Severity . ": " . $Message);
+  }
 }

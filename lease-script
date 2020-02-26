@@ -4,13 +4,13 @@
 #
 # run scripts on DHCP lease
 
-:global LogAndError;
+:global LogPrintExit;
 
 :if ([ :typeof $leaseActIP ] = "nothing" || \
      [ :typeof $leaseActMAC ] = "nothing" || \
      [ :typeof $leaseServerName ] = "nothing" || \
      [ :typeof $leaseBound ] = "nothing") do={
-  $LogAndError error "This script is supposed to run from ip dhcp-client.";
+  $LogPrintExit error "This script is supposed to run from ip dhcp-client." true;
 }
 
 :local Scripts;

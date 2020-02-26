@@ -5,10 +5,10 @@
 
 :global CertificateAvailable;
 :global ParseKeyValueStore;
-:global LogAndError;
+:global LogPrintExit;
 
 :if ([ / ip cloud get ddns-enabled ] != true) do={
-  $LogAndError error "IP cloud DDNS is not enabled.";
+  $LogPrintExit error "IP cloud DDNS is not enabled." true;
 }
 
 # Get the current ip address from cloud

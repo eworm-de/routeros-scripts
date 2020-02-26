@@ -16,11 +16,11 @@
 :global CharacterReplace;
 :global DeviceInfo;
 :global SendNotification;
-:global LogAndError;
+:global LogPrintExit;
 
 :if ($BackupSendBinary != true && \
      $BackupSendExport != true) do={
-  $LogAndError error ("Configured to send neither backup nor config export.");
+  $LogPrintExit error ("Configured to send neither backup nor config export.") true;
 }
 
 # filename based on identity
