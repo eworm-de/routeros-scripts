@@ -8,11 +8,11 @@
 
 :global SendNotification;
 :global MailServerIsUp;
+:global LogAndError;
 
 # check mail server
 :if ($MailServerIsUp = false) do={
-  :log warning "Mail server is not up.";
-  :error "Warning: See log for details.";
+  $LogAndError "Mail server is not up.";
 }
 
 :local Settings [ / tool sms get ];
