@@ -14,13 +14,11 @@ $ScriptLock "packages-update";
 :local Update [ / system package update get ];
 
 :if ([ :typeof ($Update->"latest-version") ] = "nothing") do={
-  :log warning "Latest version is not known.";
-  :error "Latest version is not known.";
+  $LogAndError warning "Latest version is not known.";
 }
 
 :if ($Update->"installed-version" = $Update->"latest-version") do={
-  :log info ("Version " . $Update->"latest-version" . " is already installed.");
-  :error "No updates available.";
+  $LogAndError info ("Version " . $Update->"latest-version" . " is already installed.");
 }
 
 :foreach Package in=[ / system package find where !bundle ] do={
@@ -49,8 +47,7 @@ $ScriptLock "packages-update";
     / system scheduler add name="reboot-for-update" start-time=03:00:00 interval=1d \
         on-event=(":global RandomDelay; \$RandomDelay 3600; " . \
         "/ system scheduler remove reboot-for-update; / system reboot;");
-    :log info ("Scheduled reboot for update between 03:00 and 04:00.");
-    :error ("Scheduled reboot.");
+    $LogAndError info ("Scheduled reboot for update between 03:00 and 04:00.");
   }
 }
 
