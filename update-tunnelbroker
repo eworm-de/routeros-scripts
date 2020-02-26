@@ -8,7 +8,7 @@
 :global LogAndError;
 
 :if ([ / ip cloud get ddns-enabled ] != true) do={
-  $LogAndError "IP cloud DDNS is not enabled.";
+  $LogAndError error "IP cloud DDNS is not enabled.";
 }
 
 # Get the current ip address from cloud

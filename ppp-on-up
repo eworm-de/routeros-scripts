@@ -9,7 +9,7 @@
 :local Interface $interface;
 
 :if ([ :typeof $Interface ] = "nothing") do={
-  $LogAndError "This script is supposed to run from ppp on-up script hook.";
+  $LogAndError error "This script is supposed to run from ppp on-up script hook.";
 }
 
 :local IntName [ / interface get $Interface name ];

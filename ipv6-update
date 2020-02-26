@@ -10,7 +10,7 @@
 :global LogAndError;
 
 :if ([ :typeof $PdPrefix ] = "nothing") do={
-  $LogAndError "This script is supposed to run from ipv6 dhcp-client.";
+  $LogAndError error "This script is supposed to run from ipv6 dhcp-client.";
 }
 
 :local Pool [ / ipv6 pool get [ find where prefix=$PdPrefix ] name ];

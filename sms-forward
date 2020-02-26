@@ -12,7 +12,7 @@
 
 # check mail server
 :if ($MailServerIsUp = false) do={
-  $LogAndError "Mail server is not up.";
+  $LogAndError warning "Mail server is not up.";
 }
 
 :local Settings [ / tool sms get ];

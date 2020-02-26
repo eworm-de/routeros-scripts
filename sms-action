@@ -11,7 +11,7 @@
 :local Action $action;
 
 :if ([ :typeof $Action ] = "nothing") do={
-  $LogAndError "This script is supposed to run from SMS hook with action=...";
+  $LogAndError error "This script is supposed to run from SMS hook with action=...";
 }
 
 :local Code ($SmsAction->$Action);

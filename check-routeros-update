@@ -25,7 +25,7 @@
 :if ([ / system package print count-only where name="wireless" disabled=no ] > 0) do={
   :if ([ / interface wireless cap get enabled ] = true && \
       [ / caps-man manager get enabled ] = false) do={
-    $LogAndError "System is managed by CAPsMAN, not checking.";
+    $LogAndError error "System is managed by CAPsMAN, not checking.";
   }
 }
 
@@ -37,7 +37,7 @@
 :local Update [ / system package update get ];
 
 :if ([ :len ($Update->"latest-version") ] = 0) do={
-  $LogAndError "An empty string is not a valid version.";
+  $LogAndError warning "An empty string is not a valid version.";
 }
 
 :if ($Update->"installed-version" != $Update->"latest-version") do={

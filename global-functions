@@ -492,8 +492,9 @@
 
 # log and error with same text
 :set LogAndError do={
-  :local Message [ :tostr $1 ];
+  :local Severity [ :tostr $1 ];
+  :local Message [ :tostr $2 ];
 
-  :log warn $Message;
-  :error $Message;
+  [ :parse (":log " . $Severity . " \$Message") ];
+  :error ($Severity . ": " . $Message);
 }

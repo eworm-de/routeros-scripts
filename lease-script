@@ -10,7 +10,7 @@
      [ :typeof $leaseActMAC ] = "nothing" || \
      [ :typeof $leaseServerName ] = "nothing" || \
      [ :typeof $leaseBound ] = "nothing") do={
-  $LogAndError "This script is supposed to run from ip dhcp-client.";
+  $LogAndError error "This script is supposed to run from ip dhcp-client.";
 }
 
 :local Scripts;

@@ -22,7 +22,7 @@
 }
 
 :if ($TimeIsSync = false) do={
-  $LogAndError "Time is not yet synchronized.";
+  $LogAndError warning "Time is not yet synchronized.";
 }
 
 :foreach Cert in=[ / certificate find where !revoked !ca expires-after<3w ] do={

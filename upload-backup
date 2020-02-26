@@ -20,7 +20,7 @@
 
 :if ($BackupSendBinary != true && \
      $BackupSendExport != true) do={
-  $LogAndError ("Configured to send neither backup nor config export.");
+  $LogAndError error ("Configured to send neither backup nor config export.");
 }
 
 # filename based on identity
