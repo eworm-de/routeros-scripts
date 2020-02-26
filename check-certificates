@@ -30,8 +30,7 @@
 
   :do {
     :if ([ :len $CertRenewUrl ] = 0) do={
-      :log info "No CertRenewUrl given.";
-      :error "No CertRenewUrl given.";
+      $LogAndError warning "No CertRenewUrl given.";
     }
 
     :foreach Type in={ ".pem"; ".p12" } do={
