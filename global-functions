@@ -306,11 +306,12 @@
 
 # lock script against multiple invocation
 :set ScriptLock do={
+  :global LogPrintExit;
+
   :local Script [ :tostr $1 ];
 
   :if ([ / system script job print count-only where script=$Script ] > 1) do={
-    :log debug ("Script " . $Script . " started more than once... Aborting.");
-    :error "Locked."
+    $LogPrintExit info ("Script " . $Script . " started more than once... Aborting.") true;
   }
 }
 
