@@ -4,8 +4,8 @@
 #
 # upload backup to MikroTik cloud
 
-:global Identity;
 :global BackupPassword;
+:global Identity;
 
 :global DeviceInfo;
 :global SendNotification;

@@ -8,14 +8,14 @@
 :global GlobalConfigVersion;
 :global Identity;
 :global IDonate;
-:global SentConfigChangesNotification;
-:global ScriptUpdatesFetch;
 :global ScriptUpdatesBaseUrl;
-:global ScriptUpdatesUrlSuffix;
+:global ScriptUpdatesFetch;
 :global ScriptUpdatesIgnore;
+:global ScriptUpdatesUrlSuffix;
+:global SentConfigChangesNotification;
 
-:global SendNotification;
 :global LogPrintExit;
+:global SendNotification;
 
 :foreach Script in=[ / system script find where source~"^#!rsc" ] do={
   :local Ignore 0;

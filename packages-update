@@ -5,9 +5,9 @@
 # download packages and reboot for installation
 
 :global DownloadPackage;
+:global LogPrintExit;
 :global ScriptFromTerminal;
 :global ScriptLock;
-:global LogPrintExit;
 
 $ScriptLock "packages-update";
 

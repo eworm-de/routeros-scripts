@@ -8,8 +8,8 @@
 # !! This is just a template! Replace '%PATH%' with 'caps-man'
 # !! or 'interface wireless'!
 
-:global Identity;
 :global DailyPskMatchComment;
+:global Identity;
 
 :global SendNotification;
 :global UrlEncode;

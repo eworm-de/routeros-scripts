@@ -9,9 +9,9 @@
 :global SentRouterosUpdateNotification;
 
 :global DeviceInfo;
+:global LogPrintExit;
 :global ScriptFromTerminal;
 :global SendNotification;
-:global LogPrintExit;
 
 :local DoUpdate do={
   :if ([ / system script print count-only where name="packages-update" ] > 0) do={

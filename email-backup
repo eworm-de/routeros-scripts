@@ -4,13 +4,13 @@
 #
 # create and email backup and config file
 
-:global Identity;
-:global Domain;
-:global EmailBackupTo;
-:global EmailBackupCc;
+:global BackupPassword;
 :global BackupSendBinary;
 :global BackupSendExport;
-:global BackupPassword;
+:global Domain;
+:global EmailBackupCc;
+:global EmailBackupTo;
+:global Identity;
 
 :global CharacterReplace;
 :global DeviceInfo;

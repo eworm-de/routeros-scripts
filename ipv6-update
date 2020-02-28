@@ -6,8 +6,8 @@
 
 :local PdPrefix $"pd-prefix";
 
-:global ParseKeyValueStore;
 :global LogPrintExit;
+:global ParseKeyValueStore;
 
 :if ([ :typeof $PdPrefix ] = "nothing") do={
   $LogPrintExit error "This script is supposed to run from ipv6 dhcp-client." true;

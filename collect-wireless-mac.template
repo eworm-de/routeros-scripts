@@ -10,8 +10,8 @@
 :global Identity;
 
 :global GetMacVendor;
-:global SendNotification;
 :global ScriptLock;
+:global SendNotification;
 
 $ScriptLock "collect-wireless-mac%TEMPL%";
 

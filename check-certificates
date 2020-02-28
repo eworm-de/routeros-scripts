@@ -4,17 +4,17 @@
 #
 # check for certificate validity
 
-:global Identity;
-:global CertRenewUrl;
 :global CertRenewPass;
+:global CertRenewUrl;
+:global Identity;
 
 :global CertificateNameByCN;
+:global LogPrintExit;
 :global ParseKeyValueStore;
 :global SendNotification;
 :global TimeIsSync;
 :global UrlEncode;
 :global WaitForFile;
-:global LogPrintExit;
 
 :local FormatExpire do={
   :global CharacterReplace;

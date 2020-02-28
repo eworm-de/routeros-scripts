@@ -6,9 +6,9 @@
 
 :global CharacterReplace;
 
-:global Identity;
 :global Domain;
 :global HostNameInZone;
+:global Identity;
 
 :local Zone;
 :if ($HostNameInZone = true) do={

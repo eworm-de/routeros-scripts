@@ -6,9 +6,9 @@
 
 :global Identity;
 
-:global SendNotification;
-:global MailServerIsUp;
 :global LogPrintExit;
+:global MailServerIsUp;
+:global SendNotification;
 
 # check mail server
 :if ($MailServerIsUp = false) do={

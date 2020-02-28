@@ -4,8 +4,8 @@
 #                         Michael Gisbers <michael@gisbers.de>
 
 :global CertificateAvailable;
-:global ParseKeyValueStore;
 :global LogPrintExit;
+:global ParseKeyValueStore;
 
 :if ([ / ip cloud get ddns-enabled ] != true) do={
   $LogPrintExit error "IP cloud DDNS is not enabled." true;

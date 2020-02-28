@@ -4,19 +4,19 @@
 #
 # create and upload backup and config file
 
-:global Identity;
-:global Domain;
-:global BackupUploadUrl;
-:global BackupUploadUser;
-:global BackupUploadPass;
+:global BackupPassword;
 :global BackupSendBinary;
 :global BackupSendExport;
-:global BackupPassword;
+:global BackupUploadPass;
+:global BackupUploadUrl;
+:global BackupUploadUser;
+:global Domain;
+:global Identity;
 
 :global CharacterReplace;
 :global DeviceInfo;
-:global SendNotification;
 :global LogPrintExit;
+:global SendNotification;
 
 :if ($BackupSendBinary != true && \
      $BackupSendExport != true) do={
