@@ -7,12 +7,12 @@
 :global BridgePortTo;
 
 :global LogPrintExit;
+:global ParseKeyValueStore;
 
-:foreach BridgePort in=[ / interface bridge port find where comment!="" ] do={
+:foreach BridgePort in=[ / interface bridge port find where comment~"." ] do={
   :local BridgePortVal [ / interface bridge port get $BridgePort ];
-  :foreach Comment in=[ :toarray ($BridgePortVal->"comment") ] do={
-    :if ([ :pick $Comment 0 $Len ] = ($BridgePortTo . ":")) do={
-      :local BridgeDefault [ :pick $Comment $Len [ :len $Comment ] ];
+  :foreach Config,BridgeDefault in=[ $ParseKeyValueStore ($BridgePortVal->"comment") ] do={
+    :if ($Config = $BridgePortTo) do={
       :if ($BridgeDefault = "dhcp-client") do={
         :if ($BridgePortVal->"disabled" = false) do={
           $LogPrintExit info ("Disabling bridge port for interface " . $BridgePortVal->"interface" . ", enabling dhcp client.") false;

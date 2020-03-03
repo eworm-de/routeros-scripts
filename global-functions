@@ -6,7 +6,7 @@
 # global functions
 
 # expected configuration version
-:global ExpectedConfigVersion 12;
+:global ExpectedConfigVersion 13;
 
 # global variables not to be changed by user
 :global Identity [ / system identity get name ];
