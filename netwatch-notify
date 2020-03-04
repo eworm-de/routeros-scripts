@@ -16,19 +16,24 @@
 :foreach Host in=[ / tool netwatch find where comment~"^notify," ] do={
   :local HostVal [ / tool netwatch get $Host ];
   :local HostName ([ $ParseKeyValueStore ($HostVal->"comment") ]->"hostname");
+
+  :if ([ :typeof ($NetwatchNotify->$HostName) ] = "nothing") do={
+    :set ($NetwatchNotify->$HostName) [ :toarray "" ];
+  }
+
   :if ($HostVal->"status" = "up") do={
-    :set ($NetwatchNotify->($HostName . "-count")) 0;
-    :if (($NetwatchNotify->($HostName . "-notified")) = true) do={
+    :set ($NetwatchNotify->$HostName->"count") 0;
+    :if ($NetwatchNotify->$HostName->"notified" = true) do={
       $SendNotification ("Netwatch Notify: " . $HostName . " up") \
         ("Host " . $HostName . " (" . $HostVal->"host" . ") is up since " . $HostVal->"since" . ".");
     }
-    :set ($NetwatchNotify->($HostName . "-notified")) false;
+    :set ($NetwatchNotify->$HostName->"notified") false;
   } else={
-    :set ($NetwatchNotify->($HostName . "-count")) (($NetwatchNotify->($HostName . "-count")) + 1);
-    :if (($NetwatchNotify->($HostName . "-count")) >= 5 && ($NetwatchNotify->($HostName . "-notified")) != true) do={
+    :set ($NetwatchNotify->$HostName->"count") ($NetwatchNotify->$HostName->"count" + 1);
+    :if ($NetwatchNotify->$HostName->"count" >= 5 && $NetwatchNotify->$HostName->"notified" != true) do={
       $SendNotification ("Netwatch Notify: " . $HostName . " down") \
         ("Host " . $HostName . " (" . $HostVal->"host" . ") is down since " . $HostVal->"since" . ".");
-      :set ($NetwatchNotify->($HostName . "-notified")) true;
+      :set ($NetwatchNotify->$HostName->"notified") true;
     }
   }
 }
