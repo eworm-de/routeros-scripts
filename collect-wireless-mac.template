@@ -10,6 +10,7 @@
 :global Identity;
 
 :global GetMacVendor;
+:global LogPrintExit;
 :global ScriptLock;
 :global SendNotification;
 
@@ -17,7 +18,7 @@ $ScriptLock "collect-wireless-mac%TEMPL%";
 
 :if ([ / %PATH% access-list print count-only where comment="--- collected above ---" disabled ] = 0) do={
   / %PATH% access-list add comment="--- collected above ---" disabled=yes;
-  :log warn "Added disabled access-list entry with comment '--- collected above ---'.";
+  $LogPrintExit warn "Added disabled access-list entry with comment '--- collected above ---'." false;
 }
 :local PlaceBefore [ / %PATH% access-list find where comment="--- collected above ---" disabled ];
 
@@ -48,7 +49,7 @@ $ScriptLock "collect-wireless-mac%TEMPL%";
     :local Vendor [ $GetMacVendor $Mac ];
     :local Message ("unknown MAC address " . $Mac . " (" . $Vendor . ", " . $HostName . ") " . \
       "first seen on " . $DateTime . " connected to SSID " . $Ssid . ", interface " . $Interface);
-    / log info $Message;
+    $LogPrintExit info $Message false;
     / %PATH% access-list add place-before=$PlaceBefore comment=$Message mac-address=$Mac disabled=yes;
     $SendNotification ($Mac . " connected to " . $Ssid) \
       ("A device with unknown MAC address connected to " . $Ssid . " on " . $Identity . ".\n\n" . \
@@ -62,7 +63,7 @@ $ScriptLock "collect-wireless-mac%TEMPL%";
         "DNS name:   " . $DnsName . "\n" . \
         "Date:       " . $DateTime);
   } else={
-    :local Comment [ / %PATH% access-list get $AccessList comment ];
-    :log debug ("MAC address " . $Mac . " already known: " . $Comment);
+    $LogPrintExit debug ("MAC address " . $Mac . " already known: " . \
+      [ / %PATH% access-list get $AccessList comment ]) false;
   }
 }
