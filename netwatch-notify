@@ -18,7 +18,7 @@
   :local HostName ([ $ParseKeyValueStore ($HostVal->"comment") ]->"hostname");
 
   :if ([ :typeof ($NetwatchNotify->$HostName) ] = "nothing") do={
-    :set ($NetwatchNotify->$HostName) [ :toarray "" ];
+    :set ($NetwatchNotify->$HostName) { "count"=0; "notified"=false };
   }
 
   :if ($HostVal->"status" = "up") do={
