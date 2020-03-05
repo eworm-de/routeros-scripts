@@ -4,11 +4,12 @@
 #
 # check DHCP leases and add/remove/update DNS entries
 
-:global CharacterReplace;
-
 :global Domain;
 :global HostNameInZone;
 :global Identity;
+
+:global CharacterReplace;
+:global LogPrintExit;
 
 :local Zone;
 :if ($HostNameInZone = true) do={
@@ -23,10 +24,10 @@
   :local DnsRecordVal [ / ip dns static get $DnsRecord ];
   :local MacAddress [ $CharacterReplace ($DnsRecordVal->"comment") $CommentPrefix "" ];
   :if ([ / ip dhcp-server lease print count-only where mac-address=$MacAddress address=($DnsRecordVal->"address") dynamic=yes status=bound ] > 0) do={
-    :log debug ("Lease for " . $MacAddress . " (" . $DnsRecordVal->"host-name" . ") still exists. Not deleting DNS entry.");
+    $LogPrintExit debug ("Lease for " . $MacAddress . " (" . $DnsRecordVal->"host-name" . ") still exists. Not deleting DNS entry.") false;
   } else={
     :local Found false;
-    :log info ("Lease expired for " . $MacAddress . " (" . $DnsRecordVal->"name" . "), deleting DNS entry.");
+    $LogPrintExit info ("Lease expired for " . $MacAddress . " (" . $DnsRecordVal->"name" . "), deleting DNS entry.") false;
     / ip dns static remove $DnsRecord;
   }
 }
@@ -54,13 +55,13 @@
     }
 
     :if ($DnsIp = $LeaseVal->"address") do={
-      :log debug ("DNS entry for " . $Fqdn . " does not need updating.");
+      $LogPrintExit debug ("DNS entry for " . $Fqdn . " does not need updating.") false;
     } else={
-      :log info ("Replacing DNS entry for " . $Fqdn . ", new address is " . $LeaseVal->"address" . ".");
+      $LogPrintExit info ("Replacing DNS entry for " . $Fqdn . ", new address is " . $LeaseVal->"address" . ".") false;
       / ip dns static set name=$Fqdn address=($LeaseVal->"address") ttl=$Ttl comment=$Comment $DnsRecord;
     }
   } else={
-    :log info ("Adding new DNS entry for " . $Fqdn . ", address is " . $LeaseVal->"address" . ".");
+    $LogPrintExit info ("Adding new DNS entry for " . $Fqdn . ", address is " . $LeaseVal->"address" . ".") false;
     / ip dns static add name=$Fqdn address=($LeaseVal->"address") ttl=$Ttl comment=$Comment;
   }
 }
