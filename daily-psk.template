@@ -11,6 +11,7 @@
 :global DailyPskMatchComment;
 :global Identity;
 
+:global LogPrintExit;
 :global SendNotification;
 :global UrlEncode;
 :global WaitForFile;
@@ -60,7 +61,7 @@
   :local Skip 0;
 
   :if ($NewPsk != $OldPsk) do={
-    :log info ("Updating daily PSK for " . $Ssid . " to " . $NewPsk . " (was " . $OldPsk . ")");
+    $LogPrintExit info ("Updating daily PSK for " . $Ssid . " to " . $NewPsk . " (was " . $OldPsk . ")") false;
     / interface wireless access-list set $AccList private-pre-shared-key=$NewPsk;
     / caps-man access-list set $AccList private-passphrase=$NewPsk;
 
@@ -68,7 +69,7 @@
     :if ([ / caps-man interface print count-only where configuration=$Configuration ] > 0) do={
       :foreach SeenSsid in=$Seen do={
         :if ($SeenSsid = $Ssid) do={
-          :log debug ("Already sent a mail for SSID " . $Ssid . ", skipping.");
+          $LogPrintExit debug ("Already sent a mail for SSID " . $Ssid . ", skipping.") false;
           :set Skip 1;
         }
       }
