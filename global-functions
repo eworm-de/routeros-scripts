@@ -49,7 +49,7 @@
   :if ([ / system resource get free-hdd-space ] < 8388608 && \
        [ / certificate settings get crl-download ] = true && \
        [ / certificate settings get crl-store ] = "system") do={
-    :log warn "This system has low free flash space but is configured to download certificate CRLs to system!";
+    :log warning "This system has low free flash space but is configured to download certificate CRLs to system!";
   }
 
   :if ([ / certificate print count-only where common-name=$CommonName ] = 0) do={
@@ -299,7 +299,7 @@
   :local MailHost $MailServer;
 
   :if ([ / tool netwatch print count-only where comment=$MailServer ] = 0) do={
-    :log warn ("Adding netwatch entry for mail server.");
+    :log warning ("Adding netwatch entry for mail server.");
     :local MailHost $MailServer;
     :if ([ :typeof [ :toip $MailHost ] ] != "ip" ) do={
       :set MailHost [ :resolve $MailServer ];

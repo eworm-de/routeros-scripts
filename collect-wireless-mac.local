@@ -17,7 +17,7 @@ $ScriptLock "collect-wireless-mac.local";
 
 :if ([ / interface wireless access-list print count-only where comment="--- collected above ---" disabled ] = 0) do={
   / interface wireless access-list add comment="--- collected above ---" disabled=yes;
-  $LogPrintExit warn "Added disabled access-list entry with comment '--- collected above ---'." false;
+  $LogPrintExit warning "Added disabled access-list entry with comment '--- collected above ---'." false;
 }
 :local PlaceBefore [ / interface wireless access-list find where comment="--- collected above ---" disabled ];
 
