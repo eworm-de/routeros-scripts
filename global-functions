@@ -428,16 +428,22 @@
   :global Identity;
   :global TelegramTokenId;
   :global TelegramChatId;
+  :global TelegramChatIdOverride;
 
   :global UrlEncode;
   :global CertificateAvailable;
 
-  :if ([ :len $TelegramTokenId ] > 0 && [ :len $TelegramChatId ] > 0) do={
+  :local ChatId $TelegramChatId;
+  :if ([ :len $TelegramChatIdOverride ] > 0) do={
+    :set ChatId $TelegramChatIdOverride;
+  }
+
+  :if ([ :len $TelegramTokenId ] > 0 && [ :len $ChatId ] > 0) do={
     $CertificateAvailable "Go Daddy Secure Certificate Authority - G2";
     :do {
       / tool fetch check-certificate=yes-without-crl output=none http-method=post \
         ("https://api.telegram.org/bot" . $TelegramTokenId . "/sendMessage") \
-        http-data=("chat_id=" . $TelegramChatId . "&disable_notification=" . $Silent . \
+        http-data=("chat_id=" . $ChatId . "&disable_notification=" . $Silent . \
         "&text=" . [ $UrlEncode ("[" . $Identity . "] " . $Subject . "\n\n" . $Message) ]);
     } on-error={
       :log warning "Failed sending telegram notification!";
