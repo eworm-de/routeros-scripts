@@ -4,6 +4,8 @@
 #
 # add private WPA passphrase after hotspot login
 
+:global LogPrintExit;
+
 :local MacAddress $"mac-address";
 :local UserName $username;
 :local Date [ / system clock get date ];
@@ -11,9 +13,12 @@
 
 :if ([ / caps-man access-list print count-only where comment="--- hotspot-to-wpa above ---" disabled ] = 0) do={
   / caps-man access-list add comment="--- hotspot-to-wpa above ---" disabled;
-  log warn "Added disabled access-list entry with comment '--- hotspot-to-wpa above ---'.";
+  $LogPrintExit warning "Added disabled access-list entry with comment '--- hotspot-to-wpa above ---'." false;
 }
 :local PlaceBefore [ / caps-man access-list find where comment="--- hotspot-to-wpa above ---" disabled ];
+
+$LogPrintExit info ("Adding/updating accesslist entry for mac address " . $MacAddress . \
+  " (user " . $UserName . ").") false;
 
 / caps-man access-list remove [ find where mac-address=$MacAddress comment~"^hotspot-to-wpa: " ];
 
