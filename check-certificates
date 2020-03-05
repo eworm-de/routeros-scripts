@@ -48,7 +48,7 @@
           $CertificateNameByCN [ / certificate get $CertInChain common-name ];
         }
       } on-error={
-        :log debug ("Could not download certificate file " . $CertFileName);
+        $LogPrintExit debug ("Could not download certificate file " . $CertFileName) false;
       }
     }
 
@@ -56,7 +56,7 @@
     :local CertNewVal [ / certificate get $CertNew ];
 
     :if ($Cert != $CertNew) do={
-      :log debug ("Certificate '" . $CertVal->"name" . "' was not updated, but replaced.");
+      $LogPrintExit debug ("Certificate '" . $CertVal->"name" . "' was not updated, but replaced.") false;
 
       / ip service set certificate=($CertNewVal->"name") [ find where certificate=($CertVal->"name") ];
 
@@ -64,13 +64,13 @@
         / ip ipsec identity set certificate=($CertNewVal->"name") [ / ip ipsec identity find where certificate=($CertVal->"name") ];
         / ip ipsec identity set remote-certificate=($CertNewVal->"name") [ / ip ipsec identity find where remote-certificate=($CertVal->"name") ];
       } on-error={
-        :log debug ("Setting IPSEC certificates failed. Package 'security' not installed?");
+        $LogPrintExit debug ("Setting IPSEC certificates failed. Package 'security' not installed?") false;
       }
 
       :do {
         / ip hotspot profile set ssl-certificate=($CertNewVal->"name") [ / ip hotspot profile find where ssl-certificate=($CertVal->"name") ];
       } on-error={
-        :log debug ("Setting hotspot certificates failed. Package 'hotspot' not installed?");
+        $LogPrintExit debug ("Setting hotspot certificates failed. Package 'hotspot' not installed?") false;
       }
 
       / certificate remove $Cert;
@@ -87,7 +87,7 @@
         "Expires in:  " . [ $FormatExpire ($CertNewVal->"expires-after") ]) "" "true";
     $LogPrintExit info ("The certificate " . ($CertVal->"name") . " has been renewed.") false;
   } on-error={
-    :log debug ("Could not renew certificate " . ($CertVal->"name") . ".");
+    $LogPrintExit debug ("Could not renew certificate " . ($CertVal->"name") . ".") false;
   }
 }
 
