@@ -274,17 +274,22 @@
   :local Message  [ :tostr $2 ];
   :local Exit     [ :tostr $3 ];
 
-  :if ($Severity ~ "^(error|info)\$") do={
-    :if ($Severity = "error" ) do={ :log error $Message; }
-    :if ($Severity = "info"  ) do={ :log info  $Message; }
+  :global PrintDebug;
+
+  :if ($Severity ~ "^(debug|error|info)\$") do={
+    :if ($Severity = "debug") do={ :log debug $Message; }
+    :if ($Severity = "error") do={ :log error $Message; }
+    :if ($Severity = "info" ) do={ :log info  $Message; }
   } else={
     :log warning $Message;
   }
 
-  :if ($Exit = "true") do={
-    :error ($Severity . ": " . $Message);
-  } else={
-    :put ($Severity . ": " . $Message);
+  :if ($Severity != "debug" || $PrintDebug = true) do={
+    :if ($Exit = "true") do={
+      :error ($Severity . ": " . $Message);
+    } else={
+      :put ($Severity . ": " . $Message);
+    }
   }
 }
 
