@@ -7,6 +7,7 @@
 :global NetwatchNotify;
 
 :global ParseKeyValueStore;
+:global LogPrintExit;
 :global SendNotification;
 
 :if ([ :typeof $NetwatchNotify ] = "nothing") do={
@@ -23,6 +24,7 @@
   }
 
   :if ($HostVal->"status" = "up") do={
+    $LogPrintExit debug ("Host " . $HostName . " (" . $HostVal->"host" . ") is up.") false;
     :set ($Metric->"count") 0;
     :if ($Metric->"notified" = true) do={
       $SendNotification ("Netwatch Notify: " . $HostName . " up") \
@@ -31,6 +33,8 @@
     :set ($Metric->"notified") false;
   } else={
     :set ($Metric->"count") ($Metric->"count" + 1);
+    $LogPrintExit info ("Host " . $HostName . " (" . $HostVal->"host" . ") is down for " . \
+      $Metric->"count" . " checks.") false;
     :if ($Metric->"count" >= 5 && $Metric->"notified" != true) do={
       $SendNotification ("Netwatch Notify: " . $HostName . " down") \
         ("Host " . $HostName . " (" . $HostVal->"host" . ") is down since " . $HostVal->"since" . ".");
