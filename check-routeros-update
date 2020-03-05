@@ -48,10 +48,10 @@
           ($SafeUpdateUrl . $Update->"channel" . "?installed=" . $Update->"installed-version" . \
           "&latest=" . $Update->"latest-version") output=user as-value ];
     } on-error={
-      :log warning ("Failed receiving safe version for " . $Update->"channel" . ".");
+      $LogPrintExit warning ("Failed receiving safe version for " . $Update->"channel" . ".") false;
     }
     :if ($Result->"status" = "finished" && $Result->"data" = $Update->"latest-version") do={
-      :log info ("Version " . $Update->"latest-version" . " is considered safe, updating...");
+      $LogPrintExit info ("Version " . $Update->"latest-version" . " is considered safe, updating...") false;
       $SendNotification ("RouterOS update") \
           ("Version " . $Update->"latest-version" . " is considered safe for " . $Update->"channel" . \
           ", updating on " . $Identity . "...") "" "true";
@@ -69,9 +69,8 @@
   }
 
   :if ($SentRouterosUpdateNotification = $Update->"latest-version") do={
-    :log info ("Already sent the RouterOS update notification for version " . \
-        $Update->"latest-version" . ".");
-    :error "Already sent notification.";
+    $LogPrintExit info ("Already sent the RouterOS update notification for version " . \
+        $Update->"latest-version" . ".") true;
   }
 
   $SendNotification ("RouterOS update") \
