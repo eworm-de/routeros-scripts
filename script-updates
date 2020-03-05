@@ -48,7 +48,7 @@
     }
 
     :if ($Ignore = 0) do={
-      :log debug ("Fetching script from url: " . $ScriptVal->"name");
+      $LogPrintExit debug ("Fetching script from url: " . $ScriptVal->"name") false;
       :do {
         :local Result [ / tool fetch check-certificate=yes-without-crl \
             ($ScriptUpdatesBaseUrl . $ScriptVal->"name" . $ScriptUpdatesUrlSuffix) \
@@ -78,13 +78,13 @@
           / system script run global-functions;
         }
       } else={
-        :log debug ("Script " .  $ScriptVal->"name" . " did not change.");
+        $LogPrintExit debug ("Script " .  $ScriptVal->"name" . " did not change.") false;
       }
     } else={
       $LogPrintExit warning ("Looks like new script " . $ScriptVal->"name" . " is not valid. Ignoring!") false;
     }
   } else={
-    :log debug ("No update for script " . $ScriptVal->"name" . ".");
+    $LogPrintExit debug ("No update for script " . $ScriptVal->"name" . ".") false;
   }
 }
 
@@ -101,7 +101,7 @@
       "\$GlobalConfigVersion (currently " . $GlobalConfigVersion . \
       ") to " . $ExpectedConfigVersion . " and re-run " . $ConfigScript . ".");
 
-  :log debug ("Fetching changelog.");
+  $LogPrintExit debug ("Fetching changelog.") false;
   :do {
     :local Result [ / tool fetch check-certificate=yes-without-crl \
         ($ScriptUpdatesBaseUrl . "global-config.changes" . $ScriptUpdatesUrlSuffix) \
