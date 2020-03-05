@@ -24,7 +24,7 @@
   :local DnsRecordVal [ / ip dns static get $DnsRecord ];
   :local MacAddress [ $CharacterReplace ($DnsRecordVal->"comment") $CommentPrefix "" ];
   :if ([ / ip dhcp-server lease print count-only where mac-address=$MacAddress address=($DnsRecordVal->"address") dynamic=yes status=bound ] > 0) do={
-    $LogPrintExit debug ("Lease for " . $MacAddress . " (" . $DnsRecordVal->"host-name" . ") still exists. Not deleting DNS entry.") false;
+    $LogPrintExit debug ("Lease for " . $MacAddress . " (" . $DnsRecordVal->"name" . ") still exists. Not deleting DNS entry.") false;
   } else={
     :local Found false;
     $LogPrintExit info ("Lease expired for " . $MacAddress . " (" . $DnsRecordVal->"name" . "), deleting DNS entry.") false;
