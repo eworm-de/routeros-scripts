@@ -7,6 +7,8 @@
 # !! This is just a template! Replace '%PATH%' with 'caps-man'
 # !! or 'interface wireless'!
 
+:global LogPrintExit;
+
 :foreach Lease in=[ / ip dhcp-server lease find where dynamic=yes status=bound ] do={
   :local LeaseVal [ / ip dhcp-server lease get $Lease ];
   :local NewComment;
@@ -15,7 +17,7 @@
     :set NewComment [ / %PATH% access-list get $AccessList comment ];
   }
   :if ([ :len $NewComment ] != 0 && $LeaseVal->"comment" != $NewComment) do={
-    :log info ("Updating comment for DHCP lease " . $LeaseVal->"mac-address" . ": " . $NewComment);
+    $LogPrintExit info ("Updating comment for DHCP lease " . $LeaseVal->"mac-address" . ": " . $NewComment) false;
     / ip dhcp-server lease set comment=$NewComment $Lease;
   }
 }
