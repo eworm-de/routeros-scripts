@@ -29,7 +29,7 @@
           $LogPrintExit info ("Changing interface " . $BridgePortVal->"interface" . " to " . $BridgePortTo . " bridge " . $BridgeDefault) false;
           / interface bridge port set bridge=$BridgeDefault $BridgePort;
         } else={
-          :log debug ("Interface " . $BridgePortVal->"interface" . " already connected to " . $BridgePortTo . " bridge " . $BridgeDefault);
+          $LogPrintExit debug ("Interface " . $BridgePortVal->"interface" . " already connected to " . $BridgePortTo . " bridge " . $BridgeDefault) false;
         }
       }
     }
