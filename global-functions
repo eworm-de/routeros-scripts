@@ -175,19 +175,19 @@
   }
   :set Info ($Info . "\n" . \
     "RouterOS:\n" . \
-    "  Channel:      " . $Update->"channel" . "\n" . \
-    "  Installed:    " . $Update->"installed-version");
+    "    Channel:    " . $Update->"channel" . "\n" . \
+    "    Installed:  " . $Update->"installed-version");
   :if ([ :typeof ($Update->"latest-version") ] != "nothing" && \
        $Update->"installed-version" != $Update->"latest-version") do={
     :set Info ($Info . "\n" . \
-      "  Available:    " . $Update->"latest-version");
+      "    Available:  " . $Update->"latest-version");
   }
   :set Info ($Info . "\n" . \
       "RouterOS-Scripts Configuration Version:\n" . \
-      "  Current:      " . $GlobalConfigVersion);
+      "    Current:    " . $GlobalConfigVersion);
   :if ($GlobalConfigVersion != $ExpectedConfigVersion) do={
     :set Info ($Info . "\n" . \
-      "  Expected:     " . $ExpectedConfigVersion);
+      "    Expected:   " . $ExpectedConfigVersion);
   }
 
   :return $Info;
