@@ -58,13 +58,13 @@
          $CheckHealthCurrent->$Temperature > $CheckHealthTemperature->$Temperature) do={
       $SendNotification ("Health warning: " . $Temperature) \
           ("The " . $Temperature . " on " . $Identity . " is above threshold: " .  \
-          $CheckHealthCurrent->$Temperature . "C");
+          $CheckHealthCurrent->$Temperature . "\C2\B0" . "C");
     }
     :if ($CheckHealthLast->$Temperature > $CheckHealthTemperature->$Temperature && \
          $CheckHealthCurrent->$Temperature <= $CheckHealthTemperature->$Temperature) do={
       $SendNotification ("Health recovery: " . $Temperature) \
           ("The " . $Temperature . " on " . $Identity . " dropped below threshold: " .  \
-          $CheckHealthCurrent->$Temperature . "C");
+          $CheckHealthCurrent->$Temperature . "\C2\B0" . "C");
     }
   }
 }
