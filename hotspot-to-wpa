@@ -12,7 +12,7 @@
 :local PassWord [ / ip hotspot user get [ find where name=$UserName ] password ];
 
 :if ([ / caps-man access-list print count-only where comment="--- hotspot-to-wpa above ---" disabled ] = 0) do={
-  / caps-man access-list add comment="--- hotspot-to-wpa above ---" disabled;
+  / caps-man access-list add comment="--- hotspot-to-wpa above ---" disabled=yes;
   $LogPrintExit warning "Added disabled access-list entry with comment '--- hotspot-to-wpa above ---'." false;
 }
 :local PlaceBefore [ / caps-man access-list find where comment="--- hotspot-to-wpa above ---" disabled ];
