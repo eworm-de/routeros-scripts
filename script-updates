@@ -36,9 +36,9 @@
     :if ($SchedulerVal->"name" != "global-scripts" && \
          $SchedulerVal->"start-time" = "startup" && \
          $SchedulerVal->"interval" = 0s && \
-         [ :pick ($SchedulerVal->"on-event") 0 7 ] != ":delay ") do={
+         !(($SchedulerVal->"on-event") ~ "\\brun global-wait\\b")) do={
       $LogPrintExit warning ("Scheduler " . $SchedulerVal->"name" . " starts on startup, " . \
-        "without interval. Add delay to make sure the configuration is available!") false;
+        "without waiting for global-functions. Run 'global-wait' to avoid race conditions!") false;
     }
   }
 

@@ -9,6 +9,7 @@
 :global ExpectedConfigVersion 13;
 
 # global variables not to be changed by user
+:global GlobalFunctionsReady false;
 :global Identity [ / system identity get name ];
 :global SentConfigChangesNotification "-";
 :global SentLteFirmwareUpgradeNotification "-";
@@ -524,3 +525,6 @@
     :delay 1s;
   }
 }
+
+# signal we are ready
+:set GlobalFunctionsReady true;

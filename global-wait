@@ -1,0 +1,11 @@
+#!rsc
+# RouterOS script: global-wait
+# Copyright (c) 2020 Christian Hesse <mail@eworm.de>
+#
+# wait for global-functions to finish
+
+:global GlobalFunctionsReady;
+
+:while ($GlobalFunctionsReady != true) do={
+  :delay 500ms;
+}
