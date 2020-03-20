@@ -4,6 +4,10 @@
 #
 # renew locally issued certificates
 
+:global CertIssuedExportPass;
+
+:global MkDir;
+
 :foreach Cert in=[ / certificate find where issued expires-after<3w ] do={
   :local CertVal [ / certificate get $Cert ];
   / certificate issued-revoke $Cert;
@@ -11,4 +15,10 @@
   / certificate add name=($CertVal->"name") common-name=($CertVal->"common-name") \
       key-usage=($CertVal->"key-usage") subject-alt-name=($CertVal->"subject-alt-name");
   / certificate sign ($CertVal->"name") ca=($CertVal->"ca");
+  :if ([ :typeof ($CertIssuedExportPass->($CertVal->"common-name")) ] = "str") do={
+    $MkDir "cert-issued";
+    / certificate export-certificate ($CertVal->"name") type=pkcs12 \
+        file-name=("cert-issued/" . $CertVal->"common-name") \
+        export-passphrase=($CertIssuedExportPass->($CertVal->"common-name"));
+  }
 }
