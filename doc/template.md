@@ -1,7 +1,7 @@
 Script `template`
 =================
 
-[◀ Go back to main README](README.md)
+[◀ Go back to main README](../README.md)
 
 Description
 -----------
@@ -42,6 +42,5 @@ See also
 * ...
 
 ---
-[◀ Go back to main README](README.md)
-
+[◀ Go back to main README](../README.md)  
 [▲ Go back to top](#top)
