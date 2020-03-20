@@ -27,6 +27,7 @@
 :global GetRandom;
 :global LogPrintExit;
 :global MailServerIsUp;
+:global MkDir;
 :global ParseKeyValueStore;
 :global RandomDelay;
 :global ScriptFromTerminal;
@@ -313,6 +314,23 @@
   }
 
   :return false;
+}
+
+# create directory
+:set MkDir do={
+  :local Dir [ :tostr $1 ];
+
+  :global WaitForFile;
+
+  :if ([ / file print count-only where name=$Dir type="directory" ] = 0) do={
+    :local WwwVal [ / ip service get www ];
+    / ip service set www address=127.0.0.1/32 disabled=no port=80;
+    / tool fetch http://127.0.0.1/ dst-path=($Dir . "/tmp");
+    $WaitForFile ($Dir . "/tmp");
+    / file remove ($Dir . "/tmp");
+    / ip service set www address=($WwwVal->"address") \
+        disabled=($WwwVal->"disabled") port=($WwwVal->"port");
+  }
 }
 
 # parse key value store
