@@ -85,7 +85,7 @@ crap and a good example how to *not* do it.
 
 Now let's download the main scripts and add them in configuration on the fly.
 
-    [admin@MikroTik] > :foreach Script in={ "global-config"; "global-config-overlay"; "global-functions"; "script-updates" } do={ / system script add name=$Script source=([ / tool fetch check-certificate=yes-without-crl ("https://git.eworm.de/cgit/routeros-scripts/plain/" . $Script) output=user as-value]->"data"); }
+    [admin@MikroTik] > :foreach Script in={ "global-config"; "global-config-overlay"; "global-functions" } do={ / system script add name=$Script source=([ / tool fetch check-certificate=yes-without-crl ("https://git.eworm.de/cgit/routeros-scripts/plain/" . $Script) output=user as-value]->"data"); }
 
 The configuration needs to be tweaked for your needs. Make sure not to send
 your mails to `mail@example.com`! Edit `global-config-overlay`, copy
@@ -101,11 +101,7 @@ And finally load configuration and functions and add the scheduler.
 Updating scripts
 ----------------
 
-To update existing scripts just run `script-updates`.
-
-    [admin@MikroTik] > / system script run script-updates
-
-Calling function `$ScriptInstallUpdate` does the same.
+To update existing scripts just run function `$ScriptInstallUpdate`.
 
     [admin@MikroTik] > $ScriptInstallUpdate
 

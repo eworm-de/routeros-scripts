@@ -1,7 +1,7 @@
 # RouterOS global-config changes
 # Copyright (c) 2019-2020 Christian Hesse <mail@eworm.de>
 
-# Changes for global-config to be added to notification on script-updates
+# Changes for global-config to be added to notification on script updates
 :global GlobalConfigChanges {
   1="moved variables from 'global-config' to 'global-functions' for independence";
   2="variable names became CamelCase to work around scripting issues";
@@ -16,4 +16,5 @@
   11="introduced function '\$ScriptInstallUpdate' to install new and update existing scripts";
   12="removed '\$ScriptUpdatesConfigChangesIgnore', comment '\$GlobalConfigVersion' in 'global-config-overlay' to disable change notifications";
   13="configuration for script 'bridge-port-to-default' changed with new syntax in comment";
+  14="dropped script 'script-updates', use '\$ScriptInstallUpdate' exclusively!";
 };

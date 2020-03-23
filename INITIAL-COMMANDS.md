@@ -19,7 +19,7 @@ procedure please follow [the long way in detail](README.md#the-long-way-in-detai
         :error "Something is wrong with your certificates!";
       }
       / file remove "letsencrypt.pem";
-      :foreach Script in={ "global-config"; "global-config-overlay"; "global-functions"; "script-updates" } do={
+      :foreach Script in={ "global-config"; "global-config-overlay"; "global-functions" } do={
         / system script add name=$Script source=([ / tool fetch check-certificate=yes-without-crl ("https://git.eworm.de/cgit/routeros-scripts/plain/" . $Script) output=user as-value]->"data");
       }
       / system script { run global-config; run global-config-overlay; run global-functions; }
