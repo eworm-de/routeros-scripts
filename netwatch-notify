@@ -28,7 +28,7 @@
     :local Count ($Metric->"count");
     :set ($Metric->"count") 0;
     :if ($Metric->"notified" = true) do={
-      $SendNotification ("Netwatch Notify: " . $HostName . " up") \
+      $SendNotification ("Netwatch Notify: \E2\9C\85 " . $HostName . " up") \
         ("Host " . $HostName . " (" . $HostVal->"host" . ") is up since " . $HostVal->"since" . ".\n" . \
         "It was down for " . $Count . " checks.");
     }
@@ -38,7 +38,7 @@
     $LogPrintExit info ("Host " . $HostName . " (" . $HostVal->"host" . ") is down for " . \
       $Metric->"count" . " checks.") false;
     :if ($Metric->"count" >= 5 && $Metric->"notified" != true) do={
-      $SendNotification ("Netwatch Notify: " . $HostName . " down") \
+      $SendNotification ("Netwatch Notify: \E2\9D\8C " . $HostName . " down") \
         ("Host " . $HostName . " (" . $HostVal->"host" . ") is down since " . $HostVal->"since" . ".");
       :set ($Metric->"notified") true;
     }
