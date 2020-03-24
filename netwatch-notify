@@ -25,10 +25,12 @@
 
   :if ($HostVal->"status" = "up") do={
     $LogPrintExit debug ("Host " . $HostName . " (" . $HostVal->"host" . ") is up.") false;
+    :local Count ($Metric->"count");
     :set ($Metric->"count") 0;
     :if ($Metric->"notified" = true) do={
       $SendNotification ("Netwatch Notify: " . $HostName . " up") \
-        ("Host " . $HostName . " (" . $HostVal->"host" . ") is up since " . $HostVal->"since" . ".");
+        ("Host " . $HostName . " (" . $HostVal->"host" . ") is up since " . $HostVal->"since" . ".\n" . \
+        "It was down for " . $Count . " checks.");
     }
     :set ($Metric->"notified") false;
   } else={
