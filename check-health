@@ -36,12 +36,12 @@
        [ :typeof ($CheckHealthCurrent->($PSU . "-state")) ] = "str") do={
     :if ($CheckHealthLast->($PSU . "-state") = "ok" && \
          $CheckHealthCurrent->($PSU . "-state") != "ok") do={
-      $SendNotification ("Health warning: " . $PSU . " state") \
+      $SendNotification ("Health warning: \E2\9D\8C " . $PSU . " state") \
           ("The power supply unit '" . $PSU . "' on " . $Identity . " failed!");
     }
     :if ($CheckHealthLast->($PSU . "-state") != "ok" && \
          $CheckHealthCurrent->($PSU . "-state") = "ok") do={
-      $SendNotification ("Health recovery: " . $PSU . " state") \
+      $SendNotification ("Health recovery: \E2\9C\85 " . $PSU . " state") \
           ("The power supply unit '" . $PSU . "' on " . $Identity . " recovered!");
     }
   }
@@ -56,13 +56,13 @@
     }
     :if ($CheckHealthLast->$Temperature <= $CheckHealthTemperature->$Temperature && \
          $CheckHealthCurrent->$Temperature > $CheckHealthTemperature->$Temperature) do={
-      $SendNotification ("Health warning: " . $Temperature) \
+      $SendNotification ("Health warning: \E2\9D\8C " . $Temperature) \
           ("The " . $Temperature . " on " . $Identity . " is above threshold: " .  \
           $CheckHealthCurrent->$Temperature . "\C2\B0" . "C");
     }
     :if ($CheckHealthLast->$Temperature > $CheckHealthTemperature->$Temperature && \
          $CheckHealthCurrent->$Temperature <= $CheckHealthTemperature->$Temperature) do={
-      $SendNotification ("Health recovery: " . $Temperature) \
+      $SendNotification ("Health recovery: \E2\9C\85 " . $Temperature) \
           ("The " . $Temperature . " on " . $Identity . " dropped below threshold: " .  \
           $CheckHealthCurrent->$Temperature . "\C2\B0" . "C");
     }
