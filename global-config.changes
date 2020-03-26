@@ -3,18 +3,18 @@
 
 # Changes for global-config to be added to notification on script updates
 :global GlobalConfigChanges {
-  1="moved variables from 'global-config' to 'global-functions' for independence";
-  2="variable names became CamelCase to work around scripting issues";
-  3="variable for certificate renew passphrase became an array to support multiple passphrases";
-  4="added option to ignore global-config changes";
-  5="split off new script 'cloud-backup' from 'email-backup'";
-  6="introduced script 'upload-backup' with new configuration parameters";
-  7="introduced script 'check-health' with new configuration parameters";
-  8="added donation hint and option to silence it";
-  9="introduced configuration overlay 'global-config-overlay'";
-  10="make health threshold for voltage configurable";
-  11="introduced function '\$ScriptInstallUpdate' to install new and update existing scripts";
-  12="removed '\$ScriptUpdatesConfigChangesIgnore', comment '\$GlobalConfigVersion' in 'global-config-overlay' to disable change notifications";
-  13="configuration for script 'bridge-port-to-default' changed with new syntax in comment";
-  14="dropped script 'script-updates', use '\$ScriptInstallUpdate' exclusively!";
+   1="Moved variables from 'global-config' to 'global-functions' for independence";
+   2="Variable names became CamelCase to work around scripting issues";
+   3="Variable for certificate renew passphrase became an array to support multiple passphrases";
+   4="Added option to ignore global-config changes";
+   5="Split off new script 'cloud-backup' from 'email-backup'";
+   6="Introduced script 'upload-backup' with new configuration parameters";
+   7="Introduced script 'check-health' with new configuration parameters";
+   8="Added donation hint and option to silence it";
+   9="Introduced configuration overlay 'global-config-overlay'";
+  10="Made health threshold for voltage configurable";
+  11="Introduced function '\$ScriptInstallUpdate' to install new and update existing scripts";
+  12="Removed '\$ScriptUpdatesConfigChangesIgnore', comment '\$GlobalConfigVersion' in 'global-config-overlay' to disable change notifications";
+  13="Configuration for script 'bridge-port-to-default' changed with new syntax in comment";
+  14="Dropped script 'script-updates', use '\$ScriptInstallUpdate' exclusively!";
 };
