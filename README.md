@@ -133,7 +133,8 @@ cleanup add a scheduler entry.
 
 There's much more to explore... Have fun!
 
-## Contribute
+Contribute
+----------
 
 Thanks a lot for [past contributions](CONTRIBUTIONS.md)!
 
@@ -153,7 +154,8 @@ business please consider to
 
 Thanks a lot for your support!
 
-## Upstream
+Upstream
+--------
 
 URL:
 [GitHub.com](https://github.com/eworm-de/routeros-scripts#routeros-scripts)
