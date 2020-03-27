@@ -3,6 +3,7 @@
 # Copyright (c) 2018-2020 Christian Hesse <mail@eworm.de>
 #
 # schedule unattended lte firmware upgrade
+# https://git.eworm.de/cgit/routeros-scripts/about/doc/unattended-lte-firmware-upgrade.md
 
 :foreach Interface in=[ / interface lte find ] do={
   :local Firmware;
