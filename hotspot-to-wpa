@@ -3,6 +3,7 @@
 # Copyright (c) 2019-2020 Christian Hesse <mail@eworm.de>
 #
 # add private WPA passphrase after hotspot login
+# https://git.eworm.de/cgit/routeros-scripts/about/doc/hotspot-to-wpa.md
 
 :global LogPrintExit;
 
