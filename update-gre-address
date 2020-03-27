@@ -4,6 +4,7 @@
 #
 # update gre interface remote address with dynamic address from
 # ipsec remote peer
+# https://git.eworm.de/cgit/routeros-scripts/about/doc/update-gre-address.md
 
 / interface gre set remote-address=0.0.0.0 disabled=yes [ find where !running !disabled ];
 
