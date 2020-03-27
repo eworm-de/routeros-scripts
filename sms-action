@@ -3,6 +3,7 @@
 # Copyright (c) 2018-2020 Christian Hesse <mail@eworm.de>
 #
 # run action on received SMS
+# https://git.eworm.de/cgit/routeros-scripts/about/doc/sms-action.md
 
 :global SmsAction;
 
