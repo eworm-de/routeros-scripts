@@ -3,6 +3,7 @@
 # Copyright (c) 2013-2020 Christian Hesse <mail@eworm.de>
 #
 # toggle bridge ports between default and alt bridge
+# https://git.eworm.de/cgit/routeros-scripts/about/doc/bridge-port.md
 
 :global BridgePortTo;
 
