@@ -3,6 +3,7 @@
 # Copyright (c) 2020 Christian Hesse <mail@eworm.de>
 #
 # wait for global-functions to finish
+# https://git.eworm.de/cgit/routeros-scripts/about/doc/global-wait.md
 
 :global GlobalFunctionsReady;
 
