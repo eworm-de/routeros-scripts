@@ -3,6 +3,7 @@
 # Copyright (c) 2018-2020 Christian Hesse <mail@eworm.de>
 #
 # check for LTE firmware upgrade, send notification
+# https://git.eworm.de/cgit/routeros-scripts/about/doc/check-lte-firmware-upgrade.md
 
 :global Identity;
 :global SentLteFirmwareUpgradeNotification;
@@ -13,7 +14,7 @@
   :local IntName [ / interface lte get $Interface name ];
   :do {
     :local Firmware [ / interface lte firmware-upgrade $Interface once as-value ];
-    
+
     :if ($SentLteFirmwareUpgradeNotification = ($Firmware->"latest")) do={
       :log debug ("Already sent the LTE firmware upgrade notification for version " . \
         ($Firmware->"latest") . ".");
