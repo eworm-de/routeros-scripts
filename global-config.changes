@@ -17,4 +17,5 @@
   12="Removed '\$ScriptUpdatesConfigChangesIgnore', comment '\$GlobalConfigVersion' in 'global-config-overlay' to disable change notifications";
   13="Configuration for script 'bridge-port-to-default' changed with new syntax in comment";
   14="Dropped script 'script-updates', use '\$ScriptInstallUpdate' exclusively!";
+  15="New documentation is online! https://git.eworm.de/cgit/routeros-scripts/about/#available-scripts";
 };
