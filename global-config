@@ -7,7 +7,7 @@
 
 # Make sure all configuration properties are up to date and this
 # value is in sync with value in script 'global-functions'!
-:global GlobalConfigVersion 15;
+:global GlobalConfigVersion 16;
 
 # This is used for DNS and backup file.
 :global Domain "example.com";

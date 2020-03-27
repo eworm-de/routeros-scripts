@@ -18,4 +18,5 @@
   13="Configuration for script 'bridge-port-to-default' changed with new syntax in comment";
   14="Dropped script 'script-updates', use '\$ScriptInstallUpdate' exclusively!";
   15="New documentation is online! https://git.eworm.de/cgit/routeros-scripts/about/#available-scripts";
+  16="Happy with RouterOS Scripts and have a GitHub and/or GitLab account? Please star!";
 };
