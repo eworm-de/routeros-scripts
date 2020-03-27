@@ -5,6 +5,7 @@
 # requires: dont-require-permissions=yes
 #
 # manage remote logging facilities
+# https://git.eworm.de/cgit/routeros-scripts/about/doc/netwatch-syslog.md
 
 :local Remote [ /system logging action get ([ find where target=remote ]->0) remote ];
 
