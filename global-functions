@@ -4,6 +4,7 @@
 #                         Michael Gisbers <michael@gisbers.de>
 #
 # global functions
+# https://git.eworm.de/cgit/routeros-scripts/about/
 
 # expected configuration version
 :global ExpectedConfigVersion 14;
