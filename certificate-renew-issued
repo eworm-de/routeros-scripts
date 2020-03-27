@@ -3,6 +3,7 @@
 # Copyright (c) 2019-2020 Christian Hesse <mail@eworm.de>
 #
 # renew locally issued certificates
+# https://git.eworm.de/cgit/routeros-scripts/about/doc/certificate-renew-issued.md
 
 :global CertIssuedExportPass;
 
