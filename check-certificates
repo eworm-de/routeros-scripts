@@ -3,6 +3,7 @@
 # Copyright (c) 2013-2020 Christian Hesse <mail@eworm.de>
 #
 # check for certificate validity
+# https://git.eworm.de/cgit/routeros-scripts/about/doc/check-certificates.md
 
 :global CertRenewPass;
 :global CertRenewUrl;

@@ -3,6 +3,7 @@
 # Copyright (c) 2018-2020 Christian Hesse <mail@eworm.de>
 #
 # enable or disable ip addresses based on bridge port state
+# https://git.eworm.de/cgit/routeros-scripts/about/doc/ip-addr-bridge.md
 
 :foreach Bridge in=[ / interface bridge find ] do={
   :local BrName [ / interface bridge get $Bridge name ];

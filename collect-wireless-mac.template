@@ -3,6 +3,7 @@
 # Copyright (c) 2013-2020 Christian Hesse <mail@eworm.de>
 #
 # collect wireless mac adresses in access list
+# https://git.eworm.de/cgit/routeros-scripts/about/doc/collect-wireless-mac.md
 #
 # !! This is just a template! Replace '%PATH%' with 'caps-man'
 # !! or 'interface wireless'!

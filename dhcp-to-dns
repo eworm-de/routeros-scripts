@@ -3,6 +3,7 @@
 # Copyright (c) 2013-2020 Christian Hesse <mail@eworm.de>
 #
 # check DHCP leases and add/remove/update DNS entries
+# https://git.eworm.de/cgit/routeros-scripts/about/doc/dhcp-to-dns.md
 
 :global Domain;
 :global HostNameInZone;

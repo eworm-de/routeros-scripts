@@ -4,6 +4,7 @@
 #                         Michael Gisbers <michael@gisbers.de>
 #
 # download and cleanup packages for CAP installation from CAPsMAN
+# https://git.eworm.de/cgit/routeros-scripts/about/doc/capsman-download-packages.md
 
 :global CleanFilePath;
 :global DownloadPackage;

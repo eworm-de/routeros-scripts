@@ -3,6 +3,7 @@
 # Copyright (c) 2018-2020 Christian Hesse <mail@eworm.de>
 #
 # print duplicate antries in wireless access list
+# https://git.eworm.de/cgit/routeros-scripts/about/doc/accesslist-duplicates.md
 #
 # !! This is just a template! Replace '%PATH%' with 'caps-man'
 # !! or 'interface wireless'!

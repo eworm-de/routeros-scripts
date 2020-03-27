@@ -3,6 +3,7 @@
 # Copyright (c) 2013-2020 Christian Hesse <mail@eworm.de>
 #
 # play Super Mario theme
+# https://git.eworm.de/cgit/routeros-scripts/about/doc/super-mario-theme.md
 
 :local Beeps {
   {  660; 100 }; 150; {  660; 100 }; 300; {  660; 100 }; 300;

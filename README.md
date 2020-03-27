@@ -133,6 +133,50 @@ cleanup add a scheduler entry.
 
 There's much more to explore... Have fun!
 
+Available Scripts
+-----------------
+
+* [Find and remove access list duplicates](doc/accesslist-duplicates.md)
+* [Manage ports in bridge](doc/bridge-port.md)
+* [Download packages for CAP upgrade from CAPsMAN](doc/capsman-download-packages.md)
+* [Run rolling CAP upgrades from CAPsMAN](doc/capsman-rolling-upgrade.md)
+* [Renew locally issued certificates](doc/certificate-renew-issued.md)
+* [Renew certificates and notify on expiration](doc/check-certificates.md)
+* [Notify about health state](doc/check-health.md)
+* [Notify on LTE firmware upgrade](doc/check-lte-firmware-upgrade.md)
+* [Notify on RouterOS update](doc/check-routeros-update.md)
+* [Upload backup to Mikrotik cloud](doc/cloud-backup.md)
+* [Collect MAC addresses in wireless access list](doc/collect-wireless-mac.md)
+* [Use wireless network with daily psk](doc/daily-psk.md)
+* [Comment DHCP leases with info from access list](doc/dhcp-lease-comment.md)
+* [Create DNS records for DHCP leases](doc/dhcp-to-dns.md)
+* [Send backup via e-mail](doc/email-backup.md)
+* [Wait for configuration und functions](doc/global-wait.md)
+* [Send GPS position to server](doc/gps-track.md)
+* [Use WPA2 network with hotspot credentials](doc/hotspot-to-wpa.md)
+* [Update configuration on IPv6 prefix change](doc/ipv6-update.md)
+* [Manage IP addresses with bridge status](doc/ip-addr-bridge.md)
+* [Run other scripts on DHCP lease](doc/lease-script.md)
+* [Manage LEDs dark mode](doc/leds-mode.md)
+* [Mode botton with multiple presses](doc/mode-button.md)
+* [Notify on host up and down](doc/netwatch-notify.md)
+* [Manage remote logging](doc/netwatch-syslog.md)
+* [Manage system update](doc/packages-update.md)
+* [Run scripts on ppp connection](doc/ppp-on-up.md)
+* [Rotate NTP servers](doc/rotate-ntp.md)
+* [Act on received SMS](doc/sms-action.md)
+* [Forward received SMS](doc/sms-forward.md)
+* [Import SSH keys](doc/ssh-keys-import.md)
+* [Play Super Mario theme](doc/super-mario-theme.md)
+* [Install LTE firmware upgrade](doc/unattended-lte-firmware-upgrade.md)
+* [Update GRE configuration with dynamic addresses](doc/update-gre-address.md)
+* [Update tunnelbroker configuration](doc/update-tunnelbroker.md)
+* [Upload backup to server](doc/upload-backup.md)
+
+[comment]: # (TODO: currently undocumented)
+[comment]: # (* learn-mac-based-vlan)
+[comment]: # (* manage-umts)
+
 Contribute
 ----------
 
