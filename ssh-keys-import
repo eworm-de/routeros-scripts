@@ -3,9 +3,8 @@
 # Copyright (c) 2013-2020 Christian Hesse <mail@eworm.de>
 #
 # import ssh keys from file
+# https://git.eworm.de/cgit/routeros-scripts/about/doc/ssh-keys-import.md
 
-# Split files with several keys from a shell...
-# while read type key name; do echo $type $key $name > $name.pub; done < keys.pub
-# ... then transfer with scp/sftp.
-
-:foreach Key in=[ / file find where type="ssh key" ] do={ / user ssh-key import user=admin public-key-file=[ / file get $Key name ]; }
+:foreach Key in=[ / file find where type="ssh key" ] do={
+  / user ssh-key import user=admin public-key-file=[ / file get $Key name ];
+}
