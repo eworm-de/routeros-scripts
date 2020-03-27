@@ -3,5 +3,6 @@
 # Copyright (c) 2013-2020 Christian Hesse <mail@eworm.de>
 #
 # disable LEDs
+# https://git.eworm.de/cgit/routeros-scripts/about/doc/leds-mode.md
 
 / system leds settings set all-leds-off=immediate;
