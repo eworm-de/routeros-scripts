@@ -3,6 +3,7 @@
 # Copyright (c) 2013-2020 Christian Hesse <mail@eworm.de>
 #
 # update firewall and dns settings on IPv6 prefix change
+# https://git.eworm.de/cgit/routeros-scripts/about/doc/ipv6-update.md
 
 :local PdPrefix $"pd-prefix";
 
