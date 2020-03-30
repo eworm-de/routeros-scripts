@@ -1,6 +1,10 @@
 RouterOS Scripts
 ================
 
+![GitHub forks](https://img.shields.io/github/forks/eworm-de/routeros-scripts?style=social)
+![GitHub stars](https://img.shields.io/github/stars/eworm-de/routeros-scripts?style=social)
+![GitHub watchers](https://img.shields.io/github/watchers/eworm-de/routeros-scripts?style=social)
+
 [RouterOS](https://mikrotik.com/software) is the operating system developed
 by [MikroTik](https://mikrotik.com/aboutus) for networking tasks. This
 repository holds a number of [scripts](https://wiki.mikrotik.com/wiki/Manual:Scripting)
