@@ -540,7 +540,7 @@
   :global EmailGeneralCc;
 
   :if ([ :len $EmailGeneralTo ] = 0) do={
-    :return;
+    :return false;
   }
 
   :do {
