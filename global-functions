@@ -399,7 +399,7 @@
     }
   }
 
-  :foreach Script in=[ / system script find where source~"^#!rsc" or source="" ] do={
+  :foreach Script in=[ / system script find where source~"^#!rsc" ] do={
     :local Ignore 0;
     :local ScriptVal [ / system script get $Script ];
     :local ScriptFile [ / file find where name=("script-updates/" . $ScriptVal->"name") ];
