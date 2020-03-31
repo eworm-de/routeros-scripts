@@ -1,6 +1,8 @@
 Past Contributions
 ==================
 
+[◀ Go back to main README](README.md)
+
 Thanks a lot for your contributions!
 
 ## Patches
@@ -18,3 +20,7 @@ Add yourself to the list,
 * Linux-Schmie.de Michael Gisbers
 * Christoph Boss (@Kampfwurst)
 * Klaus Michael Rübsam
+
+---
+[◀ Go back to main README](README.md)  
+[▲ Go back to top](#top)
