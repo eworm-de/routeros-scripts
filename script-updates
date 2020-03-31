@@ -3,4 +3,4 @@
 
 :global LogPrintExit;
 
-$LogPrintExit warning "This script has been replaced by function '\$ScriptInstallUpdate'." true;
+$LogPrintExit warning ("This script has been replaced by function '\$ScriptInstallUpdate'.") true;
