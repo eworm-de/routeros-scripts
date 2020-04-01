@@ -482,6 +482,7 @@
         " is out of date. Please update " . $ConfigScript . ", then increase " . \
         "\$GlobalConfigVersion (currently " . $GlobalConfigVersion . \
         ") to " . $ExpectedConfigVersion . " and re-run " . $ConfigScript . ".");
+    $LogPrintExit info ($NotificationMessage) false;
 
     $LogPrintExit debug ("Fetching changelog.") false;
     :do {
@@ -496,6 +497,7 @@
       :for I from=($GlobalConfigVersion + 1) to=$ExpectedConfigVersion do={
         :set NotificationMessage ($NotificationMessage . \
             "\n * " . $GlobalConfigChanges->[ :tostr $I ]);
+        $LogPrintExit info ("Change: " . $GlobalConfigChanges->[ :tostr $I ]) false;
       }
       :set GlobalConfigChanges;
     } on-error={
