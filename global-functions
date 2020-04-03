@@ -562,6 +562,8 @@
   :global EmailGeneralTo;
   :global EmailGeneralCc;
 
+  :global LogPrintExit;
+
   :if ([ :len $EmailGeneralTo ] = 0) do={
     :return false;
   }
@@ -575,7 +577,7 @@
       subject=("[" . $Identity . "] " . $Subject) \
       body=($Message . $Signature) file=$Attach;
   } on-error={
-    :log warning "Failed sending notification mail!";
+    $LogPrintExit warning ("Failed sending notification mail!") false;
   }
 }
 
