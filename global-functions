@@ -57,7 +57,9 @@
 
   :if ([ / certificate print count-only where common-name=$CommonName ] = 0) do={
     :log info ("Certificate with CommonName \"" . $CommonName . "\" not available.");
-    $CertificateDownload $CommonName;
+    :if ([ $CertificateDownload $CommonName ] = false) do={
+      :return false;
+    }
   }
 
   :local CertVal;
@@ -65,11 +67,14 @@
   :do {
     :if ([ / certificate print count-only where common-name=$Issuer ] = 0) do={
       :log info ("Certificate chain for \"" . $CommonName . "\" is incomplete, missing \"" . $Issuer . "\".");
-      $CertificateDownload $CommonName;
+      :if ([ $CertificateDownload $CommonName ] = false) do={
+        :return false;
+      }
     }
     :set CertVal [ / certificate get [ find where common-name=$Issuer ] ];
     :set Issuer ([ $ParseKeyValueStore ($CertVal->"issuer") ]->"CN");
   } while=($Issuer != $CertVal->"common-name");
+  :return true;
 }
 
 # download and import certificate
@@ -101,7 +106,9 @@
     }
   } on-error={
     :log warning "Failed imprting certificate!";
+    :return false;
   }
+  :return true;
 }
 
 # name a certificate by its common-name
