@@ -10,6 +10,7 @@
 :global CheckHealthVoltagePercent;
 :global Identity;
 
+:global LogPrintExit;
 :global SendNotification;
 
 :local FormatVoltage do={
@@ -52,7 +53,7 @@
   :if ([ :typeof ($CheckHealthLast->$Temperature) ] = "num" && \
        [ :typeof ($CheckHealthCurrent->$Temperature) ] = "num") do={
     :if ([ :typeof ($CheckHealthTemperature->$Temperature) ] != "num" ) do={
-      :log warning ("No threshold given for " . $Temperature . ", assuming 50C.");
+      $LogPrintExit warning ("No threshold given for " . $Temperature . ", assuming 50C.") false;
       :set ($CheckHealthTemperature->$Temperature) 50;
     }
     :if ($CheckHealthLast->$Temperature <= $CheckHealthTemperature->$Temperature && \
