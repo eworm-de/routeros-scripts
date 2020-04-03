@@ -212,6 +212,7 @@
 
   :global CertificateAvailable;
   :global CleanFilePath;
+  :global LogPrintExit;
   :global WaitForFile;
 
   :if ([ :len $PkgName ] = 0) do={ return false; }
@@ -224,7 +225,9 @@
   }
   :local PkgDest [ $CleanFilePath ($PkgDir . "/" . $PkgFile) ];
 
-  $CertificateAvailable "Let's Encrypt Authority X3";
+  :if ([ $CertificateAvailable "Let's Encrypt Authority X3" ] = false) do={
+    $LogPrintExit error ("Downloading required certificate failed.") true;
+  }
 
   :local Retry 3;
   :while ($Retry > 0) do={
