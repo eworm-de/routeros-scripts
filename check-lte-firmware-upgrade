@@ -8,6 +8,7 @@
 :global Identity;
 :global SentLteFirmwareUpgradeNotification;
 
+:global LogPrintExit;
 :global SendNotification;
 
 :foreach Interface in=[ / interface lte find ] do={
@@ -16,8 +17,8 @@
     :local Firmware [ / interface lte firmware-upgrade $Interface once as-value ];
 
     :if ($SentLteFirmwareUpgradeNotification = ($Firmware->"latest")) do={
-      :log debug ("Already sent the LTE firmware upgrade notification for version " . \
-        ($Firmware->"latest") . ".");
+      $LogPrintExit debug ("Already sent the LTE firmware upgrade notification for version " . \
+        ($Firmware->"latest") . ".") false;
     } else={
       :if (($Firmware->"installed") != ($Firmware->"latest")) do={
         $SendNotification ("LTE firmware upgrade") \
@@ -27,7 +28,7 @@
       }
     }
   } on-error={
-    :log debug ("Could not get latest LTE firmware version for interface " . \
-      $IntName . ".");
+    $LogPrintExit debug ("Could not get latest LTE firmware version for interface " . \
+      $IntName . ".") false;
   }
 }
