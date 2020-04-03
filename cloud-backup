@@ -9,6 +9,7 @@
 :global Identity;
 
 :global DeviceInfo;
+:global LogPrintExit;
 :global SendNotification;
 
 :do {
@@ -31,5 +32,5 @@
       "Size:           " . $Cloud->"size" . "\n" . \
       "Download key:   " . $Cloud->"secret-download-key") "" "true";
 } on-error={
-  :log error ("Failed uploading backup for " . $Identity . " to cloud.");
+  $LogPrintExit error ("Failed uploading backup for " . $Identity . " to cloud.") false;
 }
