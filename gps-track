@@ -8,6 +8,8 @@
 :global GpsTrackUrl;
 :global Identity;
 
+:global LogPrintExit;
+
 :local CoordinateFormat [ /system gps get coordinate-format ];
 :local Gps [ / system gps monitor once as-value ];
 
@@ -20,9 +22,9 @@ if ($Gps->"valid" = true) do={
       "\"lon\":\"" . ($Gps->"longitude") . "\"," . \
       "\"identity\":\"" . $Identity . "\"" . \
     "}");
-  :log debug ("Sending GPS data in " . $CoordinateFormat . " format: " . \
+  $LogPrintExit debug ("Sending GPS data in " . $CoordinateFormat . " format: " . \
     "lat: " . ($Gps->"latitude") . " " . \
-    "lon: " . ($Gps->"longitude"));
+    "lon: " . ($Gps->"longitude")) false;
 } else={
-  :log debug ("GPS data not valid.");
+  $LogPrintExit debug ("GPS data not valid.") false;
 }
