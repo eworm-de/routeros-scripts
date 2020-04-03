@@ -7,6 +7,8 @@
 
 :global ModeButton;
 
+:global LogPrintExit;
+
 :local Count ($ModeButton->"count");
 :local Code ($ModeButton->[ :tostr $Count ]);
 
@@ -14,7 +16,7 @@
 / system scheduler remove mode-button-scheduler;
 
 :if ([ :len $Code ] > 0) do={
-  :log info ("Acting on " . $Count . " mode-button presses: " . $Code);
+  $LogPrintExit info ("Acting on " . $Count . " mode-button presses: " . $Code) false;
 
   :if ([ / system routerboard settings get silent-boot ] = false) do={
     :for I from=1 to=$Count do={
@@ -28,5 +30,5 @@
   :local Parsed [ :parse $Code ];
   $Parsed;
 } else={
-  :log info ("No action defined for " . $Count . " mode-button presses.");
+  $LogPrintExit info ("No action defined for " . $Count . " mode-button presses.") false;
 }
