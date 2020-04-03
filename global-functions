@@ -256,11 +256,13 @@
   :local Mac [ :tostr $1 ];
 
   :global CertificateAvailable;
+  :global LogPrintExit;
 
   :do {
-    :local Vendor;
-    $CertificateAvailable "Let's Encrypt Authority X3";
-    :set Vendor ([ / tool fetch check-certificate=yes-without-crl \
+    :if ([ $CertificateAvailable "Let's Encrypt Authority X3" ] = false) do={
+      $LogPrintExit warning ("Downloading required certificate failed.") true;
+    }
+    :local Vendor ([ / tool fetch check-certificate=yes-without-crl \
         ("https://api.macvendors.com/" . [ :pick $Mac 0 8 ]) output=user as-value ]->"data");
     :return $Vendor;
   } on-error={
