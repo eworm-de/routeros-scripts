@@ -596,8 +596,9 @@
   :global TelegramChatId;
   :global TelegramChatIdOverride;
 
-  :global UrlEncode;
   :global CertificateAvailable;
+  :global LogPrintExit;
+  :global UrlEncode;
 
   :local ChatId $TelegramChatId;
   :if ([ :len $TelegramChatIdOverride ] > 0) do={
@@ -608,8 +609,10 @@
     :return false;
   }
 
-  $CertificateAvailable "Go Daddy Secure Certificate Authority - G2";
   :do {
+    :if ([ $CertificateAvailable "Go Daddy Secure Certificate Authority - G2" ] = false) do={
+      $LogPrintExit warning ("Downloading required certificate failed.") true;
+    }
     / tool fetch check-certificate=yes-without-crl output=none http-method=post \
       ("https://api.telegram.org/bot" . $TelegramTokenId . "/sendMessage") \
       http-data=("chat_id=" . $ChatId . "&disable_notification=" . $Silent . \
