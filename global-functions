@@ -379,16 +379,19 @@
 :set ScriptFromTerminal do={
   :local Script [ :tostr $1 ];
 
+  :global LogPrintExit;
+
   :foreach Job in=[ / system script job find where script=$Script ] do={
     :set Job [ / system script job get $Job ];
     :while ([ :typeof ($Job->"parent") ] = "id") do={
       :set Job [ / system script job get [ find where .id=($Job->"parent") ] ];
     }
     :if (($Job->"type") = "login") do={
-      :log debug ("Script " . $Script . " started from terminal.");
+      $LogPrintExit debug ("Script " . $Script . " started from terminal.") false;
       :return true;
     }
   }
+  $LogPrintExit debug ("Script " . $Script . " NOT started from terminal.") false;
 
   :return false;
 }
