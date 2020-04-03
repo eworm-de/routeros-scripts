@@ -57,7 +57,9 @@
     :local CertNew [ / certificate find where common-name=($CertVal->"common-name") fingerprint!=[ :tostr ($CertVal->"fingerprint") ] expires-after>3w ];
     :local CertNewVal [ / certificate get $CertNew ];
 
-    $CertificateAvailable ([ $ParseKeyValueStore ($CertNewVal->"issuer") ]->"CN");
+    :if ([ $CertificateAvailable ([ $ParseKeyValueStore ($CertNewVal->"issuer") ]->"CN") ] = false) do={
+      $LogPrintExit warning ("The certificate chain is not available!") false;
+    }
 
     :if ($Cert != $CertNew) do={
       $LogPrintExit debug ("Certificate '" . $CertVal->"name" . "' was not updated, but replaced.") false;
