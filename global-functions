@@ -88,11 +88,12 @@
   :global ScriptUpdatesUrlSuffix;
 
   :global CertificateNameByCN;
+  :global LogPrintExit;
   :global UrlEncode;
   :global WaitForFile;
 
-  :log info ("Downloading and importing certificate with " . \
-      "CommonName \"" . $CommonName . "\".");
+  $LogPrintExit info ("Downloading and importing certificate with " . \
+      "CommonName \"" . $CommonName . "\".") false;
   :do {
     :local LocalFileName ($CommonName . ".pem");
     :local UrlFileName ([ $UrlEncode $CommonName ] . ".pem");
@@ -108,7 +109,7 @@
       $CertificateNameByCN [ / certificate get $Cert common-name ];
     }
   } on-error={
-    :log warning "Failed imprting certificate!";
+    $LogPrintExit warning ("Failed imprting certificate!") false;
     :return false;
   }
   :return true;
