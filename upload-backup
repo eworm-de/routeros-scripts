@@ -38,7 +38,7 @@
         user=$BackupUploadUser password=$BackupUploadPass src-path=($FileName . ".backup");
     :set BackupFile ($FileName . ".backup");
   } on-error={
-    :log error ("Uploading backup file failed!");
+    $LogPrintExit error ("Uploading backup file failed!") false;
     :set BackupFile "failed";
   }
 }
@@ -52,7 +52,7 @@
         user=$BackupUploadUser password=$BackupUploadPass src-path=($FileName . ".rsc");
     :set ConfigFile ($FileName . ".rsc");
   } on-error={
-    :log error ("Uploading configuration export failed!");
+    $LogPrintExit error ("Uploading configuration export failed!") false;
     :set ConfigFile "failed";
   }
 }
