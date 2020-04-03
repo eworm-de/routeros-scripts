@@ -47,16 +47,18 @@
   :local CommonName [ :tostr $1 ];
 
   :global CertificateDownload;
+  :global LogPrintExit;
   :global ParseKeyValueStore;
 
   :if ([ / system resource get free-hdd-space ] < 8388608 && \
        [ / certificate settings get crl-download ] = true && \
        [ / certificate settings get crl-store ] = "system") do={
-    :log warning "This system has low free flash space but is configured to download certificate CRLs to system!";
+    $LogPrintExit warning ("This system has low free flash space but " . \
+      "is configured to download certificate CRLs to system!") false;
   }
 
   :if ([ / certificate print count-only where common-name=$CommonName ] = 0) do={
-    :log info ("Certificate with CommonName \"" . $CommonName . "\" not available.");
+    $LogPrintExit info ("Certificate with CommonName \"" . $CommonName . "\" not available.") false;
     :if ([ $CertificateDownload $CommonName ] = false) do={
       :return false;
     }
@@ -66,7 +68,8 @@
   :local Issuer $CommonName;
   :do {
     :if ([ / certificate print count-only where common-name=$Issuer ] = 0) do={
-      :log info ("Certificate chain for \"" . $CommonName . "\" is incomplete, missing \"" . $Issuer . "\".");
+      $LogPrintExit info ("Certificate chain for \"" . $CommonName . \
+        "\" is incomplete, missing \"" . $Issuer . "\".") false;
       :if ([ $CertificateDownload $CommonName ] = false) do={
         :return false;
       }
