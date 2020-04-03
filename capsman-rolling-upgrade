@@ -6,6 +6,7 @@
 # upgrade CAPs one after another
 # https://git.eworm.de/cgit/routeros-scripts/about/doc/capsman-rolling-upgrade.md
 
+:global LogPrintExit;
 :global ScriptLock;
 
 $ScriptLock "capsman-rolling-upgrade";
@@ -18,8 +19,8 @@ $ScriptLock "capsman-rolling-upgrade";
   :if ($Delay > 120) do={ :set Delay 120; }
   :foreach RemoteCap in=[ / caps-man remote-cap find where version!=$InstalledVersion ] do={
     :local RemoteCapVal [ / caps-man remote-cap get $RemoteCap ];
-    :log info ("Starting upgrade for " . $RemoteCapVal->"name" . \
-        " (" . $RemoteCapVal->"identity" . ")...");
+    $LogPrintExit info ("Starting upgrade for " . $RemoteCapVal->"name" . \
+        " (" . $RemoteCapVal->"identity" . ")...") false;
     / caps-man remote-cap upgrade [ find where name=$RemoteCapVal->"name" ];
     :delay ($Delay . "s");
   }
