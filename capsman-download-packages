@@ -8,6 +8,8 @@
 
 :global CleanFilePath;
 :global DownloadPackage;
+:global LogPrintExit;
+:global MkDir;
 :global ScriptLock;
 
 $ScriptLock "capsman-download-packages";
@@ -15,6 +17,12 @@ $ScriptLock "capsman-download-packages";
 :local PackagePath [ $CleanFilePath [ / caps-man manager get package-path ] ];
 :local InstalledVersion [ / system package update get installed-version ];
 :local Updated false;
+
+:if ([ / file print count-only where name=$PackagePath type="directory" ] = 0) do={
+  $MkDir $PackagePath;
+  $LogPrintExit info ("Created directory at package path (" . $PackagePath . \
+    "). Please place your packages!") false;
+}
 
 :foreach Package in=[ / file find where type=package \
       package-version!=$InstalledVersion name~("^" . $PackagePath) ] do={
