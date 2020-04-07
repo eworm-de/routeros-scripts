@@ -75,7 +75,8 @@
   }
 
   $SendNotification ("RouterOS update \E2\9C\A8") \
-    ("There is a RouterOS update available.\n\n" . \
+    ("A new RouterOS version " . ($Update->"latest-version") . \
+      " is available for " . $Identity . ".\n\n" . \
       [ $DeviceInfo ] . "\n\n" . \
       "https://mikrotik.com/download/changelogs/" . $Update->"channel" . "-release-tree") \
     "" "true";
