@@ -6,10 +6,13 @@ Run rolling CAP upgrades from CAPsMAN
 Description
 -----------
 
-CAPsMAN can upgrate CAP devices. This script runs a rolling upgrade for
+CAPsMAN can upgrade CAP devices. This script runs a rolling upgrade for
 out-of-date CAP devices. The idea is to have just a fraction of devices
 reboot at a time, having the others to serve wireless connectivity.
 
+Note that the script does not wait for the CAPs to reconnect, it just defers
+the upgrade commands. The more CAPs you have the more will upgrade in
+parallel.
 
 Requirements and installation
 -----------------------------
