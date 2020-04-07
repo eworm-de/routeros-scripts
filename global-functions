@@ -229,6 +229,11 @@
   }
   :local PkgDest [ $CleanFilePath ($PkgDir . "/" . $PkgFile) ];
 
+  :if ([ / file print count-only where name=$PkgDest type="package" ] > 0) do={
+    $LogPrintExit info ("Package file alreasy exists.") false;
+    :return true;
+  }
+
   :if ([ $CertificateAvailable "Let's Encrypt Authority X3" ] = false) do={
     $LogPrintExit error ("Downloading required certificate failed.") true;
   }
