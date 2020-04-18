@@ -1,0 +1,22 @@
+#!rsc
+# RouterOS script: early-errors
+# Copyright (c) 2020 Christian Hesse <mail@eworm.de>
+#
+# send notification with early errors
+# https://git.eworm.de/cgit/routeros-scripts/about/doc/early-errors.md
+
+:global Identity;
+
+:global SendNotification;
+
+:local ErrCount [ / log print count-only where topics~"error" ];
+:if ($ErrCount > 0) do={
+  :local Message ("The log on " . $Identity . " contains " . $ErrCount . \
+    " errors after " . [ / system resource get uptime ] . " uptime.\n");
+  :foreach Log in=[ / log find where topics~"error" ] do={
+    :local LogVal [ / log get $Log ];
+    :set Message ($Message . "\n" . [ :tostr ($LogVal->"topics") ] . \
+      " " . ($LogVal->"message"));
+  }
+  $SendNotification ("\E2\9A\A0 Early errors") ($Message);
+}

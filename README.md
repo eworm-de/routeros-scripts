@@ -154,6 +154,7 @@ Available Scripts
 * [Use wireless network with daily psk](doc/daily-psk.md)
 * [Comment DHCP leases with info from access list](doc/dhcp-lease-comment.md)
 * [Create DNS records for DHCP leases](doc/dhcp-to-dns.md)
+* [Send notification with early errors](doc/early-errors.md)
 * [Send backup via e-mail](doc/email-backup.md)
 * [Wait for configuration und functions](doc/global-wait.md)
 * [Send GPS position to server](doc/gps-track.md)
