@@ -22,6 +22,7 @@
 :global CertificateNameByCN;
 :global CharacterReplace;
 :global CleanFilePath;
+:global DefaultRouteIsReachable;
 :global DeviceInfo;
 :global DownloadPackage;
 :global GetMacVendor;
@@ -162,6 +163,14 @@
   }
 
   :return $Path;
+}
+
+# default route is reachable
+:set DefaultRouteIsReachable do={
+  :if ([ / ip route print count-only where dst-address=0.0.0.0/0 !unreachable active !routing-mark ] > 0) do={
+    :return true;
+  }
+  :return false;
 }
 
 # get readable device info
