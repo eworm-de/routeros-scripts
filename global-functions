@@ -640,9 +640,16 @@
 
 # check if system time is sync
 :set TimeIsSync do={
-  :if ([ / system ntp client get enabled ] = true && \
-       [ / system ntp client get status ] = "synchronized") do={
-    :return true;
+  :if ([ / system ntp client get enabled ] = true) do={
+    :do {
+      :if ([ / system ntp client get status ] = "synchronized") do={
+        :return true;
+      }
+    } on-error={
+      :if ([ :typeof [ / system ntp client get last-adjustment ] ] = "time") do={
+        :return true;
+      }
+    }
   }
 
   :if ([ / ip cloud get update-time ] = true && \
