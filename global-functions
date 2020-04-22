@@ -40,6 +40,7 @@
 :global SendTelegram;
 :global TimeIsSync;
 :global UrlEncode;
+:global WaitDefaultRouteReachable;
 :global WaitForFile;
 :global WaitTimeSync;
 
@@ -692,6 +693,15 @@
   }
 
   :return $Return;
+}
+
+# wait for default route to be reachable
+:set WaitDefaultRouteReachable do={
+  :global DefaultRouteIsReachable;
+
+  :while ([ $DefaultRouteIsReachable ] = false) do={
+    :delay 1s;
+  }
 }
 
 # wait for file to be available
