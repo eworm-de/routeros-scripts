@@ -124,7 +124,8 @@
   :global CharacterReplace;
 
   :local Cert [ / certificate find where common-name=$CommonName ];
-  / certificate set $Cert name=[ $CharacterReplace [ $CharacterReplace $CommonName " " "-" ] "---" "-" ];
+  / certificate set $Cert \
+    name=[ $CharacterReplace [ $CharacterReplace [ $CharacterReplace $CommonName "'" "-" ] " " "-" ] "---" "-" ];
 }
 
 # character replace
