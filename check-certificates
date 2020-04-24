@@ -24,7 +24,7 @@
 }
 
 :if ($TimeIsSync = false) do={
-  $LogPrintExit warning "Time is not yet synchronized." true;
+  $LogPrintExit warning ("Time is not yet synchronized.") true;
 }
 
 :foreach Cert in=[ / certificate find where !revoked !ca !scep-url expires-after<3w ] do={
@@ -32,7 +32,7 @@
 
   :do {
     :if ([ :len $CertRenewUrl ] = 0) do={
-      $LogPrintExit warning "No CertRenewUrl given." true;
+      $LogPrintExit warning ("No CertRenewUrl given.") true;
     }
 
     :foreach Type in={ ".pem"; ".p12" } do={
