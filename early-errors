@@ -9,11 +9,12 @@
 
 :global SendNotification;
 
-:local ErrCount [ / log print count-only where topics~"error" ];
+:local Errors [ / log find where topics~"error" ];
+:local ErrCount [ :len $Errors ];
 :if ($ErrCount > 0) do={
   :local Message ("The log on " . $Identity . " contains " . $ErrCount . \
     " errors after " . [ / system resource get uptime ] . " uptime.\n");
-  :foreach Log in=[ / log find where topics~"error" ] do={
+  :foreach Log in=$Errors do={
     :local LogVal [ / log get $Log ];
     :set Message ($Message . "\n" . [ :tostr ($LogVal->"topics") ] . \
       " " . ($LogVal->"message"));
