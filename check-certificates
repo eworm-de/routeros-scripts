@@ -100,21 +100,25 @@
 :foreach Cert in=[ / certificate find where !revoked !scep-url expires-after<2w fingerprint~"." ] do={
   :local CertVal [ / certificate get $Cert ];
 
-  :local ExpiresAfter [ $FormatExpire ($CertVal->"expires-after") ];
-  :local State "is about to expire";
-  :if (($CertVal->"expired") = true) do={
-    :set ExpiresAfter "expired";
-    :set State "expired";
-  }
+  :if ([ / certificate scep-server print count-only where ca-cert=($CertVal->"ca") ] > 0) do={
+    $LogPrintExit debug ("Certificate \"" . ($CertVal->"name") . "\" is handled by SCEP, skipping.") false;
+  } else={
+    :local ExpiresAfter [ $FormatExpire ($CertVal->"expires-after") ];
+    :local State "is about to expire";
+    :if (($CertVal->"expired") = true) do={
+      :set ExpiresAfter "expired";
+      :set State "expired";
+    }
 
-  $SendNotification ("Certificate warning!") \
-    ("A certificate on " . $Identity . " " . $State . ".\n\n" . \
-      "Name:        " . ($CertVal->"name") . "\n" . \
-      "CommonName:  " . ($CertVal->"common-name") . "\n" . \
-      "Fingerprint: " . ($CertVal->"fingerprint") . "\n" . \
-      "Issuer:      " . ($CertVal->"ca") . ([ $ParseKeyValueStore ($CertVal->"issuer") ]->"CN") . "\n" . \
-      "Validity:    " . ($CertVal->"invalid-before") . " to " . ($CertVal->"invalid-after") . "\n" . \
-      "Expires in:  " . $ExpiresAfter);
-  $LogPrintExit warning ("The certificate " . ($CertVal->"name") . " " . $State . \
-      ", it is invalid after " . ($CertVal->"invalid-after") . ".") false;
+    $SendNotification ("Certificate warning!") \
+      ("A certificate on " . $Identity . " " . $State . ".\n\n" . \
+        "Name:        " . ($CertVal->"name") . "\n" . \
+        "CommonName:  " . ($CertVal->"common-name") . "\n" . \
+        "Fingerprint: " . ($CertVal->"fingerprint") . "\n" . \
+        "Issuer:      " . ($CertVal->"ca") . ([ $ParseKeyValueStore ($CertVal->"issuer") ]->"CN") . "\n" . \
+        "Validity:    " . ($CertVal->"invalid-before") . " to " . ($CertVal->"invalid-after") . "\n" . \
+        "Expires in:  " . $ExpiresAfter);
+    $LogPrintExit warning ("The certificate " . ($CertVal->"name") . " " . $State . \
+        ", it is invalid after " . ($CertVal->"invalid-after") . ".") false;
+  }
 }
