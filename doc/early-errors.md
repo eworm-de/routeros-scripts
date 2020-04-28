@@ -19,9 +19,9 @@ notification.
 Requirements and installation
 -----------------------------
 
-Just install the script:
+Just install this script and [global-wait](global-wait.md):
 
-    $ScriptInstallUpdate early-errors;
+    $ScriptInstallUpdate early-errors,global-wait;
 
 ... and add a scheduler:
 
