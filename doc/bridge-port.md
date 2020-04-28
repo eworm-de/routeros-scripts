@@ -36,6 +36,7 @@ There is also global configuration:
 Install [global-wait](global-wait.md) and add a scheduler to start with
 default setup on system startup:
 
+    $ScriptInstallUpdate global-wait;
     / system scheduler add name=bridge-port-to-default on-event="/ system script { run global-wait; run bridge-port-to-default; }" start-time=startup;
 
 Usage and invocation
