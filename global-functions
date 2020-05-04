@@ -491,9 +491,11 @@
               dont-require-permissions=$DontRequirePermissions $Script;
           :if ($ScriptVal->"name" = "global-config" && \
                [ / system script print count-only where name="global-config-overlay" ] > 0) do={
+            $LogPrintExit info ("Reloading global configuration and overlay.") false;
             / system script { run global-config; run global-config-overlay; }
           }
           :if ($ScriptVal->"name" = "global-functions") do={
+            $LogPrintExit info ("Reloading global functions.") false;
             / system script run global-functions;
           }
         } else={
