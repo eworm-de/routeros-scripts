@@ -15,13 +15,10 @@ to manage RouterOS devices or extend their functionality.
 Requirements
 ------------
 
-Latest version of the scripts require at least **RouterOS 6.43** to function
-properly. The changelog lists the corresponding change as follows:
+Latest version of the scripts require recent RouterOS to function properly.
+Make sure to install latest updates before you begin.
 
-> *) fetch - added "as-value" output format;
-
-Specific scripts may require even newer RouterOS version, for example cloud
-backup was added in 6.44.
+Specific scripts may require even newer RouterOS version.
 
 Initial setup
 -------------
