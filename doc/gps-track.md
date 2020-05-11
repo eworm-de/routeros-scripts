@@ -29,6 +29,9 @@ The configuration goes to `global-config-overlay`, the only parameter is:
 
 * `GpsTrackUrl`: the url to send json data to
 
+The configured coordinate format (see `/ system gps`) defines the format
+sent to the server.
+
 ---
 [◀ Go back to main README](../README.md)  
 [▲ Go back to top](#top)
