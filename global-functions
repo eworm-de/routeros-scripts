@@ -331,7 +331,6 @@
 # check if mail server is up
 :set MailServerIsUp do={
   :local MailServer [ / tool e-mail get address ];
-  :local MailHost $MailServer;
 
   :global LogPrintExit;
 
