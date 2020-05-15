@@ -730,7 +730,7 @@
 
   :while ([ $TimeIsSync ] = false) do={
     :if ([ / system script print count-only where name="rotate-ntp" ] > 0 && \
-         [ :tostr [ / system resource get uptime ] ] ~ "00\$") do={
+         [ :tostr [ / system resource get uptime ] ] ~ "[369]:00\$") do={
       :do {
         / system script run rotate-ntp;
       } on-error={
