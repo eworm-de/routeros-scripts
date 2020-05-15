@@ -9,11 +9,18 @@
 
 :global LogPrintExit;
 
-:local Ntp1 [ :resolve ("0." . $NtpPool) ];
-:local Ntp2 [ :resolve ("1." . $NtpPool) ];
+:local Ntp1;
+:local Ntp2;
 
 :if ([ / system ntp client get enabled ] != true) do={
   $LogPrintExit warning "NTP client is not enabled!" true;
+}
+
+:do {
+  :set Ntp1 [ :resolve ("0." . $NtpPool) ];
+  :set Ntp2 [ :resolve ("1." . $NtpPool) ];
+} on-error={
+  $LogPrintExit warning "Resolving NTP server failed." true;
 }
 
 $LogPrintExit info ("Updating NTP servers to " . $Ntp1 . " and " . $Ntp2) false;
