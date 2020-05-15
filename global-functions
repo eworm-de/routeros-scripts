@@ -341,7 +341,7 @@
     :if ([ :typeof [ :toip $MailHost ] ] != "ip" ) do={
       :set MailHost [ :resolve $MailServer ];
     }
-    / tool netwatch add comment=$MailServer host=[ :resolve $MailServer ];
+    / tool netwatch add comment=$MailServer host=$MailHost;
   }
 
   :if ([ / tool netwatch get [ find where comment=$MailServer ] status ] = "up") do={
