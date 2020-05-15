@@ -338,7 +338,12 @@
     $LogPrintExit warning ("Adding netwatch entry for mail server.") false;
     :local MailHost $MailServer;
     :if ([ :typeof [ :toip $MailHost ] ] != "ip" ) do={
-      :set MailHost [ :resolve $MailServer ];
+      :do {
+        :set MailHost [ :resolve $MailServer ];
+      } on-error={
+        $LogPrintExit warning ("Resolving mail server failed.") false;
+        :return false;
+      }
     }
     / tool netwatch add comment=$MailServer host=$MailHost;
   }
