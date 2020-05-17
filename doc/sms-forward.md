@@ -24,7 +24,10 @@ Just install the script:
 Configuration
 -------------
 
-Notification settings are required for e-mail and telegram.
+Notification settings are required for e-mail and telegram. Also you have
+to enable receiving of SMS:
+
+    / tool sms set receive-enabled=yes;
 
 See also
 --------
