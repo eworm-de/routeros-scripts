@@ -730,6 +730,7 @@
 
 # wait for time to become synced
 :set WaitTimeSync do={
+  :global LogPrintExit;
   :global TimeIsSync;
 
   :while ([ $TimeIsSync ] = false) do={
@@ -738,7 +739,7 @@
       :do {
         / system script run rotate-ntp;
       } on-error={
-        # catch error and fall through
+        $LogPrintExit debug ("Running rotate-ntp failed.") false;
       }
     }
     :delay 1s;
