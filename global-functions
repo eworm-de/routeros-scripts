@@ -261,7 +261,7 @@
         :return true;
       }
     } on-error={
-      # catch error and fall through
+      $LogPrintExit debug ("Downloading package failed.") false;
     }
 
     / file remove [ find where name=$PkgDest ];
