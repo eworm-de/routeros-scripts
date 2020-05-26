@@ -42,6 +42,7 @@
 :global TimeIsSync;
 :global UrlEncode;
 :global WaitDefaultRouteReachable;
+:global WaitDNSResolving;
 :global WaitForFile;
 :global WaitTimeSync;
 
@@ -718,6 +719,15 @@
   :global DefaultRouteIsReachable;
 
   :while ([ $DefaultRouteIsReachable ] = false) do={
+    :delay 1s;
+  }
+}
+
+# wait for DNS to resolve
+:set WaitDNSResolving do={
+  :global DNSIsResolving;
+
+  :while ([ $DNSIsResolving ] = false) do={
     :delay 1s;
   }
 }
