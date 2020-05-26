@@ -24,6 +24,7 @@
 :global CleanFilePath;
 :global DefaultRouteIsReachable;
 :global DeviceInfo;
+:global DNSIsResolving;
 :global DownloadPackage;
 :global GetMacVendor;
 :global GetRandom;
@@ -216,6 +217,16 @@
   }
 
   :return $Info;
+}
+
+# check if DNS is resolving
+:set DNSIsResolving do={
+  :do {
+    :resolve mikrotik.com;
+    :return true;
+  } on-error={
+    :return false;
+  }
 }
 
 # download package from upgrade server
