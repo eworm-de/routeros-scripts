@@ -44,6 +44,7 @@
 :global WaitDefaultRouteReachable;
 :global WaitDNSResolving;
 :global WaitForFile;
+:global WaitFullyConnected;
 :global WaitTimeSync;
 
 # check and download required certificate
@@ -747,6 +748,17 @@
     :set I ($I + 1);
   }
   :return true;
+}
+
+# wait to be fully connected (default route is reachable, time is sync, DNS resolves)
+:set WaitFullyConnected do={
+  :global WaitDefaultRouteReachable;
+  :global WaitDNSResolving;
+  :global WaitTimeSync;
+
+  $WaitDefaultRouteReachable;
+  $WaitTimeSync;
+  $WaitDNSResolving;
 }
 
 # wait for time to become synced
