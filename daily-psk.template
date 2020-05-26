@@ -16,8 +16,9 @@
 :global SendNotification;
 :global UrlEncode;
 :global WaitForFile;
+:global WaitFullyConnected;
 
-:local Seen [ :toarray "" ];
+$WaitFullyConnected;
 
 # return pseudo-random string for PSK
 :local GeneratePSK do={
@@ -49,6 +50,7 @@
     ($DailyPskSecrets->2->$WeekDay));
 }
 
+:local Seen [ :toarray "" ];
 :local Date [ / system clock get date ];
 :local NewPsk [ $GeneratePSK $Date ];
 

@@ -28,7 +28,7 @@ For local interface:
 And add schedulers to run the script:
 
     / system scheduler add interval=1d name=daily-psk-nightly on-event="/ system script run daily-psk.local;" start-date=may/23/2018 start-time=03:00:00;
-    / system scheduler add name=daily-psk-startup on-event=":global WaitFullyConnected; / system script { run global-wait; \$WaitFullyConnected; run daily-psk.local; }" start-time=startup;
+    / system scheduler add name=daily-psk-startup on-event="/ system script { run global-wait; run daily-psk.local; }" start-time=startup;
 
 These will update the passphrase on boot and nightly at 3:00.
 
