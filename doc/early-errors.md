@@ -25,7 +25,7 @@ Just install this script and [global-wait](global-wait.md):
 
 ... and add a scheduler:
 
-    / system scheduler add name=early-erros on-event=":global WaitTimeSync; / system script { run global-wait; \$WaitTimeSync; run early-errors; }" start-time=startup;
+    / system scheduler add name=early-erros on-event=":global WaitFullyConnected; / system script { run global-wait; \$WaitFullyConnected; run early-errors; }" start-time=startup;
 
 Configuration
 -------------
