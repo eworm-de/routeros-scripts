@@ -25,6 +25,10 @@ A scheduler cares about cleanup:
 Configuration
 -------------
 
+On first run a disabled static dns record acting as marker (with comment
+"`--- dhcp-to-dns above ---`") is added. Move this entry to define where new
+entries are to be added.
+
 The configuration goes to `global-config-overlay`, these are the parameters:
 
 * `Domain`: the domain used for dns records
