@@ -27,7 +27,7 @@
 :global DNSIsResolving;
 :global DownloadPackage;
 :global GetMacVendor;
-:global GetRandom;
+:global GetRandomNumber;
 :global GetRandomSha256;
 :global LogPrintExit;
 :global MailServerIsUp;
@@ -307,7 +307,7 @@
 # generate random number
 # Warning: This is a *very* weak algorithm and in *no way*
 # useful for cryptography or similar!
-:set GetRandom do={
+:set GetRandomNumber do={
   :local Max ([ :tonum $1 ] + 1);
   :local Sum 0;
 
@@ -415,9 +415,9 @@
 
 # delay a random amount of seconds
 :set RandomDelay do={
-  :global GetRandom;
+  :global GetRandomNumber;
 
-  :delay ([ $GetRandom $1 ] . "s");
+  :delay ([ $GetRandomNumber $1 ] . "s");
 }
 
 # check if script is run from terminal
