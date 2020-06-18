@@ -28,6 +28,7 @@
 :global DownloadPackage;
 :global GetMacVendor;
 :global GetRandom;
+:global GetRandomSha256;
 :global LogPrintExit;
 :global MailServerIsUp;
 :global MkDir;
@@ -314,6 +315,17 @@
     :set Sum ($Sum + [ /interface get $Interface tx-byte ]);
   }
   :return ($Sum % $Max);
+}
+
+# generate random sha256 string
+# returns 64 bytes of 0-9 and a-f
+:set GetRandomSha256 do={
+  :local FingerPrint;
+  / certificate add name=GetRandomSha256-template common-name=GetRandomSha256 key-size=prime256v1;
+  / certificate sign GetRandomSha256-template name=GetRandomSha256 without-paging as-value;
+  :set FingerPrint [ / certificate get GetRandomSha256 fingerprint ];
+  / certificate remove GetRandomSha256;
+  :return $FingerPrint;
 }
 
 # log and print with same text, optionally exit
