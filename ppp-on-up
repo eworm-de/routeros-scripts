@@ -1,6 +1,7 @@
 #!rsc
 # RouterOS script: ppp-on-up
 # Copyright (c) 2013-2020 Christian Hesse <mail@eworm.de>
+# https://git.eworm.de/cgit/routeros-scripts/about/COPYING.md
 #
 # run scripts on ppp up
 # https://git.eworm.de/cgit/routeros-scripts/about/doc/ppp-on-up.md

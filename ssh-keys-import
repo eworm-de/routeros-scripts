@@ -1,6 +1,7 @@
 #!rsc
 # RouterOS script: ssh-keys-import
 # Copyright (c) 2013-2020 Christian Hesse <mail@eworm.de>
+# https://git.eworm.de/cgit/routeros-scripts/about/COPYING.md
 #
 # import ssh keys from file
 # https://git.eworm.de/cgit/routeros-scripts/about/doc/ssh-keys-import.md

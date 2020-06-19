@@ -1,6 +1,7 @@
 #!rsc
 # RouterOS script: gps-track
 # Copyright (c) 2018-2020 Christian Hesse <mail@eworm.de>
+# https://git.eworm.de/cgit/routeros-scripts/about/COPYING.md
 #
 # track gps data by sending json data to http server
 # https://git.eworm.de/cgit/routeros-scripts/about/doc/gps-track.md

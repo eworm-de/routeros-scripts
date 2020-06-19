@@ -1,6 +1,7 @@
 #!rsc
 # RouterOS script: lease-script
 # Copyright (c) 2013-2020 Christian Hesse <mail@eworm.de>
+# https://git.eworm.de/cgit/routeros-scripts/about/COPYING.md
 #
 # run scripts on DHCP lease
 # https://git.eworm.de/cgit/routeros-scripts/about/doc/lease-script.md

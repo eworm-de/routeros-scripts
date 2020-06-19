@@ -1,6 +1,7 @@
 #!rsc
 # RouterOS script: accesslist-duplicates.capsman
 # Copyright (c) 2018-2020 Christian Hesse <mail@eworm.de>
+# https://git.eworm.de/cgit/routeros-scripts/about/COPYING.md
 #
 # print duplicate antries in wireless access list
 # https://git.eworm.de/cgit/routeros-scripts/about/doc/accesslist-duplicates.md

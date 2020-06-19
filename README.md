@@ -10,7 +10,8 @@ by [MikroTik](https://mikrotik.com/aboutus) for networking tasks. This
 repository holds a number of [scripts](https://wiki.mikrotik.com/wiki/Manual:Scripting)
 to manage RouterOS devices or extend their functionality.
 
-*Use at your own risk!*
+*Use at your own risk*, pay attention to
+[license and warranty](#license-and-warranty)!
 
 Requirements
 ------------
@@ -202,6 +203,19 @@ business please consider to
 [![donate with PayPal](https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=A4ZXBD6YS2W8J)
 
 Thanks a lot for your support!
+
+License and warranty
+--------------------
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+[GNU General Public License](COPYING.md) for more details.
 
 Upstream
 --------

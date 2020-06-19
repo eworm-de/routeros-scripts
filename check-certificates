@@ -1,6 +1,7 @@
 #!rsc
 # RouterOS script: check-certificates
 # Copyright (c) 2013-2020 Christian Hesse <mail@eworm.de>
+# https://git.eworm.de/cgit/routeros-scripts/about/COPYING.md
 #
 # check for certificate validity
 # https://git.eworm.de/cgit/routeros-scripts/about/doc/check-certificates.md
