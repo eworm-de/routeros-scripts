@@ -30,6 +30,7 @@
 :global GetMacVendor;
 :global GetRandomNumber;
 :global GetRandomSha256;
+:global IPCalc;
 :global LogPrintExit;
 :global MailServerIsUp;
 :global MkDir;
@@ -333,6 +334,22 @@
   :set FingerPrint [ / certificate get GetRandomSha256 fingerprint ];
   / certificate remove GetRandomSha256;
   :return $FingerPrint;
+}
+
+# calculate and print netmask, network, min host, max host and broadcast
+:set IPCalc do={
+  :local Input [ :tostr $1 ];
+  :local Address [ :toip [ :pick $Input 0 [ :find $Input "/" ] ] ];
+  :local Bits [ :tonum [ :pick $Input ([ :find $Input "/" ] + 1) [ :len $Input ] ] ];
+  :local Mask ((255.255.255.255 << (32 - $Bits)) & 255.255.255.255);
+
+  :put ( \
+    "Address:   " . $Address . "\n\r" . \
+    "Netmask:   " . $Mask . "\n\r" . \
+    "Network:   " . ($Address & $Mask) . "/" . $Bits . "\n\r" . \
+    "HostMin:   " . (($Address & $Mask) | 0.0.0.1) . "\n\r" . \
+    "HostMax:   " . (($Address | ~$Mask) ^ 0.0.0.1) . "\n\r" . \
+    "Broadcast: " . ($Address | ~$Mask));
 }
 
 # log and print with same text, optionally exit
