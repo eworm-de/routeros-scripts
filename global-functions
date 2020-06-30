@@ -13,9 +13,6 @@
 # global variables not to be changed by user
 :global GlobalFunctionsReady false;
 :global Identity [ / system identity get name ];
-:global SentConfigChangesNotification "-";
-:global SentLteFirmwareUpgradeNotification "-";
-:global SentRouterosUpdateNotification "-";
 
 # global functions
 :global CertificateAvailable;
