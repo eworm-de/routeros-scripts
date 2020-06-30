@@ -308,7 +308,7 @@
 
 # generate random number
 :set GetRandomNumber do={
-  :local Max 4294967296;
+  :local Max 4294967295;
   :if ([ :typeof $1 ] != "nothing" ) do={
     :set Max ([ :tonum $1 ] + 1);
   }
