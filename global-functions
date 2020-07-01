@@ -431,8 +431,12 @@
   }
   :local Result [ :toarray "" ];
   :foreach KeyValue in=[ :toarray $Source ] do={
-    :set KeyValue [ :toarray [ $CharacterReplace $KeyValue "=" "," ] ];
-    :set ($Result->($KeyValue->0)) ($KeyValue->1);
+    :if ([ :find $KeyValue "=" ]) do={
+      :set KeyValue [ :toarray [ $CharacterReplace $KeyValue "=" "," ] ];
+      :set ($Result->($KeyValue->0)) ($KeyValue->1);
+    } else={
+      :set ($Result->$KeyValue) true;
+    }
   }
   :return $Result;
 }
