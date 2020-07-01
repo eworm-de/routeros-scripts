@@ -527,9 +527,13 @@
       :if ($Ignore = 0) do={
         $LogPrintExit debug ("Fetching script from url: " . $ScriptVal->"name") false;
         :do {
+          :local BaseUrl $ScriptUpdatesBaseUrl;
+          :local UrlSuffix $ScriptUpdatesUrlSuffix;
+          :if ([ :typeof ($Comment->"base-url") ] = "str") do={ :set BaseUrl ($Comment->"base-url"); }
+          :if ([ :typeof ($Comment->"url-suffix") ] = "str") do={ :set UrlSuffix ($Comment->"url-suffix"); }
+
           :local Result [ / tool fetch check-certificate=yes-without-crl \
-              ($ScriptUpdatesBaseUrl . $ScriptVal->"name" . $ScriptUpdatesUrlSuffix) \
-              output=user as-value ];
+              ($BaseUrl . $ScriptVal->"name" . $UrlSuffix) output=user as-value ];
           :if ($Result->"status" = "finished") do={
             :set SourceNew ($Result->"data");
           }
