@@ -423,8 +423,6 @@
 
 # parse key value store
 :set ParseKeyValueStore do={
-  :global CharacterReplace;
-
   :local Source $1;
   :if ([ :typeof $Source ] != "array") do={
     :set Source [ :tostr $1 ];
@@ -432,8 +430,8 @@
   :local Result [ :toarray "" ];
   :foreach KeyValue in=[ :toarray $Source ] do={
     :if ([ :find $KeyValue "=" ]) do={
-      :set KeyValue [ :toarray [ $CharacterReplace $KeyValue "=" "," ] ];
-      :set ($Result->($KeyValue->0)) ($KeyValue->1);
+      :set ($Result->[ :pick $KeyValue 0 [ :find $KeyValue "=" ] ]) \
+        [ :pick $KeyValue ([ :find $KeyValue "=" ] + 1) [ :len $KeyValue ] ];
     } else={
       :set ($Result->$KeyValue) true;
     }
