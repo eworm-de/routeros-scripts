@@ -482,6 +482,7 @@
   :global SentConfigChangesNotification;
 
   :global LogPrintExit;
+  :global ParseKeyValueStore;
   :global SendNotification;
 
   :foreach Script in=$Scripts do={
@@ -520,6 +521,8 @@
       :foreach IgnoreLoop in=$ScriptUpdatesIgnore do={
         :if ($IgnoreLoop = $ScriptVal->"name") do={ :set Ignore 1; }
       }
+      :local Comment [ $ParseKeyValueStore ($ScriptVal->"comment") ];
+      :if ($Comment->"ignore" = true) do={ :set Ignore 1; }
 
       :if ($Ignore = 0) do={
         $LogPrintExit debug ("Fetching script from url: " . $ScriptVal->"name") false;
