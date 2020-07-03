@@ -28,8 +28,7 @@
     :delay 1s;
   }
 
-  :local Parsed [ :parse $Code ];
-  $Parsed;
+  [ :parse $Code ];
 } else={
   $LogPrintExit info ("No action defined for " . $Count . " mode-button presses.") false;
 }
