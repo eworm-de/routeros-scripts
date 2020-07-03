@@ -9,15 +9,17 @@
 :global Domain;
 :global HostNameInZone;
 :global Identity;
+:global PrefixInZone;
 
 :global CharacterReplace;
 :global LogPrintExit;
 
-:local Zone;
+:local Zone $Domain;
 :if ($HostNameInZone = true) do={
-  :set Zone ("dhcp." . $Identity . "." . $Domain);
-} else={
-  :set Zone ("dhcp." . $Domain);
+  :set Zone ($Identity . "." . $Zone);
+}
+:if ($PrefixInZone = true) do={
+  :set Zone ("dhcp." . $Zone);
 }
 :local Ttl 5m;
 :local CommentPrefix "managed by dhcp-to-dns for ";

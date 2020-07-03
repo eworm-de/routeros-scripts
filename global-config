@@ -13,6 +13,7 @@
 # This is used for DNS and backup file.
 :global Domain "example.com";
 :global HostNameInZone true;
+:global PrefixInZone true;
 
 # These addresses are used to send e-mails to. The to-address needs
 # to be filled; cc-address can be empty, one address or a comma
