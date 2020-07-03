@@ -18,7 +18,8 @@
 
 :foreach Host in=[ / tool netwatch find where comment~"^notify," ] do={
   :local HostVal [ / tool netwatch get $Host ];
-  :local HostName ([ $ParseKeyValueStore ($HostVal->"comment") ]->"hostname");
+  :local HostInfo [ $ParseKeyValueStore ($HostVal->"comment") ];
+  :local HostName ($HostInfo->"hostname");
 
   :local Metric { "count"=0; "notified"=false };
   :if ([ :typeof ($NetwatchNotify->$HostName) ] = "array") do={
@@ -43,6 +44,10 @@
       $SendNotification ("Netwatch Notify: \E2\9D\8C " . $HostName . " down") \
         ("Host " . $HostName . " (" . $HostVal->"host" . ") is down since " . $HostVal->"since" . ".");
       :set ($Metric->"notified") true;
+      :if ([ :typeof ($HostInfo->"down-hook") ] = "str") do={
+        $LogPrintExit info ("Running hook on host " . $HostName . " down: " . ($HostInfo->"down-hook")) false;
+        [ :parse ($HostInfo->"down-hook") ];
+      }
     }
   }
   :set ($NetwatchNotify->$HostName) { "count"=($Metric->"count"); "notified"=($Metric->"notified") };
