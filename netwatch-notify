@@ -34,6 +34,10 @@
       $SendNotification ("Netwatch Notify: \E2\9C\85 " . $HostName . " up") \
         ("Host " . $HostName . " (" . $HostVal->"host" . ") is up since " . $HostVal->"since" . ".\n" . \
         "It was down for " . $Count . " checks.");
+      :if ([ :typeof ($HostInfo->"up-hook") ] = "str") do={
+        $LogPrintExit info ("Running hook on host " . $HostName . " up: " . ($HostInfo->"up-hook")) false;
+        [ :parse ($HostInfo->"up-hook") ];
+      }
     }
     :set ($Metric->"notified") false;
   } else={
