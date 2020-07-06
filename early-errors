@@ -13,7 +13,8 @@
 
 $WaitFullyConnected;
 
-:local Errors [ / log find where (topics~"error" or topics~"critical") !(topics~"e-mail") !(topics~"dns") ];
+:local Errors [ / log find where (topics~"error" or topics~"critical") \
+  !(topics~"certificate") !(topics~"dns") !(topics~"e-mail") ];
 :local ErrCount [ :len $Errors ];
 :if ($ErrCount > 0) do={
   :local Message ("The log on " . $Identity . " contains " . $ErrCount . \
