@@ -41,6 +41,7 @@
 :global SendTelegram;
 :global TimeIsSync;
 :global UrlEncode;
+:global VersionToNum;
 :global WaitDefaultRouteReachable;
 :global WaitDNSResolving;
 :global WaitForFile;
@@ -755,6 +756,35 @@
       }
       :set Return ($Return . $Char);
     }
+  }
+
+  :return $Return;
+}
+
+# convert version string to numeric value
+:set VersionToNum do={
+  :local Input [ :tostr $1 ];
+  :local Multi 0x1000000;
+  :local Return 0;
+
+  :global CharacterReplace;
+
+  :set Input [ $CharacterReplace [ $CharacterReplace [ $CharacterReplace $Input \
+    "." "," ] "beta" ",beta," ] "rc" ",rc," ];
+
+  :foreach Value in=([ :toarray $Input ], 0) do={
+    :local Num [ :tonum $Value ];
+    :if ($Multi = 0x100) do={
+      :if ([ :typeof $Num ] = "num") do={
+        :set Return ($Return + 0xff00);
+        :set Multi ($Multi / 0x100);
+      } else={
+        :if ($Value = "beta") do={ :set Return ($Return + 0x3f00); }
+        :if ($Value = "rc") do={ :set Return ($Return + 0x7f00); }
+      }
+    }
+    :if ([ :typeof $Num ] = "num") do={ :set Return ($Return + ($Value * $Multi)); }
+    :set Multi ($Multi / 0x100);
   }
 
   :return $Return;
