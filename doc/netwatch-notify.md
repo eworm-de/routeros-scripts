@@ -29,6 +29,12 @@ The hosts to be checked have to be added to netwatch with specific comment:
 
     / tool netwatch add comment="notify, hostname=example.com" host=[ :resolve "example.com" ] timeout=5s;
 
+It is possible to run an up hook command (`up-hook`) or down hook command
+(`down-hook`) when a notification is triggered. This has to be added in
+comment:
+
+    / tool netwatch add comment="notify, hostname=poe-device, down-hook=/ interface ethernet poe power-cycle en21;" host=10.0.0.20 timeout=5s;
+
 Also notification settings are required for e-mail and telegram.
 
 ---
