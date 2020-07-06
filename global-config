@@ -46,6 +46,8 @@
 # The configured channel (bugfix, current, release-candidate) is appended.
 :global SafeUpdateUrl "";
 #:global SafeUpdateUrl "https://example.com/ros/safe-update/";
+# Allow to install patch updates automatically.
+:global SafeUpdatePatch false;
 
 # These thresholds control when to send health notification
 # on temperature and voltage.
