@@ -44,12 +44,11 @@
   $LogPrintExit warning "An empty string is not a valid version." true;
 }
 
-:if ($Update->"installed-version" != $Update->"latest-version") do={
-  :local NumInstalled [ $VersionToNum ($Update->"installed-version") ];
-  :local NumLatest [ $VersionToNum ($Update->"latest-version") ];
+:local NumInstalled [ $VersionToNum ($Update->"installed-version") ];
+:local NumLatest [ $VersionToNum ($Update->"latest-version") ];
 
-  :if ($SafeUpdatePatch = true && $NumInstalled < $NumLatest && \
-      ($NumInstalled & 0xffff0000) = ($NumLatest & 0xffff0000)) do={
+:if ($NumInstalled < $NumLatest) do={
+  :if ($SafeUpdatePatch = true && ($NumInstalled & 0xffff0000) = ($NumLatest & 0xffff0000)) do={
     $LogPrintExit info ("Version " . $Update->"latest-version" . " is a patch release, updating...") false;
     $SendNotification ("RouterOS update") \
         ("Version " . $Update->"latest-version" . " is a patch update for " . $Update->"channel" . \
@@ -92,6 +91,16 @@
   $SendNotification ("RouterOS update \E2\9C\A8") \
     ("A new RouterOS version " . ($Update->"latest-version") . \
       " is available for " . $Identity . ".\n\n" . \
+      [ $DeviceInfo ] . "\n\n" . \
+      "https://mikrotik.com/download/changelogs/" . $Update->"channel" . "-release-tree") \
+    "" "true";
+  :set SentRouterosUpdateNotification ($Update->"latest-version");
+}
+
+:if ($NumInstalled > $NumLatest) do={
+  $SendNotification ("RouterOS version") \
+    ("A different RouterOS version " . ($Update->"latest-version") . \
+      " is available for " . $Identity . ", but it is a downgrade.\n\n" . \
       [ $DeviceInfo ] . "\n\n" . \
       "https://mikrotik.com/download/changelogs/" . $Update->"channel" . "-release-tree") \
     "" "true";
