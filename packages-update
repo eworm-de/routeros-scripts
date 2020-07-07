@@ -48,8 +48,12 @@ $ScriptLock "packages-update";
   }
 }
 
-:foreach Script in=[ / system script find where name~"^(email|upload)-backup\$" ] do={
-  / system script run $Script;
+:foreach Script in=[ / system script find where name~"^(cloud|email|upload)-backup\$" ] do={
+  :do {
+    / system script run $Script;
+  } on-error={
+    $LogPrintExit warning ("Running backup script " . $Script . " failed.") false;
+  }
 }
 
 :if ($DoDowngrade = true) do={
