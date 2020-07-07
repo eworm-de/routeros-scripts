@@ -98,6 +98,11 @@
 }
 
 :if ($NumInstalled > $NumLatest) do={
+  :if ($SentRouterosUpdateNotification = $Update->"latest-version") do={
+    $LogPrintExit info ("Already sent the RouterOS downgrade notification for version " . \
+        $Update->"latest-version" . ".") true;
+  }
+
   $SendNotification ("RouterOS version") \
     ("A different RouterOS version " . ($Update->"latest-version") . \
       " is available for " . $Identity . ", but it is a downgrade.\n\n" . \
