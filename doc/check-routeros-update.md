@@ -13,6 +13,9 @@ Run from a terminal you can start the update process or schedule it.
 Centrally managing update process of several devices is possibly by
 specifying versions safe to be updated on a web server.
 
+Also installing patch updates (where just last digit is increased)
+automatically is supported.
+
 Requirements and installation
 -----------------------------
 
@@ -33,6 +36,7 @@ safe versions from a web server. The configuration goes to
 
 * `SafeUpdateUrl`: url to check for safe update, the channel (`long-term`,
 `stable` or `testing`) is appended
+* `SafeUpdatePatch`: install patch updates automatically
 
 Usage and invocation
 --------------------
