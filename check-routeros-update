@@ -104,5 +104,7 @@
       [ $DeviceInfo ] . "\n\n" . \
       "https://mikrotik.com/download/changelogs/" . $Update->"channel" . "-release-tree") \
     "" "true";
+  $LogPrintExit info ("A different RouterOS version " . ($Update->"latest-version") . \
+    " is available for downgrade.") false;
   :set SentRouterosUpdateNotification ($Update->"latest-version");
 }
