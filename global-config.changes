@@ -21,4 +21,5 @@
   15="New documentation is online! https://git.eworm.de/cgit/routeros-scripts/about/#available-scripts";
   16="Happy with RouterOS Scripts and have a GitHub and/or GitLab account? Please star!";
   17="Introduced script 'early-errors'";
+  18=("Added a simple IP calculation function, try: \$IPCalc " . [ / ip address get ([ find ]->0) address ]);
 };
