@@ -92,6 +92,10 @@ Now let's download the main scripts and add them in configuration on the fly.
 
     [admin@MikroTik] > :foreach Script in={ "global-config"; "global-config-overlay"; "global-functions" } do={ / system script add name=$Script source=([ / tool fetch check-certificate=yes-without-crl ("https://git.eworm.de/cgit/routeros-scripts/plain/" . $Script) output=user as-value]->"data"); }
 
+Mark `global-config-overlay` not to be overwritten by future updates.
+
+    [admin@MikroTik] > / system script set comment="ignore" global-config-overlay
+
 The configuration needs to be tweaked for your needs. Make sure not to send
 your mails to `mail@example.com`! Edit `global-config-overlay`, copy
 configuration from `global-config`.

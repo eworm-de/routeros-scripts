@@ -17,8 +17,9 @@ procedure please follow [the long way in detail](README.md#the-long-way-in-detai
       :foreach Script in={ "global-config"; "global-config-overlay"; "global-functions" } do={
         / system script add name=$Script source=([ / tool fetch check-certificate=yes-without-crl ("https://git.eworm.de/cgit/routeros-scripts/plain/" . $Script) output=user as-value]->"data");
       }
+      / system script set comment="ignore" global-config-overlay;
       / system script { run global-config; run global-config-overlay; run global-functions; }
-      / system scheduler add name="global-scripts" start-time=startup on-event="/ system script { run global-config; run global-config-overlay; run global-functions; }"
+      / system scheduler add name="global-scripts" start-time=startup on-event="/ system script { run global-config; run global-config-overlay; run global-functions; }";
       $CertificateNameByCN "ISRG Root X1";
       $CertificateNameByCN "Let's Encrypt Authority X3";
       $CertificateNameByCN "DST Root CA X3";
