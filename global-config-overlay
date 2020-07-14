@@ -9,7 +9,7 @@
 # Make sure all configuration properties are up to date and this
 # value is in sync with value in script 'global-functions'!
 # Comment or remove to disable change notifications.
-:global GlobalConfigVersion 16;
+:global GlobalConfigVersion 17;
 
 # The global-config script is updated by $ScriptInstallUpdate,
 # global-config-overlay becomes an overlay for your changes.
