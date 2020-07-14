@@ -24,4 +24,5 @@
   18=("Added a simple IP calculation function, try: \$IPCalc " . [ / ip address get ([ find ]->0) address ]);
   19="Commenting scripts with 'ignore', 'base-url=...' and 'url-suffix=...' is honored on update";
   20="Added support for hooks to 'netwatch-notify'";
+  21="Added support for installing patch updates automatically by 'check-routeros-update'";
 };
