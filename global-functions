@@ -400,7 +400,15 @@
     / tool netwatch add comment=$MailServer host=$MailHost;
   }
 
-  :if ([ / tool netwatch get [ find where comment=$MailServer ] status ] = "up") do={
+  :local NetWatch [ / tool netwatch find where comment=$MailServer ];
+  :local NetWatchVal [ / tool netwatch get $NetWatch ];
+  :if ($NetWatchVal->"status" = "up") do={
+    :return true;
+  }
+
+  / tool netwatch set interval=($NetWatchVal->"interval") $NetWatch;
+  :delay ($NetWatchVal->"timeout");
+  :if ([ / tool netwatch get $NetWatch status ] = "up") do={
     :return true;
   }
 
