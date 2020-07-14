@@ -224,8 +224,10 @@
 
 # check if DNS is resolving
 :set DNSIsResolving do={
+  :global CharacterReplace;
+
   :do {
-    :resolve mikrotik.com;
+    :resolve ([ $CharacterReplace  [ / system clock get time ] ":" "" ] . ".mikrotik.com");
     :return true;
   } on-error={
     :return false;
