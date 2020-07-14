@@ -11,12 +11,14 @@
 :global LogPrintExit;
 :global MailServerIsUp;
 :global SendNotification;
+:global WaitFullyConnected;
 
 :if ([ / tool sms get receive-enabled ] = false) do={
   $LogPrintExit warning "Receiving of SMS is not enabled." true;
 }
 
-# check mail server
+$WaitFullyConnected;
+
 :if ($MailServerIsUp = false) do={
   $LogPrintExit warning "Mail server is not up." true;
 }
