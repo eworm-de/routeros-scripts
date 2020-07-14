@@ -635,7 +635,7 @@
         "https://git.eworm.de/cgit/routeros-scripts/about/#donate");
     }
 
-    $SendNotification "Configuration warning!" $NotificationMessage;
+    $SendNotification "News and configuration changes" $NotificationMessage;
     :set SentConfigChangesNotification $ExpectedConfigVersion;
   }
 }
