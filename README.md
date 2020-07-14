@@ -98,7 +98,7 @@ Mark `global-config-overlay` not to be overwritten by future updates.
 
 The configuration needs to be tweaked for your needs. Make sure not to send
 your mails to `mail@example.com`! Edit `global-config-overlay`, copy
-configuration from `global-config`.
+configuration from `global-config` (the one without `-overlay`).
 
     [admin@MikroTik] > / system script edit global-config-overlay source
 
