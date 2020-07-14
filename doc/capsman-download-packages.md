@@ -19,10 +19,11 @@ Just install the script on CAPsMAN device:
 
     $ScriptInstallUpdate capsman-download-packages;
 
-Optionally create a scheduler to run after startup, with a delay to ensure
-internet connectivity is given:
+Optionally install [global-wait](global-wait.md) and add a scheduler to run
+after startup:
 
-    / system scheduler add name=capsman-download-packages on-event=":delay 2m; / system script run capsman-download-packages;" start-time=startup;
+    $ScriptInstallUpdate global-wait;
+    / system scheduler add name=capsman-download-packages on-event="/ system script { run global-wait; run capsman-download-packages; }" start-time=startup;
 
 Only packages available in older version are downloaded. For initial setup
 place the required packages to CAPsMAN package path (see
@@ -54,6 +55,7 @@ See also
 --------
 
 * [Run rolling CAP upgrades from CAPsMAN](capsman-rolling-upgrade.md)
+* [Wait for configuration und functions](global-wait.md)
 
 ---
 [◀ Go back to main README](../README.md)  

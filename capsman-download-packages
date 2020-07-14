@@ -12,8 +12,10 @@
 :global LogPrintExit;
 :global MkDir;
 :global ScriptLock;
+:global WaitFullyConnected;
 
 $ScriptLock "capsman-download-packages";
+$WaitFullyConnected;
 
 :local PackagePath [ $CleanFilePath [ / caps-man manager get package-path ] ];
 :local InstalledVersion [ / system package update get installed-version ];
