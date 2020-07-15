@@ -8,7 +8,7 @@
 
 # Make sure all configuration properties are up to date and this
 # value is in sync with value in script 'global-functions'!
-:global GlobalConfigVersion 22;
+:global GlobalConfigVersion 23;
 
 # This is used for DNS and backup file.
 :global Domain "example.com";
@@ -41,6 +41,9 @@
 :global BackupUploadUrl "sftp://example.com/backup/";
 :global BackupUploadUser "mikrotik";
 :global BackupUploadPass "v3ry-s3cr3t";
+
+# This defines a filter on log topics not to be forwarded.
+:global LogForwardFilter "(debug|info|script)";
 
 # Specify an address to enable auto update to version assumed safe.
 # The configured channel (bugfix, current, release-candidate) is appended.

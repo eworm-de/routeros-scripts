@@ -1,0 +1,47 @@
+#!rsc
+# RouterOS script: log-forward
+# Copyright (c) 2020 Christian Hesse <mail@eworm.de>
+# https://git.eworm.de/cgit/routeros-scripts/about/COPYING.md
+#
+# forward log messages via notification
+# https://git.eworm.de/cgit/routeros-scripts/about/doc/log-forward.md
+
+:global Identity;
+:global LogForwardFilter;
+:global LogForwardLast;
+
+:global LogPrintExit;
+:global MailServerIsUp;
+:global SendNotification;
+:global WaitFullyConnected;
+
+$WaitFullyConnected;
+
+:if ($MailServerIsUp = false) do={
+  $LogPrintExit warning ("Mail server is not up.") true;
+}
+
+:local Count 0;
+:local Messages "";
+:local MessageVal;
+
+:foreach Message in=[ / log find where !(topics~$LogForwardFilter) ] do={
+  :set MessageVal [ / log get $Message ];
+
+  :if ($LogForwardLast = $MessageVal) do={
+    :set Messages "";
+    :set Count 0;
+  } else={
+    :set Messages ($Messages . "\n" . $MessageVal->"time" . " " . \
+      [ :tostr ($MessageVal->"topics") ] . " " . $MessageVal->"message");
+    :set Count ($Count + 1);
+  }
+}
+
+:if ($Count > 0) do={
+  $SendNotification ("\E2\9A\A0 Log Forwarding") \
+    ("The log on " . $Identity . " contains these " . $Count . " messages after " . \
+      [ / system resource get uptime ] . " uptime.\n" . $Messages);
+
+  :set LogForwardLast $MessageVal;
+}

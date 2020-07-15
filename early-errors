@@ -1,28 +1,6 @@
 #!rsc
 # RouterOS script: early-errors
-# Copyright (c) 2020 Christian Hesse <mail@eworm.de>
-# https://git.eworm.de/cgit/routeros-scripts/about/COPYING.md
-#
-# send notification with early errors
-# https://git.eworm.de/cgit/routeros-scripts/about/doc/early-errors.md
 
-:global Identity;
+:global LogPrintExit;
 
-:global SendNotification;
-:global WaitFullyConnected;
-
-$WaitFullyConnected;
-
-:local Errors [ / log find where (topics~"error" or topics~"critical") \
-  !(topics~"certificate") !(topics~"dns") !(topics~"e-mail") ];
-:local ErrCount [ :len $Errors ];
-:if ($ErrCount > 0) do={
-  :local Message ("The log on " . $Identity . " contains " . $ErrCount . \
-    " errors after " . [ / system resource get uptime ] . " uptime.\n");
-  :foreach Log in=$Errors do={
-    :local LogVal [ / log get $Log ];
-    :set Message ($Message . "\n" . [ :tostr ($LogVal->"topics") ] . \
-      " " . ($LogVal->"message"));
-  }
-  $SendNotification ("\E2\9A\A0 Early errors") ($Message);
-}
+$LogPrintExit warning ("This script has been replaced. Please migrate to 'log-forward'.") true;
