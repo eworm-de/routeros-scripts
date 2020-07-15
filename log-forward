@@ -28,7 +28,7 @@ $WaitFullyConnected;
 :foreach Message in=[ / log find where !(topics~$LogForwardFilter) ] do={
   :set MessageVal [ / log get $Message ];
 
-  :if ($LogForwardLast = $MessageVal) do={
+  :if ($LogForwardLast = ($MessageVal->".id")) do={
     :set Messages "";
     :set Count 0;
   } else={
@@ -43,5 +43,5 @@ $WaitFullyConnected;
     ("The log on " . $Identity . " contains these " . $Count . " messages after " . \
       [ / system resource get uptime ] . " uptime.\n" . $Messages);
 
-  :set LogForwardLast $MessageVal;
+  :set LogForwardLast ($MessageVal->".id");
 }
