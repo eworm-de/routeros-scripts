@@ -59,7 +59,7 @@
     }
     :if ($CheckHealthLast->$Temperature <= $CheckHealthTemperature->$Temperature && \
          $CheckHealthCurrent->$Temperature > $CheckHealthTemperature->$Temperature) do={
-      $SendNotification ("Health warning: \E2\9D\8C " . $Temperature) \
+      $SendNotification ("Health warning: \F0\9F\94\A5 " . $Temperature) \
           ("The " . $Temperature . " on " . $Identity . " is above threshold: " .  \
           $CheckHealthCurrent->$Temperature . "\C2\B0" . "C");
     }
