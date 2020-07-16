@@ -12,6 +12,7 @@
 
 :global CertificateAvailable
 :global CertificateNameByCN;
+:global IfThenElse;
 :global LogPrintExit;
 :global ParseKeyValueStore;
 :global SendNotification;
@@ -104,12 +105,7 @@
   :if ([ / certificate scep-server print count-only where ca-cert=($CertVal->"ca") ] > 0) do={
     $LogPrintExit debug ("Certificate \"" . ($CertVal->"name") . "\" is handled by SCEP, skipping.") false;
   } else={
-    :local ExpiresAfter [ $FormatExpire ($CertVal->"expires-after") ];
-    :local State "is about to expire";
-    :if (($CertVal->"expired") = true) do={
-      :set ExpiresAfter "expired";
-      :set State "expired";
-    }
+    :local State [ $IfThenElse (($CertVal->"expired") = true) "expired" "is about to expire" ];
 
     $SendNotification ("Certificate warning!") \
       ("A certificate on " . $Identity . " " . $State . ".\n\n" . \
@@ -118,7 +114,7 @@
         "Fingerprint: " . ($CertVal->"fingerprint") . "\n" . \
         "Issuer:      " . ($CertVal->"ca") . ([ $ParseKeyValueStore ($CertVal->"issuer") ]->"CN") . "\n" . \
         "Validity:    " . ($CertVal->"invalid-before") . " to " . ($CertVal->"invalid-after") . "\n" . \
-        "Expires in:  " . $ExpiresAfter);
+        "Expires in:  " . [ $IfThenElse (($CertVal->"expired") = true) "expired" [ $FormatExpire ($CertVal->"expires-after") ] ]);
     $LogPrintExit warning ("The certificate " . ($CertVal->"name") . " " . $State . \
         ", it is invalid after " . ($CertVal->"invalid-after") . ".") false;
   }
