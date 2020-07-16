@@ -27,6 +27,7 @@
 :global GetMacVendor;
 :global GetRandomNumber;
 :global GetRandomSha256;
+:global IfThenElse;
 :global IPCalc;
 :global LogPrintExit;
 :global MailServerIsUp;
@@ -337,6 +338,14 @@
   :set FingerPrint [ / certificate get GetRandomSha256 fingerprint ];
   / certificate remove GetRandomSha256;
   :return $FingerPrint;
+}
+
+# mimic conditional/ternary operator (condition ? consequent : alternative)
+:set IfThenElse do={
+  :if ([ :tostr $1 ] = "true" || [ :tobool $1 ] = true) do={
+    :return $2;
+  }
+  :return $3;
 }
 
 # calculate and print netmask, network, min host, max host and broadcast
