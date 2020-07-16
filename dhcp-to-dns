@@ -12,15 +12,12 @@
 :global PrefixInZone;
 
 :global CharacterReplace;
+:global IfThenElse;
 :global LogPrintExit;
 
-:local Zone $Domain;
-:if ($HostNameInZone = true) do={
-  :set Zone ($Identity . "." . $Zone);
-}
-:if ($PrefixInZone = true) do={
-  :set Zone ("dhcp." . $Zone);
-}
+:local Zone \
+  ([ $IfThenElse ($PrefixInZone = true) "dhcp." ] . \
+   [ $IfThenElse ($HostNameInZone = true) ($Identity . ".") ] . $Domain);
 :local Ttl 5m;
 :local CommentPrefix "managed by dhcp-to-dns for ";
 
@@ -45,10 +42,9 @@
 :foreach Lease in=[ / ip dhcp-server lease find where dynamic=yes status=bound ] do={
   :local LeaseVal [ / ip dhcp-server lease get $Lease ];
   :local Comment ($CommentPrefix . $LeaseVal->"mac-address");
-  :local HostName [ $CharacterReplace ($LeaseVal->"host-name") " " "" ];
-  :if ($HostName = "") do={
-    :set HostName [ $CharacterReplace ($LeaseVal->"mac-address") ":" "-" ];
-  }
+  :local HostName [ $IfThenElse ([ :len ($LeaseVal->"host-name") ] = 0) \
+    [ $CharacterReplace ($LeaseVal->"mac-address") ":" "-" ] \
+    [ $CharacterReplace ($LeaseVal->"host-name") " " "" ] ];
 
   :local Fqdn ($HostName . "." . $Zone);
   :local DnsRecord [ / ip dns static find where name=$Fqdn ];
