@@ -88,7 +88,7 @@
         $Update->"latest-version" . ".") true;
   }
 
-  $SendNotification ("RouterOS update \E2\9C\A8") \
+  $SendNotification ("\E2\9C\A8 RouterOS update") \
     ("A new RouterOS version " . ($Update->"latest-version") . \
       " is available for " . $Identity . ".\n\n" . \
       [ $DeviceInfo ] . "\n\n" . \
