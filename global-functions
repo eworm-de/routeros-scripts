@@ -186,41 +186,31 @@
   :global GlobalConfigVersion;
   :global Identity;
 
+  :global IfThenElse;
+
   :local Resource [ / system resource get ];
   :local RouterBoard [ / system routerboard get ];
   :local Update [ / system package update get ];
 
-  :local Info ( \
-    "Hostname:       " . $Identity . "\n" . \
-    "Board name:     " . $Resource->"board-name" . "\n" . \
-    "Architecture:   " . $Resource->"architecture-name");
-  :if ($RouterBoard->"routerboard" = true) do={
-    :local Revision "";
-    :if ([ :len ($RouterBoard->"revision") ] > 0) do={
-      :set Revision (" " . $RouterBoard->"revision");
-    }
-    :set Info ($Info . "\n" . \
-      "Model:          " . $RouterBoard->"model" . $Revision . "\n" . \
-      "Serial number:  " . $RouterBoard->"serial-number");
-  }
-  :set Info ($Info . "\n" . \
-    "RouterOS:\n" . \
-    "    Channel:    " . $Update->"channel" . "\n" . \
-    "    Installed:  " . $Update->"installed-version");
-  :if ([ :typeof ($Update->"latest-version") ] != "nothing" && \
-       $Update->"installed-version" != $Update->"latest-version") do={
-    :set Info ($Info . "\n" . \
-      "    Available:  " . $Update->"latest-version");
-  }
-  :set Info ($Info . "\n" . \
-      "RouterOS-Scripts Configuration Version:\n" . \
-      "    Current:    " . $GlobalConfigVersion);
-  :if ($GlobalConfigVersion != $ExpectedConfigVersion) do={
-    :set Info ($Info . "\n" . \
-      "    Expected:   " . $ExpectedConfigVersion);
-  }
-
-  :return $Info;
+  :return ( \
+         "Hostname:       " . $Identity . \
+       "\nBoard name:     " . $Resource->"board-name" . \
+       "\nArchitecture:   " . $Resource->"architecture-name" . \
+    [ $IfThenElse ($RouterBoard->"routerboard" = true) \
+      ("\nModel:          " . $RouterBoard->"model" . \
+         [ $IfThenElse ([ :len ($RouterBoard->"revision") ] > 0) \
+           (" " . $RouterBoard->"revision") ] . \
+       "\nSerial number:  " . $RouterBoard->"serial-number") ] . \
+       "\nRouterOS:" . \
+       "\n    Channel:    " . $Update->"channel" . \
+       "\n    Installed:  " . $Update->"installed-version" . \
+    [ $IfThenElse ([ :typeof ($Update->"latest-version") ] != "nothing" && \
+        $Update->"installed-version" != $Update->"latest-version") \
+      ("\n    Available:  " . $Update->"latest-version") ] . \
+       "\nRouterOS-Scripts Configuration Version:" . \
+       "\n    Current:    " . $GlobalConfigVersion . \
+    [ $IfThenElse ($GlobalConfigVersion != $ExpectedConfigVersion) \
+      ("\n    Expected:   " . $ExpectedConfigVersion) ]);
 }
 
 # check if DNS is resolving
