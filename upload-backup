@@ -17,6 +17,7 @@
 
 :global CharacterReplace;
 :global DeviceInfo;
+:global IfThenElse;
 :global LogPrintExit;
 :global SendNotification;
 :global SymbolForNotification;
@@ -30,6 +31,7 @@
 :local FileName [ $CharacterReplace ($Identity . "." . $Domain) "." "_" ];
 :local BackupFile "none";
 :local ConfigFile "none";
+:local Failed 0;
 
 # binary backup
 :if ($BackupSendBinary = true) do={
@@ -42,6 +44,7 @@
   } on-error={
     $LogPrintExit error ("Uploading backup file failed!") false;
     :set BackupFile "failed";
+    :set Failed 1;
   }
 }
 
@@ -56,10 +59,11 @@
   } on-error={
     $LogPrintExit error ("Uploading configuration export failed!") false;
     :set ConfigFile "failed";
+    :set Failed 1;
   }
 }
 
-$SendNotification ([ $SymbolForNotification "floppy-disk" ] . "Backup & Config Upload") \
+$SendNotification ([ $SymbolForNotification [ $IfThenElse ($Failed > 0) "warning-sign" "floppy-disk" ] ] . "Backup & Config Upload") \
   ("Backup and config export upload for " . $Identity . ".\n\n" . \
     [ $DeviceInfo ] . "\n\n" . \
     "Backup file:    " . $BackupFile . "\n" . \
