@@ -12,9 +12,12 @@
 
 :global LogPrintExit;
 :global MailServerIsUp;
+:global ScriptLock;
 :global SendNotification;
 :global SymbolForNotification;
 :global WaitFullyConnected;
+
+$ScriptLock "log-forward";
 
 $WaitFullyConnected;
 
