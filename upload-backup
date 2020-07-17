@@ -19,6 +19,7 @@
 :global DeviceInfo;
 :global LogPrintExit;
 :global SendNotification;
+:global SymbolForNotification;
 
 :if ($BackupSendBinary != true && \
      $BackupSendExport != true) do={
@@ -58,7 +59,7 @@
   }
 }
 
-$SendNotification "Backup & Config Upload" \
+$SendNotification ([ $SymbolForNotification "floppy-disk" ] . "Backup & Config Upload") \
   ("Backup and config export upload for " . $Identity . ".\n\n" . \
     [ $DeviceInfo ] . "\n\n" . \
     "Backup file:    " . $BackupFile . "\n" . \
