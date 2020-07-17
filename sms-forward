@@ -11,6 +11,7 @@
 :global LogPrintExit;
 :global MailServerIsUp;
 :global SendNotification;
+:global SymbolByUnicodeName;
 :global WaitFullyConnected;
 
 :if ([ / tool sms get receive-enabled ] = false) do={
@@ -46,7 +47,7 @@ $WaitFullyConnected;
   }
 
   :if ([ :len $Messages ] > 0) do={
-    $SendNotification ("\F0\9F\93\A8 SMS Forwarding from " . $Phone) \
+    $SendNotification ([ $SymbolByUnicodeName "incoming-envelope" ] . " SMS Forwarding from " . $Phone) \
         ("These message(s) were received by " . $Identity . \
         " from " . $Phone . ":" . $Messages);
     :foreach Sms in=$Delete do={
