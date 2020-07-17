@@ -11,7 +11,7 @@
 :global ParseKeyValueStore;
 :global LogPrintExit;
 :global SendNotification;
-:global SymbolByUnicodeName;
+:global SymbolForNotification;
 
 :if ([ :typeof $NetwatchNotify ] = "nothing") do={
   :set NetwatchNotify [ :toarray "" ];
@@ -32,7 +32,7 @@
     :local Count ($Metric->"count");
     :set ($Metric->"count") 0;
     :if ($Metric->"notified" = true) do={
-      $SendNotification ([ $SymbolByUnicodeName "white-heavy-check-mark" ] . " Netwatch Notify: " . $HostName . " up") \
+      $SendNotification ([ $SymbolForNotification "white-heavy-check-mark" ] . "Netwatch Notify: " . $HostName . " up") \
         ("Host " . $HostName . " (" . $HostVal->"host" . ") is up since " . $HostVal->"since" . ".\n" . \
         "It was down for " . $Count . " checks.");
       :if ([ :typeof ($HostInfo->"up-hook") ] = "str") do={
@@ -46,7 +46,7 @@
     $LogPrintExit info ("Host " . $HostName . " (" . $HostVal->"host" . ") is down for " . \
       $Metric->"count" . " checks.") false;
     :if ($Metric->"count" >= 5 && $Metric->"notified" != true) do={
-      $SendNotification ([ $SymbolByUnicodeName "cross-mark" ] . " Netwatch Notify: " . $HostName . " down") \
+      $SendNotification ([ $SymbolForNotification "cross-mark" ] . "Netwatch Notify: " . $HostName . " down") \
         ("Host " . $HostName . " (" . $HostVal->"host" . ") is down since " . $HostVal->"since" . ".");
       :set ($Metric->"notified") true;
       :if ([ :typeof ($HostInfo->"down-hook") ] = "str") do={

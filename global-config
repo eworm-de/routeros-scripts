@@ -8,7 +8,7 @@
 
 # Make sure all configuration properties are up to date and this
 # value is in sync with value in script 'global-functions'!
-:global GlobalConfigVersion 23;
+:global GlobalConfigVersion 24;
 
 # This is used for DNS and backup file.
 :global Domain "example.com";
@@ -27,6 +27,9 @@
 :global TelegramChatId "";
 #:global TelegramTokenId "123456:ABCDEF-GHI";
 #:global TelegramChatId "12345678";
+
+# Toggle this to disable symbols in notifications.
+:global NotificationsWithSymbols true;
 
 # This defines what backups to generate and what password to use.
 :global BackupSendBinary false;

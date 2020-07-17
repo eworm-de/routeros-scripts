@@ -13,7 +13,7 @@
 :global LogPrintExit;
 :global MailServerIsUp;
 :global SendNotification;
-:global SymbolByUnicodeName;
+:global SymbolForNotification;
 :global WaitFullyConnected;
 
 $WaitFullyConnected;
@@ -40,7 +40,7 @@ $WaitFullyConnected;
 }
 
 :if ($Count > 0) do={
-  $SendNotification ([ $SymbolByUnicodeName "warning-sign" ] . " Log Forwarding") \
+  $SendNotification ([ $SymbolForNotification "warning-sign" ] . "Log Forwarding") \
     ("The log on " . $Identity . " contains these " . $Count . " messages after " . \
       [ / system resource get uptime ] . " uptime.\n" . $Messages);
 

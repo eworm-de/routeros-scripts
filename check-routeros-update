@@ -15,7 +15,7 @@
 :global LogPrintExit;
 :global ScriptFromTerminal;
 :global SendNotification;
-:global SymbolByUnicodeName;
+:global SymbolForNotification;
 :global VersionToNum;
 
 :local DoUpdate do={
@@ -89,7 +89,7 @@
         $Update->"latest-version" . ".") true;
   }
 
-  $SendNotification ([ $SymbolByUnicodeName "sparkles" ] . " RouterOS update") \
+  $SendNotification ([ $SymbolForNotification "sparkles" ] . "RouterOS update") \
     ("A new RouterOS version " . ($Update->"latest-version") . \
       " is available for " . $Identity . ".\n\n" . \
       [ $DeviceInfo ] . "\n\n" . \

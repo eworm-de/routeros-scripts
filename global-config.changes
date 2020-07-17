@@ -27,4 +27,5 @@
   21="Added support for installing patch updates automatically by 'check-routeros-update'";
   22="Dropped '\$ScriptUpdatesIgnore' from global configuration, auto-migrating to ignore flag in comment"
   23="Added 'log-forward' with configurable filter, which replaces 'early-errors'";
+  24="Made symbols in notifications configurable.";
 };

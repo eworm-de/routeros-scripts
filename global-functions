@@ -8,7 +8,7 @@
 # https://git.eworm.de/cgit/routeros-scripts/about/
 
 # expected configuration version
-:global ExpectedConfigVersion 23;
+:global ExpectedConfigVersion 24;
 
 # global variables not to be changed by user
 :global GlobalFunctionsReady false;
@@ -41,6 +41,7 @@
 :global SendNotification;
 :global SendTelegram;
 :global SymbolByUnicodeName;
+:global SymbolForNotification;
 :global TimeIsSync;
 :global UrlEncode;
 :global VersionToNum;
@@ -745,6 +746,18 @@
   }
 
   :return ($Symbols->$1);
+}
+
+# return symbol for notification
+:set SymbolForNotification do={
+  :global NotificationsWithSymbols;
+
+  :global SymbolByUnicodeName;
+
+  :if ($NotificationsWithSymbols != true) do={
+    :return "";
+  }
+  :return ([ $SymbolByUnicodeName $1 ] . " ");
 }
 
 # check if system time is sync

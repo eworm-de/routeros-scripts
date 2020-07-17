@@ -13,7 +13,7 @@
 
 :global LogPrintExit;
 :global SendNotification;
-:global SymbolByUnicodeName;
+:global SymbolForNotification;
 
 :local FormatVoltage do={
   :local Voltage [ :tonum $1 ];
@@ -27,7 +27,7 @@
        [ :typeof ($CheckHealthCurrent->$Voltage) ] = "num") do={
     :if ($CheckHealthLast->$Voltage * (100 + $CheckHealthVoltagePercent) < $CheckHealthCurrent->$Voltage * 100 || \
          $CheckHealthLast->$Voltage * 100 > $CheckHealthCurrent->$Voltage * (100 + $CheckHealthVoltagePercent)) do={
-      $SendNotification ([ $SymbolByUnicodeName "high-voltage-sign" ] . " Health warning: " . $Voltage) \
+      $SendNotification ([ $SymbolForNotification "high-voltage-sign" ] . "Health warning: " . $Voltage) \
           ("The " . $Voltage . " on " . $Identity . " jumped more than " . $CheckHealthVoltagePercent . "%.\n\n" . \
           "old value: " . [ $FormatVoltage ($CheckHealthLast->$Voltage) ] . "\n" . \
           "new value: " . [ $FormatVoltage ($CheckHealthCurrent->$Voltage) ]);
@@ -40,12 +40,12 @@
        [ :typeof ($CheckHealthCurrent->($PSU . "-state")) ] = "str") do={
     :if ($CheckHealthLast->($PSU . "-state") = "ok" && \
          $CheckHealthCurrent->($PSU . "-state") != "ok") do={
-      $SendNotification ([ $SymbolByUnicodeName "cross-mark" ] . " Health warning: " . $PSU . " state") \
+      $SendNotification ([ $SymbolForNotification "cross-mark" ] . "Health warning: " . $PSU . " state") \
           ("The power supply unit '" . $PSU . "' on " . $Identity . " failed!");
     }
     :if ($CheckHealthLast->($PSU . "-state") != "ok" && \
          $CheckHealthCurrent->($PSU . "-state") = "ok") do={
-      $SendNotification ([ $SymbolByUnicodeName "white-heavy-check-mark" ] . " Health recovery: " . $PSU . " state") \
+      $SendNotification ([ $SymbolForNotification "white-heavy-check-mark" ] . "Health recovery: " . $PSU . " state") \
           ("The power supply unit '" . $PSU . "' on " . $Identity . " recovered!");
     }
   }
@@ -60,13 +60,13 @@
     }
     :if ($CheckHealthLast->$Temperature <= $CheckHealthTemperature->$Temperature && \
          $CheckHealthCurrent->$Temperature > $CheckHealthTemperature->$Temperature) do={
-      $SendNotification ([ $SymbolByUnicodeName "fire" ] . " Health warning: " . $Temperature) \
+      $SendNotification ([ $SymbolForNotification "fire" ] . "Health warning: " . $Temperature) \
           ("The " . $Temperature . " on " . $Identity . " is above threshold: " .  \
           $CheckHealthCurrent->$Temperature . "\C2\B0" . "C");
     }
     :if ($CheckHealthLast->$Temperature > $CheckHealthTemperature->$Temperature && \
          $CheckHealthCurrent->$Temperature <= $CheckHealthTemperature->$Temperature) do={
-      $SendNotification ([ $SymbolByUnicodeName "white-heavy-check-mark" ] . " Health recovery: " . $Temperature) \
+      $SendNotification ([ $SymbolForNotification "white-heavy-check-mark" ] . "Health recovery: " . $Temperature) \
           ("The " . $Temperature . " on " . $Identity . " dropped below threshold: " .  \
           $CheckHealthCurrent->$Temperature . "\C2\B0" . "C");
     }
