@@ -11,6 +11,7 @@
 
 :global LogPrintExit;
 :global SendNotification;
+:global SymbolForNotification;
 
 :foreach Interface in=[ / interface lte find ] do={
   :local IntName [ / interface lte get $Interface name ];
@@ -22,7 +23,7 @@
         ($Firmware->"latest") . ".") false;
     } else={
       :if (($Firmware->"installed") != ($Firmware->"latest")) do={
-        $SendNotification ("LTE firmware upgrade") \
+        $SendNotification ([ $SymbolForNotification "sparkles" ] . "LTE firmware upgrade") \
           ("A new firmware version " . ($Firmware->"latest") . " is available for " . \
           "LTE interface " . $IntName . " on " . $Identity . ".\n\n" . \
           "Installed: " . ($Firmware->"installed") . "\n" . \
