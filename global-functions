@@ -496,6 +496,7 @@
   :global LogPrintExit;
   :global ParseKeyValueStore;
   :global SendNotification;
+  :global SymbolForNotification;
 
   :foreach Script in=$Scripts do={
     :if ([ / system script print count-only where name=$Script ] = 0) do={
@@ -636,7 +637,8 @@
         "https://git.eworm.de/cgit/routeros-scripts/about/#donate");
     }
 
-    $SendNotification "News and configuration changes" $NotificationMessage;
+    $SendNotification ([ $SymbolForNotification "pushpin" ] . "News and configuration changes") \
+      $NotificationMessage;
     :set SentConfigChangesNotification $ExpectedConfigVersion;
   }
 }
@@ -741,6 +743,7 @@
     "floppy-disk"="\F0\9F\92\BE";
     "high-voltage-sign"="\E2\9A\A1";
     "incoming-envelope"="\F0\9F\93\A8";
+    "pushpin"="\F0\9F\93\8C";
     "sparkles"="\E2\9C\A8";
     "warning-sign"="\E2\9A\A0";
     "white-heavy-check-mark"="\E2\9C\85"
