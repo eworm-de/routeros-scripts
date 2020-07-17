@@ -12,6 +12,7 @@
 :global DeviceInfo;
 :global LogPrintExit;
 :global SendNotification;
+:global SymbolForNotification;
 
 :do {
   # we are not interested in output, but print without count-only is
@@ -26,7 +27,7 @@
   }
   :local Cloud [ / system backup cloud get ([ find ]->0) ];
 
-  $SendNotification "Cloud backup" \
+  $SendNotification ([ $SymbolForNotification "floppy-disk" ] . "Cloud backup") \
     ("Uploaded backup for " . $Identity . " to cloud.\n\n" . \
       [ $DeviceInfo ] . "\n\n" . \
       "Name:           " . $Cloud->"name" . "\n" . \
