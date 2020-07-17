@@ -17,7 +17,7 @@
   :set NetwatchNotify [ :toarray "" ];
 }
 
-:foreach Host in=[ / tool netwatch find where comment~"^notify," ] do={
+:foreach Host in=[ / tool netwatch find where comment~"^notify," disabled=no ] do={
   :local HostVal [ / tool netwatch get $Host ];
   :local HostInfo [ $ParseKeyValueStore ($HostVal->"comment") ];
   :local HostName ($HostInfo->"hostname");
