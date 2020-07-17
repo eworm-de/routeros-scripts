@@ -16,6 +16,7 @@
 :global LogPrintExit;
 :global ParseKeyValueStore;
 :global SendNotification;
+:global SymbolForNotification;
 :global TimeIsSync;
 :global UrlEncode;
 :global WaitForFile;
@@ -85,7 +86,7 @@
       / certificate set $CertNew name=($CertVal->"name");
     }
 
-    $SendNotification ("Certificate renewed") \
+    $SendNotification ([ $SymbolForNotification "lock-with-ink-pen" ] . "Certificate renewed") \
       ("A certificate on " . $Identity . " has been renewed.\n\n" . \
         "Name:        " . ($CertVal->"name") . "\n" . \
         "CommonName:  " . ($CertNewVal->"common-name") . "\n" . \
@@ -107,7 +108,7 @@
   } else={
     :local State [ $IfThenElse (($CertVal->"expired") = true) "expired" "is about to expire" ];
 
-    $SendNotification ("Certificate warning!") \
+    $SendNotification ([ $SymbolForNotification "warning-sign" ] . "Certificate warning!") \
       ("A certificate on " . $Identity . " " . $State . ".\n\n" . \
         "Name:        " . ($CertVal->"name") . "\n" . \
         "CommonName:  " . ($CertVal->"common-name") . "\n" . \
