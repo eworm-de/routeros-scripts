@@ -51,7 +51,7 @@
 :if ($NumInstalled < $NumLatest) do={
   :if ($SafeUpdatePatch = true && ($NumInstalled & 0xffff0000) = ($NumLatest & 0xffff0000)) do={
     $LogPrintExit info ("Version " . $Update->"latest-version" . " is a patch release, updating...") false;
-    $SendNotification ("RouterOS update") \
+    $SendNotification ([ $SymbolForNotification "sparkles" ] . "RouterOS update") \
         ("Version " . $Update->"latest-version" . " is a patch update for " . $Update->"channel" . \
         ", updating on " . $Identity . "...") "" "true";
     $DoUpdate;
@@ -68,7 +68,7 @@
     }
     :if ($Result->"status" = "finished" && $Result->"data" = $Update->"latest-version") do={
       $LogPrintExit info ("Version " . $Update->"latest-version" . " is considered safe, updating...") false;
-      $SendNotification ("RouterOS update") \
+      $SendNotification ([ $SymbolForNotification "sparkles" ] . "RouterOS update") \
           ("Version " . $Update->"latest-version" . " is considered safe for " . $Update->"channel" . \
           ", updating on " . $Identity . "...") "" "true";
       $DoUpdate;
@@ -104,7 +104,7 @@
         $Update->"latest-version" . ".") true;
   }
 
-  $SendNotification ("RouterOS version") \
+  $SendNotification ([ $SymbolForNotification "warning-sign" ] . "RouterOS version") \
     ("A different RouterOS version " . ($Update->"latest-version") . \
       " is available for " . $Identity . ", but it is a downgrade.\n\n" . \
       [ $DeviceInfo ] . "\n\n" . \
