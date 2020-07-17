@@ -40,6 +40,7 @@
 :global SendEMail;
 :global SendNotification;
 :global SendTelegram;
+:global SymbolByUnicodeName;
 :global TimeIsSync;
 :global UrlEncode;
 :global VersionToNum;
@@ -729,6 +730,21 @@
   } on-error={
     $LogPrintExit warning ("Failed sending telegram notification!") false;
   }
+}
+
+# return UTF-8 symbol for unicode name
+:set SymbolByUnicodeName do={
+  :local Symbols {
+    "cross-mark"="\E2\9D\8C";
+    "fire"="\F0\9F\94\A5";
+    "high-voltage-sign"="\E2\9A\A1";
+    "incoming-envelope"="\F0\9F\93\A8";
+    "sparkles"="\E2\9C\A8";
+    "warning-sign"="\E2\9A\A0";
+    "white-heavy-check-mark"="\E2\9C\85"
+  }
+
+  :return ($Symbols->$1);
 }
 
 # check if system time is sync
