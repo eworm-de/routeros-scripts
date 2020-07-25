@@ -25,8 +25,8 @@
 :global DNSIsResolving;
 :global DownloadPackage;
 :global GetMacVendor;
+:global GetRandom20CharHex;
 :global GetRandomNumber;
-:global GetRandomSha256;
 :global IfThenElse;
 :global IPCalc;
 :global LogPrintExit;
@@ -299,6 +299,13 @@
   }
 }
 
+# generate random 20 chars hex (0-9 and a-f)
+:set GetRandom20CharHex do={
+  :local Random ([ / certificate scep-server otp generate minutes-valid=0 as-value ]->"password");
+  / certificate scep-server otp remove [ find where password=$Random ];
+  :return $Random;
+}
+
 # generate random number
 :set GetRandomNumber do={
   :local Max 4294967295;
@@ -306,30 +313,19 @@
     :set Max ([ :tonum $1 ] + 1);
   }
 
-  :global GetRandomSha256;
+  :global GetRandom20CharHex;
 
   :local Num;
-  :local Sha256 [ $GetRandomSha256 ];
+  :local 40CharHex ([ $GetRandom20CharHex ] . [ $GetRandom20CharHex ]);
 
-  :for I from=0 to=63 do={
-    :local Char [ :pick $Sha256 $I ];
+  :for I from=0 to=39 do={
+    :local Char [ :pick $40CharHex $I ];
     :if ($Char~"[0-9]") do={
       :set Num ($Num . $Char);
     }
   }
 
   :return ([ :tonum [ :pick $Num 0 18 ] ] % $Max);
-}
-
-# generate random sha256 string
-# returns 64 bytes of 0-9 and a-f
-:set GetRandomSha256 do={
-  :local FingerPrint;
-  / certificate add name=GetRandomSha256-template common-name=GetRandomSha256 key-size=prime256v1;
-  / certificate sign GetRandomSha256-template name=GetRandomSha256 without-paging as-value;
-  :set FingerPrint [ / certificate get GetRandomSha256 fingerprint ];
-  / certificate remove GetRandomSha256;
-  :return $FingerPrint;
 }
 
 # mimic conditional/ternary operator (condition ? consequent : alternative)
