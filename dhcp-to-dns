@@ -10,6 +10,7 @@
 :global HostNameInZone;
 :global Identity;
 :global PrefixInZone;
+:global ServerNameInZone;
 
 :global CharacterReplace;
 :global IfThenElse;
@@ -46,7 +47,7 @@
     [ $CharacterReplace ($LeaseVal->"mac-address") ":" "-" ] \
     [ $CharacterReplace ($LeaseVal->"host-name") " " "" ] ];
 
-  :local Fqdn ($HostName . "." . $Zone);
+  :local Fqdn ($HostName . "." . [ $IfThenElse ($ServerNameInZone = true) ($LeaseVal->"server" . ".") ] . $Zone);
   :local DnsRecord [ / ip dns static find where name=$Fqdn ];
   :if ([ :len $DnsRecord ] > 0) do={
     :local DnsIp [ / ip dns static get $DnsRecord address ];
