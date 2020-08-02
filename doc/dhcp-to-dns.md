@@ -33,6 +33,7 @@ The configuration goes to `global-config-overlay`, these are the parameters:
 
 * `Domain`: the domain used for dns records
 * `HostNameInZone`: whether or not to add the dhcp/dns server's hostname
+* `PrefixInZone`: whether or not to add prefix `dhcp`
 
 See also
 --------
