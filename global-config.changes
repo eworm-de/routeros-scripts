@@ -28,4 +28,5 @@
   22="Dropped '\$ScriptUpdatesIgnore' from global configuration, auto-migrating to ignore flag in comment"
   23="Added 'log-forward' with configurable filter, which replaces 'early-errors'";
   24="Made symbols in notifications configurable.";
+  25="Added support for DHCP server name in DNS FQDN via '\$ServerNameInZone'";
 };
