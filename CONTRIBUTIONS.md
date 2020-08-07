@@ -10,6 +10,7 @@ Thanks a lot for your contributions!
 These persons contributed code. See the git history for details!
 
 * [Michael Gisbers](mailto:michael@gisbers.de)
+* [netztrip](mailto:dave-tvg@netztrip.de) (@netztrip)
 
 ## Donations
 
