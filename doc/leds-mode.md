@@ -43,7 +43,7 @@ to toggle mode.
 See also
 --------
 
-* [Mode botton with multiple presses](mode-button.md)
+* [Mode button with multiple presses](mode-button.md)
 
 ---
 [◀ Go back to main README](../README.md)  

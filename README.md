@@ -168,7 +168,7 @@ Available Scripts
 * [Run other scripts on DHCP lease](doc/lease-script.md)
 * [Manage LEDs dark mode](doc/leds-mode.md)
 * [Forward log messages via notification](doc/log-forward.md)
-* [Mode botton with multiple presses](doc/mode-button.md)
+* [Mode button with multiple presses](doc/mode-button.md)
 * [Notify on host up and down](doc/netwatch-notify.md)
 * [Manage remote logging](doc/netwatch-syslog.md)
 * [Manage system update](doc/packages-update.md)

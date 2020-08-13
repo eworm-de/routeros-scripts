@@ -1,4 +1,4 @@
-Mode botton with multiple presses
+Mode button with multiple presses
 =================================
 
 [◀ Go back to main README](../README.md)
