@@ -763,6 +763,8 @@
 
 # check if system time is sync
 :set TimeIsSync do={
+  :global LogPrintExit;
+
   :if ([ / system ntp client get enabled ] = true) do={
     :do {
       :if ([ / system ntp client get status ] = "synchronized") do={
@@ -783,6 +785,7 @@
     :return false;
   }
 
+  $LogPrintExit warning ("No time source configured!") false;
   :return false;
 }
 
