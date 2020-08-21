@@ -776,9 +776,11 @@
     :return false;
   }
 
-  :if ([ / ip cloud get update-time ] = true && \
-       [ :typeof [ / ip cloud get public-address ] ] = "ip") do={
-    :return true;
+  :if ([ / ip cloud get ddns-enabled ] = true && [ / ip cloud get update-time ] = true) do={
+    :if ([ :typeof [ / ip cloud get public-address ] ] = "ip") do={
+      :return true;
+    }
+    :return false;
   }
 
   :return false;
