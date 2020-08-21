@@ -785,8 +785,8 @@
     :return false;
   }
 
-  $LogPrintExit warning ("No time source configured!") false;
-  :return false;
+  $LogPrintExit warning ("No time source configured! Returning gracefully...") false;
+  :return true;
 }
 
 # url encoding
