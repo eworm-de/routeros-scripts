@@ -26,7 +26,7 @@
   :return [ $CharacterReplace [ $CharacterReplace [ :tostr $1 ] "w" "w " ] "d" "d " ];
 }
 
-:if ($TimeIsSync = false) do={
+:if ([ $TimeIsSync ] = false) do={
   $LogPrintExit warning ("Time is not yet synchronized.") true;
 }
 
