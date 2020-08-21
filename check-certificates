@@ -17,18 +17,16 @@
 :global ParseKeyValueStore;
 :global SendNotification;
 :global SymbolForNotification;
-:global TimeIsSync;
 :global UrlEncode;
 :global WaitForFile;
+:global WaitFullyConnected;
 
 :local FormatExpire do={
   :global CharacterReplace;
   :return [ $CharacterReplace [ $CharacterReplace [ :tostr $1 ] "w" "w " ] "d" "d " ];
 }
 
-:if ([ $TimeIsSync ] = false) do={
-  $LogPrintExit warning ("Time is not yet synchronized.") true;
-}
+$WaitFullyConnected;
 
 :foreach Cert in=[ / certificate find where !revoked !ca !scep-url expires-after<3w ] do={
   :local CertVal [ / certificate get $Cert ];
