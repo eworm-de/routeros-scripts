@@ -773,6 +773,7 @@
         :return true;
       }
     }
+    :return false;
   }
 
   :if ([ / ip cloud get update-time ] = true && \
