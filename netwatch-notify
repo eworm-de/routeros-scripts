@@ -35,15 +35,17 @@
     :if ($Metric->"notified" = true) do={
       $SendNotification ([ $SymbolForNotification "white-heavy-check-mark" ] . "Netwatch Notify: " . $HostName . " up") \
         ("Host " . $HostName . " (" . $HostVal->"host" . ") is up since " . $HostVal->"since" . ".\n" . \
-        "It was down for " . $Count . " checks.");
+        "It was down for " . $Count . " checks since " . ($Metric->"since") . ".");
       :if ([ :typeof ($HostInfo->"up-hook") ] = "str") do={
         $LogPrintExit info ("Running hook on host " . $HostName . " up: " . ($HostInfo->"up-hook")) false;
         [ :parse ($HostInfo->"up-hook") ];
       }
     }
     :set ($Metric->"notified") false;
+    :set ($Metric->"since");
   } else={
     :set ($Metric->"count") ($Metric->"count" + 1);
+    :set ($Metric->"since") ($HostVal->"since");
     $LogPrintExit info ("Host " . $HostName . " (" . $HostVal->"host" . ") is down for " . \
       $Metric->"count" . " checks.") false;
     :if ($Metric->"count" >= [ $IfThenElse ([ :typeof ($HostVal->"count") ] != "nothing") ($HostVal->"count") 5 ] && \
@@ -57,5 +59,8 @@
       }
     }
   }
-  :set ($NetwatchNotify->$HostName) { "count"=($Metric->"count"); "notified"=($Metric->"notified") };
+  :set ($NetwatchNotify->$HostName) {
+    "count"=($Metric->"count");
+    "notified"=($Metric->"notified");
+    "since"=($Metric->"since") };
 }
