@@ -35,6 +35,10 @@ comment:
 
     / tool netwatch add comment="notify, hostname=poe-device, down-hook=/ interface ethernet poe power-cycle en21;" host=10.0.0.20 timeout=5s;
 
+The count threshould (default is 5 checks) is configurable as well:
+
+    / tool netwatch add comment="notify, hostname=example.com, count=10" host=104.18.144.11 timeout=5s;
+
 Also notification settings are required for e-mail and telegram.
 
 ---

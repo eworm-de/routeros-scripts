@@ -8,8 +8,9 @@
 
 :global NetwatchNotify;
 
-:global ParseKeyValueStore;
+:global IfThenElse;
 :global LogPrintExit;
+:global ParseKeyValueStore;
 :global SendNotification;
 :global SymbolForNotification;
 
@@ -45,7 +46,8 @@
     :set ($Metric->"count") ($Metric->"count" + 1);
     $LogPrintExit info ("Host " . $HostName . " (" . $HostVal->"host" . ") is down for " . \
       $Metric->"count" . " checks.") false;
-    :if ($Metric->"count" >= 5 && $Metric->"notified" != true) do={
+    :if ($Metric->"count" >= [ $IfThenElse ([ :typeof ($HostVal->"count") ] != "nothing") ($HostVal->"count") 5 ] && \
+         $Metric->"notified" != true) do={
       $SendNotification ([ $SymbolForNotification "cross-mark" ] . "Netwatch Notify: " . $HostName . " down") \
         ("Host " . $HostName . " (" . $HostVal->"host" . ") is down since " . $HostVal->"since" . ".");
       :set ($Metric->"notified") true;
