@@ -8,8 +8,8 @@
 
 :foreach Bridge in=[ / interface bridge find ] do={
   :local BrName [ / interface bridge get $Bridge name ];
-  :if ([ / interface bridge port print count-only where bridge=$BrName ] > 0) do={
-    :if ([ / interface bridge port print count-only where bridge=$BrName and inactive=no ] = 0) do={
+  :if ([ :len [ / interface bridge port find where bridge=$BrName ] ] > 0) do={
+    :if ([ :len [ / interface bridge port find where bridge=$BrName and inactive=no ] ] = 0) do={
       / ip address disable [ find where !dynamic interface=$BrName ];
     } else={
       / ip address enable [ find where !dynamic interface=$BrName ];

@@ -19,7 +19,7 @@
 :global VersionToNum;
 
 :local DoUpdate do={
-  :if ([ / system script print count-only where name="packages-update" ] > 0) do={
+  :if ([ :len [ / system script find where name="packages-update" ] ] > 0) do={
     / system script run packages-update;
   } else={
     / system package update install without-paging;
@@ -27,14 +27,14 @@
   :error "Waiting for system to reboot.";
 }
 
-:if ([ / system package print count-only where name="wireless" disabled=no ] > 0) do={
+:if ([ :len [ / system package find where name="wireless" disabled=no ] ] > 0) do={
   :if ([ / interface wireless cap get enabled ] = true && \
       [ / caps-man manager get enabled ] = false) do={
     $LogPrintExit error "System is managed by CAPsMAN, not checking." true;
   }
 }
 
-:if ([ / system scheduler print count-only where name="reboot-for-update" ] > 0) do={
+:if ([ :len [ / system scheduler find where name="reboot-for-update" ] ] > 0) do={
   :error "A reboot for update is already scheduled.";
 }
 

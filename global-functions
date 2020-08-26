@@ -66,7 +66,7 @@
       "is configured to download certificate CRLs to system!") false;
   }
 
-  :if ([ / certificate print count-only where common-name=$CommonName ] = 0) do={
+  :if ([ :len [ / certificate find where common-name=$CommonName ] ] = 0) do={
     $LogPrintExit info ("Certificate with CommonName \"" . $CommonName . "\" not available.") false;
     :if ([ $CertificateDownload $CommonName ] = false) do={
       :return false;
@@ -76,7 +76,7 @@
   :local CertVal;
   :local Issuer $CommonName;
   :do {
-    :if ([ / certificate print count-only where common-name=$Issuer ] = 0) do={
+    :if ([ :len [ / certificate find where common-name=$Issuer ] ] = 0) do={
       $LogPrintExit info ("Certificate chain for \"" . $CommonName . \
         "\" is incomplete, missing \"" . $Issuer . "\".") false;
       :if ([ $CertificateDownload $CommonName ] = false) do={
@@ -176,7 +176,7 @@
 
 # default route is reachable
 :set DefaultRouteIsReachable do={
-  :if ([ / ip route print count-only where dst-address=0.0.0.0/0 !unreachable active !routing-mark ] > 0) do={
+  :if ([ :len [ / ip route find where dst-address=0.0.0.0/0 !unreachable active !routing-mark ] ] > 0) do={
     :return true;
   }
   :return false;
@@ -249,7 +249,7 @@
   }
   :local PkgDest [ $CleanFilePath ($PkgDir . "/" . $PkgFile) ];
 
-  :if ([ / file print count-only where name=$PkgDest type="package" ] > 0) do={
+  :if ([ :len [ / file find where name=$PkgDest type="package" ] ] > 0) do={
     $LogPrintExit info ("Package file alreasy exists.") false;
     :return true;
   }
@@ -383,7 +383,7 @@
 
   :global LogPrintExit;
 
-  :if ([ / tool netwatch print count-only where comment=$MailServer ] = 0) do={
+  :if ([ :len [ / tool netwatch find where comment=$MailServer ] ] = 0) do={
     $LogPrintExit warning ("Adding netwatch entry for mail server.") false;
     :local MailHost $MailServer;
     :if ([ :typeof [ :toip $MailHost ] ] != "ip" ) do={
@@ -418,7 +418,7 @@
 
   :global WaitForFile;
 
-  :if ([ / file print count-only where name=$Dir type="directory" ] = 0) do={
+  :if ([ :len [ / file find where name=$Dir type="directory" ] ] = 0) do={
     :local WwwVal [ / ip service get www ];
     / ip service set www address=127.0.0.1/32 disabled=no port=80;
     / tool fetch http://127.0.0.1/ dst-path=($Dir . "/tmp");
@@ -495,7 +495,7 @@
   :global SymbolForNotification;
 
   :foreach Script in=$Scripts do={
-    :if ([ / system script print count-only where name=$Script ] = 0) do={
+    :if ([ :len [ / system script find where name=$Script ] ] = 0) do={
       $LogPrintExit info ("Adding new script: " . $Script) false;
       / system script add name=$Script source="#!rsc";
     }
@@ -569,7 +569,7 @@
           / system script set owner=($ScriptVal->"name") source=$SourceNew \
               dont-require-permissions=$DontRequirePermissions $Script;
           :if ($ScriptVal->"name" = "global-config" && \
-               [ / system script print count-only where name="global-config-overlay" ] > 0) do={
+               [ :len [ / system script find where name="global-config-overlay" ] ] > 0) do={
             $LogPrintExit info ("Reloading global configuration and overlay.") false;
             / system script { run global-config; run global-config-overlay; }
           }
@@ -593,7 +593,7 @@
     :global GlobalConfigChanges;
     :local ChangeLogCode;
     :local ConfigScript "global-config";
-    :if ([ /system script print count-only where name="global-config-overlay" ] > 0) do={
+    :if ([ :len [ / system script find where name="global-config-overlay" ] ] > 0) do={
       :set ConfigScript "global-config-overlay";
     }
     :local NotificationMessage ("Current configuration on " . $Identity . \
@@ -645,7 +645,7 @@
 
   :local Script [ :tostr $1 ];
 
-  :if ([ / system script job print count-only where script=$Script ] > 1) do={
+  :if ([ :len [ / system script job find where script=$Script ] ] > 1) do={
     $LogPrintExit info ("Script " . $Script . " started more than once... Aborting.") true;
   }
 }
@@ -868,7 +868,7 @@
   :local FileName [ $CleanFilePath [ :tostr $1 ] ];
   :local I 0;
 
-  :while ([ file print count-only where name=$FileName ] = 0) do={
+  :while ([ :len [ / file find where name=$FileName ] ] = 0) do={
     :if ($I > 20) do={
       :return false;
     }
@@ -895,7 +895,7 @@
   :global TimeIsSync;
 
   :while ([ $TimeIsSync ] = false) do={
-    :if ([ / system script print count-only where name="rotate-ntp" ] > 0 && \
+    :if ([ :len [ / system script find where name="rotate-ntp" ] ] > 0 && \
          [ :tostr [ / system resource get uptime ] ] ~ "[369]:00\$") do={
       :do {
         / system script run rotate-ntp;

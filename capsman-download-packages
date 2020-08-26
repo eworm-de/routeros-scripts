@@ -21,7 +21,7 @@ $WaitFullyConnected;
 :local InstalledVersion [ / system package update get installed-version ];
 :local Updated false;
 
-:if ([ / file print count-only where name=$PackagePath type="directory" ] = 0) do={
+:if ([ :len [ / file find where name=$PackagePath type="directory" ] ] = 0) do={
   $MkDir $PackagePath;
   $LogPrintExit info ("Created directory at package path (" . $PackagePath . \
     "). Please place your packages!") false;
@@ -43,7 +43,7 @@ $WaitFullyConnected;
 }
 
 :if ($Updated = true) do={
-  :if ([ / system script print count-only where name="capsman-rolling-upgrade" ] > 0) do={
+  :if ([ :len [ / system script find where name="capsman-rolling-upgrade" ] ] > 0) do={
     / system script run capsman-rolling-upgrade;
   } else={
     / caps-man remote-cap upgrade [ find where version!=$InstalledVersion ];

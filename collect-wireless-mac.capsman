@@ -17,7 +17,7 @@
 
 $ScriptLock "collect-wireless-mac.capsman";
 
-:if ([ / caps-man access-list print count-only where comment="--- collected above ---" disabled ] = 0) do={
+:if ([ :len [ / caps-man access-list find where comment="--- collected above ---" disabled ] ] = 0) do={
   / caps-man access-list add comment="--- collected above ---" disabled=yes;
   $LogPrintExit warning "Added disabled access-list entry with comment '--- collected above ---'." false;
 }

@@ -18,7 +18,7 @@
 
 $ScriptLock "collect-wireless-mac%TEMPL%";
 
-:if ([ / %PATH% access-list print count-only where comment="--- collected above ---" disabled ] = 0) do={
+:if ([ :len [ / %PATH% access-list find where comment="--- collected above ---" disabled ] ] = 0) do={
   / %PATH% access-list add comment="--- collected above ---" disabled=yes;
   $LogPrintExit warning "Added disabled access-list entry with comment '--- collected above ---'." false;
 }

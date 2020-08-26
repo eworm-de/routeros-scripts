@@ -14,7 +14,7 @@ $ScriptLock "capsman-rolling-upgrade";
 
 :local InstalledVersion [ / system package update get installed-version ];
 
-:local RemoteCapCount [ /caps-man remote-cap print count-only ];
+:local RemoteCapCount [ :len [ / caps-man remote-cap find ] ];
 :if ($RemoteCapCount > 0) do={
   :local Delay (600 / $RemoteCapCount);
   :if ($Delay > 120) do={ :set Delay 120; }

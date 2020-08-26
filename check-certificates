@@ -101,7 +101,7 @@ $WaitFullyConnected;
 :foreach Cert in=[ / certificate find where !revoked !scep-url expires-after<2w fingerprint~"." ] do={
   :local CertVal [ / certificate get $Cert ];
 
-  :if ([ / certificate scep-server print count-only where ca-cert=($CertVal->"ca") ] > 0) do={
+  :if ([ :len [ / certificate scep-server find where ca-cert=($CertVal->"ca") ] ] > 0) do={
     $LogPrintExit debug ("Certificate \"" . ($CertVal->"name") . "\" is handled by SCEP, skipping.") false;
   } else={
     :local State [ $IfThenElse (($CertVal->"expired") = true) "expired" "is about to expire" ];

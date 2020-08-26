@@ -69,8 +69,8 @@ $WaitFullyConnected;
     / interface wireless access-list set $AccList private-pre-shared-key=$NewPsk;
     / caps-man access-list set $AccList private-passphrase=$NewPsk;
 
-    :if ([ / interface wireless print count-only where name=$IntName disabled=no ] = 1) do={
-    :if ([ / caps-man interface print count-only where configuration=$Configuration ] > 0) do={
+    :if ([ :len [ / interface wireless find where name=$IntName disabled=no ] ] = 1) do={
+    :if ([ :len [ / caps-man interface find where configuration=$Configuration ] ] > 0) do={
       :foreach SeenSsid in=$Seen do={
         :if ($SeenSsid = $Ssid) do={
           $LogPrintExit debug ("Already sent a mail for SSID " . $Ssid . ", skipping.") false;

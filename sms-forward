@@ -27,7 +27,7 @@ $WaitFullyConnected;
 :local Settings [ / tool sms get ];
 
 # forward SMS in a loop
-:while ([ / tool sms inbox print count-only ] > 0) do={
+:while ([ :len [ / tool sms inbox find ] ] > 0) do={
   :local Phone [ / tool sms inbox get ([ find ]->0) phone ];
   :local Messages "";
   :local Delete [ :toarray "" ];
