@@ -55,4 +55,3 @@
       "Backup file:    " . $BackupFile . "\n" . \
       "Config file:    " . $ConfigFile) \
     file=$Attach;
-}
