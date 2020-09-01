@@ -17,6 +17,7 @@
 :global CharacterReplace;
 :global DeviceInfo;
 :global LogPrintExit;
+:global WaitForFile;
 
 :if ($BackupSendBinary != true && \
      $BackupSendExport != true) do={
@@ -32,6 +33,7 @@
 # binary backup
 :if ($BackupSendBinary = true) do={
   / system backup save encryption=aes-sha256 name=$FileName password=$BackupPassword;
+  $WaitForFile ($FileName . ".backup");
   :set BackupFile ($FileName . ".backup");
   :set Attach ($Attach, $BackupFile);
 }
@@ -39,6 +41,7 @@
 # create configuration export
 :if ($BackupSendExport = true) do={
   / export terse file=$FileName;
+  $WaitForFile ($FileName . ".rsc");
   :set ConfigFile ($FileName . ".rsc");
   :set Attach ($Attach, $ConfigFile);
 }
