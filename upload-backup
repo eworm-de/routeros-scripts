@@ -71,4 +71,3 @@ $SendNotification ([ $SymbolForNotification [ $IfThenElse ($Failed > 0) "warning
     [ $DeviceInfo ] . "\n\n" . \
     "Backup file:    " . $BackupFile . "\n" . \
     "Config file:    " . $ConfigFile) "" "true";
-}
