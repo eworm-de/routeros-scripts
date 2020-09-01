@@ -21,6 +21,7 @@
 :global LogPrintExit;
 :global SendNotification;
 :global SymbolForNotification;
+:global WaitForFile;
 
 :if ($BackupSendBinary != true && \
      $BackupSendExport != true) do={
@@ -36,6 +37,7 @@
 # binary backup
 :if ($BackupSendBinary = true) do={
   / system backup save encryption=aes-sha256 name=$FileName password=$BackupPassword;
+  $WaitForFile ($FileName . ".backup");
 
   :do {
     / tool fetch upload=yes url=($BackupUploadUrl . "/" . $FileName . ".backup") \
@@ -51,6 +53,7 @@
 # create configuration export
 :if ($BackupSendExport = true) do={
   / export terse file=$FileName;
+  $WaitForFile ($FileName . ".rsc");
 
   :do {
     / tool fetch upload=yes url=($BackupUploadUrl . "/" . $FileName . ".rsc") \
