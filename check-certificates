@@ -98,7 +98,7 @@ $WaitFullyConnected;
   }
 }
 
-:foreach Cert in=[ / certificate find where !revoked !scep-url expires-after<2w !(fingerprint=[]) ] do={
+:foreach Cert in=[ / certificate find where !revoked !scep-url !(expires-after=[]) expires-after<2w !(fingerprint=[]) ] do={
   :local CertVal [ / certificate get $Cert ];
 
   :if ([ :len [ / certificate scep-server find where ca-cert=($CertVal->"ca") ] ] > 0) do={
