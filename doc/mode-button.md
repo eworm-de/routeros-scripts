@@ -14,6 +14,20 @@ The hardware needs to have a mode button, see
 can configure the reset button to act the same, see
 `/ system routerboard reset-button`.
 
+Copy this code to terminal to check:
+
+```
+:if ([ :len [ /system routerboard mode-button print as-value ] ] > 0) do={
+  :put "Mode button is supported.";
+} else={
+  :if ([ :len [ /system routerboard reset-button print as-value ] ] > 0) do={
+    :put "Mode button is not supported, but reset button is.";
+  } else={
+    :put "Neither mode button nor reset button is supported.";
+  }
+}
+```
+
 Requirements and installation
 -----------------------------
 
