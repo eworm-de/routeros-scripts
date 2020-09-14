@@ -24,6 +24,7 @@
 :global DeviceInfo;
 :global DNSIsResolving;
 :global DownloadPackage;
+:global FlushTelegramQueue;
 :global GetMacVendor;
 :global GetRandom20CharHex;
 :global GetRandomNumber;
@@ -278,6 +279,36 @@
   }
 
   :return false;
+}
+
+# flush telegram queue
+:set FlushTelegramQueue do={
+  :global TelegramQueue;
+  :global TelegramTokenId;
+
+  :global LogPrintExit;
+
+  :local AllDone true;
+  :local QueueLen [ :len $TelegramQueue ];
+  :foreach Id,Message in=$TelegramQueue do={
+    :if ([ :typeof $Message ] = "array" ) do={
+      :do {
+        / tool fetch check-certificate=yes-without-crl output=none http-method=post \
+          ("https://api.telegram.org/bot" . $TelegramTokenId . "/sendMessage") \
+          http-data=("chat_id=" . ($Message->"chatid") . \
+          "&disable_notification=" . ($Message->"silent") . \
+          "&text=" . ($Message->"text"));
+        :set ($TelegramQueue->$Id);
+      } on-error={
+        $LogPrintExit debug ("Sending queued Telegram message failed.") false;
+        :set AllDone false;
+      }
+    }
+  }
+
+  :if ($AllDone = true && $QueueLen = [ :len $TelegramQueue ]) do={
+    / system scheduler remove FlushTelegramQueue;
+  }
 }
 
 # get MAC vendor
@@ -701,9 +732,10 @@
   :local Silent  [ :tostr $3 ];
 
   :global Identity;
-  :global TelegramTokenId;
   :global TelegramChatId;
   :global TelegramChatIdOverride;
+  :global TelegramQueue;
+  :global TelegramTokenId;
 
   :global CertificateAvailable;
   :global LogPrintExit;
@@ -718,6 +750,7 @@
     :return false;
   }
 
+  :local Text [ $UrlEncode ("[" . $Identity . "] " . $Subject . "\n\n" . $Message) ];
   :do {
     :if ([ $CertificateAvailable "Go Daddy Secure Certificate Authority - G2" ] = false) do={
       $LogPrintExit warning ("Downloading required certificate failed.") true;
@@ -725,9 +758,18 @@
     / tool fetch check-certificate=yes-without-crl output=none http-method=post \
       ("https://api.telegram.org/bot" . $TelegramTokenId . "/sendMessage") \
       http-data=("chat_id=" . $ChatId . "&disable_notification=" . $Silent . \
-      "&text=" . [ $UrlEncode ("[" . $Identity . "] " . $Subject . "\n\n" . $Message) ]);
+      "&text=" . $Text);
   } on-error={
-    $LogPrintExit warning ("Failed sending telegram notification!") false;
+    $LogPrintExit warning ("Failed sending telegram notification! Queuing...") false;
+
+    :if ([ :typeof $TelegramQueue ] = "nothing") do={
+      :set TelegramQueue [ :toarray "" ];
+    }
+    :set ($TelegramQueue->[ :len $TelegramQueue ]) { chatid=$ChatId; text=$Text; silent=$Silent };
+    :if ([ :len [ / system scheduler find where name="FlushTelegramQueue" ] ] = 0) do={
+      / system scheduler add name=FlushTelegramQueue interval=1m start-time=startup \
+        on-event=":global FlushTelegramQueue; \$FlushTelegramQueue;";
+    }
   }
 }
 
