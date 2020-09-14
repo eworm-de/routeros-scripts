@@ -312,6 +312,7 @@
 
   :if ($AllDone = true && $QueueLen = [ :len $TelegramQueue ]) do={
     / system scheduler remove FlushTelegramQueue;
+    :set TelegramQueue;
   }
 }
 
