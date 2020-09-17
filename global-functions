@@ -240,7 +240,7 @@
   :global LogPrintExit;
   :global WaitForFile;
 
-  :if ([ :len $PkgName ] = 0) do={ return false; }
+  :if ([ :len $PkgName ] = 0) do={ :return false; }
   :if ([ :len $PkgVer  ] = 0) do={ :set PkgVer  [ / system package update get installed-version ]; }
   :if ([ :len $PkgArch ] = 0) do={ :set PkgArch [ / system resource get architecture-name ]; }
 
