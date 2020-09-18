@@ -14,6 +14,7 @@
 
 :global LogPrintExit;
 :global SendNotification;
+:global SymbolForNotification;
 :global UrlEncode;
 :global WaitForFile;
 :global WaitFullyConnected;
@@ -87,7 +88,7 @@ $WaitFullyConnected;
           :set Attach "";
         }
 
-        $SendNotification ("daily PSK " . $Ssid) \
+        $SendNotification ([ $SymbolForNotification "calendar" ] . "daily PSK " . $Ssid) \
           ("This is the daily PSK on " . $Identity . ":\n\n" . \
             "SSID: " . $Ssid . "\n" . \
             "PSK:  " . $NewPsk . "\n" . \
