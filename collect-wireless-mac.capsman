@@ -14,6 +14,7 @@
 :global LogPrintExit;
 :global ScriptLock;
 :global SendNotification;
+:global SymbolForNotification;
 
 $ScriptLock "collect-wireless-mac.capsman";
 
@@ -51,7 +52,7 @@ $ScriptLock "collect-wireless-mac.capsman";
       "first seen on " . $DateTime . " connected to SSID " . $Ssid . ", interface " . $Interface);
     $LogPrintExit info $Message false;
     / caps-man access-list add place-before=$PlaceBefore comment=$Message mac-address=$Mac disabled=yes;
-    $SendNotification ($Mac . " connected to " . $Ssid) \
+    $SendNotification ([ $SymbolForNotification "mobile-phone" ] . $Mac . " connected to " . $Ssid) \
       ("A device with unknown MAC address connected to " . $Ssid . " on " . $Identity . ".\n\n" . \
         "Controller: " . $Identity . "\n" . \
         "Interface:  " . $Interface . "\n" . \
