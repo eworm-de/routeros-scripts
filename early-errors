@@ -1,4 +1,4 @@
-#!rsc
+#!rsc by RouterOS
 # RouterOS script: early-errors
 
 :global LogPrintExit;

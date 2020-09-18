@@ -1,4 +1,4 @@
-#!rsc
+#!rsc by RouterOS
 # RouterOS script: capsman-rolling-upgrade
 # Copyright (c) 2018-2020 Christian Hesse <mail@eworm.de>
 #                         Michael Gisbers <michael@gisbers.de>

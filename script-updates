@@ -1,4 +1,4 @@
-#!rsc
+#!rsc by RouterOS
 # RouterOS script: script-updates
 
 :global LogPrintExit;

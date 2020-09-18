@@ -1,4 +1,4 @@
-#!rsc
+#!rsc by RouterOS
 # RouterOS script: global-functions
 # Copyright (c) 2013-2020 Christian Hesse <mail@eworm.de>
 #                         Michael Gisbers <michael@gisbers.de>
@@ -533,11 +533,11 @@
   :foreach Script in=$Scripts do={
     :if ([ :len [ / system script find where name=$Script ] ] = 0) do={
       $LogPrintExit info ("Adding new script: " . $Script) false;
-      / system script add name=$Script source="#!rsc";
+      / system script add name=$Script source="#!rsc by RouterOS\n";
     }
   }
 
-  :foreach Script in=[ / system script find where source~"^#!rsc" ] do={
+  :foreach Script in=[ / system script find where source~"^#!rsc( by RouterOS)\?\n" ] do={
     :local Ignore 0;
     :local ScriptVal [ / system script get $Script ];
     :local ScriptFile [ / file find where name=("script-updates/" . $ScriptVal->"name") ];
@@ -597,7 +597,7 @@
     }
 
     :if ([ :len $SourceNew ] > 0) do={
-      :if ([ :pick $SourceNew 0 5 ] = "#!rsc") do={
+      :if ([ :pick $SourceNew 0 18 ] = "#!rsc by RouterOS\n") do={
         :if ($SourceNew != $ScriptVal->"source") do={
           :local DontRequirePermissions \
               ($SourceNew~"\n# requires: dont-require-permissions=yes\n");

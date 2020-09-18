@@ -1,4 +1,4 @@
-#!rsc
+#!rsc by RouterOS
 # RouterOS script: daily-psk.capsman
 # Copyright (c) 2013-2020 Christian Hesse <mail@eworm.de>
 #                         Michael Gisbers <michael@gisbers.de>
