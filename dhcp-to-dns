@@ -31,7 +31,7 @@
 :foreach DnsRecord in=[ / ip dns static find where comment ~ $CommentPrefix ] do={
   :local DnsRecordVal [ / ip dns static get $DnsRecord ];
   :local MacAddress [ $CharacterReplace ($DnsRecordVal->"comment") $CommentPrefix "" ];
-  :if ([ :len [ / ip dhcp-server lease find where mac-address=$MacAddress address=($DnsRecordVal->"address") dynamic=yes status=bound ] ] > 0) do={
+  :if ([ :len [ / ip dhcp-server lease find where mac-address=$MacAddress address=($DnsRecordVal->"address") status=bound ] ] > 0) do={
     $LogPrintExit debug ("Lease for " . $MacAddress . " (" . $DnsRecordVal->"name" . ") still exists. Not deleting DNS entry.") false;
   } else={
     :local Found false;
@@ -40,7 +40,7 @@
   }
 }
 
-:foreach Lease in=[ / ip dhcp-server lease find where dynamic=yes status=bound ] do={
+:foreach Lease in=[ / ip dhcp-server lease find where status=bound ] do={
   :local LeaseVal [ / ip dhcp-server lease get $Lease ];
   :local Comment ($CommentPrefix . $LeaseVal->"mac-address");
   :local HostName [ $IfThenElse ([ :len ($LeaseVal->"host-name") ] = 0) \
@@ -52,13 +52,13 @@
   :if ([ :len $DnsRecord ] > 0) do={
     :local DnsIp [ / ip dns static get $DnsRecord address ];
 
-    :local DupMacLeases [ / ip dhcp-server lease find where mac-address=($LeaseVal->"mac-address") dynamic=yes status=bound ];
+    :local DupMacLeases [ / ip dhcp-server lease find where mac-address=($LeaseVal->"mac-address") status=bound ];
     :if ([ :len $DupMacLeases ] > 1) do={
       :set ($LeaseVal->"address") [ / ip dhcp-server lease get ($DupMacLeases->([ :len $DupMacLeases ] - 1)) address ];
     }
 
     :if ([ :len ($LeaseVal->"host-name") ] > 0) do={
-      :set ($LeaseVal->"address") [ / ip dhcp-server lease get ([ find where host-name=($LeaseVal->"host-name") dynamic=yes status=bound ]->0) address ];
+      :set ($LeaseVal->"address") [ / ip dhcp-server lease get ([ find where host-name=($LeaseVal->"host-name") status=bound ]->0) address ];
     }
 
     :if ($DnsIp = $LeaseVal->"address") do={
