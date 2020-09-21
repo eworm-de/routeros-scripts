@@ -10,7 +10,7 @@
 
 :local Remote [ /system logging action get ([ find where target=remote ]->0) remote ];
 
-if ([ / tool netwatch get [ find where host=$Remote ] status ] = "up") do={
+if ([ / tool netwatch get [ find where host=$Remote up-script="netwatch-syslog" down-script="netwatch-syslog" ] status ] = "up") do={
   / system logging set disabled=no [ find where action=remote disabled=yes ];
 } else={
   / system logging set disabled=yes [ find where action=remote disabled=no ];
