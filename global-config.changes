@@ -30,4 +30,5 @@
   24="Made symbols in notifications configurable.";
   25="Added support for DHCP server name in DNS FQDN via '\$ServerNameInZone'";
   26="Made check count threshold in 'netwatch-notify' configurable.";
+  27="Added queue for Telegram notifications to resend later on error.";
 };
