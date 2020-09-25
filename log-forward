@@ -8,6 +8,7 @@
 
 :global Identity;
 :global LogForwardFilter;
+:global LogForwardFilterMessage;
 :global LogForwardLast;
 
 :global LogPrintExit;
@@ -29,7 +30,7 @@ $WaitFullyConnected;
 :local Messages "";
 :local MessageVal;
 
-:foreach Message in=[ / log find where !(topics~$LogForwardFilter) ] do={
+:foreach Message in=[ / log find where !(topics~$LogForwardFilter) !(message~$LogForwardFilterMessage) ] do={
   :set MessageVal [ / log get $Message ];
 
   :if ($LogForwardLast = ($MessageVal->".id")) do={
