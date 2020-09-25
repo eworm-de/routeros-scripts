@@ -9,7 +9,7 @@
 # Make sure all configuration properties are up to date and this
 # value is in sync with value in script 'global-functions'!
 # Comment or remove to disable change notifications.
-:global GlobalConfigVersion 25;
+:global GlobalConfigVersion 26;
 
 # Copy configuration from global-config here and modify it.
 
