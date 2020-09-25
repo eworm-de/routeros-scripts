@@ -31,4 +31,5 @@
   25="Added support for DHCP server name in DNS FQDN via '\$ServerNameInZone'";
   26="Made check count threshold in 'netwatch-notify' configurable.";
   27="Added queue for Telegram notifications to resend later on error.";
+  28="Made 'dhcp-to-dns' act on all bound leases, not just dynamic ones.";
 };
