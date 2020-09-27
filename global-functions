@@ -744,6 +744,7 @@
 
   :global CertificateAvailable;
   :global LogPrintExit;
+  :global SymbolForNotification;
   :global UrlEncode;
 
   :local ChatId $TelegramChatId;
@@ -755,7 +756,13 @@
     :return false;
   }
 
-  :local Text [ $UrlEncode ("[" . $Identity . "] " . $Subject . "\n\n" . $Message) ];
+  :local Text ("[" . $Identity . "] " . $Subject . "\n\n" . $Message);
+  :if ([ :len $Text ] > 3968) do={
+    :set Text ([ :pick $Text 0 3840 ] . "...\n\n" . [ $SymbolForNotification "warning-sign" ] . \
+      "The Telegram message was too long and has been truncated.");
+  }
+  :set Text [ $UrlEncode $Text ];
+
   :do {
     :if ([ $CertificateAvailable "Go Daddy Secure Certificate Authority - G2" ] = false) do={
       $LogPrintExit warning ("Downloading required certificate failed.") true;
