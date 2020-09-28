@@ -10,6 +10,7 @@
 :global LogForwardFilter;
 :global LogForwardFilterMessage;
 :global LogForwardLast;
+:global LogForwardRateLimit;
 
 :global LogPrintExit;
 :global MailServerIsUp;
@@ -19,6 +20,15 @@
 :global WaitFullyConnected;
 
 $ScriptLock "log-forward";
+
+:if ([ :typeof $LogForwardRateLimit ] = "nothing") do={
+  :set LogForwardRateLimit 0;
+}
+
+:if ($LogForwardRateLimit > 30) do={
+  :set LogForwardRateLimit ($LogForwardRateLimit - 1);
+  $LogPrintExit info ("Rate limit in action, not forwarding logs!") true;
+}
 
 $WaitFullyConnected;
 
@@ -48,5 +58,10 @@ $WaitFullyConnected;
     ("The log on " . $Identity . " contains these " . $Count . " messages after " . \
       [ / system resource get uptime ] . " uptime.\n" . $Messages);
 
+  :set LogForwardRateLimit ($LogForwardRateLimit + 10);
   :set LogForwardLast ($MessageVal->".id");
+} else={
+  :if ($LogForwardRateLimit > 0) do={
+    :set LogForwardRateLimit ($LogForwardRateLimit - 1);
+  }
 }
