@@ -758,7 +758,7 @@
 
   :local Text ("[" . $Identity . "] " . $Subject . "\n\n" . $Message);
   :if ([ :len $Text ] > 3968) do={
-    :set Text ([ :pick $Text 0 3840 ] . "...\n\n" . [ $SymbolForNotification "warning-sign" ] . \
+    :set Text ([ :pick $Text 0 3840 ] . "...\n\n" . [ $SymbolForNotification "scissors" ] . \
       "The Telegram message was too long and has been truncated.");
   }
   :set Text [ $UrlEncode $Text ];
@@ -799,6 +799,7 @@
     "lock-with-ink-pen"="\F0\9F\94\8F";
     "mobile-phone"="\F0\9F\93\B1";
     "pushpin"="\F0\9F\93\8C";
+    "scissors"="\E2\9C\82";
     "sparkles"="\E2\9C\A8";
     "warning-sign"="\E2\9A\A0";
     "white-heavy-check-mark"="\E2\9C\85"
