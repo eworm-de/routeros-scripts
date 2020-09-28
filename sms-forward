@@ -20,7 +20,7 @@
 
 $WaitFullyConnected;
 
-:if ($MailServerIsUp = false) do={
+:if ([ $MailServerIsUp ] = false) do={
   $LogPrintExit warning "Mail server is not up." true;
 }
 
