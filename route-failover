@@ -1,0 +1,26 @@
+#Primary ISP Gateway
+:global Gateway1 "1"
+#Secondary ISB Gateway
+:global Gateway2 "2"
+#DNS OpenDNS // Change your own hosts
+:global Host1 "208.67.222.222" 
+:global Host2 "208.67.220.220"
+/ip route
+add dst-address=0.0.0.0/0 gateway=$Gateway1 distance=1 check-gateway=ping
+add dst-address=0.0.0.0/0 gateway=$Gateway2 distance=2
+
+/ip route
+add dst-address=$Host1 gateway=$Gateway1 scope=10
+add dst-address=$Host2 gateway=$Gateway2 scope=10
+
+/ip route
+add distance=1 gateway=$Host1 routing-mark=ISP1 check-gateway=ping
+add distance=2 gateway=$Host2 routing-mark=ISP1 check-gateway=ping
+
+/ip route
+add distance=1 gateway=$Host1 routing-mark=ISP2 check-gateway=ping
+add distance=2 gateway=$Host2 routing-mark=ISP2 check-gateway=ping
+
+/ip route
+add dst-address=$Host1 type=blackhole distance=20
+add dst-address=$Host2 type=blackhole distance=20
