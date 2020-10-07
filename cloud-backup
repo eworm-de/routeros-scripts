@@ -34,5 +34,7 @@
       "Size:           " . $Cloud->"size" . "\n" . \
       "Download key:   " . $Cloud->"secret-download-key") "" "true";
 } on-error={
-  $LogPrintExit error ("Failed uploading backup for " . $Identity . " to cloud.") false;
+  $SendNotification ([ $SymbolForNotification "warning-sign" ] . "Cloud backup failed") \
+      ("Failed uploading backup for " . $Identity . " to cloud!\n\n" . [ $DeviceInfo ]);
+  $LogPrintExit error ("Failed uploading backup for " . $Identity . " to cloud!") true;
 }
