@@ -49,11 +49,12 @@ $ScriptLock "packages-update";
 }
 
 :foreach Script in=[ / system script find where name~"^(cloud|email|upload)-backup\$" ] do={
+  :local ScriptName [ / system script get $Script name ];
   :do {
+    $LogPrintExit info ("Running backup script " . $ScriptName . " before update.") false;
     / system script run $Script;
   } on-error={
-    :local ScriptName [ / system script get $Script name ];
-    $LogPrintExit warning ("Running backup script " . $ScriptName . " failed.") false;
+    $LogPrintExit warning ("Running backup script " . $ScriptName . " before update failed!") false;
   }
 }
 
