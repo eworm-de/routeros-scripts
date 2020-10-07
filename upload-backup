@@ -66,8 +66,10 @@
   }
 }
 
-$SendNotification ([ $SymbolForNotification [ $IfThenElse ($Failed > 0) "warning-sign" "floppy-disk" ] ] . "Backup & Config Upload") \
-  ("Backup and config export upload for " . $Identity . ".\n\n" . \
+$SendNotification [ $IfThenElse ($Failed > 0) \
+    ([ $SymbolForNotification "warning-sign" ] . "Backup & Config upload with failure") \
+    ([ $SymbolForNotification "floppy-disk" ] . "Backup & Config upload") ] \
+    ("Backup and config export upload for " . $Identity . ".\n\n" . \
     [ $DeviceInfo ] . "\n\n" . \
     "Backup file:    " . $BackupFile . "\n" . \
     "Config file:    " . $ConfigFile) "" "true";
