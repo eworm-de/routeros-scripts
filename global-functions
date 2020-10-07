@@ -402,6 +402,7 @@
     :if ($Severity = "info" ) do={ :log info  $Message; }
   } else={
     :log warning $Message;
+    :set Severity "warning";
   }
 
   :if ($Severity != "debug" || $PrintDebug = true) do={
