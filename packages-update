@@ -52,7 +52,8 @@ $ScriptLock "packages-update";
   :do {
     / system script run $Script;
   } on-error={
-    $LogPrintExit warning ("Running backup script " . $Script . " failed.") false;
+    :local ScriptName [ / system script get $Script name ];
+    $LogPrintExit warning ("Running backup script " . $ScriptName . " failed.") false;
   }
 }
 
