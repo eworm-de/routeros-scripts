@@ -967,7 +967,7 @@
 
   :while ([ $TimeIsSync ] = false) do={
     :if ([ :len [ / system script find where name="rotate-ntp" ] ] > 0 && \
-         [ :tostr [ / system resource get uptime ] ] ~ "[369]:00\$") do={
+         ([ / system resource get uptime ] % (180 * 1000000000)) = 0s) do={
       :do {
         / system script run rotate-ntp;
       } on-error={
