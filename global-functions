@@ -379,13 +379,26 @@
   :local Bits [ :tonum [ :pick $Input ([ :find $Input "/" ] + 1) [ :len $Input ] ] ];
   :local Mask ((255.255.255.255 << (32 - $Bits)) & 255.255.255.255);
 
+  :local Return {
+    "address"=$Address;
+    "netmask"=$Mask;
+    "networkaddress"=($Address & $Mask);
+    "networkbits"=$Bits;
+    "network"=(($Address & $Mask) . "/" . $Bits);
+    "hostmin"=(($Address & $Mask) | 0.0.0.1);
+    "hostmax"=(($Address | ~$Mask) ^ 0.0.0.1);
+    "broadcast"=($Address | ~$Mask);
+  }
+
   :put ( \
-    "Address:   " . $Address . "\n\r" . \
-    "Netmask:   " . $Mask . "\n\r" . \
-    "Network:   " . ($Address & $Mask) . "/" . $Bits . "\n\r" . \
-    "HostMin:   " . (($Address & $Mask) | 0.0.0.1) . "\n\r" . \
-    "HostMax:   " . (($Address | ~$Mask) ^ 0.0.0.1) . "\n\r" . \
-    "Broadcast: " . ($Address | ~$Mask));
+    "Address:   " . $Return->"address" . "\n\r" . \
+    "Netmask:   " . $Return->"netmask" . "\n\r" . \
+    "Network:   " . $Return->"network" . "\n\r" . \
+    "HostMin:   " . $Return->"hostmin" . "\n\r" . \
+    "HostMax:   " . $Return->"hostmax" . "\n\r" . \
+    "Broadcast: " . $Return->"broadcast");
+
+  :return $Return;
 }
 
 # log and print with same text, optionally exit
