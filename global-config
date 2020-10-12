@@ -8,7 +8,7 @@
 
 # Make sure all configuration properties are up to date and this
 # value is in sync with value in script 'global-functions'!
-:global GlobalConfigVersion 30;
+:global GlobalConfigVersion 31;
 
 # This is used for DNS and backup file.
 :global Domain "example.com";
@@ -28,6 +28,8 @@
 :global TelegramChatId "";
 #:global TelegramTokenId "123456:ABCDEF-GHI";
 #:global TelegramChatId "12345678";
+# This is whether or not to send Telegram messages with fixed-width font.
+:global TelegramFixedWidthFont true;
 
 # Toggle this to disable symbols in notifications.
 :global NotificationsWithSymbols true;

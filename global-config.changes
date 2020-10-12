@@ -34,4 +34,5 @@
   28="Made 'dhcp-to-dns' act on all bound leases, not just dynamic ones.";
   29="Added filter on log message text for 'log-forward'.";
   30="Implemented simple rate limit for 'log-forward' to prevent flooding.";
+  31="Switched Telegram notifications to fixed-width font, with opt-out.";
 };

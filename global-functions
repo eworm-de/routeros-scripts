@@ -8,7 +8,7 @@
 # https://git.eworm.de/cgit/routeros-scripts/about/
 
 # expected configuration version
-:global ExpectedConfigVersion 30;
+:global ExpectedConfigVersion 31;
 
 # global variables not to be changed by user
 :global GlobalFunctionsReady false;
@@ -297,7 +297,7 @@
           ("https://api.telegram.org/bot" . $TelegramTokenId . "/sendMessage") \
           http-data=("chat_id=" . ($Message->"chatid") . \
           "&disable_notification=" . ($Message->"silent") . \
-          "&text=" . ($Message->"text"));
+          "&parse_mode=" . ($Message->"parsemode") . "&text=" . ($Message->"text"));
         :set ($TelegramQueue->$Id);
       } on-error={
         $LogPrintExit debug ("Sending queued Telegram message failed.") false;
@@ -760,13 +760,30 @@
   :global Identity;
   :global TelegramChatId;
   :global TelegramChatIdOverride;
+  :global TelegramFixedWidthFont;
   :global TelegramQueue;
   :global TelegramTokenId;
 
   :global CertificateAvailable;
+  :global CharacterReplace;
+  :global IfThenElse;
   :global LogPrintExit;
   :global SymbolForNotification;
   :global UrlEncode;
+
+  :local EscapeMD do={
+    :global TelegramFixedWidthFont;
+
+    :if ($TelegramFixedWidthFont != true) do={
+      :return $1;
+    }
+
+    :local Return $1;
+    :foreach Char in={ "."; "!" } do={
+      :set Return [ $CharacterReplace $Return $Char ("\\" . $Char) ];
+    }
+    :return $Return;
+  }
 
   :local ChatId $TelegramChatId;
   :if ([ :len $TelegramChatIdOverride ] > 0) do={
@@ -778,9 +795,17 @@
   }
 
   :local Text ("[" . $Identity . "] " . $Subject . "\n\n" . $Message);
+  :local ParseMode;
+  :if ($TelegramFixedWidthFont = true) do={
+    :set Text ("```\n" . [ $CharacterReplace [ $CharacterReplace $Text \
+        ("\\") ("\\\\") ] ("`") ("\\`") ] . "\n```");
+    :set ParseMode "MarkdownV2";
+  }
   :if ([ :len $Text ] > 3968) do={
-    :set Text ([ :pick $Text 0 3840 ] . "...\n\n" . [ $SymbolForNotification "scissors" ] . \
-      "The Telegram message was too long and has been truncated.");
+    :set Text ([ :pick $Text 0 3840 ] . "..." . \
+      [ $IfThenElse ($TelegramFixedWidthFont = true) ("\n```") "" ] . \
+      "\n\n" . [ $SymbolForNotification "scissors" ] . \
+      [ $EscapeMD "The Telegram message was too long and has been truncated!" ]);
   }
   :set Text [ $UrlEncode $Text ];
 
@@ -791,7 +816,7 @@
     / tool fetch check-certificate=yes-without-crl output=none http-method=post \
       ("https://api.telegram.org/bot" . $TelegramTokenId . "/sendMessage") \
       http-data=("chat_id=" . $ChatId . "&disable_notification=" . $Silent . \
-      "&text=" . $Text);
+      "&parse_mode=" . $ParseMode . "&text=" . $Text);
   } on-error={
     $LogPrintExit warning ("Failed sending telegram notification! Queuing...") false;
 
@@ -799,10 +824,10 @@
       :set TelegramQueue [ :toarray "" ];
     }
     :set Text ($Text . [ $UrlEncode ("\n\n" . [ $SymbolForNotification "alarm-clock" ] . \
-      "This message was queued since " . [ / system clock get date ] . " " . \
-      [ / system clock get time ] . " and may be obsolete.") ]);
+      [ $EscapeMD ("This message was queued since " . [ / system clock get date ] . \
+      " " . [ / system clock get time ] . " and may be obsolete.") ]) ]);
     :set ($TelegramQueue->[ :len $TelegramQueue ]) {
-      chatid=$ChatId; text=$Text; silent=$Silent; };
+      chatid=$ChatId; parsemode=$ParseMode; text=$Text; silent=$Silent };
     :if ([ :len [ / system scheduler find where name="FlushTelegramQueue" ] ] = 0) do={
       / system scheduler add name=FlushTelegramQueue interval=1m start-time=startup \
         on-event=":global FlushTelegramQueue; \$FlushTelegramQueue;";
