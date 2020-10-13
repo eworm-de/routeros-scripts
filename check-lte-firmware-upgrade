@@ -9,6 +9,7 @@
 :global Identity;
 :global SentLteFirmwareUpgradeNotification;
 
+:global CharacterReplace;
 :global LogPrintExit;
 :global SendNotification;
 :global SymbolForNotification;
@@ -23,9 +24,11 @@
         ($Firmware->"latest") . ".") false;
     } else={
       :if (($Firmware->"installed") != ($Firmware->"latest")) do={
+        :local Info [ / interface lte info $Interface once as-value ];
         $SendNotification ([ $SymbolForNotification "sparkles" ] . "LTE firmware upgrade") \
           ("A new firmware version " . ($Firmware->"latest") . " is available for " . \
           "LTE interface " . $IntName . " on " . $Identity . ".\n\n" . \
+          "Interface: " . [ $CharacterReplace ($Info->"manufacturer" . " " . $Info->"model") ("\"") "" ] . "\n" . \
           "Installed: " . ($Firmware->"installed") . "\n" . \
           "Available: " . ($Firmware->"latest")) "" "true";
         :set SentLteFirmwareUpgradeNotification ($Firmware->"latest");
