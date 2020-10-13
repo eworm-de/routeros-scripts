@@ -17,14 +17,17 @@
 
   :if (($Firmware->"installed") != ($Firmware->"latest")) do={
     :log info ("Scheduling LTE firmware upgrade for interface " . $IntName . ".");
-    / system script add name=($IntName . "-firmware-upgrade") source=("# unattended-lte-firmware-upgrade\n" . \
-       "/ system scheduler remove " . $IntName . "-firmware-upgrade;\n" . \
-       "/ system script remove " . $IntName . "-firmware-upgrade;\n" . \
-       "/ interface lte firmware-upgrade " . $IntName . " upgrade=yes;\n" . \
-       ":log info (\"LTE firmware upgrade finished, waiting for installation before reset.\");\n" . \
-       ":delay 150s;\n" . \
-       "/ interface lte at-chat " . $IntName . " input=\"AT+RESET\";");
-    / system scheduler add name=($IntName . "-firmware-upgrade") \
-       on-event=("/ system script run " . $IntName . "-firmware-upgrade;") interval=1m;
+    :global LTEFirmwareUpgrade do={
+      :global LTEFirmwareUpgrade;
+      :set LTEFirmwareUpgrade;
+      / system scheduler remove ($1 . "-firmware-upgrade");
+      / interface lte firmware-upgrade $1 upgrade=yes;
+      :log info ("LTE firmware upgrade finished, waiting for installation before reset.");
+      :delay 150s;
+      / interface lte at-chat $1 input="AT+RESET";
+      :log info ("Reset device, waiting to finish and reconnect.");
+    }
+    / system scheduler add name=($IntName . "-firmware-upgrade") start-time=startup interval=2s \
+      on-event=(":global LTEFirmwareUpgrade; \$LTEFirmwareUpgrade \"" . $IntName . "\";");
   }
 }
