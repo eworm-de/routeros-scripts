@@ -287,8 +287,6 @@
   :global TelegramTokenId;
 
   :global LogPrintExit;
-  :global SymbolForNotification;
-  :global UrlEncode;
 
   :local AllDone true;
   :local QueueLen [ :len $TelegramQueue ];
@@ -299,9 +297,7 @@
           ("https://api.telegram.org/bot" . $TelegramTokenId . "/sendMessage") \
           http-data=("chat_id=" . ($Message->"chatid") . \
           "&disable_notification=" . ($Message->"silent") . \
-          "&text=" . ($Message->"text") . "\n\n" . \
-          [ $UrlEncode ([ $SymbolForNotification "alarm-clock" ] . "This message was " . \
-          "queued since " . ($Message->"since") . " and may be obsolete.") ]);
+          "&text=" . ($Message->"text"));
         :set ($TelegramQueue->$Id);
       } on-error={
         $LogPrintExit debug ("Sending queued Telegram message failed.") false;
@@ -802,8 +798,11 @@
     :if ([ :typeof $TelegramQueue ] = "nothing") do={
       :set TelegramQueue [ :toarray "" ];
     }
-    :set ($TelegramQueue->[ :len $TelegramQueue ]) { chatid=$ChatId; text=$Text; \
-      silent=$Silent; since=([ / system clock get date ] . " " . [ / system clock get time ]) };
+    :set Text ($Text . [ $UrlEncode ("\n\n" . [ $SymbolForNotification "alarm-clock" ] . \
+      "This message was queued since " . [ / system clock get date ] . " " . \
+      [ / system clock get time ] . " and may be obsolete.") ]);
+    :set ($TelegramQueue->[ :len $TelegramQueue ]) {
+      chatid=$ChatId; text=$Text; silent=$Silent; };
     :if ([ :len [ / system scheduler find where name="FlushTelegramQueue" ] ] = 0) do={
       / system scheduler add name=FlushTelegramQueue interval=1m start-time=startup \
         on-event=":global FlushTelegramQueue; \$FlushTelegramQueue;";
