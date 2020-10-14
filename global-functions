@@ -774,14 +774,26 @@
   :local EscapeMD do={
     :global TelegramFixedWidthFont;
 
+    :global CharacterReplace;
+
     :if ($TelegramFixedWidthFont != true) do={
       :return $1;
     }
 
     :local Return $1;
-    :foreach Char in={ "."; "!" } do={
+    :local Chars {
+      "fixed"={ "\\"; "`" };
+      "hint"={ "_"; "*"; "["; "]"; "("; ")"; "~"; "`"; ">";
+               "#"; "+"; "-"; "="; "|"; "{"; "}"; "."; "!" };
+    }
+    :foreach Char in=($Chars->$2) do={
       :set Return [ $CharacterReplace $Return $Char ("\\" . $Char) ];
     }
+
+    :if ($2 = "fixed") do={
+      :return ("```\n" . $Return . "\n```");
+    }
+
     :return $Return;
   }
 
@@ -795,19 +807,15 @@
   }
 
   :local Text ("[" . $Identity . "] " . $Subject . "\n\n" . $Message);
-  :local ParseMode;
-  :if ($TelegramFixedWidthFont = true) do={
-    :set Text ("```\n" . [ $CharacterReplace [ $CharacterReplace $Text \
-        ("\\") ("\\\\") ] ("`") ("\\`") ] . "\n```");
-    :set ParseMode "MarkdownV2";
-  }
   :if ([ :len $Text ] > 3968) do={
-    :set Text ([ :pick $Text 0 3840 ] . "..." . \
-      [ $IfThenElse ($TelegramFixedWidthFont = true) ("\n```") "" ] . \
+    :set Text ([ $EscapeMD ([ :pick $Text 0 3840 ] . "...") "fixed" ] . \
       "\n\n" . [ $SymbolForNotification "scissors" ] . \
-      [ $EscapeMD "The Telegram message was too long and has been truncated!" ]);
+      [ $EscapeMD "The Telegram message was too long and has been truncated!" "hint" ]);
+  } else={
+    :set Text [ $EscapeMD $Text "fixed" ];
   }
   :set Text [ $UrlEncode $Text ];
+  :local ParseMode [ $IfThenElse ($TelegramFixedWidthFont = true) "MarkdownV2" "" ];
 
   :do {
     :if ([ $CertificateAvailable "Go Daddy Secure Certificate Authority - G2" ] = false) do={
@@ -825,7 +833,7 @@
     }
     :set Text ($Text . [ $UrlEncode ("\n\n" . [ $SymbolForNotification "alarm-clock" ] . \
       [ $EscapeMD ("This message was queued since " . [ / system clock get date ] . \
-      " " . [ / system clock get time ] . " and may be obsolete.") ]) ]);
+      " " . [ / system clock get time ] . " and may be obsolete.") "hint" ]) ]);
     :set ($TelegramQueue->[ :len $TelegramQueue ]) {
       chatid=$ChatId; parsemode=$ParseMode; text=$Text; silent=$Silent };
     :if ([ :len [ / system scheduler find where name="FlushTelegramQueue" ] ] = 0) do={
