@@ -97,8 +97,8 @@ Mark `global-config-overlay` not to be overwritten by future updates.
     [admin@MikroTik] > / system script set comment="ignore" global-config-overlay
 
 The configuration needs to be tweaked for your needs. Edit
-`global-config-overlay`, copy configuration from `global-config` (the one
-without `-overlay`).
+`global-config-overlay`, copy configuration from
+[`global-config`](global-config) (the one without `-overlay`).
 
     [admin@MikroTik] > / system script edit global-config-overlay source
 
