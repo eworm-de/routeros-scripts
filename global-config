@@ -19,8 +19,10 @@
 # These addresses are used to send e-mails to. The to-address needs
 # to be filled; cc-address can be empty, one address or a comma
 # separated list of addresses.
-:global EmailGeneralTo "mail@example.com";
-:global EmailGeneralCc "another@example.com";
+:global EmailGeneralTo "";
+:global EmailGeneralCc "";
+#:global EmailGeneralTo "mail@example.com";
+#:global EmailGeneralCc "another@example.com,third@example.com";
 
 # You can send Telegram notifications. Register a bot
 # and add the token and chat ids here.
