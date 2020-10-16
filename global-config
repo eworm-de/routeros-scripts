@@ -8,7 +8,7 @@
 
 # Make sure all configuration properties are up to date and this
 # value is in sync with value in script 'global-functions'!
-:global GlobalConfigVersion 32;
+:global GlobalConfigVersion 33;
 
 # This is used for DNS and backup file.
 :global Domain "example.com";
@@ -71,6 +71,8 @@
   board-temperature1=50;
   board-temperature2=50;
 }
+# This is deviation on recovery threshold against notification flooding.
+:global CheckHealthTemperatureDeviation 2;
 :global CheckHealthVoltagePercent 10;
 
 # This controls what configuration is activated by bridge-port-to-default.

@@ -8,6 +8,8 @@
 
 :global CheckHealthLast;
 :global CheckHealthTemperature;
+:global CheckHealthTemperatureDeviation;
+:global CheckHealthTemperatureNotified;
 :global CheckHealthVoltagePercent;
 :global Identity;
 
@@ -24,6 +26,10 @@
 
 :if ([ :len $CheckHealthCurrent ] = 0) do={
   $LogPrintExit error ("Your device does not provide any health values.") true;
+}
+
+:if ([ :typeof $CheckHealthTemperatureNotified ] != "array") do={
+  :set CheckHealthTemperatureNotified [ :toarray "" ];
 }
 
 :foreach Voltage in={ "battery"; "psu1-voltage"; "psu2-voltage"; "voltage" } do={
@@ -56,23 +62,24 @@
 }
 
 :foreach Temperature in={ "temperature"; "cpu-temperature"; "board-temperature1"; "board-temperature2" } do={
-  :if ([ :typeof ($CheckHealthLast->$Temperature) ] = "num" && \
-       [ :typeof ($CheckHealthCurrent->$Temperature) ] = "num") do={
+  :if ([ :typeof ($CheckHealthCurrent->$Temperature) ] = "num") do={
     :if ([ :typeof ($CheckHealthTemperature->$Temperature) ] != "num" ) do={
       $LogPrintExit warning ("No threshold given for " . $Temperature . ", assuming 50C.") false;
       :set ($CheckHealthTemperature->$Temperature) 50;
     }
-    :if ($CheckHealthLast->$Temperature <= $CheckHealthTemperature->$Temperature && \
-         $CheckHealthCurrent->$Temperature > $CheckHealthTemperature->$Temperature) do={
+    :if ($CheckHealthCurrent->$Temperature > $CheckHealthTemperature->$Temperature && \
+         $CheckHealthTemperatureNotified->$Temperature != true) do={
       $SendNotification ([ $SymbolForNotification "fire" ] . "Health warning: " . $Temperature) \
           ("The " . $Temperature . " on " . $Identity . " is above threshold: " .  \
           $CheckHealthCurrent->$Temperature . "\C2\B0" . "C");
+      :set ($CheckHealthTemperatureNotified->$Temperature) true;
     }
-    :if ($CheckHealthLast->$Temperature > $CheckHealthTemperature->$Temperature && \
-         $CheckHealthCurrent->$Temperature <= $CheckHealthTemperature->$Temperature) do={
+    :if ($CheckHealthCurrent->$Temperature <= ($CheckHealthTemperature->$Temperature - $CheckHealthTemperatureDeviation) && \
+         $CheckHealthTemperatureNotified->$Temperature = true) do={
       $SendNotification ([ $SymbolForNotification "white-heavy-check-mark" ] . "Health recovery: " . $Temperature) \
           ("The " . $Temperature . " on " . $Identity . " dropped below threshold: " .  \
           $CheckHealthCurrent->$Temperature . "\C2\B0" . "C");
+      :set ($CheckHealthTemperatureNotified->$Temperature) false;
     }
   }
 }
