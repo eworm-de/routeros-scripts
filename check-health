@@ -22,6 +22,10 @@
 
 :local CheckHealthCurrent [ / system health get ];
 
+:if ([ :len $CheckHealthCurrent ] = 0) do={
+  $LogPrintExit error ("Your device does not provide any health values.") true;
+}
+
 :foreach Voltage in={ "battery"; "psu1-voltage"; "psu2-voltage"; "voltage" } do={
   :if ([ :typeof ($CheckHealthLast->$Voltage) ] = "num" && \
        [ :typeof ($CheckHealthCurrent->$Voltage) ] = "num") do={
