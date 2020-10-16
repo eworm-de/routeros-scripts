@@ -6,7 +6,7 @@ Mode button with multiple presses
 Description
 -----------
 
-These scripts extend the functionality of mode button. Instead of just one
+This script extend the functionality of mode button. Instead of just one
 you can trigger several actions by pressing the mode button several times.
 
 The hardware needs to have a mode button, see
@@ -31,17 +31,17 @@ Copy this code to terminal to check:
 Requirements and installation
 -----------------------------
 
-Just install the scripts:
+Just install the script:
 
-    $ScriptInstallUpdate mode-button-event,mode-button-scheduler;
+    $ScriptInstallUpdate mode-button;
 
-Then configure the mode button to run `mode-button-event`:
+Then configure the mode button to run `mode-button`:
 
-    / system routerboard mode-button set enabled=yes on-event="/ system script run mode-button-event;";
+    / system routerboard mode-button set enabled=yes on-event="/ system script run mode-button;";
 
 To use the reset button instead:
 
-    / system routerboard reset-button set enabled=yes on-event="/ system script run mode-button-event;";
+    / system routerboard reset-button set enabled=yes on-event="/ system script run mode-button;";
 
 Configuration
 -------------

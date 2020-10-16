@@ -1,0 +1,54 @@
+#!rsc by RouterOS
+# RouterOS script: mode-button
+# Copyright (c) 2018-2020 Christian Hesse <mail@eworm.de>
+# https://git.eworm.de/cgit/routeros-scripts/about/COPYING.md
+#
+# act on multiple mode and reset button presses
+# https://git.eworm.de/cgit/routeros-scripts/about/doc/mode-button.md
+
+:global ModeButton;
+
+:global LogPrintExit;
+
+:set ($ModeButton->"count") ($ModeButton->"count" + 1);
+
+:local Scheduler [ / system scheduler find where name="ModeButtonScheduler" ];
+
+:if ([ :len $Scheduler ] = 0) do={
+  $LogPrintExit info ("Creating scheduler ModeButtonScheduler, counting presses...") false;
+  :global ModeButtonScheduler do={
+    :global ModeButton;
+
+    :global LogPrintExit;
+    :global ModeButtonScheduler;
+
+    :local Count ($ModeButton->"count");
+    :local Code ($ModeButton->[ :tostr $Count ]);
+
+    :set ($ModeButton->"count") 0;
+    :set ModeButtonScheduler;
+    / system scheduler remove ModeButtonScheduler;
+
+    :if ([ :len $Code ] > 0) do={
+      $LogPrintExit info ("Acting on " . $Count . " mode-button presses: " . $Code) false;
+
+      :if ([ / system routerboard settings get silent-boot ] = false) do={
+        :for I from=1 to=$Count do={
+          :beep length=200ms;
+          :delay 200ms;
+        }
+      } else={
+        :delay 1s;
+      }
+
+      [ :parse $Code ];
+    } else={
+      $LogPrintExit info ("No action defined for " . $Count . " mode-button presses.") false;
+    }
+  }
+  / system scheduler add name="ModeButtonScheduler" \
+      on-event=":global ModeButtonScheduler; \$ModeButtonScheduler;" interval=3s;
+} else={
+  $LogPrintExit debug ("Updating scheduler ModeButtonScheduler...") false;
+  / system scheduler set $Scheduler start-time=[ /system clock get time ];
+}

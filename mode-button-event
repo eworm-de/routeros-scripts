@@ -1,24 +1,6 @@
 #!rsc by RouterOS
 # RouterOS script: mode-button-event
-# Copyright (c) 2018-2020 Christian Hesse <mail@eworm.de>
-# https://git.eworm.de/cgit/routeros-scripts/about/COPYING.md
-#
-# run on mode-button event and count button presses
-# https://git.eworm.de/cgit/routeros-scripts/about/doc/mode-button.md
-
-:global ModeButton;
 
 :global LogPrintExit;
 
-:set ($ModeButton->"count") ($ModeButton->"count" + 1);
-
-:local Scheduler [ / system scheduler find where name="mode-button-scheduler" ];
-
-:if ([ :len $Scheduler ] = 0) do={
-  $LogPrintExit info ("Creating mode-button scheduler, counting presses...") false;
-  / system scheduler add name="mode-button-scheduler" \
-      on-event="/ system script run mode-button-scheduler;" interval=3s;
-} else={
-  $LogPrintExit debug ("Updating mode-button-scheduler...") false;
-  / system scheduler set $Scheduler start-time=[ /system clock get time ];
-}
+$LogPrintExit warning ("This script's functionality has been merged into 'mode-button'.") true;
