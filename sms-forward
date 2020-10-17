@@ -10,9 +10,12 @@
 
 :global LogPrintExit;
 :global MailServerIsUp;
+:global ScriptLock;
 :global SendNotification;
 :global SymbolForNotification;
 :global WaitFullyConnected;
+
+$ScriptLock "sms-forward";
 
 :if ([ / tool sms get receive-enabled ] = false) do={
   $LogPrintExit warning "Receiving of SMS is not enabled." true;
