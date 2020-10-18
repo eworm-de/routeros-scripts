@@ -12,6 +12,7 @@
 :global LogForwardLast;
 :global LogForwardRateLimit;
 
+:global IfThenElse;
 :global LogPrintExit;
 :global MailServerIsUp;
 :global ScriptLock;
@@ -55,8 +56,9 @@ $WaitFullyConnected;
 
 :if ($Count > 0) do={
   $SendNotification ([ $SymbolForNotification "warning-sign" ] . "Log Forwarding") \
-    ("The log on " . $Identity . " contains these " . $Count . " messages after " . \
-      [ / system resource get uptime ] . " uptime.\n" . $Messages);
+    ("The log on " . $Identity . " contains " . [ $IfThenElse ($Count = 1) \
+    "this message" ("these " . $Count . " messages") ] . " after " . \
+    [ / system resource get uptime ] . " uptime.\n" . $Messages);
 
   :set LogForwardRateLimit ($LogForwardRateLimit + 10);
   :set LogForwardLast ($MessageVal->".id");
