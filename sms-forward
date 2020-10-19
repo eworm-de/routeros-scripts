@@ -8,6 +8,7 @@
 
 :global Identity;
 
+:global IfThenElse;
 :global LogPrintExit;
 :global MailServerIsUp;
 :global ScriptLock;
@@ -50,9 +51,10 @@ $WaitFullyConnected;
   }
 
   :if ([ :len $Messages ] > 0) do={
+    :local Count [ :len $Delete ];
     $SendNotification ([ $SymbolForNotification "incoming-envelope" ] . "SMS Forwarding from " . $Phone) \
-        ("These message(s) were received by " . $Identity . \
-        " from " . $Phone . ":" . $Messages);
+        ("Received " . [ $IfThenElse ($Count = 1) "this message" ("these " . $Count . " messages") ] . \
+        " by " . $Identity . " from " . $Phone . ":" . $Messages);
     :foreach Sms in=$Delete do={
       / tool sms inbox remove $Sms;
     }
