@@ -32,13 +32,15 @@
     :if ([ :len $Code ] > 0) do={
       $LogPrintExit info ("Acting on " . $Count . " mode-button presses: " . $Code) false;
 
-      :if ([ / system routerboard settings get silent-boot ] = false) do={
-        :for I from=1 to=$Count do={
+      :for I from=1 to=$Count do={
+        / system leds set type=on [ find where leds="user-led" type=off ];
+        :if ([ / system routerboard settings get silent-boot ] = false) do={
           :beep length=200ms;
+        } else={
           :delay 200ms;
         }
-      } else={
-        :delay 1s;
+        / system leds set type=off [ find where leds="user-led" type=on ];
+        :delay 200ms;
       }
 
       [ :parse $Code ];
