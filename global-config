@@ -8,7 +8,7 @@
 
 # Make sure all configuration properties are up to date and this
 # value is in sync with value in script 'global-functions'!
-:global GlobalConfigVersion 34;
+:global GlobalConfigVersion 35;
 
 # This is used for DNS and backup file.
 :global Domain "example.com";
@@ -105,6 +105,8 @@
   5="/ system script run bridge-port-toggle;";
 # add more here...
 };
+# This led gives visual feedback if type is 'on' or 'off'.
+:global ModeButtonLED "user-led";
 
 # Run commands on SMS action.
 :global SmsAction {

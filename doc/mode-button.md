@@ -46,9 +46,10 @@ To use the reset button instead:
 Configuration
 -------------
 
-The configuration goes to `global-config-overlay`, the only parameter is:
+The configuration goes to `global-config-overlay`, these are the parameters:
 
 * `ModeButton`: an array with defined actions
+* `ModeButtonLED`: led to give visual feedback
 
 Usage and invocation
 --------------------

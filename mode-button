@@ -23,9 +23,11 @@
     :global ModeButtonScheduler;
 
     :local LEDInvert do={
+      :global ModeButtonLED;
+
       :global IfThenElse;
 
-      :local LED [ / system leds find where leds="user-led" type~"^(on|off)\$" interface=[] ];
+      :local LED [ / system leds find where leds=$ModeButtonLED type~"^(on|off)\$" interface=[] ];
       :if ([ :len $LED ] = 0) do={
         :return false;
       }
