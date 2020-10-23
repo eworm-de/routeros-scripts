@@ -19,14 +19,21 @@
   :global ModeButtonScheduler do={
     :global ModeButton;
 
-    :global IfThenElse;
     :global LogPrintExit;
     :global ModeButtonScheduler;
 
+    :local LEDInvert do={
+      :global IfThenElse;
+
+      :local LED [ / system leds find where leds="user-led" type~"^(on|off)\$" interface=[] ];
+      :if ([ :len $LED ] = 0) do={
+        :return false;
+      }
+      / system leds set type=[ $IfThenElse ([ get $LED type ] = "on") "off" "on" ] $LED;
+    }
+
     :local Count ($ModeButton->"count");
     :local Code ($ModeButton->[ :tostr $Count ]);
-    :local LEDState [ / system leds get [ find where leds="user-led" ] type ];
-    :local LEDInvert [ $IfThenElse ($LEDState = "on") "off" "on" ];
 
     :set ($ModeButton->"count") 0;
     :set ModeButtonScheduler;
@@ -36,12 +43,12 @@
       $LogPrintExit info ("Acting on " . $Count . " mode-button presses: " . $Code) false;
 
       :for I from=1 to=$Count do={
-        / system leds set type=$LEDInvert [ find where leds="user-led" type=$LEDState interface=[] ];
+        $LEDInvert;
         :if ([ / system routerboard settings get silent-boot ] = false) do={
           :beep length=200ms;
         }
         :delay 200ms;
-        / system leds set type=$LEDState [ find where leds="user-led" type=$LEDInvert interface=[] ];
+        $LEDInvert;
         :delay 200ms;
       }
 
