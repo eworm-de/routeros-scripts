@@ -37,4 +37,5 @@
   31="Switched Telegram notifications to fixed-width font, with opt-out.";
   32="Merged mode (& reset) button scripts in single new script 'mode-button'.";
   33="Added configurable deviation on health temperature recovery threshold against notification flooding.";
+  34="Introduced script 'ospf-to-leds' to visualize OSPF instance state via LEDs.";
 };

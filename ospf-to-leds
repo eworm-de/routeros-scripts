@@ -1,0 +1,24 @@
+#!rsc by RouterOS
+# RouterOS script: ospf-to-leds
+# Copyright (c) 2020 Christian Hesse <mail@eworm.de>
+# https://git.eworm.de/cgit/routeros-scripts/about/COPYING.md
+#
+# visualize ospf instance state via leds
+# https://git.eworm.de/cgit/routeros-scripts/about/doc/ospf-to-leds.md
+
+:global LogPrintExit;
+:global ParseKeyValueStore;
+
+:foreach Instance in=[ / routing ospf instance find where comment~"^ospf-to-leds," ] do={
+  :local InstanceVal [ / routing ospf instance get $Instance ];
+  :local LED ([ $ParseKeyValueStore ($InstanceVal->"comment") ]->"leds");
+  :local LEDType [ / system leds get [ find where leds=$LED ] type ];
+
+  $LogPrintExit debug ("OSPF instance " . $InstanceVal->"name" . " is " . $InstanceVal->"state" . ".") false;
+  :if ($InstanceVal->"state" = "running" && $LEDType = "off") do={
+    / system leds set type=on [ find where leds=$LED ];
+  }
+  :if ($InstanceVal->"state" = "down" && $LEDType = "on") do={
+    / system leds set type=off [ find where leds=$LED ];
+  }
+}

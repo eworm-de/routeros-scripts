@@ -171,6 +171,7 @@ Available Scripts
 * [Mode button with multiple presses](doc/mode-button.md)
 * [Notify on host up and down](doc/netwatch-notify.md)
 * [Manage remote logging](doc/netwatch-syslog.md)
+* [Visualize OSPF state via LEDs](doc/ospf-to-leds.md)
 * [Manage system update](doc/packages-update.md)
 * [Run scripts on ppp connection](doc/ppp-on-up.md)
 * [Rotate NTP servers](doc/rotate-ntp.md)
