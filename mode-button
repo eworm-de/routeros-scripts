@@ -39,9 +39,8 @@
         / system leds set type=$LEDInvert [ find where leds="user-led" type=$LEDState ];
         :if ([ / system routerboard settings get silent-boot ] = false) do={
           :beep length=200ms;
-        } else={
-          :delay 200ms;
         }
+        :delay 200ms;
         / system leds set type=$LEDState [ find where leds="user-led" type=$LEDInvert ];
         :delay 200ms;
       }
