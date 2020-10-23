@@ -36,12 +36,12 @@
       $LogPrintExit info ("Acting on " . $Count . " mode-button presses: " . $Code) false;
 
       :for I from=1 to=$Count do={
-        / system leds set type=$LEDInvert [ find where leds="user-led" type=$LEDState ];
+        / system leds set type=$LEDInvert [ find where leds="user-led" type=$LEDState interface=[] ];
         :if ([ / system routerboard settings get silent-boot ] = false) do={
           :beep length=200ms;
         }
         :delay 200ms;
-        / system leds set type=$LEDState [ find where leds="user-led" type=$LEDInvert ];
+        / system leds set type=$LEDState [ find where leds="user-led" type=$LEDInvert interface=[] ];
         :delay 200ms;
       }
 
