@@ -874,7 +874,11 @@
   :if ($NotificationsWithSymbols != true) do={
     :return "";
   }
-  :return ([ $SymbolByUnicodeName $1 ] . " ");
+  :local Return "";
+  :foreach Symbol in=[ :toarray $1 ] do={
+    :set Return ($Return . [ $SymbolByUnicodeName $Symbol ]);
+  }
+  :return ($Return . " ");
 }
 
 # check if system time is sync
