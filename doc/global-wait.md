@@ -31,6 +31,9 @@ See also
 --------
 
 * [Manage ports in bridge](bridge-port.md)
+* [Download packages for CAP upgrade from CAPsMAN](capsman-download-packages.md)
+* [Renew certificates and notify on expiration](check-certificates.md)
+* [Use wireless network with daily psk](daily-psk.md)
 
 ---
 [◀ Go back to main README](../README.md)  
