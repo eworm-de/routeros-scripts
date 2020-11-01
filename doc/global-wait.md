@@ -12,6 +12,9 @@ script at system startup may result in race condition where configuration
 and/or function are not yet available. This script is supposed to wait
 for everything being prepared.
 
+Do **not** add this script `global-wait` to the `global-scripts` scheduler!
+It would inhibit the initialization of configuration and functions.
+
 Requirements and installation
 -----------------------------
 
