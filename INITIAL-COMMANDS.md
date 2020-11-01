@@ -26,6 +26,10 @@ procedure please follow [the long way in detail](README.md#the-long-way-in-detai
       $CertificateNameByCN "DST Root CA X3";
     }
 
+Optional to update the scripts automatically:
+
+    / system scheduler add name="ScriptInstallUpdate" start-time=startup interval=1d on-event=":global ScriptInstallUpdate; \$ScriptInstallUpdate;";
+
 ---
 [◀ Go back to main README](README.md)  
 [▲ Go back to top](#top)

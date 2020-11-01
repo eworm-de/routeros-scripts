@@ -107,6 +107,11 @@ And finally load configuration and functions and add the scheduler.
     [admin@MikroTik] > / system script { run global-config; run global-config-overlay; run global-functions; }
     [admin@MikroTik] > / system scheduler add name="global-scripts" start-time=startup on-event="/ system script { run global-config; run global-config-overlay; run global-functions; }"
 
+The last step is optional: Add this scheduler **only** if you want the scripts
+to be updated automatically!
+
+    [admin@MikroTik] > / system scheduler add name="ScriptInstallUpdate" start-time=startup interval=1d on-event=":global ScriptInstallUpdate; \$ScriptInstallUpdate;"
+
 Updating scripts
 ----------------
 
