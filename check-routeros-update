@@ -7,8 +7,9 @@
 # https://git.eworm.de/cgit/routeros-scripts/about/doc/check-routeros-update.md
 
 :global Identity;
-:global SafeUpdateUrl;
+:global SafeUpdateNeighbor;
 :global SafeUpdatePatch;
+:global SafeUpdateUrl;
 :global SentRouterosUpdateNotification;
 
 :global DeviceInfo;
@@ -53,6 +54,15 @@
     $LogPrintExit info ("Version " . $Update->"latest-version" . " is a patch release, updating...") false;
     $SendNotification ([ $SymbolForNotification "sparkles" ] . "RouterOS update") \
         ("Version " . $Update->"latest-version" . " is a patch update for " . $Update->"channel" . \
+        ", updating on " . $Identity . "...") "" "true";
+    $DoUpdate;
+  }
+
+  :if ($SafeUpdateNeighbor = true && [ :len [ / ip neighbor find where \
+       version=($Update->"latest-version" . " (" . $Update->"channel" . ")") ] ] > 0) do={
+    $LogPrintExit info ("Seen a neighbor running version " . $Update->"latest-version" . ", updating...") false;
+    $SendNotification ([ $SymbolForNotification "sparkles" ] . "RouterOS update") \
+        ("Seen a neighbor running version " . $Update->"latest-version" . " from " . $Update->"channel" . \
         ", updating on " . $Identity . "...") "" "true";
     $DoUpdate;
   }
