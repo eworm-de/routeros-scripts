@@ -221,7 +221,7 @@
   :global CharacterReplace;
 
   :do {
-    :resolve ([ $CharacterReplace  [ / system clock get time ] ":" "" ] . ".mikrotik.com");
+    :resolve "low-ttl.eworm.de";
     :return true;
   } on-error={
     :return false;
