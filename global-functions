@@ -436,13 +436,13 @@
     :return true;
   } else={
     :if ($MailServer = "0.0.0.0") do={
-      $LogPrintExit warning ("No mail server is configured! Returning gracefully...") false;
+      $LogPrintExit info ("No mail server is configured! Returning gracefully...") false;
       :return true;
     }
   }
 
   :if ([ :len [ / tool netwatch find where comment=$MailServer ] ] = 0) do={
-    $LogPrintExit warning ("Adding netwatch entry for mail server.") false;
+    $LogPrintExit info ("Adding netwatch entry for mail server.") false;
     :local MailHost $MailServer;
     :if ([ :typeof [ :toip $MailHost ] ] != "ip" ) do={
       :do {
@@ -827,7 +827,7 @@
       http-data=("chat_id=" . $ChatId . "&disable_notification=" . $Silent . \
       "&parse_mode=" . $ParseMode . "&text=" . $Text);
   } on-error={
-    $LogPrintExit warning ("Failed sending telegram notification! Queuing...") false;
+    $LogPrintExit info ("Failed sending telegram notification! Queuing...") false;
 
     :if ([ :typeof $TelegramQueue ] = "nothing") do={
       :set TelegramQueue [ :toarray "" ];
@@ -906,7 +906,7 @@
     :return false;
   }
 
-  $LogPrintExit warning ("No time source configured! Returning gracefully...") false;
+  $LogPrintExit info ("No time source configured! Returning gracefully...") false;
   :return true;
 }
 

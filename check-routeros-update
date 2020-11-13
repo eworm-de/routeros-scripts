@@ -43,7 +43,7 @@
 :local Update [ / system package update get ];
 
 :if ([ :len ($Update->"latest-version") ] = 0) do={
-  $LogPrintExit warning "An empty string is not a valid version." true;
+  $LogPrintExit info "An empty string is not a valid version." true;
 }
 
 :local NumInstalled [ $VersionToNum ($Update->"installed-version") ];

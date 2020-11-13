@@ -67,7 +67,7 @@
   :if ($Name ~ "temperature" && \
        [ :typeof $Temperature ] = "num") do={
     :if ([ :typeof ($CheckHealthTemperature->$Name) ] != "num" ) do={
-      $LogPrintExit warning ("No threshold given for " . $Name . ", assuming 50C.") false;
+      $LogPrintExit info ("No threshold given for " . $Name . ", assuming 50C.") false;
       :set ($CheckHealthTemperature->$Name) 50;
     }
     :if ($Temperature > $CheckHealthTemperature->$Name && \
