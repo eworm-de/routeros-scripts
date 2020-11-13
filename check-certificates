@@ -33,7 +33,7 @@ $WaitFullyConnected;
 
   :do {
     :if ([ :len $CertRenewUrl ] = 0) do={
-      $LogPrintExit warning ("No CertRenewUrl given.") true;
+      $LogPrintExit info ("No CertRenewUrl given.") true;
     }
 
     :foreach Type in={ ".pem"; ".p12" } do={
@@ -114,7 +114,7 @@ $WaitFullyConnected;
         "Issuer:      " . ($CertVal->"ca") . ([ $ParseKeyValueStore ($CertVal->"issuer") ]->"CN") . "\n" . \
         "Validity:    " . ($CertVal->"invalid-before") . " to " . ($CertVal->"invalid-after") . "\n" . \
         "Expires in:  " . [ $IfThenElse (($CertVal->"expired") = true) "expired" [ $FormatExpire ($CertVal->"expires-after") ] ]);
-    $LogPrintExit warning ("The certificate " . ($CertVal->"name") . " " . $State . \
+    $LogPrintExit info ("The certificate " . ($CertVal->"name") . " " . $State . \
         ", it is invalid after " . ($CertVal->"invalid-after") . ".") false;
   }
 }
