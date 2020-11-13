@@ -827,7 +827,7 @@
       http-data=("chat_id=" . $ChatId . "&disable_notification=" . $Silent . \
       "&parse_mode=" . $ParseMode . "&text=" . $Text);
   } on-error={
-    $LogPrintExit warning ("Failed sending telegram notification! Queuing...") false;
+    $LogPrintExit info ("Failed sending telegram notification! Queuing...") false;
 
     :if ([ :typeof $TelegramQueue ] = "nothing") do={
       :set TelegramQueue [ :toarray "" ];
