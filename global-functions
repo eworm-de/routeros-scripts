@@ -906,7 +906,7 @@
     :return false;
   }
 
-  $LogPrintExit warning ("No time source configured! Returning gracefully...") false;
+  $LogPrintExit info ("No time source configured! Returning gracefully...") false;
   :return true;
 }
 
