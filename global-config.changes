@@ -40,4 +40,5 @@
   34="Introduced script 'ospf-to-leds' to visualize OSPF instance state via LEDs.";
   35="Implemented visual feedback for 'mode-button' with configurable LED.";
   36="Added support for installing updates automatically if seen in neighbor list.";
+  37="Implemented simple dependency model in 'netwatch-notify'.";
 };
