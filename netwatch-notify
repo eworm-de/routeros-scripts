@@ -46,13 +46,15 @@
   } else={
     :set ($Metric->"count") ($Metric->"count" + 1);
     :set ($Metric->"since") ($HostVal->"since");
-    $LogPrintExit info ("Host " . $HostName . " (" . $HostVal->"host" . ") is down for " . \
-      $Metric->"count" . " checks.") false;
     :local Count [ $IfThenElse ([ :tonum ($HostInfo->"count") ] > 0) ($HostInfo->"count") 5 ];
     :local ParentNotified [ $IfThenElse (($NetwatchNotify->($HostInfo->"parent")->"notified") = true) true false ];
     :if ([ :len ($HostInfo->"parent") ] > 0) do={
       :set Count ($Count + 1);
     }
+    $LogPrintExit info ("Host " . $HostName . " (" . $HostVal->"host" . ") is down for " . \
+      $Metric->"count" . " checks, " . [ $IfThenElse ($ParentNotified = false) [ $IfThenElse \
+      ($Metric->"notified" = true) ("already notified.") ($Count - $Metric->"count" . " to go.") ] \
+      ("parent host " . $HostInfo->"parent" . " is down.") ]) false;
     :if ($ParentNotified = false && $Metric->"count" >= $Count && $Metric->"notified" != true) do={
       $SendNotification ([ $SymbolForNotification "cross-mark" ] . "Netwatch Notify: " . $HostName . " down") \
         ("Host " . $HostName . " (" . $HostVal->"host" . ") is down since " . $HostVal->"since" . ".");
