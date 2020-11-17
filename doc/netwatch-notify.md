@@ -46,7 +46,8 @@ suppress notification if the parent host is down:
     / tool netwatch add comment="notify, hostname=gateway" host=93.184.216.1;
     / tool netwatch add comment="notify, hostname=example.com, parent=gateway" host=93.184.216.34;
 
-Note that a configured parent increases the check count threshould by one.
+Note that every configured parent in a chain increases the check count
+threshould by one.
 
 Also notification settings are required for e-mail and telegram.
 

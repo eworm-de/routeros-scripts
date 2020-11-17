@@ -50,9 +50,11 @@
     :set ($Metric->"since") ($HostVal->"since");
     :local Count [ $IfThenElse ([ :tonum ($HostInfo->"count") ] > 0) ($HostInfo->"count") 5 ];
     :local Parent ($HostInfo->"parent");
-    :if ([ :len $Parent ] > 0) do={
+    :while ([ :len $Parent ] > 0) do={
       :set Count ($Count + 1);
+      :set Parent ($NetwatchNotify->$Parent->"parent");
     }
+    :set Parent ($HostInfo->"parent");
     :local ParentNotified false;
     :while ($ParentNotified = false && [ :len $Parent ] > 0) do={
       :set ParentNotified [ $IfThenElse (($NetwatchNotify->$Parent->"notified") = true) true false ];
