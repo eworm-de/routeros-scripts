@@ -19,6 +19,9 @@
 
 :local FormatVoltage do={
   :local Voltage [ :tonum $1 ];
+  :if ($Voltage < 10) do={
+    :return ("0." . $Voltage . "V");
+  }
   :return (($Voltage / 10) . "." . ($Voltage % ($Voltage / 10 * 10)) . "V");
 }
 
