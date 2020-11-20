@@ -72,7 +72,7 @@
     }
     :if ($Temperature > $CheckHealthLast->$Name + 20) do={
       $LogPrintExit info ("The " . $Name . " spikes from " . $CheckHealthLast->$Name . \
-        "\C2\B0" . "C to " . $Temperature . "\C2\B0" . "C, ignoring.") false;
+        "C to " . $Temperature . "C, ignoring.") false;
       :set Temperature ($CheckHealthLast->$Name);
       :set ($CheckHealthCurrent->$Name) ($CheckHealthLast->$Name + 3);
     }
