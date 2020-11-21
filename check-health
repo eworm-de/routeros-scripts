@@ -70,11 +70,10 @@
       $LogPrintExit info ("No threshold given for " . $Name . ", assuming 50C.") false;
       :set ($CheckHealthTemperature->$Name) 50;
     }
-    :if ($Temperature > $CheckHealthLast->$Name + 20) do={
-      $LogPrintExit info ("The " . $Name . " spikes from " . $CheckHealthLast->$Name . \
-        "C to " . $Temperature . "C, ignoring.") false;
+    :if ($Temperature != [ / system health get $Name ]) do={
+      $LogPrintExit debug ("The second measurement for " . $Name . " differs, ignoring.") false;
       :set Temperature ($CheckHealthLast->$Name);
-      :set ($CheckHealthCurrent->$Name) ($CheckHealthLast->$Name + 3);
+      :set ($CheckHealthCurrent->$Name) $Temperature;
     }
     :if ($Temperature > $CheckHealthTemperature->$Name && \
          $CheckHealthTemperatureNotified->$Name != true) do={
