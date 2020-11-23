@@ -21,6 +21,7 @@ Add yourself to the list,
 * Linux-Schmie.de Michael Gisbers
 * Christoph Boss (@Kampfwurst)
 * Klaus Michael Rübsam
+* Marek Čábák
 
 ---
 [◀ Go back to main README](README.md)  
