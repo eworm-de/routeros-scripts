@@ -70,10 +70,10 @@
       $LogPrintExit info ("No threshold given for " . $Name . ", assuming 50C.") false;
       :set ($CheckHealthTemperature->$Name) 50;
     }
-    :if ($Temperature != [ / system health get $Name ]) do={
-      $LogPrintExit debug ("The second measurement for " . $Name . " differs, ignoring.") false;
-      :set Temperature ($CheckHealthLast->$Name);
-      :set ($CheckHealthCurrent->$Name) $Temperature;
+    :local Validate [ / system health get $Name ];
+    :while ($Temperature != $Validate) do={
+      :set Temperature $Validate;
+      :set Validate [ / system health get $Name ];
     }
     :if ($Temperature > $CheckHealthTemperature->$Name && \
          $CheckHealthTemperatureNotified->$Name != true) do={
