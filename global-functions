@@ -712,6 +712,7 @@
 :set SendEMail do={
   :local Subject [ :tostr $1 ];
   :local Message [ :tostr $2 ];
+  :local Link;
   :local Attach  [ :tostr $3 ];
 
   :global Identity;
@@ -730,6 +731,7 @@
     / tool e-mail send to=$EmailGeneralTo cc=$EmailGeneralCc \
       subject=("[" . $Identity . "] " . $Subject) \
       body=($Message . \
+        [ $IfThenElse ([ :len $Link ] > 0) ("\n\n" . $Link) "" ] . \
         [ $IfThenElse ([ :len $Signature ] > 0) ("\n-- \n" . $Signature) "" ]) \
       file=$Attach;
   } on-error={
