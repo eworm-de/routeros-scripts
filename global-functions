@@ -719,6 +719,7 @@
   :global EmailGeneralCc;
 
   :global LogPrintExit;
+  :global IfThenElse;
 
   :if ([ :len $EmailGeneralTo ] = 0) do={
     :return false;
@@ -726,12 +727,11 @@
 
   :do {
     :local Signature [ / system note get note ];
-    :if ([ :len $Signature ] > 0) do={
-      :set Signature ("\n-- \n" . $Signature);
-    }
     / tool e-mail send to=$EmailGeneralTo cc=$EmailGeneralCc \
       subject=("[" . $Identity . "] " . $Subject) \
-      body=($Message . $Signature) file=$Attach;
+      body=($Message . \
+        [ $IfThenElse ([ :len $Signature ] > 0) ("\n-- \n" . $Signature) "" ]) \
+      file=$Attach;
   } on-error={
     $LogPrintExit warning ("Failed sending notification mail!") false;
   }
