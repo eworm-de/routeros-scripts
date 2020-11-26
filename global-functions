@@ -756,6 +756,7 @@
 :set SendTelegram do={
   :local Subject [ :tostr $1 ];
   :local Message [ :tostr $2 ];
+  :local Link;
   :local Silent  [ :tostr $3 ];
 
   :global Identity;
@@ -808,13 +809,17 @@
     :return false;
   }
 
+  :local LenLink [ :len $Link ];
   :local Text ("[" . $Identity . "] " . $Subject . "\n\n" . $Message);
-  :if ([ :len $Text ] > 3968) do={
-    :set Text ([ $EscapeMD ([ :pick $Text 0 3840 ] . "...") "body" ] . \
+  :if ([ :len $Text ] > (3968 - $LenLink)) do={
+    :set Text ([ $EscapeMD ([ :pick $Text 0 (3840 - $LenLink) ] . "...") "body" ] . \
       "\n" . [ $SymbolForNotification "scissors" ] . \
       [ $EscapeMD "The Telegram message was too long and has been truncated!" "hint" ]);
   } else={
     :set Text [ $EscapeMD $Text "body" ];
+  }
+  :if ($LenLink > 0) do={
+    :set Text ($Text . "\n" . [ $SymbolForNotification "link" ] . [ $EscapeMD $Link "hint" ]);
   }
   :set Text [ $UrlEncode $Text ];
   :local ParseMode [ $IfThenElse ($TelegramFixedWidthFont = true) "MarkdownV2" "" ];
@@ -855,6 +860,7 @@
     "floppy-disk"="\F0\9F\92\BE";
     "high-voltage-sign"="\E2\9A\A1";
     "incoming-envelope"="\F0\9F\93\A8";
+    "link"="\F0\9F\94\97";
     "lock-with-ink-pen"="\F0\9F\94\8F";
     "mobile-phone"="\F0\9F\93\B1";
     "pushpin"="\F0\9F\93\8C";
