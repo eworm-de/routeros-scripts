@@ -682,17 +682,18 @@
           "\n\nChanges are not available.");
     }
 
+    :local Link;
     :if ($IDonate != true) do={
       :set NotificationMessage ($NotificationMessage . \
         "\n\n==== donation hint ====\n" . \
         "This project is developed in private spare time and usage is " . \
         "free of charge for you. If you like the scripts and think this is " . \
-        "of value for you or your business please consider a donation:\n" . \
-        "https://git.eworm.de/cgit/routeros-scripts/about/#donate");
+        "of value for you or your business please consider a donation.");
+      :set Link "https://git.eworm.de/cgit/routeros-scripts/about/#donate";
     }
 
     $SendNotification ([ $SymbolForNotification "pushpin" ] . "News and configuration changes") \
-      $NotificationMessage;
+      $NotificationMessage $Link;
     :set SentConfigChangesNotification $ExpectedConfigVersion;
   }
 }
@@ -712,8 +713,8 @@
 :set SendEMail do={
   :local Subject [ :tostr $1 ];
   :local Message [ :tostr $2 ];
-  :local Link;
-  :local Attach  [ :tostr $3 ];
+  :local Link    [ :tostr $3 ];
+  :local Attach  [ :tostr $4 ];
 
   :global Identity;
   :global EmailGeneralTo;
@@ -744,22 +745,23 @@
 :set SendNotification do={
   :local Subject [ :tostr $1 ];
   :local Message [ :tostr $2 ];
-  :local Attach  [ :tostr $3 ];
-  :local Silent  [ :tostr $4 ];
+  :local Link    [ :tostr $3 ];
+  :local Attach  [ :tostr $4 ];
+  :local Silent  [ :tostr $5 ];
 
   :global SendEMail;
   :global SendTelegram;
 
-  $SendEMail $Subject $Message $Attach;
-  $SendTelegram $Subject $Message $Silent;
+  $SendEMail $Subject $Message $Link $Attach;
+  $SendTelegram $Subject $Message $Link $Silent;
 }
 
 # send notification via telegram
 :set SendTelegram do={
   :local Subject [ :tostr $1 ];
   :local Message [ :tostr $2 ];
-  :local Link;
-  :local Silent  [ :tostr $3 ];
+  :local Link    [ :tostr $3 ];
+  :local Silent  [ :tostr $4 ];
 
   :global Identity;
   :global TelegramChatId;

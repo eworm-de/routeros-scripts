@@ -32,7 +32,7 @@
       [ $DeviceInfo ] . "\n\n" . \
       "Name:           " . $Cloud->"name" . "\n" . \
       "Size:           " . $Cloud->"size" . " B (" . ($Cloud->"size" / 1024) . " KiB)\n" . \
-      "Download key:   " . $Cloud->"secret-download-key") "" "true";
+      "Download key:   " . $Cloud->"secret-download-key") "" "" "true";
 } on-error={
   $SendNotification ([ $SymbolForNotification "warning-sign" ] . "Cloud backup failed") \
       ("Failed uploading backup for " . $Identity . " to cloud!\n\n" . [ $DeviceInfo ]);
