@@ -825,7 +825,7 @@
     / tool fetch check-certificate=yes-without-crl output=none http-method=post \
       ("https://api.telegram.org/bot" . $TelegramTokenId . "/sendMessage") \
       http-data=("chat_id=" . $ChatId . "&disable_notification=" . $Silent . \
-      "&parse_mode=" . $ParseMode . "&text=" . $Text);
+      "&disable_web_page_preview=true&parse_mode=" . $ParseMode . "&text=" . $Text);
   } on-error={
     $LogPrintExit info ("Failed sending telegram notification! Queuing...") false;
 
