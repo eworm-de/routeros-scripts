@@ -53,7 +53,7 @@
 # This defines a filter on log topics not to be forwarded.
 :global LogForwardFilter "(debug|info)";
 # ... and the same for log message text.
-:global LogForwardFilterMessage "^\$|^Error sending e-mail <.* Log Forwarding>:";
+:global LogForwardFilterMessage "(^\$|^Error sending e-mail <.* Log Forwarding>:)";
 #:global LogForwardFilterMessage "(^\$|message text|...)";
 
 # Specify an address to enable auto update to version assumed safe.
