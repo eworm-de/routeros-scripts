@@ -30,7 +30,7 @@
           "LTE interface " . $IntName . " on " . $Identity . ".\n\n" . \
           "Interface: " . [ $CharacterReplace ($Info->"manufacturer" . " " . $Info->"model") ("\"") "" ] . "\n" . \
           "Installed: " . ($Firmware->"installed") . "\n" . \
-          "Available: " . ($Firmware->"latest")) "" "true";
+          "Available: " . ($Firmware->"latest")) "" "" "true";
         :set SentLteFirmwareUpgradeNotification ($Firmware->"latest");
       }
     }

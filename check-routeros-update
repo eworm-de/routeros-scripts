@@ -48,13 +48,14 @@
 
 :local NumInstalled [ $VersionToNum ($Update->"installed-version") ];
 :local NumLatest [ $VersionToNum ($Update->"latest-version") ];
+:local Link ("https://mikrotik.com/download/changelogs/" . $Update->"channel" . "-release-tree");
 
 :if ($NumInstalled < $NumLatest) do={
   :if ($SafeUpdatePatch = true && ($NumInstalled & 0xffff0000) = ($NumLatest & 0xffff0000)) do={
     $LogPrintExit info ("Version " . $Update->"latest-version" . " is a patch release, updating...") false;
     $SendNotification ([ $SymbolForNotification "sparkles" ] . "RouterOS update") \
         ("Version " . $Update->"latest-version" . " is a patch update for " . $Update->"channel" . \
-        ", updating on " . $Identity . "...") "" "true";
+        ", updating on " . $Identity . "...") $Link "" "true";
     $DoUpdate;
   }
 
@@ -63,7 +64,7 @@
     $LogPrintExit info ("Seen a neighbor running version " . $Update->"latest-version" . ", updating...") false;
     $SendNotification ([ $SymbolForNotification "sparkles" ] . "RouterOS update") \
         ("Seen a neighbor running version " . $Update->"latest-version" . " from " . $Update->"channel" . \
-        ", updating on " . $Identity . "...") "" "true";
+        ", updating on " . $Identity . "...") $Link "" "true";
     $DoUpdate;
   }
 
@@ -80,7 +81,7 @@
       $LogPrintExit info ("Version " . $Update->"latest-version" . " is considered safe, updating...") false;
       $SendNotification ([ $SymbolForNotification "sparkles" ] . "RouterOS update") \
           ("Version " . $Update->"latest-version" . " is considered safe for " . $Update->"channel" . \
-          ", updating on " . $Identity . "...") "" "true";
+          ", updating on " . $Identity . "...") $Link "" "true";
       $DoUpdate;
     }
   }
@@ -102,9 +103,7 @@
   $SendNotification ([ $SymbolForNotification "sparkles" ] . "RouterOS update") \
     ("A new RouterOS version " . ($Update->"latest-version") . \
       " is available for " . $Identity . ".\n\n" . \
-      [ $DeviceInfo ] . "\n\n" . \
-      "https://mikrotik.com/download/changelogs/" . $Update->"channel" . "-release-tree") \
-    "" "true";
+      [ $DeviceInfo ]) $Link "" "true";
   :set SentRouterosUpdateNotification ($Update->"latest-version");
 }
 
@@ -117,9 +116,7 @@
   $SendNotification ([ $SymbolForNotification "warning-sign" ] . "RouterOS version") \
     ("A different RouterOS version " . ($Update->"latest-version") . \
       " is available for " . $Identity . ", but it is a downgrade.\n\n" . \
-      [ $DeviceInfo ] . "\n\n" . \
-      "https://mikrotik.com/download/changelogs/" . $Update->"channel" . "-release-tree") \
-    "" "true";
+      [ $DeviceInfo ]) $Link "" "true";
   $LogPrintExit info ("A different RouterOS version " . ($Update->"latest-version") . \
     " is available for downgrade.") false;
   :set SentRouterosUpdateNotification ($Update->"latest-version");

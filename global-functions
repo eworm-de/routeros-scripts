@@ -682,17 +682,18 @@
           "\n\nChanges are not available.");
     }
 
+    :local Link;
     :if ($IDonate != true) do={
       :set NotificationMessage ($NotificationMessage . \
         "\n\n==== donation hint ====\n" . \
         "This project is developed in private spare time and usage is " . \
         "free of charge for you. If you like the scripts and think this is " . \
-        "of value for you or your business please consider a donation:\n" . \
-        "https://git.eworm.de/cgit/routeros-scripts/about/#donate");
+        "of value for you or your business please consider a donation.");
+      :set Link "https://git.eworm.de/cgit/routeros-scripts/about/#donate";
     }
 
     $SendNotification ([ $SymbolForNotification "pushpin" ] . "News and configuration changes") \
-      $NotificationMessage;
+      $NotificationMessage $Link;
     :set SentConfigChangesNotification $ExpectedConfigVersion;
   }
 }
@@ -712,13 +713,15 @@
 :set SendEMail do={
   :local Subject [ :tostr $1 ];
   :local Message [ :tostr $2 ];
-  :local Attach  [ :tostr $3 ];
+  :local Link    [ :tostr $3 ];
+  :local Attach  [ :tostr $4 ];
 
   :global Identity;
   :global EmailGeneralTo;
   :global EmailGeneralCc;
 
   :global LogPrintExit;
+  :global IfThenElse;
 
   :if ([ :len $EmailGeneralTo ] = 0) do={
     :return false;
@@ -726,12 +729,12 @@
 
   :do {
     :local Signature [ / system note get note ];
-    :if ([ :len $Signature ] > 0) do={
-      :set Signature ("\n-- \n" . $Signature);
-    }
     / tool e-mail send to=$EmailGeneralTo cc=$EmailGeneralCc \
       subject=("[" . $Identity . "] " . $Subject) \
-      body=($Message . $Signature) file=$Attach;
+      body=($Message . \
+        [ $IfThenElse ([ :len $Link ] > 0) ("\n\n" . $Link) "" ] . \
+        [ $IfThenElse ([ :len $Signature ] > 0) ("\n-- \n" . $Signature) "" ]) \
+      file=$Attach;
   } on-error={
     $LogPrintExit warning ("Failed sending notification mail!") false;
   }
@@ -742,21 +745,23 @@
 :set SendNotification do={
   :local Subject [ :tostr $1 ];
   :local Message [ :tostr $2 ];
-  :local Attach  [ :tostr $3 ];
-  :local Silent  [ :tostr $4 ];
+  :local Link    [ :tostr $3 ];
+  :local Attach  [ :tostr $4 ];
+  :local Silent  [ :tostr $5 ];
 
   :global SendEMail;
   :global SendTelegram;
 
-  $SendEMail $Subject $Message $Attach;
-  $SendTelegram $Subject $Message $Silent;
+  $SendEMail $Subject $Message $Link $Attach;
+  $SendTelegram $Subject $Message $Link $Silent;
 }
 
 # send notification via telegram
 :set SendTelegram do={
   :local Subject [ :tostr $1 ];
   :local Message [ :tostr $2 ];
-  :local Silent  [ :tostr $3 ];
+  :local Link    [ :tostr $3 ];
+  :local Silent  [ :tostr $4 ];
 
   :global Identity;
   :global TelegramChatId;
@@ -776,14 +781,15 @@
     :global TelegramFixedWidthFont;
 
     :global CharacterReplace;
+    :global IfThenElse;
 
     :if ($TelegramFixedWidthFont != true) do={
-      :return $1;
+      :return ($1 . [ $IfThenElse ($2 = "body") "\n" "" ]);
     }
 
     :local Return $1;
     :local Chars {
-      "fixed"={ "\\"; "`" };
+      "body"={ "\\"; "`" };
       "hint"={ "_"; "*"; "["; "]"; "("; ")"; "~"; "`"; ">";
                "#"; "+"; "-"; "="; "|"; "{"; "}"; "."; "!" };
     }
@@ -791,7 +797,7 @@
       :set Return [ $CharacterReplace $Return $Char ("\\" . $Char) ];
     }
 
-    :if ($2 = "fixed") do={
+    :if ($2 = "body") do={
       :return ("```\n" . $Return . "\n```");
     }
 
@@ -807,13 +813,21 @@
     :return false;
   }
 
+  :local Truncated false;
+  :local LenLink [ :len $Link ];
   :local Text ("[" . $Identity . "] " . $Subject . "\n\n" . $Message);
-  :if ([ :len $Text ] > 3968) do={
-    :set Text ([ $EscapeMD ([ :pick $Text 0 3840 ] . "...") "fixed" ] . \
-      "\n\n" . [ $SymbolForNotification "scissors" ] . \
-      [ $EscapeMD "The Telegram message was too long and has been truncated!" "hint" ]);
+  :if ([ :len $Text ] > (3968 - $LenLink)) do={
+    :set Text [ $EscapeMD ([ :pick $Text 0 (3840 - $LenLink) ] . "...") "body" ];
+    :set Truncated true;
   } else={
-    :set Text [ $EscapeMD $Text "fixed" ];
+    :set Text [ $EscapeMD $Text "body" ];
+  }
+  :if ($LenLink > 0) do={
+    :set Text ($Text . "\n" . [ $SymbolForNotification "link" ] . [ $EscapeMD $Link "hint" ]);
+  }
+  :if ($Truncated = true) do={
+    :set Text ($Text . "\n" . [ $SymbolForNotification "scissors" ] . \
+      [ $EscapeMD "The Telegram message was too long and has been truncated!" "hint" ]);
   }
   :set Text [ $UrlEncode $Text ];
   :local ParseMode [ $IfThenElse ($TelegramFixedWidthFont = true) "MarkdownV2" "" ];
@@ -825,14 +839,14 @@
     / tool fetch check-certificate=yes-without-crl output=none http-method=post \
       ("https://api.telegram.org/bot" . $TelegramTokenId . "/sendMessage") \
       http-data=("chat_id=" . $ChatId . "&disable_notification=" . $Silent . \
-      "&parse_mode=" . $ParseMode . "&text=" . $Text);
+      "&disable_web_page_preview=true&parse_mode=" . $ParseMode . "&text=" . $Text);
   } on-error={
     $LogPrintExit info ("Failed sending telegram notification! Queuing...") false;
 
     :if ([ :typeof $TelegramQueue ] = "nothing") do={
       :set TelegramQueue [ :toarray "" ];
     }
-    :set Text ($Text . [ $UrlEncode ("\n\n" . [ $SymbolForNotification "alarm-clock" ] . \
+    :set Text ($Text . [ $UrlEncode ("\n" . [ $SymbolForNotification "alarm-clock" ] . \
       [ $EscapeMD ("This message was queued since " . [ / system clock get date ] . \
       " " . [ / system clock get time ] . " and may be obsolete.") "hint" ]) ]);
     :set ($TelegramQueue->[ :len $TelegramQueue ]) {
@@ -854,6 +868,7 @@
     "floppy-disk"="\F0\9F\92\BE";
     "high-voltage-sign"="\E2\9A\A1";
     "incoming-envelope"="\F0\9F\93\A8";
+    "link"="\F0\9F\94\97";
     "lock-with-ink-pen"="\F0\9F\94\8F";
     "mobile-phone"="\F0\9F\93\B1";
     "pushpin"="\F0\9F\93\8C";
