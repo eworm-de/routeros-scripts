@@ -119,7 +119,7 @@
       $CertificateNameByCN [ / certificate get $Cert common-name ];
     }
   } on-error={
-    $LogPrintExit warning ("Failed imprting certificate with " . \
+    $LogPrintExit warning ("Failed importing certificate with " . \
         "CommonName \"" . $CommonName . "\"!") false;
     :return false;
   }
