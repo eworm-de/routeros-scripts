@@ -291,6 +291,11 @@
 
   :local AllDone true;
   :local QueueLen [ :len $TelegramQueue ];
+
+  :if ([ :len [ / system scheduler find where name="FlushTelegramQueue" ] ] > 0 && $QueueLen = 0) do={
+    $LogPrintExit warning ("Flushing Telegram messages from scheduler, but queue is empty.") false;
+  }
+
   :foreach Id,Message in=$TelegramQueue do={
     :if ([ :typeof $Message ] = "array" ) do={
       :do {
