@@ -308,7 +308,7 @@
   }
 
   :if ($AllDone = true && $QueueLen = [ :len $TelegramQueue ]) do={
-    / system scheduler remove FlushTelegramQueue;
+    / system scheduler remove [ find where name="FlushTelegramQueue" ];
     :set TelegramQueue;
   }
 }
