@@ -28,7 +28,7 @@ $ScriptLock "log-forward";
 
 :if ($LogForwardRateLimit > 30) do={
   :set LogForwardRateLimit ($LogForwardRateLimit - 1);
-  $LogPrintExit info ("Rate limit in action, not forwarding logs!") true;
+  $LogPrintExit info ("Rate limit in action, not forwarding logs, if any!") true;
 }
 
 $WaitFullyConnected;
