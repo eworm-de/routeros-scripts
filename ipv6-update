@@ -22,7 +22,7 @@
 # give the interfaces a moment to receive their addresses
 :delay 2s;
 
-if ($OldPrefix != $PdPrefix) do={
+:if ($OldPrefix != $PdPrefix) do={
   :log info ("Updating IPv6 address list with new IPv6 prefix " . $PdPrefix);
   / ipv6 firewall address-list set address=$PdPrefix $AddrList;
 
