@@ -48,36 +48,51 @@ download the certificates. If you intend to download the scripts from a
 different location (for example from github.com) install the corresponding
 certificate chain.
 
-    [admin@MikroTik] > / tool fetch "https://git.eworm.de/cgit/routeros-scripts/plain/certs/Let%27s%20Encrypt%20Authority%20X3.pem" dst-path="letsencrypt.pem"
+    [admin@MikroTik] > / tool fetch "https://git.eworm.de/cgit/routeros-scripts/plain/certs/R3.pem" dst-path="letsencrypt-R3.pem"
           status: finished
-      downloaded: 3KiBC-z pause]
-           total: 3KiB
+      downloaded: 4KiBC-z pause]
+           total: 4KiB
+        duration: 1s
+
+    [admin@MikroTik] > / tool fetch "https://git.eworm.de/cgit/routeros-scripts/plain/certs/Let%27s%20Encrypt%20Authority%20X3.pem" dst-path="letsencrypt-X3.pem"
+          status: finished
+      downloaded: 5KiBC-z pause]
+           total: 5KiB
         duration: 1s
 
 Note that the commands above do *not* verify server certificate, so if you
 want to be safe download with your workstations's browser and transfer the
 files to your MikroTik device.
 
-* [ISRG Root X1](https://letsencrypt.org/certs/isrgrootx1.pem.txt)
-* [Let's Encrypt Authority X3](https://letsencrypt.org/certs/letsencryptauthorityx3.pem.txt)
+* [ISRG Root X1](https://letsencrypt.org/certs/isrgrootx1.pem)
+* [Let's Encrypt Authority X3](https://letsencrypt.org/certs/letsencryptauthorityx3.pem)
+* Let's Encrypt [R3](https://letsencrypt.org/certs/lets-encrypt-r3.pem)
 
 Then we import the certificates.
 
-    [admin@MikroTik] > / certificate import file-name=letsencrypt.pem passphrase=""
+    [admin@MikroTik] > / certificate import file-name=letsencrypt-R3.pem passphrase=""
          certificates-imported: 3
          private-keys-imported: 0
                 files-imported: 1
            decryption-failures: 0
       keys-with-no-certificate: 0
 
-For basic verification we rename the certifiactes and print their count. Make
-sure the certificate count is **three**.
+    [admin@MikroTik] > / certificate import file-name=letsencrypt-X3.pem passphrase=""
+         certificates-imported: 1
+         private-keys-imported: 0
+                files-imported: 1
+           decryption-failures: 0
+      keys-with-no-certificate: 0
 
+For basic verification we rename the certifiactes and print their count. Make
+sure the certificate count is **four**.
+
+    [admin@MikroTik] > / certificate set name="R3" [ find where fingerprint="67add1166b020ae61b8f5fc96813c04c2aa589960796865572a3c7e737613dfd" ]
     [admin@MikroTik] > / certificate set name="ISRG-Root-X1" [ find where fingerprint="96bcec06264976f37460779acf28c5a7cfe8a3c0aae11a8ffcee05c0bddf08c6" ]
     [admin@MikroTik] > / certificate set name="Let-s-Encrypt-Authority-X3" [ find where fingerprint="731d3d9cfaa061487a1d71445a42f67df0afca2a6c2d2f98ff7b3ce112b1f568" ]
     [admin@MikroTik] > / certificate set name="DST-Root-CA-X3" [ find where fingerprint="0687260331a72403d909f105e69bcf0d32e1bd2493ffc6d9206d11bcd6770739" ]
-    [admin@MikroTik] > / certificate print count-only where fingerprint="96bcec06264976f37460779acf28c5a7cfe8a3c0aae11a8ffcee05c0bddf08c6" or fingerprint="731d3d9cfaa061487a1d71445a42f67df0afca2a6c2d2f98ff7b3ce112b1f568" or fingerprint="0687260331a72403d909f105e69bcf0d32e1bd2493ffc6d9206d11bcd6770739"
-    3
+    [admin@MikroTik] > / certificate print count-only where fingerprint="67add1166b020ae61b8f5fc96813c04c2aa589960796865572a3c7e737613dfd" or fingerprint="96bcec06264976f37460779acf28c5a7cfe8a3c0aae11a8ffcee05c0bddf08c6" or fingerprint="731d3d9cfaa061487a1d71445a42f67df0afca2a6c2d2f98ff7b3ce112b1f568" or fingerprint="0687260331a72403d909f105e69bcf0d32e1bd2493ffc6d9206d11bcd6770739"
+    4
 
 Always make sure there are no certificates installed you do not know or want!
 
