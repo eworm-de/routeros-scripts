@@ -548,7 +548,6 @@
   :global IDonate;
   :global ScriptUpdatesBaseUrl;
   :global ScriptUpdatesFetch;
-  :global ScriptUpdatesIgnore;
   :global ScriptUpdatesUrlSuffix;
   :global SentConfigChangesNotification;
 
@@ -598,15 +597,6 @@
       :local Comment [ $ParseKeyValueStore ($ScriptVal->"comment") ];
       :if ($Comment->"ignore" = true) do={
         :set Ignore 1;
-      } else={
-        # TODO: remove at later time
-        :foreach IgnoreLoop in=$ScriptUpdatesIgnore do={
-          :if ($IgnoreLoop = $ScriptVal->"name") do={
-            :set Ignore 1;
-            $LogPrintExit info ("Migrating script " . $ScriptVal->"name" . " to ignore flag in comment.") false;
-            / system script set comment="ignore" ($ScriptVal->"name");
-          }
-        }
       }
 
       :if ($Ignore = 0) do={
