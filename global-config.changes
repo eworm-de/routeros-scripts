@@ -44,4 +44,10 @@
   38="Imported new Let's Encrypt intermediate certificate 'R3'.";
   39="Added support for interface specific address list entries in 'ipv6-update'.";
   40="Made the certificate renewal time configurable.";
+  41="Implemented migration mechanism for script updates.";
+};
+
+# Migration steps to be applied on script updates
+:global GlobalConfigMigration {
+  41=":global SendNotification; \$SendNotification (\"Migration mechanism\") (\"Congratulations!\nSuccessfully tested the new migration mechanism.\");";
 };

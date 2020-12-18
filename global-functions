@@ -8,7 +8,7 @@
 # https://git.eworm.de/cgit/routeros-scripts/about/
 
 # expected configuration version
-:global ExpectedConfigVersion 40;
+:global ExpectedConfigVersion 41;
 
 # global variables not to be changed by user
 :global GlobalFunctionsReady false;
@@ -659,6 +659,7 @@
   :if ($SentConfigChangesNotification!=$ExpectedConfigVersion && \
        $GlobalConfigVersion < $ExpectedConfigVersion) do={
     :global GlobalConfigChanges;
+    :global GlobalConfigMigration;
     :local ChangeLogCode;
     :local ConfigScript "global-config";
     :if ([ :len [ / system script find where name="global-config-overlay" ] ] > 0) do={
@@ -684,8 +685,14 @@
         :set NotificationMessage ($NotificationMessage . \
             "\n * " . $GlobalConfigChanges->[ :tostr $I ]);
         $LogPrintExit info ("Change: " . $GlobalConfigChanges->[ :tostr $I ]) false;
+        :local Migration ($GlobalConfigMigration->[ :tostr $I ]);
+        :if ([ :typeof $Migration ] = "str") do={
+          $LogPrintExit info ("Applying migration: " . $Migration) false;
+          [ :parse $Migration ];
+        }
       }
       :set GlobalConfigChanges;
+      :set GlobalConfigMigration;
     } on-error={
       $LogPrintExit warning ("Failed fetching changes!") false;
       :set NotificationMessage ($NotificationMessage . \
