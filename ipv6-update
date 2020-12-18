@@ -17,6 +17,11 @@
 
 :local Pool [ / ipv6 pool get [ find where prefix=$PdPrefix ] name ];
 :local AddrList [ / ipv6 firewall address-list find where comment=("ipv6-pool-" . $Pool) ];
+:if ([ :len $AddrList ] = 0) do={
+  :log info ("Missing ipv6 address list entry for ipv6-pool-" . $Pool . ", adding.");
+  / ipv6 firewall address-list add list=("ipv6-pool-" . $Pool) address=:: comment=("ipv6-pool-" . $Pool);
+  :set AddrList [ / ipv6 firewall address-list find where comment=("ipv6-pool-" . $Pool) ];
+}
 :local OldPrefix [ / ipv6 firewall address-list get $AddrList address ];
 
 # give the interfaces a moment to receive their addresses

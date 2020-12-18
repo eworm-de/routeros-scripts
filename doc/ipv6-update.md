@@ -40,6 +40,9 @@ firewall rules, comment has to be "`ipv6-pool-`" and actual pool name:
 
     / ipv6 firewall address-list add address=2003:cf:2f0f:de00::/56 comment=ipv6-pool-isp list=extern;
 
+As this entry is mandatory it is created automatically if it does not exist,
+with the comment also set for list.
+
 Static DNS records need a special comment to be updated. Again it has to
 start with "`ipv6-pool-`" and actual pool name, followed by a comma,
 "`interface=`" and the name of interface this address is connected to:
