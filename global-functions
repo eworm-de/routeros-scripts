@@ -552,10 +552,15 @@
   :global ScriptUpdatesUrlSuffix;
   :global SentConfigChangesNotification;
 
+  :global CertificateAvailable;
   :global LogPrintExit;
   :global ParseKeyValueStore;
   :global SendNotification;
   :global SymbolForNotification;
+
+  :if ([ $CertificateAvailable "R3" ] = false) do={
+    $LogPrintExit warning ("Downloading certificate failed, trying without.") false;
+  }
 
   :foreach Script in=$Scripts do={
     :if ([ :len [ / system script find where name=$Script ] ] = 0) do={
