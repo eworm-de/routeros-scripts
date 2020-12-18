@@ -31,6 +31,18 @@
   # give the interfaces a moment to receive their addresses
   :delay 2s;
 
+  :foreach ListEntry in=[ / ipv6 firewall address-list find where comment~("^ipv6-pool-" . $Pool . ",") ] do={
+    :local ListEntryVal [ / ipv6 firewall address-list get $ListEntry ];
+    :local Comment [ $ParseKeyValueStore ($ListEntryVal->"comment") ];
+
+    :local Address [ / ipv6 address find where from-pool=$Pool interface=($Comment->"interface") ];
+    :if ([ :len $Address ] = 1) do={
+      :set Address [ / ipv6 address get $Address address ];
+      :log info ("Updating IPv6 address list with new IPv6 prefix " . $Address . " from interface " . ($Comment->"interface"));
+      / ipv6 firewall address-list set address=$Address $ListEntry;
+    }
+  }
+
   :foreach Record in=[ / ip dns static find where comment~("^ipv6-pool-" . $Pool . ",") ] do={
     :local RecordVal [ / ip dns static get $Record ];
     :local Comment [ $ParseKeyValueStore ($RecordVal->"comment") ];
