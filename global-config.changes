@@ -48,4 +48,5 @@ $CertificateAvailable "R3";
   37="Implemented simple dependency model in 'netwatch-notify'.";
   38="Imported new Let's Encrypt intermediate certificate 'R3'.";
   39="Added support for interface specific address list entries in 'ipv6-update'.";
+  40="Made the certificate renewal time configurable.";
 };

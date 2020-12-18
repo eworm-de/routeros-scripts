@@ -7,6 +7,7 @@
 # https://git.eworm.de/cgit/routeros-scripts/about/doc/check-certificates.md
 
 :global CertRenewPass;
+:global CertRenewTime;
 :global CertRenewUrl;
 :global Identity;
 
@@ -28,7 +29,7 @@
 
 $WaitFullyConnected;
 
-:foreach Cert in=[ / certificate find where !revoked !ca !scep-url expires-after<3w ] do={
+:foreach Cert in=[ / certificate find where !revoked !ca !scep-url expires-after<$CertRenewTime ] do={
   :local CertVal [ / certificate get $Cert ];
 
   :do {
