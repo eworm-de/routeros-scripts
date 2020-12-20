@@ -569,7 +569,6 @@
   }
 
   :foreach Script in=[ / system script find where source~"^#!rsc( by RouterOS)\?\n" ] do={
-    :local Ignore 0;
     :local ScriptVal [ / system script get $Script ];
     :local ScriptFile [ / file find where name=("script-updates/" . $ScriptVal->"name") ];
     :local SourceNew;
@@ -595,11 +594,7 @@
 
     :if ([ :len $SourceNew ] = 0 && $ScriptUpdatesFetch = true) do={
       :local Comment [ $ParseKeyValueStore ($ScriptVal->"comment") ];
-      :if ($Comment->"ignore" = true) do={
-        :set Ignore 1;
-      }
-
-      :if ($Ignore = 0) do={
+      :if (!($Comment->"ignore" = true)) do={
         $LogPrintExit debug ("Fetching script from url: " . $ScriptVal->"name") false;
         :do {
           :local BaseUrl $ScriptUpdatesBaseUrl;
