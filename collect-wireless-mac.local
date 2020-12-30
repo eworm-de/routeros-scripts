@@ -31,7 +31,7 @@ $ScriptLock "collect-wireless-mac.local";
     :local Address "no dhcp lease";
     :local DnsName "no dhcp lease";
     :local HostName "no dhcp lease";
-    :local Lease [ / ip dhcp-server lease find where mac-address=$Mac dynamic=yes status=bound ];
+    :local Lease ([ / ip dhcp-server lease find where mac-address=$Mac dynamic=yes status=bound ]->0);
     :if ([ :len $Lease ] > 0) do={
       :set Address [ / ip dhcp-server lease get $Lease address ];
       :set HostName [ / ip dhcp-server lease get $Lease host-name ];
