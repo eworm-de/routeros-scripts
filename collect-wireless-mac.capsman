@@ -33,8 +33,8 @@ $ScriptLock "collect-wireless-mac.capsman";
     :local HostName "no dhcp lease";
     :local Lease [ / ip dhcp-server lease find where mac-address=$Mac dynamic=yes status=bound ];
     :if ([ :len $Lease ] > 0) do={
-      :set Address [ / ip dhcp-server lease get $Lease address ];
-      :set HostName [ / ip dhcp-server lease get $Lease host-name ];
+      :set Address [ / ip dhcp-server lease get [:pick $Lease 0 ] address ];
+      :set HostName [ / ip dhcp-server lease get [:pick $Lease 0 ] host-name ];
       :if ([ :len $HostName ] = 0) do={
         :set HostName "no hostname";
       }
