@@ -1,6 +1,6 @@
 #!rsc by RouterOS
 # RouterOS script: collect-wireless-mac.capsman
-# Copyright (c) 2013-2020 Christian Hesse <mail@eworm.de>
+# Copyright (c) 2013-2021 Christian Hesse <mail@eworm.de>
 # https://git.eworm.de/cgit/routeros-scripts/about/COPYING.md
 #
 # collect wireless mac adresses in access list
