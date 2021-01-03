@@ -17,7 +17,7 @@
   / caps-man access-list add comment="--- hotspot-to-wpa above ---" disabled=yes;
   $LogPrintExit warning "Added disabled access-list entry with comment '--- hotspot-to-wpa above ---'." false;
 }
-:local PlaceBefore [ / caps-man access-list find where comment="--- hotspot-to-wpa above ---" disabled ];
+:local PlaceBefore ([ / caps-man access-list find where comment="--- hotspot-to-wpa above ---" disabled ]->0);
 
 $LogPrintExit info ("Adding/updating accesslist entry for mac address " . $MacAddress . \
   " (user " . $UserName . ").") false;
