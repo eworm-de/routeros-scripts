@@ -26,7 +26,7 @@
   / ip dns static add comment="--- dhcp-to-dns above ---" name=- type=NXDOMAIN disabled=yes;
   $LogPrintExit warning "Added disabled static dns record with comment '--- dhcp-to-dns above ---'." false;
 }
-:local PlaceBefore [ / ip dns static find where comment="--- dhcp-to-dns above ---" name=- type=NXDOMAIN disabled ];
+:local PlaceBefore ([ / ip dns static find where comment="--- dhcp-to-dns above ---" name=- type=NXDOMAIN disabled ]->0);
 
 :foreach DnsRecord in=[ / ip dns static find where comment ~ $CommentPrefix ] do={
   :local DnsRecordVal [ / ip dns static get $DnsRecord ];
