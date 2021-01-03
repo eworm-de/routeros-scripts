@@ -22,7 +22,7 @@
   / ipv6 firewall address-list add list=("ipv6-pool-" . $Pool) address=:: comment=("ipv6-pool-" . $Pool);
   :set AddrList [ / ipv6 firewall address-list find where comment=("ipv6-pool-" . $Pool) ];
 }
-:local OldPrefix [ / ipv6 firewall address-list get $AddrList address ];
+:local OldPrefix [ / ipv6 firewall address-list get ($AddrList->0) address ];
 
 :if ($OldPrefix != $PdPrefix) do={
   :log info ("Updating IPv6 address list with new IPv6 prefix " . $PdPrefix);
