@@ -23,7 +23,7 @@ $ScriptLock "collect-wireless-mac%TEMPL%";
   / %PATH% access-list add comment="--- collected above ---" disabled=yes;
   $LogPrintExit warning "Added disabled access-list entry with comment '--- collected above ---'." false;
 }
-:local PlaceBefore [ / %PATH% access-list find where comment="--- collected above ---" disabled ];
+:local PlaceBefore ([ / %PATH% access-list find where comment="--- collected above ---" disabled ]->0);
 
 :foreach RegTbl in=[ / %PATH% registration-table find ] do={
   :local Mac [ / %PATH% registration-table get $RegTbl mac-address ];

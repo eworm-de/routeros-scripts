@@ -22,7 +22,7 @@ $ScriptLock "collect-wireless-mac.capsman";
   / caps-man access-list add comment="--- collected above ---" disabled=yes;
   $LogPrintExit warning "Added disabled access-list entry with comment '--- collected above ---'." false;
 }
-:local PlaceBefore [ / caps-man access-list find where comment="--- collected above ---" disabled ];
+:local PlaceBefore ([ / caps-man access-list find where comment="--- collected above ---" disabled ]->0);
 
 :foreach RegTbl in=[ / caps-man registration-table find ] do={
   :local Mac [ / caps-man registration-table get $RegTbl mac-address ];
