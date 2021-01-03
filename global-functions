@@ -624,7 +624,11 @@
           :if ($ScriptVal->"name" = "global-config" && \
                [ :len [ / system script find where name="global-config-overlay" ] ] > 0) do={
             $LogPrintExit info ("Reloading global configuration and overlay.") false;
-            / system script { run global-config; run global-config-overlay; }
+            :do {
+              / system script { run global-config; run global-config-overlay; }
+            } on-error={
+              $LogPrintExit error ("Reloading global configuration and overlay failed! Syntax error?") false;
+            }
           }
           :if ($ScriptVal->"name" = "global-functions") do={
             $LogPrintExit info ("Reloading global functions.") false;
