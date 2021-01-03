@@ -632,7 +632,11 @@
           }
           :if ($ScriptVal->"name" = "global-functions") do={
             $LogPrintExit info ("Reloading global functions.") false;
-            / system script run global-functions;
+            :do {
+              / system script run global-functions;
+            } on-error={
+              $LogPrintExit error ("Reloading global functions failed!") false;
+            }
           }
         } else={
           $LogPrintExit debug ("Script " .  $ScriptVal->"name" . " did not change.") false;
