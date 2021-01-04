@@ -35,6 +35,7 @@
 :global MkDir;
 :global ParseKeyValueStore;
 :global RandomDelay;
+:global RequiredRouterOS;
 :global ScriptFromTerminal;
 :global ScriptInstallUpdate;
 :global ScriptLock;
@@ -515,6 +516,23 @@
   :global GetRandomNumber;
 
   :delay ([ $GetRandomNumber $1 ] . "s");
+}
+
+# check for required RouterOS version
+:set RequiredRouterOS do={
+  :local Caller   [ :tostr $1 ];
+  :local Required [ :tostr $2 ];
+
+  :global IfThenElse;
+  :global LogPrintExit;
+  :global VersionToNum;
+
+  :if ([ $VersionToNum $Required ] > [ $VersionToNum [ / system package update get installed-version ] ]) do={
+    $LogPrintExit warning ("This " . [ $IfThenElse ([ :pick $Caller 0 ] = "\$") "function" "script" ] . \
+      " '" . $Caller . "' (at least specific functionality) requires RouterOS " . $Required . ". Please update!") false;
+    :return false;
+  }
+  :return true;
 }
 
 # check if script is run from terminal
@@ -1055,6 +1073,9 @@
     :delay 1s;
   }
 }
+
+# check for required RouterOS version
+$RequiredRouterOS "global-functions" "6.43";
 
 # signal we are ready
 :set GlobalFunctionsReady true;
