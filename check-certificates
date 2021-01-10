@@ -89,6 +89,7 @@ $WaitFullyConnected;
       ("A certificate on " . $Identity . " has been renewed.\n\n" . \
         "Name:        " . ($CertVal->"name") . "\n" . \
         "CommonName:  " . ($CertNewVal->"common-name") . "\n" . \
+        "Private key: " . [ $IfThenElse (($CertNewVal->"private-key") = true) "available" "missing" ] . "\n" . \
         "Fingerprint: " . ($CertNewVal->"fingerprint") . "\n" . \
         "Issuer:      " . ([ $ParseKeyValueStore ($CertNewVal->"issuer") ]->"CN") . "\n" . \
         "Validity:    " . ($CertNewVal->"invalid-before") . " to " . ($CertNewVal->"invalid-after") . "\n" . \
@@ -111,6 +112,7 @@ $WaitFullyConnected;
       ("A certificate on " . $Identity . " " . $State . ".\n\n" . \
         "Name:        " . ($CertVal->"name") . "\n" . \
         "CommonName:  " . ($CertVal->"common-name") . "\n" . \
+        "Private key: " . [ $IfThenElse (($CertNewVal->"private-key") = true) "available" "missing" ] . "\n" . \
         "Fingerprint: " . ($CertVal->"fingerprint") . "\n" . \
         "Issuer:      " . ($CertVal->"ca") . ([ $ParseKeyValueStore ($CertVal->"issuer") ]->"CN") . "\n" . \
         "Validity:    " . ($CertVal->"invalid-before") . " to " . ($CertVal->"invalid-after") . "\n" . \
