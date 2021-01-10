@@ -56,7 +56,7 @@ $WaitFullyConnected;
       }
     }
 
-    :local CertNew [ / certificate find where common-name=($CertVal->"common-name") fingerprint!=[ :tostr ($CertVal->"fingerprint") ] expires-after>3w ];
+    :local CertNew [ / certificate find where common-name=($CertVal->"common-name") fingerprint!=[ :tostr ($CertVal->"fingerprint") ] expires-after>$CertRenewTime ];
     :local CertNewVal [ / certificate get $CertNew ];
 
     :if ([ $CertificateAvailable ([ $ParseKeyValueStore ($CertNewVal->"issuer") ]->"CN") ] = false) do={
