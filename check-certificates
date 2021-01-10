@@ -66,6 +66,11 @@ $WaitFullyConnected;
     :if ($Cert != $CertNew) do={
       $LogPrintExit debug ("Certificate '" . $CertVal->"name" . "' was not updated, but replaced.") false;
 
+      :if (($CertVal->"private-key") = true && ($CertVal->"private-key") != ($CertNewVal->"private-key")) do={
+        / certificate remove $CertNew;
+        $LogPrintExit warning ("Old certificate '" . ($CertVal->"name") . "' has a private key, new certificate does not. Aborting renew.") true;
+      }
+
       / ip service set certificate=($CertNewVal->"name") [ find where certificate=($CertVal->"name") ];
 
       :do {
