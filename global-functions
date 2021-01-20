@@ -480,7 +480,10 @@
 :set MkDir do={
   :local Dir [ :tostr $1 ];
 
+  :global CleanFilePath;
   :global WaitForFile;
+
+  :set Dir [ $CleanFilePath $Dir ];
 
   :if ([ :len [ / file find where name=$Dir type="directory" ] ] = 0) do={
     :local WwwVal [ / ip service get www ];
