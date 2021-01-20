@@ -1033,9 +1033,11 @@
 
 # wait for file to be available
 :set WaitForFile do={
+  :local FileName [ :tostr $1 ];
+
   :global CleanFilePath;
 
-  :local FileName [ $CleanFilePath [ :tostr $1 ] ];
+  :set FileName [ $CleanFilePath $FileName ];
   :local I 0;
 
   :while ([ :len [ / file find where name=$FileName ] ] = 0) do={
