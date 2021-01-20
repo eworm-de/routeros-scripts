@@ -22,7 +22,10 @@ $WaitFullyConnected;
 :local Updated false;
 
 :if ([ :len [ / file find where name=$PackagePath type="directory" ] ] = 0) do={
-  $MkDir $PackagePath;
+  :if ([ $MkDir $PackagePath ] = false) do={
+    $LogPrintExit warning ("Creating directory at package path (" . \
+      $PackagePath . ") failed!") true;
+  }
   $LogPrintExit info ("Created directory at package path (" . $PackagePath . \
     "). Please place your packages!") false;
 }
