@@ -485,15 +485,23 @@
 
   :set Dir [ $CleanFilePath $Dir ];
 
-  :if ([ :len [ / file find where name=$Dir type="directory" ] ] = 0) do={
-    :local WwwVal [ / ip service get www ];
-    / ip service set www address=127.0.0.1/32 disabled=no port=80;
+  :if ([ :len [ / file find where name=$Dir type="directory" ] ] = 1) do={
+    :return true;
+  }
+
+  :local Return true;
+  :local WwwVal [ / ip service get www ];
+  / ip service set www address=127.0.0.1/32 disabled=no port=80;
+  :do {
     / tool fetch http://127.0.0.1/ dst-path=($Dir . "/tmp");
     $WaitForFile ($Dir . "/tmp");
     / file remove ($Dir . "/tmp");
-    / ip service set www address=($WwwVal->"address") \
-        disabled=($WwwVal->"disabled") port=($WwwVal->"port");
+  } on-error={
+    :set Return false;
   }
+  / ip service set www address=($WwwVal->"address") \
+      disabled=($WwwVal->"disabled") port=($WwwVal->"port");
+  :return $Return;
 }
 
 # parse key value store
