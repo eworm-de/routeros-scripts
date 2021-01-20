@@ -412,6 +412,11 @@
 
   :global PrintDebug;
 
+  :local PrintSeverity do={
+    :local Color { debug=96; info=97; warning=93; error=91 };
+    :return ("\1B[" . $Color->$1 . "m" . $1 . "\1B[0m");
+  }
+
   :if ($Severity ~ "^(debug|error|info)\$") do={
     :if ($Severity = "debug") do={ :log debug $Message; }
     :if ($Severity = "error") do={ :log error $Message; }
@@ -423,9 +428,9 @@
 
   :if ($Severity != "debug" || $PrintDebug = true) do={
     :if ($Exit = "true") do={
-      :error ($Severity . ": " . $Message);
+      :error ([ $PrintSeverity $Severity ] . ": " . $Message);
     } else={
-      :put ($Severity . ": " . $Message);
+      :put ([ $PrintSeverity $Severity ] . ": " . $Message);
     }
   }
 }
