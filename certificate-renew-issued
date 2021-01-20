@@ -19,12 +19,15 @@
       key-usage=($CertVal->"key-usage") subject-alt-name=($CertVal->"subject-alt-name");
   / certificate sign ($CertVal->"name") ca=($CertVal->"ca");
   :if ([ :typeof ($CertIssuedExportPass->($CertVal->"common-name")) ] = "str") do={
-    $MkDir "cert-issued";
-    / certificate export-certificate ($CertVal->"name") type=pkcs12 \
-        file-name=("cert-issued/" . $CertVal->"common-name") \
-        export-passphrase=($CertIssuedExportPass->($CertVal->"common-name"));
-    $LogPrintExit info ("Issued a new certificate for \"" . $CertVal->"common-name" . \
-      "\", exported to \"cert-issued/" . $CertVal->"common-name" . ".p12\".") false;
+    :if ([ $MkDir "cert-issued" ] = true) do={
+      / certificate export-certificate ($CertVal->"name") type=pkcs12 \
+          file-name=("cert-issued/" . $CertVal->"common-name") \
+          export-passphrase=($CertIssuedExportPass->($CertVal->"common-name"));
+      $LogPrintExit info ("Issued a new certificate for \"" . $CertVal->"common-name" . \
+        "\", exported to \"cert-issued/" . $CertVal->"common-name" . ".p12\".") false;
+    } else={
+      $LogPrintExit warning ("Failed creating directory, not exporting certificate.") false;
+    }
   } else={
     $LogPrintExit info ("Issued a new certificate for \"" . $CertVal->"common-name" . "\".") false;
   }
