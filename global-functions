@@ -917,7 +917,6 @@
 # return symbol for notification
 :set SymbolForNotification do={
   :global NotificationsWithSymbols;
-
   :global SymbolByUnicodeName;
 
   :if ($NotificationsWithSymbols != true) do={
