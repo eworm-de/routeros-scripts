@@ -597,6 +597,8 @@
     }
   }
 
+  :local ScriptInstallUpdateBefore $ScriptInstallUpdate;
+
   :foreach Script in=[ / system script find where source~"^#!rsc( by RouterOS)\?\n" ] do={
     :local ScriptVal [ / system script get $Script ];
     :local ScriptFile [ / file find where name=("script-updates/" . $ScriptVal->"name") ];
@@ -734,6 +736,10 @@
     $SendNotification ([ $SymbolForNotification "pushpin" ] . "News and configuration changes") \
       $NotificationMessage $Link;
     :set SentConfigChangesNotification $ExpectedConfigVersion;
+  }
+
+  :if ($ScriptInstallUpdateBefore != $ScriptInstallUpdate) do={
+    $LogPrintExit info ("This function '\$ScriptInstallUpdate' changed, you may want to re-run.") false;
   }
 }
 
