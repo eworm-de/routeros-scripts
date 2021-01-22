@@ -413,6 +413,12 @@
   :global PrintDebug;
 
   :local PrintSeverity do={
+    :global TerminalColorOutput;
+
+    :if ($TerminalColorOutput != true) do={
+      :return $1;
+    }
+
     :local Color { debug=96; info=97; warning=93; error=91 };
     :return ("\1B[" . $Color->$1 . "m" . $1 . "\1B[0m");
   }

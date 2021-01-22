@@ -35,6 +35,8 @@
 
 # Toggle this to disable symbols in notifications.
 :global NotificationsWithSymbols true;
+# Toggle this to disable color output in terminal/cli.
+:global TerminalColorOutput true;
 
 # This defines what backups to generate and what password to use.
 :global BackupSendBinary false;
