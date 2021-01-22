@@ -45,6 +45,7 @@
   39="Added support for interface specific address list entries in 'ipv6-update'.";
   40="Made the certificate renewal time configurable.";
   41="Implemented migration mechanism for script updates.";
+  42="Made severity in terminal output colorful, with opt-out.";
 };
 
 # Migration steps to be applied on script updates
