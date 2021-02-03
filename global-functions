@@ -327,7 +327,7 @@
   :global LogPrintExit;
 
   :do {
-    :if ([ $CertificateAvailable "Let's Encrypt Authority X3" ] = false) do={
+    :if ([ $CertificateAvailable "R3" ] = false) do={
       $LogPrintExit warning ("Downloading required certificate failed.") true;
     }
     :local Vendor ([ / tool fetch check-certificate=yes-without-crl \
