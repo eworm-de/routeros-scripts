@@ -257,7 +257,7 @@
     :return true;
   }
 
-  :if ([ $CertificateAvailable "Let's Encrypt Authority X3" ] = false) do={
+  :if ([ $CertificateAvailable "R3" ] = false) do={
     $LogPrintExit error ("Downloading required certificate failed.") true;
   }
 
