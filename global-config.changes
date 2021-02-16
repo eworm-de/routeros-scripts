@@ -46,6 +46,7 @@
   40="Made the certificate renewal time configurable.";
   41="Implemented migration mechanism for script updates.";
   42="Made severity in terminal output colorful, with opt-out.";
+  43="Added queue for e-mail notifications to resend later on error.";
 };
 
 # Migration steps to be applied on script updates

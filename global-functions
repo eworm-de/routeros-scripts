@@ -8,7 +8,7 @@
 # https://git.eworm.de/cgit/routeros-scripts/about/
 
 # expected configuration version
-:global ExpectedConfigVersion 42;
+:global ExpectedConfigVersion 43;
 
 # global variables not to be changed by user
 :global GlobalFunctionsReady false;
@@ -24,6 +24,7 @@
 :global DeviceInfo;
 :global DNSIsResolving;
 :global DownloadPackage;
+:global FlushEmailQueue;
 :global FlushTelegramQueue;
 :global GetMacVendor;
 :global GetRandom20CharHex;
@@ -284,6 +285,47 @@
   }
 
   :return false;
+}
+
+# flush e-mail queue
+:set FlushEmailQueue do={
+  :global EmailQueue;
+
+  :global LogPrintExit;
+
+  :local AllDone true;
+  :local QueueLen [ :len $EmailQueue ];
+
+  :if ([ :len [ / system scheduler find where name="FlushEmailQueue" ] ] > 0 && $QueueLen = 0) do={
+    $LogPrintExit warning ("Flushing E-Mail messages from scheduler, but queue is empty.") false;
+  }
+
+  / system scheduler set interval=1m [ find where name="FlushEmailQueue" interval=1s ];
+
+  :foreach Id,Message in=$EmailQueue do={
+    :if ([ :typeof $Message ] = "array" ) do={
+      / tool e-mail send to=($Message->"to") cc=($Message->"cc") \
+        subject=($Message->"subject") body=($Message->"body");
+      :local Wait true;
+      :do {
+        :delay 1s;
+        :local Status [ / tool e-mail get last-status ];
+        :if ($Status = "succeeded") do={
+          :set ($EmailQueue->$Id);
+          :set Wait false;
+        }
+        :if ($Status = "failed") do={
+          :set AllDone false;
+          :set Wait false;
+        }
+      } while ($Wait = true);
+    }
+  }
+
+  :if ($AllDone = true && $QueueLen = [ :len $EmailQueue ]) do={
+    / system scheduler remove [ find where name="FlushEmailQueue" ];
+    :set EmailQueue;
+  }
 }
 
 # flush telegram queue
@@ -777,6 +819,7 @@
   :global Identity;
   :global EmailGeneralTo;
   :global EmailGeneralCc;
+  :global EmailQueue;
 
   :global LogPrintExit;
   :global IfThenElse;
@@ -785,15 +828,18 @@
     :return false;
   }
 
-  :do {
-    :local Signature [ / system note get note ];
-    / tool e-mail send to=$EmailGeneralTo cc=$EmailGeneralCc \
-      subject=("[" . $Identity . "] " . $Subject) \
-      body=($Message . \
-        [ $IfThenElse ([ :len $Link ] > 0) ("\n\n" . $Link) "" ] . \
-        [ $IfThenElse ([ :len $Signature ] > 0) ("\n-- \n" . $Signature) "" ]);
-  } on-error={
-    $LogPrintExit warning ("Failed sending notification mail!") false;
+  :if ([ :typeof $EmailQueue ] = "nothing") do={
+      :set EmailQueue [ :toarray "" ];
+  }
+  :local Signature [ / system note get note ];
+  :set ($EmailQueue->[ :len $EmailQueue ]) {
+    to=$EmailGeneralTo; cc=$EmailGeneralCc; subject=("[" . $Identity . "] " . $Subject);
+    body=($Message . \
+      [ $IfThenElse ([ :len $Link ] > 0) ("\n\n" . $Link) "" ] . \
+      [ $IfThenElse ([ :len $Signature ] > 0) ("\n-- \n" . $Signature) "" ]) };
+  :if ([ :len [ / system scheduler find where name="FlushEmailQueue" ] ] = 0) do={
+    / system scheduler add name=FlushEmailQueue interval=1s start-time=startup \
+      on-event=":global FlushEmailQueue; \$FlushEmailQueue;";
   }
 }
 
