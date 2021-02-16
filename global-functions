@@ -773,7 +773,6 @@
   :local Subject [ :tostr $1 ];
   :local Message [ :tostr $2 ];
   :local Link    [ :tostr $3 ];
-  :local Attach  [ :tostr $4 ];
 
   :global Identity;
   :global EmailGeneralTo;
@@ -792,8 +791,7 @@
       subject=("[" . $Identity . "] " . $Subject) \
       body=($Message . \
         [ $IfThenElse ([ :len $Link ] > 0) ("\n\n" . $Link) "" ] . \
-        [ $IfThenElse ([ :len $Signature ] > 0) ("\n-- \n" . $Signature) "" ]) \
-      file=$Attach;
+        [ $IfThenElse ([ :len $Signature ] > 0) ("\n-- \n" . $Signature) "" ]);
   } on-error={
     $LogPrintExit warning ("Failed sending notification mail!") false;
   }
@@ -805,13 +803,12 @@
   :local Subject [ :tostr $1 ];
   :local Message [ :tostr $2 ];
   :local Link    [ :tostr $3 ];
-  :local Attach  [ :tostr $4 ];
-  :local Silent  [ :tostr $5 ];
+  :local Silent  [ :tostr $4 ];
 
   :global SendEMail;
   :global SendTelegram;
 
-  $SendEMail $Subject $Message $Link $Attach;
+  $SendEMail $Subject $Message $Link;
   $SendTelegram $Subject $Message $Link $Silent;
 }
 
