@@ -215,7 +215,7 @@
     [ $IfThenElse ([ :typeof ($Update->"latest-version") ] != "nothing" && \
         $Update->"installed-version" != $Update->"latest-version") \
       ("\n    Available:  " . $Update->"latest-version") ] . \
-       "\nRouterOS-Scripts Configuration Version:" . \
+       "\nRouterOS-Scripts:" . \
        "\n    Current:    " . $GlobalConfigVersion . \
     [ $IfThenElse ($GlobalConfigVersion != $ExpectedConfigVersion) \
       ("\n    Expected:   " . $ExpectedConfigVersion) ]);
