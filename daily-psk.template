@@ -81,26 +81,14 @@ $WaitFullyConnected;
 
       :if ($Skip = 0) do={
         :set Seen ($Seen, $Ssid);
-
-        :local Url ("https://www.eworm.de/cgi-bin/cqrlogo-wifi.cgi" . \
+        :local Link ("https://www.eworm.de/cgi-bin/cqrlogo-wifi.cgi" . \
             "?scale=8&level=1&ssid=" . [ $UrlEncode $Ssid ] . "&pass=" . [ $UrlEncode $NewPsk ]);
-        :local Attach "qrcode-daily.png";
-
-        :do {
-          / tool fetch check-certificate=yes-without-crl \
-              $Url dst-path=$Attach;
-          $WaitForFile $Attach;
-        } on-error={
-          :set Attach "";
-        }
-
         $SendNotification ([ $SymbolForNotification "calendar" ] . "daily PSK " . $Ssid) \
           ("This is the daily PSK on " . $Identity . ":\n\n" . \
             "SSID: " . $Ssid . "\n" . \
             "PSK:  " . $NewPsk . "\n" . \
             "Date: " . $Date . "\n\n" . \
-            "A client device specific rule must not exist!") \
-            $Url $Attach;
+            "A client device specific rule must not exist!") $Link;
       }
     }
   }
