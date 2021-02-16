@@ -10,7 +10,6 @@
 
 :global IfThenElse;
 :global LogPrintExit;
-:global MailServerIsUp;
 :global ScriptLock;
 :global SendNotification;
 :global SymbolForNotification;
@@ -23,10 +22,6 @@ $ScriptLock "sms-forward";
 }
 
 $WaitFullyConnected;
-
-:if ([ $MailServerIsUp ] = false) do={
-  $LogPrintExit warning "Mail server is not up." true;
-}
 
 :local Settings [ / tool sms get ];
 

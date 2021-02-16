@@ -14,7 +14,6 @@
 
 :global IfThenElse;
 :global LogPrintExit;
-:global MailServerIsUp;
 :global ScriptLock;
 :global SendNotification;
 :global SymbolForNotification;
@@ -32,10 +31,6 @@ $ScriptLock "log-forward";
 }
 
 $WaitFullyConnected;
-
-:if ([ $MailServerIsUp ] = false) do={
-  $LogPrintExit warning ("Mail server is not up.") true;
-}
 
 :local Count 0;
 :local Messages "";

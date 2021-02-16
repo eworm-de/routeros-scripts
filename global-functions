@@ -32,7 +32,6 @@
 :global IfThenElse;
 :global IPCalc;
 :global LogPrintExit;
-:global MailServerIsUp;
 :global MkDir;
 :global ParseKeyValueStore;
 :global RandomDelay;
@@ -484,52 +483,6 @@
       :put ([ $PrintSeverity $Severity ] . ": " . $Message);
     }
   }
-}
-
-# check if mail server is up
-:set MailServerIsUp do={
-  :local MailServer [ / tool e-mail get address ];
-
-  :global EmailGeneralTo;
-
-  :global LogPrintExit;
-
-  :if ([ :len $EmailGeneralTo ] = 0) do={
-    :return true;
-  } else={
-    :if ($MailServer = "0.0.0.0") do={
-      $LogPrintExit info ("No mail server is configured! Returning gracefully...") false;
-      :return true;
-    }
-  }
-
-  :if ([ :len [ / tool netwatch find where comment=$MailServer ] ] = 0) do={
-    $LogPrintExit info ("Adding netwatch entry for mail server.") false;
-    :local MailHost $MailServer;
-    :if ([ :typeof [ :toip $MailHost ] ] != "ip" ) do={
-      :do {
-        :set MailHost [ :resolve $MailServer ];
-      } on-error={
-        $LogPrintExit warning ("Resolving mail server failed.") false;
-        :return false;
-      }
-    }
-    / tool netwatch add comment=$MailServer host=$MailHost;
-  }
-
-  :local NetWatch [ / tool netwatch find where comment=$MailServer ];
-  :local NetWatchVal [ / tool netwatch get $NetWatch ];
-  :if ($NetWatchVal->"status" = "up") do={
-    :return true;
-  }
-
-  / tool netwatch set interval=($NetWatchVal->"interval") $NetWatch;
-  :delay ($NetWatchVal->"timeout");
-  :if ([ / tool netwatch get $NetWatch status ] = "up") do={
-    :return true;
-  }
-
-  :return false;
 }
 
 # create directory
