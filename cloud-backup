@@ -6,6 +6,9 @@
 # upload backup to MikroTik cloud
 # https://git.eworm.de/cgit/routeros-scripts/about/doc/cloud-backup.md
 
+:global GlobalFunctionsReady;
+:while ($GlobalFunctionsReady != true) do={ :delay 500ms; }
+
 :global BackupPassword;
 :global Identity;
 

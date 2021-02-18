@@ -6,6 +6,9 @@
 # create and upload backup and config file
 # https://git.eworm.de/cgit/routeros-scripts/about/doc/upload-backup.md
 
+:global GlobalFunctionsReady;
+:while ($GlobalFunctionsReady != true) do={ :delay 500ms; }
+
 :global BackupPassword;
 :global BackupSendBinary;
 :global BackupSendExport;

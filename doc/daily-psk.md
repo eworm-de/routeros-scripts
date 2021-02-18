@@ -12,23 +12,23 @@ passphrase to a pseudo-random string daily.
 Requirements and installation
 -----------------------------
 
-Just install this script and [global-wait](global-wait.md).
+Just install this script.
 
 Depending on whether you use CAPsMAN (`/ caps-man`) or local wireless
 interface (`/ interface wireless`) you need to install a different script.
 
 For CAPsMAN:
 
-    $ScriptInstallUpdate daily-psk.capsman,global-wait;
+    $ScriptInstallUpdate daily-psk.capsman;
 
 For local interface:
 
-    $ScriptInstallUpdate daily-psk.local,global-wait;
+    $ScriptInstallUpdate daily-psk.local;
 
 And add schedulers to run the script:
 
     / system scheduler add interval=1d name=daily-psk-nightly on-event="/ system script run daily-psk.local;" start-date=may/23/2018 start-time=03:00:00;
-    / system scheduler add name=daily-psk-startup on-event="/ system script { run global-wait; run daily-psk.local; }" start-time=startup;
+    / system scheduler add name=daily-psk-startup on-event="/ system script run daily-psk.local;" start-time=startup;
 
 These will update the passphrase on boot and nightly at 3:00.
 
@@ -45,11 +45,6 @@ Then add an access list entry:
     / interface wireless access-list add comment="Daily PSK" interface=wl-daily private-pre-shared-key="ToBeChangedDaily";
 
 Also notification settings are required for e-mail and telegram.
-
-See also
---------
-
-* [Wait for configuration und functions](global-wait.md)
 
 ---
 [◀ Go back to main README](../README.md)  

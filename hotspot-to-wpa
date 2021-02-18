@@ -6,6 +6,9 @@
 # add private WPA passphrase after hotspot login
 # https://git.eworm.de/cgit/routeros-scripts/about/doc/hotspot-to-wpa.md
 
+:global GlobalFunctionsReady;
+:while ($GlobalFunctionsReady != true) do={ :delay 500ms; }
+
 :global LogPrintExit;
 
 :local MacAddress $"mac-address";

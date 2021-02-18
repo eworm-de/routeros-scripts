@@ -7,6 +7,9 @@
 # ipsec remote peer
 # https://git.eworm.de/cgit/routeros-scripts/about/doc/update-gre-address.md
 
+:global GlobalFunctionsReady;
+:while ($GlobalFunctionsReady != true) do={ :delay 500ms; }
+
 :global LogPrintExit;
 
 / interface gre set remote-address=0.0.0.0 disabled=yes [ find where !running !disabled ];

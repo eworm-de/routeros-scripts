@@ -8,7 +8,7 @@
 # https://git.eworm.de/cgit/routeros-scripts/about/
 
 # expected configuration version
-:global ExpectedConfigVersion 43;
+:global ExpectedConfigVersion 44;
 
 # global variables not to be changed by user
 :global GlobalFunctionsReady false;
@@ -623,13 +623,6 @@
       :if ($ScriptVal->"policy" != $SchedulerVal->"policy") do={
         $LogPrintExit warning ("Policies differ for script " . $ScriptVal->"name" . \
           " and its scheduler " . $SchedulerVal->"name" . "!") false;
-      }
-      :if ($SchedulerVal->"name" != "global-scripts" && \
-           $SchedulerVal->"start-time" = "startup" && \
-           $SchedulerVal->"interval" = 0s && \
-           !(($SchedulerVal->"on-event") ~ "\\brun global-wait\\b")) do={
-        $LogPrintExit warning ("Scheduler " . $SchedulerVal->"name" . " starts on startup, " . \
-          "without waiting for global-functions. Run 'global-wait' to avoid race conditions!") false;
       }
     }
 

@@ -6,6 +6,9 @@
 # run scripts on ppp up
 # https://git.eworm.de/cgit/routeros-scripts/about/doc/ppp-on-up.md
 
+:global GlobalFunctionsReady;
+:while ($GlobalFunctionsReady != true) do={ :delay 500ms; }
+
 :global LogPrintExit;
 
 :local Interface $interface;

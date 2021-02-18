@@ -6,6 +6,9 @@
 # run scripts on DHCP lease
 # https://git.eworm.de/cgit/routeros-scripts/about/doc/lease-script.md
 
+:global GlobalFunctionsReady;
+:while ($GlobalFunctionsReady != true) do={ :delay 500ms; }
+
 :global LogPrintExit;
 
 :if ([ :typeof $leaseActIP ] = "nothing" || \

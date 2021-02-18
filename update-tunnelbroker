@@ -7,6 +7,9 @@
 # update local address of tunnelbroker interface
 # https://git.eworm.de/cgit/routeros-scripts/about/doc/update-tunnelbroker.md
 
+:global GlobalFunctionsReady;
+:while ($GlobalFunctionsReady != true) do={ :delay 500ms; }
+
 :global CertificateAvailable;
 :global LogPrintExit;
 :global ParseKeyValueStore;

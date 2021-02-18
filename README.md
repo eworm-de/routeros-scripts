@@ -165,7 +165,6 @@ Available Scripts
 * [Comment DHCP leases with info from access list](doc/dhcp-lease-comment.md)
 * [Create DNS records for DHCP leases](doc/dhcp-to-dns.md)
 * [Send backup via e-mail](doc/email-backup.md)
-* [Wait for configuration und functions](doc/global-wait.md)
 * [Send GPS position to server](doc/gps-track.md)
 * [Use WPA2 network with hotspot credentials](doc/hotspot-to-wpa.md)
 * [Update configuration on IPv6 prefix change](doc/ipv6-update.md)

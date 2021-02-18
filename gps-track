@@ -6,6 +6,9 @@
 # track gps data by sending json data to http server
 # https://git.eworm.de/cgit/routeros-scripts/about/doc/gps-track.md
 
+:global GlobalFunctionsReady;
+:while ($GlobalFunctionsReady != true) do={ :delay 500ms; }
+
 :global GpsTrackUrl;
 :global Identity;
 

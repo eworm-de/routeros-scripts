@@ -6,6 +6,9 @@
 # check for certificate validity
 # https://git.eworm.de/cgit/routeros-scripts/about/doc/check-certificates.md
 
+:global GlobalFunctionsReady;
+:while ($GlobalFunctionsReady != true) do={ :delay 500ms; }
+
 :global CertRenewPass;
 :global CertRenewTime;
 :global CertRenewUrl;

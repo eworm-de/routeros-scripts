@@ -44,7 +44,7 @@ Just run the script:
 
 Alternatively running on startup may be desired:
 
-    / system scheduler add name=check-certificates-startup on-event="/ system script { run global-wait; run check-certificates; }" start-time=startup;
+    / system scheduler add name=check-certificates-startup on-event="/ system script run check-certificates;" start-time=startup;
 
 See also
 --------

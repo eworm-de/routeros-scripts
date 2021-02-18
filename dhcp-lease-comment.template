@@ -9,6 +9,9 @@
 # !! This is just a template! Replace '%PATH%' with 'caps-man'
 # !! or 'interface wireless'!
 
+:global GlobalFunctionsReady;
+:while ($GlobalFunctionsReady != true) do={ :delay 500ms; }
+
 :global LogPrintExit;
 
 :foreach Lease in=[ / ip dhcp-server lease find where dynamic=yes status=bound ] do={

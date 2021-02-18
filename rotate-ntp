@@ -6,6 +6,9 @@
 # rotate the ntp servers
 # https://git.eworm.de/cgit/routeros-scripts/about/doc/rotate-ntp.md
 
+:global GlobalFunctionsReady;
+:while ($GlobalFunctionsReady != true) do={ :delay 500ms; }
+
 :global NtpPool;
 
 :global LogPrintExit;

@@ -6,6 +6,9 @@
 # create and email backup and config file
 # https://git.eworm.de/cgit/routeros-scripts/about/doc/email-backup.md
 
+:global GlobalFunctionsReady;
+:while ($GlobalFunctionsReady != true) do={ :delay 500ms; }
+
 :global BackupPassword;
 :global BackupSendBinary;
 :global BackupSendExport;

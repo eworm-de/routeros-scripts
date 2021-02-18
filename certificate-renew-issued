@@ -6,6 +6,9 @@
 # renew locally issued certificates
 # https://git.eworm.de/cgit/routeros-scripts/about/doc/certificate-renew-issued.md
 
+:global GlobalFunctionsReady;
+:while ($GlobalFunctionsReady != true) do={ :delay 500ms; }
+
 :global CertIssuedExportPass;
 
 :global LogPrintExit;

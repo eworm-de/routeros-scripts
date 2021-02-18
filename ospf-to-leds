@@ -6,6 +6,9 @@
 # visualize ospf instance state via leds
 # https://git.eworm.de/cgit/routeros-scripts/about/doc/ospf-to-leds.md
 
+:global GlobalFunctionsReady;
+:while ($GlobalFunctionsReady != true) do={ :delay 500ms; }
+
 :global LogPrintExit;
 :global ParseKeyValueStore;
 

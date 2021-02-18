@@ -6,6 +6,9 @@
 # check for RouterOS update, send notification and/or install
 # https://git.eworm.de/cgit/routeros-scripts/about/doc/check-routeros-update.md
 
+:global GlobalFunctionsReady;
+:while ($GlobalFunctionsReady != true) do={ :delay 500ms; }
+
 :global Identity;
 :global SafeUpdateNeighbor;
 :global SafeUpdatePatch;

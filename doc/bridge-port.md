@@ -33,11 +33,9 @@ There is also global configuration:
 
 * `BridgePortTo`: specify the configuration to be applied by default
 
-Install [global-wait](global-wait.md) and add a scheduler to start with
-default setup on system startup:
+Add a scheduler to start with default setup on system startup:
 
-    $ScriptInstallUpdate global-wait;
-    / system scheduler add name=bridge-port-to-default on-event="/ system script { run global-wait; run bridge-port-to-default; }" start-time=startup;
+    / system scheduler add name=bridge-port-to-default on-event="/ system script run bridge-port-to-default;" start-time=startup;
 
 Usage and invocation
 --------------------
@@ -74,11 +72,6 @@ More configuration can be loaded by setting `BridgePortTo`:
 
 * Interfaces `en1` and `en2` are unchanged.
 * Interface `en3` is put in bridge `br-intern`.
-
-See also
---------
-
-* [Wait for configuration und functions](global-wait.md)
 
 ---
 [◀ Go back to main README](../README.md)  

@@ -6,6 +6,9 @@
 # check for LTE firmware upgrade, send notification
 # https://git.eworm.de/cgit/routeros-scripts/about/doc/check-lte-firmware-upgrade.md
 
+:global GlobalFunctionsReady;
+:while ($GlobalFunctionsReady != true) do={ :delay 500ms; }
+
 :global Identity;
 :global SentLteFirmwareUpgradeNotification;
 

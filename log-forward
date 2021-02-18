@@ -6,6 +6,9 @@
 # forward log messages via notification
 # https://git.eworm.de/cgit/routeros-scripts/about/doc/log-forward.md
 
+:global GlobalFunctionsReady;
+:while ($GlobalFunctionsReady != true) do={ :delay 500ms; }
+
 :global Identity;
 :global LogForwardFilter;
 :global LogForwardFilterMessage;

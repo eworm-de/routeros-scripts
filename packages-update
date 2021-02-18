@@ -6,6 +6,9 @@
 # download packages and reboot for installation
 # https://git.eworm.de/cgit/routeros-scripts/about/doc/packages-update.md
 
+:global GlobalFunctionsReady;
+:while ($GlobalFunctionsReady != true) do={ :delay 500ms; }
+
 :global DownloadPackage;
 :global LogPrintExit;
 :global ScriptFromTerminal;

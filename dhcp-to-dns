@@ -6,6 +6,9 @@
 # check DHCP leases and add/remove/update DNS entries
 # https://git.eworm.de/cgit/routeros-scripts/about/doc/dhcp-to-dns.md
 
+:global GlobalFunctionsReady;
+:while ($GlobalFunctionsReady != true) do={ :delay 500ms; }
+
 :global Domain;
 :global HostNameInZone;
 :global Identity;
