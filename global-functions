@@ -592,6 +592,7 @@
   :global CertificateAvailable;
   :global LogPrintExit;
   :global ParseKeyValueStore;
+  :global ScriptInstallUpdate;
   :global SendNotification;
   :global SymbolForNotification;
 
@@ -606,7 +607,7 @@
     }
   }
 
-  :local ScriptInstallUpdateBefore $ScriptInstallUpdate;
+  :local ScriptInstallUpdateBefore [ :tostr $ScriptInstallUpdate ];
 
   :foreach Script in=[ / system script find where source~"^#!rsc( by RouterOS)\?\n" ] do={
     :local ScriptVal [ / system script get $Script ];
@@ -747,7 +748,7 @@
     :set SentConfigChangesNotification $ExpectedConfigVersion;
   }
 
-  :if ($ScriptInstallUpdateBefore != $ScriptInstallUpdate) do={
+  :if ($ScriptInstallUpdateBefore != [ :tostr $ScriptInstallUpdate ]) do={
     $LogPrintExit info ("This function '\$ScriptInstallUpdate' changed, you may want to re-run.") false;
   }
 }
