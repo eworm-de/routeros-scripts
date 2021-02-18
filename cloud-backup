@@ -13,6 +13,9 @@
 :global LogPrintExit;
 :global SendNotification;
 :global SymbolForNotification;
+:global WaitFullyConnected;
+
+$WaitFullyConnected;
 
 :do {
   # we are not interested in output, but print is
