@@ -667,7 +667,7 @@
             :do {
               / system script { run global-config; run global-config-overlay; }
             } on-error={
-              $LogPrintExit error ("Reloading global configuration and overlay failed! Syntax error?") false;
+              $LogPrintExit error ("Reloading global configuration and overlay failed! Syntax error\?") false;
             }
           }
           :if ($ScriptVal->"name" = "global-functions") do={
