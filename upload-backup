@@ -22,6 +22,9 @@
 :global SendNotification;
 :global SymbolForNotification;
 :global WaitForFile;
+:global WaitFullyConnected;
+
+$WaitFullyConnected;
 
 :if ($BackupSendBinary != true && \
      $BackupSendExport != true) do={
