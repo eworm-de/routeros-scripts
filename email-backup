@@ -18,6 +18,9 @@
 :global DeviceInfo;
 :global LogPrintExit;
 :global WaitForFile;
+:global WaitFullyConnected;
+
+$WaitFullyConnected;
 
 :if ($BackupSendBinary != true && \
      $BackupSendExport != true) do={
