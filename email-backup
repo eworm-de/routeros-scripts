@@ -27,6 +27,10 @@ $WaitFullyConnected;
   $LogPrintExit error ("Configured to send neither backup nor config export.") true;
 }
 
+:if ([ :len $EmailBackupTo ] = 0) do={
+  $LogPrintExit error ("Configuration is missing recipient for e-mail backup.") true;
+}
+
 # filename based on identity
 :local FileName [ $CharacterReplace ($Identity . "." . $Domain) "." "_" ];
 :local BackupFile "none";
