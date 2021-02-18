@@ -21,6 +21,7 @@
 :global SendNotification;
 :global SymbolForNotification;
 :global VersionToNum;
+:global WaitFullyConnected;
 
 :local DoUpdate do={
   :if ([ :len [ / system script find where name="packages-update" ] ] > 0) do={
@@ -30,6 +31,8 @@
   }
   :error "Waiting for system to reboot.";
 }
+
+$WaitFullyConnected;
 
 :if ([ :len [ / system package find where name="wireless" disabled=no ] ] > 0) do={
   :if ([ / interface wireless cap get enabled ] = true && \
