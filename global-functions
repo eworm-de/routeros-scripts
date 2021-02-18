@@ -348,7 +348,8 @@
           ("https://api.telegram.org/bot" . $TelegramTokenId . "/sendMessage") \
           http-data=("chat_id=" . ($Message->"chatid") . \
           "&disable_notification=" . ($Message->"silent") . \
-          "&parse_mode=" . ($Message->"parsemode") . "&text=" . ($Message->"text"));
+          "&disable_web_page_preview=true&parse_mode=" . ($Message->"parsemode") . \
+          "&text=" . ($Message->"text"));
         :set ($TelegramQueue->$Id);
       } on-error={
         $LogPrintExit debug ("Sending queued Telegram message failed.") false;
