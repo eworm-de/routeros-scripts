@@ -70,7 +70,7 @@ Then we import the certificates.
            decryption-failures: 0
       keys-with-no-certificate: 0
 
-For basic verification we rename the certifiactes and print their count. Make
+For basic verification we rename the certificates and print their count. Make
 sure the certificate count is **three**.
 
     [admin@MikroTik] > / certificate set name="R3" [ find where fingerprint="67add1166b020ae61b8f5fc96813c04c2aa589960796865572a3c7e737613dfd" ]
