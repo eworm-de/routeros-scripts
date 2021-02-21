@@ -30,10 +30,10 @@ $WaitFullyConnected;
 
 :if ([ :len [ / file find where name=$PackagePath type="directory" ] ] = 0) do={
   :if ([ $MkDir $PackagePath ] = false) do={
-    $LogPrintExit warning ("Creating directory at package path (" . \
+    $LogPrintExit warning ("Creating directory at CAPsMAN package path (" . \
       $PackagePath . ") failed!") true;
   }
-  $LogPrintExit info ("Created directory at package path (" . $PackagePath . \
+  $LogPrintExit info ("Created directory at CAPsMAN package path (" . $PackagePath . \
     "). Please place your packages!") false;
 }
 
