@@ -24,6 +24,10 @@ $WaitFullyConnected;
 :local InstalledVersion [ / system package update get installed-version ];
 :local Updated false;
 
+:if ([ :len $PackagePath ] = 0) do={
+  $LogPrintExit warning ("The CAPsMAN package path is not defined, can not download packages.") true;
+}
+
 :if ([ :len [ / file find where name=$PackagePath type="directory" ] ] = 0) do={
   :if ([ $MkDir $PackagePath ] = false) do={
     $LogPrintExit warning ("Creating directory at package path (" . \
