@@ -20,7 +20,7 @@
 :global SendNotification;
 :global SymbolForNotification;
 
-$ScriptLock "collect-wireless-mac.capsman";
+$ScriptLock $0;
 
 :if ([ :len [ / caps-man access-list find where comment="--- collected above ---" disabled ] ] = 0) do={
   / caps-man access-list add comment="--- collected above ---" disabled=yes;

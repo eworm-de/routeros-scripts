@@ -16,7 +16,7 @@
 :global ScriptLock;
 :global VersionToNum;
 
-$ScriptLock "packages-update";
+$ScriptLock $0;
 
 :local Update [ / system package update get ];
 

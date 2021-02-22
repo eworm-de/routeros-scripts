@@ -23,7 +23,7 @@
 :global SymbolForNotification;
 :global WaitFullyConnected;
 
-$ScriptLock "log-forward";
+$ScriptLock $0;
 
 :if ([ :typeof $LogForwardRateLimit ] = "nothing") do={
   :set LogForwardRateLimit 0;

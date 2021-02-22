@@ -20,7 +20,7 @@
 :global SendNotification;
 :global SymbolForNotification;
 
-$ScriptLock "collect-wireless-mac.local";
+$ScriptLock $0;
 
 :if ([ :len [ / interface wireless access-list find where comment="--- collected above ---" disabled ] ] = 0) do={
   / interface wireless access-list add comment="--- collected above ---" disabled=yes;

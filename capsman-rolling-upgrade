@@ -14,7 +14,7 @@
 :global LogPrintExit2;
 :global ScriptLock;
 
-$ScriptLock "capsman-rolling-upgrade";
+$ScriptLock $0;
 
 :local InstalledVersion [ / system package update get installed-version ];
 

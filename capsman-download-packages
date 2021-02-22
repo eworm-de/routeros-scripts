@@ -18,7 +18,7 @@
 :global ScriptLock;
 :global WaitFullyConnected;
 
-$ScriptLock "capsman-download-packages";
+$ScriptLock $0;
 $WaitFullyConnected;
 
 :local PackagePath [ $CleanFilePath [ / caps-man manager get package-path ] ];
