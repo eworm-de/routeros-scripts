@@ -48,6 +48,7 @@
   42="Made severity in terminal output colorful, with opt-out.";
   43="Added queue for e-mail notifications to resend later on error.";
   44="Dropped script 'global-wait', all scripts wait on their own now.";
+  45="We have a Telegram Group! Come along and say hello: https://t.me/routeros_scripts";
 };
 
 # Migration steps to be applied on script updates

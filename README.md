@@ -192,6 +192,13 @@ Available Scripts
 [comment]: # (* learn-mac-based-vlan)
 [comment]: # (* manage-umts)
 
+Contact
+-------
+
+We have a Telegram Group [RouterOS-Scripts](https://t.me/routeros_scripts)!
+Get help, give feedback or just chat - but do not expect free professional
+support!
+
 Contribute
 ----------
 
