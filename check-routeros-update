@@ -93,7 +93,7 @@ $WaitFullyConnected;
     }
   }
 
-  :if ([ $ScriptFromTerminal "check-routeros-update" ] = true) do={
+  :if ([ $ScriptFromTerminal $0 ] = true) do={
     :put ("Do you want to install RouterOS version " . $Update->"latest-version" . "? [y/N]");
     :if (([ :terminal inkey timeout=60 ] % 32) = 25) do={
       $DoUpdate;

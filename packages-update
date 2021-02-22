@@ -33,7 +33,7 @@ $ScriptLock $0;
 
 :local DoDowngrade false;
 :if ($NumInstalled > $NumLatest) do={
-  :if ([ $ScriptFromTerminal "packages-update" ] = true) do={
+  :if ([ $ScriptFromTerminal $0 ] = true) do={
     :put "Latest version is older than installed one. Want to downgrade? [y/N]";
     :if (([ :terminal inkey timeout=60 ] % 32) = 25) do={
       :set DoDowngrade true;
@@ -59,7 +59,7 @@ $ScriptLock $0;
     / system script run $Script;
   } on-error={
     $LogPrintExit2 warning $0 ("Running backup script " . $ScriptName . " before update failed!") false;
-    :if ([ $ScriptFromTerminal "packages-update" ] = true) do={
+    :if ([ $ScriptFromTerminal $0 ] = true) do={
       :put "Do you want to continue anyway? [y/N]";
       :if (([ :terminal inkey timeout=60 ] % 32) = 25) do={
         $LogPrintExit2 info $0 ("User requested to continue anyway.") false;
@@ -78,7 +78,7 @@ $ScriptLock $0;
   / system package downgrade;
 }
 
-:if ([ $ScriptFromTerminal "packages-update" ] = true) do={
+:if ([ $ScriptFromTerminal $0 ] = true) do={
   :put "Do you want to (s)chedule reboot or (r)eboot now? [s/R]";
   :if (([ :terminal inkey timeout=60 ] % 32) = 19) do={
     / system scheduler add name="reboot-for-update" start-time=03:00:00 interval=1d \
