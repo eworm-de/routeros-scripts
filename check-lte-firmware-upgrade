@@ -6,6 +6,7 @@
 # check for LTE firmware upgrade, send notification
 # https://git.eworm.de/cgit/routeros-scripts/about/doc/check-lte-firmware-upgrade.md
 
+:local 0 "check-lte-firmware-upgrade";
 :global GlobalFunctionsReady;
 :while ($GlobalFunctionsReady != true) do={ :delay 500ms; }
 
@@ -13,7 +14,7 @@
 :global SentLteFirmwareUpgradeNotification;
 
 :global CharacterReplace;
-:global LogPrintExit;
+:global LogPrintExit2;
 :global SendNotification;
 :global SymbolForNotification;
 
@@ -23,7 +24,7 @@
     :local Firmware [ / interface lte firmware-upgrade $Interface once as-value ];
 
     :if ($SentLteFirmwareUpgradeNotification = ($Firmware->"latest")) do={
-      $LogPrintExit debug ("Already sent the LTE firmware upgrade notification for version " . \
+      $LogPrintExit2 debug $0 ("Already sent the LTE firmware upgrade notification for version " . \
         ($Firmware->"latest") . ".") false;
     } else={
       :if (($Firmware->"installed") != ($Firmware->"latest")) do={
@@ -38,7 +39,7 @@
       }
     }
   } on-error={
-    $LogPrintExit debug ("Could not get latest LTE firmware version for interface " . \
+    $LogPrintExit2 debug $0 ("Could not get latest LTE firmware version for interface " . \
       $IntName . ".") false;
   }
 }

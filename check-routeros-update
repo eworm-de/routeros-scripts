@@ -6,6 +6,7 @@
 # check for RouterOS update, send notification and/or install
 # https://git.eworm.de/cgit/routeros-scripts/about/doc/check-routeros-update.md
 
+:local 0 "check-routeros-update";
 :global GlobalFunctionsReady;
 :while ($GlobalFunctionsReady != true) do={ :delay 500ms; }
 
@@ -16,7 +17,7 @@
 :global SentRouterosUpdateNotification;
 
 :global DeviceInfo;
-:global LogPrintExit;
+:global LogPrintExit2;
 :global ScriptFromTerminal;
 :global SendNotification;
 :global SymbolForNotification;
@@ -37,7 +38,7 @@ $WaitFullyConnected;
 :if ([ :len [ / system package find where name="wireless" disabled=no ] ] > 0) do={
   :if ([ / interface wireless cap get enabled ] = true && \
       [ / caps-man manager get enabled ] = false) do={
-    $LogPrintExit error "System is managed by CAPsMAN, not checking for RouterOS version." true;
+    $LogPrintExit2 error $0 ("System is managed by CAPsMAN, not checking for RouterOS version.") true;
   }
 }
 
@@ -49,7 +50,7 @@ $WaitFullyConnected;
 :local Update [ / system package update get ];
 
 :if ([ :len ($Update->"latest-version") ] = 0) do={
-  $LogPrintExit info "An empty string is not a valid version." true;
+  $LogPrintExit2 info $0 ("An empty string is not a valid version.") true;
 }
 
 :local NumInstalled [ $VersionToNum ($Update->"installed-version") ];
@@ -58,7 +59,7 @@ $WaitFullyConnected;
 
 :if ($NumInstalled < $NumLatest) do={
   :if ($SafeUpdatePatch = true && ($NumInstalled & 0xffff0000) = ($NumLatest & 0xffff0000)) do={
-    $LogPrintExit info ("Version " . $Update->"latest-version" . " is a patch release, updating...") false;
+    $LogPrintExit2 info $0 ("Version " . $Update->"latest-version" . " is a patch release, updating...") false;
     $SendNotification ([ $SymbolForNotification "sparkles" ] . "RouterOS update") \
         ("Version " . $Update->"latest-version" . " is a patch update for " . $Update->"channel" . \
         ", updating on " . $Identity . "...") $Link "true";
@@ -67,7 +68,7 @@ $WaitFullyConnected;
 
   :if ($SafeUpdateNeighbor = true && [ :len [ / ip neighbor find where \
        version=($Update->"latest-version" . " (" . $Update->"channel" . ")") ] ] > 0) do={
-    $LogPrintExit info ("Seen a neighbor running version " . $Update->"latest-version" . ", updating...") false;
+    $LogPrintExit2 info $0 ("Seen a neighbor running version " . $Update->"latest-version" . ", updating...") false;
     $SendNotification ([ $SymbolForNotification "sparkles" ] . "RouterOS update") \
         ("Seen a neighbor running version " . $Update->"latest-version" . " from " . $Update->"channel" . \
         ", updating on " . $Identity . "...") $Link "true";
@@ -81,10 +82,10 @@ $WaitFullyConnected;
           ($SafeUpdateUrl . $Update->"channel" . "?installed=" . $Update->"installed-version" . \
           "&latest=" . $Update->"latest-version") output=user as-value ];
     } on-error={
-      $LogPrintExit warning ("Failed receiving safe version for " . $Update->"channel" . ".") false;
+      $LogPrintExit2 warning $0 ("Failed receiving safe version for " . $Update->"channel" . ".") false;
     }
     :if ($Result->"status" = "finished" && $Result->"data" = $Update->"latest-version") do={
-      $LogPrintExit info ("Version " . $Update->"latest-version" . " is considered safe, updating...") false;
+      $LogPrintExit2 info $0 ("Version " . $Update->"latest-version" . " is considered safe, updating...") false;
       $SendNotification ([ $SymbolForNotification "sparkles" ] . "RouterOS update") \
           ("Version " . $Update->"latest-version" . " is considered safe for " . $Update->"channel" . \
           ", updating on " . $Identity . "...") $Link "true";
@@ -102,7 +103,7 @@ $WaitFullyConnected;
   }
 
   :if ($SentRouterosUpdateNotification = $Update->"latest-version") do={
-    $LogPrintExit info ("Already sent the RouterOS update notification for version " . \
+    $LogPrintExit2 info $0 ("Already sent the RouterOS update notification for version " . \
         $Update->"latest-version" . ".") true;
   }
 
@@ -115,7 +116,7 @@ $WaitFullyConnected;
 
 :if ($NumInstalled > $NumLatest) do={
   :if ($SentRouterosUpdateNotification = $Update->"latest-version") do={
-    $LogPrintExit info ("Already sent the RouterOS downgrade notification for version " . \
+    $LogPrintExit2 info $0 ("Already sent the RouterOS downgrade notification for version " . \
         $Update->"latest-version" . ".") true;
   }
 
@@ -123,7 +124,7 @@ $WaitFullyConnected;
     ("A different RouterOS version " . ($Update->"latest-version") . \
       " is available for " . $Identity . ", but it is a downgrade.\n\n" . \
       [ $DeviceInfo ]) $Link "true";
-  $LogPrintExit info ("A different RouterOS version " . ($Update->"latest-version") . \
+  $LogPrintExit2 info $0 ("A different RouterOS version " . ($Update->"latest-version") . \
     " is available for downgrade.") false;
   :set SentRouterosUpdateNotification ($Update->"latest-version");
 }

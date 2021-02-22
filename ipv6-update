@@ -6,16 +6,17 @@
 # update firewall and dns settings on IPv6 prefix change
 # https://git.eworm.de/cgit/routeros-scripts/about/doc/ipv6-update.md
 
+:local 0 "ipv6-update";
 :global GlobalFunctionsReady;
 :while ($GlobalFunctionsReady != true) do={ :delay 500ms; }
 
 :local PdPrefix $"pd-prefix";
 
-:global LogPrintExit;
+:global LogPrintExit2;
 :global ParseKeyValueStore;
 
 :if ([ :typeof $PdPrefix ] = "nothing") do={
-  $LogPrintExit error "This script is supposed to run from ipv6 dhcp-client." true;
+  $LogPrintExit2 error $0 ("This script is supposed to run from ipv6 dhcp-client.") true;
 }
 
 :local Pool [ / ipv6 pool get [ find where prefix=$PdPrefix ] name ];

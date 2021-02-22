@@ -6,13 +6,14 @@
 # forward SMS to e-mail
 # https://git.eworm.de/cgit/routeros-scripts/about/doc/sms-forward.md
 
+:local 0 "sms-forward";
 :global GlobalFunctionsReady;
 :while ($GlobalFunctionsReady != true) do={ :delay 500ms; }
 
 :global Identity;
 
 :global IfThenElse;
-:global LogPrintExit;
+:global LogPrintExit2;
 :global ScriptLock;
 :global SendNotification;
 :global SymbolForNotification;
@@ -21,7 +22,7 @@
 $ScriptLock "sms-forward";
 
 :if ([ / tool sms get receive-enabled ] = false) do={
-  $LogPrintExit warning "Receiving of SMS is not enabled." true;
+  $LogPrintExit2 warning $0 ("Receiving of SMS is not enabled.") true;
 }
 
 $WaitFullyConnected;
@@ -39,7 +40,7 @@ $WaitFullyConnected;
 
     :if ($Phone = $Settings->"allowed-number" && \
         ($SmsVal->"message")~("^:cmd " . $Settings->"secret" . " script ")) do={
-      $LogPrintExit debug ("Removing SMS, which started a script.") false;
+      $LogPrintExit2 debug $0 ("Removing SMS, which started a script.") false;
       / tool sms inbox remove $Sms;
     } else={
       :set Messages ($Messages . "\n\nOn " . $SmsVal->"timestamp" . \

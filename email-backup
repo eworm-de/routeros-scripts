@@ -6,6 +6,7 @@
 # create and email backup and config file
 # https://git.eworm.de/cgit/routeros-scripts/about/doc/email-backup.md
 
+:local 0 "email-backup";
 :global GlobalFunctionsReady;
 :while ($GlobalFunctionsReady != true) do={ :delay 500ms; }
 
@@ -19,7 +20,7 @@
 
 :global CharacterReplace;
 :global DeviceInfo;
-:global LogPrintExit;
+:global LogPrintExit2;
 :global WaitForFile;
 :global WaitFullyConnected;
 
@@ -27,11 +28,11 @@ $WaitFullyConnected;
 
 :if ($BackupSendBinary != true && \
      $BackupSendExport != true) do={
-  $LogPrintExit error ("Configured to send neither backup nor config export.") true;
+  $LogPrintExit2 error $0 ("Configured to send neither backup nor config export.") true;
 }
 
 :if ([ :len $EmailBackupTo ] = 0) do={
-  $LogPrintExit error ("Configuration is missing recipient for e-mail backup.") true;
+  $LogPrintExit2 error $0 ("Configuration is missing recipient for e-mail backup.") true;
 }
 
 # filename based on identity

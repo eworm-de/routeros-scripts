@@ -6,6 +6,7 @@
 # upload backup to MikroTik cloud
 # https://git.eworm.de/cgit/routeros-scripts/about/doc/cloud-backup.md
 
+:local 0 "cloud-backup";
 :global GlobalFunctionsReady;
 :while ($GlobalFunctionsReady != true) do={ :delay 500ms; }
 
@@ -13,7 +14,7 @@
 :global Identity;
 
 :global DeviceInfo;
-:global LogPrintExit;
+:global LogPrintExit2;
 :global SendNotification;
 :global SymbolForNotification;
 :global WaitFullyConnected;
@@ -42,5 +43,5 @@ $WaitFullyConnected;
 } on-error={
   $SendNotification ([ $SymbolForNotification "warning-sign" ] . "Cloud backup failed") \
       ("Failed uploading backup for " . $Identity . " to cloud!\n\n" . [ $DeviceInfo ]);
-  $LogPrintExit error ("Failed uploading backup for " . $Identity . " to cloud!") true;
+  $LogPrintExit2 error $0 ("Failed uploading backup for " . $Identity . " to cloud!") true;
 }

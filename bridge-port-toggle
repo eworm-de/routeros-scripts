@@ -6,6 +6,7 @@
 # toggle bridge ports between default and alt bridge
 # https://git.eworm.de/cgit/routeros-scripts/about/doc/bridge-port.md
 
+:local 0 "bridge-port-toggle";
 :global GlobalFunctionsReady;
 :while ($GlobalFunctionsReady != true) do={ :delay 500ms; }
 

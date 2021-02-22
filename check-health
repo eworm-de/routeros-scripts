@@ -6,6 +6,7 @@
 # check for RouterOS health state
 # https://git.eworm.de/cgit/routeros-scripts/about/doc/check-health.md
 
+:local 0 "check-health";
 :global GlobalFunctionsReady;
 :while ($GlobalFunctionsReady != true) do={ :delay 500ms; }
 
@@ -16,7 +17,7 @@
 :global CheckHealthVoltagePercent;
 :global Identity;
 
-:global LogPrintExit;
+:global LogPrintExit2;
 :global SendNotification;
 :global SymbolForNotification;
 
@@ -28,7 +29,7 @@
 :local CheckHealthCurrent [ / system health get ];
 
 :if ([ :len $CheckHealthCurrent ] = 0) do={
-  $LogPrintExit error ("Your device does not provide any health values.") true;
+  $LogPrintExit2 error $0 ("Your device does not provide any health values.") true;
 }
 
 :if ([ :typeof $CheckHealthTemperatureNotified ] != "array") do={
@@ -70,7 +71,7 @@
   :if ($Name ~ "temperature" && \
        [ :typeof $Temperature ] = "num") do={
     :if ([ :typeof ($CheckHealthTemperature->$Name) ] != "num" ) do={
-      $LogPrintExit info ("No threshold given for " . $Name . ", assuming 50C.") false;
+      $LogPrintExit2 info $0 ("No threshold given for " . $Name . ", assuming 50C.") false;
       :set ($CheckHealthTemperature->$Name) 50;
     }
     :local Validate [ / system health get $Name ];

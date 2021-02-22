@@ -6,6 +6,7 @@
 # create and upload backup and config file
 # https://git.eworm.de/cgit/routeros-scripts/about/doc/upload-backup.md
 
+:local 0 "upload-backup";
 :global GlobalFunctionsReady;
 :while ($GlobalFunctionsReady != true) do={ :delay 500ms; }
 
@@ -21,7 +22,7 @@
 :global CharacterReplace;
 :global DeviceInfo;
 :global IfThenElse;
-:global LogPrintExit;
+:global LogPrintExit2;
 :global SendNotification;
 :global SymbolForNotification;
 :global WaitForFile;
@@ -31,7 +32,7 @@ $WaitFullyConnected;
 
 :if ($BackupSendBinary != true && \
      $BackupSendExport != true) do={
-  $LogPrintExit error ("Configured to send neither backup nor config export.") true;
+  $LogPrintExit2 error $0 ("Configured to send neither backup nor config export.") true;
 }
 
 # filename based on identity
@@ -50,7 +51,7 @@ $WaitFullyConnected;
         user=$BackupUploadUser password=$BackupUploadPass src-path=($FileName . ".backup");
     :set BackupFile ($FileName . ".backup");
   } on-error={
-    $LogPrintExit error ("Uploading backup file failed!") false;
+    $LogPrintExit2 error $0 ("Uploading backup file failed!") false;
     :set BackupFile "failed";
     :set Failed 1;
   }
@@ -66,7 +67,7 @@ $WaitFullyConnected;
         user=$BackupUploadUser password=$BackupUploadPass src-path=($FileName . ".rsc");
     :set ConfigFile ($FileName . ".rsc");
   } on-error={
-    $LogPrintExit error ("Uploading configuration export failed!") false;
+    $LogPrintExit2 error $0 ("Uploading configuration export failed!") false;
     :set ConfigFile "failed";
     :set Failed 1;
   }

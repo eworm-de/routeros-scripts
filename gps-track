@@ -6,13 +6,14 @@
 # track gps data by sending json data to http server
 # https://git.eworm.de/cgit/routeros-scripts/about/doc/gps-track.md
 
+:local 0 "gps-track";
 :global GlobalFunctionsReady;
 :while ($GlobalFunctionsReady != true) do={ :delay 500ms; }
 
 :global GpsTrackUrl;
 :global Identity;
 
-:global LogPrintExit;
+:global LogPrintExit2;
 
 :local CoordinateFormat [ / system gps get coordinate-format ];
 :local Gps [ / system gps monitor once as-value ];
@@ -25,9 +26,9 @@
       "\"lon\":\"" . ($Gps->"longitude") . "\"," . \
       "\"identity\":\"" . $Identity . "\"" . \
     "}");
-  $LogPrintExit debug ("Sending GPS data in " . $CoordinateFormat . " format: " . \
+  $LogPrintExit2 debug $0 ("Sending GPS data in " . $CoordinateFormat . " format: " . \
     "lat: " . ($Gps->"latitude") . " " . \
     "lon: " . ($Gps->"longitude")) false;
 } else={
-  $LogPrintExit debug ("GPS data not valid.") false;
+  $LogPrintExit2 debug $0 ("GPS data not valid.") false;
 }

@@ -7,12 +7,13 @@
 # download and cleanup packages for CAP installation from CAPsMAN
 # https://git.eworm.de/cgit/routeros-scripts/about/doc/capsman-download-packages.md
 
+:local 0 "capsman-download-packages";
 :global GlobalFunctionsReady;
 :while ($GlobalFunctionsReady != true) do={ :delay 500ms; }
 
 :global CleanFilePath;
 :global DownloadPackage;
-:global LogPrintExit;
+:global LogPrintExit2;
 :global MkDir;
 :global ScriptLock;
 :global WaitFullyConnected;
@@ -25,15 +26,15 @@ $WaitFullyConnected;
 :local Updated false;
 
 :if ([ :len $PackagePath ] = 0) do={
-  $LogPrintExit warning ("The CAPsMAN package path is not defined, can not download packages.") true;
+  $LogPrintExit2 warning $0 ("The CAPsMAN package path is not defined, can not download packages.") true;
 }
 
 :if ([ :len [ / file find where name=$PackagePath type="directory" ] ] = 0) do={
   :if ([ $MkDir $PackagePath ] = false) do={
-    $LogPrintExit warning ("Creating directory at CAPsMAN package path (" . \
+    $LogPrintExit2 warning $0 ("Creating directory at CAPsMAN package path (" . \
       $PackagePath . ") failed!") true;
   }
-  $LogPrintExit info ("Created directory at CAPsMAN package path (" . $PackagePath . \
+  $LogPrintExit2 info $0 ("Created directory at CAPsMAN package path (" . $PackagePath . \
     "). Please place your packages!") false;
 }
 

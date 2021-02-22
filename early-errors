@@ -1,6 +1,6 @@
 #!rsc by RouterOS
 # RouterOS script: early-errors
 
-:global LogPrintExit;
+:global LogPrintExit2;
 
-$LogPrintExit warning ("This script has been replaced. Please migrate to 'log-forward'.") true;
+$LogPrintExit2 warning "early-errors" ("This script has been replaced. Please migrate to 'log-forward'.") true;

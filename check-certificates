@@ -6,6 +6,7 @@
 # check for certificate validity
 # https://git.eworm.de/cgit/routeros-scripts/about/doc/check-certificates.md
 
+:local 0 "check-certificates";
 :global GlobalFunctionsReady;
 :while ($GlobalFunctionsReady != true) do={ :delay 500ms; }
 
@@ -17,7 +18,7 @@
 :global CertificateAvailable
 :global CertificateNameByCN;
 :global IfThenElse;
-:global LogPrintExit;
+:global LogPrintExit2;
 :global ParseKeyValueStore;
 :global SendNotification;
 :global SymbolForNotification;
@@ -37,7 +38,7 @@ $WaitFullyConnected;
 
   :do {
     :if ([ :len $CertRenewUrl ] = 0) do={
-      $LogPrintExit info ("No CertRenewUrl given.") true;
+      $LogPrintExit2 info $0 ("No CertRenewUrl given.") true;
     }
 
     :foreach Type in={ ".pem"; ".p12" } do={
@@ -55,7 +56,7 @@ $WaitFullyConnected;
           $CertificateNameByCN [ / certificate get $CertInChain common-name ];
         }
       } on-error={
-        $LogPrintExit debug ("Could not download certificate file " . $CertFileName) false;
+        $LogPrintExit2 debug $0 ("Could not download certificate file " . $CertFileName) false;
       }
     }
 
@@ -63,15 +64,15 @@ $WaitFullyConnected;
     :local CertNewVal [ / certificate get $CertNew ];
 
     :if ([ $CertificateAvailable ([ $ParseKeyValueStore ($CertNewVal->"issuer") ]->"CN") ] = false) do={
-      $LogPrintExit warning ("The certificate chain is not available!") false;
+      $LogPrintExit2 warning $0 ("The certificate chain is not available!") false;
     }
 
     :if ($Cert != $CertNew) do={
-      $LogPrintExit debug ("Certificate '" . $CertVal->"name" . "' was not updated, but replaced.") false;
+      $LogPrintExit2 debug $0 ("Certificate '" . $CertVal->"name" . "' was not updated, but replaced.") false;
 
       :if (($CertVal->"private-key") = true && ($CertVal->"private-key") != ($CertNewVal->"private-key")) do={
         / certificate remove $CertNew;
-        $LogPrintExit warning ("Old certificate '" . ($CertVal->"name") . "' has a private key, new certificate does not. Aborting renew.") true;
+        $LogPrintExit2 warning $0 ("Old certificate '" . ($CertVal->"name") . "' has a private key, new certificate does not. Aborting renew.") true;
       }
 
       / ip service set certificate=($CertNewVal->"name") [ find where certificate=($CertVal->"name") ];
@@ -80,13 +81,13 @@ $WaitFullyConnected;
         / ip ipsec identity set certificate=($CertNewVal->"name") [ / ip ipsec identity find where certificate=($CertVal->"name") ];
         / ip ipsec identity set remote-certificate=($CertNewVal->"name") [ / ip ipsec identity find where remote-certificate=($CertVal->"name") ];
       } on-error={
-        $LogPrintExit debug ("Setting IPSEC certificates failed. Package 'security' not installed?") false;
+        $LogPrintExit2 debug $0 ("Setting IPSEC certificates failed. Package 'security' not installed?") false;
       }
 
       :do {
         / ip hotspot profile set ssl-certificate=($CertNewVal->"name") [ / ip hotspot profile find where ssl-certificate=($CertVal->"name") ];
       } on-error={
-        $LogPrintExit debug ("Setting hotspot certificates failed. Package 'hotspot' not installed?") false;
+        $LogPrintExit2 debug $0 ("Setting hotspot certificates failed. Package 'hotspot' not installed?") false;
       }
 
       / certificate remove $Cert;
@@ -102,9 +103,9 @@ $WaitFullyConnected;
         "Issuer:      " . ([ $ParseKeyValueStore ($CertNewVal->"issuer") ]->"CN") . "\n" . \
         "Validity:    " . ($CertNewVal->"invalid-before") . " to " . ($CertNewVal->"invalid-after") . "\n" . \
         "Expires in:  " . [ $FormatExpire ($CertNewVal->"expires-after") ]) "" "true";
-    $LogPrintExit info ("The certificate " . ($CertVal->"name") . " has been renewed.") false;
+    $LogPrintExit2 info $0 ("The certificate " . ($CertVal->"name") . " has been renewed.") false;
   } on-error={
-    $LogPrintExit debug ("Could not renew certificate " . ($CertVal->"name") . ".") false;
+    $LogPrintExit2 debug $0 ("Could not renew certificate " . ($CertVal->"name") . ".") false;
   }
 }
 
@@ -112,7 +113,7 @@ $WaitFullyConnected;
   :local CertVal [ / certificate get $Cert ];
 
   :if ([ :len [ / certificate scep-server find where ca-cert=($CertVal->"ca") ] ] > 0) do={
-    $LogPrintExit debug ("Certificate \"" . ($CertVal->"name") . "\" is handled by SCEP, skipping.") false;
+    $LogPrintExit2 debug $0 ("Certificate \"" . ($CertVal->"name") . "\" is handled by SCEP, skipping.") false;
   } else={
     :local State [ $IfThenElse (($CertVal->"expired") = true) "expired" "is about to expire" ];
 
@@ -125,7 +126,7 @@ $WaitFullyConnected;
         "Issuer:      " . ($CertVal->"ca") . ([ $ParseKeyValueStore ($CertVal->"issuer") ]->"CN") . "\n" . \
         "Validity:    " . ($CertVal->"invalid-before") . " to " . ($CertVal->"invalid-after") . "\n" . \
         "Expires in:  " . [ $IfThenElse (($CertVal->"expired") = true) "expired" [ $FormatExpire ($CertVal->"expires-after") ] ]);
-    $LogPrintExit info ("The certificate " . ($CertVal->"name") . " " . $State . \
+    $LogPrintExit2 info $0 ("The certificate " . ($CertVal->"name") . " " . $State . \
         ", it is invalid after " . ($CertVal->"invalid-after") . ".") false;
   }
 }

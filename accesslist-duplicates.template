@@ -9,6 +9,7 @@
 # !! This is just a template! Replace '%PATH%' with 'caps-man'
 # !! or 'interface wireless'!
 
+:local 0 "accesslist-duplicates%TEMPL%";
 :global GlobalFunctionsReady;
 :while ($GlobalFunctionsReady != true) do={ :delay 500ms; }
 

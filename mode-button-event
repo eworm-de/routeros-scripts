@@ -1,6 +1,6 @@
 #!rsc by RouterOS
 # RouterOS script: mode-button-event
 
-:global LogPrintExit;
+:global LogPrintExit2;
 
-$LogPrintExit warning ("This script's functionality has been merged into 'mode-button'.") true;
+$LogPrintExit2 warning "mode-button-event" ("This script's functionality has been merged into 'mode-button'.") true;

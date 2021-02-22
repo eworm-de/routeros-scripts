@@ -10,13 +10,14 @@
 # !! This is just a template! Replace '%PATH%' with 'caps-man'
 # !! or 'interface wireless'!
 
+:local 0 "daily-psk%TEMPL%";
 :global GlobalFunctionsReady;
 :while ($GlobalFunctionsReady != true) do={ :delay 500ms; }
 
 :global DailyPskMatchComment;
 :global Identity;
 
-:global LogPrintExit;
+:global LogPrintExit2;
 :global SendNotification;
 :global SymbolForNotification;
 :global UrlEncode;
@@ -69,7 +70,7 @@ $WaitFullyConnected;
   :local Skip 0;
 
   :if ($NewPsk != $OldPsk) do={
-    $LogPrintExit info ("Updating daily PSK for " . $Ssid . " to " . $NewPsk . " (was " . $OldPsk . ")") false;
+    $LogPrintExit2 info $0 ("Updating daily PSK for " . $Ssid . " to " . $NewPsk . " (was " . $OldPsk . ")") false;
     / interface wireless access-list set $AccList private-pre-shared-key=$NewPsk;
     / caps-man access-list set $AccList private-passphrase=$NewPsk;
 
@@ -77,7 +78,7 @@ $WaitFullyConnected;
     :if ([ :len [ / caps-man interface find where configuration=$Configuration ] ] > 0) do={
       :foreach SeenSsid in=$Seen do={
         :if ($SeenSsid = $Ssid) do={
-          $LogPrintExit debug ("Already sent a mail for SSID " . $Ssid . ", skipping.") false;
+          $LogPrintExit2 debug $0 ("Already sent a mail for SSID " . $Ssid . ", skipping.") false;
           :set Skip 1;
         }
       }

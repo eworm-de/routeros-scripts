@@ -6,6 +6,7 @@
 # forward log messages via notification
 # https://git.eworm.de/cgit/routeros-scripts/about/doc/log-forward.md
 
+:local 0 "log-forward";
 :global GlobalFunctionsReady;
 :while ($GlobalFunctionsReady != true) do={ :delay 500ms; }
 
@@ -16,7 +17,7 @@
 :global LogForwardRateLimit;
 
 :global IfThenElse;
-:global LogPrintExit;
+:global LogPrintExit2;
 :global ScriptLock;
 :global SendNotification;
 :global SymbolForNotification;
@@ -30,7 +31,7 @@ $ScriptLock "log-forward";
 
 :if ($LogForwardRateLimit > 30) do={
   :set LogForwardRateLimit ($LogForwardRateLimit - 1);
-  $LogPrintExit info ("Rate limit in action, not forwarding logs, if any!") true;
+  $LogPrintExit2 info $0 ("Rate limit in action, not forwarding logs, if any!") true;
 }
 
 $WaitFullyConnected;

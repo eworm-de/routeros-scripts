@@ -6,6 +6,7 @@
 # check DHCP leases and add/remove/update DNS entries
 # https://git.eworm.de/cgit/routeros-scripts/about/doc/dhcp-to-dns.md
 
+:local 0 "dhcp-to-dns";
 :global GlobalFunctionsReady;
 :while ($GlobalFunctionsReady != true) do={ :delay 500ms; }
 
@@ -17,7 +18,7 @@
 
 :global CharacterReplace;
 :global IfThenElse;
-:global LogPrintExit;
+:global LogPrintExit2;
 
 :local Zone \
   ([ $IfThenElse ($PrefixInZone = true) "dhcp." ] . \
@@ -27,7 +28,7 @@
 
 :if ([ :len [ / ip dns static find where comment="--- dhcp-to-dns above ---" name=- type=NXDOMAIN disabled ] ] = 0) do={
   / ip dns static add comment="--- dhcp-to-dns above ---" name=- type=NXDOMAIN disabled=yes;
-  $LogPrintExit warning "Added disabled static dns record with comment '--- dhcp-to-dns above ---'." false;
+  $LogPrintExit2 warning $0 ("Added disabled static dns record with comment '--- dhcp-to-dns above ---'.") false;
 }
 :local PlaceBefore ([ / ip dns static find where comment="--- dhcp-to-dns above ---" name=- type=NXDOMAIN disabled ]->0);
 
@@ -35,10 +36,10 @@
   :local DnsRecordVal [ / ip dns static get $DnsRecord ];
   :local MacAddress [ $CharacterReplace ($DnsRecordVal->"comment") $CommentPrefix "" ];
   :if ([ :len [ / ip dhcp-server lease find where mac-address=$MacAddress address=($DnsRecordVal->"address") status=bound ] ] > 0) do={
-    $LogPrintExit debug ("Lease for " . $MacAddress . " (" . $DnsRecordVal->"name" . ") still exists. Not deleting DNS entry.") false;
+    $LogPrintExit2 debug $0 ("Lease for " . $MacAddress . " (" . $DnsRecordVal->"name" . ") still exists. Not deleting DNS entry.") false;
   } else={
     :local Found false;
-    $LogPrintExit info ("Lease expired for " . $MacAddress . " (" . $DnsRecordVal->"name" . "), deleting DNS entry.") false;
+    $LogPrintExit2 info $0 ("Lease expired for " . $MacAddress . " (" . $DnsRecordVal->"name" . "), deleting DNS entry.") false;
     / ip dns static remove $DnsRecord;
   }
 }
@@ -65,13 +66,13 @@
     }
 
     :if ($DnsIp = $LeaseVal->"address") do={
-      $LogPrintExit debug ("DNS entry for " . $Fqdn . " does not need updating.") false;
+      $LogPrintExit2 debug $0 ("DNS entry for " . $Fqdn . " does not need updating.") false;
     } else={
-      $LogPrintExit info ("Replacing DNS entry for " . $Fqdn . ", new address is " . $LeaseVal->"address" . ".") false;
+      $LogPrintExit2 info $0 ("Replacing DNS entry for " . $Fqdn . ", new address is " . $LeaseVal->"address" . ".") false;
       / ip dns static set name=$Fqdn address=($LeaseVal->"address") ttl=$Ttl comment=$Comment $DnsRecord;
     }
   } else={
-    $LogPrintExit info ("Adding new DNS entry for " . $Fqdn . ", address is " . $LeaseVal->"address" . ".") false;
+    $LogPrintExit2 info $0 ("Adding new DNS entry for " . $Fqdn . ", address is " . $LeaseVal->"address" . ".") false;
     / ip dns static add name=$Fqdn address=($LeaseVal->"address") ttl=$Ttl comment=$Comment place-before=$PlaceBefore;
   }
 }

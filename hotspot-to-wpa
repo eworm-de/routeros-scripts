@@ -6,10 +6,11 @@
 # add private WPA passphrase after hotspot login
 # https://git.eworm.de/cgit/routeros-scripts/about/doc/hotspot-to-wpa.md
 
+:local 0 "hotspot-to-wpa";
 :global GlobalFunctionsReady;
 :while ($GlobalFunctionsReady != true) do={ :delay 500ms; }
 
-:global LogPrintExit;
+:global LogPrintExit2;
 
 :local MacAddress $"mac-address";
 :local UserName $username;
@@ -18,11 +19,11 @@
 
 :if ([ :len [ / caps-man access-list find where comment="--- hotspot-to-wpa above ---" disabled ] ] = 0) do={
   / caps-man access-list add comment="--- hotspot-to-wpa above ---" disabled=yes;
-  $LogPrintExit warning "Added disabled access-list entry with comment '--- hotspot-to-wpa above ---'." false;
+  $LogPrintExit2 warning $0 ("Added disabled access-list entry with comment '--- hotspot-to-wpa above ---'.") false;
 }
 :local PlaceBefore ([ / caps-man access-list find where comment="--- hotspot-to-wpa above ---" disabled ]->0);
 
-$LogPrintExit info ("Adding/updating accesslist entry for mac address " . $MacAddress . \
+$LogPrintExit2 info $0 ("Adding/updating accesslist entry for mac address " . $MacAddress . \
   " (user " . $UserName . ").") false;
 
 / caps-man access-list remove [ find where mac-address=$MacAddress comment~"^hotspot-to-wpa: " ];

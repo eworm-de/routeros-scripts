@@ -6,13 +6,14 @@
 # monitor netwatch and send notifications
 # https://git.eworm.de/cgit/routeros-scripts/about/doc/netwatch-notify.md
 
+:local 0 "netwatch-notify";
 :global GlobalFunctionsReady;
 :while ($GlobalFunctionsReady != true) do={ :delay 500ms; }
 
 :global NetwatchNotify;
 
 :global IfThenElse;
-:global LogPrintExit;
+:global LogPrintExit2;
 :global ParseKeyValueStore;
 :global SendNotification;
 :global SymbolForNotification;
@@ -32,7 +33,7 @@
   }
 
   :if ($HostVal->"status" = "up") do={
-    $LogPrintExit debug ("Host " . $HostName . " (" . $HostVal->"host" . ") is up.") false;
+    $LogPrintExit2 debug $0 ("Host " . $HostName . " (" . $HostVal->"host" . ") is up.") false;
     :local Count ($Metric->"count");
     :set ($Metric->"count") 0;
     :if ($Metric->"notified" = true) do={
@@ -40,7 +41,7 @@
         ("Host " . $HostName . " (" . $HostVal->"host" . ") is up since " . $HostVal->"since" . ".\n" . \
         "It was down for " . $Count . " checks since " . ($Metric->"since") . ".");
       :if ([ :typeof ($HostInfo->"up-hook") ] = "str") do={
-        $LogPrintExit info ("Running hook on host " . $HostName . " up: " . ($HostInfo->"up-hook")) false;
+        $LogPrintExit2 info $0 ("Running hook on host " . $HostName . " up: " . ($HostInfo->"up-hook")) false;
         [ :parse ($HostInfo->"up-hook") ];
       }
     }
@@ -65,7 +66,7 @@
         :set Parent ($NetwatchNotify->$Parent->"parent");
       }
     }
-    $LogPrintExit info ("Host " . $HostName . " (" . $HostVal->"host" . ") is down for " . \
+    $LogPrintExit2 info $0 ("Host " . $HostName . " (" . $HostVal->"host" . ") is down for " . \
       $Metric->"count" . " checks, " . [ $IfThenElse ($ParentNotified = false) [ $IfThenElse \
       ($Metric->"notified" = true) ("already notified.") ($Count - $Metric->"count" . " to go.") ] \
       ("parent host " . $Parent . " is down.") ]) false;
@@ -74,7 +75,7 @@
         ("Host " . $HostName . " (" . $HostVal->"host" . ") is down since " . $HostVal->"since" . ".");
       :set ($Metric->"notified") true;
       :if ([ :typeof ($HostInfo->"down-hook") ] = "str") do={
-        $LogPrintExit info ("Running hook on host " . $HostName . " down: " . ($HostInfo->"down-hook")) false;
+        $LogPrintExit2 info $0 ("Running hook on host " . $HostName . " down: " . ($HostInfo->"down-hook")) false;
         [ :parse ($HostInfo->"down-hook") ];
       }
     }

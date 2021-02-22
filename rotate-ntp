@@ -6,26 +6,27 @@
 # rotate the ntp servers
 # https://git.eworm.de/cgit/routeros-scripts/about/doc/rotate-ntp.md
 
+:local 0 "rotate-ntp";
 :global GlobalFunctionsReady;
 :while ($GlobalFunctionsReady != true) do={ :delay 500ms; }
 
 :global NtpPool;
 
-:global LogPrintExit;
+:global LogPrintExit2;
 
 :local Ntp1;
 :local Ntp2;
 
 :if ([ / system ntp client get enabled ] != true) do={
-  $LogPrintExit warning "NTP client is not enabled!" true;
+  $LogPrintExit2 warning $0 ("NTP client is not enabled!") true;
 }
 
 :do {
   :set Ntp1 [ :resolve ("0." . $NtpPool) ];
   :set Ntp2 [ :resolve ("1." . $NtpPool) ];
 } on-error={
-  $LogPrintExit warning "Resolving NTP server failed." true;
+  $LogPrintExit2 warning $0 ("Resolving NTP server failed.") true;
 }
 
-$LogPrintExit info ("Updating NTP servers to " . $Ntp1 . " and " . $Ntp2) false;
+$LogPrintExit2 info $0 ("Updating NTP servers to " . $Ntp1 . " and " . $Ntp2) false;
 / system ntp client set primary-ntp=$Ntp1 secondary-ntp=$Ntp2;
