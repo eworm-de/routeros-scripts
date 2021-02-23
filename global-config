@@ -42,6 +42,7 @@
 :global BackupSendBinary false;
 :global BackupSendExport true;
 :global BackupPassword "v3ry-s3cr3t";
+:global BackupRandomDelay 0;
 # These addresses are used to send backup and config export files to.
 :global EmailBackupTo "";
 :global EmailBackupCc "";

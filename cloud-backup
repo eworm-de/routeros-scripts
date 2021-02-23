@@ -11,15 +11,22 @@
 :while ($GlobalFunctionsReady != true) do={ :delay 500ms; }
 
 :global BackupPassword;
+:global BackupRandomDelay;
 :global Identity;
 
 :global DeviceInfo;
 :global LogPrintExit2;
+:global RandomDelay;
+:global ScriptFromTerminal;
 :global SendNotification;
 :global SymbolForNotification;
 :global WaitFullyConnected;
 
 $WaitFullyConnected;
+
+:if ([ $ScriptFromTerminal $0 ] = false && $BackupRandomDelay > 0) do={
+  $RandomDelay $BackupRandomDelay;
+}
 
 :do {
   # we are not interested in output, but print is
