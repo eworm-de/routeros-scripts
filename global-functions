@@ -710,14 +710,14 @@
       :set NotificationMessage ($NotificationMessage . "\n\nChanges:");
       [ :parse $ChangeLogCode ];
       :for I from=($GlobalConfigVersion + 1) to=$ExpectedConfigVersion do={
-        :set NotificationMessage ($NotificationMessage . \
-            "\n * " . $GlobalConfigChanges->[ :tostr $I ]);
-        $LogPrintExit info ("Change: " . $GlobalConfigChanges->[ :tostr $I ]) false;
         :local Migration ($GlobalConfigMigration->[ :tostr $I ]);
         :if ([ :typeof $Migration ] = "str") do={
           $LogPrintExit info ("Applying migration: " . $Migration) false;
           [ :parse $Migration ];
         }
+        :set NotificationMessage ($NotificationMessage . \
+            "\n * " . $GlobalConfigChanges->[ :tostr $I ]);
+        $LogPrintExit info ("Change: " . $GlobalConfigChanges->[ :tostr $I ]) false;
       }
       :set GlobalConfigChanges;
       :set GlobalConfigMigration;
