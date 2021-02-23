@@ -11,6 +11,7 @@
 :while ($GlobalFunctionsReady != true) do={ :delay 500ms; }
 
 :global BackupPassword;
+:global BackupRandomDelay;
 :global BackupSendBinary;
 :global BackupSendExport;
 :global Domain;
@@ -21,10 +22,10 @@
 :global CharacterReplace;
 :global DeviceInfo;
 :global LogPrintExit2;
+:global RandomDelay;
+:global ScriptFromTerminal;
 :global WaitForFile;
 :global WaitFullyConnected;
-
-$WaitFullyConnected;
 
 :if ($BackupSendBinary != true && \
      $BackupSendExport != true) do={
@@ -33,6 +34,12 @@ $WaitFullyConnected;
 
 :if ([ :len $EmailBackupTo ] = 0) do={
   $LogPrintExit2 error $0 ("Configuration is missing recipient for e-mail backup.") true;
+}
+
+$WaitFullyConnected;
+
+:if ([ $ScriptFromTerminal $0 ] = false && $BackupRandomDelay > 0) do={
+  $RandomDelay $BackupRandomDelay;
 }
 
 # filename based on identity

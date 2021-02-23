@@ -20,11 +20,12 @@ Just install the script:
 Configuration
 -------------
 
-The configuration goes to `global-config-overlay`, These are the parameters:
+The configuration goes to `global-config-overlay`, these are the parameters:
 
 * `BackupSendBinary`: whether to send binary backup
 * `BackupSendExport`: whether to send configuration export
 * `BackupPassword`: password to encrypt the backup with
+* `BackupRandomDelay`: delay up to amount of seconds when run from scheduler
 * `EmailBackupTo`: e-mail address to send to
 * `EmailBackupCc`: e-mail address(es) to send in copy
 
