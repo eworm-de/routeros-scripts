@@ -130,8 +130,8 @@
 # Enable this to fetch scripts from given url.
 :global ScriptUpdatesFetch true;
 :global ScriptUpdatesBaseUrl "https://git.eworm.de/cgit/routeros-scripts/plain/";
-#:global ScriptUpdatesBaseUrl "https://raw.githubusercontent.com/eworm-de/routeros-scripts/master/";
-#:global ScriptUpdatesBaseUrl "https://gitlab.com/eworm-de/routeros-scripts/raw/master/";
+#:global ScriptUpdatesBaseUrl "https://raw.githubusercontent.com/eworm-de/routeros-scripts/main/";
+#:global ScriptUpdatesBaseUrl "https://gitlab.com/eworm-de/routeros-scripts/raw/main/";
 :global ScriptUpdatesUrlSuffix "";
 
 # This project is developed in private spare time and usage is free of charge
