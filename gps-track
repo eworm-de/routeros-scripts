@@ -25,7 +25,7 @@
       "\"lat\":\"" . ($Gps->"latitude") . "\"," . \
       "\"lon\":\"" . ($Gps->"longitude") . "\"," . \
       "\"identity\":\"" . $Identity . "\"" . \
-    "}");
+    "}") as-value;
   $LogPrintExit2 debug $0 ("Sending GPS data in " . $CoordinateFormat . " format: " . \
     "lat: " . ($Gps->"latitude") . " " . \
     "lon: " . ($Gps->"longitude")) false;
