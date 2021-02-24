@@ -115,7 +115,7 @@
     / tool fetch check-certificate=yes-without-crl \
       ($ScriptUpdatesBaseUrl . "certs/" . \
       $UrlFileName . $ScriptUpdatesUrlSuffix) \
-      dst-path=$LocalFileName;
+      dst-path=$LocalFileName as-value;
     $WaitForFile $LocalFileName;
     / certificate import file-name=$LocalFileName passphrase="";
     / file remove $LocalFileName;
@@ -350,7 +350,7 @@
           http-data=("chat_id=" . ($Message->"chatid") . \
           "&disable_notification=" . ($Message->"silent") . \
           "&disable_web_page_preview=true&parse_mode=" . ($Message->"parsemode") . \
-          "&text=" . ($Message->"text"));
+          "&text=" . ($Message->"text")) as-value;
         :set ($TelegramQueue->$Id);
       } on-error={
         $LogPrintExit2 debug $0 ("Sending queued Telegram message failed.") false;
@@ -520,7 +520,7 @@
   :local WwwVal [ / ip service get www ];
   / ip service set www address=127.0.0.1/32 disabled=no port=80;
   :do {
-    / tool fetch http://127.0.0.1/ dst-path=($Dir . "/tmp");
+    / tool fetch http://127.0.0.1/ dst-path=($Dir . "/tmp") as-value;
     $WaitForFile ($Dir . "/tmp");
     / file remove ($Dir . "/tmp");
   } on-error={
@@ -908,7 +908,7 @@
     / tool fetch check-certificate=yes-without-crl output=none http-method=post \
       ("https://api.telegram.org/bot" . $TelegramTokenId . "/sendMessage") \
       http-data=("chat_id=" . $ChatId . "&disable_notification=" . $Silent . \
-      "&disable_web_page_preview=true&parse_mode=" . $ParseMode . "&text=" . $Text);
+      "&disable_web_page_preview=true&parse_mode=" . $ParseMode . "&text=" . $Text) as-value;
   } on-error={
     $LogPrintExit2 info $0 ("Failed sending telegram notification! Queuing...") false;
 
