@@ -45,7 +45,7 @@ $WaitFullyConnected;
       :local CertFileName ([ $UrlEncode ($CertVal->"common-name") ] . $Type);
       :do {
         / tool fetch check-certificate=yes-without-crl \
-            ($CertRenewUrl . $CertFileName) dst-path=$CertFileName;
+            ($CertRenewUrl . $CertFileName) dst-path=$CertFileName as-value;
         $WaitForFile $CertFileName;
         :foreach PassPhrase in=$CertRenewPass do={
           / certificate import file-name=$CertFileName passphrase=$PassPhrase;
