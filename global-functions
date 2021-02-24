@@ -372,7 +372,7 @@
   :global LogPrintExit;
 
   :do {
-    :if ([ $CertificateAvailable "R3" ] = false) do={
+    :if ([ $CertificateAvailable "Cloudflare Inc ECC CA-3" ] = false) do={
       $LogPrintExit warning ("Downloading required certificate failed.") true;
     }
     :local Vendor ([ / tool fetch check-certificate=yes-without-crl \
