@@ -77,7 +77,7 @@
     }
   }
 
-  :if ([ $RequiredRouterOS ("\$CertificateAvailable") "6.47" ] = false) do={
+  :if ([ $RequiredRouterOS $0 "6.47" ] = false) do={
     :return true;
   }
 
