@@ -318,7 +318,7 @@
           :set AllDone false;
           :set Wait false;
         }
-      } while ($Wait = true);
+      } while=($Wait = true);
     }
   }
 
