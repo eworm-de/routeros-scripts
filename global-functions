@@ -602,12 +602,14 @@
   :global GlobalConfigVersion;
   :global Identity;
   :global IDonate;
+  :global NotificationsWithSymbols;
   :global ScriptUpdatesBaseUrl;
   :global ScriptUpdatesFetch;
   :global ScriptUpdatesUrlSuffix;
   :global SentConfigChangesNotification;
 
   :global CertificateAvailable;
+  :global IfThenElse;
   :global LogPrintExit2;
   :global ParseKeyValueStore;
   :global ScriptInstallUpdate;
@@ -733,7 +735,8 @@
           [ :parse $Migration ];
         }
         :set NotificationMessage ($NotificationMessage . \
-            "\n * " . $GlobalConfigChanges->[ :tostr $I ]);
+            "\n " . [ $IfThenElse ($NotificationsWithSymbols = true) ("\E2\97\8F") "*" ] . " " . \
+            $GlobalConfigChanges->[ :tostr $I ]);
         $LogPrintExit2 info $0 ("Change: " . $GlobalConfigChanges->[ :tostr $I ]) false;
       }
       :set GlobalConfigChanges;
