@@ -131,9 +131,14 @@
 # Enable this to fetch scripts from given url.
 :global ScriptUpdatesFetch true;
 :global ScriptUpdatesBaseUrl "https://git.eworm.de/cgit/routeros-scripts/plain/";
+# alternative urls - main: stable code - next: currently in development
 #:global ScriptUpdatesBaseUrl "https://raw.githubusercontent.com/eworm-de/routeros-scripts/main/";
+#:global ScriptUpdatesBaseUrl "https://raw.githubusercontent.com/eworm-de/routeros-scripts/next/";
 #:global ScriptUpdatesBaseUrl "https://gitlab.com/eworm-de/routeros-scripts/raw/main/";
+#:global ScriptUpdatesBaseUrl "https://gitlab.com/eworm-de/routeros-scripts/raw/next/";
 :global ScriptUpdatesUrlSuffix "";
+# use next branch with default url (git.eworm.de)
+#:global ScriptUpdatesUrlSuffix "\?h=next";
 
 # This project is developed in private spare time and usage is free of charge
 # for you. If you like the scripts and think this is of value for you or your
