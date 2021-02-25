@@ -675,8 +675,7 @@
           $LogPrintExit2 info $0 ("Updating script: " . $ScriptVal->"name") false;
           / system script set owner=($ScriptVal->"name") source=$SourceNew \
               dont-require-permissions=$DontRequirePermissions $Script;
-          :if ($ScriptVal->"name" = "global-config" && \
-               [ :len [ / system script find where name="global-config-overlay" ] ] > 0) do={
+          :if ($ScriptVal->"name" = "global-config") do={
             $LogPrintExit2 info $0 ("Reloading global configuration and overlay.") false;
             :do {
               / system script { run global-config; run global-config-overlay; }
@@ -708,14 +707,10 @@
     :global GlobalConfigChanges;
     :global GlobalConfigMigration;
     :local ChangeLogCode;
-    :local ConfigScript "global-config";
-    :if ([ :len [ / system script find where name="global-config-overlay" ] ] > 0) do={
-      :set ConfigScript "global-config-overlay";
-    }
     :local NotificationMessage ("Current configuration on " . $Identity . \
-        " is out of date. Please update " . $ConfigScript . ", then increase " . \
+        " is out of date. Please update global-config-overlay, then increase " . \
         "\$GlobalConfigVersion (currently " . $GlobalConfigVersion . \
-        ") to " . $ExpectedConfigVersion . " and re-run " . $ConfigScript . ".");
+        ") to " . $ExpectedConfigVersion . " and re-run global-config-overlay.");
     $LogPrintExit2 info $0 ($NotificationMessage) false;
 
     $LogPrintExit2 debug $0 ("Fetching changelog.") false;
