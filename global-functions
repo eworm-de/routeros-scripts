@@ -670,26 +670,38 @@
     :if ([ :len $SourceNew ] > 0) do={
       :if ($SourceNew != $ScriptVal->"source") do={
         :if ([ :pick $SourceNew 0 18 ] = "#!rsc by RouterOS\n") do={
-          :local DontRequirePermissions \
-              ($SourceNew~"\n# requires: dont-require-permissions=yes\n");
-          $LogPrintExit2 info $0 ("Updating script: " . $ScriptVal->"name") false;
-          / system script set owner=($ScriptVal->"name") source=$SourceNew \
-              dont-require-permissions=$DontRequirePermissions $Script;
-          :if ($ScriptVal->"name" = "global-config") do={
-            $LogPrintExit2 info $0 ("Reloading global configuration and overlay.") false;
-            :do {
-              / system script { run global-config; run global-config-overlay; }
-            } on-error={
-              $LogPrintExit2 error $0 ("Reloading global configuration and overlay failed! Syntax error\?") false;
-            }
+          :local SyntaxOK true;
+          :do {
+            [ :parse (":local ValidateFunction do={ " . $SourceNew . " }") ]
+          } on-error={
+            :set SyntaxOK false;
           }
-          :if ($ScriptVal->"name" = "global-functions") do={
-            $LogPrintExit2 info $0 ("Reloading global functions.") false;
-            :do {
-              / system script run global-functions;
-            } on-error={
-              $LogPrintExit2 error $0 ("Reloading global functions failed!") false;
+          :if ($SyntaxOK = true) do={
+            :local DontRequirePermissions \
+                ($SourceNew~"\n# requires: dont-require-permissions=yes\n");
+            $LogPrintExit2 info $0 ("Updating script: " . $ScriptVal->"name") false;
+            / system script set owner=($ScriptVal->"name") source=$SourceNew \
+                dont-require-permissions=$DontRequirePermissions $Script;
+            :if ($ScriptVal->"name" = "global-config") do={
+              $LogPrintExit2 info $0 ("Reloading global configuration and overlay.") false;
+              :do {
+                / system script { run global-config; run global-config-overlay; }
+              } on-error={
+                $LogPrintExit2 error $0 ("Reloading global configuration and overlay failed!" . \
+                  " Syntax error or missing overlay\?") false;
+              }
             }
+            :if ($ScriptVal->"name" = "global-functions") do={
+              $LogPrintExit2 info $0 ("Reloading global functions.") false;
+              :do {
+                / system script run global-functions;
+              } on-error={
+                $LogPrintExit2 error $0 ("Reloading global functions failed!") false;
+              }
+            }
+          } else={
+            $LogPrintExit2 warning $0 ("Syntax validation for script " . $ScriptVal->"name" . \
+              " failed! Ignoring!") false;
           }
         } else={
           $LogPrintExit2 warning $0 ("Looks like new script " . $ScriptVal->"name" . \
