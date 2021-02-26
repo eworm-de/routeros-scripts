@@ -47,6 +47,7 @@
 :global SymbolForNotification;
 :global TimeIsSync;
 :global UrlEncode;
+:global ValidateSyntax;
 :global VersionToNum;
 :global WaitDefaultRouteReachable;
 :global WaitDNSResolving;
@@ -615,6 +616,7 @@
   :global ScriptInstallUpdate;
   :global SendNotification;
   :global SymbolForNotification;
+  :global ValidateSyntax;
 
   :if ([ $CertificateAvailable "R3" ] = false) do={
     $LogPrintExit2 warning $0 ("Downloading certificate failed, trying without.") false;
@@ -670,13 +672,7 @@
     :if ([ :len $SourceNew ] > 0) do={
       :if ($SourceNew != $ScriptVal->"source") do={
         :if ([ :pick $SourceNew 0 18 ] = "#!rsc by RouterOS\n") do={
-          :local SyntaxOK true;
-          :do {
-            [ :parse (":local ValidateFunction do={ " . $SourceNew . " }") ]
-          } on-error={
-            :set SyntaxOK false;
-          }
-          :if ($SyntaxOK = true) do={
+          :if ([ $ValidateSyntax $SourceNew ] = true) do={
             :local DontRequirePermissions \
                 ($SourceNew~"\n# requires: dont-require-permissions=yes\n");
             $LogPrintExit2 info $0 ("Updating script: " . $ScriptVal->"name") false;
@@ -1028,6 +1024,18 @@
   }
 
   :return $Return;
+}
+
+# basic syntax validation
+:set ValidateSyntax do={
+  :local Code [ :tostr $1 ];
+
+  :do {
+    [ :parse (":local Validate do={ " . $Code . " }") ];
+  } on-error={
+    :return false;
+  }
+  :return true;
 }
 
 # convert version string to numeric value
