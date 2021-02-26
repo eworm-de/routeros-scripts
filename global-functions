@@ -730,25 +730,38 @@
       :if ($Result->"status" = "finished") do={
         :set ChangeLogCode ($Result->"data");
       }
-      :set NotificationMessage ($NotificationMessage . "\n\nChanges:");
-      [ :parse $ChangeLogCode ];
-      :for I from=($GlobalConfigVersion + 1) to=$ExpectedConfigVersion do={
-        :local Migration ($GlobalConfigMigration->[ :tostr $I ]);
-        :if ([ :typeof $Migration ] = "str") do={
-          $LogPrintExit2 info $0 ("Applying migration: " . $Migration) false;
-          [ :parse $Migration ];
-        }
-        :set NotificationMessage ($NotificationMessage . \
-            "\n " . [ $IfThenElse ($NotificationsWithSymbols = true) ("\E2\97\8F") "*" ] . " " . \
-            $GlobalConfigChanges->[ :tostr $I ]);
-        $LogPrintExit2 info $0 ("Change: " . $GlobalConfigChanges->[ :tostr $I ]) false;
-      }
-      :set GlobalConfigChanges;
-      :set GlobalConfigMigration;
     } on-error={
       $LogPrintExit2 warning $0 ("Failed fetching changes!") false;
       :set NotificationMessage ($NotificationMessage . \
           "\n\nChanges are not available.");
+    }
+
+    :if ([ :len $ChangeLogCode ] > 0) do={
+      :if ([ $ValidateSyntax $ChangeLogCode ] = true) do={
+        :set NotificationMessage ($NotificationMessage . "\n\nChanges:");
+        [ :parse $ChangeLogCode ];
+        :for I from=($GlobalConfigVersion + 1) to=$ExpectedConfigVersion do={
+          :local Migration ($GlobalConfigMigration->[ :tostr $I ]);
+          :if ([ :typeof $Migration ] = "str") do={
+            :if ([ $ValidateSyntax $Migration ] = true) do={
+              $LogPrintExit2 info $0 ("Applying migration: " . $Migration) false;
+              [ :parse $Migration ];
+            } else={
+              $LogPrintExit2 warning $0 ("Migration code for change " . $I . " failed syntax validation!") false;
+            }
+          }
+          :set NotificationMessage ($NotificationMessage . \
+              "\n " . [ $IfThenElse ($NotificationsWithSymbols = true) ("\E2\97\8F") "*" ] . " " . \
+              $GlobalConfigChanges->[ :tostr $I ]);
+          $LogPrintExit2 info $0 ("Change: " . $GlobalConfigChanges->[ :tostr $I ]) false;
+        }
+        :set GlobalConfigChanges;
+        :set GlobalConfigMigration;
+      } else={
+        $LogPrintExit2 warning $0 ("The changelog failed syntax validation!") false;
+        :set NotificationMessage ($NotificationMessage . \
+            "\n\nChanges are not available.");
+      }
     }
 
     :local Link;
