@@ -19,6 +19,10 @@ starting the upgrade process over the broadband connection is supported.
 Requirements and installation
 -----------------------------
 
+The firmware is downloaded over the air, so a working broadband connection
+on the lte interface to be updated is required! Having internet access from
+different gateway is not sufficient!
+
 Just install the script:
 
     $ScriptInstallUpdate unattended-lte-firmware-upgrade;
