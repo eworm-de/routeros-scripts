@@ -6,7 +6,7 @@
 # schedule unattended lte firmware upgrade
 # https://git.eworm.de/cgit/routeros-scripts/about/doc/unattended-lte-firmware-upgrade.md
 
-:foreach Interface in=[ / interface lte find ] do={
+:foreach Interface in=[ / interface lte find where running ] do={
   :local Firmware;
   :local IntName [ / interface lte get $Interface name ];
   :do {
