@@ -13,6 +13,7 @@
 :global SmsAction;
 
 :global LogPrintExit2;
+:global ValidateSyntax;
 
 :local Action $action;
 
@@ -21,8 +22,10 @@
 }
 
 :local Code ($SmsAction->$Action);
-:local Parsed [ :parse $Code ];
-
-:log info ("Acting on SMS action '" . $Action . "': " . $Code);
-:delay 1s;
-$Parsed;
+:if ([ $ValidateSyntax $Code ] = true) do={
+  :log info ("Acting on SMS action '" . $Action . "': " . $Code);
+  :delay 1s;
+  [ :parse $Code ];
+} else={
+  $LogPrintExit2 warning $0 ("The code for action '" . $Action . "' failed syntax validation!") false;
+}
