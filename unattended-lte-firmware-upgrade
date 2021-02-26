@@ -29,5 +29,7 @@
     }
     / system scheduler add name=($IntName . "-firmware-upgrade") start-time=startup interval=2s \
       on-event=(":global LTEFirmwareUpgrade; \$LTEFirmwareUpgrade \"" . $IntName . "\";");
+  } else={
+    :log info ("The LTE firmware is up to date on interface " . $IntName . ".");
   }
 }
