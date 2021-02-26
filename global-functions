@@ -1044,7 +1044,7 @@
   :local Code [ :tostr $1 ];
 
   :do {
-    [ :parse (":local Validate do={ " . $Code . " }") ];
+    [ :parse (":local Validate do={\n" . $Code . "\n}") ];
   } on-error={
     :return false;
   }
