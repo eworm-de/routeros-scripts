@@ -25,6 +25,7 @@
 
     :global LogPrintExit2;
     :global ModeButtonScheduler;
+    :global ValidateSyntax;
 
     :local LEDInvert do={
       :global ModeButtonLED;
@@ -46,19 +47,23 @@
     / system scheduler remove ModeButtonScheduler;
 
     :if ([ :len $Code ] > 0) do={
-      $LogPrintExit2 info $0 ("Acting on " . $Count . " mode-button presses: " . $Code) false;
+      :if ([ $ValidateSyntax $Code ] = true) do={
+        $LogPrintExit2 info $0 ("Acting on " . $Count . " mode-button presses: " . $Code) false;
 
-      :for I from=1 to=$Count do={
-        $LEDInvert;
-        :if ([ / system routerboard settings get silent-boot ] = false) do={
-          :beep length=200ms;
+        :for I from=1 to=$Count do={
+          $LEDInvert;
+          :if ([ / system routerboard settings get silent-boot ] = false) do={
+            :beep length=200ms;
+          }
+          :delay 200ms;
+          $LEDInvert;
+          :delay 200ms;
         }
-        :delay 200ms;
-        $LEDInvert;
-        :delay 200ms;
-      }
 
-      [ :parse $Code ];
+        [ :parse $Code ];
+      } else={
+        $LogPrintExit2 warning $0 ("The code for " . $Count . " mode-button presses failed syntax validation!") false;
+      }
     } else={
       $LogPrintExit2 info $0 ("No action defined for " . $Count . " mode-button presses.") false;
     }
