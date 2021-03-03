@@ -230,10 +230,10 @@
 
   :do {
     :resolve "low-ttl.eworm.de";
-    :return true;
   } on-error={
     :return false;
   }
+  :return true;
 }
 
 # download package from upgrade server
