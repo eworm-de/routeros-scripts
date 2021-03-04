@@ -15,6 +15,7 @@
 :global LogForwardFilterMessage;
 :global LogForwardLast;
 :global LogForwardRateLimit;
+:global NotificationsWithSymbols;
 
 :global IfThenElse;
 :global LogPrintExit2;
@@ -53,8 +54,8 @@ $WaitFullyConnected;
   } else={
     :local DupCount ($MessageDups->($MessageVal->"message"));
     :if ($DupCount < 3) do={
-      :set Messages ($Messages . "\n" . $MessageVal->"time" . " " . \
-        [ :tostr ($MessageVal->"topics") ] . " " . $MessageVal->"message");
+      :set Messages ($Messages . "\n" . [ $IfThenElse ($NotificationsWithSymbols = true) (" \E2\97\8F ") ] . \
+        $MessageVal->"time" . " " . [ :tostr ($MessageVal->"topics") ] . " " . $MessageVal->"message");
     } else={
       :set Duplicates true;
     }
