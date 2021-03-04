@@ -666,6 +666,7 @@
     }
   }
 
+  :local ExpectedConfigVersionBefore $ExpectedConfigVersion;
   :local ScriptInstallUpdateBefore [ :tostr $ScriptInstallUpdate ];
 
   :foreach Script in=[ / system script find where source~"^#!rsc( by RouterOS)\?\n" ] do={
@@ -748,18 +749,12 @@
     }
   }
 
-  :if ($SentConfigChangesNotification!=$ExpectedConfigVersion && \
-       $GlobalConfigVersion < $ExpectedConfigVersion) do={
+  :if ($ExpectedConfigVersionBefore != $ExpectedConfigVersion) do={
     :global GlobalConfigChanges;
     :global GlobalConfigMigration;
     :local ChangeLogCode;
-    :local NotificationMessage ("Current configuration on " . $Identity . \
-        " is out of date. Please update global-config-overlay, then increase " . \
-        "\$GlobalConfigVersion (currently " . $GlobalConfigVersion . \
-        ") to " . $ExpectedConfigVersion . " and re-run global-config-overlay.");
-    $LogPrintExit2 info $0 ($NotificationMessage) false;
 
-    $LogPrintExit2 debug $0 ("Fetching changelog.") false;
+    $LogPrintExit2 debug $0 ("Fetching news, changes and migration.") false;
     :do {
       :local Result [ / tool fetch check-certificate=yes-without-crl \
           ($ScriptUpdatesBaseUrl . "global-config.changes" . $ScriptUpdatesUrlSuffix) \
@@ -768,52 +763,68 @@
         :set ChangeLogCode ($Result->"data");
       }
     } on-error={
-      $LogPrintExit2 warning $0 ("Failed fetching changes!") false;
-      :set NotificationMessage ($NotificationMessage . \
-          "\n\nChanges are not available.");
+      $LogPrintExit2 warning $0 ("Failed fetching news, changes and migration!") false;
     }
 
     :if ([ :len $ChangeLogCode ] > 0) do={
       :if ([ $ValidateSyntax $ChangeLogCode ] = true) do={
-        :set NotificationMessage ($NotificationMessage . "\n\nChanges:");
         [ :parse $ChangeLogCode ];
-        :for I from=($GlobalConfigVersion + 1) to=$ExpectedConfigVersion do={
-          :local Migration ($GlobalConfigMigration->[ :tostr $I ]);
-          :if ([ :typeof $Migration ] = "str") do={
-            :if ([ $ValidateSyntax $Migration ] = true) do={
-              $LogPrintExit2 info $0 ("Applying migration: " . $Migration) false;
-              [ :parse $Migration ];
-            } else={
-              $LogPrintExit2 warning $0 ("Migration code for change " . $I . " failed syntax validation!") false;
-            }
-          }
-          :set NotificationMessage ($NotificationMessage . \
-              "\n " . [ $IfThenElse ($NotificationsWithSymbols = true) ("\E2\97\8F") "*" ] . " " . \
-              $GlobalConfigChanges->[ :tostr $I ]);
-          $LogPrintExit2 info $0 ("Change: " . $GlobalConfigChanges->[ :tostr $I ]) false;
-        }
-        :set GlobalConfigChanges;
-        :set GlobalConfigMigration;
       } else={
         $LogPrintExit2 warning $0 ("The changelog failed syntax validation!") false;
-        :set NotificationMessage ($NotificationMessage . \
-            "\n\nChanges are not available.");
       }
     }
 
-    :local Link;
-    :if ($IDonate != true) do={
-      :set NotificationMessage ($NotificationMessage . \
-        "\n\n==== donation hint ====\n" . \
-        "This project is developed in private spare time and usage is " . \
-        "free of charge for you. If you like the scripts and think this is " . \
-        "of value for you or your business please consider a donation.");
-      :set Link "https://git.eworm.de/cgit/routeros-scripts/about/#donate";
+    :if ([ :len $GlobalConfigMigration ] > 0) do={
+      :for I from=($ExpectedConfigVersionBefore + 1) to=$ExpectedConfigVersion do={
+        :local Migration ($GlobalConfigMigration->[ :tostr $I ]);
+        :if ([ :typeof $Migration ] = "str") do={
+          :if ([ $ValidateSyntax $Migration ] = true) do={
+            $LogPrintExit2 info $0 ("Applying migration for change " . $I . ": " . $Migration) false;
+            [ :parse $Migration ];
+          } else={
+            $LogPrintExit2 warning $0 ("Migration code for change " . $I . " failed syntax validation!") false;
+          }
+        }
+      }
     }
 
-    $SendNotification ([ $SymbolForNotification "pushpin" ] . "News and configuration changes") \
-      $NotificationMessage $Link;
-    :set SentConfigChangesNotification $ExpectedConfigVersion;
+    :if ($SentConfigChangesNotification != $ExpectedConfigVersion && \
+         $GlobalConfigVersion < $ExpectedConfigVersion) do={
+      :local NotificationMessage ("Current configuration on " . $Identity . \
+          " is out of date. Please update global-config-overlay, then increase " . \
+          "\$GlobalConfigVersion (currently " . $GlobalConfigVersion . \
+          ") to " . $ExpectedConfigVersion . " and re-run global-config-overlay.");
+      $LogPrintExit2 info $0 ($NotificationMessage) false;
+
+      :if ([ :len $GlobalConfigChanges ] > 0) do={
+        :set NotificationMessage ($NotificationMessage . "\n\nChanges:");
+        :for I from=($GlobalConfigVersion + 1) to=$ExpectedConfigVersion do={
+          :local Change ($GlobalConfigChanges->[ :tostr $I ]);
+          :set NotificationMessage ($NotificationMessage . "\n " . \
+              [ $IfThenElse ($NotificationsWithSymbols = true) ("\E2\97\8F") "*" ] . " " . $Change);
+          $LogPrintExit2 info $0 ("Change " . $I . ": " . $Change) false;
+        }
+      } else={
+        :set NotificationMessage ($NotificationMessage . "\n\nNews and changes are not available.");
+      }
+
+      :local Link;
+      :if ($IDonate != true) do={
+        :set NotificationMessage ($NotificationMessage . \
+          "\n\n==== donation hint ====\n" . \
+          "This project is developed in private spare time and usage is " . \
+          "free of charge for you. If you like the scripts and think this is " . \
+          "of value for you or your business please consider a donation.");
+        :set Link "https://git.eworm.de/cgit/routeros-scripts/about/#donate";
+      }
+
+      $SendNotification ([ $SymbolForNotification "pushpin" ] . "News and configuration changes") \
+        $NotificationMessage $Link;
+      :set SentConfigChangesNotification $ExpectedConfigVersion;
+    }
+
+    :set GlobalConfigChanges;
+    :set GlobalConfigMigration;
   }
 
   :if ($ScriptInstallUpdateBefore != [ :tostr $ScriptInstallUpdate ]) do={
