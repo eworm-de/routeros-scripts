@@ -37,18 +37,28 @@ $ScriptLock $0;
 $WaitFullyConnected;
 
 :local Count 0;
+:local Duplicates false;
 :local Messages "";
 :local MessageVal;
+:local MessageDups [ :toarray "" ];
 
 :foreach Message in=[ / log find where !(topics~$LogForwardFilter) !(message~$LogForwardFilterMessage) ] do={
   :set MessageVal [ / log get $Message ];
 
   :if ($LogForwardLast = ($MessageVal->".id")) do={
-    :set Messages "";
     :set Count 0;
+    :set Duplicates false;
+    :set Messages "";
+    :set MessageDups [ :toarray "" ];
   } else={
-    :set Messages ($Messages . "\n" . $MessageVal->"time" . " " . \
-      [ :tostr ($MessageVal->"topics") ] . " " . $MessageVal->"message");
+    :local DupCount ($MessageDups->($MessageVal->"message"));
+    :if ($DupCount < 3) do={
+      :set Messages ($Messages . "\n" . $MessageVal->"time" . " " . \
+        [ :tostr ($MessageVal->"topics") ] . " " . $MessageVal->"message");
+    } else={
+      :set Duplicates true;
+    }
+    :set ($MessageDups->($MessageVal->"message")) ($DupCount + 1);
     :set Count ($Count + 1);
   }
 }
@@ -57,7 +67,8 @@ $WaitFullyConnected;
   $SendNotification ([ $SymbolForNotification "warning-sign" ] . "Log Forwarding") \
     ("The log on " . $Identity . " contains " . [ $IfThenElse ($Count = 1) \
     "this message" ("these " . $Count . " messages") ] . " after " . \
-    [ / system resource get uptime ] . " uptime.\n" . $Messages);
+    [ / system resource get uptime ] . " uptime." . [ $IfThenElse ($Duplicates = true) \
+    (" Multi-repeated messages have been skipped.") ] . "\n" . $Messages);
 
   :set LogForwardRateLimit ($LogForwardRateLimit + 10);
   :set LogForwardLast ($MessageVal->".id");
