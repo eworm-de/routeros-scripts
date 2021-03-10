@@ -84,7 +84,7 @@
   }
 
   :local CertVal [ / certificate get [ find where common-name=$CommonName ] ];
-  :do {
+  :while (($CertVal->"akid") != "" && ($CertVal->"akid") != ($CertVal->"skid")) do={
     :if ([ :len [ / certificate find where skid=($CertVal->"akid") ] ] = 0) do={
       $LogPrintExit2 info $0 ("Certificate chain for \"" . $CommonName . \
         "\" is incomplete, missing \"" . ([ $ParseKeyValueStore ($CertVal->"issuer") ]->"CN") . "\".") false;
@@ -93,7 +93,7 @@
       }
     }
     :set CertVal [ / certificate get [ find where skid=($CertVal->"akid") ] ];
-  } while=(($CertVal->"akid") != "" && ($CertVal->"akid") != ($CertVal->"skid"));
+  }
   :return true;
 }
 
