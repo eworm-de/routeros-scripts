@@ -24,6 +24,7 @@
 :global DeviceInfo;
 :global DNSIsResolving;
 :global DownloadPackage;
+:global EscapeForRegEx;
 :global FlushEmailQueue;
 :global FlushTelegramQueue;
 :global GetMacVendor;
@@ -287,6 +288,28 @@
   }
 
   :return false;
+}
+
+# escape for regular expression
+:set EscapeForRegEx do={
+  :local Input [ :tostr $1 ];
+
+  :if ([ :len $Input ] = 0) do={
+    :return "";
+  }
+
+  :local Return "";
+  :local Chars "^.[]\$()|*+\?{}\\";
+
+  :for I from=0 to=([ :len $Input ] - 1) do={
+    :local Char [ :pick $Input $I ];
+    :if ([ :find $Chars $Char ]) do={
+      :set Char ("\\" . $Char);
+    }
+    :set Return ($Return . $Char);
+  }
+
+  :return $Return;
 }
 
 # flush e-mail queue
