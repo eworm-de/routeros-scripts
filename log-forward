@@ -17,7 +17,7 @@
 :global LogForwardRateLimit;
 :global NotificationsWithSymbols;
 
-:global CharacterReplace;
+:global EscapeForRegEx;
 :global IfThenElse;
 :global LogPrintExit2;
 :global QuotedPrintable;
@@ -45,9 +45,9 @@ $WaitFullyConnected;
 :local MessageVal;
 :local MessageDups [ :toarray "" ];
 
-:local LogForwardFilterLogForwarding [ $CharacterReplace ("^Error sending e-mail <" . \
-    [ $QuotedPrintable ("\\[" . $Identity . "\\] " . [ $SymbolForNotification "warning-sign" ] . \
-    "Log Forwarding") ] . ">:") ("\?") ("\\\?") ];
+:local LogForwardFilterLogForwarding ("^" . [ $EscapeForRegEx ("Error sending e-mail <" . \
+    [ $QuotedPrintable ("[" . $Identity . "] " . [ $SymbolForNotification "warning-sign" ] . \
+    "Log Forwarding") ] . ">:") ]);
 :foreach Message in=[ / log find where !(topics~$LogForwardFilter) !(message="") \
     !(message~$LogForwardFilterLogForwarding) !(message~$LogForwardFilterMessage) ] do={
   :set MessageVal [ / log get $Message ];
