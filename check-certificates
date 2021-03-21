@@ -49,7 +49,7 @@ $WaitFullyConnected;
             ($CertRenewUrl . $CertFileName) dst-path=$CertFileName as-value;
         $WaitForFile $CertFileName;
         :foreach PassPhrase in=$CertRenewPass do={
-          / certificate import file-name=$CertFileName passphrase=$PassPhrase;
+          / certificate import file-name=$CertFileName passphrase=$PassPhrase as-value;
         }
         / file remove [ find where name=$CertFileName ];
 
