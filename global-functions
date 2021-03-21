@@ -120,7 +120,7 @@
       $UrlFileName . $ScriptUpdatesUrlSuffix) \
       dst-path=$LocalFileName as-value;
     $WaitForFile $LocalFileName;
-    / certificate import file-name=$LocalFileName passphrase="";
+    / certificate import file-name=$LocalFileName passphrase="" as-value;
     / file remove $LocalFileName;
 
     :foreach Cert in=[ / certificate find where name~("^" . $LocalFileName . "_[0-9]+\$") ] do={
