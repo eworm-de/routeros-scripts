@@ -21,6 +21,7 @@ Add yourself to the list,
 * Christoph Boss (@Kampfwurst)
 * Klaus Michael Rübsam
 * Linux-Schmie.de Michael Gisbers
+* Manuel Kuhn
 * Marek Čábák
 * Reiner Vehrenkamp
 
