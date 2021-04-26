@@ -486,6 +486,7 @@
 :set LogPrintExit do={
   :global LogPrintExit2;
 
+  $LogPrintExit2 warning $0 ("This function is deprecated. Please use \$LogPrintExit2 instead.") false;
   $LogPrintExit2 $1 "unknown" $2 $3;
 }
 
