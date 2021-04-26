@@ -46,11 +46,16 @@ $WaitFullyConnected;
   :error "A reboot for update is already scheduled.";
 }
 
-/ system package update check-for-updates without-paging;
+$LogPrintExit2 debug $0 ("Checking for updates...") false;
+/ system package update check-for-updates without-paging as-value;
 :local Update [ / system package update get ];
 
 :if ([ :len ($Update->"latest-version") ] = 0) do={
   $LogPrintExit2 info $0 ("An empty string is not a valid version.") true;
+}
+
+:if (($Update->"installed-version") = ($Update->"latest-version")) do={
+  $LogPrintExit2 info $0 ("System is already up to date.") true;
 }
 
 :local NumInstalled [ $VersionToNum ($Update->"installed-version") ];
