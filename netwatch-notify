@@ -38,7 +38,8 @@
     :local Count ($Metric->"count");
     :set ($Metric->"count") 0;
     :if ($Metric->"notified" = true) do={
-      $SendNotification2 ({ subject=([ $SymbolForNotification "white-heavy-check-mark" ] . "Netwatch Notify: " . $HostName . " up"); \
+      $SendNotification2 ({ origin=$0; \
+        subject=([ $SymbolForNotification "white-heavy-check-mark" ] . "Netwatch Notify: " . $HostName . " up"); \
         message=("Host " . $HostName . " (" . $HostVal->"host" . ") is up since " . $HostVal->"since" . ".\n" . \
           "It was down for " . $Count . " checks since " . ($Metric->"since") . ".") });
       :if ([ :typeof ($HostInfo->"up-hook") ] = "str") do={
@@ -76,7 +77,8 @@
       ($Metric->"notified" = true) ("already notified.") ($Count - $Metric->"count" . " to go.") ] \
       ("parent host " . $Parent . " is down.") ]) false;
     :if ($ParentNotified = false && $Metric->"count" >= $Count && $Metric->"notified" != true) do={
-      $SendNotification2 ({ subject=([ $SymbolForNotification "cross-mark" ] . "Netwatch Notify: " . $HostName . " down"); \
+      $SendNotification2 ({ origin=$0; \
+        subject=([ $SymbolForNotification "cross-mark" ] . "Netwatch Notify: " . $HostName . " down"); \
         message=("Host " . $HostName . " (" . $HostVal->"host" . ") is down since " . $HostVal->"since" . ".") });
       :set ($Metric->"notified") true;
       :if ([ :typeof ($HostInfo->"down-hook") ] = "str") do={
