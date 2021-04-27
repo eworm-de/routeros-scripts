@@ -56,7 +56,8 @@ $ScriptLock $0;
       "first seen on " . $DateTime . " connected to SSID " . $Ssid . ", interface " . $Interface);
     $LogPrintExit2 info $0 $Message false;
     / interface wireless access-list add place-before=$PlaceBefore comment=$Message mac-address=$Mac disabled=yes;
-    $SendNotification2 ({ subject=([ $SymbolForNotification "mobile-phone" ] . $Mac . " connected to " . $Ssid); \
+    $SendNotification2 ({ origin=$0; \
+      subject=([ $SymbolForNotification "mobile-phone" ] . $Mac . " connected to " . $Ssid); \
       message=("A device with unknown MAC address connected to " . $Ssid . " on " . $Identity . ".\n\n" . \
         "Controller: " . $Identity . "\n" . \
         "Interface:  " . $Interface . "\n" . \
