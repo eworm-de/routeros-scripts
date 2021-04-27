@@ -95,7 +95,8 @@ $WaitFullyConnected;
       / certificate set $CertNew name=($CertVal->"name");
     }
 
-    $SendNotification2 ({ subject=([ $SymbolForNotification "lock-with-ink-pen" ] . "Certificate renewed"); \
+    $SendNotification2 ({ origin=$0; \
+      subject=([ $SymbolForNotification "lock-with-ink-pen" ] . "Certificate renewed"); \
       message=("A certificate on " . $Identity . " has been renewed.\n\n" . \
         "Name:        " . ($CertVal->"name") . "\n" . \
         "CommonName:  " . ($CertNewVal->"common-name") . "\n" . \
@@ -118,7 +119,8 @@ $WaitFullyConnected;
   } else={
     :local State [ $IfThenElse (($CertVal->"expired") = true) "expired" "is about to expire" ];
 
-    $SendNotification2 ({ subject=([ $SymbolForNotification "warning-sign" ] . "Certificate warning!"); \
+    $SendNotification2 ({ origin=$0; \
+      subject=([ $SymbolForNotification "warning-sign" ] . "Certificate warning!"); \
       message=("A certificate on " . $Identity . " " . $State . ".\n\n" . \
         "Name:        " . ($CertVal->"name") . "\n" . \
         "CommonName:  " . ($CertVal->"common-name") . "\n" . \
