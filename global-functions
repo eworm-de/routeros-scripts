@@ -855,8 +855,9 @@
         :set Link "https://git.eworm.de/cgit/routeros-scripts/about/#donate";
       }
 
-      $SendNotification2 ({ subject=([ $SymbolForNotification "pushpin" ] . \
-        "News and configuration changes"); message=$NotificationMessage; link=$Link });
+      $SendNotification2 ({ origin=$0; \
+        subject=([ $SymbolForNotification "pushpin" ] . "News and configuration changes"); \
+        message=$NotificationMessage; link=$Link });
       :set SentConfigChangesNotification $ExpectedConfigVersion;
     }
 
