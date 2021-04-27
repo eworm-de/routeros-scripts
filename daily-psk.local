@@ -81,7 +81,8 @@ $WaitFullyConnected;
         :set Seen ($Seen, $Ssid);
         :local Link ("https://www.eworm.de/cgi-bin/cqrlogo-wifi.cgi" . \
             "?scale=8&level=1&ssid=" . [ $UrlEncode $Ssid ] . "&pass=" . [ $UrlEncode $NewPsk ]);
-        $SendNotification2 ({ subject=([ $SymbolForNotification "calendar" ] . "daily PSK " . $Ssid); \
+        $SendNotification2 ({ origin=$0; \
+          subject=([ $SymbolForNotification "calendar" ] . "daily PSK " . $Ssid); \
           message=("This is the daily PSK on " . $Identity . ":\n\n" . \
             "SSID: " . $Ssid . "\n" . \
             "PSK:  " . $NewPsk . "\n" . \
