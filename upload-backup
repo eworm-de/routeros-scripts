@@ -80,7 +80,8 @@ $WaitFullyConnected;
   }
 }
 
-$SendNotification2 ({ subject=[ $IfThenElse ($Failed > 0) \
+$SendNotification2 ({ origin=$0; \
+  subject=[ $IfThenElse ($Failed > 0) \
     ([ $SymbolForNotification "warning-sign" ] . "Backup & Config upload with failure") \
     ([ $SymbolForNotification "floppy-disk" ] . "Backup & Config upload") ]; \
   message=("Backup and config export upload for " . $Identity . ".\n\n" . \
