@@ -71,7 +71,8 @@ $WaitFullyConnected;
 }
 
 :if ($Count > 0) do={
-  $SendNotification2 ({ subject=([ $SymbolForNotification "warning-sign" ] . "Log Forwarding"); \
+  $SendNotification2 ({ origin=$0; \
+    subject=([ $SymbolForNotification "warning-sign" ] . "Log Forwarding"); \
     message=("The log on " . $Identity . " contains " . [ $IfThenElse ($Count = 1) \
       "this message" ("these " . $Count . " messages") ] . " after " . \
       [ / system resource get uptime ] . " uptime." . [ $IfThenElse ($Duplicates = true) \
