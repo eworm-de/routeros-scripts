@@ -370,7 +370,6 @@
 # flush telegram queue
 :set FlushTelegramQueue do={
   :global TelegramQueue;
-  :global TelegramTokenId;
 
   :global LogPrintExit2;
 
@@ -385,7 +384,7 @@
     :if ([ :typeof $Message ] = "array" ) do={
       :do {
         / tool fetch check-certificate=yes-without-crl output=none http-method=post \
-          ("https://api.telegram.org/bot" . $TelegramTokenId . "/sendMessage") \
+          ("https://api.telegram.org/bot" . ($Message->"tokenid") . "/sendMessage") \
           http-data=("chat_id=" . ($Message->"chatid") . \
           "&disable_notification=" . ($Message->"silent") . \
           "&disable_web_page_preview=true&parse_mode=" . ($Message->"parsemode") . \
@@ -1044,8 +1043,8 @@
     :set Text ($Text . [ $UrlEncode ("\n" . [ $SymbolForNotification "alarm-clock" ] . \
       [ $EscapeMD ("This message was queued since " . [ / system clock get date ] . \
       " " . [ / system clock get time ] . " and may be obsolete.") "hint" ]) ]);
-    :set ($TelegramQueue->[ :len $TelegramQueue ]) {
-      chatid=$ChatId; parsemode=$ParseMode; text=$Text; silent=($Notification->"silent") };
+    :set ($TelegramQueue->[ :len $TelegramQueue ]) { chatid=$ChatId; tokenid=$TelegramTokenId;
+      parsemode=$ParseMode; text=$Text; silent=($Notification->"silent") };
     :if ([ :len [ / system scheduler find where name="FlushTelegramQueue" ] ] = 0) do={
       / system scheduler add name=FlushTelegramQueue interval=1m start-time=startup \
         on-event=":global FlushTelegramQueue; \$FlushTelegramQueue;";
