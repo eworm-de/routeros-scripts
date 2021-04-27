@@ -961,9 +961,11 @@
   :global TelegramFixedWidthFont;
   :global TelegramQueue;
   :global TelegramTokenId;
+  :global TelegramTokenIdOverride;
 
   :global CertificateAvailable;
   :global CharacterReplace;
+  :global EitherOr;
   :global IfThenElse;
   :global LogPrintExit2;
   :global SymbolForNotification;
@@ -996,12 +998,10 @@
     :return $Return;
   }
 
-  :local ChatId $TelegramChatId;
-  :if ([ :len $TelegramChatIdOverride ] > 0) do={
-    :set ChatId $TelegramChatIdOverride;
-  }
+  :local ChatId [ $EitherOr ($TelegramChatIdOverride->($Notification->"origin")) $TelegramChatId ];
+  :local TokenId [ $EitherOr ($TelegramTokenIdOverride->($Notification->"origin")) $TelegramTokenId ];
 
-  :if ([ :len $TelegramTokenId ] = 0 || [ :len $ChatId ] = 0) do={
+  :if ([ :len $TokenId ] = 0 || [ :len $ChatId ] = 0) do={
     :return false;
   }
 
@@ -1031,7 +1031,7 @@
       $LogPrintExit2 warning $0 ("Downloading required certificate failed.") true;
     }
     / tool fetch check-certificate=yes-without-crl output=none http-method=post \
-      ("https://api.telegram.org/bot" . $TelegramTokenId . "/sendMessage") \
+      ("https://api.telegram.org/bot" . $TokenId . "/sendMessage") \
       http-data=("chat_id=" . $ChatId . "&disable_notification=" . ($Notification->"silent") . \
       "&disable_web_page_preview=true&parse_mode=" . $ParseMode . "&text=" . $Text) as-value;
   } on-error={
@@ -1043,7 +1043,7 @@
     :set Text ($Text . [ $UrlEncode ("\n" . [ $SymbolForNotification "alarm-clock" ] . \
       [ $EscapeMD ("This message was queued since " . [ / system clock get date ] . \
       " " . [ / system clock get time ] . " and may be obsolete.") "hint" ]) ]);
-    :set ($TelegramQueue->[ :len $TelegramQueue ]) { chatid=$ChatId; tokenid=$TelegramTokenId;
+    :set ($TelegramQueue->[ :len $TelegramQueue ]) { chatid=$ChatId; tokenid=$TokenId;
       parsemode=$ParseMode; text=$Text; silent=($Notification->"silent") };
     :if ([ :len [ / system scheduler find where name="FlushTelegramQueue" ] ] = 0) do={
       / system scheduler add name=FlushTelegramQueue interval=1m start-time=startup \
