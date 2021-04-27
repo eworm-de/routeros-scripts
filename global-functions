@@ -894,14 +894,20 @@
 
   :global Identity;
   :global EmailGeneralTo;
+  :global EmailGeneralToOverride;
   :global EmailGeneralCc;
+  :global EmailGeneralCcOverride;
   :global EmailQueue;
 
+  :global EitherOr;
   :global IfThenElse;
   :global LogPrintExit2;
   :global QuotedPrintable;
 
-  :if ([ :len $EmailGeneralTo ] = 0) do={
+  :local To [ $EitherOr ($EmailGeneralToOverride->($Notification->"origin")) $EmailGeneralTo ];
+  :local Cc [ $EitherOr ($EmailGeneralCcOverride->($Notification->"origin")) $EmailGeneralCc ];
+
+  :if ([ :len $To ] = 0) do={
     :return false;
   }
 
@@ -910,7 +916,7 @@
   }
   :local Signature [ / system note get note ];
   :set ($EmailQueue->[ :len $EmailQueue ]) {
-    to=$EmailGeneralTo; cc=$EmailGeneralCc;
+    to=$To; cc=$Cc;
     subject=[ $QuotedPrintable ("[" . $Identity . "] " . ($Notification->"subject")) ];
     body=(($Notification->"message") . \
       [ $IfThenElse ([ :len ($Notification->"link") ] > 0) ("\n\n" . ($Notification->"link")) "" ] . \
