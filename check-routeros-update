@@ -54,7 +54,7 @@ $LogPrintExit2 debug $0 ("Checking for updates...") false;
   $LogPrintExit2 info $0 ("An empty string is not a valid version.") true;
 }
 
-:if (($Update->"installed-version") = ($Update->"latest-version")) do={
+:if ([ $ScriptFromTerminal $0 ] = true && ($Update->"installed-version") = ($Update->"latest-version")) do={
   $LogPrintExit2 info $0 ("System is already up to date.") true;
 }
 
