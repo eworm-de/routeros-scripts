@@ -42,7 +42,8 @@
        [ :typeof $Voltage ] = "num") do={
     :if ($CheckHealthLast->$Name * (100 + $CheckHealthVoltagePercent) < $Voltage * 100 || \
          $CheckHealthLast->$Name * 100 > $Voltage * (100 + $CheckHealthVoltagePercent)) do={
-      $SendNotification2 ({ subject=([ $SymbolForNotification "high-voltage-sign" ] . "Health warning: " . $Name); \
+      $SendNotification2 ({ origin=$0; \
+        subject=([ $SymbolForNotification "high-voltage-sign" ] . "Health warning: " . $Name); \
         message=("The " . $Name . " on " . $Identity . " jumped more than " . $CheckHealthVoltagePercent . "%.\n\n" . \
           "old value: " . [ $FormatVoltage ($CheckHealthLast->$Name) ] . "\n" . \
           "new value: " . [ $FormatVoltage $Voltage ]) });
@@ -56,12 +57,14 @@
        [ :typeof $PSU ] = "str") do={
     :if ($CheckHealthLast->$Name = "ok" && \
          $PSU != "ok") do={
-      $SendNotification2 ({ subject=([ $SymbolForNotification "cross-mark" ] . "Health warning: " . $Name); \
+      $SendNotification2 ({ origin=$0; \
+        subject=([ $SymbolForNotification "cross-mark" ] . "Health warning: " . $Name); \
         message=("The power supply unit '" . $Name . "' on " . $Identity . " failed!") });
     }
     :if ($CheckHealthLast->$Name != "ok" && \
          $PSU = "ok") do={
-      $SendNotification2 ({ subject=([ $SymbolForNotification "white-heavy-check-mark" ] . "Health recovery: " . $Name); \
+      $SendNotification2 ({ origin=$0; \
+        subject=([ $SymbolForNotification "white-heavy-check-mark" ] . "Health recovery: " . $Name); \
         message=("The power supply unit '" . $Name . "' on " . $Identity . " recovered!") });
     }
   }
@@ -81,14 +84,16 @@
     }
     :if ($Temperature > $CheckHealthTemperature->$Name && \
          $CheckHealthTemperatureNotified->$Name != true) do={
-      $SendNotification2 ({ subject=([ $SymbolForNotification "fire" ] . "Health warning: " . $Name); \
+      $SendNotification2 ({ origin=$0; \
+        subject=([ $SymbolForNotification "fire" ] . "Health warning: " . $Name); \
         message=("The " . $Name . " on " . $Identity . " is above threshold: " . \
           $Temperature . "\C2\B0" . "C") });
       :set ($CheckHealthTemperatureNotified->$Name) true;
     }
     :if ($Temperature <= ($CheckHealthTemperature->$Name - $CheckHealthTemperatureDeviation) && \
          $CheckHealthTemperatureNotified->$Name = true) do={
-      $SendNotification2 ({ subject=([ $SymbolForNotification "white-heavy-check-mark" ] . "Health recovery: " . $Name); \
+      $SendNotification2 ({ origin=$0; \
+        subject=([ $SymbolForNotification "white-heavy-check-mark" ] . "Health recovery: " . $Name); \
         message=("The " . $Name . " on " . $Identity . " dropped below threshold: " .  \
           $Temperature . "\C2\B0" . "C") });
       :set ($CheckHealthTemperatureNotified->$Name) false;
