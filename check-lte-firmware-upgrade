@@ -29,7 +29,8 @@
     } else={
       :if (($Firmware->"installed") != ($Firmware->"latest")) do={
         :local Info [ / interface lte info $Interface once as-value ];
-        $SendNotification2 ({ subject=([ $SymbolForNotification "sparkles" ] . "LTE firmware upgrade"); \
+        $SendNotification2 ({ origin=$0; \
+          subject=([ $SymbolForNotification "sparkles" ] . "LTE firmware upgrade"); \
           message=("A new firmware version " . ($Firmware->"latest") . " is available for " . \
             "LTE interface " . $IntName . " on " . $Identity . ".\n\n" . \
             "Interface: " . [ $CharacterReplace ($Info->"manufacturer" . " " . $Info->"model") ("\"") "" ] . "\n" . \
