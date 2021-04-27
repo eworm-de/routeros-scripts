@@ -24,6 +24,7 @@
 :global DeviceInfo;
 :global DNSIsResolving;
 :global DownloadPackage;
+:global EitherOr;
 :global EscapeForRegEx;
 :global FlushEmailQueue;
 :global FlushTelegramQueue;
@@ -291,6 +292,16 @@
   }
 
   :return false;
+}
+
+# return either first (if "true") or second
+:set EitherOr do={
+  :global IfThenElse;
+
+  :if ([ :typeof $1 ] = "num") do={
+    :return [ $IfThenElse ($1 != 0) $1 $2 ];
+  }
+  :return [ $IfThenElse ([ :len [ :tostr $1 ] ] > 0) $1 $2 ];
 }
 
 # escape for regular expression
