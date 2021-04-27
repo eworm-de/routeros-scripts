@@ -678,7 +678,7 @@
   :global LogPrintExit2;
   :global ParseKeyValueStore;
   :global ScriptInstallUpdate;
-  :global SendNotification;
+  :global SendNotification2;
   :global SymbolForNotification;
   :global ValidateSyntax;
 
@@ -845,8 +845,8 @@
         :set Link "https://git.eworm.de/cgit/routeros-scripts/about/#donate";
       }
 
-      $SendNotification ([ $SymbolForNotification "pushpin" ] . "News and configuration changes") \
-        $NotificationMessage $Link;
+      $SendNotification2 ({ subject=([ $SymbolForNotification "pushpin" ] . \
+        "News and configuration changes"); message=$NotificationMessage; link=$Link });
       :set SentConfigChangesNotification $ExpectedConfigVersion;
     }
 
