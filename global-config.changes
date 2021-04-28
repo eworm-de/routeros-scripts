@@ -51,6 +51,7 @@
   45="We have a Telegram Group! Come along and say hello: https://t.me/routeros_scripts";
   46="Added configurable random delay in backup scripts to stretch execution and prevent resource congestion.";
   47="Removed obsolete intermediate certificate 'Let's Encrypt Authority X3' from store.";
+  48="Added support for overriding e-mail and Telegram settings for every script.";
 };
 
 # Migration steps to be applied on script updates
