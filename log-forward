@@ -22,7 +22,7 @@
 :global LogPrintExit2;
 :global QuotedPrintable;
 :global ScriptLock;
-:global SendNotification;
+:global SendNotification2;
 :global SymbolForNotification;
 :global WaitFullyConnected;
 
@@ -71,11 +71,12 @@ $WaitFullyConnected;
 }
 
 :if ($Count > 0) do={
-  $SendNotification ([ $SymbolForNotification "warning-sign" ] . "Log Forwarding") \
-    ("The log on " . $Identity . " contains " . [ $IfThenElse ($Count = 1) \
-    "this message" ("these " . $Count . " messages") ] . " after " . \
-    [ / system resource get uptime ] . " uptime." . [ $IfThenElse ($Duplicates = true) \
-    (" Multi-repeated messages have been skipped.") ] . "\n" . $Messages);
+  $SendNotification2 ({ origin=$0; \
+    subject=([ $SymbolForNotification "warning-sign" ] . "Log Forwarding"); \
+    message=("The log on " . $Identity . " contains " . [ $IfThenElse ($Count = 1) \
+      "this message" ("these " . $Count . " messages") ] . " after " . \
+      [ / system resource get uptime ] . " uptime." . [ $IfThenElse ($Duplicates = true) \
+      (" Multi-repeated messages have been skipped.") ] . "\n" . $Messages) });
 
   :set LogForwardRateLimit ($LogForwardRateLimit + 10);
   :set LogForwardLast ($MessageVal->".id");

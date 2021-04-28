@@ -18,7 +18,7 @@
 :global GetMacVendor;
 :global LogPrintExit2;
 :global ScriptLock;
-:global SendNotification;
+:global SendNotification2;
 :global SymbolForNotification;
 
 $ScriptLock $0;
@@ -58,8 +58,9 @@ $ScriptLock $0;
       "first seen on " . $DateTime . " connected to SSID " . $Ssid . ", interface " . $Interface);
     $LogPrintExit2 info $0 $Message false;
     / %PATH% access-list add place-before=$PlaceBefore comment=$Message mac-address=$Mac disabled=yes;
-    $SendNotification ([ $SymbolForNotification "mobile-phone" ] . $Mac . " connected to " . $Ssid) \
-      ("A device with unknown MAC address connected to " . $Ssid . " on " . $Identity . ".\n\n" . \
+    $SendNotification2 ({ origin=$0; \
+      subject=([ $SymbolForNotification "mobile-phone" ] . $Mac . " connected to " . $Ssid); \
+      message=("A device with unknown MAC address connected to " . $Ssid . " on " . $Identity . ".\n\n" . \
         "Controller: " . $Identity . "\n" . \
         "Interface:  " . $Interface . "\n" . \
         "SSID:       " . $Ssid . "\n" . \
@@ -68,7 +69,7 @@ $ScriptLock $0;
         "Hostname:   " . $HostName . "\n" . \
         "Address:    " . $Address . "\n" . \
         "DNS name:   " . $DnsName . "\n" . \
-        "Date:       " . $DateTime);
+        "Date:       " . $DateTime) });
   } else={
     $LogPrintExit2 debug $0 ("MAC address " . $Mac . " already known: " . \
       [ / %PATH% access-list get $AccessList comment ]) false;

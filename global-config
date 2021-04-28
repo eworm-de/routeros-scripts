@@ -8,7 +8,7 @@
 
 # Make sure all configuration properties are up to date and this
 # value is in sync with value in script 'global-functions'!
-:global GlobalConfigVersion 47;
+:global GlobalConfigVersion 48;
 
 # This is used for DNS and backup file.
 :global Domain "example.com";
@@ -32,6 +32,13 @@
 #:global TelegramChatId "12345678";
 # This is whether or not to send Telegram messages with fixed-width font.
 :global TelegramFixedWidthFont true;
+
+# It is possible to override e-mail and Telegram setting for every script.
+# This is done in arrays EmailGeneralToOverride, EmailGeneralCcOverride,
+# TelegramTokenIdOverride and TelegramChatIdOverride like this:
+#:global EmailGeneralToOverride {
+#  "check-certificates"="override@example.com";
+#}
 
 # Toggle this to disable symbols in notifications.
 :global NotificationsWithSymbols true;

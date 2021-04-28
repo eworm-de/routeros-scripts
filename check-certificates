@@ -20,7 +20,7 @@
 :global IfThenElse;
 :global LogPrintExit2;
 :global ParseKeyValueStore;
-:global SendNotification;
+:global SendNotification2;
 :global SymbolForNotification;
 :global UrlEncode;
 :global WaitForFile;
@@ -95,15 +95,16 @@ $WaitFullyConnected;
       / certificate set $CertNew name=($CertVal->"name");
     }
 
-    $SendNotification ([ $SymbolForNotification "lock-with-ink-pen" ] . "Certificate renewed") \
-      ("A certificate on " . $Identity . " has been renewed.\n\n" . \
+    $SendNotification2 ({ origin=$0; \
+      subject=([ $SymbolForNotification "lock-with-ink-pen" ] . "Certificate renewed"); \
+      message=("A certificate on " . $Identity . " has been renewed.\n\n" . \
         "Name:        " . ($CertVal->"name") . "\n" . \
         "CommonName:  " . ($CertNewVal->"common-name") . "\n" . \
         "Private key: " . [ $IfThenElse (($CertNewVal->"private-key") = true) "available" "missing" ] . "\n" . \
         "Fingerprint: " . ($CertNewVal->"fingerprint") . "\n" . \
         "Issuer:      " . ([ $ParseKeyValueStore ($CertNewVal->"issuer") ]->"CN") . "\n" . \
         "Validity:    " . ($CertNewVal->"invalid-before") . " to " . ($CertNewVal->"invalid-after") . "\n" . \
-        "Expires in:  " . [ $FormatExpire ($CertNewVal->"expires-after") ]) "" "true";
+        "Expires in:  " . [ $FormatExpire ($CertNewVal->"expires-after") ]); silent=true });
     $LogPrintExit2 info $0 ("The certificate " . ($CertVal->"name") . " has been renewed.") false;
   } on-error={
     $LogPrintExit2 debug $0 ("Could not renew certificate " . ($CertVal->"name") . ".") false;
@@ -118,15 +119,16 @@ $WaitFullyConnected;
   } else={
     :local State [ $IfThenElse (($CertVal->"expired") = true) "expired" "is about to expire" ];
 
-    $SendNotification ([ $SymbolForNotification "warning-sign" ] . "Certificate warning!") \
-      ("A certificate on " . $Identity . " " . $State . ".\n\n" . \
+    $SendNotification2 ({ origin=$0; \
+      subject=([ $SymbolForNotification "warning-sign" ] . "Certificate warning!"); \
+      message=("A certificate on " . $Identity . " " . $State . ".\n\n" . \
         "Name:        " . ($CertVal->"name") . "\n" . \
         "CommonName:  " . ($CertVal->"common-name") . "\n" . \
         "Private key: " . [ $IfThenElse (($CertNewVal->"private-key") = true) "available" "missing" ] . "\n" . \
         "Fingerprint: " . ($CertVal->"fingerprint") . "\n" . \
         "Issuer:      " . ($CertVal->"ca") . ([ $ParseKeyValueStore ($CertVal->"issuer") ]->"CN") . "\n" . \
         "Validity:    " . ($CertVal->"invalid-before") . " to " . ($CertVal->"invalid-after") . "\n" . \
-        "Expires in:  " . [ $IfThenElse (($CertVal->"expired") = true) "expired" [ $FormatExpire ($CertVal->"expires-after") ] ]);
+        "Expires in:  " . [ $IfThenElse (($CertVal->"expired") = true) "expired" [ $FormatExpire ($CertVal->"expires-after") ] ]) });
     $LogPrintExit2 info $0 ("The certificate " . ($CertVal->"name") . " " . $State . \
         ", it is invalid after " . ($CertVal->"invalid-after") . ".") false;
   }

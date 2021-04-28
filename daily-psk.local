@@ -17,7 +17,7 @@
 :global Identity;
 
 :global LogPrintExit2;
-:global SendNotification;
+:global SendNotification2;
 :global SymbolForNotification;
 :global UrlEncode;
 :global WaitForFile;
@@ -81,12 +81,13 @@ $WaitFullyConnected;
         :set Seen ($Seen, $Ssid);
         :local Link ("https://www.eworm.de/cgi-bin/cqrlogo-wifi.cgi" . \
             "?scale=8&level=1&ssid=" . [ $UrlEncode $Ssid ] . "&pass=" . [ $UrlEncode $NewPsk ]);
-        $SendNotification ([ $SymbolForNotification "calendar" ] . "daily PSK " . $Ssid) \
-          ("This is the daily PSK on " . $Identity . ":\n\n" . \
+        $SendNotification2 ({ origin=$0; \
+          subject=([ $SymbolForNotification "calendar" ] . "daily PSK " . $Ssid); \
+          message=("This is the daily PSK on " . $Identity . ":\n\n" . \
             "SSID: " . $Ssid . "\n" . \
             "PSK:  " . $NewPsk . "\n" . \
             "Date: " . $Date . "\n\n" . \
-            "A client device specific rule must not exist!") $Link;
+            "A client device specific rule must not exist!"); link=$Link });
       }
     }
   }
