@@ -24,6 +24,7 @@
 :global DeviceInfo;
 :global IfThenElse;
 :global LogPrintExit2;
+:global MkDir;
 :global RandomDelay;
 :global ScriptFromTerminal;
 :global SendNotification2;
@@ -42,20 +43,25 @@ $WaitFullyConnected;
   $RandomDelay $BackupRandomDelay;
 }
 
+:if ([ $MkDir $0 ] = false) do={
+  $LogPrintExit2 error $0 ("Failed creating directory!") true;
+}
+
 # filename based on identity
 :local FileName [ $CharacterReplace ($Identity . "." . $Domain) "." "_" ];
+:local FilePath ($0 . "/" . $FileName);
 :local BackupFile "none";
 :local ConfigFile "none";
 :local Failed 0;
 
 # binary backup
 :if ($BackupSendBinary = true) do={
-  / system backup save encryption=aes-sha256 name=$FileName password=$BackupPassword;
-  $WaitForFile ($FileName . ".backup");
+  / system backup save encryption=aes-sha256 name=$FilePath password=$BackupPassword;
+  $WaitForFile ($FilePath . ".backup");
 
   :do {
     / tool fetch upload=yes url=($BackupUploadUrl . "/" . $FileName . ".backup") \
-        user=$BackupUploadUser password=$BackupUploadPass src-path=($FileName . ".backup");
+        user=$BackupUploadUser password=$BackupUploadPass src-path=($FilePath . ".backup");
     :set BackupFile ($FileName . ".backup");
   } on-error={
     $LogPrintExit2 error $0 ("Uploading backup file failed!") false;
@@ -66,12 +72,12 @@ $WaitFullyConnected;
 
 # create configuration export
 :if ($BackupSendExport = true) do={
-  / export terse file=$FileName;
-  $WaitForFile ($FileName . ".rsc");
+  / export terse file=$FilePath;
+  $WaitForFile ($FilePath . ".rsc");
 
   :do {
     / tool fetch upload=yes url=($BackupUploadUrl . "/" . $FileName . ".rsc") \
-        user=$BackupUploadUser password=$BackupUploadPass src-path=($FileName . ".rsc");
+        user=$BackupUploadUser password=$BackupUploadPass src-path=($FilePath . ".rsc");
     :set ConfigFile ($FileName . ".rsc");
   } on-error={
     $LogPrintExit2 error $0 ("Uploading configuration export failed!") false;
