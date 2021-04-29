@@ -24,6 +24,7 @@
 :global RandomDelay;
 :global ScriptFromTerminal;
 :global SendEMail2;
+:global SymbolForNotification;
 :global WaitForFile;
 :global WaitFullyConnected;
 
@@ -67,7 +68,7 @@ $WaitFullyConnected;
 
 # send email with status and files
 $SendEMail2 ({ origin=$0; \
-  subject=("Backup & Config"); \
+  subject=([ $SymbolForNotification "floppy-disk" ] . "Backup & Config"); \
   message=("See attached files for backup and config export for " . \
     $Identity . ".\n\n" . \
     [ $DeviceInfo ] . "\n\n" . \
