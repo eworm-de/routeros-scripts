@@ -24,9 +24,13 @@ $ScriptLock $0;
   :if ($Delay > 120) do={ :set Delay 120; }
   :foreach RemoteCap in=[ / caps-man remote-cap find where version!=$InstalledVersion ] do={
     :local RemoteCapVal [ / caps-man remote-cap get $RemoteCap ];
-    $LogPrintExit2 info $0 ("Starting upgrade for " . $RemoteCapVal->"name" . \
+    :if ([ :len $RemoteCapVal ] > 1) do={
+      $LogPrintExit2 info $0 ("Starting upgrade for " . $RemoteCapVal->"name" . \
         " (" . $RemoteCapVal->"identity" . ")...") false;
-    / caps-man remote-cap upgrade [ find where name=$RemoteCapVal->"name" ];
+      / caps-man remote-cap upgrade $RemoteCap;
+    } else={
+      $LogPrintExit2 warning $0 ("Remote CAP vanished, skipping upgrade.") false;
+    }
     :delay ($Delay . "s");
   }
 }
