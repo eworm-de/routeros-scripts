@@ -339,7 +339,7 @@
     $LogPrintExit2 warning $0 ("Flushing E-Mail messages from scheduler, but queue is empty.") false;
   }
 
-  / system scheduler set interval=1m [ find where name="FlushEmailQueue" interval=1s ];
+  / system scheduler set interval=($QueueLen . "m") [ find where name="FlushEmailQueue" ];
 
   :foreach Id,Message in=$EmailQueue do={
     :if ([ :typeof $Message ] = "array" ) do={
@@ -364,6 +364,8 @@
   :if ($AllDone = true && $QueueLen = [ :len $EmailQueue ]) do={
     / system scheduler remove [ find where name="FlushEmailQueue" ];
     :set EmailQueue;
+  } else={
+    / system scheduler set interval=1m [ find where name="FlushEmailQueue" ];
   }
 }
 
