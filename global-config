@@ -8,7 +8,7 @@
 
 # Make sure all configuration properties are up to date and this
 # value is in sync with value in script 'global-functions'!
-:global GlobalConfigVersion 48;
+:global GlobalConfigVersion 49;
 
 # This is used for DNS and backup file.
 :global Domain "example.com";
@@ -38,6 +38,7 @@
 # TelegramTokenIdOverride and TelegramChatIdOverride like this:
 #:global EmailGeneralToOverride {
 #  "check-certificates"="override@example.com";
+#  "email-backup"="backup@example.com";
 #}
 
 # Toggle this to disable symbols in notifications.
@@ -50,9 +51,6 @@
 :global BackupSendExport true;
 :global BackupPassword "v3ry-s3cr3t";
 :global BackupRandomDelay 0;
-# These addresses are used to send backup and config export files to.
-:global EmailBackupTo "";
-:global EmailBackupCc "";
 # These credentials are used to upload backup and config export files.
 # SFTP authentication is tricky, you may have to limit authentication
 # methods for your SSH server.

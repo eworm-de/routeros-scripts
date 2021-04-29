@@ -52,6 +52,7 @@
   46="Added configurable random delay in backup scripts to stretch execution and prevent resource congestion.";
   47="Removed obsolete intermediate certificate 'Let's Encrypt Authority X3' from store.";
   48="Added support for overriding e-mail and Telegram settings for every script.";
+  49="Dropped '\$EmailBackupTo' & '\$EmailBackupCc' from configuration, use settings override if required.";
 };
 
 # Migration steps to be applied on script updates

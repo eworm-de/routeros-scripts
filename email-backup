@@ -15,8 +15,6 @@
 :global BackupSendBinary;
 :global BackupSendExport;
 :global Domain;
-:global EmailBackupCc;
-:global EmailBackupTo;
 :global Identity;
 
 :global CharacterReplace;
@@ -25,16 +23,13 @@
 :global MkDir;
 :global RandomDelay;
 :global ScriptFromTerminal;
+:global SendEMail2;
 :global WaitForFile;
 :global WaitFullyConnected;
 
 :if ($BackupSendBinary != true && \
      $BackupSendExport != true) do={
   $LogPrintExit2 error $0 ("Configured to send neither backup nor config export.") true;
-}
-
-:if ([ :len $EmailBackupTo ] = 0) do={
-  $LogPrintExit2 error $0 ("Configuration is missing recipient for e-mail backup.") true;
 }
 
 $WaitFullyConnected;
@@ -71,11 +66,11 @@ $WaitFullyConnected;
 }
 
 # send email with status and files
-/ tool e-mail send to=$EmailBackupTo cc=$EmailBackupCc \
-    subject=("[" . $Identity . "] Backup & Config") \
-    body=("See attached files for backup and config export for " . \
-      $Identity . ".\n\n" . \
-      [ $DeviceInfo ] . "\n\n" . \
-      "Backup file:    " . $BackupFile . "\n" . \
-      "Config file:    " . $ConfigFile) \
-    file=$Attach;
+$SendEMail2 ({ origin=$0; \
+  subject=("Backup & Config"); \
+  message=("See attached files for backup and config export for " . \
+    $Identity . ".\n\n" . \
+    [ $DeviceInfo ] . "\n\n" . \
+    "Backup file:    " . $BackupFile . "\n" . \
+    "Config file:    " . $ConfigFile); \
+  attach=$Attach });
