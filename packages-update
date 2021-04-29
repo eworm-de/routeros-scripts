@@ -47,7 +47,7 @@ $ScriptLock $0;
 
 :foreach Package in=[ / system package find where !bundle ] do={
   :local PkgName [ / system package get $Package name ];
-  if ([ $DownloadPackage $PkgName ($Update->"latest-version") ] = false) do={
+  :if ([ $DownloadPackage $PkgName ($Update->"latest-version") ] = false) do={
     $LogPrintExit2 error $0 ("Download for package " . $PkgName . " failed.") true;
   }
 }
