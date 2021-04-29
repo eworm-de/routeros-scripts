@@ -332,6 +332,7 @@
 :set FlushEmailQueue do={
   :global EmailQueue;
 
+  :global EitherOr;
   :global LogPrintExit2;
 
   :local AllDone true;
@@ -345,8 +346,8 @@
 
   :foreach Id,Message in=$EmailQueue do={
     :if ([ :typeof $Message ] = "array" ) do={
-      / tool e-mail send to=($Message->"to") cc=($Message->"cc") \
-        subject=($Message->"subject") body=($Message->"body");
+      / tool e-mail send to=($Message->"to") cc=($Message->"cc") subject=($Message->"subject") \
+        body=($Message->"body") file=[ $EitherOr ($Message->"attach") "" ];
       :local Wait true;
       :do {
         :delay 1s;
@@ -924,7 +925,8 @@
     subject=[ $QuotedPrintable ("[" . $Identity . "] " . ($Notification->"subject")) ];
     body=(($Notification->"message") . \
       [ $IfThenElse ([ :len ($Notification->"link") ] > 0) ("\n\n" . ($Notification->"link")) "" ] . \
-      [ $IfThenElse ([ :len $Signature ] > 0) ("\n-- \n" . $Signature) "" ]) };
+      [ $IfThenElse ([ :len $Signature ] > 0) ("\n-- \n" . $Signature) "" ]); \
+    attach=($Notification->"attach") };
   :if ([ :len [ / system scheduler find where name="FlushEmailQueue" ] ] = 0) do={
     / system scheduler add name=FlushEmailQueue interval=1s start-time=startup \
       on-event=":global FlushEmailQueue; \$FlushEmailQueue;";
