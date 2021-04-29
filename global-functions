@@ -264,7 +264,7 @@
   :local PkgDest [ $CleanFilePath ($PkgDir . "/" . $PkgFile) ];
 
   :if ([ :len [ / file find where name=$PkgDest type="package" ] ] > 0) do={
-    $LogPrintExit2 info $0 ("Package file already exists.") false;
+    $LogPrintExit2 info $0 ("Package file " . $PkgName . " already exists.") false;
     :return true;
   }
 
@@ -272,6 +272,7 @@
     $LogPrintExit2 error $0 ("Downloading required certificate failed.") true;
   }
 
+  $LogPrintExit2 info $0 ("Downloading package file " . $PkgName . "...") false;
   :local Retry 3;
   :while ($Retry > 0) do={
     :do {
@@ -284,13 +285,14 @@
         :return true;
       }
     } on-error={
-      $LogPrintExit2 debug $0 ("Downloading package failed.") false;
+      $LogPrintExit2 debug $0 ("Downloading package file failed.") false;
     }
 
     / file remove [ find where name=$PkgDest ];
     :set Retry ($Retry - 1);
   }
 
+  $LogPrintExit2 warning $0 ("Downloading package file " . $PkgName . " failed.") false;
   :return false;
 }
 
