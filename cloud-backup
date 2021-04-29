@@ -42,7 +42,7 @@ $WaitFullyConnected;
   :local Cloud [ / system backup cloud get ([ find ]->0) ];
 
   $SendNotification2 ({ origin=$0; \
-    subject=([ $SymbolForNotification "floppy-disk" ] . "Cloud backup"); \
+    subject=([ $SymbolForNotification "floppy-disk,cloud" ] . "Cloud backup"); \
     message=("Uploaded backup for " . $Identity . " to cloud.\n\n" . \
       [ $DeviceInfo ] . "\n\n" . \
       "Name:           " . $Cloud->"name" . "\n" . \

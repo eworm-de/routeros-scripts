@@ -1064,6 +1064,7 @@
   :local Symbols {
     "alarm-clock"="\E2\8F\B0";
     "calendar"="\F0\9F\93\85";
+    "cloud"="\E2\98\81";
     "cross-mark"="\E2\9D\8C";
     "fire"="\F0\9F\94\A5";
     "floppy-disk"="\F0\9F\92\BE";
