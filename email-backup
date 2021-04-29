@@ -22,6 +22,7 @@
 :global CharacterReplace;
 :global DeviceInfo;
 :global LogPrintExit2;
+:global MkDir;
 :global RandomDelay;
 :global ScriptFromTerminal;
 :global WaitForFile;
@@ -42,26 +43,31 @@ $WaitFullyConnected;
   $RandomDelay $BackupRandomDelay;
 }
 
+:if ([ $MkDir $0 ] = false) do={
+  $LogPrintExit2 error $0 ("Failed creating directory!") true;
+}
+
 # filename based on identity
 :local FileName [ $CharacterReplace ($Identity . "." . $Domain) "." "_" ];
+:local FilePath ($0 . "/" . $FileName);
 :local BackupFile "none";
 :local ConfigFile "none";
 :local Attach [ :toarray "" ];
 
 # binary backup
 :if ($BackupSendBinary = true) do={
-  / system backup save encryption=aes-sha256 name=$FileName password=$BackupPassword;
-  $WaitForFile ($FileName . ".backup");
+  / system backup save encryption=aes-sha256 name=$FilePath password=$BackupPassword;
+  $WaitForFile ($FilePath . ".backup");
   :set BackupFile ($FileName . ".backup");
-  :set Attach ($Attach, $BackupFile);
+  :set Attach ($Attach, ($FilePath . ".backup"));
 }
 
 # create configuration export
 :if ($BackupSendExport = true) do={
-  / export terse file=$FileName;
-  $WaitForFile ($FileName . ".rsc");
+  / export terse file=$FilePath;
+  $WaitForFile ($FilePath . ".rsc");
   :set ConfigFile ($FileName . ".rsc");
-  :set Attach ($Attach, $ConfigFile);
+  :set Attach ($Attach, ($FilePath . ".rsc"));
 }
 
 # send email with status and files
