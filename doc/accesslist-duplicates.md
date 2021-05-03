@@ -3,6 +3,9 @@ Find and remove access list duplicates
 
 [◀ Go back to main README](../README.md)
 
+🛈 This script can not be used on its own but requires the base installation.
+See [main README](../README.md) for details.
+
 Description
 -----------
 
