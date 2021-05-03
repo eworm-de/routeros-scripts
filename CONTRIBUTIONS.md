@@ -23,6 +23,7 @@ Add yourself to the list,
 * Linux-Schmie.de Michael Gisbers
 * Manuel Kuhn
 * Marek Čábák
+* Peter Holtkamp
 * Reiner Vehrenkamp
 
 ---
