@@ -54,6 +54,18 @@ threshould by one.
 
 Also notification settings are required for e-mail and telegram.
 
+Tips & Tricks
+-------------
+
+### One of several hosts
+
+Sometimes it is sufficient if one of a number of hosts is available. You can
+make `netwatch-notify` check for that by adding several items with same
+`hostname`. Note that `count` has to be multiplied to keep the actual time.
+
+    / tool netwatch add comment="notify, hostname=service, count=10" host=10.0.0.10;
+    / tool netwatch add comment="notify, hostname=service, count=10" host=10.0.0.20;
+
 ---
 [◀ Go back to main README](../README.md)  
 [▲ Go back to top](#top)
