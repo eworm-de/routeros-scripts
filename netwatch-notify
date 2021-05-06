@@ -34,9 +34,11 @@
   }
 
   :if ($HostVal->"status" = "up") do={
-    $LogPrintExit2 debug $0 ("Host " . $HostName . " (" . $HostVal->"host" . ") is up.") false;
     :local Count ($Metric->"count");
-    :set ($Metric->"count") 0;
+    :if ($Count > 0) do={
+      $LogPrintExit2 info $0 ("Host " . $HostName . " (" . $HostVal->"host" . ") is up.") false;
+      :set ($Metric->"count") 0;
+    }
     :if ($Metric->"notified" = true) do={
       $SendNotification2 ({ origin=$0; \
         subject=([ $SymbolForNotification "white-heavy-check-mark" ] . "Netwatch Notify: " . $HostName . " up"); \
