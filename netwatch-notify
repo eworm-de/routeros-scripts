@@ -33,6 +33,21 @@
     :set $Metric ($NetwatchNotify->$HostName);
   }
 
+  :if ([ :typeof ($HostInfo->"resolve") ] = "str") do={
+    :do {
+      :local Resolve [ :resolve ($HostInfo->"resolve") ];
+      :if ($Resolve != $HostVal->"host") do={
+         $LogPrintExit2 info $0 ("Name '" . $HostInfo->"resolve" . [ $IfThenElse ($HostInfo->"resolve" != \
+           $HostInfo->"hostname") ("' for host '" . $HostInfo->"hostname") "" ] . \
+           "' resolves to different address " . $Resolve . ", updating.") false;
+        / tool netwatch set host=$Resolve $Host;
+      }
+    } on-error={
+      $LogPrintExit2 warning $0 ("Resolving name '" . $HostInfo->"resolve" . [ $IfThenElse ($HostInfo->"resolve" != \
+        $HostInfo->"hostname") ("' for host '" . $HostInfo->"hostname") "" ] . "' failed.") false;
+    }
+  }
+
   :if ($HostVal->"status" = "up") do={
     :local Count ($Metric->"count");
     :if ($Count > 0) do={
