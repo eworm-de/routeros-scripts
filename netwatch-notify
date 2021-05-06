@@ -12,6 +12,7 @@
 
 :global NetwatchNotify;
 
+:global DNSIsResolving;
 :global IfThenElse;
 :global LogPrintExit2;
 :global ParseKeyValueStore;
@@ -33,7 +34,7 @@
     :set $Metric ($NetwatchNotify->$HostName);
   }
 
-  :if ([ :typeof ($HostInfo->"resolve") ] = "str") do={
+  :if ([ :typeof ($HostInfo->"resolve") ] = "str" && [ $DNSIsResolving ] = true) do={
     :do {
       :local Resolve [ :resolve ($HostInfo->"resolve") ];
       :if ($Resolve != $HostVal->"host") do={
