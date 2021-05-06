@@ -42,10 +42,14 @@
            $HostInfo->"hostname") ("' for host '" . $HostInfo->"hostname") "" ] . \
            "' resolves to different address " . $Resolve . ", updating.") false;
         / tool netwatch set host=$Resolve $Host;
+        :set ($Metric->"resolve-failed") false;
       }
     } on-error={
-      $LogPrintExit2 warning $0 ("Resolving name '" . $HostInfo->"resolve" . [ $IfThenElse ($HostInfo->"resolve" != \
-        $HostInfo->"hostname") ("' for host '" . $HostInfo->"hostname") "" ] . "' failed.") false;
+      :if ($Metric->"resolve-failed" != true) do={
+        $LogPrintExit2 warning $0 ("Resolving name '" . $HostInfo->"resolve" . [ $IfThenElse ($HostInfo->"resolve" != \
+          $HostInfo->"hostname") ("' for host '" . $HostInfo->"hostname") "" ] . "' failed.") false;
+        :set ($Metric->"resolve-failed") true;
+      }
     }
   }
 
@@ -113,5 +117,6 @@
     "count"=($Metric->"count");
     "notified"=($Metric->"notified");
     "parent"=($Metric->"parent");
+    "resolve-failed"=($Metric->"resolve-failed");
     "since"=($Metric->"since") };
 }
