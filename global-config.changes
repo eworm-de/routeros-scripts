@@ -53,6 +53,7 @@
   47="Removed obsolete intermediate certificate 'Let's Encrypt Authority X3' from store.";
   48="Added support for overriding e-mail and Telegram settings for every script.";
   49="Dropped '\$EmailBackupTo' & '\$EmailBackupCc' from configuration, use settings override if required.";
+  50="Added support for dynamic address update in 'netwatch-notify'.";
 };
 
 # Migration steps to be applied on script updates

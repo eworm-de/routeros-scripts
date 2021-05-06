@@ -12,6 +12,7 @@
 
 :global NetwatchNotify;
 
+:global DNSIsResolving;
 :global IfThenElse;
 :global LogPrintExit2;
 :global ParseKeyValueStore;
@@ -33,10 +34,31 @@
     :set $Metric ($NetwatchNotify->$HostName);
   }
 
+  :if ([ :typeof ($HostInfo->"resolve") ] = "str" && [ $DNSIsResolving ] = true) do={
+    :do {
+      :local Resolve [ :resolve ($HostInfo->"resolve") ];
+      :if ($Resolve != $HostVal->"host") do={
+         $LogPrintExit2 info $0 ("Name '" . $HostInfo->"resolve" . [ $IfThenElse ($HostInfo->"resolve" != \
+           $HostInfo->"hostname") ("' for host '" . $HostInfo->"hostname") "" ] . \
+           "' resolves to different address " . $Resolve . ", updating.") false;
+        / tool netwatch set host=$Resolve $Host;
+        :set ($Metric->"resolve-failed") false;
+      }
+    } on-error={
+      :if ($Metric->"resolve-failed" != true) do={
+        $LogPrintExit2 warning $0 ("Resolving name '" . $HostInfo->"resolve" . [ $IfThenElse ($HostInfo->"resolve" != \
+          $HostInfo->"hostname") ("' for host '" . $HostInfo->"hostname") "" ] . "' failed.") false;
+        :set ($Metric->"resolve-failed") true;
+      }
+    }
+  }
+
   :if ($HostVal->"status" = "up") do={
-    $LogPrintExit2 debug $0 ("Host " . $HostName . " (" . $HostVal->"host" . ") is up.") false;
     :local Count ($Metric->"count");
-    :set ($Metric->"count") 0;
+    :if ($Count > 0) do={
+      $LogPrintExit2 info $0 ("Host " . $HostName . " (" . $HostVal->"host" . ") is up.") false;
+      :set ($Metric->"count") 0;
+    }
     :if ($Metric->"notified" = true) do={
       $SendNotification2 ({ origin=$0; \
         subject=([ $SymbolForNotification "white-heavy-check-mark" ] . "Netwatch Notify: " . $HostName . " up"); \
@@ -95,5 +117,6 @@
     "count"=($Metric->"count");
     "notified"=($Metric->"notified");
     "parent"=($Metric->"parent");
+    "resolve-failed"=($Metric->"resolve-failed");
     "since"=($Metric->"since") };
 }
