@@ -54,6 +54,7 @@
   48="Added support for overriding e-mail and Telegram settings for every script.";
   49="Dropped '\$EmailBackupTo' & '\$EmailBackupCc' from configuration, use settings override if required.";
   50="Added support for dynamic address update in 'netwatch-notify'.";
+  51="Added 'ipsec-to-dns' to add DNS records for IPSec peers from mode-config.";
 };
 
 # Migration steps to be applied on script updates

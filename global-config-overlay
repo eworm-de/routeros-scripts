@@ -8,7 +8,7 @@
 # Make sure all configuration properties are up to date and this
 # value is in sync with value in script 'global-functions'!
 # Comment or remove to disable news and change notifications.
-:global GlobalConfigVersion 50;
+:global GlobalConfigVersion 51;
 
 # Copy configuration from global-config here and modify it.
 

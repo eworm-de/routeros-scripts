@@ -44,6 +44,7 @@ See also
 
 * [Collect MAC addresses in wireless access list](collect-wireless-mac.md)
 * [Comment DHCP leases with info from access list](dhcp-lease-comment.md)
+* [Create DNS records for IPSec peers](ipsec-to-dns.md)
 * [Run other scripts on DHCP lease](lease-script.md)
 
 ---
