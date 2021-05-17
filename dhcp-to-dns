@@ -24,8 +24,8 @@
   ([ $IfThenElse ($PrefixInZone = true) "dhcp." ] . \
    [ $IfThenElse ($HostNameInZone = true) ($Identity . ".") ] . $Domain);
 :local Ttl 5m;
-:local CommentPrefix "managed by dhcp-to-dns for ";
-:local CommentString "--- dhcp-to-dns above ---";
+:local CommentPrefix ("managed by " . $0 . " for ");
+:local CommentString ("--- " . $0 . " above ---");
 
 :if ([ :len [ / ip dns static find where comment=$CommentString name=- type=NXDOMAIN disabled ] ] = 0) do={
   / ip dns static add comment=$CommentString name=- type=NXDOMAIN disabled=yes;
