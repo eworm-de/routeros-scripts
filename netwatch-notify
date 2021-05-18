@@ -60,18 +60,20 @@
       :set ($Metric->"count") 0;
     }
     :if ($Metric->"notified" = true) do={
-      $SendNotification2 ({ origin=$0; \
-        subject=([ $SymbolForNotification "white-heavy-check-mark" ] . "Netwatch Notify: " . $HostName . " up"); \
-        message=("Host " . $HostName . " (" . $HostVal->"host" . ") is up since " . $HostVal->"since" . ".\n" . \
-          "It was down for " . $Count . " checks since " . ($Metric->"since") . ".") });
+      :local Message ("Host " . $HostName . " (" . $HostVal->"host" . ") is up since " . $HostVal->"since" . ".\n" . \
+        "It was down for " . $Count . " checks since " . ($Metric->"since") . ".");
       :if ([ :typeof ($HostInfo->"up-hook") ] = "str") do={
         :if ([ $ValidateSyntax ($HostInfo->"up-hook") ] = true) do={
           $LogPrintExit2 info $0 ("Running hook on host " . $HostName . " up: " . ($HostInfo->"up-hook")) false;
+          :set Message ($Message . "\n\nRunning hook:\n" . $HostInfo->"up-hook");
           [ :parse ($HostInfo->"up-hook") ];
         } else={
           $LogPrintExit2 warning $0 ("The up-hook for host " . $HostName . " failed syntax validation.") false;
         }
       }
+      $SendNotification2 ({ origin=$0; \
+        subject=([ $SymbolForNotification "white-heavy-check-mark" ] . "Netwatch Notify: " . $HostName . " up"); \
+        message=$Message });
     }
     :set ($Metric->"notified") false;
     :set ($Metric->"parent") ($HostInfo->"parent");
@@ -99,18 +101,20 @@
       ($Metric->"notified" = true) ("already notified.") ($Count - $Metric->"count" . " to go.") ] \
       ("parent host " . $Parent . " is down.") ]) false;
     :if ($ParentNotified = false && $Metric->"count" >= $Count && $Metric->"notified" != true) do={
-      $SendNotification2 ({ origin=$0; \
-        subject=([ $SymbolForNotification "cross-mark" ] . "Netwatch Notify: " . $HostName . " down"); \
-        message=("Host " . $HostName . " (" . $HostVal->"host" . ") is down since " . $HostVal->"since" . ".") });
-      :set ($Metric->"notified") true;
+      :local Message ("Host " . $HostName . " (" . $HostVal->"host" . ") is down since " . $HostVal->"since" . ".");
       :if ([ :typeof ($HostInfo->"down-hook") ] = "str") do={
         :if ([ $ValidateSyntax ($HostInfo->"down-hook") ] = true) do={
           $LogPrintExit2 info $0 ("Running hook on host " . $HostName . " down: " . ($HostInfo->"down-hook")) false;
+          :set Message ($Message . "\n\nRunning hook:\n" . $HostInfo->"down-hook");
           [ :parse ($HostInfo->"down-hook") ];
         } else={
           $LogPrintExit2 warning $0 ("The down-hook for host " . $HostName . " failed syntax validation.") false;
         }
       }
+      $SendNotification2 ({ origin=$0; \
+        subject=([ $SymbolForNotification "cross-mark" ] . "Netwatch Notify: " . $HostName . " down"); \
+        message=$Message });
+      :set ($Metric->"notified") true;
     }
   }
   :set ($NetwatchNotify->$HostName) {
