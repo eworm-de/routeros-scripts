@@ -272,7 +272,7 @@
     $LogPrintExit2 error $0 ("Downloading required certificate failed.") true;
   }
 
-  $LogPrintExit2 info $0 ("Downloading package file " . $PkgName . "...") false;
+  $LogPrintExit2 info $0 ("Downloading package file '" . $PkgName . "'...") false;
   :local Retry 3;
   :while ($Retry > 0) do={
     :do {
@@ -292,7 +292,7 @@
     :set Retry ($Retry - 1);
   }
 
-  $LogPrintExit2 warning $0 ("Downloading package file " . $PkgName . " failed.") false;
+  $LogPrintExit2 warning $0 ("Downloading package file '" . $PkgName . "' failed.") false;
   :return false;
 }
 
