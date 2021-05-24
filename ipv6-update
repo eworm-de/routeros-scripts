@@ -51,7 +51,7 @@
     :local Comment [ $ParseKeyValueStore ($RecordVal->"comment") ];
 
     :local Prefix [ / ipv6 address get [ find where interface=($Comment->"interface") from-pool=$Pool global ] address ];
-    :set Prefix [ :toip6 [ :pick $Prefix 0 [ :find $Prefix "/64" ] ] ];
+    :set Prefix ([ :toip6 [ :pick $Prefix 0 [ :find $Prefix "/64" ] ] ] & ffff:ffff:ffff:ffff::);
     :local Address ($Prefix | ([ :toip6 ($RecordVal->"address") ] & ::ffff:ffff:ffff:ffff));
 
     :log info ("Updating DNS record for " . ($RecordVal->"name") . ($RecordVal->"regexp") . " to " . $Address);
