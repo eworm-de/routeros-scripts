@@ -767,7 +767,7 @@
                   " Syntax error or missing overlay\?") false;
               }
             }
-            :if ($ScriptVal->"name" = "global-functions") do={
+            :if ($ScriptVal->"name" ~ "^global-functions(\$|\\.d/.)") do={
               $LogPrintExit2 info $0 ("Reloading global functions.") false;
               :do {
                 / system script run global-functions;
@@ -1259,6 +1259,11 @@
     }
     :delay 1s;
   }
+}
+
+# load modules
+:foreach Script in=[ / system script find where name ~ "^global-functions\\.d/." ] do={
+  / system script run $Script;
 }
 
 # check for required RouterOS version
