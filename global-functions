@@ -36,6 +36,7 @@
 :global LogPrintExit;
 :global LogPrintExit2;
 :global MkDir;
+:global NotificationFunctions;
 :global ParseKeyValueStore;
 :global QuotedPrintable;
 :global RandomDelay;
@@ -575,6 +576,152 @@
   :return $Return;
 }
 
+# prepare NotificationFunctions array
+:if ([ :typeof $NotificationFunctions ] != "array") do={
+  :set NotificationFunctions [ :toarray "" ];
+}
+
+# send notification via e-mail - expects one array argument
+:set ($NotificationFunctions->"email") do={
+  :local Notification $1;
+
+  :global Identity;
+  :global EmailGeneralTo;
+  :global EmailGeneralToOverride;
+  :global EmailGeneralCc;
+  :global EmailGeneralCcOverride;
+  :global EmailQueue;
+
+  :global EitherOr;
+  :global IfThenElse;
+  :global LogPrintExit2;
+  :global QuotedPrintable;
+
+  :local To [ $EitherOr ($EmailGeneralToOverride->($Notification->"origin")) $EmailGeneralTo ];
+  :local Cc [ $EitherOr ($EmailGeneralCcOverride->($Notification->"origin")) $EmailGeneralCc ];
+
+  :if ([ :len $To ] = 0) do={
+    :return false;
+  }
+
+  :if ([ :typeof $EmailQueue ] = "nothing") do={
+      :set EmailQueue [ :toarray "" ];
+  }
+  :local Signature [ / system note get note ];
+  :set ($EmailQueue->[ :len $EmailQueue ]) {
+    to=$To; cc=$Cc;
+    subject=[ $QuotedPrintable ("[" . $Identity . "] " . ($Notification->"subject")) ];
+    body=(($Notification->"message") . \
+      [ $IfThenElse ([ :len ($Notification->"link") ] > 0) ("\n\n" . ($Notification->"link")) "" ] . \
+      [ $IfThenElse ([ :len $Signature ] > 0) ("\n-- \n" . $Signature) "" ]); \
+    attach=($Notification->"attach") };
+  :if ([ :len [ / system scheduler find where name="FlushEmailQueue" ] ] = 0) do={
+    / system scheduler add name=FlushEmailQueue interval=1s start-time=startup \
+      on-event=":global FlushEmailQueue; \$FlushEmailQueue;";
+  }
+}
+
+# send notification via telegram - expects one array argument
+:set ($NotificationFunctions->"telegram") do={
+  :local Notification $1;
+
+  :global Identity;
+  :global TelegramChatId;
+  :global TelegramChatIdOverride;
+  :global TelegramFixedWidthFont;
+  :global TelegramQueue;
+  :global TelegramTokenId;
+  :global TelegramTokenIdOverride;
+
+  :global CertificateAvailable;
+  :global CharacterReplace;
+  :global EitherOr;
+  :global IfThenElse;
+  :global LogPrintExit2;
+  :global SymbolForNotification;
+  :global UrlEncode;
+
+  :local EscapeMD do={
+    :global TelegramFixedWidthFont;
+
+    :global CharacterReplace;
+    :global IfThenElse;
+
+    :if ($TelegramFixedWidthFont != true) do={
+      :return ($1 . [ $IfThenElse ($2 = "body") "\n" "" ]);
+    }
+
+    :local Return $1;
+    :local Chars {
+      "body"={ "\\"; "`" };
+      "hint"={ "_"; "*"; "["; "]"; "("; ")"; "~"; "`"; ">";
+               "#"; "+"; "-"; "="; "|"; "{"; "}"; "."; "!" };
+    }
+    :foreach Char in=($Chars->$2) do={
+      :set Return [ $CharacterReplace $Return $Char ("\\" . $Char) ];
+    }
+
+    :if ($2 = "body") do={
+      :return ("```\n" . $Return . "\n```");
+    }
+
+    :return $Return;
+  }
+
+  :local ChatId [ $EitherOr ($TelegramChatIdOverride->($Notification->"origin")) $TelegramChatId ];
+  :local TokenId [ $EitherOr ($TelegramTokenIdOverride->($Notification->"origin")) $TelegramTokenId ];
+
+  :if ([ :len $TokenId ] = 0 || [ :len $ChatId ] = 0) do={
+    :return false;
+  }
+
+  :local Truncated false;
+  :local LenLink [ :len ($Notification->"link") ];
+  :local Text ("[" . $Identity . "] " . ($Notification->"subject") . "\n\n" . ($Notification->"message"));
+  :local LenText [ :len $Text ];
+  :if ($LenText > (3968 - $LenLink)) do={
+    :set Text [ $EscapeMD ([ :pick $Text 0 (3840 - $LenLink) ] . "...") "body" ];
+    :set Truncated true;
+  } else={
+    :set Text [ $EscapeMD $Text "body" ];
+  }
+  :if ($LenLink > 0) do={
+    :set Text ($Text . "\n" . [ $SymbolForNotification "link" ] . [ $EscapeMD ($Notification->"link") "hint" ]);
+  }
+  :if ($Truncated = true) do={
+    :set Text ($Text . "\n" . [ $SymbolForNotification "scissors" ] . \
+      [ $EscapeMD ("The Telegram message was too long and has been truncated, cut off " . \
+      (($LenText - [ :len $Text ]) * 100 / $LenText) . "%!") "hint" ]);
+  }
+  :set Text [ $UrlEncode $Text ];
+  :local ParseMode [ $IfThenElse ($TelegramFixedWidthFont = true) "MarkdownV2" "" ];
+
+  :do {
+    :if ([ $CertificateAvailable "Go Daddy Secure Certificate Authority - G2" ] = false) do={
+      $LogPrintExit2 warning $0 ("Downloading required certificate failed.") true;
+    }
+    / tool fetch check-certificate=yes-without-crl output=none http-method=post \
+      ("https://api.telegram.org/bot" . $TokenId . "/sendMessage") \
+      http-data=("chat_id=" . $ChatId . "&disable_notification=" . ($Notification->"silent") . \
+      "&disable_web_page_preview=true&parse_mode=" . $ParseMode . "&text=" . $Text) as-value;
+  } on-error={
+    $LogPrintExit2 info $0 ("Failed sending telegram notification! Queuing...") false;
+
+    :if ([ :typeof $TelegramQueue ] = "nothing") do={
+      :set TelegramQueue [ :toarray "" ];
+    }
+    :set Text ($Text . [ $UrlEncode ("\n" . [ $SymbolForNotification "alarm-clock" ] . \
+      [ $EscapeMD ("This message was queued since " . [ / system clock get date ] . \
+      " " . [ / system clock get time ] . " and may be obsolete.") "hint" ]) ]);
+    :set ($TelegramQueue->[ :len $TelegramQueue ]) { chatid=$ChatId; tokenid=$TokenId;
+      parsemode=$ParseMode; text=$Text; silent=($Notification->"silent") };
+    :if ([ :len [ / system scheduler find where name="FlushTelegramQueue" ] ] = 0) do={
+      / system scheduler add name=FlushTelegramQueue interval=1m start-time=startup \
+        on-event=":global FlushTelegramQueue; \$FlushTelegramQueue;";
+    }
+  }
+}
+
 # parse key value store
 :set ParseKeyValueStore do={
   :local Source $1;
@@ -902,58 +1049,29 @@
 :set SendEMail2 do={
   :local Notification $1;
 
-  :global Identity;
-  :global EmailGeneralTo;
-  :global EmailGeneralToOverride;
-  :global EmailGeneralCc;
-  :global EmailGeneralCcOverride;
-  :global EmailQueue;
+  :global NotificationFunctions;
 
-  :global EitherOr;
-  :global IfThenElse;
-  :global LogPrintExit2;
-  :global QuotedPrintable;
-
-  :local To [ $EitherOr ($EmailGeneralToOverride->($Notification->"origin")) $EmailGeneralTo ];
-  :local Cc [ $EitherOr ($EmailGeneralCcOverride->($Notification->"origin")) $EmailGeneralCc ];
-
-  :if ([ :len $To ] = 0) do={
-    :return false;
-  }
-
-  :if ([ :typeof $EmailQueue ] = "nothing") do={
-      :set EmailQueue [ :toarray "" ];
-  }
-  :local Signature [ / system note get note ];
-  :set ($EmailQueue->[ :len $EmailQueue ]) {
-    to=$To; cc=$Cc;
-    subject=[ $QuotedPrintable ("[" . $Identity . "] " . ($Notification->"subject")) ];
-    body=(($Notification->"message") . \
-      [ $IfThenElse ([ :len ($Notification->"link") ] > 0) ("\n\n" . ($Notification->"link")) "" ] . \
-      [ $IfThenElse ([ :len $Signature ] > 0) ("\n-- \n" . $Signature) "" ]); \
-    attach=($Notification->"attach") };
-  :if ([ :len [ / system scheduler find where name="FlushEmailQueue" ] ] = 0) do={
-    / system scheduler add name=FlushEmailQueue interval=1s start-time=startup \
-      on-event=":global FlushEmailQueue; \$FlushEmailQueue;";
-  }
+  ($NotificationFunctions->"e-mail") ("\$NotificationFunctions->\"e-mail\"") $Notification;
 }
 
-# send notification via e-mail and telegram - expects at lease two string arguments
+# send notification via NotificationFunctions - expects at lease two string arguments
 :set SendNotification do={
   :global SendNotification2;
 
   $SendNotification2 ({ subject=$1; message=$2; link=$3; silent=$4 });
 }
 
-# send notification via e-mail and telegram - expects one array argument
+# send notification via NotificationFunctions - expects one array argument
 :set SendNotification2 do={
   :local Notification $1;
 
-  :global SendEMail2;
-  :global SendTelegram2;
+  :global NotificationFunctions;
 
-  $SendEMail2 $Notification;
-  $SendTelegram2 $Notification;
+  :foreach FunctionName,Discard in=$NotificationFunctions do={
+    ($NotificationFunctions->$FunctionName) \
+      ("\$NotificationFunctions->\"" . $FunctionName . "\"") \
+      $Notification;
+  }
 }
 
 # send notification via telegram - expects at lease two string arguments
@@ -967,101 +1085,9 @@
 :set SendTelegram2 do={
   :local Notification $1;
 
-  :global Identity;
-  :global TelegramChatId;
-  :global TelegramChatIdOverride;
-  :global TelegramFixedWidthFont;
-  :global TelegramQueue;
-  :global TelegramTokenId;
-  :global TelegramTokenIdOverride;
+  :global NotificationFunctions;
 
-  :global CertificateAvailable;
-  :global CharacterReplace;
-  :global EitherOr;
-  :global IfThenElse;
-  :global LogPrintExit2;
-  :global SymbolForNotification;
-  :global UrlEncode;
-
-  :local EscapeMD do={
-    :global TelegramFixedWidthFont;
-
-    :global CharacterReplace;
-    :global IfThenElse;
-
-    :if ($TelegramFixedWidthFont != true) do={
-      :return ($1 . [ $IfThenElse ($2 = "body") "\n" "" ]);
-    }
-
-    :local Return $1;
-    :local Chars {
-      "body"={ "\\"; "`" };
-      "hint"={ "_"; "*"; "["; "]"; "("; ")"; "~"; "`"; ">";
-               "#"; "+"; "-"; "="; "|"; "{"; "}"; "."; "!" };
-    }
-    :foreach Char in=($Chars->$2) do={
-      :set Return [ $CharacterReplace $Return $Char ("\\" . $Char) ];
-    }
-
-    :if ($2 = "body") do={
-      :return ("```\n" . $Return . "\n```");
-    }
-
-    :return $Return;
-  }
-
-  :local ChatId [ $EitherOr ($TelegramChatIdOverride->($Notification->"origin")) $TelegramChatId ];
-  :local TokenId [ $EitherOr ($TelegramTokenIdOverride->($Notification->"origin")) $TelegramTokenId ];
-
-  :if ([ :len $TokenId ] = 0 || [ :len $ChatId ] = 0) do={
-    :return false;
-  }
-
-  :local Truncated false;
-  :local LenLink [ :len ($Notification->"link") ];
-  :local Text ("[" . $Identity . "] " . ($Notification->"subject") . "\n\n" . ($Notification->"message"));
-  :local LenText [ :len $Text ];
-  :if ($LenText > (3968 - $LenLink)) do={
-    :set Text [ $EscapeMD ([ :pick $Text 0 (3840 - $LenLink) ] . "...") "body" ];
-    :set Truncated true;
-  } else={
-    :set Text [ $EscapeMD $Text "body" ];
-  }
-  :if ($LenLink > 0) do={
-    :set Text ($Text . "\n" . [ $SymbolForNotification "link" ] . [ $EscapeMD ($Notification->"link") "hint" ]);
-  }
-  :if ($Truncated = true) do={
-    :set Text ($Text . "\n" . [ $SymbolForNotification "scissors" ] . \
-      [ $EscapeMD ("The Telegram message was too long and has been truncated, cut off " . \
-      (($LenText - [ :len $Text ]) * 100 / $LenText) . "%!") "hint" ]);
-  }
-  :set Text [ $UrlEncode $Text ];
-  :local ParseMode [ $IfThenElse ($TelegramFixedWidthFont = true) "MarkdownV2" "" ];
-
-  :do {
-    :if ([ $CertificateAvailable "Go Daddy Secure Certificate Authority - G2" ] = false) do={
-      $LogPrintExit2 warning $0 ("Downloading required certificate failed.") true;
-    }
-    / tool fetch check-certificate=yes-without-crl output=none http-method=post \
-      ("https://api.telegram.org/bot" . $TokenId . "/sendMessage") \
-      http-data=("chat_id=" . $ChatId . "&disable_notification=" . ($Notification->"silent") . \
-      "&disable_web_page_preview=true&parse_mode=" . $ParseMode . "&text=" . $Text) as-value;
-  } on-error={
-    $LogPrintExit2 info $0 ("Failed sending telegram notification! Queuing...") false;
-
-    :if ([ :typeof $TelegramQueue ] = "nothing") do={
-      :set TelegramQueue [ :toarray "" ];
-    }
-    :set Text ($Text . [ $UrlEncode ("\n" . [ $SymbolForNotification "alarm-clock" ] . \
-      [ $EscapeMD ("This message was queued since " . [ / system clock get date ] . \
-      " " . [ / system clock get time ] . " and may be obsolete.") "hint" ]) ]);
-    :set ($TelegramQueue->[ :len $TelegramQueue ]) { chatid=$ChatId; tokenid=$TokenId;
-      parsemode=$ParseMode; text=$Text; silent=($Notification->"silent") };
-    :if ([ :len [ / system scheduler find where name="FlushTelegramQueue" ] ] = 0) do={
-      / system scheduler add name=FlushTelegramQueue interval=1m start-time=startup \
-        on-event=":global FlushTelegramQueue; \$FlushTelegramQueue;";
-    }
-  }
+  ($NotificationFunctions->"telegram") ("\$NotificationFunctions->\"telegram\"") $Notification;
 }
 
 # return UTF-8 symbol for unicode name
