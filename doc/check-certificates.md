@@ -22,8 +22,8 @@ Just install the script:
 Configuration
 -------------
 
-The expiry notifications just require notification settings for e-mail and
-telegram.
+The expiry notifications just require notification settings for e-mail,
+matrix and/or telegram.
 
 For automatic download and renewal of certificates you need configuration
 in `global-config-overlay`, these are the parameters:

@@ -47,7 +47,7 @@ Then add an access list entry:
 
     / interface wireless access-list add comment="Daily PSK" interface=wl-daily private-pre-shared-key="ToBeChangedDaily";
 
-Also notification settings are required for e-mail and telegram.
+Also notification settings are required for e-mail, matrix and/or telegram.
 
 ---
 [◀ Go back to main README](../README.md)  

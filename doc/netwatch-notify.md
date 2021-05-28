@@ -61,7 +61,7 @@ But be warned: Dynamic updates will probably cause issues if the name has
 more than one record in dns - a high rate of configuration changes (and flash
 writes) at least.
 
-Also notification settings are required for e-mail and telegram.
+Also notification settings are required for e-mail, matrix and/or telegram.
 
 Tips & Tricks
 -------------

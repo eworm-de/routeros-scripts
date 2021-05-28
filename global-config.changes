@@ -56,6 +56,7 @@
   50="Added support for dynamic address update in 'netwatch-notify'.";
   51="Added 'ipsec-to-dns' to add DNS records for IPSec peers from mode-config.";
   52="Updated Let's Encrypt trust chain to use root certificate 'ISRG Root X1'. Do not re-import the old chain!";
+  53="Added support to send notifications via Matrix.";
 };
 
 # Migration steps to be applied on script updates

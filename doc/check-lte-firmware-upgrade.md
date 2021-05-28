@@ -31,7 +31,7 @@ Just install the script:
 Configuration
 -------------
 
-Notification setting are required for e-mail and telegram.
+Notification setting are required for e-mail, matrix and/or telegram.
 
 See also
 --------

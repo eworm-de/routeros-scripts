@@ -36,7 +36,7 @@ On first run a disabled access list entry acting as marker (with comment
 "`--- collected above ---`") is added. Move this entry to define where new
 entries are to be added.
 
-Also notification settings are required for e-mail and telegram.
+Also notification settings are required for e-mail, matrix and/or telegram.
 
 Usage and invocation
 --------------------

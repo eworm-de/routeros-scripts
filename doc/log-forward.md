@@ -39,7 +39,7 @@ The configuration goes to `global-config-overlay`, these are the parameters:
 * `LogForwardFilter`: define topics *not* to be forwarded
 * `LogForwardFilterMessage`: define message text *not* to be forwarded
 
-Also notification settings are required for e-mail and telegram.
+Also notification settings are required for e-mail, matrix and/or telegram.
 
 ---
 [◀ Go back to main README](../README.md)  

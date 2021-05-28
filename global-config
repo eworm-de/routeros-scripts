@@ -8,7 +8,7 @@
 
 # Make sure all configuration properties are up to date and this
 # value is in sync with value in script 'global-functions'!
-:global GlobalConfigVersion 52;
+:global GlobalConfigVersion 53;
 
 # This is used for DNS and backup file.
 :global Domain "example.com";
@@ -33,9 +33,19 @@
 # This is whether or not to send Telegram messages with fixed-width font.
 :global TelegramFixedWidthFont true;
 
-# It is possible to override e-mail and Telegram setting for every script.
-# This is done in arrays EmailGeneralToOverride, EmailGeneralCcOverride,
-# TelegramTokenIdOverride and TelegramChatIdOverride like this:
+# You can send Matrix notifications. Configure these settings and
+# install the module:
+# $ScriptInstallUpdate global-functions.d/notification-matrix
+:global MatrixHomeServer "";
+:global MatrixAccessToken "";
+:global MatrixRoom "";
+#:global MatrixHomeServer "matrix.org";
+#:global MatrixAccessToken "123456ABCDEFGHI...";
+#:global MatrixRoom "!example:matrix.org";
+
+# It is possible to override e-mail, Telegram and Matrix setting for every
+# script. This is done in arrays, where 'Override' is appended to the
+# variable name, like this:
 #:global EmailGeneralToOverride {
 #  "check-certificates"="override@example.com";
 #  "email-backup"="backup@example.com";

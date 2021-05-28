@@ -27,8 +27,8 @@ Just install the script:
 Configuration
 -------------
 
-Notification settings are required for e-mail and telegram. Also you have
-to enable receiving of SMS:
+Notification settings are required for e-mail, matrix and/or telegram. Also
+you have to enable receiving of SMS:
 
     / tool sms set receive-enabled=yes;
 
