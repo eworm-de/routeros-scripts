@@ -709,6 +709,7 @@
   }
 
   :local ExpectedConfigVersionBefore $ExpectedConfigVersion;
+  :local ReloadGlobalFunctions false;
   :local ScriptInstallUpdateBefore [ :tostr $ScriptInstallUpdate ];
 
   :foreach Script in=[ / system script find where source~"^#!rsc( by RouterOS)\?\n" ] do={
@@ -768,12 +769,7 @@
               }
             }
             :if ($ScriptVal->"name" ~ "^global-functions(\$|\\.d/.)") do={
-              $LogPrintExit2 info $0 ("Reloading global functions.") false;
-              :do {
-                / system script run global-functions;
-              } on-error={
-                $LogPrintExit2 error $0 ("Reloading global functions failed!") false;
-              }
+              :set ReloadGlobalFunctions true;
             }
           } else={
             $LogPrintExit2 warning $0 ("Syntax validation for script " . $ScriptVal->"name" . \
@@ -788,6 +784,15 @@
       }
     } else={
       $LogPrintExit2 debug $0 ("No update for script " . $ScriptVal->"name" . ".") false;
+    }
+  }
+
+  :if ($ReloadGlobalFunctions = true) do={
+    $LogPrintExit2 info $0 ("Reloading global functions.") false;
+    :do {
+      / system script run global-functions;
+    } on-error={
+      $LogPrintExit2 error $0 ("Reloading global functions failed!") false;
     }
   }
 
