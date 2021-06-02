@@ -710,6 +710,7 @@
 
   :local ExpectedConfigVersionBefore $ExpectedConfigVersion;
   :local ReloadGlobalFunctions false;
+  :local ReloadGlobalConfig false;
   :local ScriptInstallUpdateBefore [ :tostr $ScriptInstallUpdate ];
 
   :foreach Script in=[ / system script find where source~"^#!rsc( by RouterOS)\?\n" ] do={
@@ -760,13 +761,7 @@
             / system script set owner=($ScriptVal->"name") source=$SourceNew \
                 dont-require-permissions=$DontRequirePermissions $Script;
             :if ($ScriptVal->"name" = "global-config") do={
-              $LogPrintExit2 info $0 ("Reloading global configuration and overlay.") false;
-              :do {
-                / system script { run global-config; run global-config-overlay; }
-              } on-error={
-                $LogPrintExit2 error $0 ("Reloading global configuration and overlay failed!" . \
-                  " Syntax error or missing overlay\?") false;
-              }
+              :set ReloadGlobalConfig true;
             }
             :if ($ScriptVal->"name" ~ "^global-functions(\$|\\.d/.)") do={
               :set ReloadGlobalFunctions true;
@@ -793,6 +788,16 @@
       / system script run global-functions;
     } on-error={
       $LogPrintExit2 error $0 ("Reloading global functions failed!") false;
+    }
+  }
+
+  :if ($ReloadGlobalConfig = true) do={
+    $LogPrintExit2 info $0 ("Reloading global configuration and overlay.") false;
+    :do {
+      / system script { run global-config; run global-config-overlay; }
+    } on-error={
+      $LogPrintExit2 error $0 ("Reloading global configuration and overlay failed!" . \
+        " Syntax error or missing overlay\?") false;
     }
   }
 
