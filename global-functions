@@ -711,7 +711,6 @@
   :local ExpectedConfigVersionBefore $ExpectedConfigVersion;
   :local ReloadGlobalFunctions false;
   :local ReloadGlobalConfig false;
-  :local ScriptInstallUpdateBefore [ :tostr $ScriptInstallUpdate ];
 
   :foreach Script in=[ / system script find where source~"^#!rsc( by RouterOS)\?\n" ] do={
     :local ScriptVal [ / system script get $Script ];
@@ -878,10 +877,6 @@
 
     :set GlobalConfigChanges;
     :set GlobalConfigMigration;
-  }
-
-  :if ($ScriptInstallUpdateBefore != [ :tostr $ScriptInstallUpdate ]) do={
-    $LogPrintExit2 info $0 ("This function changed, you may want to re-run.") false;
   }
 }
 
