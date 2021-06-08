@@ -12,12 +12,12 @@ procedure please follow [the long way in detail](README.md#the-long-way-in-detai
       / certificate import file-name=letsencrypt-R3.pem passphrase="";
       :if ([ :len [ / certificate find where fingerprint="67add1166b020ae61b8f5fc96813c04c2aa589960796865572a3c7e737613dfd" or fingerprint="96bcec06264976f37460779acf28c5a7cfe8a3c0aae11a8ffcee05c0bddf08c6" ] ] != 2) do={
         :error "Something is wrong with your certificates!";
-      }
+      };
       / file remove "letsencrypt-R3.pem";
       :foreach Script in={ "global-config"; "global-config-overlay"; "global-functions" } do={
         / system script add name=$Script source=([ / tool fetch check-certificate=yes-without-crl ("https://git.eworm.de/cgit/routeros-scripts/plain/" . $Script) output=user as-value]->"data");
-      }
-      / system script { run global-config; run global-config-overlay; run global-functions; }
+      };
+      / system script { run global-config; run global-config-overlay; run global-functions; };
       / system scheduler add name="global-scripts" start-time=startup on-event="/ system script { run global-config; run global-config-overlay; run global-functions; }";
       :global CertificateNameByCN;
       $CertificateNameByCN "R3";
