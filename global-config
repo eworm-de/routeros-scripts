@@ -69,10 +69,11 @@
 :global BackupUploadUser "mikrotik";
 :global BackupUploadPass "v3ry-s3cr3t";
 
-# This defines a filter on log topics not to be forwarded.
+# This defines what log messages to filter by topic or message
+# text. Regular expressions are supported. Do *NOT* set an empty string,
+# that will filter everything!
+# These are filters, so excluding messages from forwarding.
 :global LogForwardFilter "(debug|info)";
-# ... and the same for log message text. Regular expressions are supported.
-# Do *NOT* set an empty string - that will filter everything!
 :global LogForwardFilterMessage [];
 #:global LogForwardFilterMessage "message text";
 #:global LogForwardFilterMessage "(message text|another text|...)";
