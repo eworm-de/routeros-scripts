@@ -8,7 +8,7 @@
 
 # Make sure all configuration properties are up to date and this
 # value is in sync with value in script 'global-functions'!
-:global GlobalConfigVersion 54;
+:global GlobalConfigVersion 55;
 
 # This is used for DNS and backup file.
 :global Domain "example.com";
@@ -69,14 +69,20 @@
 :global BackupUploadUser "mikrotik";
 :global BackupUploadPass "v3ry-s3cr3t";
 
-# This defines what log messages to filter by topic or message
+# This defines what log messages to filter or include by topic or message
 # text. Regular expressions are supported. Do *NOT* set an empty string,
-# that will filter everything!
+# that will filter or include everything!
 # These are filters, so excluding messages from forwarding.
 :global LogForwardFilter "(debug|info)";
 :global LogForwardFilterMessage [];
 #:global LogForwardFilterMessage "message text";
 #:global LogForwardFilterMessage "(message text|another text|...)";
+# ... and another setting with reverse logic. This includes messages even
+# if filtered above.
+:global LogForwardInclude [];
+:global LogForwardIncludeMessage [];
+#:global LogForwardInclude "account";
+#:global LogForwardIncludeMessage "message text";
 
 # Specify an address to enable auto update to version assumed safe.
 # The configured channel (bugfix, current, release-candidate) is appended.

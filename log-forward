@@ -13,6 +13,8 @@
 :global Identity;
 :global LogForwardFilter;
 :global LogForwardFilterMessage;
+:global LogForwardInclude;
+:global LogForwardIncludeMessage;
 :global LogForwardLast;
 :global LogForwardRateLimit;
 :global NotificationsWithSymbols;
@@ -48,8 +50,9 @@ $WaitFullyConnected;
 :local LogForwardFilterLogForwarding ("^" . [ $EscapeForRegEx ("Error sending e-mail <" . \
     [ $QuotedPrintable ("[" . $Identity . "] " . [ $SymbolForNotification "warning-sign" ] . \
     "Log Forwarding") ] . ">:") ]);
-:foreach Message in=[ / log find where !(topics~$LogForwardFilter) !(message="") \
-    !(message~$LogForwardFilterLogForwarding) !(message~$LogForwardFilterMessage) ] do={
+:foreach Message in=[ / log find where (!(message="") and !(message~$LogForwardFilterLogForwarding) and \
+    !(topics~$LogForwardFilter) and !(message~$LogForwardFilterMessage)) or \
+    topics~$LogForwardInclude or message~$LogForwardIncludeMessage ] do={
   :set MessageVal [ / log get $Message ];
 
   :if ($LogForwardLast = ($MessageVal->".id")) do={

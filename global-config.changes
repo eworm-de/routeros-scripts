@@ -58,6 +58,7 @@
   52="Updated Let's Encrypt trust chain to use root certificate 'ISRG Root X1'. Do not re-import the old chain!";
   53="Added support to send notifications via Matrix.";
   54="Support for Telegram notifications moved to a module. It is installed automatically if required.";
+  55="Added reverse logic in 'log-forward', so messages can be included even if filtered before.";
 };
 
 # Migration steps to be applied on script updates
