@@ -15,7 +15,7 @@ This has some limitation, however:
 * does not work early after boot if network connectivity is not
   yet established
 * lots of messages generate a flood of mails
-* Telegram is not supported
+* Matrix and Telegram are not supported
 
 The script is intended to be run periodically. It collects log messages
 and forwards them via notification.
