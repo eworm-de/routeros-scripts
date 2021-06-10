@@ -911,7 +911,7 @@
 
   :global NotificationFunctions;
 
-  ($NotificationFunctions->"e-mail") ("\$NotificationFunctions->\"e-mail\"") $Notification;
+  ($NotificationFunctions->"email") ("\$NotificationFunctions->\"email\"") $Notification;
 }
 
 # send notification via NotificationFunctions - expects at lease two string arguments
