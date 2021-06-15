@@ -30,6 +30,7 @@
 :global GetMacVendor;
 :global GetRandom20CharHex;
 :global GetRandomNumber;
+:global HexToNum;
 :global IfThenElse;
 :global IPCalc;
 :global LogPrintExit;
@@ -423,6 +424,21 @@
   }
 
   :return ([ :tonum [ :pick $Num 0 18 ] ] % $Max);
+}
+
+# convert from hex (string) to num
+:set HexToNum do={
+  :local Input [ :tostr $1 ];
+  :local Hex "0123456789abcdef";
+  :local Multi 1;
+  :local Return 0;
+
+  :for I from=([ :len $Input ] - 1) to=0 do={
+    :set Return ($Return + ([ :find $Hex [ :pick $Input $I ] ] * $Multi));
+    :set Multi ($Multi * 16);
+  }
+
+  :return $Return;
 }
 
 # mimic conditional/ternary operator (condition ? consequent : alternative)
