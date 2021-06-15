@@ -20,6 +20,7 @@
 :global NotificationsWithSymbols;
 
 :global EscapeForRegEx;
+:global HexToNum;
 :global IfThenElse;
 :global LogPrintExit2;
 :global QuotedPrintable;
@@ -43,6 +44,7 @@ $WaitFullyConnected;
 
 :local Count 0;
 :local Duplicates false;
+:local Last [ $HexToNum $LogForwardLast ];
 :local Messages "";
 :local MessageVal;
 :local MessageDups [ :toarray "" ];
@@ -55,12 +57,7 @@ $WaitFullyConnected;
     topics~$LogForwardInclude or message~$LogForwardIncludeMessage ] do={
   :set MessageVal [ / log get $Message ];
 
-  :if ($LogForwardLast = ($MessageVal->".id")) do={
-    :set Count 0;
-    :set Duplicates false;
-    :set Messages "";
-    :set MessageDups [ :toarray "" ];
-  } else={
+  :if ($Last < [ $HexToNum ($MessageVal->".id") ]) do={
     :local DupCount ($MessageDups->($MessageVal->"message"));
     :if ($DupCount < 3) do={
       :set Messages ($Messages . "\n" . [ $IfThenElse ($NotificationsWithSymbols = true) (" \E2\97\8F ") ] . \
