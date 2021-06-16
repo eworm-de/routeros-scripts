@@ -75,4 +75,4 @@ $SendEMail2 ({ origin=$0; \
     [ $DeviceInfo ] . "\n\n" . \
     "Backup file:    " . $BackupFile . "\n" . \
     "Config file:    " . $ConfigFile); \
-  attach=$Attach });
+  attach=$Attach; remove-attach=true });
