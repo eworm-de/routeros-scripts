@@ -345,8 +345,9 @@
 
   :foreach Id,Message in=$EmailQueue do={
     :if ([ :typeof $Message ] = "array" ) do={
+      :local Attach [ $EitherOr ($Message->"attach") "" ];
       / tool e-mail send to=($Message->"to") cc=($Message->"cc") subject=($Message->"subject") \
-        body=($Message->"body") file=[ $EitherOr ($Message->"attach") "" ];
+        body=($Message->"body") file=$Attach;
       :local Wait true;
       :do {
         :delay 1s;
@@ -354,6 +355,11 @@
         :if ($Status = "succeeded") do={
           :set ($EmailQueue->$Id);
           :set Wait false;
+          :if (($Message->"remove-attach") = true) do={
+            :foreach File in=[ :toarray $Attach ] do={
+              / file remove $File;
+            }
+          }
         }
         :if ($Status = "failed") do={
           :set AllDone false;
@@ -591,7 +597,7 @@
     body=(($Notification->"message") . \
       [ $IfThenElse ([ :len ($Notification->"link") ] > 0) ("\n\n" . ($Notification->"link")) "" ] . \
       [ $IfThenElse ([ :len $Signature ] > 0) ("\n-- \n" . $Signature) "" ]); \
-    attach=($Notification->"attach") };
+    attach=($Notification->"attach"); remove-attach=($Notification->"remove-attach") };
   :if ([ :len [ / system scheduler find where name="FlushEmailQueue" ] ] = 0) do={
     / system scheduler add name=FlushEmailQueue interval=1s start-time=startup \
       on-event=":global FlushEmailQueue; \$FlushEmailQueue;";
