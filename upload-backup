@@ -68,6 +68,8 @@ $WaitFullyConnected;
     :set BackupFile "failed";
     :set Failed 1;
   }
+
+  / file remove ($FilePath . ".backup");
 }
 
 # create configuration export
@@ -84,6 +86,8 @@ $WaitFullyConnected;
     :set ConfigFile "failed";
     :set Failed 1;
   }
+
+  / file remove ($FilePath . ".rsc");
 }
 
 $SendNotification2 ({ origin=$0; \
