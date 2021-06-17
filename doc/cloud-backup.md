@@ -11,6 +11,10 @@ Description
 
 This script uploads [binary backup to Mikrotik cloud](https://wiki.mikrotik.com/wiki/Manual:IP/Cloud#Backup).
 
+### Sample notification
+
+![cloud-backup notification](notifications/cloud-backup.svg)
+
 Requirements and installation
 -----------------------------
 

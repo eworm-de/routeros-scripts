@@ -20,6 +20,10 @@ This has some limitation, however:
 The script is intended to be run periodically. It collects log messages
 and forwards them via notification.
 
+### Sample notification
+
+![log-forward notification](notifications/log-forward.svg)
+
 Requirements and installation
 -----------------------------
 

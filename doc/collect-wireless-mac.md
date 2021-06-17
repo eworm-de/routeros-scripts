@@ -15,6 +15,10 @@ address list. In addition a notification is sent.
 By default the access list entry is disabled, but you can easily enable
 and modify it to your needs.
 
+### Sample notification
+
+![collect-wireless-mac notification](notifications/collect-wireless-mac.svg)
+
 Requirements and installation
 -----------------------------
 

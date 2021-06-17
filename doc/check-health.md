@@ -23,6 +23,22 @@ hardware supports:
 
     / system health print;
 
+### Sample notifications
+
+#### Voltage
+
+![check-health notification voltage](notifications/check-health-voltage.svg)
+
+#### Temperature
+
+![check-health notification](notifications/check-health-temperature-high.svg)  
+![check-health notification](notifications/check-health-temperature-ok.svg)
+
+#### PSU state
+
+![check-health notification](notifications/check-health-psu-fail.svg)  
+![check-health notification](notifications/check-health-psu-ok.svg)
+
 Requirements and installation
 -----------------------------
 

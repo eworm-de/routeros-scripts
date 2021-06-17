@@ -13,6 +13,10 @@ RouterOS can receive SMS. This script forwards SMS as notification.
 
 A broadband interface with SMS support is required.
 
+### Sample notification
+
+![sms-forward notification](notifications/sms-forward.svg)
+
 Requirements and installation
 -----------------------------
 

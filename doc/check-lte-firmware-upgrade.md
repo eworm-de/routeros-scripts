@@ -17,6 +17,10 @@ upgrades. Currently supported LTE hardware:
 * R11e-4G
 * R11e-LTE6
 
+### Sample notification
+
+![check-lte-firmware-upgrade notification](notifications/check-lte-firmware-upgrade.svg)
+
 Requirements and installation
 -----------------------------
 

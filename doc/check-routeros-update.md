@@ -19,6 +19,10 @@ specifying versions safe to be updated on a web server.
 Also installing patch updates (where just last digit is increased)
 automatically is supported.
 
+### Sample notification
+
+![check-routeros-update notification](notifications/check-routeros-update.svg)
+
 Requirements and installation
 -----------------------------
 

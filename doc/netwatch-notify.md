@@ -15,6 +15,11 @@ this script implements a simple state machine and dependency model. Host
 down events are triggered only if the host is down for several checks and
 optional parent host is not down to avoid false alerts.
 
+### Sample notifications
+
+![netwatch-notify notification down](notifications/netwatch-notify-down.svg)  
+![netwatch-notify notification up](notifications/netwatch-notify-up.svg)
+
 Requirements and installation
 -----------------------------
 

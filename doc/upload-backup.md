@@ -12,6 +12,10 @@ Description
 This script uploads binary backup (`/ system backup save`) and complete
 configuration export (`/ export terse`) to external server.
 
+### Sample notification
+
+![upload-backup notification](notifications/upload-backup.svg)
+
 Requirements and installation
 -----------------------------
 

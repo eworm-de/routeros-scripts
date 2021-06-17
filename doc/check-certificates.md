@@ -12,6 +12,10 @@ Description
 This script tries to download and renew certificates, then notifies about
 certificates that are still about to expire.
 
+### Sample notification
+
+![check-certificates notification](notifications/check-certificates.svg)
+
 Requirements and installation
 -----------------------------
 

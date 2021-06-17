@@ -12,6 +12,10 @@ Description
 This script is supposed to provide a wifi network which changes the
 passphrase to a pseudo-random string daily.
 
+### Sample notification
+
+![daily-psk notification](notifications/daily-psk.svg)
+
 Requirements and installation
 -----------------------------
 
