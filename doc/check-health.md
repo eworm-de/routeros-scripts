@@ -34,7 +34,7 @@ Just install the script and create a scheduler:
 Configuration
 -------------
 
-The configuration goes to `global-config-overlay`, These are the parameters:
+The configuration goes to `global-config-overlay`, these are the parameters:
 
 * `CheckHealthTemperature`: an array specifying temperature thresholds for sensors
 * `CheckHealthVoltagePercent`: percentage value to trigger voltage jumps
