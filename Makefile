@@ -6,13 +6,13 @@ TEMPLATE = $(wildcard *.template)
 CAPSMAN = $(TEMPLATE:.template=.capsman)
 LOCAL = $(TEMPLATE:.template=.local)
 
-MARKDOWN = $(wildcard *.md)
+MARKDOWN = $(wildcard *.md) $(wildcard doc/*.md)
 HTML = $(MARKDOWN:.md=.html)
 
 all: $(CAPSMAN) $(LOCAL) $(HTML)
 
 %.html: %.md Makefile
-	markdown $< | sed 's/href="\([-[:alnum:]]*\)\.md"/href="\1.html"/g' > $@
+	markdown $< | sed 's/href="\([-_\./[:alnum:]]*\)\.md"/href="\1.html"/g' > $@
 
 %.local: %.template Makefile
 	sed -e '/\/ caps-man/d' -e 's|%PATH%|interface wireless|' -e 's|%TEMPL%|$(suffix $@)|' \
