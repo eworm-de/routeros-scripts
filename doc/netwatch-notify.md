@@ -80,6 +80,20 @@ make `netwatch-notify` check for that by adding several items with same
     / tool netwatch add comment="notify, hostname=service, count=10" host=10.0.0.10;
     / tool netwatch add comment="notify, hostname=service, count=10" host=10.0.0.20;
 
+### Checking internet connectivity
+
+Sometimes you can not check your gateway for internet connectivity, for
+example when it does not respond to pings or has a dynamic address. You could
+check `1.1.1.1` (Cloudflare DNS), `9.9.9.9` (Quad-nine DNS), `8.8.8.8`
+(Google DNS) or any other reliable address that indicates internet
+connectivity.
+
+    / tool netwatch add comment="notify, hostname=internet" host=1.1.1.1;
+
+A target like this suits well to be parent for other checks.
+
+    / tool netwatch add comment="notify, hostname=example.com, parent=internet" host=93.184.216.34;
+
 ---
 [◀ Go back to main README](../README.md)  
 [▲ Go back to top](#top)
