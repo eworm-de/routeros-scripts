@@ -536,6 +536,7 @@
   :local Dir [ :tostr $1 ];
 
   :global CleanFilePath;
+  :global GetRandom20CharHex;
   :global WaitForFile;
 
   :set Dir [ $CleanFilePath $Dir ];
@@ -545,17 +546,14 @@
   }
 
   :local Return true;
-  :local WwwVal [ / ip service get www ];
-  / ip service set www address=127.0.0.1/32 disabled=no port=80;
+  :local Name ($Dir . "-" . [ $GetRandom20CharHex ])
   :do {
-    / tool fetch http://127.0.0.1/ dst-path=($Dir . "/tmp") as-value;
-    $WaitForFile ($Dir . "/tmp");
-    / file remove ($Dir . "/tmp");
+    / ip smb share add disabled=yes directory=$Dir name=$Name;
+    $WaitForFile $Dir;
   } on-error={
     :set Return false;
   }
-  / ip service set www address=($WwwVal->"address") \
-      disabled=($WwwVal->"disabled") port=($WwwVal->"port");
+  / ip smb share remove [ find where name=$Name ];
   :return $Return;
 }
 
