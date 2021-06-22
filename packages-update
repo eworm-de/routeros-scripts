@@ -52,7 +52,7 @@ $ScriptLock $0;
   }
 }
 
-:foreach Script in=[ / system script find where name~"^(cloud|email|upload)-backup\$" ] do={
+:foreach Script in=[ / system script find where source~"\n# provides: backup-script\n" ] do={
   :local ScriptName [ / system script get $Script name ];
   :do {
     $LogPrintExit2 info $0 ("Running backup script " . $ScriptName . " before update.") false;
