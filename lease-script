@@ -11,6 +11,7 @@
 :while ($GlobalFunctionsReady != true) do={ :delay 500ms; }
 
 :global LogPrintExit2;
+:global IfThenElse;
 
 :if ([ :typeof $leaseActIP ] = "nothing" || \
      [ :typeof $leaseActMAC ] = "nothing" || \
@@ -19,35 +20,16 @@
   $LogPrintExit2 error $0 ("This script is supposed to run from ip dhcp-server.") true;
 }
 
-:local Scripts;
-:local ScriptsAssign {
-  "dhcp-to-dns";
-  "collect-wireless-mac.local";
-  "dhcp-lease-comment.local";
-  "collect-wireless-mac.capsman";
-  "dhcp-lease-comment.capsman"
-}
-:local ScriptsDeAssign {
-  "dhcp-to-dns"
-}
-
-:local State "";
-:if ($leaseBound = 0) do={
-  :set State "de";
-  :set Scripts $ScriptsDeAssign;
-} else={
-  :set Scripts $ScriptsAssign;
-}
+:local State ([ $IfThenElse ($leaseBound = 0) "de" "" ] . "assign");
 
 :log debug ("DHCP Server " . $leaseServerName . " " . \
-    $State . "assigned lease " . $leaseActIP . " to " . $leaseActMAC);
+  $State . "ed lease " . $leaseActIP . " to " . $leaseActMAC);
 
 # delay a moment to update the lease table, do not run in parallel for de/assign
 :delay ((1 + $leaseBound) . "s");
 
-:foreach Script in=$Scripts do={
-  :if ([ :len [ / system script find where name=$Script ] ] > 0) do={
-    :log debug ("Running script from lease-script: " . $Script);
-    / system script run $Script;
-  }
+:foreach Script in=[ / system script find where source~("\n# provides: lease-script " . $State . "\n") ] do={
+  :local ScriptName [ / system script get $Script name ];
+  :log debug ("Running script from lease-script: " . $ScriptName);
+  / system script run $Script;
 }

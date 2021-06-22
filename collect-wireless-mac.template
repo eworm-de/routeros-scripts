@@ -6,6 +6,8 @@
 # collect wireless mac adresses in access list
 # https://git.eworm.de/cgit/routeros-scripts/about/doc/collect-wireless-mac.md
 #
+# provides: lease-script assign
+#
 # !! This is just a template! Replace '%PATH%' with 'caps-man'
 # !! or 'interface wireless'!
 
