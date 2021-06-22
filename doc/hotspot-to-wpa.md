@@ -27,6 +27,21 @@ Configure your hotspot to use this script as `on-login` script:
 
     / ip hotspot user profile set on-login=hotspot-to-wpa [ find ];
 
+### Automatic cleanup
+
+With just `hotspot-to-wpa` installed the mac addresses will last in the
+access list forever. Install the optional script for automatic cleanup:
+
+    $ScriptInstallUpdate hotspot-to-wpa-cleanup,lease-script;
+
+Create a scheduler:
+
+    / system scheduler add interval=1d name=hotspot-to-wpa-cleanup on-event="/ system script run hotspot-to-wpa-cleanup;" start-time=startup;
+
+And add the lease script to your wpa interfaces' dhcp server:
+
+    / ip dhcp-server set lease-script=lease-script [ find where name~"wpa" ];
+
 Configuration
 -------------
 
@@ -45,6 +60,11 @@ Create hotspot login credentials:
 Now let the users connect and login to the hotspot. After that the devices
 (identified by MAC address) can connect to the WPA2 network, using the
 passphrase from hotspot credentials.
+
+See also
+--------
+
+* [Run other scripts on DHCP lease](lease-script.md)
 
 ---
 [◀ Go back to main README](../README.md)  
