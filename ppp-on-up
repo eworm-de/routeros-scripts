@@ -19,16 +19,16 @@
 }
 
 :local IntName [ / interface get $Interface name ];
-:log info ("PPP interface " . $IntName . " is up.");
+$LogPrintExit2 info $0 ("PPP interface " . $IntName . " is up.") false;
 
 / ipv6 dhcp-client release [ find where interface=$IntName !disabled ];
 
 :foreach Script in=[ / system script find where source~("\n# provides: ppp-on-up\n") ] do={
   :local ScriptName [ / system script get $Script name ];
   :do {
-    :log debug ("Running script from ppp-on-up: " . $ScriptName);
+    $LogPrintExit2 debug $0 ("Running script: " . $ScriptName) false;
     / system script run $Script;
   } on-error={
-    :log warning ("Running script '" . $ScriptName . "' from ppp-on-up failed!");
+    $LogPrintExit2 warning $0 ("Running script '" . $ScriptName . "' failed!") false;
   }
 }
