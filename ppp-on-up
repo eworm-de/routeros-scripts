@@ -25,6 +25,10 @@
 
 :foreach Script in=[ / system script find where source~("\n# provides: ppp-on-up\n") ] do={
   :local ScriptName [ / system script get $Script name ];
-  :log debug ("Running script from ppp-on-up: " . $ScriptName);
-  / system script run $Script;
+  :do {
+    :log debug ("Running script from ppp-on-up: " . $ScriptName);
+    / system script run $Script;
+  } on-error={
+    :log warning ("Running script '" . $ScriptName . "' from ppp-on-up failed!");
+  }
 }
