@@ -22,8 +22,8 @@
 
 :local State ([ $IfThenElse ($leaseBound = 0) "de" "" ] . "assign");
 
-:log debug ("DHCP Server " . $leaseServerName . " " . \
-  $State . "ed lease " . $leaseActIP . " to " . $leaseActMAC);
+$LogPrintExit2 debug $0 ("DHCP Server " . $leaseServerName . " " . \
+  $State . "ed lease " . $leaseActIP . " to " . $leaseActMAC) false;
 
 # delay a moment to update the lease table, do not run in parallel for de/assign
 :delay ((1 + $leaseBound) . "s");
@@ -31,9 +31,9 @@
 :foreach Script in=[ / system script find where source~("\n# provides: lease-script " . $State . "\n") ] do={
   :local ScriptName [ / system script get $Script name ];
   :do {
-    :log debug ("Running script from lease-script: " . $ScriptName);
+    $LogPrintExit2 debug $0 ("Running script: " . $ScriptName) false;
     / system script run $Script;
   } on-error={
-    :log warning ("Running script '" . $ScriptName . "' from lease-script failed!");
+    $LogPrintExit2 warning $0 ("Running script '" . $ScriptName . "' failed!") false;
   }
 }
