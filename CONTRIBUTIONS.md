@@ -26,6 +26,7 @@ Add yourself to the list,
 * Marek Čábák
 * Peter Holtkamp
 * Reiner Vehrenkamp
+* Sunny Chu (@sunnychuchu)
 
 ---
 [◀ Go back to main README](README.md)  
