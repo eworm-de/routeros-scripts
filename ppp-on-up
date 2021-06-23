@@ -23,13 +23,8 @@
 
 / ipv6 dhcp-client release [ find where interface=$IntName !disabled ];
 
-:local Scripts {
-  "update-tunnelbroker"
-}
-
-:foreach Script in=$Scripts do={
-  :if ([ :len [ / system script find where name=$Script ] ] > 0) do={
-    :log debug ("Running script from ppp-on-up: " . $Script);
-    / system script run $Script;
-  }
+:foreach Script in=[ / system script find where source~("\n# provides: ppp-on-up\n") ] do={
+  :local ScriptName [ / system script get $Script name ];
+  :log debug ("Running script from ppp-on-up: " . $ScriptName);
+  / system script run $Script;
 }
