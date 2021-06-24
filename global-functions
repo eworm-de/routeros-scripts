@@ -658,9 +658,10 @@
 
 # delay a random amount of seconds
 :set RandomDelay do={
+  :global EitherOr;
   :global GetRandomNumber;
 
-  :delay ([ $GetRandomNumber $1 ] . "s");
+  :delay ([ $GetRandomNumber $1 ] . [ $EitherOr $2 "s" ]);
 }
 
 # check for required RouterOS version
