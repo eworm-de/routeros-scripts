@@ -10,8 +10,9 @@
 :global GlobalFunctionsReady;
 :while ($GlobalFunctionsReady != true) do={ :delay 500ms; }
 
-:global LogPrintExit2;
 :global IfThenElse;
+:global LogPrintExit2;
+:global RandomDelay;
 
 :if ([ :typeof $leaseActIP ] = "nothing" || \
      [ :typeof $leaseActMAC ] = "nothing" || \
@@ -25,8 +26,10 @@
 $LogPrintExit2 debug $0 ("DHCP Server " . $leaseServerName . " " . \
   $State . "ed lease " . $leaseActIP . " to " . $leaseActMAC) false;
 
-# delay a moment to update the lease table, do not run in parallel for de/assign
+# delay a moment to update the lease table, do not run in parallel for de/assign...
 :delay ((1 + $leaseBound) . "s");
+# ... or simultaneous deassign
+$RandomDelay (([ :tonum $leaseBound ] ^ 1) * 750) "ms";
 
 :foreach Script in=[ / system script find where source~("\n# provides: lease-script " . $State . "\n") ] do={
   :local ScriptName [ / system script get $Script name ];
