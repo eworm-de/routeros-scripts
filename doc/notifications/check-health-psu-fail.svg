@@ -74,7 +74,7 @@
      id="layer1"
      transform="translate(16.375001,11.083333)">
     <rect
-       style="fill:#e6e6e6;stroke:#000000;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
+       style="fill:#e6e6e6;stroke:#6c5d53;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
        id="rect857"
        width="134.9375"
        height="21.166662"
@@ -84,7 +84,7 @@
     <g
        id="g884"
        transform="matrix(0.5,0,0,0.5,-12.40625,-7.1145834)"
-       style="stroke-width:1.99999">
+       style="stroke-width:2">
       <path
          sodipodi:type="star"
          style="fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.264584;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
@@ -102,7 +102,7 @@
          d="m 23.177407,23.177407 c -2.963458,2.963458 -17.9913546,2.963458 -20.9548127,0 -2.96345803,-2.963458 -2.96345808,-17.9913546 0,-20.9548127 2.963458,-2.96345803 17.9913547,-2.96345808 20.9548127,0 2.963458,2.963458 2.963458,17.9913547 0,20.9548127 z" />
       <g
          id="g871"
-         style="stroke-width:1.99999">
+         style="stroke-width:2">
         <g
            aria-label="#!rsc"
            id="text837">
