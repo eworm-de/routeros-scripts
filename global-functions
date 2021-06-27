@@ -405,9 +405,7 @@
 
 # generate random 20 chars hex (0-9 and a-f)
 :set GetRandom20CharHex do={
-  :local Random ([ / certificate scep-server otp generate minutes-valid=0 as-value ]->"password");
-  / certificate scep-server otp remove [ find where password=$Random ];
-  :return $Random;
+  :return ([ / certificate scep-server otp generate minutes-valid=0 as-value ]->"password");
 }
 
 # generate random number
