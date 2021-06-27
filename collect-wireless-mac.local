@@ -22,7 +22,7 @@
 :global SendNotification2;
 :global SymbolForNotification;
 
-$ScriptLock $0;
+$ScriptLock $0 false 10;
 
 :if ([ :len [ / interface wireless access-list find where comment="--- collected above ---" disabled ] ] = 0) do={
   / interface wireless access-list add comment="--- collected above ---" disabled=yes;
