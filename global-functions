@@ -907,23 +907,57 @@
   :local Script   [ :tostr $1 ];
   :local DoReturn $2;
 
+  :global GetRandomNumber;
   :global IfThenElse;
   :global LogPrintExit2;
+
+  :global ScriptLockOrder;
+  :if ([ :typeof $ScriptLockOrder ] = "nothing") do={
+    :set ScriptLockOrder [ :toarray "" ];
+  }
+
+  :local AddTicket do={
+    :return ($1, $2);
+  }
+
+  :local RemoveTicket do={
+    :local Return [ :toarray "" ];
+    :foreach Ticket in=$1 do={
+      :if ($Ticket != $2) do={
+        :set Return ($Return, $Ticket);
+      }
+    }
+    :return $Return;
+  }
 
   :if ([ :len [ / system script find where name=$Script ] ] = 0) do={
     $LogPrintExit2 error $0 ("A script named '" . $Script . "' does not exist!") true;
   }
 
-  :if ([ :len [ / system script job find where script=$Script ] ] = 0) do={
+  :local JobCount [ :len [ / system script job find where script=$Script ] ];
+
+  :if ($JobCount = 0) do={
     $LogPrintExit2 error $0 ("No script '" . $Script . "' is running!") true;
   }
 
-  :if ([ :len [ / system script job find where script=$Script ] ] > 1) do={
-    $LogPrintExit2 info $0 ("Script " . $Script . " started more than once... Aborting.") \
-      [ $IfThenElse ($DoReturn = true) false true ];
-    :return true;
+  :if ([ :len ($ScriptLockOrder->$Script) ] > $JobCount) do={
+    $LogPrintExit2 error $0 ("More tickets than running scripts '" . $Script . "', resetting!") false;
+    :set ($ScriptLockOrder->$Script);
+    / system script job remove [ find where script=$Script ];
+  }    
+
+  :local MyTicket [ $GetRandomNumber ];
+  :set ($ScriptLockOrder->$Script) [ $AddTicket ($ScriptLockOrder->$Script) $MyTicket ];
+
+  :if ([ :len ($ScriptLockOrder->$Script) ] = $JobCount && ($ScriptLockOrder->$Script->0) = $MyTicket) do={
+    :set ($ScriptLockOrder->$Script) [ $RemoveTicket ($ScriptLockOrder->$Script) $MyTicket ];
+    :return false;
   }
-  :return false;
+
+  :set ($ScriptLockOrder->$Script) [ $RemoveTicket ($ScriptLockOrder->$Script) $MyTicket ];
+  $LogPrintExit2 info $0 ("Script '" . $Script . "' started more than once... Aborting.") \
+    [ $IfThenElse ($DoReturn = true) false true ];
+  :return true;
 }
 
 # send notification via e-mail - expects at lease two string arguments
