@@ -13,6 +13,9 @@
 :while ($GlobalFunctionsReady != true) do={ :delay 500ms; }
 
 :global LogPrintExit2;
+:global ScriptLock;
+
+$ScriptLock $0 false 10;
 
 :foreach Client in=[ / caps-man registration-table find where comment~"^hotspot-to-wpa:" ] do={
   :local ClientVal [ / caps-man registration-table get $Client ];
