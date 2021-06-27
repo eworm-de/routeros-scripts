@@ -904,13 +904,18 @@
 
 # lock script against multiple invocation
 :set ScriptLock do={
+  :local Script   [ :tostr $1 ];
+  :local DoReturn $2;
+
+  :global IfThenElse;
   :global LogPrintExit2;
 
-  :local Script [ :tostr $1 ];
-
   :if ([ :len [ / system script job find where script=$Script ] ] > 1) do={
-    $LogPrintExit2 info $0 ("Script " . $Script . " started more than once... Aborting.") true;
+    $LogPrintExit2 info $0 ("Script " . $Script . " started more than once... Aborting.") \
+      [ $IfThenElse ($DoReturn = true) false true ];
+    :return true;
   }
+  :return false;
 }
 
 # send notification via e-mail - expects at lease two string arguments
