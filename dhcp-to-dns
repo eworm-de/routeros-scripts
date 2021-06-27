@@ -22,6 +22,9 @@
 :global CharacterReplace;
 :global IfThenElse;
 :global LogPrintExit2;
+:global ScriptLock;
+
+$ScriptLock $0 false 10;
 
 :local Zone \
   ([ $IfThenElse ($PrefixInZone = true) "dhcp." ] . \
