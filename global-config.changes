@@ -62,6 +62,7 @@
   56="Added tags in all backup, lease and ppp-on-up scripts. These are used by 'packages-update', 'lease-script' and 'ppp-on-up' to find the scripts.";
   57="Celebrating the 1.000th commit - Hooray!";
   58="Added a cleanup script for 'hotspot-to-wpa' to purge old access list entries.";
+  59="Updating CAP with 'check-routeros-update' is now possible with opt-in.";
 };
 
 # Migration steps to be applied on script updates

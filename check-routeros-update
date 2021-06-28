@@ -12,6 +12,7 @@
 
 :global Identity;
 :global SafeUpdateNeighbor;
+:global SafeUpdateOnCap;
 :global SafeUpdatePatch;
 :global SafeUpdateUrl;
 :global SentRouterosUpdateNotification;
@@ -37,7 +38,8 @@ $WaitFullyConnected;
 
 :if ([ :len [ / system package find where name="wireless" disabled=no ] ] > 0) do={
   :if ([ / interface wireless cap get enabled ] = true && \
-      [ / caps-man manager get enabled ] = false) do={
+       [ / caps-man manager get enabled ] = false && \
+       $SafeUpdateOnCap != true) do={
     $LogPrintExit2 error $0 ("System is managed by CAPsMAN, not checking for RouterOS version.") true;
   }
 }

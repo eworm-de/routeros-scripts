@@ -8,7 +8,7 @@
 
 # Make sure all configuration properties are up to date and this
 # value is in sync with value in script 'global-functions'!
-:global GlobalConfigVersion 58;
+:global GlobalConfigVersion 59;
 
 # This is used for DNS and backup file.
 :global Domain "example.com";
@@ -92,6 +92,8 @@
 :global SafeUpdatePatch false;
 # Allow to install updates automatically if seen in neighbor list.
 :global SafeUpdateNeighbor false;
+# Allow to install updates even if device is managed by CAPsMAN.
+:global SafeUpdateOnCap false;
 
 # These thresholds control when to send health notification
 # on temperature and voltage.
