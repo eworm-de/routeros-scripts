@@ -52,34 +52,42 @@ $ScriptLock $0 false 10;
 }
 
 :foreach Lease in=[ / ip dhcp-server lease find where status=bound ] do={
-  :local LeaseVal [ / ip dhcp-server lease get $Lease ];
-  :local Comment ($CommentPrefix . $LeaseVal->"mac-address");
-  :local HostName [ $IfThenElse ([ :len ($LeaseVal->"host-name") ] = 0) \
-    [ $CharacterReplace ($LeaseVal->"mac-address") ":" "-" ] \
-    [ $CharacterReplace ($LeaseVal->"host-name") " " "" ] ];
+  :local LeaseVal;
+  :do {
+    :set LeaseVal [ / ip dhcp-server lease get $Lease ];
+  } on-error={
+    $LogPrintExit2 debug $0 ("A lease just vanished, ignoring.") false;
+  }
 
-  :local Fqdn ($HostName . "." . [ $IfThenElse ($ServerNameInZone = true) ($LeaseVal->"server" . ".") ] . $Zone);
-  :local DnsRecord [ / ip dns static find where name=$Fqdn ];
-  :if ([ :len $DnsRecord ] > 0) do={
-    :local DnsIp [ / ip dns static get $DnsRecord address ];
+  :if ([ :typeof $LeaseVal ] = "array") do={
+    :local Comment ($CommentPrefix . $LeaseVal->"mac-address");
+    :local HostName [ $IfThenElse ([ :len ($LeaseVal->"host-name") ] = 0) \
+      [ $CharacterReplace ($LeaseVal->"mac-address") ":" "-" ] \
+      [ $CharacterReplace ($LeaseVal->"host-name") " " "" ] ];
 
-    :local DupMacLeases [ / ip dhcp-server lease find where mac-address=($LeaseVal->"mac-address") status=bound ];
-    :if ([ :len $DupMacLeases ] > 1) do={
-      :set ($LeaseVal->"address") [ / ip dhcp-server lease get ($DupMacLeases->([ :len $DupMacLeases ] - 1)) address ];
-    }
+    :local Fqdn ($HostName . "." . [ $IfThenElse ($ServerNameInZone = true) ($LeaseVal->"server" . ".") ] . $Zone);
+    :local DnsRecord [ / ip dns static find where name=$Fqdn ];
+    :if ([ :len $DnsRecord ] > 0) do={
+      :local DnsIp [ / ip dns static get $DnsRecord address ];
 
-    :if ([ :len ($LeaseVal->"host-name") ] > 0) do={
-      :set ($LeaseVal->"address") [ / ip dhcp-server lease get ([ find where host-name=($LeaseVal->"host-name") status=bound ]->0) address ];
-    }
+      :local DupMacLeases [ / ip dhcp-server lease find where mac-address=($LeaseVal->"mac-address") status=bound ];
+      :if ([ :len $DupMacLeases ] > 1) do={
+        :set ($LeaseVal->"address") [ / ip dhcp-server lease get ($DupMacLeases->([ :len $DupMacLeases ] - 1)) address ];
+      }
 
-    :if ($DnsIp = $LeaseVal->"address") do={
-      $LogPrintExit2 debug $0 ("DNS entry for " . $Fqdn . " does not need updating.") false;
+      :if ([ :len ($LeaseVal->"host-name") ] > 0) do={
+        :set ($LeaseVal->"address") [ / ip dhcp-server lease get ([ find where host-name=($LeaseVal->"host-name") status=bound ]->0) address ];
+      }
+
+      :if ($DnsIp = $LeaseVal->"address") do={
+        $LogPrintExit2 debug $0 ("DNS entry for " . $Fqdn . " does not need updating.") false;
+      } else={
+        $LogPrintExit2 info $0 ("Replacing DNS entry for " . $Fqdn . ", new address is " . $LeaseVal->"address" . ".") false;
+        / ip dns static set name=$Fqdn address=($LeaseVal->"address") ttl=$Ttl comment=$Comment $DnsRecord;
+      }
     } else={
-      $LogPrintExit2 info $0 ("Replacing DNS entry for " . $Fqdn . ", new address is " . $LeaseVal->"address" . ".") false;
-      / ip dns static set name=$Fqdn address=($LeaseVal->"address") ttl=$Ttl comment=$Comment $DnsRecord;
+      $LogPrintExit2 info $0 ("Adding new DNS entry for " . $Fqdn . ", address is " . $LeaseVal->"address" . ".") false;
+      / ip dns static add name=$Fqdn address=($LeaseVal->"address") ttl=$Ttl comment=$Comment place-before=$PlaceBefore;
     }
-  } else={
-    $LogPrintExit2 info $0 ("Adding new DNS entry for " . $Fqdn . ", address is " . $LeaseVal->"address" . ".") false;
-    / ip dns static add name=$Fqdn address=($LeaseVal->"address") ttl=$Ttl comment=$Comment place-before=$PlaceBefore;
   }
 }
