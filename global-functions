@@ -489,6 +489,11 @@
   :local Exit     [ :tostr $4 ];
 
   :global PrintDebug;
+  :global PrintDebugOverride;
+
+  :global EitherOr;
+
+  :local Debug [ $EitherOr ($PrintDebugOverride->$Name) $PrintDebug ];
 
   :local PrintSeverity do={
     :global TerminalColorOutput;
@@ -511,7 +516,7 @@
     :set Severity "warning";
   }
 
-  :if ($Severity != "debug" || $PrintDebug = true) do={
+  :if ($Severity != "debug" || $Debug = true) do={
     :if ($Exit = "true") do={
       :error ([ $PrintSeverity $Severity ] . ": " . $Message);
     } else={
