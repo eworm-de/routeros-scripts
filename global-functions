@@ -910,6 +910,10 @@
   :global IfThenElse;
   :global LogPrintExit2;
 
+  :if ([ :len [ / system script find where name=$Script ] ] = 0) do={
+    $LogPrintExit2 error $0 ("A script named '" . $Script . "' does not exist!") true;
+  }
+
   :if ([ :len [ / system script job find where script=$Script ] ] > 1) do={
     $LogPrintExit2 info $0 ("Script " . $Script . " started more than once... Aborting.") \
       [ $IfThenElse ($DoReturn = true) false true ];
