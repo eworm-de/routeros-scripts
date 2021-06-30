@@ -906,6 +906,7 @@
 :set ScriptLock do={
   :local Script   [ :tostr $1 ];
   :local DoReturn $2;
+  :local DoWait   $3;
 
   :global GetRandomNumber;
   :global IfThenElse;
@@ -948,6 +949,11 @@
 
   :local MyTicket [ $GetRandomNumber ];
   :set ($ScriptLockOrder->$Script) [ $AddTicket ($ScriptLockOrder->$Script) $MyTicket ];
+
+  :while ($DoWait = true && (($ScriptLockOrder->$Script->0) != $MyTicket || [ :len ($ScriptLockOrder->$Script) ] < $JobCount)) do={
+    :delay 100ms;
+    :set JobCount [ :len [ / system script job find where script=$Script ] ];
+  }
 
   :if ([ :len ($ScriptLockOrder->$Script) ] = $JobCount && ($ScriptLockOrder->$Script->0) = $MyTicket) do={
     :set ($ScriptLockOrder->$Script) [ $RemoveTicket ($ScriptLockOrder->$Script) $MyTicket ];
