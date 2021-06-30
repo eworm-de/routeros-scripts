@@ -76,7 +76,10 @@ $ScriptLock $0 false 10;
       }
 
       :if ([ :len ($LeaseVal->"host-name") ] > 0) do={
-        :set ($LeaseVal->"address") [ / ip dhcp-server lease get ([ find where host-name=($LeaseVal->"host-name") status=bound ]->0) address ];
+        :local HostNameLeases [ / ip dhcp-server lease find where host-name=($LeaseVal->"host-name") status=bound ];
+        :if ([ :len $HostNameLeases ] > 1) do={
+          :set ($LeaseVal->"address") [ / ip dhcp-server lease get ($HostNameLeases->0) address ];
+        }
       }
 
       :if ($DnsIp = $LeaseVal->"address") do={
