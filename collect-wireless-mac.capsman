@@ -31,9 +31,21 @@ $ScriptLock $0 false 10;
 :local PlaceBefore ([ / caps-man access-list find where comment="--- collected above ---" disabled ]->0);
 
 :foreach RegTbl in=[ / caps-man registration-table find ] do={
-  :local Mac [ / caps-man registration-table get $RegTbl mac-address ];
-  :local AccessList ([ / caps-man access-list find where mac-address=$Mac ]->0);
-  :if ([ :len $AccessList ] = 0) do={
+  :local Mac;
+  :local AccessList;
+  :do {
+    :set Mac [ / caps-man registration-table get $RegTbl mac-address ];
+    :set AccessList ([ / caps-man access-list find where mac-address=$Mac ]->0);
+  } on-error={
+    $LogPrintExit2 debug $0 ("Device already gone... Ignoring.") false;
+  }
+
+  :if ([ :len $AccessList ] > 0) do={
+    $LogPrintExit2 debug $0 ("MAC address " . $Mac . " already known: " . \
+      [ / caps-man access-list get $AccessList comment ]) false;
+  }
+
+  :if ([ :typeof $Mac ] = "str" && [ :len $AccessList ] = 0) do={
     :local Address "no dhcp lease";
     :local DnsName "no dhcp lease";
     :local HostName "no dhcp lease";
@@ -70,8 +82,5 @@ $ScriptLock $0 false 10;
         "Address:    " . $Address . "\n" . \
         "DNS name:   " . $DnsName . "\n" . \
         "Date:       " . $DateTime) });
-  } else={
-    $LogPrintExit2 debug $0 ("MAC address " . $Mac . " already known: " . \
-      [ / caps-man access-list get $AccessList comment ]) false;
   }
 }
