@@ -904,13 +904,68 @@
 
 # lock script against multiple invocation
 :set ScriptLock do={
+  :local Script   [ :tostr $1 ];
+  :local DoReturn $2;
+  :local WaitMax  ([ :tonum $3 ] * 10);
+
+  :global GetRandom20CharHex;
+  :global IfThenElse;
   :global LogPrintExit2;
 
-  :local Script [ :tostr $1 ];
-
-  :if ([ :len [ / system script job find where script=$Script ] ] > 1) do={
-    $LogPrintExit2 info $0 ("Script " . $Script . " started more than once... Aborting.") true;
+  :global ScriptLockOrder;
+  :if ([ :typeof $ScriptLockOrder ] = "nothing") do={
+    :set ScriptLockOrder [ :toarray "" ];
   }
+
+  :local AddTicket do={
+    :return ($1, $2);
+  }
+
+  :local RemoveTicket do={
+    :local Return [ :toarray "" ];
+    :foreach Ticket in=$1 do={
+      :if ($Ticket != $2) do={
+        :set Return ($Return, $Ticket);
+      }
+    }
+    :return $Return;
+  }
+
+  :if ([ :len [ / system script find where name=$Script ] ] = 0) do={
+    $LogPrintExit2 error $0 ("A script named '" . $Script . "' does not exist!") true;
+  }
+
+  :local JobCount [ :len [ / system script job find where script=$Script ] ];
+
+  :if ($JobCount = 0) do={
+    $LogPrintExit2 error $0 ("No script '" . $Script . "' is running!") true;
+  }
+
+  :if ([ :len ($ScriptLockOrder->$Script) ] > $JobCount) do={
+    $LogPrintExit2 error $0 ("More tickets than running scripts '" . $Script . "', resetting!") false;
+    :set ($ScriptLockOrder->$Script);
+    / system script job remove [ find where script=$Script ];
+  }    
+
+  :local MyTicket [ $GetRandom20CharHex ];
+  :set ($ScriptLockOrder->$Script) [ $AddTicket ($ScriptLockOrder->$Script) $MyTicket ];
+
+  :local WaitCount 0;
+  :while ($WaitMax > $WaitCount && (($ScriptLockOrder->$Script->0) != $MyTicket || [ :len ($ScriptLockOrder->$Script) ] < $JobCount)) do={
+    :delay 100ms;
+    :set WaitCount ($WaitCount + 1);
+    :set JobCount [ :len [ / system script job find where script=$Script ] ];
+  }
+
+  :if ([ :len ($ScriptLockOrder->$Script) ] = $JobCount && ($ScriptLockOrder->$Script->0) = $MyTicket) do={
+    :set ($ScriptLockOrder->$Script) [ $RemoveTicket ($ScriptLockOrder->$Script) $MyTicket ];
+    :return false;
+  }
+
+  :set ($ScriptLockOrder->$Script) [ $RemoveTicket ($ScriptLockOrder->$Script) $MyTicket ];
+  $LogPrintExit2 info $0 ("Script '" . $Script . "' started more than once" . [ $IfThenElse ($WaitCount > 0) \
+    " and timed out waiting for lock" "" ] . "... Aborting.") [ $IfThenElse ($DoReturn = true) false true ];
+  :return true;
 }
 
 # send notification via e-mail - expects at lease two string arguments
