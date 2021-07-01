@@ -906,7 +906,7 @@
 :set ScriptLock do={
   :local Script   [ :tostr $1 ];
   :local DoReturn $2;
-  :local DoWait   $3;
+  :local WaitMax  ([ :tonum $3 ] * 10);
 
   :global GetRandomNumber;
   :global IfThenElse;
@@ -950,8 +950,10 @@
   :local MyTicket [ $GetRandomNumber ];
   :set ($ScriptLockOrder->$Script) [ $AddTicket ($ScriptLockOrder->$Script) $MyTicket ];
 
-  :while ($DoWait = true && (($ScriptLockOrder->$Script->0) != $MyTicket || [ :len ($ScriptLockOrder->$Script) ] < $JobCount)) do={
+  :local WaitCount 0;
+  :while ($WaitMax > $WaitCount && (($ScriptLockOrder->$Script->0) != $MyTicket || [ :len ($ScriptLockOrder->$Script) ] < $JobCount)) do={
     :delay 100ms;
+    :set WaitCount ($WaitCount + 1);
     :set JobCount [ :len [ / system script job find where script=$Script ] ];
   }
 
@@ -961,8 +963,8 @@
   }
 
   :set ($ScriptLockOrder->$Script) [ $RemoveTicket ($ScriptLockOrder->$Script) $MyTicket ];
-  $LogPrintExit2 info $0 ("Script '" . $Script . "' started more than once... Aborting.") \
-    [ $IfThenElse ($DoReturn = true) false true ];
+  $LogPrintExit2 info $0 ("Script '" . $Script . "' started more than once" . [ $IfThenElse ($WaitCount > 0) \
+    " and timed out waiting for lock" "" ] . "... Aborting.") [ $IfThenElse ($DoReturn = true) false true ];
   :return true;
 }
 
