@@ -27,10 +27,12 @@ $LogPrintExit2 debug $0 ("DHCP Server " . $leaseServerName . " " . \
 
 :foreach Script in=[ / system script find where source~("\n# provides: lease-script " . $State . "\n") ] do={
   :local ScriptName [ / system script get $Script name ];
-  :do {
-    $LogPrintExit2 debug $0 ("Running script: " . $ScriptName) false;
-    / system script run $Script;
-  } on-error={
-    $LogPrintExit2 warning $0 ("Running script '" . $ScriptName . "' failed!") false;
+  :if ([ :len [ / system script job find where script=$ScriptName ] ] < 2) do={
+    :do {
+      $LogPrintExit2 debug $0 ("Running script: " . $ScriptName) false;
+      / system script run $Script;
+    } on-error={
+      $LogPrintExit2 warning $0 ("Running script '" . $ScriptName . "' failed!") false;
+    }
   }
 }
