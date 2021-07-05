@@ -94,6 +94,23 @@ A target like this suits well to be parent for other checks.
 
     / tool netwatch add comment="notify, hostname=example.com, parent=internet" host=93.184.216.34;
 
+### Checking specific ISP
+
+Having several ISPs for redundancy a failed link may go unnoticed without
+proper monitoring. You can use routing-mark to monitor specific connections.
+Create a route and firewall mangle rule.
+
+    / ip route add distance=1 gateway=isp1 routing-mark=via-isp1;
+    / ip firewall mangle add action=mark-routing chain=output new-routing-mark=via-isp1 dst-address=1.0.0.1 passthrough=yes;
+
+Finally monitor the address with `netwatch-notify`.
+
+    / tool netwatch add comment="notify, hostname=quad-one via isp1" host=1.0.0.1;
+
+Note that *all* traffic to the given address is routed that way. In case of
+link failure this address is not available, so use something reliable but
+non-essential. In this example the address `1.0.0.1` is used, the same service
+(Cloudflare DNS) is available at `1.1.1.1`.
 ---
 [◀ Go back to main README](../README.md)  
 [▲ Go back to top](#top)
