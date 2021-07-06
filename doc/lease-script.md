@@ -12,9 +12,14 @@ Description
 This script is supposed to run from dhcp server as lease script. Currently
 it does:
 
-* run [dhcp-to-dns](dhcp-to-dns.md)
 * run [collect-wireless-mac](collect-wireless-mac.md)
 * run [dhcp-lease-comment](dhcp-lease-comment.md)
+* run [dhcp-to-dns](dhcp-to-dns.md)
+* run [hotspot-to-wpa](hotspot-to-wpa.md)
+
+Note that installation order influences execution order. You may want to
+install `dhcp-to-dns` before `collect-wireless-mac` for dns name in
+notification.
 
 Requirements and installation
 -----------------------------
