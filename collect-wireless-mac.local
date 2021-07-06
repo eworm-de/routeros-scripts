@@ -16,6 +16,7 @@
 
 :global Identity;
 
+:global EitherOr;
 :global GetMacVendor;
 :global LogPrintExit2;
 :global ScriptLock;
@@ -51,10 +52,7 @@ $ScriptLock $0 false 10;
     :local Lease ([ / ip dhcp-server lease find where mac-address=($RegVal->"mac-address") dynamic=yes status=bound ]->0);
     :if ([ :len $Lease ] > 0) do={
       :set Address [ / ip dhcp-server lease get $Lease address ];
-      :set HostName [ / ip dhcp-server lease get $Lease host-name ];
-      :if ([ :len $HostName ] = 0) do={
-        :set HostName "no hostname";
-      }
+      :set HostName [ $EitherOr [ / ip dhcp-server lease get $Lease host-name ] "no hostname" ];
       :set DnsName "no dns name";
       :local DnsRec ([ / ip dns static find where address=$Address ]->0);
       :if ([ :len $DnsRec ] > 0) do={
