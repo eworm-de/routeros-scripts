@@ -31,26 +31,25 @@ $ScriptLock $0 false 10;
 }
 :local PlaceBefore ([ / %PATH% access-list find where comment="--- collected above ---" disabled ]->0);
 
-:foreach RegTbl in=[ / %PATH% registration-table find ] do={
-  :local Mac;
-  :local AccessList;
+:foreach Reg in=[ / %PATH% registration-table find ] do={
+  :local RegVal;
   :do {
-    :set Mac [ / %PATH% registration-table get $RegTbl mac-address ];
-    :set AccessList ([ / %PATH% access-list find where mac-address=$Mac ]->0);
+    :set RegVal [ / %PATH% registration-table get $Reg ];
   } on-error={
     $LogPrintExit2 debug $0 ("Device already gone... Ignoring.") false;
   }
 
+  :local AccessList ([ / %PATH% access-list find where mac-address=($RegVal->"mac-address") ]->0);
   :if ([ :len $AccessList ] > 0) do={
-    $LogPrintExit2 debug $0 ("MAC address " . $Mac . " already known: " . \
+    $LogPrintExit2 debug $0 ("MAC address " . $RegVal->"mac-address" . " already known: " . \
       [ / %PATH% access-list get $AccessList comment ]) false;
   }
 
-  :if ([ :typeof $Mac ] = "str" && [ :len $AccessList ] = 0) do={
+  :if ([ :typeof $RegVal ] = "array" && [ :len $AccessList ] = 0) do={
     :local Address "no dhcp lease";
     :local DnsName "no dhcp lease";
     :local HostName "no dhcp lease";
-    :local Lease ([ / ip dhcp-server lease find where mac-address=$Mac dynamic=yes status=bound ]->0);
+    :local Lease ([ / ip dhcp-server lease find where mac-address=($RegVal->"mac-address") dynamic=yes status=bound ]->0);
     :if ([ :len $Lease ] > 0) do={
       :set Address [ / ip dhcp-server lease get $Lease address ];
       :set HostName [ / ip dhcp-server lease get $Lease host-name ];
@@ -62,23 +61,20 @@ $ScriptLock $0 false 10;
         :set DnsName "no dns name";
       }
     }
-    :local RegEntry [ / %PATH% registration-table find where mac-address=$Mac ];
-    :local Interface [ / %PATH% registration-table get $RegEntry interface ];
-    :local Ssid [ / caps-man registration-table get $RegEntry ssid ];
-    :local Ssid [ / interface wireless get [ find where name=$Interface ] ssid ];
+    :set ($RegVal->"ssid") [ / interface wireless get [ find where name=($RegVal->"interface") ] ssid ];
     :local DateTime ([ / system clock get date ] . " " . [ / system clock get time ]);
-    :local Vendor [ $GetMacVendor $Mac ];
-    :local Message ("unknown MAC address " . $Mac . " (" . $Vendor . ", " . $HostName . ") " . \
-      "first seen on " . $DateTime . " connected to SSID " . $Ssid . ", interface " . $Interface);
+    :local Vendor [ $GetMacVendor ($RegVal->"mac-address") ];
+    :local Message ("unknown MAC address " . $RegVal->"mac-address" . " (" . $Vendor . ", " . $HostName . ") " . \
+      "first seen on " . $DateTime . " connected to SSID " . $RegVal->"ssid" . ", interface " . $RegVal->"interface");
     $LogPrintExit2 info $0 $Message false;
-    / %PATH% access-list add place-before=$PlaceBefore comment=$Message mac-address=$Mac disabled=yes;
+    / %PATH% access-list add place-before=$PlaceBefore comment=$Message mac-address=($RegVal->"mac-address") disabled=yes;
     $SendNotification2 ({ origin=$0; \
-      subject=([ $SymbolForNotification "mobile-phone" ] . $Mac . " connected to " . $Ssid); \
-      message=("A device with unknown MAC address connected to " . $Ssid . " on " . $Identity . ".\n\n" . \
+      subject=([ $SymbolForNotification "mobile-phone" ] . $RegVal->"mac-address" . " connected to " . $RegVal->"ssid"); \
+      message=("A device with unknown MAC address connected to " . $RegVal->"ssid" . " on " . $Identity . ".\n\n" . \
         "Controller: " . $Identity . "\n" . \
-        "Interface:  " . $Interface . "\n" . \
-        "SSID:       " . $Ssid . "\n" . \
-        "MAC:        " . $Mac . "\n" . \
+        "Interface:  " . $RegVal->"interface" . "\n" . \
+        "SSID:       " . $RegVal->"ssid" . "\n" . \
+        "MAC:        " . $RegVal->"mac-address" . "\n" . \
         "Vendor:     " . $Vendor . "\n" . \
         "Hostname:   " . $HostName . "\n" . \
         "Address:    " . $Address . "\n" . \
