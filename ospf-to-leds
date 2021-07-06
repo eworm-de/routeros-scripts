@@ -18,11 +18,12 @@
   :local LED ([ $ParseKeyValueStore ($InstanceVal->"comment") ]->"leds");
   :local LEDType [ / system leds get [ find where leds=$LED ] type ];
 
-  $LogPrintExit2 debug $0 ("OSPF instance " . $InstanceVal->"name" . " is " . $InstanceVal->"state" . ".") false;
   :if ($InstanceVal->"state" = "running" && $LEDType = "off") do={
+    $LogPrintExit2 info $0 ("OSPF instance " . $InstanceVal->"name" . " is running, led on!") false;
     / system leds set type=on [ find where leds=$LED ];
   }
   :if ($InstanceVal->"state" = "down" && $LEDType = "on") do={
+    $LogPrintExit2 info $0 ("OSPF instance " . $InstanceVal->"name" . " is down, led off!") false;
     / system leds set type=off [ find where leds=$LED ];
   }
 }
