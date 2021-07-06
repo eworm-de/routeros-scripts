@@ -33,7 +33,7 @@ See also
 * [Collect MAC addresses in wireless access list](collect-wireless-mac.md)
 * [Comment DHCP leases with info from access list](dhcp-lease-comment.md)
 * [Create DNS records for DHCP leases](dhcp-to-dns.md)
-* [Use WPA2 network with hotspot credentials](doc/hotspot-to-wpa.md)
+* [Use WPA2 network with hotspot credentials](hotspot-to-wpa.md)
 
 ---
 [◀ Go back to main README](../README.md)  
