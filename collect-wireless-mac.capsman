@@ -55,9 +55,10 @@ $ScriptLock $0 false 10;
       :if ([ :len $HostName ] = 0) do={
         :set HostName "no hostname";
       }
-      :set DnsName [ / ip dns static get ([ find where address=$Address ]->0) name ];
-      :if ([ :len $DnsName ] = 0) do={
-        :set DnsName "no dns name";
+      :set DnsName "no dns name";
+      :local DnsRec ([ / ip dns static find where address=$Address ]->0);
+      :if ([ :len $DnsRec ] > 0) do={
+        :set DnsName [ / ip dns static get $DnsRec name ];
       }
     }
     :local DateTime ([ / system clock get date ] . " " . [ / system clock get time ]);
