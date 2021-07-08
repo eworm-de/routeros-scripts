@@ -18,7 +18,30 @@
 :global ParseKeyValueStore;
 :global SendNotification2;
 :global SymbolForNotification;
-:global ValidateSyntax;
+
+:local NetwatchNotifyHook do={
+  :local Name [ :tostr $1 ];
+  :local Type [ :tostr $2 ];
+  :local Hook [ :tostr $3 ];
+
+  :global LogPrintExit2;
+  :global ValidateSyntax;
+
+  :if ([ $ValidateSyntax $Hook ] = true) do={
+    :do {
+      [ :parse $Hook ];
+    } on-error={
+      $LogPrintExit2 warning $0 ("The " . $Type . "-hook for host " . $Name . " failed to run.") false;
+      :return ("The hook failed to run.");
+    }
+  } else={
+    $LogPrintExit2 warning $0 ("The " . $Type . "-hook for host " . $Name . " failed syntax validation.") false;
+    :return ("The hook failed syntax validation.");
+  }
+
+  $LogPrintExit2 info $0 ("Ran hook on host " . $Name . " " . $Type . ": " . $Hook) false;
+  :return ("Ran hook:\n" . $Hook);
+}
 
 :if ([ :typeof $NetwatchNotify ] = "nothing") do={
   :set NetwatchNotify [ :toarray "" ];
@@ -63,17 +86,7 @@
       :local Message ("Host " . $HostName . " (" . $HostVal->"host" . ") is up since " . $HostVal->"since" . ".\n" . \
         "It was down for " . $Count . " checks since " . ($Metric->"since") . ".");
       :if ([ :typeof ($HostInfo->"up-hook") ] = "str") do={
-        :if ([ $ValidateSyntax ($HostInfo->"up-hook") ] = true) do={
-          $LogPrintExit2 info $0 ("Running hook on host " . $HostName . " up: " . ($HostInfo->"up-hook")) false;
-          :set Message ($Message . "\n\nRunning hook:\n" . $HostInfo->"up-hook");
-          :do {
-            [ :parse ($HostInfo->"up-hook") ];
-          } on-error={
-            $LogPrintExit2 warning $0 ("The up-hook for host " . $HostName . " failed to run.") false;
-          }
-        } else={
-          $LogPrintExit2 warning $0 ("The up-hook for host " . $HostName . " failed syntax validation.") false;
-        }
+        :set Message ($Message . "\n\n" . [ $NetwatchNotifyHook $HostName "up" ($HostInfo->"up-hook") ]);
       }
       $SendNotification2 ({ origin=$0; \
         subject=([ $SymbolForNotification "white-heavy-check-mark" ] . "Netwatch Notify: " . $HostName . " up"); \
@@ -107,17 +120,7 @@
     :if ($ParentNotified = false && $Metric->"count" >= $Count && $Metric->"notified" != true) do={
       :local Message ("Host " . $HostName . " (" . $HostVal->"host" . ") is down since " . $HostVal->"since" . ".");
       :if ([ :typeof ($HostInfo->"down-hook") ] = "str") do={
-        :if ([ $ValidateSyntax ($HostInfo->"down-hook") ] = true) do={
-          $LogPrintExit2 info $0 ("Running hook on host " . $HostName . " down: " . ($HostInfo->"down-hook")) false;
-          :set Message ($Message . "\n\nRunning hook:\n" . $HostInfo->"down-hook");
-          :do {
-            [ :parse ($HostInfo->"down-hook") ];
-          } on-error={
-            $LogPrintExit2 warning $0 ("The down-hook for host " . $HostName . " failed to run.") false;
-          }
-        } else={
-          $LogPrintExit2 warning $0 ("The down-hook for host " . $HostName . " failed syntax validation.") false;
-        }
+        :set Message ($Message . "\n\n" . [ $NetwatchNotifyHook $HostName "down" ($HostInfo->"down-hook") ]);
       }
       $SendNotification2 ({ origin=$0; \
         subject=([ $SymbolForNotification "cross-mark" ] . "Netwatch Notify: " . $HostName . " down"); \
