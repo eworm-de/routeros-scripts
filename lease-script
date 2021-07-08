@@ -40,10 +40,10 @@ $LogPrintExit2 debug $0 ("DHCP Server " . $leaseServerName . " " . \
   }
 }
 
-:foreach Script in=$RunOrder do={
+:foreach Order,Script in=$RunOrder do={
   :if ([ :len [ / system script job find where script=$Script ] ] < 2) do={
     :do {
-      $LogPrintExit2 debug $0 ("Running script: " . $Script) false;
+      $LogPrintExit2 debug $0 ("Running script with order " . $Order . ": " . $Script) false;
       / system script run $Script;
     } on-error={
       $LogPrintExit2 warning $0 ("Running script '" . $Script . "' failed!") false;
