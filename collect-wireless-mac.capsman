@@ -61,7 +61,7 @@ $ScriptLock $0 false 10;
     }
     :local DateTime ([ / system clock get date ] . " " . [ / system clock get time ]);
     :local Vendor [ $GetMacVendor ($RegVal->"mac-address") ];
-    :local Message ("unknown MAC address " . $RegVal->"mac-address" . " (" . $Vendor . ", " . $HostName . ") " . \
+    :local Message ("MAC address " . $RegVal->"mac-address" . " (" . $Vendor . ", " . $HostName . ") " . \
       "first seen on " . $DateTime . " connected to SSID " . $RegVal->"ssid" . ", interface " . $RegVal->"interface");
     $LogPrintExit2 info $0 $Message false;
     / caps-man access-list add place-before=$PlaceBefore comment=$Message mac-address=($RegVal->"mac-address") disabled=yes;
