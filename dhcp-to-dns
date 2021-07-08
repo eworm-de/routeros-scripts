@@ -3,8 +3,8 @@
 # Copyright (c) 2013-2021 Christian Hesse <mail@eworm.de>
 # https://git.eworm.de/cgit/routeros-scripts/about/COPYING.md
 #
-# provides: lease-script assign
-# provides: lease-script deassign
+# provides: lease-script, assign
+# provides: lease-script, deassign
 #
 # check DHCP leases and add/remove/update DNS entries
 # https://git.eworm.de/cgit/routeros-scripts/about/doc/dhcp-to-dns.md

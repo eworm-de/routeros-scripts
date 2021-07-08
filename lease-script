@@ -25,7 +25,7 @@
 $LogPrintExit2 debug $0 ("DHCP Server " . $leaseServerName . " " . \
   $State . "ed lease " . $leaseActIP . " to " . $leaseActMAC) false;
 
-:foreach Script in=[ / system script find where source~("\n# provides: lease-script " . $State . "\n") ] do={
+:foreach Script in=[ / system script find where source~("\n# provides: lease-script, " . $State . "\n") ] do={
   :local ScriptName [ / system script get $Script name ];
   :if ([ :len [ / system script job find where script=$ScriptName ] ] < 2) do={
     :do {
