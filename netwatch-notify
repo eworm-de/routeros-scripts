@@ -66,7 +66,11 @@
         :if ([ $ValidateSyntax ($HostInfo->"up-hook") ] = true) do={
           $LogPrintExit2 info $0 ("Running hook on host " . $HostName . " up: " . ($HostInfo->"up-hook")) false;
           :set Message ($Message . "\n\nRunning hook:\n" . $HostInfo->"up-hook");
-          [ :parse ($HostInfo->"up-hook") ];
+          :do {
+            [ :parse ($HostInfo->"up-hook") ];
+          } on-error={
+            $LogPrintExit2 warning $0 ("The up-hook for host " . $HostName . " failed to run.") false;
+          }
         } else={
           $LogPrintExit2 warning $0 ("The up-hook for host " . $HostName . " failed syntax validation.") false;
         }
@@ -106,7 +110,11 @@
         :if ([ $ValidateSyntax ($HostInfo->"down-hook") ] = true) do={
           $LogPrintExit2 info $0 ("Running hook on host " . $HostName . " down: " . ($HostInfo->"down-hook")) false;
           :set Message ($Message . "\n\nRunning hook:\n" . $HostInfo->"down-hook");
-          [ :parse ($HostInfo->"down-hook") ];
+          :do {
+            [ :parse ($HostInfo->"down-hook") ];
+          } on-error={
+            $LogPrintExit2 warning $0 ("The down-hook for host " . $HostName . " failed to run.") false;
+          }
         } else={
           $LogPrintExit2 warning $0 ("The down-hook for host " . $HostName . " failed syntax validation.") false;
         }
