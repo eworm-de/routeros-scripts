@@ -3,7 +3,7 @@
 # Copyright (c) 2013-2021 Christian Hesse <mail@eworm.de>
 # https://git.eworm.de/cgit/routeros-scripts/about/COPYING.md
 #
-# provides: lease-script, assign
+# provides: lease-script, assign, order=60
 #
 # update dhcp-server lease comment with infos from access-list
 # https://git.eworm.de/cgit/routeros-scripts/about/doc/dhcp-lease-comment.md

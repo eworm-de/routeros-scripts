@@ -12,6 +12,7 @@
 
 :global IfThenElse;
 :global LogPrintExit2;
+:global ParseKeyValueStore;
 
 :if ([ :typeof $leaseActIP ] = "nothing" || \
      [ :typeof $leaseActMAC ] = "nothing" || \
@@ -21,18 +22,31 @@
 }
 
 :local State ([ $IfThenElse ($leaseBound = 0) "de" "" ] . "assign");
+:local RunOrder [ :toarray "" ];
 
 $LogPrintExit2 debug $0 ("DHCP Server " . $leaseServerName . " " . \
   $State . "ed lease " . $leaseActIP . " to " . $leaseActMAC) false;
 
-:foreach Script in=[ / system script find where source~("\n# provides: lease-script, " . $State . "\n") ] do={
-  :local ScriptName [ / system script get $Script name ];
-  :if ([ :len [ / system script job find where script=$ScriptName ] ] < 2) do={
+:foreach Script in=[ / system script find where source~("\n# provides: lease-script, ") ] do={
+  :local Name [ / system script get $Script name ];
+  :local Store [ / system script get $Script source ];
+
+  :set Store [ :pick $Store ([ :find $Store "\n# provides: lease-script, " ] + 27) [ :len $Store ] ];
+  :set Store [ :pick $Store 0 [ :find $Store "\n" ] ];
+  :set Store [ $ParseKeyValueStore $Store ];
+
+  :if (($Store->$State) = true) do={
+    :set ($RunOrder->($Store->"order")) $Name;
+  }
+}
+
+:foreach Script in=$RunOrder do={
+  :if ([ :len [ / system script job find where script=$Script ] ] < 2) do={
     :do {
-      $LogPrintExit2 debug $0 ("Running script: " . $ScriptName) false;
+      $LogPrintExit2 debug $0 ("Running script: " . $Script) false;
       / system script run $Script;
     } on-error={
-      $LogPrintExit2 warning $0 ("Running script '" . $ScriptName . "' failed!") false;
+      $LogPrintExit2 warning $0 ("Running script '" . $Script . "' failed!") false;
     }
   }
 }

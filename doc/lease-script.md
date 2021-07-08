@@ -17,10 +17,6 @@ it does:
 * run [dhcp-to-dns](dhcp-to-dns.md)
 * run [hotspot-to-wpa](hotspot-to-wpa.md)
 
-Note that installation order influences execution order. You may want to
-install `dhcp-to-dns` before `collect-wireless-mac` for dns name in
-notification.
-
 Requirements and installation
 -----------------------------
 
