@@ -840,7 +840,11 @@
 
     :if ([ :len $ChangeLogCode ] > 0) do={
       :if ([ $ValidateSyntax $ChangeLogCode ] = true) do={
-        [ :parse $ChangeLogCode ];
+        :do {
+          [ :parse $ChangeLogCode ];
+        } on-error={
+          $LogPrintExit2 warning $0 ("The changelog failed to run!") false;
+        }
       } else={
         $LogPrintExit2 warning $0 ("The changelog failed syntax validation!") false;
       }
