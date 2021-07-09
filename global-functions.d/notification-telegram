@@ -77,8 +77,8 @@
     :local Return $1;
     :local Chars {
       "body"={ "\\"; "`" };
-      "hint"={ "_"; "*"; "["; "]"; "("; ")"; "~"; "`"; ">";
-               "#"; "+"; "-"; "="; "|"; "{"; "}"; "."; "!" };
+      "plain"={ "_"; "*"; "["; "]"; "("; ")"; "~"; "`"; ">";
+                "#"; "+"; "-"; "="; "|"; "{"; "}"; "."; "!" };
     }
     :foreach Char in=($Chars->$2) do={
       :set Return [ $CharacterReplace $Return $Char ("\\" . $Char) ];
@@ -99,22 +99,23 @@
   }
 
   :local Truncated false;
+  :local Text ("*__" . [ $EscapeMD ("[" . $Identity . "] " . ($Notification->"subject")) "plain" ] . "__*\n\n");
+  :local LenSubject [ :len $Text ];
+  :local LenMessage [ :len ($Notification->"message") ];
   :local LenLink [ :len ($Notification->"link") ];
-  :local Text ("[" . $Identity . "] " . ($Notification->"subject") . "\n\n" . ($Notification->"message"));
-  :local LenText [ :len $Text ];
-  :if ($LenText > (3968 - $LenLink)) do={
-    :set Text [ $EscapeMD ([ :pick $Text 0 (3840 - $LenLink) ] . "...") "body" ];
+  :if ($LenSubject + $LenMessage + $LenLink > 3968) do={
+    :set Text ($Text . [ $EscapeMD ([ :pick ($Notification->"message") 0 (3840 - $LenSubject - $LenLink) ] . "...") "body" ]);
     :set Truncated true;
   } else={
-    :set Text [ $EscapeMD $Text "body" ];
+    :set Text ($Text . [ $EscapeMD ($Notification->"message") "body" ]);
   }
   :if ($LenLink > 0) do={
-    :set Text ($Text . "\n" . [ $SymbolForNotification "link" ] . [ $EscapeMD ($Notification->"link") "hint" ]);
+    :set Text ($Text . "\n" . [ $SymbolForNotification "link" ] . [ $EscapeMD ($Notification->"link") "plain" ]);
   }
   :if ($Truncated = true) do={
     :set Text ($Text . "\n" . [ $SymbolForNotification "scissors" ] . \
       [ $EscapeMD ("The Telegram message was too long and has been truncated, cut off " . \
-      (($LenText - [ :len $Text ]) * 100 / $LenText) . "%!") "hint" ]);
+      (($LenText - [ :len $Text ]) * 100 / $LenText) . "%!") "plain" ]);
   }
   :set Text [ $UrlEncode $Text ];
   :local ParseMode [ $IfThenElse ($TelegramFixedWidthFont = true) "MarkdownV2" "" ];
@@ -135,7 +136,7 @@
     }
     :set Text ($Text . [ $UrlEncode ("\n" . [ $SymbolForNotification "alarm-clock" ] . \
       [ $EscapeMD ("This message was queued since " . [ / system clock get date ] . \
-      " " . [ / system clock get time ] . " and may be obsolete.") "hint" ]) ]);
+      " " . [ / system clock get time ] . " and may be obsolete.") "plain" ]) ]);
     :set ($TelegramQueue->[ :len $TelegramQueue ]) { chatid=$ChatId; tokenid=$TokenId;
       parsemode=$ParseMode; text=$Text; silent=($Notification->"silent") };
     :if ([ :len [ / system scheduler find where name="FlushTelegramQueue" ] ] = 0) do={
