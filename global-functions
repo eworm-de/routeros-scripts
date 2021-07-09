@@ -852,7 +852,11 @@
         :if ([ :typeof $Migration ] = "str") do={
           :if ([ $ValidateSyntax $Migration ] = true) do={
             $LogPrintExit2 info $0 ("Applying migration for change " . $I . ": " . $Migration) false;
-            [ :parse $Migration ];
+            :do {
+              [ :parse $Migration ];
+            } on-error={
+              $LogPrintExit2 warning $0 ("Migration code for change " . $I . " failed to run!") false;
+            }
           } else={
             $LogPrintExit2 warning $0 ("Migration code for change " . $I . " failed syntax validation!") false;
           }
