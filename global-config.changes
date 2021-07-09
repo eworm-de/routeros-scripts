@@ -65,6 +65,7 @@
   59="Updating CAP with 'check-routeros-update' is now possible with opt-in.";
   60="Implemented a pre-down hook in 'netwatch-notify' that fires at two thirds of failed checks.";
   61="Finally removed old scripts.";
+  62="Added '\$ScriptRunOnce' to run a script from URL once without installation, intended to aid configuration management and the like.";
 };
 
 # Migration steps to be applied on script updates
