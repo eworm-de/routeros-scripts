@@ -44,6 +44,10 @@ comment:
 
     / tool netwatch add comment="notify, hostname=poe-device, down-hook=/ interface ethernet poe power-cycle en21;" host=10.0.0.20;
 
+Also there is a `pre-down-hook` that fires at two thirds of failed checks
+required for the notification. The idea is to fix the issue before a
+notification is sent.
+
 The count threshould (default is 5 checks) is configurable as well:
 
     / tool netwatch add comment="notify, hostname=example.com, count=10" host=104.18.144.11;
