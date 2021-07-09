@@ -714,7 +714,6 @@
   :global IfThenElse;
   :global LogPrintExit2;
   :global ParseKeyValueStore;
-  :global ScriptInstallUpdate;
   :global SendNotification2;
   :global SymbolForNotification;
   :global ValidateSyntax;
