@@ -1,6 +1,0 @@
-#!rsc by RouterOS
-# RouterOS script: mode-button-scheduler
-
-:global LogPrintExit2;
-
-$LogPrintExit2 warning "mode-button-scheduler" ("This script's functionality has been merged into 'mode-button'.") true;
