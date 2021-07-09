@@ -40,9 +40,9 @@ The hosts to be checked have to be added to netwatch with specific comment:
 
 It is possible to run an up hook command (`up-hook`) or down hook command
 (`down-hook`) when a notification is triggered. This has to be added in
-comment:
+comment, note that some characters need extra escaping:
 
-    / tool netwatch add comment="notify, hostname=poe-device, down-hook=/ interface ethernet poe power-cycle en21;" host=10.0.0.20;
+    / tool netwatch add comment=("notify, hostname=device, down-hook=/ interface ethernet \\{ disable \\\"en2\\\"; enable \\\"en2\\\"; \\}") host=10.0.0.20;
 
 Also there is a `pre-down-hook` that fires at two thirds of failed checks
 required for the notification. The idea is to fix the issue before a
