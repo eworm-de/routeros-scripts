@@ -734,7 +734,7 @@
   :local ReloadGlobalFunctions false;
   :local ReloadGlobalConfig false;
 
-  :foreach Script in=[ / system script find where source~"^#!rsc( by RouterOS)\?\n" ] do={
+  :foreach Script in=[ / system script find where source~"^#!rsc by RouterOS\n" ] do={
     :local ScriptVal [ / system script get $Script ];
     :local ScriptFile [ / file find where name=("script-updates/" . $ScriptVal->"name") ];
     :local SourceNew;
