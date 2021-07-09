@@ -923,12 +923,11 @@
 
     :global ScriptLockOrder;
 
-    :local Ok false;
-    :while ($Ok = false) do={
+    :while (true) do={
       :set ($ScriptLockOrder->$Script) (($ScriptLockOrder->$Script), $Add);
       :delay 10ms;
       :foreach Ticket in=($ScriptLockOrder->$Script) do={
-        :if ($Ticket = $Add) do={ :set Ok true; }
+        :if ($Ticket = $Add) do={ :return true; }
       }
     }
   }
