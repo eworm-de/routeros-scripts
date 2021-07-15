@@ -13,12 +13,19 @@
 :global IfThenElse;
 :global LogPrintExit2;
 :global ParseKeyValueStore;
+:global ScriptLock;
 
 :if ([ :typeof $leaseActIP ] = "nothing" || \
      [ :typeof $leaseActMAC ] = "nothing" || \
      [ :typeof $leaseServerName ] = "nothing" || \
      [ :typeof $leaseBound ] = "nothing") do={
   $LogPrintExit2 error $0 ("This script is supposed to run from ip dhcp-server.") true;
+}
+
+$ScriptLock $0 false 10;
+
+:if ([ :len [ / system script job find where script=$0 ] ] > 1) do={
+  $LogPrintExit2 debug $0 ("More invocations are waiting, exiting early.") true;
 }
 
 :local State ([ $IfThenElse ($leaseBound = 0) "de" "" ] . "assign");
@@ -41,12 +48,10 @@ $LogPrintExit2 debug $0 ("DHCP Server " . $leaseServerName . " " . \
 }
 
 :foreach Order,Script in=$RunOrder do={
-  :if ([ :len [ / system script job find where script=$Script ] ] < 2) do={
-    :do {
-      $LogPrintExit2 debug $0 ("Running script with order " . $Order . ": " . $Script) false;
-      / system script run $Script;
-    } on-error={
-      $LogPrintExit2 warning $0 ("Running script '" . $Script . "' failed!") false;
-    }
+  :do {
+    $LogPrintExit2 debug $0 ("Running script with order " . $Order . ": " . $Script) false;
+    / system script run $Script;
+  } on-error={
+    $LogPrintExit2 warning $0 ("Running script '" . $Script . "' failed!") false;
   }
 }
