@@ -28,11 +28,10 @@ $ScriptLock $0 false 10;
   $LogPrintExit2 debug $0 ("More invocations are waiting, exiting early.") true;
 }
 
-:local State ([ $IfThenElse ($leaseBound = 0) "de" "" ] . "assign");
-:local RunOrder [ :toarray "" ];
+$LogPrintExit2 debug $0 ("DHCP Server " . $leaseServerName . " " . [ $IfThenElse ($leaseBound = 0) \
+  "de" "" ] . "assigned lease " . $leaseActIP . " to " . $leaseActMAC) false;
 
-$LogPrintExit2 debug $0 ("DHCP Server " . $leaseServerName . " " . \
-  $State . "ed lease " . $leaseActIP . " to " . $leaseActMAC) false;
+:local RunOrder [ :toarray "" ];
 
 :foreach Script in=[ / system script find where source~("\n# provides: lease-script, ") ] do={
   :local Name [ / system script get $Script name ];
@@ -42,9 +41,7 @@ $LogPrintExit2 debug $0 ("DHCP Server " . $leaseServerName . " " . \
   :set Store [ :pick $Store 0 [ :find $Store "\n" ] ];
   :set Store [ $ParseKeyValueStore $Store ];
 
-  :if (($Store->$State) = true) do={
-    :set ($RunOrder->($Store->"order")) $Name;
-  }
+  :set ($RunOrder->($Store->"order")) $Name;
 }
 
 :foreach Order,Script in=$RunOrder do={
