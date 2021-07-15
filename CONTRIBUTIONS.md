@@ -9,6 +9,7 @@ Thanks a lot for your contributions!
 
 These persons contributed code. See the git history for details!
 
+* [Ben Harris](mailto:mail@bharr.is) (@bharrisau)
 * [Daniel Ziegenberg](mailto:daniel@ziegenberg.at) (@ziegenberg)
 * [Michael Gisbers](mailto:michael@gisbers.de) (@mgisbers)
 * [netztrip](mailto:dave-tvg@netztrip.de) (@netztrip)
