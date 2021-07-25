@@ -946,13 +946,17 @@
 
     :global ScriptLockOrder;
 
-    :local New [ :toarray "" ];
-    :foreach Ticket in=($ScriptLockOrder->$Script) do={
-      :if ($Ticket != $Remove) do={
-        :set New ($New, $Ticket);
+    :while (true) do={
+      :local New [ :toarray "" ];
+      :foreach Ticket in=($ScriptLockOrder->$Script) do={
+        :if ($Ticket != $Remove) do={
+          :set New ($New, $Ticket);
+        }
       }
+      :set ($ScriptLockOrder->$Script) $New;
+      :delay 12ms;
+      :if (($ScriptLockOrder->$Script->0) != $Remove) do={ :return true; }
     }
-    :set ($ScriptLockOrder->$Script) $New;
   }
 
   :if ([ :len [ / system script find where name=$Script ] ] = 0) do={
