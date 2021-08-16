@@ -25,6 +25,7 @@ Add yourself to the list,
 * Linux-Schmie.de Michael Gisbers
 * Manuel Kuhn
 * Marek Čábák
+* Oleksandr Yukhymchuk
 * Peter Holtkamp
 * Reiner Vehrenkamp
 * Sunny Chu (@sunnychuchu)
