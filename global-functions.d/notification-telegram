@@ -71,7 +71,7 @@
     :global IfThenElse;
 
     :if ($TelegramFixedWidthFont != true) do={
-      :return ($1 . [ $IfThenElse ($2 = "body") "\n" "" ]);
+      :return ($1 . [ $IfThenElse ($2 = "body") ("\n") "" ]);
     }
 
     :local Return $1;
