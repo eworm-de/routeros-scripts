@@ -58,7 +58,7 @@ $ScriptLock $0 false 10;
     $LogPrintExit2 debug $0 ("A lease just vanished, ignoring.") false;
   }
 
-  :if ([ :typeof $LeaseVal ] = "array") do={
+  :if ([ :len ($LeaseVal->"address") ] > 0) do={
     :local Comment ($CommentPrefix . $LeaseVal->"mac-address");
     :local HostName [ $IfThenElse ([ :len ($LeaseVal->"host-name") ] = 0) \
       [ $CharacterReplace ($LeaseVal->"mac-address") ":" "-" ] \
@@ -91,5 +91,7 @@ $ScriptLock $0 false 10;
       $LogPrintExit2 info $0 ("Adding new DNS entry for " . $Fqdn . ", address is " . $LeaseVal->"address" . ".") false;
       / ip dns static add name=$Fqdn address=($LeaseVal->"address") ttl=$Ttl comment=$Comment place-before=$PlaceBefore;
     }
+  } else={
+    $LogPrintExit2 debug $0 ("No address available... Ignoring.") false;
   }
 }
