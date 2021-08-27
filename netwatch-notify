@@ -16,6 +16,7 @@
 :global IfThenElse;
 :global LogPrintExit2;
 :global ParseKeyValueStore;
+:global ScriptLock;
 :global SendNotification2;
 :global SymbolForNotification;
 
@@ -46,6 +47,8 @@
 :if ([ :typeof $NetwatchNotify ] = "nothing") do={
   :set NetwatchNotify [ :toarray "" ];
 }
+
+$ScriptLock $0;
 
 :foreach Host in=[ / tool netwatch find where comment~"^notify," disabled=no ] do={
   :local HostVal [ / tool netwatch get $Host ];
