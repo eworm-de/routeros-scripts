@@ -18,6 +18,7 @@
 :global Identity;
 
 :global LogPrintExit2;
+:global ScriptLock;
 :global SendNotification2;
 :global SymbolForNotification;
 
@@ -35,6 +36,8 @@
 :if ([ :typeof $CheckHealthTemperatureNotified ] != "array") do={
   :set CheckHealthTemperatureNotified [ :toarray "" ];
 }
+
+$ScriptLock $0;
 
 :foreach Name,Voltage in=$CheckHealthCurrent do={
   :if ($Name ~ "(battery|voltage)" && \
