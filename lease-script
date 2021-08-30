@@ -22,14 +22,14 @@
   $LogPrintExit2 error $0 ("This script is supposed to run from ip dhcp-server.") true;
 }
 
+$LogPrintExit2 debug $0 ("DHCP Server " . $leaseServerName . " " . [ $IfThenElse ($leaseBound = 0) \
+  "de" "" ] . "assigned lease " . $leaseActIP . " to " . $leaseActMAC) false;
+
 $ScriptLock $0 false 10;
 
 :if ([ :len [ / system script job find where script=$0 ] ] > 1) do={
   $LogPrintExit2 debug $0 ("More invocations are waiting, exiting early.") true;
 }
-
-$LogPrintExit2 debug $0 ("DHCP Server " . $leaseServerName . " " . [ $IfThenElse ($leaseBound = 0) \
-  "de" "" ] . "assigned lease " . $leaseActIP . " to " . $leaseActMAC) false;
 
 :local RunOrder [ :toarray "" ];
 
