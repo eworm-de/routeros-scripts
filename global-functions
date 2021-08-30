@@ -931,18 +931,48 @@
     :return [ :len [ / system script job find where script=$Script ] ];
   }
 
+  :local TicketCount do={
+    :local Script [ :tostr $1 ];
+
+    :global ScriptLockOrder;
+
+    :local Count 0;
+    :foreach Ticket in=($ScriptLockOrder->$Script) do={
+      :if ([ :typeof $Ticket ] != "nothing") do={
+        :set Count ($Count + 1);
+      }
+    }
+    :return $Count;
+  }
+
+  :local IsFirstTicket do={
+    :local Script [ :tostr $1 ];
+    :local Check  [ :tostr $2 ];
+
+    :global ScriptLockOrder;
+
+    :foreach Ticket in=($ScriptLockOrder->$Script) do={
+      :if ($Ticket = $Check) do={ :return true; }
+      :if ([ :typeof $Ticket ] != "nothing" && $Ticket != $Check) do={ :return false; }
+    }
+    :return false;
+  }
+
   :local AddTicket do={
     :local Script [ :tostr $1 ];
     :local Add    [ :tostr $2 ];
 
     :global ScriptLockOrder;
 
+    :if ([ :typeof ($ScriptLockOrder->$Script) ] = "nothing") do={
+      :set ($ScriptLockOrder->$Script) [ :toarray "" ];
+    }
+
     :while (true) do={
-      :set ($ScriptLockOrder->$Script) (($ScriptLockOrder->$Script), $Add);
+      :local Pos [ :len ($ScriptLockOrder->$Script) ];
+      :set ($ScriptLockOrder->$Script->$Pos) $Add;
       :delay 10ms;
-      :foreach Ticket in=($ScriptLockOrder->$Script) do={
-        :if ($Ticket = $Add) do={ :return true; }
-      }
+      :if (($ScriptLockOrder->$Script->$Pos) = $Add) do={ :return true; }
     }
   }
 
@@ -952,16 +982,19 @@
 
     :global ScriptLockOrder;
 
-    :while (true) do={
-      :local New [ :toarray "" ];
-      :foreach Ticket in=($ScriptLockOrder->$Script) do={
-        :if ($Ticket != $Remove) do={
-          :set New ($New, $Ticket);
-        }
+    :local Count 0;
+    :foreach Id,Ticket in=($ScriptLockOrder->$Script) do={
+      :if (($ScriptLockOrder->$Script->$Id) = $Remove) do={
+        :set ($ScriptLockOrder->$Script->$Id);
       }
-      :set ($ScriptLockOrder->$Script) $New;
-      :delay 12ms;
-      :if (($ScriptLockOrder->$Script->0) != $Remove) do={ :return true; }
+
+      :if ([ :typeof ($ScriptLockOrder->$Script->$Id) ] != "nothing") do={
+        :set Count ($Count + 1);
+      }
+    }
+
+    :if ($Count = 0) do={
+      :set ($ScriptLockOrder->$Script);
     }
   }
 
@@ -973,7 +1006,7 @@
     $LogPrintExit2 error $0 ("No script '" . $Script . "' is running!") true;
   }
 
-  :if ([ :len ($ScriptLockOrder->$Script) ] >= [ $JobCount $Script ]) do={
+  :if ([ $TicketCount $Script ] >= [ $JobCount $Script ]) do={
     $LogPrintExit2 error $0 ("More tickets than running scripts '" . $Script . "', resetting!") false;
     :set ($ScriptLockOrder->$Script);
     / system script job remove [ find where script=$Script ];
@@ -983,12 +1016,12 @@
   $AddTicket $Script $MyTicket;
 
   :local WaitCount 0;
-  :while ($WaitMax > $WaitCount && (($ScriptLockOrder->$Script->0) != $MyTicket || [ :len ($ScriptLockOrder->$Script) ] < [ $JobCount $Script ])) do={
-    :delay 100ms;
+  :while ($WaitMax > $WaitCount && ([ $IsFirstTicket $Script $MyTicket ] = false || [ $TicketCount $Script ] < [ $JobCount $Script ])) do={
     :set WaitCount ($WaitCount + 1);
+    :delay 100ms;
   }
 
-  :if (($ScriptLockOrder->$Script->0) = $MyTicket && [ :len ($ScriptLockOrder->$Script) ] = [ $JobCount $Script ]) do={
+  :if ([ $IsFirstTicket $Script $MyTicket ] = true && [ $TicketCount $Script ] = [ $JobCount $Script ]) do={
     $RemoveTicket $Script $MyTicket;
     :return false;
   }
