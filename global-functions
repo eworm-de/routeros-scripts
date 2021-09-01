@@ -84,7 +84,7 @@
     }
   }
 
-  :if ([ $RequiredRouterOS $0 "6.47" ] = false) do={
+  :if ([ $RequiredRouterOS $0 "6.47" true ] = false) do={
     :return true;
   }
 
@@ -661,16 +661,19 @@
 
 # check for required RouterOS version
 :set RequiredRouterOS do={
-  :local Caller   [ :tostr $1 ];
-  :local Required [ :tostr $2 ];
+  :local Caller   [ :tostr  $1 ];
+  :local Required [ :tostr  $2 ];
+  :local Warn     [ :tobool $3 ];
 
   :global IfThenElse;
   :global LogPrintExit2;
   :global VersionToNum;
 
   :if ([ $VersionToNum $Required ] > [ $VersionToNum [ / system package update get installed-version ] ]) do={
-    $LogPrintExit2 warning $0 ("This " . [ $IfThenElse ([ :pick $Caller 0 ] = "\$") "function" "script" ] . \
-      " '" . $Caller . "' (at least specific functionality) requires RouterOS " . $Required . ". Please update!") false;
+    :if ($Warn = true) do={
+      $LogPrintExit2 warning $0 ("This " . [ $IfThenElse ([ :pick $Caller 0 ] = "\$") "function" "script" ] . \
+        " '" . $Caller . "' (at least specific functionality) requires RouterOS " . $Required . ". Please update!") false;
+    }
     :return false;
   }
   :return true;
@@ -1316,7 +1319,7 @@
 }
 
 # check for required RouterOS version
-$RequiredRouterOS "global-functions" "6.47";
+$RequiredRouterOS "global-functions" "6.47" true;
 
 # signal we are ready
 :set GlobalFunctionsReady true;
