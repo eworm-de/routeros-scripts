@@ -68,7 +68,6 @@
   :global CertificateDownload;
   :global LogPrintExit2;
   :global ParseKeyValueStore;
-  :global RequiredRouterOS;
 
   :if ([ / system resource get free-hdd-space ] < 8388608 && \
        [ / certificate settings get crl-download ] = true && \
@@ -82,10 +81,6 @@
     :if ([ $CertificateDownload $CommonName ] = false) do={
       :return false;
     }
-  }
-
-  :if ([ $RequiredRouterOS $0 "6.47" true ] = false) do={
-    :return true;
   }
 
   :local CertVal [ / certificate get [ find where common-name=$CommonName ] ];
