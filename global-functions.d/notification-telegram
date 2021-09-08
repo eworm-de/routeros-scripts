@@ -141,7 +141,7 @@
       parsemode=$ParseMode; text=$Text; silent=($Notification->"silent") };
     :if ([ :len [ / system scheduler find where name="FlushTelegramQueue" ] ] = 0) do={
       / system scheduler add name=FlushTelegramQueue interval=1m start-time=startup \
-        on-event=":global FlushTelegramQueue; \$FlushTelegramQueue;";
+        on-event=(":global FlushTelegramQueue; \$FlushTelegramQueue;");
     }
   }
 }

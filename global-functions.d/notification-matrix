@@ -135,7 +135,7 @@
       plain=$Plain; formatted=$Formatted };
     :if ([ :len [ / system scheduler find where name="FlushMatrixQueue" ] ] = 0) do={
       / system scheduler add name=FlushMatrixQueue interval=1m start-time=startup \
-        on-event=":global FlushMatrixQueue; \$FlushMatrixQueue;";
+        on-event=(":global FlushMatrixQueue; \$FlushMatrixQueue;");
     }
   }
 }
