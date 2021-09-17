@@ -168,6 +168,8 @@
 #:global ScriptUpdatesUrlSuffix "\?h=next";
 
 # Use this for defaults with $ScriptRunOnce
+# Install module with:
+# $ScriptInstallUpdate global-functions.d/scriptrunonce
 :global ScriptRunOnceBaseUrl "";
 :global ScriptRunOnceUrlSuffix "";
 
