@@ -1,0 +1,35 @@
+#!rsc by RouterOS
+# RouterOS script: global-functions.d/ipcalc
+# Copyright (c) 2020-2021 Christian Hesse <mail@eworm.de>
+# https://git.eworm.de/cgit/routeros-scripts/about/COPYING.md
+
+:global IPCalc;
+
+# calculate and print netmask, network, min host, max host and broadcast
+:set IPCalc do={
+  :local Input [ :tostr $1 ];
+  :local Address [ :toip [ :pick $Input 0 [ :find $Input "/" ] ] ];
+  :local Bits [ :tonum [ :pick $Input ([ :find $Input "/" ] + 1) [ :len $Input ] ] ];
+  :local Mask ((255.255.255.255 << (32 - $Bits)) & 255.255.255.255);
+
+  :local Return {
+    "address"=$Address;
+    "netmask"=$Mask;
+    "networkaddress"=($Address & $Mask);
+    "networkbits"=$Bits;
+    "network"=(($Address & $Mask) . "/" . $Bits);
+    "hostmin"=(($Address & $Mask) | 0.0.0.1);
+    "hostmax"=(($Address | ~$Mask) ^ 0.0.0.1);
+    "broadcast"=($Address | ~$Mask);
+  }
+
+  :put ( \
+    "Address:   " . $Return->"address" . "\n\r" . \
+    "Netmask:   " . $Return->"netmask" . "\n\r" . \
+    "Network:   " . $Return->"network" . "\n\r" . \
+    "HostMin:   " . $Return->"hostmin" . "\n\r" . \
+    "HostMax:   " . $Return->"hostmax" . "\n\r" . \
+    "Broadcast: " . $Return->"broadcast");
+
+  :return $Return;
+}
