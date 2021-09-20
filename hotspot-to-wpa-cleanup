@@ -19,7 +19,8 @@ $ScriptLock $0 false 10;
 
 :foreach Client in=[ / caps-man registration-table find where comment~"^hotspot-to-wpa:" ] do={
   :local ClientVal [ / caps-man registration-table get $Client ];
-  :local Lease [ / ip dhcp-server lease find where mac-address=($ClientVal->"mac-address") dynamic ];
+  :local Lease [ / ip dhcp-server lease find where server~"wpa" dynamic \
+    mac-address=($ClientVal->"mac-address") ];
   :if ([ :len $Lease ] > 0) do={
     $LogPrintExit2 info $0 ("Client with mac address " . ($ClientVal->"mac-address") . \
       " connected to WPA, making lease static.") false;
@@ -31,8 +32,8 @@ $ScriptLock $0 false 10;
 :foreach Client in=[ / caps-man access-list find where comment~"^hotspot-to-wpa:" and \
     !(comment~[ / system clock get date ]) ] do={
   :local ClientVal [ / caps-man access-list get $Client ];
-  :if ([ :len [ / ip dhcp-server lease find where mac-address=($ClientVal->"mac-address") \
-      !dynamic ] ] = 0) do={
+  :if ([ :len [ / ip dhcp-server lease find where server~"wpa" !dynamic \
+       mac-address=($ClientVal->"mac-address") ] ] = 0) do={
     $LogPrintExit2 info $0 ("Client with mac address " . ($ClientVal->"mac-address") . \
       " did not connect to WPA, removing from access list.") false;
     / caps-man access-list remove $Client;
