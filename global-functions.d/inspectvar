@@ -1,0 +1,40 @@
+#!rsc by RouterOS
+# RouterOS script: global-functions.d/inspectvar
+# Copyright (c) 2020-2021 Christian Hesse <mail@eworm.de>
+# https://git.eworm.de/cgit/routeros-scripts/about/COPYING.md
+
+:global InspectVar;
+
+# inspect variable
+:set InspectVar do={
+  :local Input $1;
+  :local Level (0 + [ :tonum $2 ]);
+
+  :global InspectVar;
+
+  :local PutIndent do={
+    :local Prefix [ :tostr $1 ];
+    :local Value  [ :tostr $2 ];
+    :local Level  [ :tonum $3 ];
+
+    :local Indent "";
+    :for I from=1 to=$Level step=1 do={
+      :set Indent ($Indent . "  ");
+    }
+    :put ($Indent . "-" . $Prefix . "-> " . $Value);
+  }
+
+  :local TypeOf [ :typeof $Input ];
+  $PutIndent "type" $TypeOf $Level;
+  
+  :if ($TypeOf = "array") do={
+    :foreach Key,Value in=$Input do={
+      $PutIndent "key" $Key ($Level + 1);
+      $InspectVar $Value ($Level + 2);
+    }
+  } else={
+    :if ($TypeOf != "nothing") do={
+      $PutIndent "value" $Input $Level;
+    }
+  }
+}
