@@ -50,11 +50,9 @@ download the certificates. If you intend to download the scripts from a
 different location (for example from github.com) install the corresponding
 certificate chain.
 
-    [admin@MikroTik] > / tool fetch "https://git.eworm.de/cgit/routeros-scripts/plain/certs/R3.pem" dst-path="letsencrypt-R3.pem"
-          status: finished
-      downloaded: 4KiBC-z pause]
-           total: 4KiB
-        duration: 1s
+    / tool fetch "https://git.eworm.de/cgit/routeros-scripts/plain/certs/R3.pem" dst-path="letsencrypt-R3.pem";
+
+![screenshot: download certs](README.d/01-download-certs.png)
 
 Note that the commands above do *not* verify server certificate, so if you
 want to be safe download with your workstations's browser and transfer the
@@ -65,49 +63,59 @@ files to your MikroTik device.
 
 Then we import the certificates.
 
-    [admin@MikroTik] > / certificate import file-name=letsencrypt-R3.pem passphrase=""
-         certificates-imported: 2
-         private-keys-imported: 0
-                files-imported: 1
-           decryption-failures: 0
-      keys-with-no-certificate: 0
+    / certificate import file-name=letsencrypt-R3.pem passphrase="";
+
+![screenshot: import certs](README.d/02-import-certs.png)
 
 For basic verification we rename the certificates and print their count. Make
 sure the certificate count is **two**.
 
-    [admin@MikroTik] > / certificate set name="R3" [ find where fingerprint="67add1166b020ae61b8f5fc96813c04c2aa589960796865572a3c7e737613dfd" ]
-    [admin@MikroTik] > / certificate set name="ISRG-Root-X1" [ find where fingerprint="96bcec06264976f37460779acf28c5a7cfe8a3c0aae11a8ffcee05c0bddf08c6" ]
-    [admin@MikroTik] > / certificate print count-only where fingerprint="67add1166b020ae61b8f5fc96813c04c2aa589960796865572a3c7e737613dfd" or fingerprint="96bcec06264976f37460779acf28c5a7cfe8a3c0aae11a8ffcee05c0bddf08c6"
-    2
+    / certificate set name="R3" [ find where fingerprint="67add1166b020ae61b8f5fc96813c04c2aa589960796865572a3c7e737613dfd" ];
+    / certificate set name="ISRG-Root-X1" [ find where fingerprint="96bcec06264976f37460779acf28c5a7cfe8a3c0aae11a8ffcee05c0bddf08c6" ];
+    / certificate print count-only where fingerprint="67add1166b020ae61b8f5fc96813c04c2aa589960796865572a3c7e737613dfd" or fingerprint="96bcec06264976f37460779acf28c5a7cfe8a3c0aae11a8ffcee05c0bddf08c6";
+
+![screenshot: check certs](README.d/03-check-certs.png)
 
 Always make sure there are no certificates installed you do not know or want!
 
 Now let's download the main scripts and add them in configuration on the fly.
 
-    [admin@MikroTik] > :foreach Script in={ "global-config"; "global-config-overlay"; "global-functions" } do={ / system script add name=$Script source=([ / tool fetch check-certificate=yes-without-crl ("https://git.eworm.de/cgit/routeros-scripts/plain/" . $Script) output=user as-value]->"data"); }
+    :foreach Script in={ "global-config"; "global-config-overlay"; "global-functions" } do={ / system script add name=$Script source=([ / tool fetch check-certificate=yes-without-crl ("https://git.eworm.de/cgit/routeros-scripts/plain/" . $Script) output=user as-value]->"data"); };
+
+![screenshot: import scripts](README.d/04-import-scripts.png)
 
 The configuration needs to be tweaked for your needs. Edit
 `global-config-overlay`, copy configuration from
 [`global-config`](global-config) (the one without `-overlay`).
+Save changes and exit with `Ctrl-o`.
 
-    [admin@MikroTik] > / system script edit global-config-overlay source
+    / system script edit global-config-overlay source;
+
+![screenshot: edit global-config-overlay](README.d/05-edit-global-config-overlay.png)
 
 And finally load configuration and functions and add the scheduler.
 
-    [admin@MikroTik] > / system script { run global-config; run global-config-overlay; run global-functions; }
-    [admin@MikroTik] > / system scheduler add name="global-scripts" start-time=startup on-event="/ system script { run global-config; run global-config-overlay; run global-functions; }"
+    / system script { run global-config; run global-config-overlay; run global-functions; };
+    / system scheduler add name="global-scripts" start-time=startup on-event="/ system script { run global-config; run global-config-overlay; run global-functions; }";
+
+![screenshot: run and schedule scripts](README.d/06-run-and-schedule-scripts.png)
 
 The last step is optional: Add this scheduler **only** if you want the scripts
 to be updated automatically!
 
-    [admin@MikroTik] > / system scheduler add name="ScriptInstallUpdate" start-time=startup interval=1d on-event=":global ScriptInstallUpdate; \$ScriptInstallUpdate;"
+    / system scheduler add name="ScriptInstallUpdate" start-time=startup interval=1d on-event=":global ScriptInstallUpdate; \$ScriptInstallUpdate;";
+
+![screenshot: schedule update](README.d/07-schedule-update.png)
 
 Updating scripts
 ----------------
 
-To update existing scripts just run function `$ScriptInstallUpdate`.
+To update existing scripts just run function `$ScriptInstallUpdate`. If
+everything is up-to-date it will not produce any output.
 
-    [admin@MikroTik] > $ScriptInstallUpdate
+    $ScriptInstallUpdate;
+
+![screenshot: update scripts](README.d/08-update-scripts.png)
 
 Adding a script
 ---------------
@@ -115,7 +123,9 @@ Adding a script
 To add a script from the repository run function `$ScriptInstallUpdate` with
 a comma separated list of script names.
 
-    [admin@MikroTik] > $ScriptInstallUpdate check-certificates,check-routeros-update
+    $ScriptInstallUpdate check-certificates,check-routeros-update;
+
+![screenshot: install scripts](README.d/09-install-scripts.png)
 
 Scheduler and events
 --------------------
@@ -125,15 +135,19 @@ Most scripts are designed to run regularly from
 added `check-routeros-update`, so let's run it every hour to make sure not to
 miss an update.
 
-    [admin@MikroTik] > / system scheduler add name="check-routeros-update" interval=1h on-event="/ system script run check-routeros-update;"
+    / system scheduler add name="check-routeros-update" interval=1h on-event="/ system script run check-routeros-update;";
+
+![screenshot: schedule script](README.d/10-schedule-script.png)
 
 Some events can run a script. If you want your DHCP hostnames to be available
 in DNS use `dhcp-to-dns` with the events from dhcp server. For a regular
 cleanup add a scheduler entry.
 
-    [admin@MikroTik] > $ScriptInstallUpdate dhcp-to-dns,lease-script
-    [admin@MikroTik] > / ip dhcp-server set lease-script=lease-script [ find ]
-    [admin@MikroTik] > / system scheduler add name="dhcp-to-dns" interval=5m on-event="/ system script run dhcp-to-dns;"
+    $ScriptInstallUpdate dhcp-to-dns,lease-script;
+    / ip dhcp-server set lease-script=lease-script [ find ];
+    / system scheduler add name="dhcp-to-dns" interval=5m on-event="/ system script run dhcp-to-dns;";
+
+![screenshot: setup lease script](README.d/11-setup-lease-script.png)
 
 There's much more to explore... Have fun!
 
