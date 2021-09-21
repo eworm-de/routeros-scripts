@@ -78,6 +78,10 @@ sure the certificate count is **two**.
 
 Always make sure there are no certificates installed you do not know or want!
 
+All following commands will verify the server certificate. For validity the
+certificate's lifetime is checked with local time, so make sure the device's
+date and time is set correctly!
+
 Now let's download the main scripts and add them in configuration on the fly.
 
     :foreach Script in={ "global-config"; "global-config-overlay"; "global-functions" } do={ / system script add name=$Script source=([ / tool fetch check-certificate=yes-without-crl ("https://git.eworm.de/cgit/routeros-scripts/plain/" . $Script) output=user as-value]->"data"); };
