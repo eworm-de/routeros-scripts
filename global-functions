@@ -543,7 +543,8 @@
   :local To [ $EitherOr ($EmailGeneralToOverride->($Notification->"origin")) $EmailGeneralTo ];
   :local Cc [ $EitherOr ($EmailGeneralCcOverride->($Notification->"origin")) $EmailGeneralCc ];
 
-  :if ([ :len $To ] = 0) do={
+  :local EMailSettings [ / tool e-mail get ];
+  :if ([ :len $To ] = 0 || ($EMailSettings->"address") = "0.0.0.0" || ($EMailSettings->"from") = "<>") do={
     :return false;
   }
 
