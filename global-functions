@@ -198,7 +198,10 @@
   :global IfThenElse;
 
   :local Resource [ / system resource get ];
-  :local RouterBoard [ / system routerboard get ];
+  :local RouterBoard;
+  :do {
+    :set RouterBoard [ / system routerboard get ];
+  } on-error={ }
   :local Update [ / system package update get ];
 
   :return ( \
