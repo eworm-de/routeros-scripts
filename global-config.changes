@@ -68,6 +68,7 @@
   62="Added '\$ScriptRunOnce' to run a script from URL once without installation, intended to aid configuration management and the like.";
   63="Moved optional functions '\$IPCalc' and '\$ScriptRunOnce' to modules.";
   64="Implemented '\$InspectVar' in module to inspect variables.";
+  65="Added module to manage VLANs on bridge ports.";
 };
 
 # Migration steps to be applied on script updates

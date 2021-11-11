@@ -76,6 +76,11 @@ More configuration can be loaded by setting `BridgePortTo`:
 * Interfaces `en1` and `en2` are unchanged.
 * Interface `en3` is put in bridge `br-intern`.
 
+See also
+--------
+
+* [Manage VLANs on bridge ports](global-functions.d/bridge-port-vlan.md)
+
 ---
 [◀ Go back to main README](../README.md)  
 [▲ Go back to top](#top)
