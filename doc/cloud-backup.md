@@ -13,7 +13,7 @@ This script uploads [binary backup to Mikrotik cloud](https://wiki.mikrotik.com/
 
 ### Sample notification
 
-![cloud-backup notification](notifications/cloud-backup.svg)
+![cloud-backup notification](cloud-backup.d/notification.svg)
 
 Requirements and installation
 -----------------------------

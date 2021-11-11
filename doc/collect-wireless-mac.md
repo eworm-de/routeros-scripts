@@ -17,7 +17,7 @@ and modify it to your needs.
 
 ### Sample notification
 
-![collect-wireless-mac notification](notifications/collect-wireless-mac.svg)
+![collect-wireless-mac notification](collect-wireless-mac.d/notification.svg)
 
 Requirements and installation
 -----------------------------

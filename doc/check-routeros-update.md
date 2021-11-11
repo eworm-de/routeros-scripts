@@ -21,7 +21,7 @@ automatically is supported.
 
 ### Sample notification
 
-![check-routeros-update notification](notifications/check-routeros-update.svg)
+![check-routeros-update notification](check-routeros-update.d/notification.svg)
 
 Requirements and installation
 -----------------------------

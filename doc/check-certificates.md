@@ -14,7 +14,7 @@ certificates that are still about to expire.
 
 ### Sample notification
 
-![check-certificates notification](notifications/check-certificates.svg)
+![check-certificates notification](check-certificates.d/notification.svg)
 
 Requirements and installation
 -----------------------------

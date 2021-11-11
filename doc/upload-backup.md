@@ -14,7 +14,7 @@ configuration export (`/ export terse`) to external server.
 
 ### Sample notification
 
-![upload-backup notification](notifications/upload-backup.svg)
+![upload-backup notification](upload-backup.d/notification.svg)
 
 Requirements and installation
 -----------------------------

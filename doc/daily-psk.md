@@ -14,7 +14,7 @@ passphrase to a pseudo-random string daily.
 
 ### Sample notification
 
-![daily-psk notification](notifications/daily-psk.svg)
+![daily-psk notification](daily-psk.d/notification.svg)
 
 Requirements and installation
 -----------------------------
