@@ -3,21 +3,21 @@ Manage ports in bridge
 
 [◀ Go back to main README](../README.md)
 
-🛈 This script can not be used on its own but requires the base installation.
+🛈 This module can not be used on its own but requires the base installation.
 See [main README](../README.md) for details.
 
 Description
 -----------
 
-These scripts are supposed to handle interfaces and switching them from
-one bridge to another.
+This module and its functio are are supposed to handle interfaces and
+switching them from one bridge to another.
 
 Requirements and installation
 -----------------------------
 
-Just install the scripts:
+Just install the module:
 
-    $ScriptInstallUpdate bridge-port-to-default,bridge-port-toggle;
+    $ScriptInstallUpdate global-functions.d/bridge-port-to;
 
 Configuration
 -------------
@@ -32,23 +32,19 @@ Also dhcp client can be handled:
 
     / ip dhcp-client add comment="toggle with bridge port" disabled=no interface=en1;
 
-There is also global configuration:
-
-* `BridgePortTo`: specify the configuration to be applied by default
-
 Add a scheduler to start with default setup on system startup:
 
-    / system scheduler add name=bridge-port-to-default on-event="/ system script run bridge-port-to-default;" start-time=startup;
+    / system scheduler add name=bridge-port-to on-event=":global GlobalFunctionsReady; :while (\$GlobalFunctionsReady != true) do={ :delay 500ms; }; :global BridgePortTo; \$BridgePortTo default;" start-time=startup;
 
 Usage and invocation
 --------------------
 
 The usage examples show what happens with the configuration from above.
 
-Running the script `bridge-port-to-default` applies all configuration given
-with `default=`:
+Running the function `$BridgePortTo` with parameter `default` applies all
+configuration given with `default=`:
 
-    / system script run bridge-port-to-default;
+    $BridgePortTo default;
 
 For the three interfaces we get this configuration:
 
@@ -56,22 +52,19 @@ For the three interfaces we get this configuration:
 * Interface `en2` is put in bridge `br-intern`.
 * Interface `en3` is put in bridge `br-guest`.
 
-Running the script `bridge-port-toggle` toggles to configuration given
-with `alt=`:
+Running the function `$BridgePortTo` with parameter `alt` applies all
+configuration given with `alt=`:
 
-    / system script run bridge-port-toggle;
+    $BridgePortTo alt;
 
 * Interface `en1` is put in bridge `br-guest`, dhcp client for the interface is disabled.
 * Interface `en2` is put in bridge `br-guest`.
 * Interface `en3` is unchanged, stays in bridge `br-guest`.
 
-Running the script `bridge-port-toggle` again toggles back to configuration
-given with `default=`.
+Running the function `$BridgePortTo` with parameter `extra` applies another
+configuration:
 
-More configuration can be loaded by setting `BridgePortTo`:
-
-    :set BridgePortTo "extra";
-    / system script run bridge-port-to-default;
+    $BridgePortTo extra;
 
 * Interfaces `en1` and `en2` are unchanged.
 * Interface `en3` is put in bridge `br-intern`.
@@ -79,7 +72,7 @@ More configuration can be loaded by setting `BridgePortTo`:
 See also
 --------
 
-* [Manage VLANs on bridge ports](global-functions.d/bridge-port-vlan.md)
+* [Manage VLANs on bridge ports](bridge-port-vlan.md)
 
 ---
 [◀ Go back to main README](../README.md)  

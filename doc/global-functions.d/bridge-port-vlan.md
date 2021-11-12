@@ -76,7 +76,7 @@ configuration:
 See also
 --------
 
-* [Manage ports in bridge](../bridge-port.md)
+* [Manage ports in bridge](bridge-port-to.md)
 
 ---
 [◀ Go back to main README](../../README.md)  

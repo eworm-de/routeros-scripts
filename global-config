@@ -8,7 +8,7 @@
 
 # Make sure all configuration properties are up to date and this
 # value is in sync with value in script 'global-functions'!
-:global GlobalConfigVersion 65;
+:global GlobalConfigVersion 66;
 
 # This is used for DNS and backup file.
 :global Domain "example.com";
@@ -107,9 +107,6 @@
 :global CheckHealthTemperatureDeviation 2;
 :global CheckHealthVoltagePercent 10;
 
-# This controls what configuration is activated by bridge-port-to-default.
-:global BridgePortTo "default";
-
 # Access-list entries matching this comment are updated
 # with daily pseudo-random PSK.
 :global DailyPskMatchComment "Daily PSK";
@@ -134,7 +131,7 @@
   2=":global SendNotification; :global Identity; \$SendNotification (\"Hello...\") (\"Hello world, \" . \$Identity . \" calling!\");";
   3="/ system shutdown;";
   4="/ system reboot;";
-  5="/ system script run bridge-port-toggle;";
+  5=":global BridgePortVlan; \$BridgePortVlan alt;";
 # add more here...
 };
 # This led gives visual feedback if type is 'on' or 'off'.
@@ -142,7 +139,7 @@
 
 # Run commands on SMS action.
 :global SmsAction {
-  bridge-port-toggle="/ system script run bridge-port-toggle;";
+  bridge-port-vlan-alt=":global BridgePortVlan; \$BridgePortVlan alt;";
   reboot="/ system reboot;";
   shutdown="/ system shutdown;";
 # add more here...

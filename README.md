@@ -159,7 +159,6 @@ Available Scripts
 -----------------
 
 * [Find and remove access list duplicates](doc/accesslist-duplicates.md)
-* [Manage ports in bridge](doc/bridge-port.md)
 * [Download packages for CAP upgrade from CAPsMAN](doc/capsman-download-packages.md)
 * [Run rolling CAP upgrades from CAPsMAN](doc/capsman-rolling-upgrade.md)
 * [Renew locally issued certificates](doc/certificate-renew-issued.md)
@@ -204,6 +203,7 @@ Available Scripts
 Available modules
 -----------------
 
+* [Manage ports in bridge](doc/global-functions.d/bridge-port-to.md)
 * [Manage VLANs on bridge ports](doc/global-functions.d/bridge-port-vlan.md)
 
 Contact
