@@ -72,6 +72,7 @@
   66="Moved script 'bridge-port-to-default' to new module.";
   67="Moved modules to directory with shorter name.";
   68="Reintroduced 'global-wait' for functions in scheduler.";
+  69="Support hard lower limit for voltage in 'check-health'.";
 };
 
 # Migration steps to be applied on script updates

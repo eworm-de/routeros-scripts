@@ -12,7 +12,7 @@ Description
 This script is run from scheduler periodically, sending notification on
 health related events:
 
-* voltage jumps up or down more than configured threshold
+* voltage jumps up or down more than configured threshold or drops below limit
 * power supply failed or recovered
 * temperature is above or below threshold
 
@@ -53,6 +53,7 @@ Configuration
 The configuration goes to `global-config-overlay`, these are the parameters:
 
 * `CheckHealthTemperature`: an array specifying temperature thresholds for sensors
+* `CheckHealthVoltageLow`: value (in volt*10) giving a hard lower limit
 * `CheckHealthVoltagePercent`: percentage value to trigger voltage jumps
 
 Also notification settings are required for e-mail, matrix and/or telegram.

@@ -8,7 +8,7 @@
 
 # Make sure all configuration properties are up to date and this
 # value is in sync with value in script 'global-functions'!
-:global GlobalConfigVersion 68;
+:global GlobalConfigVersion 69;
 
 # This is used for DNS and backup file.
 :global Domain "example.com";
@@ -105,6 +105,7 @@
 }
 # This is deviation on recovery threshold against notification flooding.
 :global CheckHealthTemperatureDeviation 2;
+:global CheckHealthVoltageLow 115;
 :global CheckHealthVoltagePercent 10;
 
 # Access-list entries matching this comment are updated

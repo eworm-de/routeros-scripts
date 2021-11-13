@@ -14,6 +14,7 @@
 :global CheckHealthTemperature;
 :global CheckHealthTemperatureDeviation;
 :global CheckHealthTemperatureNotified;
+:global CheckHealthVoltageLow;
 :global CheckHealthVoltagePercent;
 :global Identity;
 
@@ -52,6 +53,17 @@ $ScriptLock $0;
         message=("The " . $Name . " on " . $Identity . " jumped more than " . $CheckHealthVoltagePercent . "%.\n\n" . \
           "old value: " . [ $FormatVoltage ($CheckHealthLast->$Name) ] . "\n" . \
           "new value: " . [ $FormatVoltage $Voltage ]) });
+    } else={ 
+      :if ($Voltage <= $CheckHealthVoltageLow && $CheckHealthLast->$Name > $CheckHealthVoltageLow) do={ 
+        $SendNotification2 ({ origin=$0; \ 
+          subject=([ $SymbolForNotification "high-voltage-sign,chart-decreasing" ] . "Health warning: Low " . $Name); \ 
+          message=("The " . $Name . " on " . $Identity . " dropped to " . [ $FormatVoltage $Voltage ] . " below hard limit.") }); 
+      } 
+      :if ($Voltage > $CheckHealthVoltageLow && $CheckHealthLast->$Name <= $CheckHealthVoltageLow) do={ 
+        $SendNotification2 ({ origin=$0; \ 
+          subject=([ $SymbolForNotification "high-voltage-sign,chart-increasing" ] . "Health recovery: Low " . $Name); \ 
+          message=("The " . $Name . " on " . $Identity . " recovered to " . [ $FormatVoltage $Voltage ] . " above hard limit.") }); 
+      }
     }
   }
 }
