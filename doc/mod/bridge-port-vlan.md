@@ -39,7 +39,8 @@ Also dhcp client can be handled:
 
 Add a scheduler to start with default setup on system startup:
 
-    / system scheduler add name=bridge-port-vlan on-event=":global GlobalFunctionsReady; :while (\$GlobalFunctionsReady != true) do={ :delay 500ms; }; :global BridgePortVlan; \$BridgePortVlan default;" start-time=startup;
+    $ScriptInstallUpdate global-wait;
+    / system scheduler add name=bridge-port-vlan on-event="/ system script run global-wait; :global BridgePortVlan; \$BridgePortVlan default;" start-time=startup;
 
 Usage and invocation
 --------------------
@@ -76,6 +77,7 @@ configuration:
 See also
 --------
 
+* [Wait for global functions und modules](../global-wait.md)
 * [Manage ports in bridge](bridge-port-to.md)
 
 ---
