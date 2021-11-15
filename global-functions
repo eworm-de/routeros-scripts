@@ -32,7 +32,6 @@
 :global GetRandomNumber;
 :global HexToNum;
 :global IfThenElse;
-:global LogPrintExit;
 :global LogPrintExit2;
 :global MkDir;
 :global NotificationFunctions;
@@ -439,14 +438,6 @@
     :return $2;
   }
   :return $3;
-}
-
-# deprecated compatibility wrapper
-:set LogPrintExit do={
-  :global LogPrintExit2;
-
-  $LogPrintExit2 warning $0 ("This function is deprecated. Please use \$LogPrintExit2 instead.") false;
-  $LogPrintExit2 $1 "unknown" $2 $3;
 }
 
 # log and print with same text, optionally exit
