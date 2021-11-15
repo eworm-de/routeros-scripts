@@ -1,10 +1,10 @@
 #!rsc by RouterOS
-# RouterOS script: global-functions.d/bridge-port-to
+# RouterOS script: mod/bridge-port-to
 # Copyright (c) 2013-2021 Christian Hesse <mail@eworm.de>
 # https://git.eworm.de/cgit/routeros-scripts/about/COPYING.md
 #
 # reset bridge ports to default bridge
-# https://git.eworm.de/cgit/routeros-scripts/about/doc/global-functions.d/bridge-port-to.md
+# https://git.eworm.de/cgit/routeros-scripts/about/doc/mod/bridge-port-to.md
 
 :global BridgePortTo;
 

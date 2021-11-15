@@ -8,7 +8,7 @@
 
 # Make sure all configuration properties are up to date and this
 # value is in sync with value in script 'global-functions'!
-:global GlobalConfigVersion 66;
+:global GlobalConfigVersion 67;
 
 # This is used for DNS and backup file.
 :global Domain "example.com";
@@ -26,7 +26,7 @@
 
 # You can send Telegram notifications. Register a bot
 # and add the token and chat ids here, then install the module:
-# $ScriptInstallUpdate global-functions.d/notification-telegram
+# $ScriptInstallUpdate mod/notification-telegram
 :global TelegramTokenId "";
 :global TelegramChatId "";
 #:global TelegramTokenId "123456:ABCDEF-GHI";
@@ -36,7 +36,7 @@
 
 # You can send Matrix notifications. Configure these settings and
 # install the module:
-# $ScriptInstallUpdate global-functions.d/notification-matrix
+# $ScriptInstallUpdate mod/notification-matrix
 :global MatrixHomeServer "";
 :global MatrixAccessToken "";
 :global MatrixRoom "";
@@ -166,7 +166,7 @@
 
 # Use this for defaults with $ScriptRunOnce
 # Install module with:
-# $ScriptInstallUpdate global-functions.d/scriptrunonce
+# $ScriptInstallUpdate mod/scriptrunonce
 :global ScriptRunOnceBaseUrl "";
 :global ScriptRunOnceUrlSuffix "";
 

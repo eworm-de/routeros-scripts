@@ -16,7 +16,7 @@ Requirements and installation
 
 Just install the module:
 
-    $ScriptInstallUpdate global-functions.d/bridge-port-vlan;
+    $ScriptInstallUpdate mod/bridge-port-vlan;
 
 Configuration
 -------------

@@ -17,7 +17,7 @@ Requirements and installation
 
 Just install the module:
 
-    $ScriptInstallUpdate global-functions.d/bridge-port-to;
+    $ScriptInstallUpdate mod/bridge-port-to;
 
 Configuration
 -------------

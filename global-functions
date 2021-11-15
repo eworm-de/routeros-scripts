@@ -8,7 +8,7 @@
 # https://git.eworm.de/cgit/routeros-scripts/about/
 
 # expected configuration version
-:global ExpectedConfigVersion 66;
+:global ExpectedConfigVersion 67;
 
 # global variables not to be changed by user
 :global GlobalFunctionsReady false;
@@ -755,7 +755,7 @@
             :if ($ScriptVal->"name" = "global-config") do={
               :set ReloadGlobalConfig true;
             }
-            :if ($ScriptVal->"name" ~ ("^global-functions(\$|\\.d/.)")) do={
+            :if ($ScriptVal->"name" = "global-functions" || $ScriptVal->"name" ~ ("^mod/.")) do={
               :set ReloadGlobalFunctions true;
             }
           } else={
@@ -1242,7 +1242,7 @@
 }
 
 # load modules
-:foreach Script in=[ / system script find where name ~ "^global-functions\\.d/." ] do={
+:foreach Script in=[ / system script find where name ~ "^mod/." ] do={
   / system script run $Script;
 }
 

@@ -203,8 +203,8 @@ Available Scripts
 Available modules
 -----------------
 
-* [Manage ports in bridge](doc/global-functions.d/bridge-port-to.md)
-* [Manage VLANs on bridge ports](doc/global-functions.d/bridge-port-vlan.md)
+* [Manage ports in bridge](doc/mod/bridge-port-to.md)
+* [Manage VLANs on bridge ports](doc/mod/bridge-port-vlan.md)
 
 Contact
 -------
