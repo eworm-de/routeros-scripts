@@ -40,7 +40,8 @@ On first run a disabled access list entry acting as marker (with comment
 "`--- collected above ---`") is added. Move this entry to define where new
 entries are to be added.
 
-Also notification settings are required for e-mail, matrix and/or
+Also notification settings are required for e-mail,
+[matrix](mod/notification-matrix.md) and/or
 [telegram](mod/notification-telegram.md).
 
 Usage and invocation

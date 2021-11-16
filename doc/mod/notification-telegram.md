@@ -53,6 +53,11 @@ Usage and invocation
 There's nothing special to do. Every script or function sending a notification
 will now send it to your Telegram account.
 
+See also
+--------
+
+* [Send notifications via Matrix](notification-matrix.md)
+
 ---
 [◀ Go back to main README](../../README.md)  
 [▲ Go back to top](#top)

@@ -88,7 +88,8 @@ powered off, but accessibility is of interest.
 
 Go and get your coffee ☕️ before sending the print job.
 
-Also notification settings are required for e-mail, matrix and/or
+Also notification settings are required for e-mail,
+[matrix](mod/notification-matrix.md) and/or
 [telegram](mod/notification-telegram.md).
 
 Tips & Tricks

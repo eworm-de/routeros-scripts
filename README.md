@@ -224,6 +224,7 @@ Available modules
 
 * [Manage ports in bridge](doc/mod/bridge-port-to.md)
 * [Manage VLANs on bridge ports](doc/mod/bridge-port-vlan.md)
+* [Send notifications via Matrix](doc/mod/notification-matrix.md)
 * [Send notifications via Telegram](doc/mod/notification-telegram.md)
 
 Contact
