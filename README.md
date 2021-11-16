@@ -243,6 +243,7 @@ Available modules
 * [IP address calculation](doc/mod/ipcalc.md)
 * [Send notifications via Matrix](doc/mod/notification-matrix.md)
 * [Send notifications via Telegram](doc/mod/notification-telegram.md)
+* [Download script and run it once](doc/mod/scriptrunonce.md)
 
 Contact
 -------
