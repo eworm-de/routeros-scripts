@@ -46,7 +46,8 @@ The configuration goes to `global-config-overlay`, these are the parameters:
 * `LogForwardIncludeMessage`: define message text to be forwarded (even if
   filter matches)
 
-Also notification settings are required for e-mail, matrix and/or
+Also notification settings are required for e-mail,
+[matrix](mod/notification-matrix.md) and/or
 [telegram](mod/notification-telegram.md)m.
 
 ---
