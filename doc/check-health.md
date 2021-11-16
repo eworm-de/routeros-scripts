@@ -56,7 +56,8 @@ The configuration goes to `global-config-overlay`, these are the parameters:
 * `CheckHealthVoltageLow`: value (in volt*10) giving a hard lower limit
 * `CheckHealthVoltagePercent`: percentage value to trigger voltage jumps
 
-Also notification settings are required for e-mail, matrix and/or telegram.
+Also notification settings are required for e-mail, matrix and/or
+[telegram](mod/notification-telegram.md).
 
 ---
 [◀ Go back to main README](../README.md)  

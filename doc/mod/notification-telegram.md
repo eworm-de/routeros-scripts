@@ -1,0 +1,58 @@
+Send notifications via Telegram
+===============================
+
+[◀ Go back to main README](../../README.md)
+
+> ℹ️️ **Info**: This module can not be used on its own but requires the base
+> installation. See [main README](../../README.md) for details.
+
+Description
+-----------
+
+This module adds support for sending notifications via
+[Telegram](https://telegram.org/) via bot api. A queue is used to make sure
+notifications are not lost on failure but sent later.
+
+Requirements and installation
+-----------------------------
+
+Just install the module:
+
+    $ScriptInstallUpdate mod/notification-telegram;
+
+Also install Telegram on at least one of your mobile and/or desktop devices
+and create an account.
+
+Configuration
+-------------
+
+Open Telegram, then start a chat with [BotFather](https://t.me/BotFather) and
+create your own bot:
+
+![create new bot](notification-telegram.d/newbot.avif)
+
+Now open a chat with your bot and start it by clicking the `START` button.
+
+Open just another chat with [GetIDs Bot](https://t.me/getidsbot), again start
+with the `START` button. It will send you some information, including the
+`id`, just below `You`.
+
+Finally edit `global-config-overlay`, add `TelegramTokenId` with the token
+from *BotFather* and `TelegramChatId` with your id from *GetIDs Bot*. Then
+reload the configuration.
+
+### Notifications to a group
+
+Sending notifications to a group is possible as well. Add your bot and the
+*GetIDs Bot* to a group, then use the group's id (which starts with a dash)
+for `TelegramChatId`. Then remove *GetIDs Bot* from group.
+
+Usage and invocation
+--------------------
+
+There's nothing special to do. Every script or function sending a notification
+will now send it to your Telegram account.
+
+---
+[◀ Go back to main README](../../README.md)  
+[▲ Go back to top](#top)

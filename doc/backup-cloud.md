@@ -30,7 +30,8 @@ The configuration goes to `global-config-overlay`, these are the parameters:
 * `BackupPassword`: password to encrypt the backup with
 * `BackupRandomDelay`: delay up to amount of seconds when run from scheduler
 
-Also notification settings are required for e-mail, matrix and/or telegram.
+Also notification settings are required for e-mail, matrix and/or
+[telegram](mod/notification-telegram.md).
 
 Usage and invocation
 --------------------
