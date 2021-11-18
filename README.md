@@ -155,7 +155,7 @@ cleanup add a scheduler entry.
 
 There's much more to explore... Have fun!
 
-Available Scripts
+Available scripts
 -----------------
 
 * [Find and remove access list duplicates](doc/accesslist-duplicates.md)
