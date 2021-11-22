@@ -218,6 +218,8 @@
     [ $IfThenElse ([ :typeof ($Update->"latest-version") ] != "nothing" && \
         $Update->"installed-version" != $Update->"latest-version") \
       ("\n    Available:  " . $Update->"latest-version") ] . \
+    [ $IfThenElse ($RouterBoard->"routerboard" = true) \
+       ("\n    Firmware:   " . $RouterBoard->"current-firmware") ] . \
        "\nRouterOS-Scripts:" . \
        "\n    Current:    " . $GlobalConfigVersion . \
     [ $IfThenElse ($GlobalConfigVersion != $ExpectedConfigVersion) \
