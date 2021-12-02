@@ -115,6 +115,7 @@ Note that *all* traffic to the given address is routed that way. In case of
 link failure this address is not available, so use something reliable but
 non-essential. In this example the address `1.0.0.1` is used, the same service
 (Cloudflare DNS) is available at `1.1.1.1`.
+
 ---
 [◀ Go back to main README](../README.md)  
 [▲ Go back to top](#top)
