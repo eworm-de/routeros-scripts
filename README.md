@@ -111,6 +111,20 @@ to be updated automatically!
 
 ![screenshot: schedule update](README.d/07-schedule-update.png)
 
+### Changes for RouterOS v7
+
+RouterOS v7 is developed in paralled to RouterOS v6. The former brings some
+shiny new features, the latter provides proven stability.
+
+The changes require incompatible changes to scripts, so these changes go to
+a separate branch. If you decide to run RouterOS v7 please switch to branch
+`routeros-v7` by adding these lines to your `global-config-overlay`:
+
+    # Use branch routeros-v7 with RouterOS v7:
+    :global ScriptUpdatesUrlSuffix "\?h=routeros-v7";
+
+Then reload the configuration and continue below to update scripts.
+
 Updating scripts
 ----------------
 
