@@ -28,7 +28,6 @@
 :global LogPrintExit2;
 :global MkDir;
 :global RandomDelay;
-:global RequiredRouterOS;
 :global ScriptFromTerminal;
 :global SendNotification2;
 :global SymbolForNotification;
@@ -77,11 +76,6 @@ $WaitFullyConnected;
 
 # create configuration export
 :if ($BackupSendExport = true) do={
-  :if ([ $RequiredRouterOS $0 "7.1rc1" false ] = true) do={
-    $LogPrintExit2 warning $0 ("RouterOS v7 hides sensitive information on export. " . \
-      "Switch to branch 'routeros-v7' for full export.") false;
-  }
-
   / export terse file=$FilePath;
   $WaitForFile ($FilePath . ".rsc");
 
