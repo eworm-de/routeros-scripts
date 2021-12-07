@@ -20,6 +20,7 @@
 :global DeviceInfo;
 :global LogPrintExit2;
 :global ScriptFromTerminal;
+:global ScriptLock;
 :global SendNotification2;
 :global SymbolForNotification;
 :global VersionToNum;
@@ -33,6 +34,8 @@
   }
   :error "Waiting for system to reboot.";
 }
+
+$ScriptLock $0;
 
 $WaitFullyConnected;
 
