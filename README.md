@@ -99,8 +99,8 @@ Save changes and exit with `Ctrl-o`.
 
 And finally load configuration and functions and add the scheduler.
 
-    / system script { run global-config; run global-config-overlay; run global-functions; };
-    / system scheduler add name="global-scripts" start-time=startup on-event="/ system script { run global-config; run global-config-overlay; run global-functions; }";
+    / system script { run global-config; run global-functions; };
+    / system scheduler add name="global-scripts" start-time=startup on-event="/ system script { run global-config; run global-functions; }";
 
 ![screenshot: run and schedule scripts](README.d/06-run-and-schedule-scripts.png)
 

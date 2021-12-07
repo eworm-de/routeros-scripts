@@ -777,11 +777,11 @@
   }
 
   :if ($ReloadGlobalConfig = true) do={
-    $LogPrintExit2 info $0 ("Reloading global configuration and overlay.") false;
+    $LogPrintExit2 info $0 ("Reloading global configuration.") false;
     :do {
-      / system script { run global-config; run global-config-overlay; }
+      / system script run global-config;
     } on-error={
-      $LogPrintExit2 error $0 ("Reloading global configuration and overlay failed!" . \
+      $LogPrintExit2 error $0 ("Reloading global configuration failed!" . \
         " Syntax error or missing overlay\?") false;
     }
   }
@@ -838,7 +838,7 @@
       :local NotificationMessage ("Current configuration on " . $Identity . \
           " is out of date. Please update global-config-overlay, then increase " . \
           "\$GlobalConfigVersion (currently " . $GlobalConfigVersion . \
-          ") to " . $ExpectedConfigVersion . " and re-run global-config-overlay.");
+          ") to " . $ExpectedConfigVersion . " and re-run global-config.");
       $LogPrintExit2 info $0 ($NotificationMessage) false;
 
       :if ([ :len $GlobalConfigChanges ] > 0) do={
