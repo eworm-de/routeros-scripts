@@ -888,6 +888,9 @@
   :if ([ :typeof $ScriptLockOrder ] = "nothing") do={
     :set ScriptLockOrder [ :toarray "" ];
   }
+  :if ([ :typeof ($ScriptLockOrder->$Script) ] = "nothing") do={
+    :set ($ScriptLockOrder->$Script) [ :toarray "" ];
+  }
 
   :local JobCount do={
     :local Script [ :tostr $1 ];
@@ -927,10 +930,6 @@
     :local Add    [ :tostr $2 ];
 
     :global ScriptLockOrder;
-
-    :if ([ :typeof ($ScriptLockOrder->$Script) ] = "nothing") do={
-      :set ($ScriptLockOrder->$Script) [ :toarray "" ];
-    }
 
     :while (true) do={
       :local Pos [ :len ($ScriptLockOrder->$Script) ];
