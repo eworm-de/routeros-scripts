@@ -946,8 +946,9 @@
     :global ScriptLockOrder;
 
     :foreach Id,Ticket in=($ScriptLockOrder->$Script) do={
-      :if (($ScriptLockOrder->$Script->$Id) = $Remove) do={
+      :while (($ScriptLockOrder->$Script->$Id) = $Remove) do={
         :set ($ScriptLockOrder->$Script->$Id);
+        :delay 10ms;
       }
     }
   }
