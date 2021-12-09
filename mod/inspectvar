@@ -4,15 +4,24 @@
 # https://git.eworm.de/cgit/routeros-scripts/about/COPYING.md
 
 :global InspectVar;
+:global InspectVarReturn;
 
-# inspect variable
+# inspect variable and print on terminal
 :set InspectVar do={
+  :global CharacterReplace;
+  :global InspectVarReturn;
+
+  :put [ $CharacterReplace [ $InspectVarReturn $1 ] ("\n") ("\n\r") ];
+}
+
+# inspect variable and return formatted string
+:set InspectVarReturn do={
   :local Input $1;
   :local Level (0 + [ :tonum $2 ]);
 
-  :global InspectVar;
+  :global InspectVarReturn;
 
-  :local PutIndent do={
+  :local IndentReturn do={
     :local Prefix [ :tostr $1 ];
     :local Value  [ :tostr $2 ];
     :local Level  [ :tonum $3 ];
@@ -21,20 +30,23 @@
     :for I from=1 to=$Level step=1 do={
       :set Indent ($Indent . "  ");
     }
-    :put ($Indent . "-" . $Prefix . "-> " . $Value);
+    :return ($Indent . "-" . $Prefix . "-> " . $Value);
   }
 
   :local TypeOf [ :typeof $Input ];
-  $PutIndent "type" $TypeOf $Level;
+  :local Return [ $IndentReturn "type" $TypeOf $Level ];
   
   :if ($TypeOf = "array") do={
     :foreach Key,Value in=$Input do={
-      $PutIndent "key" $Key ($Level + 1);
-      $InspectVar $Value ($Level + 2);
+      :set $Return ($Return . "\n" . \
+        [ $IndentReturn "key" $Key ($Level + 1) ] . "\n" . \
+        [ $InspectVarReturn $Value ($Level + 2) ]);
     }
   } else={
     :if ($TypeOf != "nothing") do={
-      $PutIndent "value" $Input $Level;
+      :set $Return ($Return . "\n" . \
+        [ $IndentReturn "value" $Input $Level ]);
     }
   }
+  :return $Return;
 }
