@@ -19,6 +19,7 @@
   :local Input $1;
   :local Level (0 + [ :tonum $2 ]);
 
+  :global IfThenElse;
   :global InspectVarReturn;
 
   :local IndentReturn do={
@@ -45,7 +46,8 @@
   } else={
     :if ($TypeOf != "nothing") do={
       :set $Return ($Return . "\n" . \
-        [ $IndentReturn "value" $Input $Level ]);
+        [ $IndentReturn "value" [ $IfThenElse ([ :len $Input ] > 80) \
+        ([ :pick $Input 0 77 ] . "...") $Input ] $Level ]);
     }
   }
   :return $Return;
