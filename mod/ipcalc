@@ -4,9 +4,27 @@
 # https://git.eworm.de/cgit/routeros-scripts/about/COPYING.md
 
 :global IPCalc;
+:global IPCalcReturn;
 
-# calculate and print netmask, network, min host, max host and broadcast
+# print netmask, network, min host, max host and broadcast
 :set IPCalc do={
+  :local Input [ :tostr $1 ];
+
+  :global IPCalcReturn;
+
+  :local Values [ $IPCalcReturn $1 ];
+
+  :put ( \
+    "Address:   " . $Values->"address" . "\n\r" . \
+    "Netmask:   " . $Values->"netmask" . "\n\r" . \
+    "Network:   " . $Values->"network" . "\n\r" . \
+    "HostMin:   " . $Values->"hostmin" . "\n\r" . \
+    "HostMax:   " . $Values->"hostmax" . "\n\r" . \
+    "Broadcast: " . $Values->"broadcast");
+}
+
+# calculate and return netmask, network, min host, max host and broadcast
+:set IPCalcReturn do={
   :local Input [ :tostr $1 ];
   :local Address [ :toip [ :pick $Input 0 [ :find $Input "/" ] ] ];
   :local Bits [ :tonum [ :pick $Input ([ :find $Input "/" ] + 1) [ :len $Input ] ] ];
@@ -23,13 +41,6 @@
     "broadcast"=($Address | ~$Mask);
   }
 
-  :put ( \
-    "Address:   " . $Return->"address" . "\n\r" . \
-    "Netmask:   " . $Return->"netmask" . "\n\r" . \
-    "Network:   " . $Return->"network" . "\n\r" . \
-    "HostMin:   " . $Return->"hostmin" . "\n\r" . \
-    "HostMax:   " . $Return->"hostmax" . "\n\r" . \
-    "Broadcast: " . $Return->"broadcast");
-
   :return $Return;
 }
+
