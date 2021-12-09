@@ -945,18 +945,26 @@
 
     :global ScriptLockOrder;
 
-    :local Count 0;
     :foreach Id,Ticket in=($ScriptLockOrder->$Script) do={
       :if (($ScriptLockOrder->$Script->$Id) = $Remove) do={
         :set ($ScriptLockOrder->$Script->$Id);
       }
+    }
+  }
 
-      :if ([ :typeof ($ScriptLockOrder->$Script->$Id) ] != "nothing") do={
-        :set Count ($Count + 1);
+  :local CleanupTickets do={
+    :local Script [ :tostr $1 ];
+
+    :global ScriptLockOrder;
+
+    :local Clean true;
+    :foreach Ticket in=($ScriptLockOrder->$Script) do={
+      :if ([ :typeof $Ticket ] != "nothing") do={
+        :set Clean false;
       }
     }
 
-    :if ($Count = 0) do={
+    :if ($Clean = true) do={
       :set ($ScriptLockOrder->$Script) [ :toarray "" ];
     }
   }
@@ -986,6 +994,7 @@
 
   :if ([ $IsFirstTicket $Script $MyTicket ] = true && [ $TicketCount $Script ] = [ $JobCount $Script ]) do={
     $RemoveTicket $Script $MyTicket;
+    $CleanupTickets $Script;
     :return false;
   }
 
