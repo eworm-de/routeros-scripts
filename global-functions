@@ -958,7 +958,7 @@
     }
 
     :if ($Count = 0) do={
-      :set ($ScriptLockOrder->$Script);
+      :set ($ScriptLockOrder->$Script) [ :toarray "" ];
     }
   }
 
@@ -972,7 +972,7 @@
 
   :if ([ $TicketCount $Script ] >= [ $JobCount $Script ]) do={
     $LogPrintExit2 error $0 ("More tickets than running scripts '" . $Script . "', resetting!") false;
-    :set ($ScriptLockOrder->$Script);
+    :set ($ScriptLockOrder->$Script) [ :toarray "" ];
     / system script job remove [ find where script=$Script ];
   }
 
