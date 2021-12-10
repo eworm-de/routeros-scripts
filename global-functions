@@ -958,16 +958,13 @@
 
     :global ScriptLockOrder;
 
-    :local Clean true;
     :foreach Ticket in=($ScriptLockOrder->$Script) do={
       :if ([ :typeof $Ticket ] != "nothing") do={
-        :set Clean false;
+        :return false;
       }
     }
 
-    :if ($Clean = true) do={
-      :set ($ScriptLockOrder->$Script) [ :toarray "" ];
-    }
+    :set ($ScriptLockOrder->$Script) [ :toarray "" ];
   }
 
   :if ([ :len [ / system script find where name=$Script ] ] = 0) do={
