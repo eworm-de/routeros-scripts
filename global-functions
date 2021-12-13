@@ -533,7 +533,6 @@
 
   :global EitherOr;
   :global IfThenElse;
-  :global LogPrintExit2;
   :global QuotedPrintable;
 
   :local To [ $EitherOr ($EmailGeneralToOverride->($Notification->"origin")) $EmailGeneralTo ];
