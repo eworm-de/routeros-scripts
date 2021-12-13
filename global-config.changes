@@ -74,6 +74,7 @@
   68="Reintroduced 'global-wait' for functions in scheduler.";
   69="Support hard lower limit for voltage in 'check-health'.";
   70="MikroTik started pushing RouterOS v7. Changes are required if you run it, see https://git.eworm.de/cgit/routeros-scripts/about/#changes-for-routeros-v7";
+  71="MikroTik is pushing RouterOS v7 even more, in parallel branches. If you want to keep RouterOS v6 for some time see https://git.eworm.de/cgit/routeros-scripts/about/#changes-for-routeros-v6";
 };
 
 # Migration steps to be applied on script updates
