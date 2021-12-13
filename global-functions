@@ -201,6 +201,7 @@
   :do {
     :set RouterBoard [ / system routerboard get ];
   } on-error={ }
+  :local License [ / system license get ];
   :local Update [ / system package update get ];
 
   :return ( \
@@ -212,6 +213,8 @@
          [ $IfThenElse ([ :len ($RouterBoard->"revision") ] > 0) \
            (" " . $RouterBoard->"revision") ] . \
        "\nSerial number:  " . $RouterBoard->"serial-number") ] . \
+    [ $IfThenElse ([ :len ($License->"level") ] > 0) \
+       ("\nLicense:        " . $License->"level") ] . \
        "\nRouterOS:" . \
        "\n    Channel:    " . $Update->"channel" . \
        "\n    Installed:  " . $Update->"installed-version" . \
