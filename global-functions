@@ -251,6 +251,7 @@
   :global CertificateAvailable;
   :global CleanFilePath;
   :global LogPrintExit2;
+  :global MkDir;
   :global WaitForFile;
 
   :if ([ :len $PkgName ] = 0) do={ :return false; }
@@ -262,6 +263,11 @@
     :set PkgFile ($PkgName . "-" . $PkgVer . ".npk");
   }
   :local PkgDest [ $CleanFilePath ($PkgDir . "/" . $PkgFile) ];
+
+  :if ([ $MkDir $PkgDir ] = false) do={
+    $LogPrintExit2 warning $0 ("Failed creating directory, not downloading package.") false;
+    :return false;
+  }
 
   :if ([ :len [ / file find where name=$PkgDest type="package" ] ] > 0) do={
     $LogPrintExit2 info $0 ("Package file " . $PkgName . " already exists.") false;
