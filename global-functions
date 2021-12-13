@@ -495,6 +495,7 @@
 
   :global CleanFilePath;
   :global GetRandom20CharHex;
+  :global LogPrintExit2;
   :global WaitForFile;
 
   :set Dir [ $CleanFilePath $Dir ];
@@ -504,11 +505,12 @@
   }
 
   :local Return true;
-  :local Name ($Dir . "-" . [ $GetRandom20CharHex ])
+  :local Name ($Dir . "-" . [ $GetRandom20CharHex ]);
   :do {
     / ip smb share add disabled=yes directory=$Dir name=$Name;
     $WaitForFile $Dir;
   } on-error={
+    $LogPrintExit2 warning $0 ("Making directory '" . $Dir . "' failed!") false;
     :set Return false;
   }
   / ip smb share remove [ find where name=$Name ];
