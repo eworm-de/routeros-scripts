@@ -29,6 +29,7 @@ Add yourself to the list,
 * Peter Holtkamp
 * Reiner Vehrenkamp
 * Sunny Chu (@sunnychuchu)
+* Zac Kornilakis
 
 ---
 [◀ Go back to main README](README.md)  
