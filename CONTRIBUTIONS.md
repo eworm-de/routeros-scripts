@@ -19,6 +19,7 @@ These persons contributed code. See the git history for details!
 Add yourself to the list,
 [donate with PayPal](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=A4ZXBD6YS2W8J)!
 
+* Abdul Mannan Abbasi
 * Andrew Cox
 * Christoph Boss (@Kampfwurst)
 * Klaus Michael Rübsam
