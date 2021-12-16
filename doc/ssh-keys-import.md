@@ -26,7 +26,7 @@ Then run the script:
 
 Starting with an `authorized_keys` file you can split it on a shell:
 
-    grep -E '^ssh-rsa' authorized_keys | while read type key name; do echo $type $key $name > $name.pub; done
+    grep -E '^ssh-rsa' authorized_keys | nl -nrz | while read num type key name; do echo $type $key $name > $num-$name.pub; done
 
 ---
 [◀ Go back to main README](../README.md)  
