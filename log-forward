@@ -44,7 +44,7 @@ $WaitFullyConnected;
 
 :local Count 0;
 :local Duplicates false;
-:local Last [ $HexToNum $LogForwardLast ];
+:local Last [ $IfThenElse ([ :len $LogForwardLast ] > 0) [ $HexToNum $LogForwardLast ] -1 ];
 :local Messages "";
 :local MessageVal;
 :local MessageDups [ :toarray "" ];
