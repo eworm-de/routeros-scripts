@@ -49,13 +49,31 @@ On first run a disabled access list entry acting as marker (with comment
 "`--- hotspot-to-wpa above ---`") is added. Move this entry to define where new
 entries are to be added.
 
-Usage and invocation
---------------------
-
 Create hotspot login credentials:
 
     / ip hotspot user add add comment="Test User 1" name=user1 password=v3ry;
     / ip hotspot user add add comment="Test User 2" name=user2 password=s3cr3t;
+
+Additionally templates can be created to give more options for access list:
+
+* `private-passphrase`: do **not** use passphrase from hotspot's user
+  credentials, but given one - or unset (use default passphrase) with
+  special word `ignore`
+* `ssid-regexp`: set a different SSID regular expression to match
+* `vlan-id`: connect device to specific VLAN
+* `vlan-mode`: set the VLAN mode for device
+
+For a hotspot called `example` the template could look like this:
+
+    / caps-man access-list add comment="hotspot-to-wpa template example" disabled=yes private-passphrase="ignore" ssid-regexp="^example\$" vlan-id=10 vlan-mode=use-tag;
+
+The same settings are available in hotspot user's comment and take precedence
+over the template settings:
+
+    / ip hotspot user add comment="private-passphrase=ignore, ssid-regexp=^example\\\$, vlan-id=10, vlan-mode=use-tag" name=user password=v3ry-s3cr3t;
+
+Usage and invocation
+--------------------
 
 Now let the users connect and login to the hotspot. After that the devices
 (identified by MAC address) can connect to the WPA2 network, using the
