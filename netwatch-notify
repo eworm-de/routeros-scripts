@@ -50,94 +50,97 @@
 
 $ScriptLock $0;
 
-:foreach Host in=[ / tool netwatch find where comment~"^notify," disabled=no ] do={
+:foreach Host in=[ / tool netwatch find where comment~"notify" disabled=no ] do={
   :local HostVal [ / tool netwatch get $Host ];
   :local HostInfo [ $ParseKeyValueStore ($HostVal->"comment") ];
-  :local HostName ($HostInfo->"hostname");
 
-  :local Metric { "count"=0; "notified"=false };
-  :if ([ :typeof ($NetwatchNotify->$HostName) ] = "array") do={
-    :set $Metric ($NetwatchNotify->$HostName);
-  }
+  :if ($HostInfo->"notify" = true && $HostInfo->"disabled" != true) do={
+    :local HostName ($HostInfo->"hostname");
 
-  :if ([ :typeof ($HostInfo->"resolve") ] = "str" && [ $DNSIsResolving ] = true) do={
-    :do {
-      :local Resolve [ :resolve ($HostInfo->"resolve") ];
-      :if ($Resolve != $HostVal->"host") do={
-         $LogPrintExit2 info $0 ("Name '" . $HostInfo->"resolve" . [ $IfThenElse ($HostInfo->"resolve" != \
-           $HostInfo->"hostname") ("' for host '" . $HostInfo->"hostname") "" ] . \
-           "' resolves to different address " . $Resolve . ", updating.") false;
-        / tool netwatch set host=$Resolve $Host;
-        :set ($Metric->"resolve-failed") false;
-      }
-    } on-error={
-      :if ($Metric->"resolve-failed" != true) do={
-        $LogPrintExit2 warning $0 ("Resolving name '" . $HostInfo->"resolve" . [ $IfThenElse ($HostInfo->"resolve" != \
-          $HostInfo->"hostname") ("' for host '" . $HostInfo->"hostname") "" ] . "' failed.") false;
-        :set ($Metric->"resolve-failed") true;
-      }
+    :local Metric { "count"=0; "notified"=false };
+    :if ([ :typeof ($NetwatchNotify->$HostName) ] = "array") do={
+      :set $Metric ($NetwatchNotify->$HostName);
     }
-  }
 
-  :if ($HostVal->"status" = "up") do={
-    :local Count ($Metric->"count");
-    :if ($Count > 0) do={
-      $LogPrintExit2 info $0 ("Host " . $HostName . " (" . $HostVal->"host" . ") is up.") false;
-      :set ($Metric->"count") 0;
-    }
-    :if ($Metric->"notified" = true) do={
-      :local Message ("Host " . $HostName . " (" . $HostVal->"host" . ") is up since " . $HostVal->"since" . ".\n" . \
-        "It was down for " . $Count . " checks since " . ($Metric->"since") . ".");
-      :if ([ :typeof ($HostInfo->"up-hook") ] = "str") do={
-        :set Message ($Message . "\n\n" . [ $NetwatchNotifyHook $HostName "up" ($HostInfo->"up-hook") ]);
+    :if ([ :typeof ($HostInfo->"resolve") ] = "str" && [ $DNSIsResolving ] = true) do={
+      :do {
+        :local Resolve [ :resolve ($HostInfo->"resolve") ];
+        :if ($Resolve != $HostVal->"host") do={
+           $LogPrintExit2 info $0 ("Name '" . $HostInfo->"resolve" . [ $IfThenElse ($HostInfo->"resolve" != \
+             $HostInfo->"hostname") ("' for host '" . $HostInfo->"hostname") "" ] . \
+             "' resolves to different address " . $Resolve . ", updating.") false;
+          / tool netwatch set host=$Resolve $Host;
+          :set ($Metric->"resolve-failed") false;
+        }
+      } on-error={
+        :if ($Metric->"resolve-failed" != true) do={
+          $LogPrintExit2 warning $0 ("Resolving name '" . $HostInfo->"resolve" . [ $IfThenElse ($HostInfo->"resolve" != \
+            $HostInfo->"hostname") ("' for host '" . $HostInfo->"hostname") "" ] . "' failed.") false;
+          :set ($Metric->"resolve-failed") true;
+        }
       }
-      $SendNotification2 ({ origin=$0; \
-        subject=([ $SymbolForNotification "white-heavy-check-mark" ] . "Netwatch Notify: " . $HostName . " up"); \
-        message=$Message });
     }
-    :set ($Metric->"notified") false;
-    :set ($Metric->"parent") ($HostInfo->"parent");
-    :set ($Metric->"since");
-  } else={
-    :set ($Metric->"count") ($Metric->"count" + 1);
-    :set ($Metric->"parent") ($HostInfo->"parent");
-    :set ($Metric->"since") ($HostVal->"since");
-    :local Count [ $IfThenElse ([ :tonum ($HostInfo->"count") ] > 0) ($HostInfo->"count") 5 ];
-    :local Parent ($HostInfo->"parent");
-    :while ([ :len $Parent ] > 0) do={
-      :set Count ($Count + 1);
-      :set Parent ($NetwatchNotify->$Parent->"parent");
-    }
-    :set Parent ($HostInfo->"parent");
-    :local ParentNotified false;
-    :while ($ParentNotified = false && [ :len $Parent ] > 0) do={
-      :set ParentNotified [ $IfThenElse (($NetwatchNotify->$Parent->"notified") = true) true false ];
-      :if ($ParentNotified = false) do={
+
+    :if ($HostVal->"status" = "up") do={
+      :local Count ($Metric->"count");
+      :if ($Count > 0) do={
+        $LogPrintExit2 info $0 ("Host " . $HostName . " (" . $HostVal->"host" . ") is up.") false;
+        :set ($Metric->"count") 0;
+      }
+      :if ($Metric->"notified" = true) do={
+        :local Message ("Host " . $HostName . " (" . $HostVal->"host" . ") is up since " . $HostVal->"since" . ".\n" . \
+          "It was down for " . $Count . " checks since " . ($Metric->"since") . ".");
+        :if ([ :typeof ($HostInfo->"up-hook") ] = "str") do={
+          :set Message ($Message . "\n\n" . [ $NetwatchNotifyHook $HostName "up" ($HostInfo->"up-hook") ]);
+        }
+        $SendNotification2 ({ origin=$0; \
+          subject=([ $SymbolForNotification "white-heavy-check-mark" ] . "Netwatch Notify: " . $HostName . " up"); \
+          message=$Message });
+      }
+      :set ($Metric->"notified") false;
+      :set ($Metric->"parent") ($HostInfo->"parent");
+      :set ($Metric->"since");
+    } else={
+      :set ($Metric->"count") ($Metric->"count" + 1);
+      :set ($Metric->"parent") ($HostInfo->"parent");
+      :set ($Metric->"since") ($HostVal->"since");
+      :local Count [ $IfThenElse ([ :tonum ($HostInfo->"count") ] > 0) ($HostInfo->"count") 5 ];
+      :local Parent ($HostInfo->"parent");
+      :while ([ :len $Parent ] > 0) do={
+        :set Count ($Count + 1);
         :set Parent ($NetwatchNotify->$Parent->"parent");
       }
-    }
-    $LogPrintExit2 info $0 ("Host " . $HostName . " (" . $HostVal->"host" . ") is down for " . \
-      $Metric->"count" . " checks, " . [ $IfThenElse ($ParentNotified = false) [ $IfThenElse \
-      ($Metric->"notified" = true) ("already notified.") ($Count - $Metric->"count" . " to go.") ] \
-      ("parent host " . $Parent . " is down.") ]) false;
-    :if ((($Count * 2) - ($Metric->"count" * 3)) / 2 = 0 && [ :typeof ($HostInfo->"pre-down-hook") ] = "str") do={
-      $NetwatchNotifyHook $HostName "pre-down" ($HostInfo->"pre-down-hook");
-    }
-    :if ($ParentNotified = false && $Metric->"count" >= $Count && $Metric->"notified" != true) do={
-      :local Message ("Host " . $HostName . " (" . $HostVal->"host" . ") is down since " . $HostVal->"since" . ".");
-      :if ([ :typeof ($HostInfo->"down-hook") ] = "str") do={
-        :set Message ($Message . "\n\n" . [ $NetwatchNotifyHook $HostName "down" ($HostInfo->"down-hook") ]);
+      :set Parent ($HostInfo->"parent");
+      :local ParentNotified false;
+      :while ($ParentNotified = false && [ :len $Parent ] > 0) do={
+        :set ParentNotified [ $IfThenElse (($NetwatchNotify->$Parent->"notified") = true) true false ];
+        :if ($ParentNotified = false) do={
+          :set Parent ($NetwatchNotify->$Parent->"parent");
+        }
       }
-      $SendNotification2 ({ origin=$0; \
-        subject=([ $SymbolForNotification "cross-mark" ] . "Netwatch Notify: " . $HostName . " down"); \
-        message=$Message });
-      :set ($Metric->"notified") true;
+      $LogPrintExit2 info $0 ("Host " . $HostName . " (" . $HostVal->"host" . ") is down for " . \
+        $Metric->"count" . " checks, " . [ $IfThenElse ($ParentNotified = false) [ $IfThenElse \
+        ($Metric->"notified" = true) ("already notified.") ($Count - $Metric->"count" . " to go.") ] \
+        ("parent host " . $Parent . " is down.") ]) false;
+      :if ((($Count * 2) - ($Metric->"count" * 3)) / 2 = 0 && [ :typeof ($HostInfo->"pre-down-hook") ] = "str") do={
+        $NetwatchNotifyHook $HostName "pre-down" ($HostInfo->"pre-down-hook");
+      }
+      :if ($ParentNotified = false && $Metric->"count" >= $Count && $Metric->"notified" != true) do={
+        :local Message ("Host " . $HostName . " (" . $HostVal->"host" . ") is down since " . $HostVal->"since" . ".");
+        :if ([ :typeof ($HostInfo->"down-hook") ] = "str") do={
+          :set Message ($Message . "\n\n" . [ $NetwatchNotifyHook $HostName "down" ($HostInfo->"down-hook") ]);
+        }
+        $SendNotification2 ({ origin=$0; \
+          subject=([ $SymbolForNotification "cross-mark" ] . "Netwatch Notify: " . $HostName . " down"); \
+          message=$Message });
+        :set ($Metric->"notified") true;
+      }
     }
+    :set ($NetwatchNotify->$HostName) {
+      "count"=($Metric->"count");
+      "notified"=($Metric->"notified");
+      "parent"=($Metric->"parent");
+      "resolve-failed"=($Metric->"resolve-failed");
+      "since"=($Metric->"since") };
   }
-  :set ($NetwatchNotify->$HostName) {
-    "count"=($Metric->"count");
-    "notified"=($Metric->"notified");
-    "parent"=($Metric->"parent");
-    "resolve-failed"=($Metric->"resolve-failed");
-    "since"=($Metric->"since") };
 }
