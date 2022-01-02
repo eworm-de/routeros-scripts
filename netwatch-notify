@@ -46,6 +46,10 @@
 
 $ScriptLock $0;
 
+:if ([ / system resource get uptime ] < 5m) do={
+  $LogPrintExit2 info $0 ("System just booted, giving netwatch some time to settle.") true;
+}
+
 :if ([ :typeof $NetwatchNotify ] = "nothing") do={
   :set NetwatchNotify [ :toarray "" ];
 }
