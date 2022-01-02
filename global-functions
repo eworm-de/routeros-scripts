@@ -8,7 +8,7 @@
 # https://git.eworm.de/cgit/routeros-scripts/about/
 
 # expected configuration version
-:global ExpectedConfigVersion 71;
+:global ExpectedConfigVersion 72;
 
 # global variables not to be changed by user
 :global GlobalFunctionsReady false;

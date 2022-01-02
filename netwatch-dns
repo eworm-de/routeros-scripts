@@ -1,0 +1,78 @@
+#!rsc by RouterOS
+# RouterOS script: netwatch-dns
+# Copyright (c) 2022 Christian Hesse <mail@eworm.de>
+# https://git.eworm.de/cgit/routeros-scripts/about/COPYING.md
+#
+# monitor and manage dns/doh with netwatch
+# https://git.eworm.de/cgit/routeros-scripts/about/doc/netwatch-dns.md
+
+:local 0 "netwatch-dns";
+:global GlobalFunctionsReady;
+:while ($GlobalFunctionsReady != true) do={ :delay 500ms; }
+
+:global EitherOr;
+:global LogPrintExit2;
+:global ParseKeyValueStore;
+:global ScriptLock;
+
+$ScriptLock $0;
+
+:if ([ / system resource get uptime ] < 5m) do={
+  $LogPrintExit2 info $0 ("System just booted, giving netwatch some time to settle.") true;
+}
+
+:local DnsServers [ :toarray "" ];
+:local DnsFallback [ :toarray "" ];
+:local DnsCurrent [ / ip dns get servers ];
+
+:foreach Host in=[ / tool netwatch find where comment~"dns" disabled=no ] do={
+  :local HostVal [ / tool netwatch get $Host ];
+  :local HostInfo [ $ParseKeyValueStore ($HostVal->"comment") ];
+
+  :if ($HostVal->"status" = "up" && $HostInfo->"disabled" != true) do={
+    :if ($HostInfo->"dns" = true) do={
+      :set DnsServers ($DnsServers, $HostVal->"host");
+    }
+    :if ($HostInfo->"dns-fallback" = true) do={
+      :set DnsFallback ($DnsFallback, $HostVal->"host");
+    }
+  }
+}
+
+:if ([ :len $DnsServers ] > 0) do={
+  :if ($DnsServers != $DnsCurrent) do={
+    $LogPrintExit2 info $0 ("Updating DNS servers: " . [ :tostr $DnsServers ]) false;
+    / ip dns set servers=$DnsServers;
+  }
+} else={
+  :if ([ :len $DnsFallback ] > 0) do={
+    :if ($DnsFallback != $DnsCurrent) do={
+      $LogPrintExit2 info $0 ("Updating DNS servers to fallback: " . [ :tostr $DnsFallback ]) false;
+      / ip dns set servers=$DnsFallback; 
+    }
+  }
+}
+
+:local DohServer "";
+:local DohCurrent [ / ip dns get use-doh-server ];
+
+:foreach Host in=[ / tool netwatch find where comment~"doh" disabled=no ] do={
+  :local HostVal [ / tool netwatch get $Host ];
+  :local HostInfo [ $ParseKeyValueStore ($HostVal->"comment") ];
+
+  :if ($HostVal->"status" = "up" && $HostInfo->"doh" = true && $HostInfo->"disabled" != true && $DohServer = "") do={
+    :set DohServer [ $EitherOr ($HostInfo->"doh-url") ("https://" . $HostVal->"host" . "/dns-query") ];
+  }
+}
+
+:if ($DohServer != "") do={
+  :if ($DohServer != $DohCurrent) do={
+    $LogPrintExit2 info $0 ("Updating DoH server: " . $DohServer) false;
+    / ip dns set use-doh-server=$DohServer;
+  }
+} else={
+  :if ($DohCurrent != "") do={
+    $LogPrintExit2 info $0 ("DoH server (" . $DohCurrent . ") is down, disabling.") false;
+    / ip dns set use-doh-server="";
+  }
+}

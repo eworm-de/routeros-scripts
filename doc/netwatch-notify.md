@@ -116,6 +116,18 @@ link failure this address is not available, so use something reliable but
 non-essential. In this example the address `1.0.0.1` is used, the same service
 (Cloudflare DNS) is available at `1.1.1.1`.
 
+### Use in combination with DNS and DoH management
+
+Netwatch entries can be created to work with both - this script and
+[netwatch-dns](netwatch-dns.md). Just give options for both:
+
+    / tool netwatch add comment="doh, notify, hostname=cloudflare-dns" host=1.1.1.1;
+
+See also
+--------
+
+* [Manage DNS and DoH servers from netwatch](netwatch-dns.md)
+
 ---
 [◀ Go back to main README](../README.md)  
 [▲ Go back to top](#top)
