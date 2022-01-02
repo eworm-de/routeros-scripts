@@ -44,11 +44,11 @@
   :return ("Ran hook:\n" . $Hook);
 }
 
+$ScriptLock $0;
+
 :if ([ :typeof $NetwatchNotify ] = "nothing") do={
   :set NetwatchNotify [ :toarray "" ];
 }
-
-$ScriptLock $0;
 
 :foreach Host in=[ / tool netwatch find where comment~"notify" disabled=no ] do={
   :local HostVal [ / tool netwatch get $Host ];
