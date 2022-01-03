@@ -33,7 +33,7 @@ Run this script from a terminal:
 
     / system script run accesslist-duplicates.local;
 
-![screenshot: example](accesslist-duplicates.d/01-example.png)
+![screenshot: example](accesslist-duplicates.d/01-example.avif)
 
 See also
 --------
