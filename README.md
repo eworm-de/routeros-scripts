@@ -52,7 +52,7 @@ certificate chain.
 
     / tool fetch "https://git.eworm.de/cgit/routeros-scripts/plain/certs/R3.pem" dst-path="letsencrypt-R3.pem";
 
-![screenshot: download certs](README.d/01-download-certs.png)
+![screenshot: download certs](README.d/01-download-certs.avif)
 
 Note that the commands above do *not* verify server certificate, so if you
 want to be safe download with your workstations's browser and transfer the
@@ -65,7 +65,7 @@ Then we import the certificates.
 
     / certificate import file-name=letsencrypt-R3.pem passphrase="";
 
-![screenshot: import certs](README.d/02-import-certs.png)
+![screenshot: import certs](README.d/02-import-certs.avif)
 
 For basic verification we rename the certificates and print their count. Make
 sure the certificate count is **two**.
@@ -74,7 +74,7 @@ sure the certificate count is **two**.
     / certificate set name="ISRG-Root-X1" [ find where fingerprint="96bcec06264976f37460779acf28c5a7cfe8a3c0aae11a8ffcee05c0bddf08c6" ];
     / certificate print count-only where fingerprint="67add1166b020ae61b8f5fc96813c04c2aa589960796865572a3c7e737613dfd" or fingerprint="96bcec06264976f37460779acf28c5a7cfe8a3c0aae11a8ffcee05c0bddf08c6";
 
-![screenshot: check certs](README.d/03-check-certs.png)
+![screenshot: check certs](README.d/03-check-certs.avif)
 
 Always make sure there are no certificates installed you do not know or want!
 
@@ -86,7 +86,7 @@ Now let's download the main scripts and add them in configuration on the fly.
 
     :foreach Script in={ "global-config"; "global-config-overlay"; "global-functions" } do={ / system script add name=$Script source=([ / tool fetch check-certificate=yes-without-crl ("https://git.eworm.de/cgit/routeros-scripts/plain/" . $Script) output=user as-value]->"data"); };
 
-![screenshot: import scripts](README.d/04-import-scripts.png)
+![screenshot: import scripts](README.d/04-import-scripts.avif)
 
 The configuration needs to be tweaked for your needs. Edit
 `global-config-overlay`, copy configuration from
@@ -95,21 +95,21 @@ Save changes and exit with `Ctrl-o`.
 
     / system script edit global-config-overlay source;
 
-![screenshot: edit global-config-overlay](README.d/05-edit-global-config-overlay.png)
+![screenshot: edit global-config-overlay](README.d/05-edit-global-config-overlay.avif)
 
 And finally load configuration and functions and add the scheduler.
 
     / system script { run global-config; run global-functions; };
     / system scheduler add name="global-scripts" start-time=startup on-event="/ system script { run global-config; run global-functions; }";
 
-![screenshot: run and schedule scripts](README.d/06-run-and-schedule-scripts.png)
+![screenshot: run and schedule scripts](README.d/06-run-and-schedule-scripts.avif)
 
 The last step is optional: Add this scheduler **only** if you want the scripts
 to be updated automatically!
 
     / system scheduler add name="ScriptInstallUpdate" start-time=startup interval=1d on-event=":global ScriptInstallUpdate; \$ScriptInstallUpdate;";
 
-![screenshot: schedule update](README.d/07-schedule-update.png)
+![screenshot: schedule update](README.d/07-schedule-update.avif)
 
 ### Changes for RouterOS v6
 
@@ -145,7 +145,7 @@ everything is up-to-date it will not produce any output.
 
     $ScriptInstallUpdate;
 
-![screenshot: update scripts](README.d/08-update-scripts.png)
+![screenshot: update scripts](README.d/08-update-scripts.avif)
 
 Adding a script
 ---------------
@@ -155,7 +155,7 @@ a comma separated list of script names.
 
     $ScriptInstallUpdate check-certificates,check-routeros-update;
 
-![screenshot: install scripts](README.d/09-install-scripts.png)
+![screenshot: install scripts](README.d/09-install-scripts.avif)
 
 Scheduler and events
 --------------------
@@ -167,7 +167,7 @@ miss an update.
 
     / system scheduler add name="check-routeros-update" interval=1h on-event="/ system script run check-routeros-update;";
 
-![screenshot: schedule script](README.d/10-schedule-script.png)
+![screenshot: schedule script](README.d/10-schedule-script.avif)
 
 Some events can run a script. If you want your DHCP hostnames to be available
 in DNS use `dhcp-to-dns` with the events from dhcp server. For a regular
@@ -177,7 +177,7 @@ cleanup add a scheduler entry.
     / ip dhcp-server set lease-script=lease-script [ find ];
     / system scheduler add name="dhcp-to-dns" interval=5m on-event="/ system script run dhcp-to-dns;";
 
-![screenshot: setup lease script](README.d/11-setup-lease-script.png)
+![screenshot: setup lease script](README.d/11-setup-lease-script.avif)
 
 There's much more to explore... Have fun!
 
