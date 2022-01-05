@@ -187,6 +187,7 @@ Available scripts
 * [Find and remove access list duplicates](doc/accesslist-duplicates.md)
 * [Upload backup to Mikrotik cloud](doc/backup-cloud.md)
 * [Send backup via e-mail](doc/backup-email.md)
+* [Upload backup to server](doc/backup-upload.md)
 * [Download packages for CAP upgrade from CAPsMAN](doc/capsman-download-packages.md)
 * [Run rolling CAP upgrades from CAPsMAN](doc/capsman-rolling-upgrade.md)
 * [Renew locally issued certificates](doc/certificate-renew-issued.md)
@@ -222,7 +223,6 @@ Available scripts
 * [Install LTE firmware upgrade](doc/unattended-lte-firmware-upgrade.md)
 * [Update GRE configuration with dynamic addresses](doc/update-gre-address.md)
 * [Update tunnelbroker configuration](doc/update-tunnelbroker.md)
-* [Upload backup to server](doc/upload-backup.md)
 
 [comment]: # (TODO: currently undocumented)
 [comment]: # (* learn-mac-based-vlan)

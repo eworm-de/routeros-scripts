@@ -47,7 +47,7 @@ See also
 --------
 
 * [Upload backup to Mikrotik cloud](backup-cloud.md)
-* [Upload backup to server](upload-backup.md)
+* [Upload backup to server](backup-upload.md)
 
 ---
 [◀ Go back to main README](../README.md)  
