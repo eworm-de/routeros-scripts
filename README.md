@@ -186,6 +186,7 @@ Available scripts
 
 * [Find and remove access list duplicates](doc/accesslist-duplicates.md)
 * [Upload backup to Mikrotik cloud](doc/backup-cloud.md)
+* [Send backup via e-mail](doc/backup-email.md)
 * [Download packages for CAP upgrade from CAPsMAN](doc/capsman-download-packages.md)
 * [Run rolling CAP upgrades from CAPsMAN](doc/capsman-rolling-upgrade.md)
 * [Renew locally issued certificates](doc/certificate-renew-issued.md)
@@ -197,7 +198,6 @@ Available scripts
 * [Use wireless network with daily psk](doc/daily-psk.md)
 * [Comment DHCP leases with info from access list](doc/dhcp-lease-comment.md)
 * [Create DNS records for DHCP leases](doc/dhcp-to-dns.md)
-* [Send backup via e-mail](doc/email-backup.md)
 * [Wait for global functions und modules](doc/global-wait.md)
 * [Send GPS position to server](doc/gps-track.md)
 * [Use WPA2 network with hotspot credentials](doc/hotspot-to-wpa.md)

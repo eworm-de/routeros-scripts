@@ -62,7 +62,7 @@ Creating a scheduler may be an option:
 See also
 --------
 
-* [Send backup via e-mail](email-backup.md)
+* [Send backup via e-mail](backup-email.md)
 * [Upload backup to Mikrotik cloud](backup-cloud.md)
 
 ---

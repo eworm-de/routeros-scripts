@@ -16,7 +16,7 @@ verification.
 
 But it provides some extra functionality:
 
-* send backup via e-mail if [email-backup](email-backup.md) is installed
+* send backup via e-mail if [backup-email](backup-email.md) is installed
 * upload backup if [upload-backup](upload-backup.md) is installed
 * schedule reboot at night
 
@@ -41,7 +41,7 @@ See also
 --------
 
 * [Notify on RouterOS update](check-routeros-update.md)
-* [Send backup via e-mail](email-backup.md)
+* [Send backup via e-mail](backup-email.md)
 * [Upload backup to server](upload-backup.md)
 
 ---

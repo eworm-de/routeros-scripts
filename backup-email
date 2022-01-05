@@ -1,0 +1,80 @@
+#!rsc by RouterOS
+# RouterOS script: backup-email
+# Copyright (c) 2013-2022 Christian Hesse <mail@eworm.de>
+# https://git.eworm.de/cgit/routeros-scripts/about/COPYING.md
+#
+# provides: backup-script
+#
+# create and email backup and config file
+# https://git.eworm.de/cgit/routeros-scripts/about/doc/backup-email.md
+
+:local 0 "backup-email";
+:global GlobalFunctionsReady;
+:while ($GlobalFunctionsReady != true) do={ :delay 500ms; }
+
+:global BackupPassword;
+:global BackupRandomDelay;
+:global BackupSendBinary;
+:global BackupSendExport;
+:global Domain;
+:global Identity;
+
+:global CharacterReplace;
+:global DeviceInfo;
+:global LogPrintExit2;
+:global MkDir;
+:global RandomDelay;
+:global ScriptFromTerminal;
+:global SendEMail2;
+:global SymbolForNotification;
+:global WaitForFile;
+:global WaitFullyConnected;
+
+:if ($BackupSendBinary != true && \
+     $BackupSendExport != true) do={
+  $LogPrintExit2 error $0 ("Configured to send neither backup nor config export.") true;
+}
+
+$WaitFullyConnected;
+
+:if ([ $ScriptFromTerminal $0 ] = false && $BackupRandomDelay > 0) do={
+  $RandomDelay $BackupRandomDelay;
+}
+
+:if ([ $MkDir $0 ] = false) do={
+  $LogPrintExit2 error $0 ("Failed creating directory!") true;
+}
+
+# filename based on identity
+:local FileName [ $CharacterReplace ($Identity . "." . $Domain) "." "_" ];
+:local FilePath ($0 . "/" . $FileName);
+:local BackupFile "none";
+:local ConfigFile "none";
+:local Attach [ :toarray "" ];
+
+# binary backup
+:if ($BackupSendBinary = true) do={
+  / system backup save encryption=aes-sha256 name=$FilePath password=$BackupPassword;
+  $WaitForFile ($FilePath . ".backup");
+  :set BackupFile ($FileName . ".backup");
+  :set Attach ($Attach, ($FilePath . ".backup"));
+}
+
+# create configuration export
+:if ($BackupSendExport = true) do={
+  / export terse file=$FilePath;
+  $WaitForFile ($FilePath . ".rsc");
+  :set ConfigFile ($FileName . ".rsc");
+  :set Attach ($Attach, ($FilePath . ".rsc"));
+}
+
+# send email with status and files
+$SendEMail2 ({ origin=$0; \
+  subject=([ $SymbolForNotification "floppy-disk,incoming-envelope" ] . \
+    "Backup & Config"); \
+  message=("See attached files for backup and config export for " . \
+    $Identity . ".\n\n" . \
+    [ $DeviceInfo ] . "\n\n" . \
+    "Backup file:    " . $BackupFile . "\n" . \
+    "Config file:    " . $ConfigFile); \
+  attach=$Attach; remove-attach=true });
