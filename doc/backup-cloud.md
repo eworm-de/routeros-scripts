@@ -1,5 +1,5 @@
-Send backup via e-mail
-======================
+Upload backup to Mikrotik cloud
+===============================
 
 [◀ Go back to main README](../README.md)
 
@@ -9,44 +9,44 @@ See [main README](../README.md) for details.
 Description
 -----------
 
-This script sends binary backup (`/ system backup save`) and complete
-configuration export (`/ export terse`) via e-mail.
+This script uploads [binary backup to Mikrotik cloud](https://wiki.mikrotik.com/wiki/Manual:IP/Cloud#Backup).
 
+### Sample notification
+
+![backup-cloud notification](backup-cloud.d/notification.svg)
 
 Requirements and installation
 -----------------------------
 
 Just install the script:
 
-    $ScriptInstallUpdate email-backup;
+    $ScriptInstallUpdate backup-cloud;
 
 Configuration
 -------------
 
 The configuration goes to `global-config-overlay`, these are the parameters:
 
-* `BackupSendBinary`: whether to send binary backup
-* `BackupSendExport`: whether to send configuration export
 * `BackupPassword`: password to encrypt the backup with
 * `BackupRandomDelay`: delay up to amount of seconds when run from scheduler
 
-Also valid e-mail settings are required to send mails.
+Also notification settings are required for e-mail, matrix and/or telegram.
 
 Usage and invocation
 --------------------
 
 Just run the script:
 
-    / system script run email-backup;
+    / system script run backup-cloud;
 
 Creating a scheduler may be an option:
 
-    / system scheduler add interval=1w name=email-backup on-event="/ system script run email-backup;" start-time=09:15:00;
+    / system scheduler add interval=1w name=backup-cloud on-event="/ system script run backup-cloud;" start-time=09:20:00;
 
 See also
 --------
 
-* [Upload backup to Mikrotik cloud](backup-cloud.md)
+* [Send backup via e-mail](email-backup.md)
 * [Upload backup to server](upload-backup.md)
 
 ---

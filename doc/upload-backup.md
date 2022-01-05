@@ -63,7 +63,7 @@ See also
 --------
 
 * [Send backup via e-mail](email-backup.md)
-* [Upload backup to Mikrotik cloud](cloud-backup.md)
+* [Upload backup to Mikrotik cloud](backup-cloud.md)
 
 ---
 [◀ Go back to main README](../README.md)  
