@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <svg
-   width="443.77951"
-   height="263.77945"
-   viewBox="0 0 117.41666 69.791631"
+   width="403.7796"
+   height="273.77948"
+   viewBox="0 0 106.83336 72.437472"
    version="1.1"
    id="svg8"
    inkscape:version="1.1 (c4e8f9ed74, 2021-05-24)"
-   sodipodi:docname="upload-backup.svg"
+   sodipodi:docname="backup-cloud.svg"
    inkscape:export-filename="logo.png"
    inkscape:export-xdpi="96"
    inkscape:export-ydpi="96"
@@ -34,7 +34,7 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="1.52"
-     inkscape:cx="345.72368"
+     inkscape:cx="24.013158"
      inkscape:cy="90.789474"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
@@ -54,8 +54,8 @@
     <inkscape:grid
        type="xygrid"
        id="grid833"
-       originx="16.375005"
-       originy="11.08332" />
+       originx="16.37501"
+       originy="11.083325" />
   </sodipodi:namedview>
   <metadata
      id="metadata5">
@@ -72,15 +72,15 @@
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
      id="layer1"
-     transform="translate(16.374996,11.083328)">
+     transform="translate(16.375,11.083332)">
     <rect
        style="fill:#e6e6e6;stroke:#6c5d53;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
        id="rect857"
-       width="116.41666"
-       height="68.791649"
+       width="105.83334"
+       height="71.437485"
        x="-15.875001"
        y="-10.583333"
-       rx="1.4552083" />
+       rx="1.3229166" />
     <g
        id="g884"
        transform="matrix(0.5,0,0,0.5,-12.40625,-7.1145834)"
@@ -144,69 +144,73 @@
     </g>
     <text
        xml:space="preserve"
-       transform="matrix(0.26458333,0,0,0.26458333,-44.949998,-6.5499577)"
+       transform="matrix(0.26458333,0,0,0.26458333,-44.950001,-6.6039365)"
        id="text4811"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12px;line-height:15px;font-family:'Fira Mono', 'Roboto Mono', monospace;-inkscape-font-specification:'Fira Mono, Roboto Mono, monospace, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;white-space:pre;shape-inside:url(#rect4813);fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        x="-248.88142"
        y="0"><tspan
          x="180"
          y="10.85"
-         id="tspan10771">[MikroTik] 💾⬆ Backup &amp; Config upload
+         id="tspan13469">[MikroTik] 💾☁ Cloud backup
 </tspan><tspan
          x="180"
-         y="25.85"
-         id="tspan10773">
+         y="26.082813"
+         id="tspan13471">
 </tspan><tspan
          x="180"
-         y="40.85"
-         id="tspan10775">Backup and config export upload for MikroTik.
+         y="41.082813"
+         id="tspan13473">Uploaded backup for MikroTik to cloud.
 </tspan><tspan
          x="180"
-         y="55.85"
-         id="tspan10777">
+         y="56.082811"
+         id="tspan13475">
 </tspan><tspan
          x="180"
-         y="70.85"
-         id="tspan10779">Hostname:       MikroTik
+         y="71.082811"
+         id="tspan13477">Hostname:       MikroTik
 </tspan><tspan
          x="180"
-         y="85.85"
-         id="tspan10781">Board name:     CHR
+         y="86.082811"
+         id="tspan13479">Board name:     CHR
 </tspan><tspan
          x="180"
-         y="100.85"
-         id="tspan10783">Architecture:   x86_64
+         y="101.08281"
+         id="tspan13481">Architecture:   x86_64
 </tspan><tspan
          x="180"
-         y="115.85"
-         id="tspan10785">RouterOS:
+         y="116.08281"
+         id="tspan13483">RouterOS:
 </tspan><tspan
          x="180"
-         y="130.85"
-         id="tspan10787">    Channel:    stable
+         y="131.08281"
+         id="tspan13485">    Channel:    stable
 </tspan><tspan
          x="180"
-         y="145.85"
-         id="tspan10789">    Installed:  6.48.3
+         y="146.08282"
+         id="tspan13487">    Installed:  6.48.3
 </tspan><tspan
          x="180"
-         y="160.85"
-         id="tspan10791">RouterOS-Scripts:
+         y="161.08282"
+         id="tspan13489">RouterOS-Scripts:
 </tspan><tspan
          x="180"
-         y="175.85"
-         id="tspan10793">    Current:    55
+         y="176.08282"
+         id="tspan13491">    Current:    55
 </tspan><tspan
          x="180"
-         y="190.85"
-         id="tspan10795">
+         y="191.08282"
+         id="tspan13493">
 </tspan><tspan
          x="180"
-         y="205.85"
-         id="tspan10797">Backup file:    MikroTik_example_com.backup
+         y="206.08282"
+         id="tspan13495">Name:           cloud-20210614-092419
 </tspan><tspan
          x="180"
-         y="220.85"
-         id="tspan10799">Config file:    MikroTik_example_com.rsc</tspan></text>
+         y="221.08282"
+         id="tspan13497">Size:           370767 B (362 KiB)
+</tspan><tspan
+         x="180"
+         y="236.08282"
+         id="tspan13499">Download key:   LLDBfPcWXxmSetWilqeJX5V</tspan></text>
   </g>
 </svg>

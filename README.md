@@ -185,6 +185,9 @@ Available scripts
 -----------------
 
 * [Find and remove access list duplicates](doc/accesslist-duplicates.md)
+* [Upload backup to Mikrotik cloud](doc/backup-cloud.md)
+* [Send backup via e-mail](doc/backup-email.md)
+* [Upload backup to server](doc/backup-upload.md)
 * [Download packages for CAP upgrade from CAPsMAN](doc/capsman-download-packages.md)
 * [Run rolling CAP upgrades from CAPsMAN](doc/capsman-rolling-upgrade.md)
 * [Renew locally issued certificates](doc/certificate-renew-issued.md)
@@ -192,12 +195,10 @@ Available scripts
 * [Notify about health state](doc/check-health.md)
 * [Notify on LTE firmware upgrade](doc/check-lte-firmware-upgrade.md)
 * [Notify on RouterOS update](doc/check-routeros-update.md)
-* [Upload backup to Mikrotik cloud](doc/cloud-backup.md)
 * [Collect MAC addresses in wireless access list](doc/collect-wireless-mac.md)
 * [Use wireless network with daily psk](doc/daily-psk.md)
 * [Comment DHCP leases with info from access list](doc/dhcp-lease-comment.md)
 * [Create DNS records for DHCP leases](doc/dhcp-to-dns.md)
-* [Send backup via e-mail](doc/email-backup.md)
 * [Wait for global functions und modules](doc/global-wait.md)
 * [Send GPS position to server](doc/gps-track.md)
 * [Use WPA2 network with hotspot credentials](doc/hotspot-to-wpa.md)
@@ -222,7 +223,6 @@ Available scripts
 * [Install LTE firmware upgrade](doc/unattended-lte-firmware-upgrade.md)
 * [Update GRE configuration with dynamic addresses](doc/update-gre-address.md)
 * [Update tunnelbroker configuration](doc/update-tunnelbroker.md)
-* [Upload backup to server](doc/upload-backup.md)
 
 [comment]: # (TODO: currently undocumented)
 [comment]: # (* learn-mac-based-vlan)

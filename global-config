@@ -8,7 +8,7 @@
 
 # Make sure all configuration properties are up to date and this
 # value is in sync with value in script 'global-functions'!
-:global GlobalConfigVersion 72;
+:global GlobalConfigVersion 73;
 
 # This is used for DNS and backup file.
 :global Domain "example.com";
@@ -49,7 +49,7 @@
 # variable name, like this:
 #:global EmailGeneralToOverride {
 #  "check-certificates"="override@example.com";
-#  "email-backup"="backup@example.com";
+#  "backup-email"="backup@example.com";
 #}
 
 # Toggle this to disable symbols in notifications.
