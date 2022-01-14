@@ -32,11 +32,9 @@ place the required packages to CAPsMAN package path (see
 function `$DownloadPackage`, use something like this to download latest
 packages to directory `routeros`:
 
-    $DownloadPackage system "" arm routeros;
-    $DownloadPackage security "" arm routeros;
-    [...]
-    $DownloadPackage system "" mipsbe routeros;
-    $DownloadPackage security "" mipsbe routeros;
+    $DownloadPackage routeros "" arm routeros;
+    $DownloadPackage routeros "" arm64 routeros;
+    $DownloadPackage routeros "" mipsbe routeros;
     [...]
 
 Usage and invocation

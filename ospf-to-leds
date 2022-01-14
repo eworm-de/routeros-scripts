@@ -18,12 +18,18 @@
   :local LED ([ $ParseKeyValueStore ($InstanceVal->"comment") ]->"leds");
   :local LEDType [ / system leds get [ find where leds=$LED ] type ];
 
-  :if ($InstanceVal->"state" = "running" && $LEDType = "off") do={
-    $LogPrintExit2 info $0 ("OSPF instance " . $InstanceVal->"name" . " is running, led on!") false;
+  :local NeighborCount 0;
+  :foreach Area in=[ / routing ospf area find where instance=($InstanceVal->"name") ] do={
+    :local AreaName [ / routing ospf area get $Area name ];
+    :set NeighborCount ($NeighborCount + [ :len [ / routing ospf neighbor find where area=$AreaName ] ]);
+  }
+
+  :if ($NeighborCount > 0 && $LEDType = "off") do={
+    $LogPrintExit2 info $0 ("OSPF instance " . $InstanceVal->"name" . " has " . $NeighborCount . " neighbors, led on!") false;
     / system leds set type=on [ find where leds=$LED ];
   }
-  :if ($InstanceVal->"state" = "down" && $LEDType = "on") do={
-    $LogPrintExit2 info $0 ("OSPF instance " . $InstanceVal->"name" . " is down, led off!") false;
+  :if ($NeighborCount = 0 && $LEDType = "on") do={
+    $LogPrintExit2 info $0 ("OSPF instance " . $InstanceVal->"name" . " has no neighbors, led off!") false;
     / system leds set type=off [ find where leds=$LED ];
   }
 }

@@ -2,6 +2,9 @@
 # Copyright (c) 2019-2022 Christian Hesse <mail@eworm.de>
 # https://git.eworm.de/cgit/routeros-scripts/about/COPYING.md
 
+:global IfThenElse;
+:global RequiredRouterOS;
+
 # Changes for global-config to be added to notification on script updates
 :global GlobalConfigChanges {
    1="Moved variables from 'global-config' to 'global-functions' for independence";
@@ -73,11 +76,14 @@
   67="Moved modules to directory with shorter name.";
   68="Reintroduced 'global-wait' for functions in scheduler.";
   69="Support hard lower limit for voltage in 'check-health'.";
-  70="MikroTik started pushing RouterOS v7. Changes are required if you run it, see https://git.eworm.de/cgit/routeros-scripts/about/#changes-for-routeros-v7";
+  70="MikroTik started pushing RouterOS v7. Changes are no longer required.";
   71="MikroTik is pushing RouterOS v7 even more, in parallel branches. If you want to keep RouterOS v6 for some time see https://git.eworm.de/cgit/routeros-scripts/about/#changes-for-routeros-v6";
   72="Introduced new script 'netwatch-dns' to manage DNS and DoH servers from netwatch.";
   73="Renamed backup scripts ('cloud-backup' -> 'backup-cloud', 'email-backup' -> 'backup-email', 'upload-backup' -> 'backup-upload').";
   74="Extended 'hotspot-to-wpa', it can now read additional configuration from templates and hotspot users.";
+  75=("Finally merged the RouterOS v7 code into the main branch. " . [ $IfThenElse ([ $RequiredRouterOS "global-config.changes" "7.0" false ] = true) \
+        ("You may now drop '\$ScriptUpdatesUrlSuffix' from 'global-config-overlay'.") \
+        ("Still running RouterOS v6, so last reminder to see https://git.eworm.de/cgit/routeros-scripts/about/#changes-for-routeros-v6") ]);
 };
 
 # Migration steps to be applied on script updates

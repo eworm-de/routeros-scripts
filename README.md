@@ -118,29 +118,14 @@ to be updated automatically!
 
 ### Changes for RouterOS v6
 
-RouterOS v6 will become deprecated at some time in the future, but to date
-it is still the default for these scripts (in branch `main`). This will
-change however, so if you want to stay with RouterOS v6 for some time add
-these lines to your `global-config-overlay`, if missing:
+RouterOS v7 is the way to go, let's consider RouterOS v6 deprecated.
+If you want to stay with RouterOS v6 for some time add these lines
+to your `global-config-overlay`, if missing:
 
     # Use branch routeros-v6 with RouterOS v6:
     :global ScriptUpdatesUrlSuffix "\?h=routeros-v6";
 
 Then reload the configuration.
-
-### Changes for RouterOS v7
-
-RouterOS v7 is developed in paralled to RouterOS v6. The former brings some
-shiny new features, the latter provides proven stability.
-
-The changes require incompatible changes to scripts, so these changes go to
-a separate branch. If you decide to run RouterOS v7 please switch to branch
-`routeros-v7` by adding these lines to your `global-config-overlay`:
-
-    # Use branch routeros-v7 with RouterOS v7:
-    :global ScriptUpdatesUrlSuffix "\?h=routeros-v7";
-
-Then reload the configuration and continue below to update scripts.
 
 Updating scripts
 ----------------

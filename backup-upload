@@ -76,7 +76,7 @@ $WaitFullyConnected;
 
 # create configuration export
 :if ($BackupSendExport = true) do={
-  / export terse file=$FilePath;
+  / export terse show-sensitive file=$FilePath;
   $WaitForFile ($FilePath . ".rsc");
 
   :do {
