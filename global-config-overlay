@@ -10,6 +10,9 @@
 # Comment or remove to disable news and change notifications.
 :global GlobalConfigVersion 74;
 
+# Use branch routeros-v6 with RouterOS v6:
+:global ScriptUpdatesUrlSuffix "\?h=routeros-v6";
+
 # Copy configuration from global-config here and modify it.
 
 
