@@ -78,6 +78,7 @@
   72="Introduced new script 'netwatch-dns' to manage DNS and DoH servers from netwatch.";
   73="Renamed backup scripts ('cloud-backup' -> 'backup-cloud', 'email-backup' -> 'backup-email', 'upload-backup' -> 'backup-upload').";
   74="Extended 'hotspot-to-wpa', it can now read additional configuration from templates and hotspot users.";
+  75="You are using the branch 'routeros-v6', well done.";
 };
 
 # Migration steps to be applied on script updates
