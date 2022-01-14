@@ -7,7 +7,7 @@ These command are inteneded for initial setup. If you are not aware of the
 procedure please follow [the long way in detail](README.md#the-long-way-in-detail).
 
     {
-      / tool fetch "https://git.eworm.de/cgit/routeros-scripts/plain/certs/R3.pem" dst-path="letsencrypt-R3.pem";
+      / tool fetch "https://git.eworm.de/cgit/routeros-scripts/plain/certs/R3.pem" dst-path="letsencrypt-R3.pem" as-value;
       :delay 1s;
       / certificate import file-name=letsencrypt-R3.pem passphrase="";
       :if ([ :len [ / certificate find where fingerprint="67add1166b020ae61b8f5fc96813c04c2aa589960796865572a3c7e737613dfd" or fingerprint="96bcec06264976f37460779acf28c5a7cfe8a3c0aae11a8ffcee05c0bddf08c6" ] ] != 2) do={
