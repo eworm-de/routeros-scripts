@@ -82,9 +82,14 @@ All following commands will verify the server certificate. For validity the
 certificate's lifetime is checked with local time, so make sure the device's
 date and time is set correctly!
 
+One extra step is required if you run RouterOS v6:
+
+    :global ScriptUpdatesUrlSuffix "\?h=routeros-v6";
+
 Now let's download the main scripts and add them in configuration on the fly.
 
-    :foreach Script in={ "global-config"; "global-config-overlay"; "global-functions" } do={ / system script add name=$Script source=([ / tool fetch check-certificate=yes-without-crl ("https://git.eworm.de/cgit/routeros-scripts/plain/" . $Script) output=user as-value]->"data"); };
+    :global ScriptUpdatesUrlSuffix;
+    :foreach Script in={ "global-config"; "global-config-overlay"; "global-functions" } do={ / system script add name=$Script source=([ / tool fetch check-certificate=yes-without-crl ("https://git.eworm.de/cgit/routeros-scripts/plain/" . $Script . $ScriptUpdatesUrlSuffix) output=user as-value]->"data"); };
 
 ![screenshot: import scripts](README.d/04-import-scripts.avif)
 
@@ -116,7 +121,7 @@ to be updated automatically!
 RouterOS v6 will become deprecated at some time in the future, but to date
 it is still the default for these scripts (in branch `main`). This will
 change however, so if you want to stay with RouterOS v6 for some time add
-these lines to your `global-config-overlay`:
+these lines to your `global-config-overlay`, if missing:
 
     # Use branch routeros-v6 with RouterOS v6:
     :global ScriptUpdatesUrlSuffix "\?h=routeros-v6";
