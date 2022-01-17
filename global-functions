@@ -252,6 +252,7 @@
   :global CleanFilePath;
   :global LogPrintExit2;
   :global MkDir;
+  :global VersionToNum;
   :global WaitForFile;
 
   :if ([ :len $PkgName ] = 0) do={ :return false; }
@@ -259,6 +260,9 @@
   :if ([ :len $PkgArch ] = 0) do={ :set PkgArch [ / system resource get architecture-name ]; }
 
   :local PkgFile ($PkgName . "-" . $PkgVer . "-" . $PkgArch . ".npk");
+  :if ([ $VersionToNum $PkgVer ] < [ $VersionToNum "7.0" ] && $PkgName = "routeros") do={
+    :set PkgFile ($PkgName . "-" . $PkgArch . "-" . $PkgVer . ".npk");
+  }
   :if ($PkgArch = "x86_64" || $PkgName ~ "^routeros-") do={
     :set PkgFile ($PkgName . "-" . $PkgVer . ".npk");
   }
