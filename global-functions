@@ -278,13 +278,13 @@
     $LogPrintExit2 error $0 ("Downloading required certificate failed.") true;
   }
 
+  :local Url ("https://upgrade.mikrotik.com/routeros/" . $PkgVer . "/" . $PkgFile);
   $LogPrintExit2 info $0 ("Downloading package file '" . $PkgName . "'...") false;
+  $LogPrintExit2 debug $0 ("... from url: " . $Url) false;
   :local Retry 3;
   :while ($Retry > 0) do={
     :do {
-      / tool fetch check-certificate=yes-without-crl \
-        ("https://upgrade.mikrotik.com/routeros/" . $PkgVer . "/" . $PkgFile) \
-        dst-path=$PkgDest;
+      / tool fetch check-certificate=yes-without-crl $Url dst-path=$PkgDest;
       $WaitForFile $PkgDest;
 
       :if ([ / file get [ find where name=$PkgDest ] type ] = "package") do={
