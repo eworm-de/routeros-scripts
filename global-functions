@@ -723,8 +723,8 @@
     :foreach Scheduler in=[ / system scheduler find where on-event~("\\b" . $ScriptVal->"name" . "\\b") ] do={
       :local SchedulerVal [ / system scheduler get $Scheduler ];
       :if ($ScriptVal->"policy" != $SchedulerVal->"policy") do={
-        $LogPrintExit2 warning $0 ("Policies differ for script " . $ScriptVal->"name" . \
-          " and its scheduler " . $SchedulerVal->"name" . "!") false;
+        $LogPrintExit2 warning $0 ("Policies differ for script '" . $ScriptVal->"name" . \
+          "' and its scheduler '" . $SchedulerVal->"name" . "'!") false;
       }
     }
 
@@ -744,7 +744,7 @@
             :set SourceNew ($Result->"data");
           }
         } on-error={
-          $LogPrintExit2 warning $0 ("Failed fetching " . $ScriptVal->"name") false;
+          $LogPrintExit2 warning $0 ("Failed fetching script '" . $ScriptVal->"name" . "'!") false;
         }
       }
     }
@@ -765,18 +765,18 @@
               :set ReloadGlobalFunctions true;
             }
           } else={
-            $LogPrintExit2 warning $0 ("Syntax validation for script " . $ScriptVal->"name" . \
-              " failed! Ignoring!") false;
+            $LogPrintExit2 warning $0 ("Syntax validation for script '" . $ScriptVal->"name" . \
+              "' failed! Ignoring!") false;
           }
         } else={
-          $LogPrintExit2 warning $0 ("Looks like new script " . $ScriptVal->"name" . \
-            " is not valid (missing shebang). Ignoring!") false;
+          $LogPrintExit2 warning $0 ("Looks like new script '" . $ScriptVal->"name" . \
+            "' is not valid (missing shebang). Ignoring!") false;
         }
       } else={
-        $LogPrintExit2 debug $0 ("Script " .  $ScriptVal->"name" . " did not change.") false;
+        $LogPrintExit2 debug $0 ("Script '" .  $ScriptVal->"name" . "' did not change.") false;
       }
     } else={
-      $LogPrintExit2 debug $0 ("No update for script " . $ScriptVal->"name" . ".") false;
+      $LogPrintExit2 debug $0 ("No update for script '" . $ScriptVal->"name" . "'.") false;
     }
   }
 
