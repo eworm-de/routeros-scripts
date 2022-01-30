@@ -108,7 +108,7 @@ $LogPrintExit2 debug $0 ("Checking for updates...") false;
 
   :if ([ $ScriptFromTerminal $0 ] = true) do={
     :put ("Do you want to install RouterOS version " . $Update->"latest-version" . "? [y/N]");
-    :if (([ :terminal inkey timeout=60 ] % 32) = 25) do={
+    :if (([ / terminal inkey timeout=60 ] % 32) = 25) do={
       $DoUpdate;
     } else={
       :put "Canceled...";
