@@ -189,6 +189,7 @@ Available scripts
 * [Use wireless network with daily psk](doc/daily-psk.md)
 * [Comment DHCP leases with info from access list](doc/dhcp-lease-comment.md)
 * [Create DNS records for DHCP leases](doc/dhcp-to-dns.md)
+* [Automatically upgrade firmware and reboot](doc/firmware-upgrade-reboot.md)
 * [Wait for global functions und modules](doc/global-wait.md)
 * [Send GPS position to server](doc/gps-track.md)
 * [Use WPA2 network with hotspot credentials](doc/hotspot-to-wpa.md)

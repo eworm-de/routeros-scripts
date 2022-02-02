@@ -44,6 +44,7 @@ See also
 * [Upload backup to Mikrotik cloud](backup-cloud.md)
 * [Send backup via e-mail](backup-email.md)
 * [Upload backup to server](backup-upload.md)
+* [Automatically upgrade firmware and reboot](firmware-upgrade-reboot.md)
 
 ---
 [◀ Go back to main README](../README.md)  

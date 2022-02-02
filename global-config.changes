@@ -85,6 +85,7 @@
         ("You may now drop '\$ScriptUpdatesUrlSuffix' from 'global-config-overlay'.") \
         ("Still running RouterOS v6, so last reminder to see https://git.eworm.de/cgit/routeros-scripts/about/#changes-for-routeros-v6") ]);
   76="Added an option to suppress notifications on host down with 'netwatch-notify'.";
+  77="Introduced new script 'firmware-upgrade-reboot'. Handle with care!";
 };
 
 # Migration steps to be applied on script updates
