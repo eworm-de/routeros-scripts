@@ -61,6 +61,7 @@ Installing script [packages-update](packages-update.md) gives extra options.
 See also
 --------
 
+* [Automatically upgrade firmware and reboot](firmware-upgrade-reboot.md)
 * [Manage system update](packages-update.md)
 
 ---

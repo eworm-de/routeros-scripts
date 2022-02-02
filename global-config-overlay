@@ -8,7 +8,7 @@
 # Make sure all configuration properties are up to date and this
 # value is in sync with value in script 'global-functions'!
 # Comment or remove to disable news and change notifications.
-:global GlobalConfigVersion 76;
+:global GlobalConfigVersion 77;
 
 # Use branch routeros-v6 with RouterOS v6:
 :global ScriptUpdatesUrlSuffix "\?h=routeros-v6";
