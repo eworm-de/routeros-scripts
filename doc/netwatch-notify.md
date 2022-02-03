@@ -78,6 +78,16 @@ But be warned: Dynamic updates will probably cause issues if the name has
 more than one record in dns - a high rate of configuration changes (and flash
 writes) at least.
 
+### No notification on host down
+
+Also suppressing the notification on host down is possible with parameter
+`no-down-notification`. This may be desired for devices that are usually
+powered off, but accessibility is of interest.
+
+    / tool netwatch add comment="notify, hostname=printer, no-down-notification" host=10.0.0.30;
+
+Go and get your coffee ☕️ before sending the print job.
+
 Also notification settings are required for e-mail, matrix and/or telegram.
 
 Tips & Tricks

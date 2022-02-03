@@ -79,6 +79,7 @@
   73="Renamed backup scripts ('cloud-backup' -> 'backup-cloud', 'email-backup' -> 'backup-email', 'upload-backup' -> 'backup-upload').";
   74="Extended 'hotspot-to-wpa', it can now read additional configuration from templates and hotspot users.";
   75="You are using the branch 'routeros-v6', well done.";
+  76="Added an option to suppress notifications on host down with 'netwatch-notify'.";
 };
 
 # Migration steps to be applied on script updates
