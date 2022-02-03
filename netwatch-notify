@@ -122,10 +122,10 @@ $ScriptLock $0;
           :set Parent ($NetwatchNotify->$Parent->"parent");
         }
       }
-      $LogPrintExit2 info $0 ("Host " . $HostName . " (" . $HostVal->"host" . ") is down for " . \
-        $Metric->"count" . " checks, " . [ $IfThenElse ($ParentNotified = false) [ $IfThenElse \
-        ($Metric->"notified" = true) ("already notified.") ($Count - $Metric->"count" . " to go.") ] \
-        ("parent host " . $Parent . " is down.") ]) false;
+      $LogPrintExit2 [ $IfThenElse ($HostInfo->"no-down-notification" != true) info debug ] $0 \
+        ("Host " . $HostName . " (" . $HostVal->"host" . ") is down for " . $Metric->"count" . " checks, " . \
+        [ $IfThenElse ($ParentNotified = false) [ $IfThenElse ($Metric->"notified" = true) ("already notified.") \
+        ($Count - $Metric->"count" . " to go.") ] ("parent host " . $Parent . " is down.") ]) false;
       :if ((($Count * 2) - ($Metric->"count" * 3)) / 2 = 0 && [ :typeof ($HostInfo->"pre-down-hook") ] = "str") do={
         $NetwatchNotifyHook $HostName "pre-down" ($HostInfo->"pre-down-hook");
       }
@@ -134,9 +134,11 @@ $ScriptLock $0;
         :if ([ :typeof ($HostInfo->"down-hook") ] = "str") do={
           :set Message ($Message . "\n\n" . [ $NetwatchNotifyHook $HostName "down" ($HostInfo->"down-hook") ]);
         }
-        $SendNotification2 ({ origin=$0; \
-          subject=([ $SymbolForNotification "cross-mark" ] . "Netwatch Notify: " . $HostName . " down"); \
-          message=$Message });
+        :if ($HostInfo->"no-down-notification" != true) do={
+          $SendNotification2 ({ origin=$0; \
+            subject=([ $SymbolForNotification "cross-mark" ] . "Netwatch Notify: " . $HostName . " down"); \
+            message=$Message });
+        }
         :set ($Metric->"notified") true;
       }
     }

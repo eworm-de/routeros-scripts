@@ -84,6 +84,7 @@
   75=("Finally merged the RouterOS v7 code into the main branch. " . [ $IfThenElse ([ $RequiredRouterOS "global-config.changes" "7.0" false ] = true) \
         ("You may now drop '\$ScriptUpdatesUrlSuffix' from 'global-config-overlay'.") \
         ("Still running RouterOS v6, so last reminder to see https://git.eworm.de/cgit/routeros-scripts/about/#changes-for-routeros-v6") ]);
+  76="Added an option to suppress notifications on host down with 'netwatch-notify'.";
 };
 
 # Migration steps to be applied on script updates
