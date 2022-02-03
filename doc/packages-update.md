@@ -41,6 +41,7 @@ See also
 --------
 
 * [Notify on RouterOS update](check-routeros-update.md)
+* [Upload backup to Mikrotik cloud](backup-cloud.md)
 * [Send backup via e-mail](backup-email.md)
 * [Upload backup to server](backup-upload.md)
 
