@@ -43,12 +43,14 @@ $ScriptLock $0;
   :if ($DnsServers != $DnsCurrent) do={
     $LogPrintExit2 info $0 ("Updating DNS servers: " . [ :tostr $DnsServers ]) false;
     / ip dns set servers=$DnsServers;
+    / ip dns cache flush;
   }
 } else={
   :if ([ :len $DnsFallback ] > 0) do={
     :if ($DnsFallback != $DnsCurrent) do={
       $LogPrintExit2 info $0 ("Updating DNS servers to fallback: " . [ :tostr $DnsFallback ]) false;
       / ip dns set servers=$DnsFallback; 
+      / ip dns cache flush;
     }
   }
 }
@@ -69,10 +71,12 @@ $ScriptLock $0;
   :if ($DohServer != $DohCurrent) do={
     $LogPrintExit2 info $0 ("Updating DoH server: " . $DohServer) false;
     / ip dns set use-doh-server=$DohServer;
+    / ip dns cache flush;
   }
 } else={
   :if ($DohCurrent != "") do={
     $LogPrintExit2 info $0 ("DoH server (" . $DohCurrent . ") is down, disabling.") false;
     / ip dns set use-doh-server="";
+    / ip dns cache flush;
   }
 }
