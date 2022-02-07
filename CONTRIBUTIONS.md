@@ -22,6 +22,7 @@ Add yourself to the list,
 * Abdul Mannan Abbasi
 * Andrew Cox
 * Christoph Boss (@Kampfwurst)
+* Devin Dean (@dd2594gh)
 * Klaus Michael Rübsam
 * Linux-Schmie.de Michael Gisbers
 * Manuel Kuhn
