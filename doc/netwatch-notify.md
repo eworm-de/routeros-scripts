@@ -38,6 +38,8 @@ The hosts to be checked have to be added to netwatch with specific comment:
 
     / tool netwatch add comment="notify, hostname=example.com" host=[ :resolve "example.com" ];
 
+### Hooks
+
 It is possible to run an up hook command (`up-hook`) or down hook command
 (`down-hook`) when a notification is triggered. This has to be added in
 comment, note that some characters need extra escaping:
@@ -48,9 +50,13 @@ Also there is a `pre-down-hook` that fires at two thirds of failed checks
 required for the notification. The idea is to fix the issue before a
 notification is sent.
 
+### Count threshould
+
 The count threshould (default is 5 checks) is configurable as well:
 
     / tool netwatch add comment="notify, hostname=example.com, count=10" host=104.18.144.11;
+
+### Parents & dependencies
 
 If the host is behind another checked host add a dependency, this will
 suppress notification if the parent host is down:
@@ -60,6 +66,8 @@ suppress notification if the parent host is down:
 
 Note that every configured parent in a chain increases the check count
 threshould by one.
+
+### Update from DNS
 
 The host address can be updated dynamically. Give extra parameter `resolve`
 with a resolvable name:
