@@ -44,9 +44,6 @@ $WaitFullyConnected;
   :if ($File->"package-architecture" = "mips") do={
     :set ($File->"package-architecture") "mipsbe";
   }
-  :if ($File->"package-name" = "wireless@") do={
-    :set ($File->"package-name") "wireless";
-  }
   :if ([ $DownloadPackage ($File->"package-name") $InstalledVersion ($File->"package-architecture") $PackagePath ] = true) do={
     :set Updated true;
     / file remove $Package;
