@@ -28,5 +28,10 @@
   :delay 1s;
 }
 
+:local Uptime [ / system resource get uptime ];
+:if ($Uptime < 1m) do={
+  :delay $Uptime;
+}
+
 $LogPrintExit2 info $0 ("Firmware upgrade successful, rebooting.") false;
 / system reboot;
