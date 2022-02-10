@@ -510,6 +510,10 @@
 
   :set Dir [ $CleanFilePath $Dir ];
 
+  :if ($Dir = "") do={
+    :return true;
+  }
+
   :if ([ :len [ / file find where name=$Dir type="directory" ] ] = 1) do={
     :return true;
   }
