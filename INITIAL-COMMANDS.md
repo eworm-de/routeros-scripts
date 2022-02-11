@@ -3,8 +3,9 @@ Initial commands
 
 [◀ Go back to main README](README.md)
 
-These command are inteneded for initial setup. If you are not aware of the
-procedure please follow [the long way in detail](README.md#the-long-way-in-detail).
+> ⚠️ **Warning**: These command are inteneded for initial setup. If you are
+> not aware of the procedure please follow
+> [the long way in detail](README.md#the-long-way-in-detail).
 
 One extra step is required if you run RouterOS v6:
 
