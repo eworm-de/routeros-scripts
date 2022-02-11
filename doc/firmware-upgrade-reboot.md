@@ -3,8 +3,8 @@ Automatically upgrade firmware and reboot
 
 [◀ Go back to main README](../README.md)
 
-🛈 This script can not be used on its own but requires the base installation.
-See [main README](../README.md) for details.
+> 🛈 **Info**: This script can not be used on its own but requires the base
+> installation. See [main README](../README.md) for details.
 
 Description
 -----------
@@ -12,8 +12,8 @@ Description
 RouterOS and firmware are upgraded separately, activating the latter
 requires an extra reboot. This script handles upgrade and reboot.
 
-⚠️ **Warning**: This *should* be bullet proof, but I can not guarantee. In
-worst case it has potential to cause a boot loop, so handle with care!
+> ⚠️ **Warning**: This *should* be bullet proof, but I can not guarantee. In
+> worst case it has potential to cause a boot loop, so handle with care!
 
 Requirements and installation
 -----------------------------
