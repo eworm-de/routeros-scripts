@@ -40,8 +40,8 @@ RouterOS script distribution](https://www.youtube.com/watch?v=B9neG3oAhcY)
 including demonstation recorded live at [MUM Europe
 2019](https://mum.mikrotik.com/2019/EU/) in Vienna.
 
-*Be warned!* Some details changed. So see the presentation, then follow
-the steps below for up-to-date commands.
+> ⚠️ **Warning**: Some details changed. So see the presentation, then follow
+> the steps below for up-to-date commands.
 
 ### The long way in detail
 
