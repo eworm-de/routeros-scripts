@@ -3,7 +3,7 @@ Act on received SMS
 
 [◀ Go back to main README](../README.md)
 
-> 🛈 **Info**: This script can not be used on its own but requires the base
+> ℹ️ **Info**: This script can not be used on its own but requires the base
 > installation. See [main README](../README.md) for details.
 
 Description
