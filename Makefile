@@ -6,7 +6,7 @@ TEMPLATE = $(wildcard *.template)
 CAPSMAN = $(TEMPLATE:.template=.capsman)
 LOCAL = $(TEMPLATE:.template=.local)
 
-MARKDOWN = $(wildcard *.md) $(wildcard doc/*.md)
+MARKDOWN = $(wildcard *.md doc/*.md doc/mod/*.md)
 HTML = $(MARKDOWN:.md=.html)
 
 all: $(CAPSMAN) $(LOCAL) $(HTML)
