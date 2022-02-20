@@ -47,6 +47,8 @@ safe versions from a web server. The configuration goes to
 * `SafeUpdateUrl`: url to check for safe update, the channel (`long-term`,
 `stable` or `testing`) is appended
 
+Also notification settings are required for e-mail, matrix and/or telegram.
+
 Usage and invocation
 --------------------
 
