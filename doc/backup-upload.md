@@ -36,7 +36,9 @@ The configuration goes to `global-config-overlay`, these are the parameters:
 * `BackupUploadUser`: username for server authentication
 * `BackupUploadPass`: password for server authentication
 
-Also notification settings are required for e-mail, matrix and/or telegram.
+Also notification settings are required for e-mail,
+[matrix](mod/notification-matrix.md) and/or
+[telegram](mod/notification-telegram.md).
 
 ### Issues with SFTP client
 
