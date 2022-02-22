@@ -48,7 +48,7 @@ The configuration goes to `global-config-overlay`, these are the parameters:
 
 Also notification settings are required for e-mail,
 [matrix](mod/notification-matrix.md) and/or
-[telegram](mod/notification-telegram.md)m.
+[telegram](mod/notification-telegram.md).
 
 ---
 [◀ Go back to main README](../README.md)  
