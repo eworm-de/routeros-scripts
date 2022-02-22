@@ -19,10 +19,23 @@ Just install the module:
 
     $ScriptInstallUpdate mod/scriptrunonce;
 
+Configuration
+-------------
+
+The optional configuration goes to `global-config-overlay`.
+
+* `ScriptRunOnceBaseUrl`: base url, prepended to parameter
+* `ScriptRunOnceUrlSuffix`: url suffix, appended to parameter
+
+If the parameter passed to the function is not a complete URL (starting
+with protocol `ftp://`, `http://`, `https://` or `sftp://`) the values are
+prepended and appended.
+
 Usage and invocation
 --------------------
 
-The function `$ScriptRunOnce` expects an url pointing to a script as parameter.
+The function `$ScriptRunOnce` expects an URL (or name if
+`ScriptRunOnceBaseUrl` is given) pointing to a script as parameter.
 
     $ScriptRunOnce https://git.eworm.de/cgit/routeros-scripts/plain/doc/mod/scriptrunonce.d/hello-world.rsc
 
