@@ -23,6 +23,7 @@ Add yourself to the list,
 * Andrew Cox
 * Christoph Boss (@Kampfwurst)
 * Devin Dean (@dd2594gh)
+* Evaldo Gardenal
 * Klaus Michael Rübsam
 * Linux-Schmie.de Michael Gisbers
 * Manuel Kuhn
