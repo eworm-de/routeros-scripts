@@ -12,6 +12,11 @@ Description
 This script uploads binary backup (`/ system backup save`) and complete
 configuration export (`/ export terse`) to external server.
 
+> ⚠️ **Warning**: The used command can hit errors that a script can not handle.
+> This may result in script termination (where no notification is sent) or
+> malfunction of fetch command (where all up- and downloads break) for some
+> time. Failed notifications are queued then.
+
 ### Sample notification
 
 ![backup-upload notification](backup-upload.d/notification.svg)
