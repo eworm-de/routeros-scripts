@@ -10,7 +10,7 @@ Description
 -----------
 
 This script uploads binary backup (`/ system backup save`) and complete
-configuration export (`/ export terse`) to external server.
+configuration export (`/ export terse show-sensitive`) to external server.
 
 ### Sample notification
 
