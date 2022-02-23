@@ -10,7 +10,7 @@ Description
 -----------
 
 This script sends binary backup (`/ system backup save`) and complete
-configuration export (`/ export terse`) via e-mail.
+configuration export (`/ export terse show-sensitive`) via e-mail.
 
 Requirements and installation
 -----------------------------
