@@ -22,6 +22,7 @@ Then run the complete base installation:
         :error "Something is wrong with your certificates!";
       };
       / file remove "letsencrypt-R3.pem";
+      :delay 1s;
       :foreach Script in={ "global-config"; "global-config-overlay"; "global-functions" } do={
         / system script add name=$Script source=([ / tool fetch check-certificate=yes-without-crl ("https://git.eworm.de/cgit/routeros-scripts/plain/" . $Script . $ScriptUpdatesUrlSuffix) output=user as-value]->"data");
       };
