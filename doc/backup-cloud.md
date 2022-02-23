@@ -11,6 +11,11 @@ Description
 
 This script uploads [binary backup to Mikrotik cloud](https://wiki.mikrotik.com/wiki/Manual:IP/Cloud#Backup).
 
+> ⚠️ **Warning**: The used command can hit errors that a script can not handle.
+> This may result in script termination (where no notification is sent) or
+> malfunction of fetch command (where all up- and downloads break) for some
+> time. Failed notifications are queued then.
+
 ### Sample notification
 
 ![backup-cloud notification](backup-cloud.d/notification.svg)
