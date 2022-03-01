@@ -358,6 +358,7 @@
   :foreach Id,Message in=$EmailQueue do={
     :if ([ :typeof $Message ] = "array" ) do={
       :local Attach [ $EitherOr ($Message->"attach") "" ];
+      :while ([ / tool e-mail get last-status ] = "in-progress") do={ :delay 1s; }
       / tool e-mail send to=($Message->"to") cc=($Message->"cc") subject=($Message->"subject") \
         body=($Message->"body") file=$Attach;
       :local Wait true;
