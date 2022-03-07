@@ -56,6 +56,7 @@ Create hotspot login credentials:
 
 Additionally templates can be created to give more options for access list:
 
+* `action`: set to `reject` to ignore logins on that hotspot
 * `private-passphrase`: do **not** use passphrase from hotspot's user
   credentials, but given one - or unset (use default passphrase) with
   special word `ignore`
