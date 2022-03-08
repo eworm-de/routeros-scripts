@@ -13,7 +13,7 @@
 :global GlobalFunctionsReady;
 :while ($GlobalFunctionsReady != true) do={ :delay 500ms; }
 
-:local Read do={ :return; }
+:global Read;
 
 :local Seen [ :toarray "" ];
 :local Shown [ :toarray "" ];
