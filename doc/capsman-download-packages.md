@@ -26,18 +26,9 @@ Optionally add a scheduler to run after startup:
 
     / system scheduler add name=capsman-download-packages on-event="/ system script run capsman-download-packages;" start-time=startup;
 
-Only packages available in older version are downloaded. For initial setup
-place the required packages to CAPsMAN package path (see
-`/ caps-man manager`). The packages can be downloaded from device with
-function `$DownloadPackage`, use something like this to download latest
-packages to directory `routeros`:
-
-    $DownloadPackage system "" arm routeros;
-    $DownloadPackage security "" arm routeros;
-    [...]
-    $DownloadPackage system "" mipsbe routeros;
-    $DownloadPackage security "" mipsbe routeros;
-    [...]
+Packages available in local storage in older version are downloaded
+unconditionally. The script tries to download missing packages by guessing
+from system log.
 
 Usage and invocation
 --------------------

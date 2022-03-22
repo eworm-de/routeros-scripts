@@ -53,6 +53,25 @@ $WaitFullyConnected;
   }
 }
 
+:if ($Updated = false && [ / system resource get uptime ] < 2m) do={
+  $LogPrintExit2 info $0 ("No packages downloaded, yet. Delaying for logs.") false;
+  :delay 2m;
+}
+
+:foreach Log in=[ / log find where topics=({"caps", "error"}) \
+    message~("upgrade status: failed, failed to download file '.*-" . $InstalledVersion . "-.*\\.npk', no such file") ] do={
+  :local Message [ / log get $Log message ];
+  :local Package [ :pick $Message \
+    ([ :find $Message "'" ] + 1) \
+    [ :find $Message ("-" . $InstalledVersion . "-") ] ];
+  :local Arch [ :pick $Message \
+    ([ :find $Message ("-" . $InstalledVersion . "-") ] + 2 + [ :len $InstalledVersion ]) \
+    [ :find $Message ".npk" ] ];
+  :if ([ $DownloadPackage $Package $InstalledVersion $Arch $PackagePath ] = true) do={
+    :set Updated true;
+  }
+}
+
 :if ($Updated = true) do={
   :if ([ :len [ / system script find where name="capsman-rolling-upgrade" ] ] > 0) do={
     / system script run capsman-rolling-upgrade;
