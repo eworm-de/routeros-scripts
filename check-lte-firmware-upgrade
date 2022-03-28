@@ -32,6 +32,18 @@
       :if (($Firmware->"installed") != ($Firmware->"latest")) do={
         $LogPrintExit2 info $0 ("A new firmware version " . ($Firmware->"latest") . " is available for " . \
           "LTE interface " . $IntName . ".") false;
+
+        :if ([ $ScriptFromTerminal $0 ] = true && \
+            [ :len [ / system script find where name="unattended-lte-firmware-upgrade" ] ] > 0) do={
+          :put ("Do you want to start unattended lte firmware upgrade for interface " . $IntName . "? [y/N]");
+          :if (([ / terminal inkey timeout=60 ] % 32) = 25) do={
+             / system script run unattended-lte-firmware-upgrade;
+             $LogPrintExit2 info $0 ("Scheduled lte firmware upgrade for interface " . $IntName . "...") true;
+          } else={
+            :put "Canceled...";
+          }
+        }
+
         $SendNotification2 ({ origin=$0; \
           subject=([ $SymbolForNotification "sparkles" ] . "LTE firmware upgrade"); \
           message=("A new firmware version " . ($Firmware->"latest") . " is available for " . \
