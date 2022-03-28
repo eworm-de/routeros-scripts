@@ -15,6 +15,7 @@
 
 :global CharacterReplace;
 :global LogPrintExit2;
+:global ScriptFromTerminal;
 :global SendNotification2;
 :global SymbolForNotification;
 
@@ -22,13 +23,15 @@
   :local IntName [ / interface lte get $Interface name ];
   :do {
     :local Firmware [ / interface lte firmware-upgrade $Interface once as-value ];
+    :local Info [ / interface lte monitor $Interface once as-value ];
 
     :if ($SentLteFirmwareUpgradeNotification = ($Firmware->"latest")) do={
       $LogPrintExit2 debug $0 ("Already sent the LTE firmware upgrade notification for version " . \
         ($Firmware->"latest") . ".") false;
     } else={
       :if (($Firmware->"installed") != ($Firmware->"latest")) do={
-        :local Info [ / interface lte monitor $Interface once as-value ];
+        $LogPrintExit2 info $0 ("A new firmware version " . ($Firmware->"latest") . " is available for " . \
+          "LTE interface " . $IntName . ".") false;
         $SendNotification2 ({ origin=$0; \
           subject=([ $SymbolForNotification "sparkles" ] . "LTE firmware upgrade"); \
           message=("A new firmware version " . ($Firmware->"latest") . " is available for " . \
@@ -37,6 +40,10 @@
             "Installed: " . ($Firmware->"installed") . "\n" . \
             "Available: " . ($Firmware->"latest")); silent=true });
         :set SentLteFirmwareUpgradeNotification ($Firmware->"latest");
+      } else={
+        :if ([ $ScriptFromTerminal $0 ] = true) do={
+          $LogPrintExit2 info $0 ("No firmware upgrade available for LTE interface " . $IntName . ".") false;
+        }
       }
     }
   } on-error={
