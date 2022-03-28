@@ -10,56 +10,73 @@
 :global GlobalFunctionsReady;
 :while ($GlobalFunctionsReady != true) do={ :delay 500ms; }
 
-:global Identity;
 :global SentLteFirmwareUpgradeNotification;
 
-:global CharacterReplace;
-:global LogPrintExit2;
-:global ScriptFromTerminal;
-:global SendNotification2;
-:global SymbolForNotification;
+:if ([ :typeof $SentLteFirmwareUpgradeNotification ] != "array") do={
+  :global SentLteFirmwareUpgradeNotification [ :toarray "" ];
+}
 
-:foreach Interface in=[ / interface lte find ] do={
+:local CheckInterface do={
+  :local Interface $1;
+
+  :global Identity;
+  :global SentLteFirmwareUpgradeNotification;
+
+  :global CharacterReplace;
+  :global LogPrintExit2;
+  :global ScriptFromTerminal;
+  :global SendNotification2;
+  :global SymbolForNotification;
+
   :local IntName [ / interface lte get $Interface name ];
+  :local Firmware;
+  :local Info;
   :do {
-    :local Firmware [ / interface lte firmware-upgrade $Interface once as-value ];
-    :local Info [ / interface lte info $Interface once as-value ];
-
-    :if ($SentLteFirmwareUpgradeNotification = ($Firmware->"latest")) do={
-      $LogPrintExit2 debug $0 ("Already sent the LTE firmware upgrade notification for version " . \
-        ($Firmware->"latest") . ".") false;
-    } else={
-      :if (($Firmware->"installed") != ($Firmware->"latest")) do={
-        $LogPrintExit2 info $0 ("A new firmware version " . ($Firmware->"latest") . " is available for " . \
-          "LTE interface " . $IntName . ".") false;
-
-        :if ([ $ScriptFromTerminal $0 ] = true && \
-            [ :len [ / system script find where name="unattended-lte-firmware-upgrade" ] ] > 0) do={
-          :put ("Do you want to start unattended lte firmware upgrade for interface " . $IntName . "? [y/N]");
-          :if (([ / terminal inkey timeout=60 ] % 32) = 25) do={
-             / system script run unattended-lte-firmware-upgrade;
-             $LogPrintExit2 info $0 ("Scheduled lte firmware upgrade for interface " . $IntName . "...") true;
-          } else={
-            :put "Canceled...";
-          }
-        }
-
-        $SendNotification2 ({ origin=$0; \
-          subject=([ $SymbolForNotification "sparkles" ] . "LTE firmware upgrade"); \
-          message=("A new firmware version " . ($Firmware->"latest") . " is available for " . \
-            "LTE interface " . $IntName . " on " . $Identity . ".\n\n" . \
-            "Interface: " . [ $CharacterReplace ($Info->"manufacturer" . " " . $Info->"model") ("\"") "" ] . "\n" . \
-            "Installed: " . ($Firmware->"installed") . "\n" . \
-            "Available: " . ($Firmware->"latest")); silent=true });
-        :set SentLteFirmwareUpgradeNotification ($Firmware->"latest");
-      } else={
-        :if ([ $ScriptFromTerminal $0 ] = true) do={
-          $LogPrintExit2 info $0 ("No firmware upgrade available for LTE interface " . $IntName . ".") false;
-        }
-      }
-    }
+    :set Firmware [ / interface lte firmware-upgrade $Interface once as-value ];
+    :set Info [ / interface lte info $Interface once as-value ];
   } on-error={
     $LogPrintExit2 debug $0 ("Could not get latest LTE firmware version for interface " . \
       $IntName . ".") false;
+    :return false;
   }
+
+  :if (($Firmware->"installed") = ($Firmware->"latest")) do={
+    :if ([ $ScriptFromTerminal "check-lte-firmware-upgrade" ] = true) do={
+      $LogPrintExit2 info $0 ("No firmware upgrade available for LTE interface " . $IntName . ".") false;
+    }
+    :return true;
+  }
+
+  :if ([ $ScriptFromTerminal "check-lte-firmware-upgrade" ] = true && \
+      [ :len [ / system script find where name="unattended-lte-firmware-upgrade" ] ] > 0) do={
+    :put ("Do you want to start unattended lte firmware upgrade for interface " . $IntName . "? [y/N]");
+    :if (([ / terminal inkey timeout=60 ] % 32) = 25) do={
+        / system script run unattended-lte-firmware-upgrade;
+        $LogPrintExit2 info $0 ("Scheduled lte firmware upgrade for interface " . $IntName . "...") false;
+      :return true;
+    } else={
+      :put "Canceled...";
+    }
+  }
+
+  :if (($SentLteFirmwareUpgradeNotification->$IntName) = ($Firmware->"latest")) do={
+    $LogPrintExit2 debug $0 ("Already sent the LTE firmware upgrade notification for version " . \
+      ($Firmware->"latest") . ".") false;
+    :return false;
+  }
+
+  $LogPrintExit2 info $0 ("A new firmware version " . ($Firmware->"latest") . " is available for " . \
+    "LTE interface " . $IntName . ".") false;
+  $SendNotification2 ({ origin=$0; \
+    subject=([ $SymbolForNotification "sparkles" ] . "LTE firmware upgrade"); \
+    message=("A new firmware version " . ($Firmware->"latest") . " is available for " . \
+      "LTE interface " . $IntName . " on " . $Identity . ".\n\n" . \
+      "Interface: " . [ $CharacterReplace ($Info->"manufacturer" . " " . $Info->"model") ("\"") "" ] . "\n" . \
+      "Installed: " . ($Firmware->"installed") . "\n" . \
+      "Available: " . ($Firmware->"latest")); silent=true });
+  :set ($SentLteFirmwareUpgradeNotification->$IntName) ($Firmware->"latest");
+}
+
+:foreach Interface in=[ / interface lte find ] do={
+  $CheckInterface $Interface;
 }
