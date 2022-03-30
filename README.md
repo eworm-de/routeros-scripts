@@ -192,6 +192,7 @@ Available scripts
 * [Find and remove access list duplicates](doc/accesslist-duplicates.md)
 * [Upload backup to Mikrotik cloud](doc/backup-cloud.md)
 * [Send backup via e-mail](doc/backup-email.md)
+* [Save configuration to fallback partition](doc/backup-partition.md)
 * [Upload backup to server](doc/backup-upload.md)
 * [Download packages for CAP upgrade from CAPsMAN](doc/capsman-download-packages.md)
 * [Run rolling CAP upgrades from CAPsMAN](doc/capsman-rolling-upgrade.md)
