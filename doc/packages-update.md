@@ -43,6 +43,7 @@ See also
 * [Notify on RouterOS update](check-routeros-update.md)
 * [Upload backup to Mikrotik cloud](backup-cloud.md)
 * [Send backup via e-mail](backup-email.md)
+* [Save configuration to fallback partition](doc/backup-partition.md)
 * [Upload backup to server](backup-upload.md)
 * [Automatically upgrade firmware and reboot](firmware-upgrade-reboot.md)
 

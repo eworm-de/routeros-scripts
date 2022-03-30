@@ -46,6 +46,7 @@ See also
 --------
 
 * [Upload backup to Mikrotik cloud](backup-cloud.md)
+* [Save configuration to fallback partition](doc/backup-partition.md)
 * [Upload backup to server](backup-upload.md)
 
 ---

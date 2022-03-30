@@ -69,8 +69,9 @@ Creating a scheduler may be an option:
 See also
 --------
 
-* [Send backup via e-mail](backup-email.md)
 * [Upload backup to Mikrotik cloud](backup-cloud.md)
+* [Send backup via e-mail](backup-email.md)
+* [Save configuration to fallback partition](doc/backup-partition.md)
 
 ---
 [◀ Go back to main README](../README.md)  
