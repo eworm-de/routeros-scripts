@@ -33,6 +33,9 @@
 }
 :local PlaceBefore ([ / caps-man access-list find where comment="--- hotspot-to-wpa above ---" disabled ]->0);
 
+# allow login page to load
+:delay 1s;
+
 $LogPrintExit2 info $0 ("Adding/updating accesslist entry for mac address " . $MacAddress . \
   " (user " . $UserName . ").") false;
 / caps-man access-list remove [ find where mac-address=$MacAddress comment~"^hotspot-to-wpa: " ];
