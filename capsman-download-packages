@@ -44,7 +44,8 @@ $WaitFullyConnected;
   :if ($File->"package-architecture" = "mips") do={
     :set ($File->"package-architecture") "mipsbe";
   }
-  :if ([ $DownloadPackage ($File->"package-name") $InstalledVersion ($File->"package-architecture") $PackagePath ] = true) do={
+  :if ([ $DownloadPackage ($File->"package-name") $InstalledVersion \
+       ($File->"package-architecture") $PackagePath ] = true) do={
     :set Updated true;
     / file remove $Package;
   }
@@ -62,7 +63,8 @@ $WaitFullyConnected;
 }
 
 :foreach Log in=[ / log find where topics=({"caps", "error"}) \
-    message~("upgrade status: failed, failed to download file '.*-" . $InstalledVersion . "-.*\\.npk', no such file") ] do={
+    message~("upgrade status: failed, failed to download file '.*-" . $InstalledVersion . \
+    "-.*\\.npk', no such file") ] do={
   :local Message [ / log get $Log message ];
   :local Package [ :pick $Message \
     ([ :find $Message "'" ] + 1) \
