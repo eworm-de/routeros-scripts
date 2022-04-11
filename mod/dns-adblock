@@ -1,0 +1,124 @@
+#!rsc by RouterOS
+
+:global UpdateAdblock;
+:global HelpAdblock;
+:global ShowAdblockHost;
+:global AddAdblockHost;
+:global RemoveAdblockHost;
+
+:global RunAdblockHost do={
+ # store hostlist as script
+ :if ([:len [/system script find where name=adblockhostlist]] = 0) do={
+  /system script add name=adblockhostlist source=":global AdblockHost"
+ }
+ :if ($1 = "update") do={
+  :global NewAdblockHost;
+  /system script set [find where name=adblockhostlist] source=(":global AdblockHost $NewAdblockHost");
+ }
+ /system script run adblockhostlist
+}
+
+:set $HelpAdblock do={
+ :local HelpAdblockList {\
+  "\$UpdateAdblock - Update static DNS entries";\
+  "\$ShowAdblockHost - Show current sources";\
+  "\$AddAdblockHost [URL] - Add new sources, eg: https://adaway.org/hosts.txt";\
+  "\$RemoveAdblockHost [Number] - Remove specified source, eg: 0"\
+ }
+ :foreach x in=$HelpAdblockList do={
+  :put $x
+ }
+}
+
+:set $ShowAdblockHost do={
+ :global AdblockHost;
+ :if ([:len $AdblockHost] = 0) do={
+  :error "No source found"
+ }
+ :foreach x,y in=$AdblockHost do={
+  :put ("$x  $y")
+ }
+}
+
+:set $AddAdblockHost do={
+ :if ([:len $1] < 1) do={
+  :error "No URL specified!"
+ }
+ :global AdblockHost;
+ :global RunAdblockHost;
+ :global NewAdblockHost;
+ :local CurAdblockHost;
+ :if ([:len $AdblockHost] != 0) do={
+  :foreach x in=$AdblockHost do={
+   :set CurAdblockHost ("$CurAdblockHost\"$x\";")
+  }
+  :set NewAdblockHost ("{$CurAdblockHost\"$1\"}")
+ } else={
+  :set NewAdblockHost "{\"$1\"}"
+ }
+ $RunAdblockHost "update"
+ :put ("Added new source: $1")
+}
+
+:set $RemoveAdblockHost do={
+ :if ([:len $1] < 1) do={
+  :error "No number specified!"
+ }
+ :global AdblockHost;
+ :global RunAdblockHost;
+ :global NewAdblockHost;
+ :local CurAdblockHost;
+ :if ([:len $AdblockHost] = 0) do={
+  :error "No source found"
+ }
+ :foreach x,y in=$AdblockHost do={
+  :if ($x != $1) do={
+   :set CurAdblockHost ("$CurAdblockHost\"$y\";")
+  } else={
+   :put ("Removed source: $y")
+  }
+ }
+ :if ([:len $AdblockHost] <= 1) do={
+  :set AdblockHost ""
+  :set NewAdblockHost ""
+ } else={
+  :set NewAdblockHost ("{$CurAdblockHost}")
+ }
+ $RunAdblockHost "update"
+}
+
+:set $UpdateAdblock do={
+ :global AdblockHost;
+ :if ([:len $AdblockHost] = 0) do={
+  :error "Add source first!"
+ }
+ :local AdblockHostList;
+ :foreach x in=$AdblockHost do={
+  :set AdblockHostList ("$AdblockHostList$x,")
+ }
+ :set $AdblockHostList [:pick $AdblockHostList 0 ([:len $AdblockHostList]-1)]
+ # https://github.com/tarampampam/mikrotik-hosts-parser
+ :local parserVer "4.4.0";
+ :local adblockLimit "5000";
+ :local redirectTo "127.0.0.1";
+ :local excludedHost "localhost,localhost.localdomain,broadcasthost,local,ip6-localhost,ip6-loopback,ip6-localnet,ip6-mcastprefix,ip6-allnodes,ip6-allrouters,ip6-allhosts";
+ :local hostScriptUrl ("https://stopad.cgood.ru/script/source\?format=routeros&version=$parserVer&redirect_to=$redirectTo&limit=$adblockLimit&sources_urls=$AdblockHostList&excluded_hosts=$excludedHost");
+ :local scriptName "stop_ad.script";
+ do {
+  /tool fetch check-certificate=no mode=https url=$hostScriptUrl dst-path=$scriptName
+  :delay 3s;
+ } on-error={
+  :error "Fetch source failed"
+ }
+ :if ([:find [/file get $scriptName contents] "Script generation failed"]) do={
+  :error "Invalid/unsupported source"
+ } else={
+  /ip dns static remove [/ip dns static find comment=ADBlock]
+  /import file-name=$scriptName
+  /file remove $scriptName
+  :put "Static DNS entries updated successfully"
+ }
+}
+
+# Initialize adblockhostlist
+$RunAdblockHost
