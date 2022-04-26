@@ -183,7 +183,7 @@
 
 # default route is reachable
 :set DefaultRouteIsReachable do={
-  :if ([ :len [ / ip route find where dst-address=0.0.0.0/0 active !blackhole !routing-mark !unreachable ] ] > 0) do={
+  :if ([ :len [ / ip route find where dst-address=0.0.0.0/0 active routing-table=main ] ] > 0) do={
     :return true;
   }
   :return false;
