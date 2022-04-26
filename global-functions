@@ -684,7 +684,8 @@
 
 # install new scripts, update existing scripts
 :set ScriptInstallUpdate do={
-  :local Scripts [ :toarray $1 ];
+  :local Scripts    [ :toarray $1 ];
+  :local NewComment [ :tostr   $2 ];
 
   :global ExpectedConfigVersion;
   :global GlobalConfigVersion;
@@ -711,7 +712,7 @@
   :foreach Script in=$Scripts do={
     :if ([ :len [ / system script find where name=$Script ] ] = 0) do={
       $LogPrintExit2 info $0 ("Adding new script: " . $Script) false;
-      / system script add name=$Script source="#!rsc by RouterOS\n";
+      / system script add name=$Script owner=$Script source="#!rsc by RouterOS\n" comment=$NewComment;
     }
   }
 
