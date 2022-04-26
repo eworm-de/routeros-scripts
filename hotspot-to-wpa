@@ -20,18 +20,19 @@
 :local UserVal [ / ip hotspot user get [ find where name=$UserName ] ];
 :local UserInfo [ $ParseKeyValueStore ($UserVal->"comment") ];
 :local Hotspot [ / ip hotspot host get [ find where mac-address=$MacAddress authorized ] server ];
-:local Template [ / caps-man access-list get ([ find where disabled \
-    comment=("hotspot-to-wpa template " . $Hotspot) ]->0) ];
-
-:if ($Template->"action" = "reject") do={
-  $LogPrintExit2 info $0 ("Ignoring login for hotspot '" . $Hotspot . "'.") true;
-}
 
 :if ([ :len [ / caps-man access-list find where comment="--- hotspot-to-wpa above ---" disabled ] ] = 0) do={
   / caps-man access-list add comment="--- hotspot-to-wpa above ---" disabled=yes;
   $LogPrintExit2 warning $0 ("Added disabled access-list entry with comment '--- hotspot-to-wpa above ---'.") false;
 }
 :local PlaceBefore ([ / caps-man access-list find where comment="--- hotspot-to-wpa above ---" disabled ]->0);
+
+:local Template [ / caps-man access-list get ([ find where disabled \
+    comment=("hotspot-to-wpa template " . $Hotspot) ]->0) ];
+
+:if ($Template->"action" = "reject") do={
+  $LogPrintExit2 info $0 ("Ignoring login for hotspot '" . $Hotspot . "'.") true;
+}
 
 # allow login page to load
 :delay 1s;
