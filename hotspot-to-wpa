@@ -27,8 +27,13 @@
 }
 :local PlaceBefore ([ / caps-man access-list find where comment="--- hotspot-to-wpa above ---" disabled ]->0);
 
-:local Template [ / caps-man access-list get ([ find where disabled \
-    comment=("hotspot-to-wpa template " . $Hotspot) ]->0) ];
+:if ([ :len [ / caps-man access-list find where \
+    comment=("hotspot-to-wpa template " . $Hotspot) disabled ] ] = 0) do={
+  / caps-man access-list add comment=("hotspot-to-wpa template " . $Hotspot) disabled=yes place-before=$PlaceBefore;
+  $LogPrintExit2 warning $0 ("Added template in access-list for hotspot '" . $Hotspot . "'.") false;
+}
+:local Template [ / caps-man access-list get ([ find where \
+    comment=("hotspot-to-wpa template " . $Hotspot) disabled ]->0) ];
 
 :if ($Template->"action" = "reject") do={
   $LogPrintExit2 info $0 ("Ignoring login for hotspot '" . $Hotspot . "'.") true;
