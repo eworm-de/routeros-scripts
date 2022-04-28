@@ -485,7 +485,7 @@
     :return ("\1B[" . $Color->$1 . "m" . $1 . "\1B[0m");
   }
 
-  :local Log ($Name . ": " . $Message);
+  :local Log ([ $EitherOr $Name "<unknown>" ] . ": " . $Message);
   :if ($Severity ~ ("^(debug|error|info)\$")) do={
     :if ($Severity = "debug") do={ :log debug $Log; }
     :if ($Severity = "error") do={ :log error $Log; }
