@@ -1267,7 +1267,12 @@
 
 # load modules
 :foreach Script in=[ / system script find where name ~ "^mod/." ] do={
-  / system script run $Script;
+  :local ScriptVal [ / system script get $Script ];
+  :if ([ $ValidateSyntax ($ScriptVal->"source") ] = true) do={
+    / system script run $Script;
+  } else={
+    $LogPrintExit2 error $0 ("Module '" . $ScriptVal->"name" . "' failed syntax validation, skipping.") false;
+  }
 }
 
 # check for required RouterOS version
