@@ -7,6 +7,8 @@
 # global functions
 # https://git.eworm.de/cgit/routeros-scripts/about/
 
+:local 0 "global-functions";
+
 # expected configuration version
 :global ExpectedConfigVersion 79;
 
@@ -1273,10 +1275,10 @@
 }
 
 # check for required RouterOS version
-$RequiredRouterOS "global-functions" "6.47" true;
+$RequiredRouterOS $0 "6.47" true;
 
 # ... and give a hint on RouterOS v7.
-:if ([ $RequiredRouterOS "global-functions" "7.0" false ] = true) do={
+:if ([ $RequiredRouterOS $0 "7.0" false ] = true) do={
   $LogPrintExit2 warning $0 ("RouterOS v7 brings some incompatible changes. Please switch to main branch!") false;
 }
 
