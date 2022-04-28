@@ -21,12 +21,14 @@
 :local UserInfo [ $ParseKeyValueStore ($UserVal->"comment") ];
 :local Hotspot [ / ip hotspot host get [ find where mac-address=$MacAddress authorized ] server ];
 
+# Create a marker entry in the access list, the users are inserted before it (housekeeping) 
 :if ([ :len [ / caps-man access-list find where comment="--- hotspot-to-wpa above ---" disabled ] ] = 0) do={
   / caps-man access-list add comment="--- hotspot-to-wpa above ---" disabled=yes;
   $LogPrintExit2 warning $0 ("Added disabled access-list entry with comment '--- hotspot-to-wpa above ---'.") false;
 }
 :local PlaceBefore ([ / caps-man access-list find where comment="--- hotspot-to-wpa above ---" disabled ]->0);
 
+# If no user template for this hotspot is create a default template is created in the access list
 :if ([ :len [ / caps-man access-list find where \
     comment=("hotspot-to-wpa template " . $Hotspot) disabled ] ] = 0) do={
   / caps-man access-list add comment=("hotspot-to-wpa template " . $Hotspot) disabled=yes place-before=$PlaceBefore;
@@ -44,13 +46,18 @@
 
 $LogPrintExit2 info $0 ("Adding/updating accesslist entry for mac address " . $MacAddress . \
   " (user " . $UserName . ").") false;
+
+# remove any existing entry of this MAC and create an new entry with only private-passphrase=Hotspot Password  and sid-regexp="-wpa\$" as default
 / caps-man access-list remove [ find where mac-address=$MacAddress comment~"^hotspot-to-wpa: " ];
 / caps-man access-list add comment=("hotspot-to-wpa: " . $UserName . ", " . $MacAddress . ", " . $Date) \
     mac-address=$MacAddress private-passphrase=($UserVal->"password") ssid-regexp="-wpa\$" place-before=$PlaceBefore;
 
+#update private-passphrase with password from template 
 :local Entry [ / caps-man access-list find where mac-address=$MacAddress \
     comment=("hotspot-to-wpa: " . $UserName . ", " . $MacAddress . ", " . $Date) ];
 :local PrivatePassphrase [ $EitherOr ($UserInfo->"private-passphrase") ($Template->"private-passphrase") ];
+
+#check private-passphrase for flags
 :if ([ :len $PrivatePassphrase ] > 0) do={
   :if ($PrivatePassphrase = "ignore") do={
     / caps-man access-list set $Entry !private-passphrase;
@@ -58,6 +65,8 @@ $LogPrintExit2 info $0 ("Adding/updating accesslist entry for mac address " . $M
     / caps-man access-list set $Entry private-passphrase=$PrivatePassphrase;
   }
 }
+
+# set other options in the configruation as given in the template
 :local SsidRegexp [ $EitherOr ($UserInfo->"ssid-regexp") ($Template->"ssid-regexp") ];
 :if ([ :len $SsidRegexp ] > 0) do={
   / caps-man access-list set $Entry ssid-regexp=$SsidRegexp;
