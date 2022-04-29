@@ -9,13 +9,13 @@ Run other scripts on DHCP lease
 Description
 -----------
 
-This script is supposed to run from dhcp server as lease script. Currently
-it does:
+This script is supposed to run from dhcp server as lease script.  On a DHCP lease it runs each script containing the following line `# provides: lease-script,`.
+Currently it does: 
 
 * run [collect-wireless-mac](collect-wireless-mac.md)
 * run [dhcp-lease-comment](dhcp-lease-comment.md)
 * run [dhcp-to-dns](dhcp-to-dns.md)
-* run [hotspot-to-wpa](hotspot-to-wpa.md)
+* run [hotspot-to-wpa-cleanup](hotspot-to-wpa-cleanup.md) (which is an optional part of [hotspot-to-wpa](hotspot-to-wpa.md))
 
 Requirements and installation
 -----------------------------
