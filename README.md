@@ -231,6 +231,29 @@ Available modules
 * [Send notifications via Telegram](doc/mod/notification-telegram.md)
 * [Download script and run it once](doc/mod/scriptrunonce.md)
 
+Installing custom scripts & modules
+-----------------------------------
+
+My scripts cover a lot of use cases, but you may have your own ones. You can
+still use my scripts to manage and deploy yours, by specifying `base-url`
+(and `url-suffix`) for each script.
+
+This will fetch and install a script `hello-world.rsc` from the given url:
+
+    $ScriptInstallUpdate hello-world.rsc "base-url=https://git.eworm.de/cgit/routeros-scripts/plain/README.d/"
+
+![screenshot: install custom script](README.d/12-install-custom-script.avif)
+
+(Yes, the example url still belongs to the repository for easy
+handling - but the url can be what ever you use.)
+
+For a script to be considered valid it has to begin with this line:
+
+    #!rsc by RouterOS
+
+Starting a script's name with `mod/` makes it a module and it is run
+automatically by `global-functions`.
+
 Contact
 -------
 
