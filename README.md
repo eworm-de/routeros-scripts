@@ -247,7 +247,7 @@ This will fetch and install a script `hello-world.rsc` from the given url:
 (Yes, the example url still belongs to the repository for easy
 handling - but the url can be what ever you use.)
 
-For a script to be considered valid it has to begin with a *magic taken*.
+For a script to be considered valid it has to begin with a *magic token*.
 Have a look at [any script](README.d/hello-world.rsc) and copy the first line.
 
 Starting a script's name with `mod/` makes it a module and it is run
