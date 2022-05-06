@@ -20,6 +20,11 @@ in neighbor discovery can be specified to be safe as well.
 Also installing patch updates (where just last digit is increased)
 automatically is supported.
 
+> ⚠️ **Warning**: Installing updates is important from a security point
+> of view. At the same time it can be source of serve breakage. So test
+> versions in lab and read forum before deploying to your production
+> environment! Automatic updates should be handled with care!
+
 ### Sample notification
 
 ![check-routeros-update notification](check-routeros-update.d/notification.svg)
