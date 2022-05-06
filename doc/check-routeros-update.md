@@ -14,7 +14,8 @@ The primary use of this script is to notify about RouterOS updates.
 Run from a terminal you can start the update process or schedule it.
 
 Centrally managing update process of several devices is possibly by
-specifying versions safe to be updated on a web server.
+specifying versions safe to be updated on a web server. Versions seen
+in neighbor discovery can be specified to be safe as well.
 
 Also installing patch updates (where just last digit is increased)
 automatically is supported.
