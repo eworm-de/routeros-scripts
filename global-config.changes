@@ -24,7 +24,7 @@
   15="New documentation is online! https://git.eworm.de/cgit/routeros-scripts/about/#available-scripts";
   16="Happy with RouterOS Scripts and have a GitHub and/or GitLab account? Please star!";
   17="Introduced script 'early-errors'";
-  18=("Added a simple IP calculation function, try: \$IPCalc " . [ / ip address get ([ find ]->0) address ]);
+  18=("Added a simple IP calculation function, try: \$IPCalc " . [ /ip/address/get ([ find ]->0) address ]);
   19="Commenting scripts with 'ignore', 'base-url=...' and 'url-suffix=...' is honored on update";
   20="Added support for hooks to 'netwatch-notify'";
   21="Added support for installing patch updates automatically by 'check-routeros-update'";
@@ -93,11 +93,11 @@
 # Migration steps to be applied on script updates
 :global GlobalConfigMigration {
   41=":global SendNotification; \$SendNotification (\"Migration mechanism\") (\"Congratulations!\nSuccessfully tested the new migration mechanism.\");";
-  47="/ certificate remove [ find where fingerprint=\"731d3d9cfaa061487a1d71445a42f67df0afca2a6c2d2f98ff7b3ce112b1f568\" or fingerprint=\"25847d668eb4f04fdd40b12b6b0740c567da7d024308eb6c2c96fe41d9de218d\" ];";
-  52=":global CertificateDownload; :if ([ :len [ / certificate find where fingerprint=\"67add1166b020ae61b8f5fc96813c04c2aa589960796865572a3c7e737613dfd\" or fingerprint=\"96bcec06264976f37460779acf28c5a7cfe8a3c0aae11a8ffcee05c0bddf08c6\" ] ] < 2) do={ \$CertificateDownload \"R3\"; }; / certificate remove [ find where fingerprint=\"0687260331a72403d909f105e69bcf0d32e1bd2493ffc6d9206d11bcd6770739\" ];";
+  47="/certificate/remove [ find where fingerprint=\"731d3d9cfaa061487a1d71445a42f67df0afca2a6c2d2f98ff7b3ce112b1f568\" or fingerprint=\"25847d668eb4f04fdd40b12b6b0740c567da7d024308eb6c2c96fe41d9de218d\" ];";
+  52=":global CertificateDownload; :if ([ :len [ /certificate/find where fingerprint=\"67add1166b020ae61b8f5fc96813c04c2aa589960796865572a3c7e737613dfd\" or fingerprint=\"96bcec06264976f37460779acf28c5a7cfe8a3c0aae11a8ffcee05c0bddf08c6\" ] ] < 2) do={ \$CertificateDownload \"R3\"; }; /certificate/remove [ find where fingerprint=\"0687260331a72403d909f105e69bcf0d32e1bd2493ffc6d9206d11bcd6770739\" ];";
   54=":global ScriptInstallUpdate; :global TelegramTokenId; :global TelegramChatId; :if ([ :len \$TelegramTokenId ] > 0 && [ :len \$TelegramChatId ] > 0) do={ \$ScriptInstallUpdate mod/notification-telegram; }";
-  61="/ system script remove [ find where name~\"^(early-errors|mode-button-(event|scheduler)|script-updates)\\\$\" source~\"^#!rsc by RouterOS\\n\" ];";
-  66=":global ScriptInstallUpdate; :if ([ :len [ / system script find where name=\"bridge-port-to-default\" ] ] > 0) do={ / system script remove [ find where name~\"^bridge-port-to(-default|ggle)\\\$\" ]; \$ScriptInstallUpdate mod/bridge-port-to; }";
-  67=":global ScriptInstallUpdate; :global CharacterReplace; :foreach Script in=[ / system script find where name~\"^global-functions.d/\" ] do={ / system script set name=[ \$CharacterReplace [ / system script get \$Script name ] \"global-functions.d/\" \"mod/\" ] \$Script; }; \$ScriptInstallUpdate;";
-  73=":global ScriptInstallUpdate; :global CharacterReplace; :foreach Old,New in={ \"cloud-backup\"=\"backup-cloud\"; \"email-backup\"=\"backup-email\"; \"upload-backup\"=\"backup-upload\" } do={ / system script set name=\$New [ find where name=\$Old ]; :foreach Scheduler in=[ / system scheduler find where on-event~\$Old ] do={ / system scheduler set \$Scheduler name=[ \$CharacterReplace [ get \$Scheduler name ] \$Old \$New ] on-event=[ \$CharacterReplace [ get \$Scheduler on-event ] \$Old \$New ]; }; }; \$ScriptInstallUpdate;";
+  61="/system/script/remove [ find where name~\"^(early-errors|mode-button-(event|scheduler)|script-updates)\\\$\" source~\"^#!rsc by RouterOS\\n\" ];";
+  66=":global ScriptInstallUpdate; :if ([ :len [ /system/script/find where name=\"bridge-port-to-default\" ] ] > 0) do={ /system/script/remove [ find where name~\"^bridge-port-to(-default|ggle)\\\$\" ]; \$ScriptInstallUpdate mod/bridge-port-to; }";
+  67=":global ScriptInstallUpdate; :global CharacterReplace; :foreach Script in=[ /system/script/find where name~\"^global-functions.d/\" ] do={ /system/script/set name=[ \$CharacterReplace [ /system/script/get \$Script name ] \"global-functions.d/\" \"mod/\" ] \$Script; }; \$ScriptInstallUpdate;";
+  73=":global ScriptInstallUpdate; :global CharacterReplace; :foreach Old,New in={ \"cloud-backup\"=\"backup-cloud\"; \"email-backup\"=\"backup-email\"; \"upload-backup\"=\"backup-upload\" } do={ /system/script/set name=\$New [ find where name=\$Old ]; :foreach Scheduler in=[ /system/scheduler/find where on-event~\$Old ] do={ /system/scheduler/set \$Scheduler name=[ \$CharacterReplace [ get \$Scheduler name ] \$Old \$New ] on-event=[ \$CharacterReplace [ get \$Scheduler on-event ] \$Old \$New ]; }; }; \$ScriptInstallUpdate;";
 };
