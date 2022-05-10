@@ -128,10 +128,10 @@
 
 # Run different commands with multiple mode-button presses.
 :global ModeButton {
-  1="/ system script run leds-toggle-mode;";
+  1="/system/script/run leds-toggle-mode;";
   2=":global SendNotification; :global Identity; \$SendNotification (\"Hello...\") (\"Hello world, \" . \$Identity . \" calling!\");";
-  3="/ system shutdown;";
-  4="/ system reboot;";
+  3="/system/shutdown;";
+  4="/system/reboot;";
   5=":global BridgePortVlan; \$BridgePortVlan alt;";
 # add more here...
 };
@@ -141,8 +141,8 @@
 # Run commands on SMS action.
 :global SmsAction {
   bridge-port-vlan-alt=":global BridgePortVlan; \$BridgePortVlan alt;";
-  reboot="/ system reboot;";
-  shutdown="/ system shutdown;";
+  reboot="/system/reboot;";
+  shutdown="/system/shutdown;";
 # add more here...
 };
 
@@ -194,7 +194,7 @@
 # load custom settings from overlay
 # Warning: Do *NOT* copy this code to overlay!
 :do {
-  / system script run global-config-overlay;
+  /system/script/run global-config-overlay;
 } on-error={
   :log error ("Loading configuration from overlay failed!");
 }
