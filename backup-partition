@@ -14,20 +14,20 @@
 
 :global LogPrintExit2;
 
-:if ([ :len [ / partitions find ] ] < 2) do={
+:if ([ :len [ /partitions/find ] ] < 2) do={
   $LogPrintExit2 error $0 ("Device does not have a fallback partition.") true;
 }
 
-:local ActiveRunning [ / partitions find where active running ];
+:local ActiveRunning [ /partitions/find where active running ];
 
 :if ([ :len $ActiveRunning ] < 1) do={
   $LogPrintExit2 error $0 ("Device is not running from active partition.") true;
 }
 
-:local ActiveRunningVar [ / partitions get $ActiveRunning ];
+:local ActiveRunningVar [ /partitions/get $ActiveRunning ];
 
 :do {
-  / partitions save-config-to ($ActiveRunningVar->"fallback-to");
+  /partitions/save-config-to ($ActiveRunningVar->"fallback-to");
   $LogPrintExit2 info $0 ("Saved configuration to partition '" . \
       ($ActiveRunningVar->"fallback-to") . "'.") false;
 } on-error={
