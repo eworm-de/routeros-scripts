@@ -27,10 +27,10 @@
 :global WaitFullyConnected;
 
 :local DoUpdate do={
-  :if ([ :len [ / system script find where name="packages-update" ] ] > 0) do={
-    / system script run packages-update;
+  :if ([ :len [ /system/script/find where name="packages-update" ] ] > 0) do={
+    /system/script/run packages-update;
   } else={
-    / system package update install without-paging;
+    /system/package/update/install without-paging;
   }
   :error "Waiting for system to reboot.";
 }
@@ -39,21 +39,21 @@ $ScriptLock $0;
 
 $WaitFullyConnected;
 
-:if ([ :len [ / system package find where name="wireless" disabled=no ] ] > 0) do={
-  :if ([ / interface wireless cap get enabled ] = true && \
-       [ / caps-man manager get enabled ] = false && \
+:if ([ :len [ /system/package/find where name="wireless" disabled=no ] ] > 0) do={
+  :if ([ /interface/wireless/cap/get enabled ] = true && \
+       [ /caps-man/manager/get enabled ] = false && \
        $SafeUpdateOnCap != true) do={
     $LogPrintExit2 error $0 ("System is managed by CAPsMAN, not checking for RouterOS version.") true;
   }
 }
 
-:if ([ :len [ / system scheduler find where name="reboot-for-update" ] ] > 0) do={
+:if ([ :len [ /system/scheduler/find where name="reboot-for-update" ] ] > 0) do={
   :error "A reboot for update is already scheduled.";
 }
 
 $LogPrintExit2 debug $0 ("Checking for updates...") false;
-/ system package update check-for-updates without-paging as-value;
-:local Update [ / system package update get ];
+/system/package/update/check-for-updates without-paging as-value;
+:local Update [ /system/package/update/get ];
 
 :if ([ :len ($Update->"latest-version") ] = 0) do={
   $LogPrintExit2 info $0 ("An empty string is not a valid version.") true;
@@ -77,7 +77,7 @@ $LogPrintExit2 debug $0 ("Checking for updates...") false;
     $DoUpdate;
   }
 
-  :if ($SafeUpdateNeighbor = true && [ :len [ / ip neighbor find where \
+  :if ($SafeUpdateNeighbor = true && [ :len [ /ip/neighbor/find where \
        version=($Update->"latest-version" . " (" . $Update->"channel" . ")") ] ] > 0) do={
     $LogPrintExit2 info $0 ("Seen a neighbor running version " . $Update->"latest-version" . ", updating...") false;
     $SendNotification2 ({ origin=$0; \
@@ -90,7 +90,7 @@ $LogPrintExit2 debug $0 ("Checking for updates...") false;
   :if ([ :len $SafeUpdateUrl ] > 0) do={
     :local Result;
     :do {
-      :set Result [ / tool fetch check-certificate=yes-without-crl \
+      :set Result [ /tool/fetch check-certificate=yes-without-crl \
           ($SafeUpdateUrl . $Update->"channel" . "?installed=" . $Update->"installed-version" . \
           "&latest=" . $Update->"latest-version") output=user as-value ];
     } on-error={
@@ -108,7 +108,7 @@ $LogPrintExit2 debug $0 ("Checking for updates...") false;
 
   :if ([ $ScriptFromTerminal $0 ] = true) do={
     :put ("Do you want to install RouterOS version " . $Update->"latest-version" . "? [y/N]");
-    :if (([ / terminal inkey timeout=60 ] % 32) = 25) do={
+    :if (([ /terminal/inkey timeout=60 ] % 32) = 25) do={
       $DoUpdate;
     } else={
       :put "Canceled...";
