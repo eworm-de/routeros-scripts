@@ -58,11 +58,11 @@ $WaitFullyConnected;
 
 # binary backup
 :if ($BackupSendBinary = true) do={
-  / system backup save encryption=aes-sha256 name=$FilePath password=$BackupPassword;
+  /system/backup/save encryption=aes-sha256 name=$FilePath password=$BackupPassword;
   $WaitForFile ($FilePath . ".backup");
 
   :do {
-    / tool fetch upload=yes url=($BackupUploadUrl . "/" . $FileName . ".backup") \
+    /tool/fetch upload=yes url=($BackupUploadUrl . "/" . $FileName . ".backup") \
         user=$BackupUploadUser password=$BackupUploadPass src-path=($FilePath . ".backup");
     :set BackupFile ($FileName . ".backup");
   } on-error={
@@ -71,16 +71,16 @@ $WaitFullyConnected;
     :set Failed 1;
   }
 
-  / file remove ($FilePath . ".backup");
+  /file/remove ($FilePath . ".backup");
 }
 
 # create configuration export
 :if ($BackupSendExport = true) do={
-  / export terse show-sensitive file=$FilePath;
+  /export terse show-sensitive file=$FilePath;
   $WaitForFile ($FilePath . ".rsc");
 
   :do {
-    / tool fetch upload=yes url=($BackupUploadUrl . "/" . $FileName . ".rsc") \
+    /tool/fetch upload=yes url=($BackupUploadUrl . "/" . $FileName . ".rsc") \
         user=$BackupUploadUser password=$BackupUploadPass src-path=($FilePath . ".rsc");
     :set ConfigFile ($FileName . ".rsc");
   } on-error={
@@ -89,7 +89,7 @@ $WaitFullyConnected;
     :set Failed 1;
   }
 
-  / file remove ($FilePath . ".rsc");
+  /file/remove ($FilePath . ".rsc");
 }
 
 $SendNotification2 ({ origin=$0; \
