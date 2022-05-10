@@ -16,7 +16,7 @@
 
 :set ($ModeButton->"count") ($ModeButton->"count" + 1);
 
-:local Scheduler [ / system scheduler find where name="ModeButtonScheduler" ];
+:local Scheduler [ /system/scheduler/find where name="ModeButtonScheduler" ];
 
 :if ([ :len $Scheduler ] = 0) do={
   $LogPrintExit2 info $0 ("Creating scheduler ModeButtonScheduler, counting presses...") false;
@@ -32,11 +32,11 @@
 
       :global IfThenElse;
 
-      :local LED [ / system leds find where leds=$ModeButtonLED type~"^(on|off)\$" interface=[] ];
+      :local LED [ /system/leds/find where leds=$ModeButtonLED type~"^(on|off)\$" interface=[] ];
       :if ([ :len $LED ] = 0) do={
         :return false;
       }
-      / system leds set type=[ $IfThenElse ([ get $LED type ] = "on") "off" "on" ] $LED;
+      /system/leds/set type=[ $IfThenElse ([ get $LED type ] = "on") "off" "on" ] $LED;
     }
 
     :local Count ($ModeButton->"count");
@@ -44,7 +44,7 @@
 
     :set ($ModeButton->"count") 0;
     :set ModeButtonScheduler;
-    / system scheduler remove ModeButtonScheduler;
+    /system/scheduler/remove ModeButtonScheduler;
 
     :if ([ :len $Code ] > 0) do={
       :if ([ $ValidateSyntax $Code ] = true) do={
@@ -52,7 +52,7 @@
 
         :for I from=1 to=$Count do={
           $LEDInvert;
-          :if ([ / system routerboard settings get silent-boot ] = false) do={
+          :if ([ /system/routerboard/settings/get silent-boot ] = false) do={
             :beep length=200ms;
           }
           :delay 200ms;
@@ -68,9 +68,9 @@
       $LogPrintExit2 info $0 ("No action defined for " . $Count . " mode-button presses.") false;
     }
   }
-  / system scheduler add name="ModeButtonScheduler" \
+  /system/scheduler/add name="ModeButtonScheduler" \
       on-event=":global ModeButtonScheduler; \$ModeButtonScheduler;" interval=3s;
 } else={
   $LogPrintExit2 debug $0 ("Updating scheduler ModeButtonScheduler...") false;
-  / system scheduler set $Scheduler start-time=[ /system clock get time ];
+  /system/scheduler/set $Scheduler start-time=[ /system/clock/get time ];
 }
