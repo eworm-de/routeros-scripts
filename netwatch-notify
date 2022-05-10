@@ -46,7 +46,7 @@
 
 $ScriptLock $0;
 
-:if ([ / system resource get uptime ] < 5m) do={
+:if ([ /system/resource/get uptime ] < 5m) do={
   $LogPrintExit2 info $0 ("System just booted, giving netwatch some time to settle.") true;
 }
 
@@ -54,8 +54,8 @@ $ScriptLock $0;
   :set NetwatchNotify [ :toarray "" ];
 }
 
-:foreach Host in=[ / tool netwatch find where comment~"notify" disabled=no ] do={
-  :local HostVal [ / tool netwatch get $Host ];
+:foreach Host in=[ /tool/netwatch/find where comment~"notify" disabled=no ] do={
+  :local HostVal [ /tool/netwatch/get $Host ];
   :local HostInfo [ $ParseKeyValueStore ($HostVal->"comment") ];
 
   :if ($HostInfo->"notify" = true && $HostInfo->"disabled" != true) do={
@@ -74,7 +74,7 @@ $ScriptLock $0;
              $LogPrintExit2 info $0 ("Name '" . $HostInfo->"resolve" . [ $IfThenElse ($HostInfo->"resolve" != \
                $HostInfo->"hostname") ("' for host '" . $HostInfo->"hostname") "" ] . \
                "' resolves to different address " . $Resolve . ", updating.") false;
-            / tool netwatch set host=$Resolve $Host;
+            /tool/netwatch/set host=$Resolve $Host;
             :set ($Metric->"resolve-failed") false;
           }
         } on-error={
