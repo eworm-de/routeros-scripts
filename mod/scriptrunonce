@@ -25,7 +25,7 @@
 
     :local Source;
     :do {    
-      :set Source ([ / tool fetch check-certificate=yes-without-crl $Script output=user as-value ]->"data");
+      :set Source ([ /tool/fetch check-certificate=yes-without-crl $Script output=user as-value ]->"data");
     } on-error={
       $LogPrintExit2 warning $0 ("Failed fetching script '" . $Script . "'!") false;
     }
