@@ -23,24 +23,24 @@ Configuration
 
 Using named VLANs you have to add comments in bridge vlan menu:
 
-    / interface bridge vlan add bridge=bridge comment=intern tagged=br-local vlan-ids=10;
-    / interface bridge vlan add bridge=bridge comment=geust tagged=br-local vlan-ids=20;
-    / interface bridge vlan add bridge=bridge comment=extra tagged=br-local vlan-ids=30;
+    /interface/bridge/vlan/add bridge=bridge comment=intern tagged=br-local vlan-ids=10;
+    /interface/bridge/vlan/add bridge=bridge comment=geust tagged=br-local vlan-ids=20;
+    /interface/bridge/vlan/add bridge=bridge comment=extra tagged=br-local vlan-ids=30;
 
-The configuration goes to ports' comments (`/ interface bridge port`).
+The configuration goes to ports' comments (`/interface/bridge/port`).
 
-    / interface bridge port add bridge=bridge comment="default=dhcp-client, alt=guest" disabled=yes interface=en1;
-    / interface bridge port add bridge=bridge comment="default=intern, alt=guest, extra=30" interface=en2;
-    / interface bridge port add bridge=bridge comment="default=guest, extra=extra" interface=en3;
+    /interface/bridge/port/add bridge=bridge comment="default=dhcp-client, alt=guest" disabled=yes interface=en1;
+    /interface/bridge/port/add bridge=bridge comment="default=intern, alt=guest, extra=30" interface=en2;
+    /interface/bridge/port/add bridge=bridge comment="default=guest, extra=extra" interface=en3;
 
 Also dhcp client can be handled:
 
-    / ip dhcp-client add comment="toggle with bridge port" disabled=no interface=en1;
+    /ip/dhcp-client/add comment="toggle with bridge port" disabled=no interface=en1;
 
 Add a scheduler to start with default setup on system startup:
 
     $ScriptInstallUpdate global-wait;
-    / system scheduler add name=bridge-port-vlan on-event="/ system script run global-wait; :global BridgePortVlan; \$BridgePortVlan default;" start-time=startup;
+    /system/scheduler/add name=bridge-port-vlan on-event="/system/script/run global-wait; :global BridgePortVlan; \$BridgePortVlan default;" start-time=startup;
 
 Usage and invocation
 --------------------
