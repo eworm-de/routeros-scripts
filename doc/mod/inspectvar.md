@@ -24,7 +24,7 @@ Usage and invocation
 
 Call the function `$InspectVar` with a variable as parameter:
 
-    $InspectVar $ModeButton
+    $InspectVar $ModeButton;
 
 ![InspectVar](inspectvar.d/inspectvar.avif)
 
