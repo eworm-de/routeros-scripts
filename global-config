@@ -159,14 +159,11 @@
 # alternative urls - main: stable code - next: currently in development
 #:global ScriptUpdatesBaseUrl "https://raw.githubusercontent.com/eworm-de/routeros-scripts/main/";
 #:global ScriptUpdatesBaseUrl "https://raw.githubusercontent.com/eworm-de/routeros-scripts/next/";
-#:global ScriptUpdatesBaseUrl "https://raw.githubusercontent.com/eworm-de/routeros-scripts/routeros-v7/";
 #:global ScriptUpdatesBaseUrl "https://gitlab.com/eworm-de/routeros-scripts/raw/main/";
 #:global ScriptUpdatesBaseUrl "https://gitlab.com/eworm-de/routeros-scripts/raw/next/";
-#:global ScriptUpdatesBaseUrl "https://gitlab.com/eworm-de/routeros-scripts/raw/routeros-v7/";
 :global ScriptUpdatesUrlSuffix "";
-# use next or routeros-v7 branch with default url (git.eworm.de)
+# use next branch with default url (git.eworm.de)
 #:global ScriptUpdatesUrlSuffix "\?h=next";
-#:global ScriptUpdatesUrlSuffix "\?h=routeros-v7";
 
 # Use this for defaults with $ScriptRunOnce
 # Install module with:
