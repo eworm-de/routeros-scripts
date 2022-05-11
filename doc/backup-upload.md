@@ -9,8 +9,8 @@ Upload backup to server
 Description
 -----------
 
-This script uploads binary backup (`/ system backup save`) and complete
-configuration export (`/ export terse show-sensitive`) to external server.
+This script uploads binary backup (`/system/backup/save`) and complete
+configuration export (`/export terse show-sensitive`) to external server.
 
 > ⚠️ **Warning**: The used command can hit errors that a script can not handle.
 > This may result in script termination (where no notification is sent) or
@@ -60,11 +60,11 @@ Usage and invocation
 
 Just run the script:
 
-    / system script run backup-upload;
+    /system/script/run backup-upload;
 
 Creating a scheduler may be an option:
 
-    / system scheduler add interval=1w name=backup-upload on-event="/ system script run backup-upload;" start-time=09:25:00;
+    /system/scheduler/add interval=1w name=backup-upload on-event="/system/script/run backup-upload;" start-time=09:25:00;
 
 See also
 --------
