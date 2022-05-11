@@ -23,7 +23,7 @@ Then run it from dhcp server as lease script. You may want to use
 
 A scheduler cares about cleanup:
 
-    / system scheduler add interval=15m name=dhcp-to-dns on-event="/ system script run dhcp-to-dns;" start-time=startup;
+    /system/scheduler/add interval=15m name=dhcp-to-dns on-event="/system/script/run dhcp-to-dns;" start-time=startup;
 
 Configuration
 -------------
