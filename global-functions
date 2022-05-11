@@ -10,7 +10,7 @@
 :local 0 "global-functions";
 
 # expected configuration version
-:global ExpectedConfigVersion 79;
+:global ExpectedConfigVersion 80;
 
 # global variables not to be changed by user
 :global GlobalFunctionsReady false;
@@ -1281,6 +1281,9 @@
 
 # check for required RouterOS version
 $RequiredRouterOS $0 "7.1" true;
+
+# this branch is frozen and will vanish!
+$LogPrintExit2 warning $0 ("The 'routeros-v7' branch is frozen and will vanish. Move to 'main' branch!") false;
 
 # signal we are ready
 :set GlobalFunctionsReady true;
