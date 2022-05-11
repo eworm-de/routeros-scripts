@@ -15,8 +15,8 @@ entries in wireless access list.
 Requirements and installation
 -----------------------------
 
-Depending on whether you use CAPsMAN (`/ caps-man`) or local wireless
-interface (`/ interface wireless`) you need to install a different script.
+Depending on whether you use CAPsMAN (`/caps-man`) or local wireless
+interface (`/interface/wireless`) you need to install a different script.
 
 For CAPsMAN:
 
@@ -31,7 +31,7 @@ Usage and invocation
 
 Run this script from a terminal:
 
-    / system script run accesslist-duplicates.local;
+    /system/script/run accesslist-duplicates.local;
 
 ![screenshot: example](accesslist-duplicates.d/01-example.avif)
 
