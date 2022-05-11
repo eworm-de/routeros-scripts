@@ -9,8 +9,8 @@ Send backup via e-mail
 Description
 -----------
 
-This script sends binary backup (`/ system backup save`) and complete
-configuration export (`/ export terse show-sensitive`) via e-mail.
+This script sends binary backup (`/system/backup/save`) and complete
+configuration export (`/export terse show-sensitive`) via e-mail.
 
 Requirements and installation
 -----------------------------
@@ -36,11 +36,11 @@ Usage and invocation
 
 Just run the script:
 
-    / system script run backup-email;
+    /system/script/run backup-email;
 
 Creating a scheduler may be an option:
 
-    / system scheduler add interval=1w name=backup-email on-event="/ system script run backup-email;" start-time=09:15:00;
+    /system/scheduler/add interval=1w name=backup-email on-event="/system/script/run backup-email;" start-time=09:15:00;
 
 See also
 --------
