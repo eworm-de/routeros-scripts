@@ -22,8 +22,8 @@ and modify it to your needs.
 Requirements and installation
 -----------------------------
 
-Depending on whether you use CAPsMAN (`/ caps-man`) or local wireless
-interface (`/ interface wireless`) you need to install a different script.
+Depending on whether you use CAPsMAN (`/caps-man`) or local wireless
+interface (`/interface/wireless`) you need to install a different script.
 
 For CAPsMAN:
 
