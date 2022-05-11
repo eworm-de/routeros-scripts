@@ -23,7 +23,7 @@ Just install the script:
 
 ... and create a scheduler:
 
-    / system scheduler add interval=1m name=gps-track on-event="/ system script run gps-track;" start-time=startup;
+    /system/scheduler/add interval=1m name=gps-track on-event="/system/script/run gps-track;" start-time=startup;
 
 Configuration
 -------------
@@ -32,7 +32,7 @@ The configuration goes to `global-config-overlay`, the only parameter is:
 
 * `GpsTrackUrl`: the url to send json data to
 
-The configured coordinate format (see `/ system gps`) defines the format
+The configured coordinate format (see `/system/gps`) defines the format
 sent to the server.
 
 ---
