@@ -77,13 +77,13 @@
   68="Reintroduced 'global-wait' for functions in scheduler.";
   69="Support hard lower limit for voltage in 'check-health'.";
   70="MikroTik started pushing RouterOS v7. Changes are no longer required.";
-  71="MikroTik is pushing RouterOS v7 even more, in parallel branches. If you want to keep RouterOS v6 for some time see https://git.eworm.de/cgit/routeros-scripts/about/#changes-for-routeros-v6";
+  71="MikroTik is pushing RouterOS v7 even more, in parallel branches. If you want to keep RouterOS v6 for some time see https://git.eworm.de/cgit/routeros-scripts/about/#requirements";
   72="Introduced new script 'netwatch-dns' to manage DNS and DoH servers from netwatch.";
   73="Renamed backup scripts ('cloud-backup' -> 'backup-cloud', 'email-backup' -> 'backup-email', 'upload-backup' -> 'backup-upload').";
   74="Extended 'hotspot-to-wpa', it can now read additional configuration from templates and hotspot users.";
   75=("Finally merged the RouterOS v7 code into the main branch. " . [ $IfThenElse ([ $RequiredRouterOS "global-config.changes" "7.0" false ] = true) \
         ("You may now drop '\$ScriptUpdatesUrlSuffix' from 'global-config-overlay'.") \
-        ("Still running RouterOS v6, so last reminder to see https://git.eworm.de/cgit/routeros-scripts/about/#changes-for-routeros-v6") ]);
+        ("Still running RouterOS v6, so last reminder to see https://git.eworm.de/cgit/routeros-scripts/about/#requirements") ]);
   76="Added an option to suppress notifications on host down with 'netwatch-notify'.";
   77="Introduced new script 'firmware-upgrade-reboot'. Handle with care!";
   78="New documentation is online for notifications via Telegram & Matrix, variable inspection, ip address calculation and running scripts once.";
