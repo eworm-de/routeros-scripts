@@ -36,7 +36,7 @@ addresses from pool if required.
 
 Alternatively a scheduler can be created:
 
-    / system scheduler add interval=5d name=rotate-ntp on-event="/ system script run rotate-ntp;" start-time=startup;
+    /system/scheduler/add interval=5d name=rotate-ntp on-event="/system/script/run rotate-ntp;" start-time=startup;
 
 ---
 [◀ Go back to main README](../README.md)  
