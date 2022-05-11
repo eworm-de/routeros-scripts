@@ -3,18 +3,13 @@ Initial commands
 
 [◀ Go back to main README](README.md)
 
-> ⚠️ **Warning**: These command are inteneded for initial setup. If you are
+> ⚠️ **Warning**: These commands are inteneded for initial setup. If you are
 > not aware of the procedure please follow
 > [the long way in detail](README.md#the-long-way-in-detail).
 
-One extra step is required if you run RouterOS v6:
-
-    :global ScriptUpdatesUrlSuffix "\?h=routeros-v6";
-
-Then run the complete base installation:
+Run the complete base installation:
 
     {
-      :global ScriptUpdatesUrlSuffix;
       / tool fetch "https://git.eworm.de/cgit/routeros-scripts/plain/certs/R3.pem" dst-path="letsencrypt-R3.pem" as-value;
       :delay 1s;
       / certificate import file-name=letsencrypt-R3.pem passphrase="";
@@ -24,7 +19,7 @@ Then run the complete base installation:
       / file remove "letsencrypt-R3.pem";
       :delay 1s;
       :foreach Script in={ "global-config"; "global-config-overlay"; "global-functions" } do={
-        / system script add name=$Script source=([ / tool fetch check-certificate=yes-without-crl ("https://git.eworm.de/cgit/routeros-scripts/plain/" . $Script . $ScriptUpdatesUrlSuffix) output=user as-value]->"data");
+        / system script add name=$Script source=([ / tool fetch check-certificate=yes-without-crl ("https://git.eworm.de/cgit/routeros-scripts/plain/" . $Script . "\?h=routeros-v6") output=user as-value]->"data");
       };
       / system script { run global-config; run global-functions; };
       / system scheduler add name="global-scripts" start-time=startup on-event="/ system script { run global-config; run global-functions; }";
