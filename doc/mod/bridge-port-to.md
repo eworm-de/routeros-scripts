@@ -22,20 +22,20 @@ Just install the module:
 Configuration
 -------------
 
-The configuration goes to ports' comments (`/ interface bridge port`).
+The configuration goes to ports' comments (`/interface/bridge/port`).
 
-    / interface bridge port add bridge=br-guest comment="default=dhcp-client, alt=br-guest" disabled=yes interface=en1;
-    / interface bridge port add bridge=br-intern comment="default=br-intern, alt=br-guest" interface=en2;
-    / interface bridge port add bridge=br-guest comment="default=br-guest, extra=br-extra" interface=en3;
+    /interface/bridge/port/add bridge=br-guest comment="default=dhcp-client, alt=br-guest" disabled=yes interface=en1;
+    /interface/bridge/port/add bridge=br-intern comment="default=br-intern, alt=br-guest" interface=en2;
+    /interface/bridge/port/add bridge=br-guest comment="default=br-guest, extra=br-extra" interface=en3;
 
 Also dhcp client can be handled:
 
-    / ip dhcp-client add comment="toggle with bridge port" disabled=no interface=en1;
+    /ip/dhcp-client/add comment="toggle with bridge port" disabled=no interface=en1;
 
 Add a scheduler to start with default setup on system startup:
 
     $ScriptInstallUpdate global-wait;
-    / system scheduler add name=bridge-port-vlan on-event="/ system script run global-wait; :global BridgePortTo; \$BridgePortTo default;" start-time=startup;
+    /system/scheduler/add name=bridge-port-vlan on-event="/system/script/run global-wait; :global BridgePortTo; \$BridgePortTo default;" start-time=startup;
 
 Usage and invocation
 --------------------
