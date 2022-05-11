@@ -45,11 +45,11 @@ Usage and invocation
 
 Just run the script:
 
-    / system script run backup-cloud;
+    /system/script/run backup-cloud;
 
 Creating a scheduler may be an option:
 
-    / system scheduler add interval=1w name=backup-cloud on-event="/ system script run backup-cloud;" start-time=09:20:00;
+    /system/scheduler/add interval=1w name=backup-cloud on-event="/system/script/run backup-cloud;" start-time=09:20:00;
 
 See also
 --------
