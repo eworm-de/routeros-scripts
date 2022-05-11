@@ -88,6 +88,7 @@
   77="Introduced new script 'firmware-upgrade-reboot'. Handle with care!";
   78="New documentation is online for notifications via Telegram & Matrix, variable inspection, ip address calculation and running scripts once.";
   79="Introduced new script 'backup-partition' to save configuration to fallback partition.";
+  80="The 'routeros-v7' branch will now freeze, and vanish any time in future. You already switched to 'main' branch, well done!";
 };
 
 # Migration steps to be applied on script updates
