@@ -33,7 +33,7 @@ Usage and invocation
 
 Run the script to renew certificates issued from a local CA.
 
-    / system script run certificate-renew-issued;
+    /system/script/run certificate-renew-issued;
 
 Only scripts with a remaining lifetime of three weeks or less are renewed.
 The old certificate is revoked automatically. If a passphrase for a specific
