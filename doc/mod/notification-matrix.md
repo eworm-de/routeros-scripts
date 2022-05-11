@@ -42,7 +42,7 @@ Your best bet is to query the server at `domain` with the
 [well-known uri](https://spec.matrix.org/latest/client-server-api/#well-known-uri).
 For "*matrix.org*" this query is:
 
-    / tool fetch "https://matrix.org/.well-known/matrix/client" output=user;
+    /tool/fetch "https://matrix.org/.well-known/matrix/client" output=user;
 
 ![home server](notification-matrix.d/01-home-server.avif)
 
@@ -59,7 +59,7 @@ account must be sent to the home server via
 We use the home server discovered above, "*matrix-client.matrix.org*".
 The user is "*example*" and password is "*v3ry-s3cr3t*".
 
-    / tool fetch "https://matrix-client.matrix.org/_matrix/client/r0/login" http-method=post http-data="{\"type\":\"m.login.password\", \"user\":\"example\", \"password\":\"v3ry-s3cr3t\"}" output=user;
+    /tool/fetch "https://matrix-client.matrix.org/_matrix/client/r0/login" http-method=post http-data="{\"type\":\"m.login.password\", \"user\":\"example\", \"password\":\"v3ry-s3cr3t\"}" output=user;
 
 ![access token](notification-matrix.d/02-access-token.avif)
 
@@ -80,7 +80,7 @@ this can be done with
 Make sure to replace room id ("*!*" is escaped with "*%21*") and access token
 with your data.
 
-    / tool fetch "https://matrix-client.matrix.org/_matrix/client/r0/rooms/%21WUcxpSjKyxSGelouhA:matrix.org/join?access_token=yt_ZXdvcm0tdGVzdA_NNqUyvKHRhBLZmnzVVSK_0xu6yN" http-method=post http-data="" output=user;
+    /tool/fetch "https://matrix-client.matrix.org/_matrix/client/r0/rooms/%21WUcxpSjKyxSGelouhA:matrix.org/join?access_token=yt_ZXdvcm0tdGVzdA_NNqUyvKHRhBLZmnzVVSK_0xu6yN" http-method=post http-data="" output=user;
 
 ![join room](notification-matrix.d/03-join-room.avif)
 
