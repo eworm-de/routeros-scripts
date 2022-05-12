@@ -41,7 +41,7 @@ Just install the script:
 
 And add a scheduler for automatic update notification:
 
-    / system scheduler add interval=1d name=check-routeros-update on-event="/ system script run check-routeros-update;" start-time=startup;
+    /system/scheduler/add interval=1d name=check-routeros-update on-event="/system/script/run check-routeros-update;" start-time=startup;
 
 Configuration
 -------------
@@ -65,7 +65,7 @@ Usage and invocation
 
 Be notified when run from scheduler or run it manually:
 
-    / system script run check-routeros-update;
+    /system/script/run check-routeros-update;
 
 If an update is found you can install it right away.
 

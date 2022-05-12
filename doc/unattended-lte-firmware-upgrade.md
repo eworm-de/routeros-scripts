@@ -32,7 +32,7 @@ Usage and invocation
 
 Run the script if an upgrade for your LTE hardware is available:
 
-    / system script run unattended-lte-firmware-upgrade;
+    /system/script/run unattended-lte-firmware-upgrade;
 
 Then be patient, go for a coffee and wait for the upgrade process to finish.
 

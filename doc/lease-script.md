@@ -32,7 +32,7 @@ Just install the script:
 
 ... and add it as `lease-script` to your dhcp server:
 
-    / ip dhcp-server set lease-script=lease-script [ find ];
+    /ip/dhcp-server/set lease-script=lease-script [ find ];
 
 See also
 --------

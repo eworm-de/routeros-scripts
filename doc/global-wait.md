@@ -27,7 +27,7 @@ Just install the script:
 ... and add it to your scheduler, for example in combination with the module
 to [manage VLANs on bridge ports](mod/bridge-port-vlan.md):
 
-    / system scheduler add name=bridge-port-vlan on-event="/ system script run global-wait; :global BridgePortVlan; \$BridgePortVlan default;" start-time=startup;
+    /system/scheduler/add name=bridge-port-vlan on-event="/system/script/run global-wait; :global BridgePortVlan; \$BridgePortVlan default;" start-time=startup;
 
 See also
 --------

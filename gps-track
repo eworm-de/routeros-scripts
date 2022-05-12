@@ -15,11 +15,11 @@
 
 :global LogPrintExit2;
 
-:local CoordinateFormat [ / system gps get coordinate-format ];
-:local Gps [ / system gps monitor once as-value ];
+:local CoordinateFormat [ /system/gps/get coordinate-format ];
+:local Gps [ /system/gps/monitor once as-value ];
 
 :if ($Gps->"valid" = true) do={
-  / tool fetch check-certificate=yes-without-crl $GpsTrackUrl output=none \
+  /tool/fetch check-certificate=yes-without-crl $GpsTrackUrl output=none \
     http-method=post http-header-field="Content-Type: application/json" \
     http-data=("{" . \
       "\"lat\":\"" . ($Gps->"latitude") . "\"," . \

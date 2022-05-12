@@ -24,7 +24,7 @@ Just install the script:
 
 ... and make it the `on-up` script for ppp profile:
 
-    / ppp profile set on-up=ppp-on-up [ find ];
+    /ppp/profile/set on-up=ppp-on-up [ find ];
 
 See also
 --------

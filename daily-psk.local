@@ -56,20 +56,20 @@ $WaitFullyConnected;
 }
 
 :local Seen [ :toarray "" ];
-:local Date [ / system clock get date ];
+:local Date [ /system/clock/get date ];
 :local NewPsk [ $GeneratePSK $Date ];
 
-:foreach AccList in=[ / interface wireless access-list find where comment~$DailyPskMatchComment ] do={
-  :local IntName [ / interface wireless access-list get $AccList interface ];
-  :local Ssid [ / interface wireless get $IntName ssid ];
-  :local OldPsk [ / interface wireless access-list get $AccList private-pre-shared-key ];
+:foreach AccList in=[ /interface/wireless/access-list/find where comment~$DailyPskMatchComment ] do={
+  :local IntName [ /interface/wireless/access-list/get $AccList interface ];
+  :local Ssid [ /interface/wireless/get $IntName ssid ];
+  :local OldPsk [ /interface/wireless/access-list/get $AccList private-pre-shared-key ];
   :local Skip 0;
 
   :if ($NewPsk != $OldPsk) do={
     $LogPrintExit2 info $0 ("Updating daily PSK for " . $Ssid . " to " . $NewPsk . " (was " . $OldPsk . ")") false;
-    / interface wireless access-list set $AccList private-pre-shared-key=$NewPsk;
+    /interface/wireless/access-list/set $AccList private-pre-shared-key=$NewPsk;
 
-    :if ([ :len [ / interface wireless find where name=$IntName disabled=no ] ] = 1) do={
+    :if ([ :len [ /interface/wireless/find where name=$IntName disabled=no ] ] = 1) do={
       :foreach SeenSsid in=$Seen do={
         :if ($SeenSsid = $Ssid) do={
           $LogPrintExit2 debug $0 ("Already sent a mail for SSID " . $Ssid . ", skipping.") false;

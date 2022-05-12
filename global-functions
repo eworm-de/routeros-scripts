@@ -14,7 +14,7 @@
 
 # global variables not to be changed by user
 :global GlobalFunctionsReady false;
-:global Identity [ / system identity get name ];
+:global Identity [ /system/identity/get name ];
 
 # global functions
 :global CertificateAvailable;
@@ -69,30 +69,30 @@
   :global LogPrintExit2;
   :global ParseKeyValueStore;
 
-  :if ([ / system resource get free-hdd-space ] < 8388608 && \
-       [ / certificate settings get crl-download ] = true && \
-       [ / certificate settings get crl-store ] = "system") do={
+  :if ([ /system/resource/get free-hdd-space ] < 8388608 && \
+       [ /certificate/settings/get crl-download ] = true && \
+       [ /certificate/settings/get crl-store ] = "system") do={
     $LogPrintExit2 warning $0 ("This system has low free flash space but " . \
       "is configured to download certificate CRLs to system!") false;
   }
 
-  :if ([ :len [ / certificate find where common-name=$CommonName ] ] = 0) do={
+  :if ([ :len [ /certificate/find where common-name=$CommonName ] ] = 0) do={
     $LogPrintExit2 info $0 ("Certificate with CommonName \"" . $CommonName . "\" not available.") false;
     :if ([ $CertificateDownload $CommonName ] = false) do={
       :return false;
     }
   }
 
-  :local CertVal [ / certificate get [ find where common-name=$CommonName ] ];
+  :local CertVal [ /certificate/get [ find where common-name=$CommonName ] ];
   :while (($CertVal->"akid") != "" && ($CertVal->"akid") != ($CertVal->"skid")) do={
-    :if ([ :len [ / certificate find where skid=($CertVal->"akid") ] ] = 0) do={
+    :if ([ :len [ /certificate/find where skid=($CertVal->"akid") ] ] = 0) do={
       $LogPrintExit2 info $0 ("Certificate chain for \"" . $CommonName . \
         "\" is incomplete, missing \"" . ([ $ParseKeyValueStore ($CertVal->"issuer") ]->"CN") . "\".") false;
       :if ([ $CertificateDownload $CommonName ] = false) do={
         :return false;
       }
     }
-    :set CertVal [ / certificate get [ find where skid=($CertVal->"akid") ] ];
+    :set CertVal [ /certificate/get [ find where skid=($CertVal->"akid") ] ];
   }
   :return true;
 }
@@ -114,16 +114,16 @@
   :do {
     :local LocalFileName ($CommonName . ".pem");
     :local UrlFileName ([ $UrlEncode $CommonName ] . ".pem");
-    / tool fetch check-certificate=yes-without-crl \
+    /tool/fetch check-certificate=yes-without-crl \
       ($ScriptUpdatesBaseUrl . "certs/" . \
       $UrlFileName . $ScriptUpdatesUrlSuffix) \
       dst-path=$LocalFileName as-value;
     $WaitForFile $LocalFileName;
-    / certificate import file-name=$LocalFileName passphrase="" as-value;
-    / file remove $LocalFileName;
+    /certificate/import file-name=$LocalFileName passphrase="" as-value;
+    /file/remove $LocalFileName;
 
-    :foreach Cert in=[ / certificate find where name~("^" . $LocalFileName . "_[0-9]+\$") ] do={
-      $CertificateNameByCN [ / certificate get $Cert common-name ];
+    :foreach Cert in=[ /certificate/find where name~("^" . $LocalFileName . "_[0-9]+\$") ] do={
+      $CertificateNameByCN [ /certificate/get $Cert common-name ];
     }
   } on-error={
     $LogPrintExit2 warning $0 ("Failed importing certificate with " . \
@@ -139,8 +139,8 @@
 
   :global CharacterReplace;
 
-  :local Cert [ / certificate find where common-name=$CommonName ];
-  / certificate set $Cert \
+  :local Cert [ /certificate/find where common-name=$CommonName ];
+  /certificate/set $Cert \
     name=[ $CharacterReplace [ $CharacterReplace [ $CharacterReplace $CommonName "'" "-" ] " " "-" ] "---" "-" ];
 }
 
@@ -185,7 +185,7 @@
 
 # default route is reachable
 :set DefaultRouteIsReachable do={
-  :if ([ :len [ / ip route find where dst-address=0.0.0.0/0 active routing-table=main ] ] > 0) do={
+  :if ([ :len [ /ip/route/find where dst-address=0.0.0.0/0 active routing-table=main ] ] > 0) do={
     :return true;
   }
   :return false;
@@ -199,13 +199,13 @@
 
   :global IfThenElse;
 
-  :local Resource [ / system resource get ];
+  :local Resource [ /system/resource/get ];
   :local RouterBoard;
   :do {
-    :set RouterBoard [ / system routerboard get ];
+    :set RouterBoard [[ :parse "/system/routerboard/get" ]];
   } on-error={ }
-  :local License [ / system license get ];
-  :local Update [ / system package update get ];
+  :local License [ /system/license/get ];
+  :local Update [ /system/package/update/get ];
 
   :return ( \
          "Hostname:       " . $Identity . \
@@ -259,8 +259,8 @@
   :global WaitForFile;
 
   :if ([ :len $PkgName ] = 0) do={ :return false; }
-  :if ([ :len $PkgVer  ] = 0) do={ :set PkgVer  [ / system package update get installed-version ]; }
-  :if ([ :len $PkgArch ] = 0) do={ :set PkgArch [ / system resource get architecture-name ]; }
+  :if ([ :len $PkgVer  ] = 0) do={ :set PkgVer  [ /system/package/update/get installed-version ]; }
+  :if ([ :len $PkgArch ] = 0) do={ :set PkgArch [ /system/resource/get architecture-name ]; }
 
   :if ($PkgName = "system") do={ :set PkgName "routeros"; }
 
@@ -273,7 +273,7 @@
     :return false;
   }
 
-  :if ([ :len [ / file find where name=$PkgDest type="package" ] ] > 0) do={
+  :if ([ :len [ /file/find where name=$PkgDest type="package" ] ] > 0) do={
     $LogPrintExit2 info $0 ("Package file " . $PkgName . " already exists.") false;
     :return true;
   }
@@ -288,17 +288,17 @@
   :local Retry 3;
   :while ($Retry > 0) do={
     :do {
-      / tool fetch check-certificate=yes-without-crl $Url dst-path=$PkgDest;
+      /tool/fetch check-certificate=yes-without-crl $Url dst-path=$PkgDest;
       $WaitForFile $PkgDest;
 
-      :if ([ / file get [ find where name=$PkgDest ] type ] = "package") do={
+      :if ([ /file/get [ find where name=$PkgDest ] type ] = "package") do={
         :return true;
       }
     } on-error={
       $LogPrintExit2 debug $0 ("Downloading package file failed.") false;
     }
 
-    / file remove [ find where name=$PkgDest ];
+    /file/remove [ find where name=$PkgDest ];
     :set Retry ($Retry - 1);
   }
 
@@ -348,28 +348,28 @@
   :local AllDone true;
   :local QueueLen [ :len $EmailQueue ];
 
-  :if ([ :len [ / system scheduler find where name="FlushEmailQueue" ] ] > 0 && $QueueLen = 0) do={
+  :if ([ :len [ /system/scheduler/find where name="FlushEmailQueue" ] ] > 0 && $QueueLen = 0) do={
     $LogPrintExit2 warning $0 ("Flushing E-Mail messages from scheduler, but queue is empty.") false;
   }
 
-  / system scheduler set interval=($QueueLen . "m") [ find where name="FlushEmailQueue" ];
+  /system/scheduler/set interval=($QueueLen . "m") [ find where name="FlushEmailQueue" ];
 
   :foreach Id,Message in=$EmailQueue do={
     :if ([ :typeof $Message ] = "array" ) do={
       :local Attach [ $EitherOr ($Message->"attach") "" ];
-      :while ([ / tool e-mail get last-status ] = "in-progress") do={ :delay 1s; }
-      / tool e-mail send to=($Message->"to") cc=($Message->"cc") subject=($Message->"subject") \
+      :while ([ /tool/e-mail/get last-status ] = "in-progress") do={ :delay 1s; }
+      /tool/e-mail/send to=($Message->"to") cc=($Message->"cc") subject=($Message->"subject") \
         body=($Message->"body") file=$Attach;
       :local Wait true;
       :do {
         :delay 1s;
-        :local Status [ / tool e-mail get last-status ];
+        :local Status [ /tool/e-mail/get last-status ];
         :if ($Status = "succeeded") do={
           :set ($EmailQueue->$Id);
           :set Wait false;
           :if (($Message->"remove-attach") = true) do={
             :foreach File in=[ :toarray $Attach ] do={
-              / file remove $File;
+              /file/remove $File;
             }
           }
         }
@@ -382,10 +382,10 @@
   }
 
   :if ($AllDone = true && $QueueLen = [ :len $EmailQueue ]) do={
-    / system scheduler remove [ find where name="FlushEmailQueue" ];
+    /system/scheduler/remove [ find where name="FlushEmailQueue" ];
     :set EmailQueue;
   } else={
-    / system scheduler set interval=1m [ find where name="FlushEmailQueue" ];
+    /system/scheduler/set interval=1m [ find where name="FlushEmailQueue" ];
   }
 }
 
@@ -400,12 +400,12 @@
     :if ([ $CertificateAvailable "Cloudflare Inc ECC CA-3" ] = false) do={
       $LogPrintExit2 warning $0 ("Downloading required certificate failed.") true;
     }
-    :local Vendor ([ / tool fetch check-certificate=yes-without-crl \
+    :local Vendor ([ /tool/fetch check-certificate=yes-without-crl \
         ("https://api.macvendors.com/" . [ :pick $Mac 0 8 ]) output=user as-value ]->"data");
     :return $Vendor;
   } on-error={
     :do {
-      / tool fetch check-certificate=yes-without-crl ("https://api.macvendors.com/") \
+      /tool/fetch check-certificate=yes-without-crl ("https://api.macvendors.com/") \
         output=none as-value;
       $LogPrintExit2 debug $0 ("The mac vendor is not known in database.") false;
     } on-error={
@@ -417,7 +417,7 @@
 
 # generate random 20 chars hex (0-9 and a-f)
 :set GetRandom20CharHex do={
-  :return ([ / certificate scep-server otp generate minutes-valid=0 as-value ]->"password");
+  :return ([ /certificate/scep-server/otp/generate minutes-valid=0 as-value ]->"password");
 }
 
 # generate random number
@@ -515,20 +515,20 @@
     :return true;
   }
 
-  :if ([ :len [ / file find where name=$Dir type="directory" ] ] = 1) do={
+  :if ([ :len [ /file/find where name=$Dir type="directory" ] ] = 1) do={
     :return true;
   }
 
   :local Return true;
   :local Name ($Dir . "-" . [ $GetRandom20CharHex ]);
   :do {
-    / ip smb share add disabled=yes directory=$Dir name=$Name;
+    /ip/smb/share/add disabled=yes directory=$Dir name=$Name;
     $WaitForFile $Dir;
   } on-error={
     $LogPrintExit2 warning $0 ("Making directory '" . $Dir . "' failed!") false;
     :set Return false;
   }
-  / ip smb share remove [ find where name=$Name ];
+  /ip/smb/share/remove [ find where name=$Name ];
   :return $Return;
 }
 
@@ -555,7 +555,7 @@
   :local To [ $EitherOr ($EmailGeneralToOverride->($Notification->"origin")) $EmailGeneralTo ];
   :local Cc [ $EitherOr ($EmailGeneralCcOverride->($Notification->"origin")) $EmailGeneralCc ];
 
-  :local EMailSettings [ / tool e-mail get ];
+  :local EMailSettings [ /tool/e-mail/get ];
   :if ([ :len $To ] = 0 || ($EMailSettings->"address") = "0.0.0.0" || ($EMailSettings->"from") = "<>") do={
     :return false;
   }
@@ -563,7 +563,7 @@
   :if ([ :typeof $EmailQueue ] = "nothing") do={
       :set EmailQueue [ :toarray "" ];
   }
-  :local Signature [ / system note get note ];
+  :local Signature [ /system/note/get note ];
   :set ($EmailQueue->[ :len $EmailQueue ]) {
     to=$To; cc=$Cc;
     subject=[ $QuotedPrintable ("[" . $Identity . "] " . ($Notification->"subject")) ];
@@ -571,8 +571,8 @@
       [ $IfThenElse ([ :len ($Notification->"link") ] > 0) ("\n\n" . ($Notification->"link")) "" ] . \
       [ $IfThenElse ([ :len $Signature ] > 0) ("\n-- \n" . $Signature) "" ]); \
     attach=($Notification->"attach"); remove-attach=($Notification->"remove-attach") };
-  :if ([ :len [ / system scheduler find where name="FlushEmailQueue" ] ] = 0) do={
-    / system scheduler add name=FlushEmailQueue interval=1s start-time=startup \
+  :if ([ :len [ /system/scheduler/find where name="FlushEmailQueue" ] ] = 0) do={
+    /system/scheduler/add name=FlushEmailQueue interval=1s start-time=startup \
       on-event=(":global FlushEmailQueue; \$FlushEmailQueue;");
   }
 }
@@ -653,7 +653,7 @@
   :global IfThenElse;
   :global LogPrintExit2;
   :global VersionToNum;
-  :if ([ $VersionToNum $Required ] > [ $VersionToNum [ / system package update get installed-version ] ]) do={
+  :if ([ $VersionToNum $Required ] > [ $VersionToNum [ /system/package/update/get installed-version ] ]) do={
     :if ($Warn = "true") do={
       $LogPrintExit2 warning $0 ("This " . [ $IfThenElse ([ :pick $Caller 0 ] = ("\$")) "function" "script" ] . \
         " '" . $Caller . "' (at least specific functionality) requires RouterOS " . $Required . ". Please update!") false;
@@ -669,10 +669,10 @@
 
   :global LogPrintExit2;
 
-  :foreach Job in=[ / system script job find where script=$Script ] do={
-    :set Job [ / system script job get $Job ];
+  :foreach Job in=[ /system/script/job/find where script=$Script ] do={
+    :set Job [ /system/script/job/get $Job ];
     :while ([ :typeof ($Job->"parent") ] = "id") do={
-      :set Job [ / system script job get [ find where .id=($Job->"parent") ] ];
+      :set Job [ /system/script/job/get [ find where .id=($Job->"parent") ] ];
     }
     :if (($Job->"type") = "login") do={
       $LogPrintExit2 debug $0 ("Script " . $Script . " started from terminal.") false;
@@ -712,9 +712,9 @@
   }
 
   :foreach Script in=$Scripts do={
-    :if ([ :len [ / system script find where name=$Script ] ] = 0) do={
+    :if ([ :len [ /system/script/find where name=$Script ] ] = 0) do={
       $LogPrintExit2 info $0 ("Adding new script: " . $Script) false;
-      / system script add name=$Script owner=$Script source="#!rsc by RouterOS\n" comment=$NewComment;
+      /system/script/add name=$Script owner=$Script source="#!rsc by RouterOS\n" comment=$NewComment;
     }
   }
 
@@ -722,17 +722,17 @@
   :local ReloadGlobalFunctions false;
   :local ReloadGlobalConfig false;
 
-  :foreach Script in=[ / system script find where source~"^#!rsc by RouterOS\n" ] do={
-    :local ScriptVal [ / system script get $Script ];
-    :local ScriptFile [ / file find where name=("script-updates/" . $ScriptVal->"name") ];
+  :foreach Script in=[ /system/script/find where source~"^#!rsc by RouterOS\n" ] do={
+    :local ScriptVal [ /system/script/get $Script ];
+    :local ScriptFile [ /file/find where name=("script-updates/" . $ScriptVal->"name") ];
     :local SourceNew;
     :if ([ :len $ScriptFile ] > 0) do={
-      :set SourceNew [ / file get $ScriptFile content ];
-      / file remove $ScriptFile;
+      :set SourceNew [ /file/get $ScriptFile content ];
+      /file/remove $ScriptFile;
     }
 
-    :foreach Scheduler in=[ / system scheduler find where on-event~("\\b" . $ScriptVal->"name" . "\\b") ] do={
-      :local SchedulerVal [ / system scheduler get $Scheduler ];
+    :foreach Scheduler in=[ /system/scheduler/find where on-event~("\\b" . $ScriptVal->"name" . "\\b") ] do={
+      :local SchedulerVal [ /system/scheduler/get $Scheduler ];
       :if ($ScriptVal->"policy" != $SchedulerVal->"policy") do={
         $LogPrintExit2 warning $0 ("Policies differ for script '" . $ScriptVal->"name" . \
           "' and its scheduler '" . $SchedulerVal->"name" . "'!") false;
@@ -750,7 +750,7 @@
           :local Url ($BaseUrl . $ScriptVal->"name" . $UrlSuffix);
 
           $LogPrintExit2 debug $0 ("Fetching script '" . $ScriptVal->"name" . "' from url: " . $Url) false;
-          :local Result [ / tool fetch check-certificate=yes-without-crl $Url output=user as-value ];
+          :local Result [ /tool/fetch check-certificate=yes-without-crl $Url output=user as-value ];
           :if ($Result->"status" = "finished") do={
             :set SourceNew ($Result->"data");
           }
@@ -767,7 +767,7 @@
             :local DontRequirePermissions \
                 ($SourceNew~"\n# requires: dont-require-permissions=yes\n");
             $LogPrintExit2 info $0 ("Updating script: " . $ScriptVal->"name") false;
-            / system script set owner=($ScriptVal->"name") source=$SourceNew \
+            /system/script/set owner=($ScriptVal->"name") source=$SourceNew \
                 dont-require-permissions=$DontRequirePermissions $Script;
             :if ($ScriptVal->"name" = "global-config") do={
               :set ReloadGlobalConfig true;
@@ -794,7 +794,7 @@
   :if ($ReloadGlobalFunctions = true) do={
     $LogPrintExit2 info $0 ("Reloading global functions.") false;
     :do {
-      / system script run global-functions;
+      /system/script/run global-functions;
     } on-error={
       $LogPrintExit2 error $0 ("Reloading global functions failed!") false;
     }
@@ -803,7 +803,7 @@
   :if ($ReloadGlobalConfig = true) do={
     $LogPrintExit2 info $0 ("Reloading global configuration.") false;
     :do {
-      / system script run global-config;
+      /system/script/run global-config;
     } on-error={
       $LogPrintExit2 error $0 ("Reloading global configuration failed!" . \
         " Syntax error or missing overlay\?") false;
@@ -818,7 +818,7 @@
     :do {
       :local Url ($ScriptUpdatesBaseUrl . "global-config.changes" . $ScriptUpdatesUrlSuffix);
       $LogPrintExit2 debug $0 ("Fetching news, changes and migration: " . $Url) false;
-      :local Result [ / tool fetch check-certificate=yes-without-crl $Url output=user as-value ];
+      :local Result [ /tool/fetch check-certificate=yes-without-crl $Url output=user as-value ];
       :if ($Result->"status" = "finished") do={
         :set ChangeLogCode ($Result->"data");
       }
@@ -918,7 +918,7 @@
   :local JobCount do={
     :local Script [ :tostr $1 ];
 
-    :return [ :len [ / system script job find where script=$Script ] ];
+    :return [ :len [ /system/script/job/find where script=$Script ] ];
   }
 
   :local TicketCount do={
@@ -990,7 +990,7 @@
     :set ($ScriptLockOrder->$Script) [ :toarray "" ];
   }
 
-  :if ([ :len [ / system script find where name=$Script ] ] = 0) do={
+  :if ([ :len [ /system/script/find where name=$Script ] ] = 0) do={
     $LogPrintExit2 error $0 ("A script named '" . $Script . "' does not exist!") true;
   }
 
@@ -1001,7 +1001,7 @@
   :if ([ $TicketCount $Script ] >= [ $JobCount $Script ]) do={
     $LogPrintExit2 error $0 ("More tickets than running scripts '" . $Script . "', resetting!") false;
     :set ($ScriptLockOrder->$Script) [ :toarray "" ];
-    / system script job remove [ find where script=$Script ];
+    /system/script/job/remove [ find where script=$Script ];
   }
 
   :local MyTicket [ $GetRandom20CharHex ];
@@ -1107,21 +1107,21 @@
 :set TimeIsSync do={
   :global LogPrintExit2;
 
-  :if ([ / system ntp client get enabled ] = true) do={
+  :if ([ /system/ntp/client/get enabled ] = true) do={
     :do {
-      :if ([ / system ntp client get status ] = "synchronized") do={
+      :if ([ /system/ntp/client/get status ] = "synchronized") do={
         :return true;
       }
     } on-error={
-      :if ([ :typeof [ / system ntp client get last-adjustment ] ] = "time") do={
+      :if ([ :typeof [ /system/ntp/client/get last-adjustment ] ] = "time") do={
         :return true;
       }
     }
     :return false;
   }
 
-  :if ([ / ip cloud get ddns-enabled ] = true && [ / ip cloud get update-time ] = true) do={
-    :if ([ :typeof [ / ip cloud get public-address ] ] = "ip") do={
+  :if ([ /ip/cloud/get ddns-enabled ] = true && [ /ip/cloud/get update-time ] = true) do={
+    :if ([ :typeof [ /ip/cloud/get public-address ] ] = "ip") do={
       :return true;
     }
     :return false;
@@ -1226,7 +1226,7 @@
   :set FileName [ $CleanFilePath $FileName ];
   :local I 0;
 
-  :while ([ :len [ / file find where name=$FileName ] ] = 0) do={
+  :while ([ :len [ /file/find where name=$FileName ] ] = 0) do={
     :if ($I > 20) do={
       :return false;
     }
@@ -1253,10 +1253,10 @@
   :global TimeIsSync;
 
   :while ([ $TimeIsSync ] = false) do={
-    :if ([ :len [ / system script find where name="rotate-ntp" ] ] > 0 && \
-         ([ / system resource get uptime ] % (180 * 1000000000)) = 0s) do={
+    :if ([ :len [ /system/script/find where name="rotate-ntp" ] ] > 0 && \
+         ([ /system/resource/get uptime ] % (180 * 1000000000)) = 0s) do={
       :do {
-        / system script run rotate-ntp;
+        /system/script/run rotate-ntp;
       } on-error={
         $LogPrintExit2 debug $0 ("Running rotate-ntp failed.") false;
       }
@@ -1266,11 +1266,11 @@
 }
 
 # load modules
-:foreach Script in=[ / system script find where name ~ "^mod/." ] do={
-  :local ScriptVal [ / system script get $Script ];
+:foreach Script in=[ /system/script/find where name ~ "^mod/." ] do={
+  :local ScriptVal [ /system/script/get $Script ];
   :if ([ $ValidateSyntax ($ScriptVal->"source") ] = true) do={
     :do {
-      / system script run $Script;
+      /system/script/run $Script;
     } on-error={
       $LogPrintExit2 error $0 ("Module '" . $ScriptVal->"name" . "' failed to run.") false;
     }
@@ -1280,12 +1280,7 @@
 }
 
 # check for required RouterOS version
-:if ([ $RequiredRouterOS $0 "7.0" false ] = true) do={
-  $RequiredRouterOS $0 "7.1" true;
-} else={
-  $LogPrintExit2 warning $0 ("Still running RouterOS v6, please switch to branch " . \
-    "'routeros-v6', see https://git.eworm.de/cgit/routeros-scripts/about/#changes-for-routeros-v6") false;
-}
+$RequiredRouterOS $0 "7.1" true;
 
 # signal we are ready
 :set GlobalFunctionsReady true;

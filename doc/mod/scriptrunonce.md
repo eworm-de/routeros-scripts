@@ -37,7 +37,7 @@ Usage and invocation
 The function `$ScriptRunOnce` expects an URL (or name if
 `ScriptRunOnceBaseUrl` is given) pointing to a script as parameter.
 
-    $ScriptRunOnce https://git.eworm.de/cgit/routeros-scripts/plain/doc/mod/scriptrunonce.d/hello-world.rsc
+    $ScriptRunOnce https://git.eworm.de/cgit/routeros-scripts/plain/doc/mod/scriptrunonce.d/hello-world.rsc;
 
 ![ScriptRunOnce](scriptrunonce.d/scriptrunonce.avif)
 

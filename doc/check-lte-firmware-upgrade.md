@@ -30,7 +30,7 @@ Just install the script:
 
 ... and create a scheduler:
 
-    / system scheduler add interval=1d name=check-lte-firmware-upgrade on-event="/ system script run check-lte-firmware-upgrade;" start-time=startup;
+    /system/scheduler/add interval=1d name=check-lte-firmware-upgrade on-event="/system/script/run check-lte-firmware-upgrade;" start-time=startup;
 
 Configuration
 -------------

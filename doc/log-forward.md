@@ -33,7 +33,7 @@ Just install the script:
 
 ... and add a scheduler:
 
-    / system scheduler add interval=1m name=log-forward on-event="/ system script run log-forward;" start-time=startup;
+    /system/scheduler/add interval=1m name=log-forward on-event="/system/script/run log-forward;" start-time=startup;
 
 Configuration
 -------------

@@ -15,16 +15,16 @@
 :global LogPrintExit2;
 :global MkDir;
 
-:foreach Cert in=[ / certificate find where issued expires-after<3w ] do={
-  :local CertVal [ / certificate get $Cert ];
-  / certificate issued-revoke $Cert;
-  / certificate set name=($CertVal->"name" . "-revoked-" . [ / system clock get date ]) $Cert;
-  / certificate add name=($CertVal->"name") common-name=($CertVal->"common-name") \
+:foreach Cert in=[ /certificate/find where issued expires-after<3w ] do={
+  :local CertVal [ /certificate/get $Cert ];
+  /certificate/issued-revoke $Cert;
+  /certificate/set name=($CertVal->"name" . "-revoked-" . [ /system/clock/get date ]) $Cert;
+  /certificate/add name=($CertVal->"name") common-name=($CertVal->"common-name") \
       key-usage=($CertVal->"key-usage") subject-alt-name=($CertVal->"subject-alt-name");
-  / certificate sign ($CertVal->"name") ca=($CertVal->"ca");
+  /certificate/sign ($CertVal->"name") ca=($CertVal->"ca");
   :if ([ :typeof ($CertIssuedExportPass->($CertVal->"common-name")) ] = "str") do={
     :if ([ $MkDir "cert-issued" ] = true) do={
-      / certificate export-certificate ($CertVal->"name") type=pkcs12 \
+      /certificate/export-certificate ($CertVal->"name") type=pkcs12 \
           file-name=("cert-issued/" . $CertVal->"common-name") \
           export-passphrase=($CertIssuedExportPass->($CertVal->"common-name"));
       $LogPrintExit2 info $0 ("Issued a new certificate for \"" . $CertVal->"common-name" . \

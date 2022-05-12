@@ -18,14 +18,14 @@
   :local AllDone true;
   :local QueueLen [ :len $MatrixQueue ];
 
-  :if ([ :len [ / system scheduler find where name="FlushMatrixQueue" ] ] > 0 && $QueueLen = 0) do={
+  :if ([ :len [ /system/scheduler/find where name="FlushMatrixQueue" ] ] > 0 && $QueueLen = 0) do={
     $LogPrintExit2 warning $0 ("Flushing Matrix messages from scheduler, but queue is empty.") false;
   }
 
   :foreach Id,Message in=$MatrixQueue do={
     :if ([ :typeof $Message ] = "array" ) do={
       :do {
-        / tool fetch check-certificate=yes-without-crl output=none http-method=post \
+        /tool/fetch check-certificate=yes-without-crl output=none http-method=post \
           ("https://" . $Message->"homeserver" . "/_matrix/client/r0/rooms/" . $Message->"room" . \
            "/send/m.room.message?access_token=" . $Message->"accesstoken") \
           http-data=("{ \"msgtype\": \"m.text\", \"body\": \"" . $Message->"plain" . "\"," . \
@@ -40,7 +40,7 @@
   }
 
   :if ($AllDone = true && $QueueLen = [ :len $MatrixQueue ]) do={
-    / system scheduler remove [ find where name="FlushMatrixQueue" ];
+    /system/scheduler/remove [ find where name="FlushMatrixQueue" ];
     :set MatrixQueue;
   }
 }
@@ -113,7 +113,7 @@
   }
 
   :do {
-    / tool fetch check-certificate=yes-without-crl output=none http-method=post \
+    /tool/fetch check-certificate=yes-without-crl output=none http-method=post \
       ("https://" . $HomeServer . "/_matrix/client/r0/rooms/" . $Room . \
        "/send/m.room.message?access_token=" . $AccessToken) \
       http-data=("{ \"msgtype\": \"m.text\", \"body\": \"" . $Plain . "\"," . \
@@ -126,15 +126,15 @@
       :set MatrixQueue [ :toarray "" ];
     }
     :local Text ([ $SymbolForNotification "alarm-clock" ] . \
-      "This message was queued since " . [ / system clock get date ] . \
-      " " . [ / system clock get time ] . " and may be obsolete.");
+      "This message was queued since " . [ /system/clock/get date ] . \
+      " " . [ /system/clock/get time ] . " and may be obsolete.");
     :set Plain ($Plain . "\\n" . $Text);
     :set Formatted ($Formatted . "<br/>" . $Text);
     :set ($MatrixQueue->[ :len $MatrixQueue ]) { room=$Room; \
       accesstoken=$AccessToken; homeserver=$HomeServer; \
       plain=$Plain; formatted=$Formatted };
-    :if ([ :len [ / system scheduler find where name="FlushMatrixQueue" ] ] = 0) do={
-      / system scheduler add name=FlushMatrixQueue interval=1m start-time=startup \
+    :if ([ :len [ /system/scheduler/find where name="FlushMatrixQueue" ] ] = 0) do={
+      /system/scheduler/add name=FlushMatrixQueue interval=1m start-time=startup \
         on-event=(":global FlushMatrixQueue; \$FlushMatrixQueue;");
     }
   }

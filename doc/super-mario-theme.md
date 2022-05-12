@@ -22,7 +22,7 @@ Usage and invocation
 
 Just run the script to play:
 
-    / system script run super-mario-theme;
+    /system/script/run super-mario-theme;
 
 For extra fun use it for dhcp lease script. :)
 

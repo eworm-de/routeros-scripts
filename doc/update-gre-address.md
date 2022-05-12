@@ -26,7 +26,7 @@ Just install the script:
 
 ... and add a scheduler to run the script periodically:
 
-    / system scheduler add interval=30s name=update-gre-address on-event="/ system script run update-gre-address;" start-time=startup;
+    /system/scheduler/add interval=30s name=update-gre-address on-event="/system/script/run update-gre-address;" start-time=startup;
 
 Configuration
 -------------
@@ -34,7 +34,7 @@ Configuration
 The configuration goes to interface's comment. Add the client's IKEv2
 certificate CN into the comment:
 
-    / interface gre set comment="ikev2-client1" gre-client1;
+    /interface/gre/set comment="ikev2-client1" gre-client1;
 
 ---
 [◀ Go back to main README](../README.md)  

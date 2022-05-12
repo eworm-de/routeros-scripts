@@ -27,15 +27,15 @@ $LogPrintExit2 debug $0 ("DHCP Server " . $leaseServerName . " " . [ $IfThenElse
 
 $ScriptLock $0 false 10;
 
-:if ([ :len [ / system script job find where script=$0 ] ] > 1) do={
+:if ([ :len [ /system/script/job/find where script=$0 ] ] > 1) do={
   $LogPrintExit2 debug $0 ("More invocations are waiting, exiting early.") true;
 }
 
 :local RunOrder [ :toarray "" ];
 
-:foreach Script in=[ / system script find where source~("\n# provides: lease-script, ") ] do={
-  :local Name [ / system script get $Script name ];
-  :local Store [ / system script get $Script source ];
+:foreach Script in=[ /system/script/find where source~("\n# provides: lease-script, ") ] do={
+  :local Name [ /system/script/get $Script name ];
+  :local Store [ /system/script/get $Script source ];
 
   :set Store [ :pick $Store ([ :find $Store "\n# provides: lease-script, " ] + 27) [ :len $Store ] ];
   :set Store [ :pick $Store 0 [ :find $Store "\n" ] ];
@@ -47,7 +47,7 @@ $ScriptLock $0 false 10;
 :foreach Order,Script in=$RunOrder do={
   :do {
     $LogPrintExit2 debug $0 ("Running script with order " . $Order . ": " . $Script) false;
-    / system script run $Script;
+    /system/script/run $Script;
   } on-error={
     $LogPrintExit2 warning $0 ("Running script '" . $Script . "' failed!") false;
   }

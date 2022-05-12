@@ -21,7 +21,7 @@ Requirements and installation
 Just install the script and create a scheduler:
 
     $ScriptInstallUpdate firmware-upgrade-reboot;
-    / system scheduler add name=firmware-upgrade-reboot on-event="/ system script run firmware-upgrade-reboot;" start-time=startup;
+    /system/scheduler/add name=firmware-upgrade-reboot on-event="/system/script/run firmware-upgrade-reboot;" start-time=startup;
 
 Enjoy firmware being up to date and in sync with RouterOS.
 

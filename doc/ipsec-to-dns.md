@@ -21,7 +21,7 @@ Just install the script:
 
 This script is run from scheduler:
 
-    / system scheduler add interval=1m name=ipsec-to-dns on-event="/ system script run ipsec-to-dns;" start-time=startup;
+    /system/scheduler/add interval=1m name=ipsec-to-dns on-event="/system/script/run ipsec-to-dns;" start-time=startup;
 
 Configuration
 -------------

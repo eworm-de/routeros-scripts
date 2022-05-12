@@ -26,7 +26,7 @@ Just install the script:
 
 ... and add a scheduler to run it periodically:
 
-    / system scheduler add interval=2m name=sms-forward on-event="/ system script run sms-forward;" start-time=startup;
+    /system/scheduler/add interval=2m name=sms-forward on-event="/system/script/run sms-forward;" start-time=startup;
 
 Configuration
 -------------
@@ -36,7 +36,7 @@ Notification settings are required for e-mail,
 [telegram](mod/notification-telegram.md). Also you have to enable receiving
 of SMS:
 
-    / tool sms set receive-enabled=yes;
+    /tool/sms/set receive-enabled=yes;
 
 See also
 --------
