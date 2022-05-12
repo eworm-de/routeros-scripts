@@ -22,7 +22,7 @@ Just install the script:
 
 ... and add a scheduler to run the script periodically:
 
-    / system scheduler add interval=20s name=ospf-to-leds on-event="/ system script run ospf-to-leds;" start-time=startup;
+    /system/scheduler/add interval=20s name=ospf-to-leds on-event="/system/script/run ospf-to-leds;" start-time=startup;
 
 Configuration
 -------------
@@ -30,7 +30,7 @@ Configuration
 The configuration goes to OSPF instance's comment. To visualize state for
 instance `default` via LED `user-led` set this:
 
-    / routing ospf instance set default comment="ospf-to-leds, leds=user-led";
+    /routing/ospf/instance/set default comment="ospf-to-leds, leds=user-led";
 
 ---
 [◀ Go back to main README](../README.md)  

@@ -30,7 +30,7 @@ The configuration goes to `global-config-overlay`, this is the only parameter:
 
 Then enable SMS actions:
 
-    / tool sms set allowed-number=+491234567890 receive-enabled=yes secret=s3cr3t;
+    /tool/sms/set allowed-number=+491234567890 receive-enabled=yes secret=s3cr3t;
 
 Usage and invocation
 --------------------

@@ -44,15 +44,15 @@ Usage and invocation
 
 Just run the script:
 
-    / system script run check-certificates;
+    /system/script/run check-certificates;
 
 ... or create a scheduler for periodic execution:
 
-    / system scheduler add interval=1d name=check-certificates on-event="/ system script run check-certificates;" start-time=startup;
+    /system/scheduler/add interval=1d name=check-certificates on-event="/system/script/run check-certificates;" start-time=startup;
 
 Alternatively running on startup may be desired:
 
-    / system scheduler add name=check-certificates-startup on-event="/ system script run check-certificates;" start-time=startup;
+    /system/scheduler/add name=check-certificates-startup on-event="/system/script/run check-certificates;" start-time=startup;
 
 See also
 --------

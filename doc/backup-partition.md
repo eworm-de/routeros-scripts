@@ -27,11 +27,11 @@ Usage and invocation
 
 Just run the script:
 
-    / system script run backup-partition;
+    /system/script/run backup-partition;
 
 Creating a scheduler may be an option:
 
-    / system scheduler add interval=1w name=backup-partition on-event="/ system script run backup-partition;" start-time=09:30:00;
+    /system/scheduler/add interval=1w name=backup-partition on-event="/system/script/run backup-partition;" start-time=09:30:00;
 
 See also
 --------

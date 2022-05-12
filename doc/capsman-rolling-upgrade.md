@@ -33,7 +33,7 @@ that script when required.
 
 Alternatively run it manually:
 
-    / system script run capsman-rolling-upgrade;
+    /system/script/run capsman-rolling-upgrade;
 
 See also
 --------

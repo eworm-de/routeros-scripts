@@ -10,7 +10,7 @@ Description
 -----------
 
 In rare cases RouterOS fails to properly downlaod package on update
-(`/ system package update install`), resulting in borked system with missing
+(`/system/package/update/install`), resulting in borked system with missing
 packages. This script tries to avoid this situation by doing some basic
 verification.
 
@@ -35,7 +35,7 @@ Usage and invocation
 
 Alternatively run it manually:
 
-    / system script run packages-update;
+    /system/script/run packages-update;
 
 See also
 --------

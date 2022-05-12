@@ -23,6 +23,9 @@ Make sure to install latest updates before you begin.
 
 Specific scripts may require even newer RouterOS version.
 
+> ℹ️ **Info**: The `main` branch is now RouterOS v7 only. If you are still
+> running RouterOS v6 switch to `routeros-v6` branch!
+
 Initial setup
 -------------
 
@@ -50,7 +53,7 @@ download the certificates. If you intend to download the scripts from a
 different location (for example from github.com) install the corresponding
 certificate chain.
 
-    / tool fetch "https://git.eworm.de/cgit/routeros-scripts/plain/certs/R3.pem" dst-path="letsencrypt-R3.pem";
+    /tool/fetch "https://git.eworm.de/cgit/routeros-scripts/plain/certs/R3.pem" dst-path="letsencrypt-R3.pem";
 
 ![screenshot: download certs](README.d/01-download-certs.avif)
 
@@ -63,16 +66,16 @@ files to your MikroTik device.
 
 Then we import the certificates.
 
-    / certificate import file-name=letsencrypt-R3.pem passphrase="";
+    /certificate/import file-name=letsencrypt-R3.pem passphrase="";
 
 ![screenshot: import certs](README.d/02-import-certs.avif)
 
 For basic verification we rename the certificates and print their count. Make
 sure the certificate count is **two**.
 
-    / certificate set name="R3" [ find where fingerprint="67add1166b020ae61b8f5fc96813c04c2aa589960796865572a3c7e737613dfd" ];
-    / certificate set name="ISRG-Root-X1" [ find where fingerprint="96bcec06264976f37460779acf28c5a7cfe8a3c0aae11a8ffcee05c0bddf08c6" ];
-    / certificate print count-only where fingerprint="67add1166b020ae61b8f5fc96813c04c2aa589960796865572a3c7e737613dfd" or fingerprint="96bcec06264976f37460779acf28c5a7cfe8a3c0aae11a8ffcee05c0bddf08c6";
+    /certificate/set name="R3" [ find where fingerprint="67add1166b020ae61b8f5fc96813c04c2aa589960796865572a3c7e737613dfd" ];
+    /certificate/set name="ISRG-Root-X1" [ find where fingerprint="96bcec06264976f37460779acf28c5a7cfe8a3c0aae11a8ffcee05c0bddf08c6" ];
+    /certificate/print count-only where fingerprint="67add1166b020ae61b8f5fc96813c04c2aa589960796865572a3c7e737613dfd" or fingerprint="96bcec06264976f37460779acf28c5a7cfe8a3c0aae11a8ffcee05c0bddf08c6";
 
 ![screenshot: check certs](README.d/03-check-certs.avif)
 
@@ -82,14 +85,9 @@ All following commands will verify the server certificate. For validity the
 certificate's lifetime is checked with local time, so make sure the device's
 date and time is set correctly!
 
-One extra step is required if you run RouterOS v6:
-
-    :global ScriptUpdatesUrlSuffix "\?h=routeros-v6";
-
 Now let's download the main scripts and add them in configuration on the fly.
 
-    :global ScriptUpdatesUrlSuffix;
-    :foreach Script in={ "global-config"; "global-config-overlay"; "global-functions" } do={ / system script add name=$Script source=([ / tool fetch check-certificate=yes-without-crl ("https://git.eworm.de/cgit/routeros-scripts/plain/" . $Script . $ScriptUpdatesUrlSuffix) output=user as-value]->"data"); };
+    :foreach Script in={ "global-config"; "global-config-overlay"; "global-functions" } do={ /system/script/add name=$Script source=([ /tool/fetch check-certificate=yes-without-crl ("https://git.eworm.de/cgit/routeros-scripts/plain/" . $Script) output=user as-value]->"data"); };
 
 ![screenshot: import scripts](README.d/04-import-scripts.avif)
 
@@ -98,34 +96,23 @@ The configuration needs to be tweaked for your needs. Edit
 [`global-config`](global-config) (the one without `-overlay`).
 Save changes and exit with `Ctrl-o`.
 
-    / system script edit global-config-overlay source;
+    /system/script edit global-config-overlay source;
 
 ![screenshot: edit global-config-overlay](README.d/05-edit-global-config-overlay.avif)
 
 And finally load configuration and functions and add the scheduler.
 
-    / system script { run global-config; run global-functions; };
-    / system scheduler add name="global-scripts" start-time=startup on-event="/ system script { run global-config; run global-functions; }";
+    /system/script { run global-config; run global-functions; };
+    /system/scheduler/add name="global-scripts" start-time=startup on-event="/system/script { run global-config; run global-functions; }";
 
 ![screenshot: run and schedule scripts](README.d/06-run-and-schedule-scripts.avif)
 
 The last step is optional: Add this scheduler **only** if you want the scripts
 to be updated automatically!
 
-    / system scheduler add name="ScriptInstallUpdate" start-time=startup interval=1d on-event=":global ScriptInstallUpdate; \$ScriptInstallUpdate;";
+    /system/scheduler/add name="ScriptInstallUpdate" start-time=startup interval=1d on-event=":global ScriptInstallUpdate; \$ScriptInstallUpdate;";
 
 ![screenshot: schedule update](README.d/07-schedule-update.avif)
-
-### Changes for RouterOS v6
-
-RouterOS v7 is the way to go, let's consider RouterOS v6 deprecated.
-If you want to stay with RouterOS v6 for some time add these lines
-to your `global-config-overlay`, if missing:
-
-    # Use branch routeros-v6 with RouterOS v6:
-    :global ScriptUpdatesUrlSuffix "\?h=routeros-v6";
-
-Then reload the configuration.
 
 Updating scripts
 ----------------
@@ -155,7 +142,7 @@ Most scripts are designed to run regularly from
 added `check-routeros-update`, so let's run it every hour to make sure not to
 miss an update.
 
-    / system scheduler add name="check-routeros-update" interval=1h on-event="/ system script run check-routeros-update;";
+    /system/scheduler/add name="check-routeros-update" interval=1h on-event="/system/script/run check-routeros-update;";
 
 ![screenshot: schedule script](README.d/10-schedule-script.avif)
 
@@ -164,8 +151,8 @@ in DNS use `dhcp-to-dns` with the events from dhcp server. For a regular
 cleanup add a scheduler entry.
 
     $ScriptInstallUpdate dhcp-to-dns,lease-script;
-    / ip dhcp-server set lease-script=lease-script [ find ];
-    / system scheduler add name="dhcp-to-dns" interval=5m on-event="/ system script run dhcp-to-dns;";
+    /ip/dhcp-server/set lease-script=lease-script [ find ];
+    /system/scheduler/add name="dhcp-to-dns" interval=5m on-event="/system/script/run dhcp-to-dns;";
 
 ![screenshot: setup lease script](README.d/11-setup-lease-script.avif)
 
@@ -240,7 +227,7 @@ still use my scripts to manage and deploy yours, by specifying `base-url`
 
 This will fetch and install a script `hello-world.rsc` from the given url:
 
-    $ScriptInstallUpdate hello-world.rsc "base-url=https://git.eworm.de/cgit/routeros-scripts/plain/README.d/"
+    $ScriptInstallUpdate hello-world.rsc "base-url=https://git.eworm.de/cgit/routeros-scripts/plain/README.d/";
 
 ![screenshot: install custom script](README.d/12-install-custom-script.avif)
 

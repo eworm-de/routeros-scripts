@@ -21,21 +21,21 @@ Usage and invocation
 
 To switch the device to dark mode:
 
-    / system script run leds-night-mode;
+    /system/script/run leds-night-mode;
 
 ... and back to normal mode:
 
-    / system script run leds-day-mode;
+    /system/script/run leds-day-mode;
 
 To toggle between the two modes:
 
-    / system script run leds-toggle-mode;
+    /system/script/run leds-toggle-mode;
 
 Add these schedulers to switch to dark mode in the evening and back to
 normal mode in the morning:
 
-    / system scheduler add interval=1d name=leds-day-mode on-event="/ system script run leds-day-mode;" start-time=07:00:00;
-    / system scheduler add interval=1d name=leds-night-mode on-event="/ system script run leds-night-mode;" start-time=21:00:00;
+    /system/scheduler/add interval=1d name=leds-day-mode on-event="/system/script/run leds-day-mode;" start-time=07:00:00;
+    /system/scheduler/add interval=1d name=leds-night-mode on-event="/system/script/run leds-night-mode;" start-time=21:00:00;
 
 The script `leds-toggle-mode` can be used from [mode button](mode-button.md)
 to toggle mode.

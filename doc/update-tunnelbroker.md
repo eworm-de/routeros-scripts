@@ -28,11 +28,11 @@ Configuration
 
 The configuration goes to interface's comment:
 
-    / interface 6to4 set comment="tunnelbroker, user=user, pass=s3cr3t, id=12345" tunnelbroker;
+    /interface/6to4/set comment="tunnelbroker, user=user, pass=s3cr3t, id=12345" tunnelbroker;
 
 Also enabling dynamic DNS in Mikrotik cloud is required:
 
-    / ip cloud set ddns-enabled=yes;
+    /ip/cloud/set ddns-enabled=yes;
 
 See also
 --------

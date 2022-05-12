@@ -16,8 +16,8 @@ Requirements and installation
 
 Let's assume there is a remote log action and associated logging rule:
 
-    / system logging action set remote=10.0.0.1 [ find where name="remote" ];
-    / system logging add action=remote topics=info;
+    /system/logging/action/set remote=10.0.0.1 [ find where name="remote" ];
+    /system/logging/add action=remote topics=info;
 
 Just install the script:
 
@@ -25,7 +25,7 @@ Just install the script:
 
 ... and create a netwatch matching the IP address from logging action above:
 
-    / tool netwatch add down-script=netwatch-syslog host=10.0.0.1 up-script=netwatch-syslog;
+    /tool/netwatch/add down-script=netwatch-syslog host=10.0.0.1 up-script=netwatch-syslog;
 
 All logging rules are disabled when host is down.
 

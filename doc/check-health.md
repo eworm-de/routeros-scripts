@@ -21,7 +21,7 @@ Note that bad initial state will not trigger an event.
 Only sensors available in hardware can be checked. See what your
 hardware supports:
 
-    / system health print;
+    /system/health/print;
 
 ### Sample notifications
 
@@ -45,7 +45,7 @@ Requirements and installation
 Just install the script and create a scheduler:
 
     $ScriptInstallUpdate check-health;
-    / system scheduler add interval=1m name=check-health on-event="/ system script run check-health;" start-time=startup;
+    /system/scheduler/add interval=1m name=check-health on-event="/system/script/run check-health;" start-time=startup;
 
 Configuration
 -------------

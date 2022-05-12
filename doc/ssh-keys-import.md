@@ -22,7 +22,7 @@ Usage and invocation
 Copy files with extension "`pub`" containing public SSH keys for your device.
 Then run the script:
 
-    / system script run ssh-keys-import;
+    /system/script/run ssh-keys-import;
 
 Starting with an `authorized_keys` file you can split it on a shell:
 

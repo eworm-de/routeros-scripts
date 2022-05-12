@@ -24,7 +24,7 @@ Just install the script on CAPsMAN device:
 
 Optionally add a scheduler to run after startup:
 
-    / system scheduler add name=capsman-download-packages on-event="/ system script run capsman-download-packages;" start-time=startup;
+    /system/scheduler/add name=capsman-download-packages on-event="/system/script/run capsman-download-packages;" start-time=startup;
 
 Packages available in local storage in older version are downloaded
 unconditionally. The script tries to download missing packages by guessing
@@ -35,7 +35,7 @@ Usage and invocation
 
 Run the script manually:
 
-    / system script run capsman-download-packages;
+    /system/script/run capsman-download-packages;
 
 ... or from scheduler.
 
