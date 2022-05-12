@@ -16,18 +16,18 @@
 
 $ScriptLock $0;
 
-:local InstalledVersion [ / system package update get installed-version ];
+:local InstalledVersion [ /system/package/update/get installed-version ];
 
-:local RemoteCapCount [ :len [ / caps-man remote-cap find ] ];
+:local RemoteCapCount [ :len [ /caps-man/remote-cap/find ] ];
 :if ($RemoteCapCount > 0) do={
   :local Delay (600 / $RemoteCapCount);
   :if ($Delay > 120) do={ :set Delay 120; }
-  :foreach RemoteCap in=[ / caps-man remote-cap find where version!=$InstalledVersion ] do={
-    :local RemoteCapVal [ / caps-man remote-cap get $RemoteCap ];
+  :foreach RemoteCap in=[ /caps-man/remote-cap/find where version!=$InstalledVersion ] do={
+    :local RemoteCapVal [ /caps-man/remote-cap/get $RemoteCap ];
     :if ([ :len $RemoteCapVal ] > 1) do={
       $LogPrintExit2 info $0 ("Starting upgrade for " . $RemoteCapVal->"name" . \
         " (" . $RemoteCapVal->"identity" . ")...") false;
-      / caps-man remote-cap upgrade $RemoteCap;
+      /caps-man/remote-cap/upgrade $RemoteCap;
     } else={
       $LogPrintExit2 warning $0 ("Remote CAP vanished, skipping upgrade.") false;
     }

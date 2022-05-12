@@ -18,16 +18,16 @@
   $LogPrintExit2 error $0 ("This script is supposed to run from ppp on-up script hook.") true;
 }
 
-:local IntName [ / interface get $Interface name ];
+:local IntName [ /interface/get $Interface name ];
 $LogPrintExit2 info $0 ("PPP interface " . $IntName . " is up.") false;
 
-/ ipv6 dhcp-client release [ find where interface=$IntName !disabled ];
+/ipv6/dhcp-client/release [ find where interface=$IntName !disabled ];
 
-:foreach Script in=[ / system script find where source~("\n# provides: ppp-on-up\n") ] do={
-  :local ScriptName [ / system script get $Script name ];
+:foreach Script in=[ /system/script/find where source~("\n# provides: ppp-on-up\n") ] do={
+  :local ScriptName [ /system/script/get $Script name ];
   :do {
     $LogPrintExit2 debug $0 ("Running script: " . $ScriptName) false;
-    / system script run $Script;
+    /system/script/run $Script;
   } on-error={
     $LogPrintExit2 warning $0 ("Running script '" . $ScriptName . "' failed!") false;
   }

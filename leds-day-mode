@@ -6,4 +6,4 @@
 # enable LEDs
 # https://git.eworm.de/cgit/routeros-scripts/about/doc/leds-mode.md
 
-/ system leds settings set all-leds-off=never;
+/system/leds/settings/set all-leds-off=never;

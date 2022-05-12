@@ -21,15 +21,15 @@
 $ScriptLock $0;
 $WaitFullyConnected;
 
-:local PackagePath [ $CleanFilePath [ / caps-man manager get package-path ] ];
-:local InstalledVersion [ / system package update get installed-version ];
+:local PackagePath [ $CleanFilePath [ /caps-man/manager/get package-path ] ];
+:local InstalledVersion [ /system/package/update/get installed-version ];
 :local Updated false;
 
 :if ([ :len $PackagePath ] = 0) do={
   $LogPrintExit2 warning $0 ("The CAPsMAN package path is not defined, can not download packages.") true;
 }
 
-:if ([ :len [ / file find where name=$PackagePath type="directory" ] ] = 0) do={
+:if ([ :len [ /file/find where name=$PackagePath type="directory" ] ] = 0) do={
   :if ([ $MkDir $PackagePath ] = false) do={
     $LogPrintExit2 warning $0 ("Creating directory at CAPsMAN package path (" . \
       $PackagePath . ") failed!") true;
@@ -38,34 +38,34 @@ $WaitFullyConnected;
     "). Please place your packages!") false;
 }
 
-:foreach Package in=[ / file find where type=package \
+:foreach Package in=[ /file/find where type=package \
       package-version!=$InstalledVersion name~("^" . $PackagePath) ] do={
-  :local File [ / file get $Package ];
+  :local File [ /file/get $Package ];
   :if ($File->"package-architecture" = "mips") do={
     :set ($File->"package-architecture") "mipsbe";
   }
   :if ([ $DownloadPackage ($File->"package-name") $InstalledVersion \
        ($File->"package-architecture") $PackagePath ] = true) do={
     :set Updated true;
-    / file remove $Package;
+    /file/remove $Package;
   }
 }
 
-:if ([ :len [ / system logging find where topics~"error" !(topics~"!error") \
+:if ([ :len [ /system/logging/find where topics~"error" !(topics~"!error") \
      !(topics~"!caps") action=memory !disabled !invalid ] ] < 1) do={
   $LogPrintExit2 warning $0 ("Looks like error messages for 'caps' are not sent to memory. " . \
       "Probably can not download packages automatically.") false;
 } else={
-  :if ($Updated = false && [ / system resource get uptime ] < 2m) do={
+  :if ($Updated = false && [ /system/resource/get uptime ] < 2m) do={
     $LogPrintExit2 info $0 ("No packages downloaded, yet. Delaying for logs.") false;
     :delay 2m;
   }
 }
 
-:foreach Log in=[ / log find where topics=({"caps", "error"}) \
+:foreach Log in=[ /log/find where topics=({"caps", "error"}) \
     message~("upgrade status: failed, failed to download file '.*-" . $InstalledVersion . \
     "-.*\\.npk', no such file") ] do={
-  :local Message [ / log get $Log message ];
+  :local Message [ /log/get $Log message ];
   :local Package [ :pick $Message \
     ([ :find $Message "'" ] + 1) \
     [ :find $Message ("-" . $InstalledVersion . "-") ] ];
@@ -78,9 +78,9 @@ $WaitFullyConnected;
 }
 
 :if ($Updated = true) do={
-  :if ([ :len [ / system script find where name="capsman-rolling-upgrade" ] ] > 0) do={
-    / system script run capsman-rolling-upgrade;
+  :if ([ :len [ /system/script/find where name="capsman-rolling-upgrade" ] ] > 0) do={
+    /system/script/run capsman-rolling-upgrade;
   } else={
-    / caps-man remote-cap upgrade [ find where version!=$InstalledVersion ];
+    /caps-man/remote-cap/upgrade [ find where version!=$InstalledVersion ];
   }
 }

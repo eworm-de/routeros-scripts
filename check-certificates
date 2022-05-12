@@ -33,8 +33,8 @@
 
 $WaitFullyConnected;
 
-:foreach Cert in=[ / certificate find where !revoked !ca !scep-url expires-after<$CertRenewTime ] do={
-  :local CertVal [ / certificate get $Cert ];
+:foreach Cert in=[ /certificate/find where !revoked !ca !scep-url expires-after<$CertRenewTime ] do={
+  :local CertVal [ /certificate/get $Cert ];
 
   :do {
     :if ([ :len $CertRenewUrl ] = 0) do={
@@ -45,24 +45,24 @@ $WaitFullyConnected;
     :foreach Type in={ ".pem"; ".p12" } do={
       :local CertFileName ([ $UrlEncode ($CertVal->"common-name") ] . $Type);
       :do {
-        / tool fetch check-certificate=yes-without-crl \
+        /tool/fetch check-certificate=yes-without-crl \
             ($CertRenewUrl . $CertFileName) dst-path=$CertFileName as-value;
         $WaitForFile $CertFileName;
         :foreach PassPhrase in=$CertRenewPass do={
-          / certificate import file-name=$CertFileName passphrase=$PassPhrase as-value;
+          /certificate/import file-name=$CertFileName passphrase=$PassPhrase as-value;
         }
-        / file remove [ find where name=$CertFileName ];
+        /file/remove [ find where name=$CertFileName ];
 
-        :foreach CertInChain in=[ / certificate find where name~("^" . $CertFileName . "_[0-9]+\$") common-name!=($CertVal->"common-name") ] do={
-          $CertificateNameByCN [ / certificate get $CertInChain common-name ];
+        :foreach CertInChain in=[ /certificate/find where name~("^" . $CertFileName . "_[0-9]+\$") common-name!=($CertVal->"common-name") ] do={
+          $CertificateNameByCN [ /certificate/get $CertInChain common-name ];
         }
       } on-error={
         $LogPrintExit2 debug $0 ("Could not download certificate file " . $CertFileName) false;
       }
     }
 
-    :local CertNew [ / certificate find where common-name=($CertVal->"common-name") fingerprint!=[ :tostr ($CertVal->"fingerprint") ] expires-after>$CertRenewTime ];
-    :local CertNewVal [ / certificate get $CertNew ];
+    :local CertNew [ /certificate/find where common-name=($CertVal->"common-name") fingerprint!=[ :tostr ($CertVal->"fingerprint") ] expires-after>$CertRenewTime ];
+    :local CertNewVal [ /certificate/get $CertNew ];
 
     :if ([ $CertificateAvailable ([ $ParseKeyValueStore ($CertNewVal->"issuer") ]->"CN") ] = false) do={
       $LogPrintExit2 warning $0 ("The certificate chain is not available!") false;
@@ -72,27 +72,19 @@ $WaitFullyConnected;
       $LogPrintExit2 debug $0 ("Certificate '" . $CertVal->"name" . "' was not updated, but replaced.") false;
 
       :if (($CertVal->"private-key") = true && ($CertVal->"private-key") != ($CertNewVal->"private-key")) do={
-        / certificate remove $CertNew;
+        /certificate/remove $CertNew;
         $LogPrintExit2 warning $0 ("Old certificate '" . ($CertVal->"name") . "' has a private key, new certificate does not. Aborting renew.") true;
       }
 
-      / ip service set certificate=($CertNewVal->"name") [ find where certificate=($CertVal->"name") ];
+      /ip/service/set certificate=($CertNewVal->"name") [ find where certificate=($CertVal->"name") ];
 
-      :do {
-        / ip ipsec identity set certificate=($CertNewVal->"name") [ / ip ipsec identity find where certificate=($CertVal->"name") ];
-        / ip ipsec identity set remote-certificate=($CertNewVal->"name") [ / ip ipsec identity find where remote-certificate=($CertVal->"name") ];
-      } on-error={
-        $LogPrintExit2 debug $0 ("Setting IPSEC certificates failed. Package 'security' not installed?") false;
-      }
+      /ip/ipsec/identity/set certificate=($CertNewVal->"name") [ find where certificate=($CertVal->"name") ];
+      /ip/ipsec/identity/set remote-certificate=($CertNewVal->"name") [ find where remote-certificate=($CertVal->"name") ];
 
-      :do {
-        / ip hotspot profile set ssl-certificate=($CertNewVal->"name") [ / ip hotspot profile find where ssl-certificate=($CertVal->"name") ];
-      } on-error={
-        $LogPrintExit2 debug $0 ("Setting hotspot certificates failed. Package 'hotspot' not installed?") false;
-      }
+      /ip/hotspot/profile/set ssl-certificate=($CertNewVal->"name") [ find where ssl-certificate=($CertVal->"name") ];
 
-      / certificate remove $Cert;
-      / certificate set $CertNew name=($CertVal->"name");
+      /certificate/remove $Cert;
+      /certificate/set $CertNew name=($CertVal->"name");
     }
 
     $SendNotification2 ({ origin=$0; \
@@ -111,10 +103,10 @@ $WaitFullyConnected;
   }
 }
 
-:foreach Cert in=[ / certificate find where !revoked !scep-url !(expires-after=[]) expires-after<2w !(fingerprint=[]) ] do={
-  :local CertVal [ / certificate get $Cert ];
+:foreach Cert in=[ /certificate/find where !revoked !scep-url !(expires-after=[]) expires-after<2w !(fingerprint=[]) ] do={
+  :local CertVal [ /certificate/get $Cert ];
 
-  :if ([ :len [ / certificate scep-server find where ca-cert=($CertVal->"ca") ] ] > 0) do={
+  :if ([ :len [ /certificate/scep-server/find where ca-cert=($CertVal->"ca") ] ] > 0) do={
     $LogPrintExit2 debug $0 ("Certificate \"" . ($CertVal->"name") . "\" is handled by SCEP, skipping.") false;
   } else={
     :local State [ $IfThenElse (($CertVal->"expired") = true) "expired" "is about to expire" ];

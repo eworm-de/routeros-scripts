@@ -17,19 +17,19 @@
 :global LogPrintExit2;
 :global ParseKeyValueStore;
 
-:if ([ / ip cloud get ddns-enabled ] != true) do={
+:if ([ /ip/cloud/get ddns-enabled ] != true) do={
   $LogPrintExit2 error $0 ("IP cloud DDNS is not enabled.") true;
 }
 
 # Get the current ip address from cloud
-/ ip cloud force-update;
-:while ([ / ip cloud get status ] != "updated") do={
+/ip/cloud/force-update;
+:while ([ /ip/cloud/get status ] != "updated") do={
   :delay 1s;
 }
-:local PublicAddress [ / ip cloud get public-address ];
+:local PublicAddress [ /ip/cloud/get public-address ];
 
-:foreach Interface in=[ / interface 6to4 find where comment~"^tunnelbroker" !disabled ] do={
-  :local InterfaceVal [ / interface 6to4 get $Interface ];
+:foreach Interface in=[ /interface/6to4/find where comment~"^tunnelbroker" !disabled ] do={
+  :local InterfaceVal [ /interface/6to4/get $Interface ];
 
   :if ($PublicAddress != $InterfaceVal->"local-address") do={
     :local Comment [ $ParseKeyValueStore ($InterfaceVal->"comment") ];
@@ -38,10 +38,10 @@
       $LogPrintExit2 error $0 ("Downloading required certificate failed.") true;
     }
     $LogPrintExit2 info $0 ("Local address changed, sending UPDATE to tunnelbroker! New address: " . $PublicAddress) false;
-    / tool fetch check-certificate=yes-without-crl \
+    /tool/fetch check-certificate=yes-without-crl \
         ("https://ipv4.tunnelbroker.net/nic/update\?hostname=" . $Comment->"id") \
         user=($Comment->"user") password=($Comment->"pass") output=none as-value;
-    / interface 6to4 set $Interface local-address=$PublicAddress;
+    /interface/6to4/set $Interface local-address=$PublicAddress;
   } else={
     $LogPrintExit2 debug $0 ("All tunnelbroker configuration is up to date for interface " . $InterfaceVal->"name" . ".") false;
   }

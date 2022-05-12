@@ -18,8 +18,8 @@
 :local Seen [ :toarray "" ];
 :local Shown [ :toarray "" ];
 
-:foreach AccList in=[ / %PATH% access-list find where mac-address!="00:00:00:00:00:00" ] do={
-  :local Mac [ / %PATH% access-list get $AccList mac-address ];
+:foreach AccList in=[ /%PATH%/access-list/find where mac-address!="00:00:00:00:00:00" ] do={
+  :local Mac [ /%PATH%/access-list/get $AccList mac-address ];
   :foreach SeenMac in=$Seen do={
     :if ($SeenMac = $Mac) do={
       :local Skip 0;
@@ -27,14 +27,14 @@
         :if ($ShownMac = $Mac) do={ :set Skip 1; }
       }
       :if ($Skip = 0) do={
-        / %PATH% access-list print where mac-address=$Mac;
+        /%PATH%/access-list/print where mac-address=$Mac;
         :set Shown ($Shown, $Mac);
 
         :put "\nNumeric id to remove, any key to skip!";
         :local Remove [ :tonum [ $Read ] ];
         :if ([ :typeof $Remove ] = "num") do={
           :put ("Removing numeric id " . $Remove . "...\n");
-          / %PATH% access-list remove $Remove;
+          /%PATH%/access-list/remove $Remove;
         }
       }
     }

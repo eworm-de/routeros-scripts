@@ -9,21 +9,21 @@
 :local WlanInt "wl-station";
 :local UmtsInt "t-mobile";
 
-:local EtherStatus [ / interface ethernet get $EtherInt running ];
-:local WlanStatus [ / interface wireless get $WlanInt running ];
+:local EtherStatus [ /interface/ethernet/get $EtherInt running ];
+:local WlanStatus [ /interface/wireless/get $WlanInt running ];
 
 :if ($EtherStatus = true || $WlanStatus = true) do={
-  :if ([ / interface get $UmtsInt disabled ] = false) do={
+  :if ([ /interface/get $UmtsInt disabled ] = false) do={
     :log info ("Ethernet (" . $EtherInt . " / " . $EtherStatus . ") or " . \
       "wireless (" . $WlanInt . " / " . $WlanStatus . ") is running, " . \
       "UMTS interface " . $UmtsInt . " is enabled. Disabling...");
-    / interface set disabled=yes $UmtsInt;
+    /interface/set disabled=yes $UmtsInt;
   }
 } else={
-  :if ([ / interface get $UmtsInt disabled ] = true) do={
+  :if ([ /interface/get $UmtsInt disabled ] = true) do={
     :log info ("Neither ethernet (" . $EtherInt . ") nor wireless (" . \
       $WlanInt . ") interface is running, UMTS interface " . $UmtsInt . \
       " is disabled. Enabling...");
-    / interface set disabled=no $UmtsInt;
+    /interface/set disabled=no $UmtsInt;
   }
 }

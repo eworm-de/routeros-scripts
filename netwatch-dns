@@ -17,16 +17,16 @@
 
 $ScriptLock $0;
 
-:if ([ / system resource get uptime ] < 5m) do={
+:if ([ /system/resource/get uptime ] < 5m) do={
   $LogPrintExit2 info $0 ("System just booted, giving netwatch some time to settle.") true;
 }
 
 :local DnsServers [ :toarray "" ];
 :local DnsFallback [ :toarray "" ];
-:local DnsCurrent [ / ip dns get servers ];
+:local DnsCurrent [ /ip/dns/get servers ];
 
-:foreach Host in=[ / tool netwatch find where comment~"dns" disabled=no ] do={
-  :local HostVal [ / tool netwatch get $Host ];
+:foreach Host in=[ /tool/netwatch/find where comment~"dns" disabled=no ] do={
+  :local HostVal [ /tool/netwatch/get $Host ];
   :local HostInfo [ $ParseKeyValueStore ($HostVal->"comment") ];
 
   :if ($HostVal->"status" = "up" && $HostInfo->"disabled" != true) do={
@@ -42,24 +42,24 @@ $ScriptLock $0;
 :if ([ :len $DnsServers ] > 0) do={
   :if ($DnsServers != $DnsCurrent) do={
     $LogPrintExit2 info $0 ("Updating DNS servers: " . [ :tostr $DnsServers ]) false;
-    / ip dns set servers=$DnsServers;
-    / ip dns cache flush;
+    /ip/dns/set servers=$DnsServers;
+    /ip/dns/cache/flush;
   }
 } else={
   :if ([ :len $DnsFallback ] > 0) do={
     :if ($DnsFallback != $DnsCurrent) do={
       $LogPrintExit2 info $0 ("Updating DNS servers to fallback: " . [ :tostr $DnsFallback ]) false;
-      / ip dns set servers=$DnsFallback; 
-      / ip dns cache flush;
+      /ip/dns/set servers=$DnsFallback;
+      /ip/dns/cache/flush;
     }
   }
 }
 
 :local DohServer "";
-:local DohCurrent [ / ip dns get use-doh-server ];
+:local DohCurrent [ /ip/dns/get use-doh-server ];
 
-:foreach Host in=[ / tool netwatch find where comment~"doh" disabled=no ] do={
-  :local HostVal [ / tool netwatch get $Host ];
+:foreach Host in=[ /tool/netwatch/find where comment~"doh" disabled=no ] do={
+  :local HostVal [ /tool/netwatch/get $Host ];
   :local HostInfo [ $ParseKeyValueStore ($HostVal->"comment") ];
 
   :if ($HostVal->"status" = "up" && $HostInfo->"doh" = true && $HostInfo->"disabled" != true && $DohServer = "") do={
@@ -70,13 +70,13 @@ $ScriptLock $0;
 :if ($DohServer != "") do={
   :if ($DohServer != $DohCurrent) do={
     $LogPrintExit2 info $0 ("Updating DoH server: " . $DohServer) false;
-    / ip dns set use-doh-server=$DohServer;
-    / ip dns cache flush;
+    /ip/dns/set use-doh-server=$DohServer;
+    /ip/dns/cache/flush;
   }
 } else={
   :if ($DohCurrent != "") do={
     $LogPrintExit2 info $0 ("DoH server (" . $DohCurrent . ") is down, disabling.") false;
-    / ip dns set use-doh-server="";
-    / ip dns cache flush;
+    /ip/dns/set use-doh-server="";
+    /ip/dns/cache/flush;
   }
 }

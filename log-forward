@@ -52,10 +52,10 @@ $WaitFullyConnected;
 :local LogForwardFilterLogForwarding ("^" . [ $EscapeForRegEx ("Error sending e-mail <" . \
     [ $QuotedPrintable ("[" . $Identity . "] " . [ $SymbolForNotification "warning-sign" ] . \
     "Log Forwarding") ] . ">:") ]);
-:foreach Message in=[ / log find where (!(message="") and !(message~$LogForwardFilterLogForwarding) and \
+:foreach Message in=[ /log/find where (!(message="") and !(message~$LogForwardFilterLogForwarding) and \
     !(topics~$LogForwardFilter) and !(message~$LogForwardFilterMessage)) or \
     topics~$LogForwardInclude or message~$LogForwardIncludeMessage ] do={
-  :set MessageVal [ / log get $Message ];
+  :set MessageVal [ /log/get $Message ];
 
   :if ($Last < [ $HexToNum ($MessageVal->".id") ]) do={
     :local DupCount ($MessageDups->($MessageVal->"message"));
@@ -75,7 +75,7 @@ $WaitFullyConnected;
     subject=([ $SymbolForNotification "warning-sign" ] . "Log Forwarding"); \
     message=("The log on " . $Identity . " contains " . [ $IfThenElse ($Count = 1) \
       "this message" ("these " . $Count . " messages") ] . " after " . \
-      [ / system resource get uptime ] . " uptime." . [ $IfThenElse ($Duplicates = true) \
+      [ /system/resource/get uptime ] . " uptime." . [ $IfThenElse ($Duplicates = true) \
       (" Multi-repeated messages have been skipped.") ] . "\n" . $Messages) });
 
   :set LogForwardRateLimit ($LogForwardRateLimit + 10);

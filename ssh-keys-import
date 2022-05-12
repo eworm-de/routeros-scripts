@@ -6,6 +6,6 @@
 # import ssh keys from file
 # https://git.eworm.de/cgit/routeros-scripts/about/doc/ssh-keys-import.md
 
-:foreach Key in=[ / file find where type="ssh key" ] do={
-  / user ssh-key import user=admin public-key-file=[ / file get $Key name ];
+:foreach Key in=[ /file/find where type="ssh key" ] do={
+  /user/ssh-key/import user=admin public-key-file=[ /file/get $Key name ];
 }
