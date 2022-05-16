@@ -8,7 +8,6 @@
 
 :global BridgePortVlan;
 
-# TODO
 :global BridgePortVlan do={
   :local ConfigTo [ :tostr $1 ];
 
