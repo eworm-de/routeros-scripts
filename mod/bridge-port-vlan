@@ -49,7 +49,10 @@
               /ip/dhcp-client/disable $DHCPClient;
               :delay 200ms;
             }
+            /interface/ethernet/disable [ find where name=$BridgePortVal->"interface" ];
             /interface/bridge/port/set disabled=no pvid=$Vlan $BridgePort;
+            :delay 500ms;
+            /interface/ethernet/enable [ find where name=$BridgePortVal->"interface" ];
           } else={
             $LogPrintExit2 debug $0 ("Interface " . $BridgePortVal->"interface" . " already connected to " . $ConfigTo . \
                 " vlan " . $Vlan . ".") false;
