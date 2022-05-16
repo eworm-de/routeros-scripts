@@ -27,7 +27,6 @@
 :global ScriptLock;
 :global SendNotification2;
 :global SymbolForNotification;
-:global WaitFullyConnected;
 
 $ScriptLock $0;
 
@@ -39,8 +38,6 @@ $ScriptLock $0;
   :set LogForwardRateLimit ($LogForwardRateLimit - 1);
   $LogPrintExit2 info $0 ("Rate limit in action, not forwarding logs, if any!") true;
 }
-
-$WaitFullyConnected;
 
 :local Count 0;
 :local Duplicates false;
