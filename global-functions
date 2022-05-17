@@ -344,9 +344,15 @@
 
   :global EitherOr;
   :global LogPrintExit2;
+  :global TimeIsSync;
 
   :local AllDone true;
   :local QueueLen [ :len $EmailQueue ];
+
+  :if ([ $TimeIsSync ] = false) do={
+    $LogPrintExit2 debug $0 ("Time is not synced, not flushing.") false;
+    :return false;
+  }
 
   :if ([ :len [ /system/scheduler/find where name="FlushEmailQueue" ] ] > 0 && $QueueLen = 0) do={
     $LogPrintExit2 warning $0 ("Flushing E-Mail messages from scheduler, but queue is empty.") false;
