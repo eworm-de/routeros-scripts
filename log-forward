@@ -19,6 +19,7 @@
 :global LogForwardRateLimit;
 :global NotificationsWithSymbols;
 
+:global CharacterReplace;
 :global EscapeForRegEx;
 :global HexToNum;
 :global IfThenElse;
@@ -26,6 +27,7 @@
 :global QuotedPrintable;
 :global ScriptLock;
 :global SendNotification2;
+:global SymbolByUnicodeName;
 :global SymbolForNotification;
 
 $ScriptLock $0;
@@ -43,12 +45,13 @@ $ScriptLock $0;
 :local Duplicates false;
 :local Last [ $IfThenElse ([ :len $LogForwardLast ] > 0) [ $HexToNum $LogForwardLast ] -1 ];
 :local Messages "";
+:local Warning false;
 :local MessageVal;
 :local MessageDups [ :toarray "" ];
 
-:local LogForwardFilterLogForwarding ("^" . [ $EscapeForRegEx ("Error sending e-mail <" . \
-    [ $QuotedPrintable ("[" . $Identity . "] " . [ $SymbolForNotification "memo" ] . \
-    "Log Forwarding") ] . ">:") ]);
+:local LogForwardFilterLogForwarding ("^" . [ $CharacterReplace [ $EscapeForRegEx ("Error sending e-mail <" . \
+    [ $QuotedPrintable ("[" . $Identity . "] %SYMBOLREGEX%Log Forwarding") ] . ">:") ] "%SYMBOLREGEX%" \
+    ("((" . [ $SymbolByUnicodeName "memo" ] . "|" . [ $SymbolByUnicodeName "warning-sign" ] . ") )?") ]);
 :foreach Message in=[ /log/find where (!(message="") and !(message~$LogForwardFilterLogForwarding) and \
     !(topics~$LogForwardFilter) and !(message~$LogForwardFilterMessage)) or \
     topics~$LogForwardInclude or message~$LogForwardIncludeMessage ] do={
@@ -56,6 +59,9 @@ $ScriptLock $0;
 
   :if ($Last < [ $HexToNum ($MessageVal->".id") ]) do={
     :local DupCount ($MessageDups->($MessageVal->"message"));
+    :if ($MessageVal->"topics" ~ "(emergency|alert|critical|error|warning)") do={
+      :set Warning true;
+    }
     :if ($DupCount < 3) do={
       :set Messages ($Messages . "\n" . [ $IfThenElse ($NotificationsWithSymbols = true) (" \E2\97\8F ") ] . \
         $MessageVal->"time" . " " . [ :tostr ($MessageVal->"topics") ] . " " . $MessageVal->"message");
@@ -69,7 +75,8 @@ $ScriptLock $0;
 
 :if ($Count > 0) do={
   $SendNotification2 ({ origin=$0; \
-    subject=([ $SymbolForNotification "memo" ] . "Log Forwarding"); \
+    subject=([ $SymbolForNotification [ $IfThenElse ($Warning = true) "warning-sign" "memo" ] ] . \
+      "Log Forwarding"); \
     message=("The log on " . $Identity . " contains " . [ $IfThenElse ($Count = 1) \
       "this message" ("these " . $Count . " messages") ] . " after " . \
       [ /system/resource/get uptime ] . " uptime." . [ $IfThenElse ($Duplicates = true) \
