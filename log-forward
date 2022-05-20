@@ -47,7 +47,7 @@ $ScriptLock $0;
 :local MessageDups [ :toarray "" ];
 
 :local LogForwardFilterLogForwarding ("^" . [ $EscapeForRegEx ("Error sending e-mail <" . \
-    [ $QuotedPrintable ("[" . $Identity . "] " . [ $SymbolForNotification "warning-sign" ] . \
+    [ $QuotedPrintable ("[" . $Identity . "] " . [ $SymbolForNotification "memo" ] . \
     "Log Forwarding") ] . ">:") ]);
 :foreach Message in=[ /log/find where (!(message="") and !(message~$LogForwardFilterLogForwarding) and \
     !(topics~$LogForwardFilter) and !(message~$LogForwardFilterMessage)) or \
@@ -69,7 +69,7 @@ $ScriptLock $0;
 
 :if ($Count > 0) do={
   $SendNotification2 ({ origin=$0; \
-    subject=([ $SymbolForNotification "warning-sign" ] . "Log Forwarding"); \
+    subject=([ $SymbolForNotification "memo" ] . "Log Forwarding"); \
     message=("The log on " . $Identity . " contains " . [ $IfThenElse ($Count = 1) \
       "this message" ("these " . $Count . " messages") ] . " after " . \
       [ /system/resource/get uptime ] . " uptime." . [ $IfThenElse ($Duplicates = true) \
