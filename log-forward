@@ -74,15 +74,17 @@ $ScriptLock $0;
 }
 
 :if ($Count > 0) do={
+  :set LogForwardRateLimit ($LogForwardRateLimit + 10);
+
   $SendNotification2 ({ origin=$0; \
     subject=([ $SymbolForNotification [ $IfThenElse ($Warning = true) "warning-sign" "memo" ] ] . \
       "Log Forwarding"); \
-    message=("The log on " . $Identity . " contains " . [ $IfThenElse ($Count = 1) \
-      "this message" ("these " . $Count . " messages") ] . " after " . \
-      [ /system/resource/get uptime ] . " uptime." . [ $IfThenElse ($Duplicates = true) \
-      (" Multi-repeated messages have been skipped.") ] . "\n" . $Messages) });
+    message=("The log on " . $Identity . " contains " . [ $IfThenElse ($Count = 1) "this message" \
+      ("these " . $Count . " messages") ] . " after " . [ /system/resource/get uptime ] . " uptime." . \
+      [ $IfThenElse ($Duplicates = true) (" Multi-repeated messages have been skipped.") ] . \
+      [ $IfThenElse ($LogForwardRateLimit > 30) ("\nRate limit in action, delaying forwarding.") ] . \
+      "\n" . $Messages) });
 
-  :set LogForwardRateLimit ($LogForwardRateLimit + 10);
   :set LogForwardLast ($MessageVal->".id");
 } else={
   :if ($LogForwardRateLimit > 0) do={
