@@ -36,6 +36,7 @@
             /ip/dhcp-client/enable $DHCPClient;
           }
         } else={
+          :local VlanName $Vlan;
           :if ($Vlan != [ :tostr [ :tonum $Vlan ] ]) do={
             :do {
               :set $Vlan ([ /interface/bridge/vlan/get [ find where comment=$Vlan ] vlan-ids ]->0);
@@ -45,7 +46,7 @@
           }
           :if ($BridgePortVal->"disabled" = true || $Vlan != $BridgePortVal->"pvid") do={
             $LogPrintExit2 info $0 ("Enabling bridge port for interface " . $BridgePortVal->"interface" . ", changing to " . $ConfigTo . \
-                " vlan " . $Vlan . ", disabling dhcp client.") false;
+                " vlan " . $Vlan . [ $IfThenElse ($Vlan != $VlanName) (" (" . $VlanName . ")") ] . ", disabling dhcp client.") false;
             :if ([ :len $DHCPClient ] = 1) do={
               /ip/dhcp-client/disable $DHCPClient;
               :delay 200ms;
