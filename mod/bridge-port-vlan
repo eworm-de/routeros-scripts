@@ -17,6 +17,7 @@
 
   :foreach BridgePort in=[ /interface/bridge/port/find where !(comment=[]) ] do={
     :local BridgePortVal [ /interface/bridge/port/get $BridgePort ];
+    :local InterfaceReEnable [ :toarray "" ];
     :foreach Config,Vlan in=[ $ParseKeyValueStore ($BridgePortVal->"comment") ] do={
       :if ($Config = $ConfigTo) do={
         :local DHCPClient [ /ip/dhcp-client/find where interface=$BridgePortVal->"interface" comment="toggle with bridge port" ];
@@ -51,13 +52,18 @@
             }
             /interface/ethernet/disable [ find where name=$BridgePortVal->"interface" ];
             /interface/bridge/port/set disabled=no pvid=$Vlan $BridgePort;
-            :delay 500ms;
-            /interface/ethernet/enable [ find where name=$BridgePortVal->"interface" ];
+            :set InterfaceReEnable ($InterfaceReEnable, $BridgePortVal->"interface");
           } else={
             $LogPrintExit2 debug $0 ("Interface " . $BridgePortVal->"interface" . " already connected to " . $ConfigTo . \
                 " vlan " . $Vlan . ".") false;
           }
         }
+      }
+    }
+    :if ([ :len $InterfaceReEnable ] > 0) do={
+      :delay 2s;
+      :foreach Interface in=$InterfaceReEnable do={
+        /interface/ethernet/enable [ find where name=$Interface ];
       }
     }
   }
