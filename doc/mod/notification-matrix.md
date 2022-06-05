@@ -90,6 +90,16 @@ Usage and invocation
 There's nothing special to do. Every script or function sending a notification
 will now send it to your Matrix account.
 
+But of course you can send notifications directly or use a function in your
+own scripts. Give it a try:
+
+    $SendMatrix "Subject..." "Body..."
+
+Alternatively this sends a notification with all available and configured
+methods:
+
+    $SendNotification "Subject..." "Body..."
+
 See also
 --------
 
