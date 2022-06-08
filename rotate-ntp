@@ -11,6 +11,7 @@
 :while ($GlobalFunctionsReady != true) do={ :delay 500ms; }
 
 :global NtpPool;
+:global RotateNtpResolveFailed;
 
 :global LogPrintExit2;
 
@@ -24,8 +25,14 @@
 :do {
   :set Ntp1 [ :resolve ("0." . $NtpPool) ];
   :set Ntp2 [ :resolve ("1." . $NtpPool) ];
+  :set RotateNtpResolveFailed false;
 } on-error={
-  $LogPrintExit2 warning $0 ("Resolving NTP server failed.") true;
+  :if ($RotateNtpResolveFailed != true) do={
+    :set RotateNtpResolveFailed true;
+    $LogPrintExit2 warning $0 ("Resolving NTP server failed.") true;
+  } else={
+    $LogPrintExit2 debug $0 ("Resolving NTP server failed.") true;
+  }
 }
 
 $LogPrintExit2 info $0 ("Updating NTP servers to " . $Ntp1 . " and " . $Ntp2) false;
