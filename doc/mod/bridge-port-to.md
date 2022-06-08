@@ -35,7 +35,7 @@ Also dhcp client can be handled:
 Add a scheduler to start with default setup on system startup:
 
     $ScriptInstallUpdate global-wait;
-    /system/scheduler/add name=bridge-port-vlan on-event="/system/script/run global-wait; :global BridgePortTo; \$BridgePortTo default;" start-time=startup;
+    /system/scheduler/add name=bridge-port-to on-event="/system/script/run global-wait; :global BridgePortTo; \$BridgePortTo default;" start-time=startup;
 
 Usage and invocation
 --------------------
