@@ -19,7 +19,6 @@
 :global LogForwardRateLimit;
 :global NotificationsWithSymbols;
 
-:global CharacterReplace;
 :global EscapeForRegEx;
 :global HexToNum;
 :global IfThenElse;
@@ -49,9 +48,11 @@ $ScriptLock $0;
 :local MessageVal;
 :local MessageDups [ :toarray "" ];
 
-:local LogForwardFilterLogForwarding ("^" . [ $CharacterReplace [ $EscapeForRegEx ("Error sending e-mail <" . \
-    [ $QuotedPrintable ("[" . $Identity . "] %SYMBOLREGEX%Log Forwarding") ] . ">:") ] "%SYMBOLREGEX%" \
-    ("((" . [ $SymbolByUnicodeName "memo" ] . "|" . [ $SymbolByUnicodeName "warning-sign" ] . ") )?") ]);
+:local LogForwardFilterLogForwarding ("^Error sending e-mail <(" . \
+    [ $EscapeForRegEx [ $QuotedPrintable ("[" . $Identity . "] " . \
+      [ $SymbolForNotification "memo" ] . "Log Forwarding") ] ] . "|" . \
+    [ $EscapeForRegEx [ $QuotedPrintable ("[" . $Identity . "] " . \
+      [ $SymbolForNotification "warning-sign" ] . "Log Forwarding") ] ] . ")>:");
 :foreach Message in=[ /log/find where (!(message="") and !(message~$LogForwardFilterLogForwarding) and \
     !(topics~$LogForwardFilter) and !(message~$LogForwardFilterMessage)) or \
     topics~$LogForwardInclude or message~$LogForwardIncludeMessage ] do={
