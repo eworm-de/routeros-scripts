@@ -31,7 +31,7 @@
     :set RotateNtpResolveFailed true;
     $LogPrintExit2 warning $0 ("Resolving NTP server failed.") true;
   } else={
-    $LogPrintExit2 debug $0 ("Resolving NTP server failed.") true;
+    $LogPrintExit2 debug $0 ("Resolving NTP server failed, again.") true;
   }
 }
 
