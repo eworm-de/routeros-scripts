@@ -8,7 +8,7 @@
 
 # Make sure all configuration properties are up to date and this
 # value is in sync with value in script 'global-functions'!
-:global GlobalConfigVersion 80;
+:global GlobalConfigVersion 81;
 
 # This is used for DNS and backup file.
 :global Domain "example.com";
@@ -145,10 +145,6 @@
   shutdown="/system/shutdown;";
 # add more here...
 };
-
-# This address should resolve ntp servers and is used to update
-# ntp settings. A pool can rotate servers.
-:global NtpPool "pool.ntp.org";
 
 # This is the address used to send gps data to.
 :global GpsTrackUrl "https://example.com/index.php";

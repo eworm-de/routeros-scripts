@@ -10,7 +10,7 @@
 :local 0 "global-functions";
 
 # expected configuration version
-:global ExpectedConfigVersion 80;
+:global ExpectedConfigVersion 81;
 
 # global variables not to be changed by user
 :global GlobalFunctionsReady false;
@@ -1260,14 +1260,6 @@
   :global TimeIsSync;
 
   :while ([ $TimeIsSync ] = false) do={
-    :if ([ :len [ /system/script/find where name="rotate-ntp" ] ] > 0 && \
-         ([ /system/resource/get uptime ] % (180 * 1000000000)) = 0s) do={
-      :do {
-        /system/script/run rotate-ntp;
-      } on-error={
-        $LogPrintExit2 debug $0 ("Running rotate-ntp failed.") false;
-      }
-    }
     :delay 1s;
   }
 }

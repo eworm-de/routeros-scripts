@@ -194,7 +194,6 @@ Available scripts
 * [Visualize OSPF state via LEDs](doc/ospf-to-leds.md)
 * [Manage system update](doc/packages-update.md)
 * [Run scripts on ppp connection](doc/ppp-on-up.md)
-* [Rotate NTP servers](doc/rotate-ntp.md)
 * [Act on received SMS](doc/sms-action.md)
 * [Forward received SMS](doc/sms-forward.md)
 * [Import SSH keys](doc/ssh-keys-import.md)
