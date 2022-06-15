@@ -15,9 +15,9 @@
   :global LogPrintExit2;
   :global ParseKeyValueStore;
 
+  :local InterfaceReEnable [ :toarray "" ];
   :foreach BridgePort in=[ /interface/bridge/port/find where !(comment=[]) ] do={
     :local BridgePortVal [ /interface/bridge/port/get $BridgePort ];
-    :local InterfaceReEnable [ :toarray "" ];
     :foreach Config,Vlan in=[ $ParseKeyValueStore ($BridgePortVal->"comment") ] do={
       :if ($Config = $ConfigTo) do={
         :local DHCPClient [ /ip/dhcp-client/find where interface=$BridgePortVal->"interface" comment="toggle with bridge port" ];
@@ -61,11 +61,11 @@
         }
       }
     }
-    :if ([ :len $InterfaceReEnable ] > 0) do={
-      :delay 2s;
-      :foreach Interface in=$InterfaceReEnable do={
-        /interface/ethernet/enable [ find where name=$Interface ];
-      }
+  }
+  :if ([ :len $InterfaceReEnable ] > 0) do={
+    :delay 2s;
+    :foreach Interface in=$InterfaceReEnable do={
+      /interface/ethernet/enable [ find where name=$Interface ];
     }
   }
 }
