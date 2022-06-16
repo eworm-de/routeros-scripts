@@ -12,8 +12,8 @@
 
 :global NetwatchNotify;
 
-:global DNSIsResolving;
 :global IfThenElse;
+:global IsDNSResolving;
 :global LogPrintExit2;
 :global ParseKeyValueStore;
 :global ScriptLock;
@@ -67,7 +67,7 @@ $ScriptLock $0;
     }
 
     :if ([ :typeof ($HostInfo->"resolve") ] = "str") do={
-      :if ([ $DNSIsResolving ] = true) do={
+      :if ([ $IsDNSResolving ] = true) do={
         :do {
           :local Resolve [ :resolve ($HostInfo->"resolve") ];
           :if ($Resolve != $HostVal->"host") do={

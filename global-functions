@@ -23,7 +23,6 @@
 :global CharacterReplace;
 :global CleanFilePath;
 :global DeviceInfo;
-:global DNSIsResolving;
 :global DownloadPackage;
 :global EitherOr;
 :global EscapeForRegEx;
@@ -34,6 +33,7 @@
 :global HexToNum;
 :global IfThenElse;
 :global IsDefaultRouteReachable;
+:global IsDNSResolving;
 :global LogPrintExit2;
 :global MkDir;
 :global NotificationFunctions;
@@ -223,18 +223,6 @@
        "\n    Current:    " . $GlobalConfigVersion . \
     [ $IfThenElse ($GlobalConfigVersion != $ExpectedConfigVersion) \
       ("\n    Expected:   " . $ExpectedConfigVersion) ]);
-}
-
-# check if DNS is resolving
-:set DNSIsResolving do={
-  :global CharacterReplace;
-
-  :do {
-    :resolve "low-ttl.eworm.de";
-  } on-error={
-    :return false;
-  }
-  :return true;
 }
 
 # download package from upgrade server
@@ -460,6 +448,18 @@
     :return true;
   }
   :return false;
+}
+
+# check if DNS is resolving
+:set IsDNSResolving do={
+  :global CharacterReplace;
+
+  :do {
+    :resolve "low-ttl.eworm.de";
+  } on-error={
+    :return false;
+  }
+  :return true;
 }
 
 # log and print with same text, optionally exit
@@ -1217,9 +1217,9 @@
 
 # wait for DNS to resolve
 :set WaitDNSResolving do={
-  :global DNSIsResolving;
+  :global IsDNSResolving;
 
-  :while ([ $DNSIsResolving ] = false) do={
+  :while ([ $IsDNSResolving ] = false) do={
     :delay 1s;
   }
 }
