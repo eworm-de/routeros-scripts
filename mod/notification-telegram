@@ -12,7 +12,13 @@
 :set FlushTelegramQueue do={
   :global TelegramQueue;
 
+  :global IsFullyConnected;
   :global LogPrintExit2;
+
+  :if ([ $IsFullyConnected ] = false) do={
+    $LogPrintExit2 debug $0 ("System is not fully connected, not flushing.") false;
+    :return false;
+  }
 
   :local AllDone true;
   :local QueueLen [ :len $TelegramQueue ];
