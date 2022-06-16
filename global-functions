@@ -1031,7 +1031,7 @@
   :return true;
 }
 
-# send notification via e-mail - expects at lease two string arguments
+# send notification via e-mail - expects at least two string arguments
 :set SendEMail do={
   :global SendEMail2;
 
@@ -1047,7 +1047,7 @@
   ($NotificationFunctions->"email") ("\$NotificationFunctions->\"email\"") $Notification;
 }
 
-# send notification via NotificationFunctions - expects at lease two string arguments
+# send notification via NotificationFunctions - expects at least two string arguments
 :set SendNotification do={
   :global SendNotification2;
 

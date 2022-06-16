@@ -147,7 +147,7 @@
   }
 }
 
-# send notification via telegram - expects at lease two string arguments
+# send notification via telegram - expects at least two string arguments
 :set SendTelegram do={
   :global SendTelegram2;
 

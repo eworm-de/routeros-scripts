@@ -21,7 +21,7 @@ Just install the script:
 
     /system/scheduler/add name=ip-addr-bridge on-event="/system/script/run ip-addr-bridge;" start-time=startup;
 
-This will disable IP addresses on bridges without at lease one running port.
+This will disable IP addresses on bridges without at least one running port.
 The IP address is enabled if at least one port is running.
 
 Note that IP addresses on bridges without a single port (acting as loopback

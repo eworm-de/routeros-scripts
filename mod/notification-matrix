@@ -140,7 +140,7 @@
   }
 }
 
-# send notification via Matrix - expects at lease two string arguments
+# send notification via Matrix - expects at least two string arguments
 :set SendMatrix do={
   :global SendMatrix2;
 
