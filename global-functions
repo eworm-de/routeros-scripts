@@ -22,7 +22,6 @@
 :global CertificateNameByCN;
 :global CharacterReplace;
 :global CleanFilePath;
-:global DefaultRouteIsReachable;
 :global DeviceInfo;
 :global DNSIsResolving;
 :global DownloadPackage;
@@ -34,6 +33,7 @@
 :global GetRandomNumber;
 :global HexToNum;
 :global IfThenElse;
+:global IsDefaultRouteReachable;
 :global LogPrintExit2;
 :global MkDir;
 :global NotificationFunctions;
@@ -181,14 +181,6 @@
   }
 
   :return $Path;
-}
-
-# default route is reachable
-:set DefaultRouteIsReachable do={
-  :if ([ :len [ /ip/route/find where dst-address=0.0.0.0/0 active routing-table=main ] ] > 0) do={
-    :return true;
-  }
-  :return false;
 }
 
 # get readable device info
@@ -460,6 +452,14 @@
     :return $2;
   }
   :return $3;
+}
+
+# check if default route is reachable
+:set IsDefaultRouteReachable do={
+  :if ([ :len [ /ip/route/find where dst-address=0.0.0.0/0 active routing-table=main ] ] > 0) do={
+    :return true;
+  }
+  :return false;
 }
 
 # log and print with same text, optionally exit
@@ -1208,9 +1208,9 @@
 
 # wait for default route to be reachable
 :set WaitDefaultRouteReachable do={
-  :global DefaultRouteIsReachable;
+  :global IsDefaultRouteReachable;
 
-  :while ([ $DefaultRouteIsReachable ] = false) do={
+  :while ([ $IsDefaultRouteReachable ] = false) do={
     :delay 1s;
   }
 }
