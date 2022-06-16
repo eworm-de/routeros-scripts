@@ -1256,7 +1256,6 @@
 
 # wait for time to become synced
 :set WaitTimeSync do={
-  :global LogPrintExit2;
   :global TimeIsSync;
 
   :while ([ $TimeIsSync ] = false) do={
