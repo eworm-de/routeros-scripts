@@ -34,6 +34,7 @@
 :global IfThenElse;
 :global IsDefaultRouteReachable;
 :global IsDNSResolving;
+:global IsFullyConnected;
 :global IsTimeSync;
 :global LogPrintExit2;
 :global MkDir;
@@ -457,6 +458,24 @@
   :do {
     :resolve "low-ttl.eworm.de";
   } on-error={
+    :return false;
+  }
+  :return true;
+}
+
+# check if system is is fully connected (default route reachable, DNS resolving, time sync)
+:set IsFullyConnected do={
+  :global IsDefaultRouteReachable;
+  :global IsDNSResolving;
+  :global IsTimeSync;
+
+  :if ([ $IsDefaultRouteReachable ] = false) do={
+    :return false;
+  }
+  :if ([ $IsDNSResolving ] = false) do={
+    :return false;
+  }  
+  :if ([ $IsTimeSync ] = false) do={
     :return false;
   }
   :return true;
