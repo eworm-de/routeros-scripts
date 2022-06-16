@@ -34,6 +34,7 @@
 :global IfThenElse;
 :global IsDefaultRouteReachable;
 :global IsDNSResolving;
+:global IsTimeSync;
 :global LogPrintExit2;
 :global MkDir;
 :global NotificationFunctions;
@@ -51,7 +52,6 @@
 :global SendNotification2;
 :global SymbolByUnicodeName;
 :global SymbolForNotification;
-:global TimeIsSync;
 :global UrlEncode;
 :global ValidateSyntax;
 :global VersionToNum;
@@ -323,13 +323,13 @@
   :global EmailQueue;
 
   :global EitherOr;
+  :global IsTimeSync;
   :global LogPrintExit2;
-  :global TimeIsSync;
 
   :local AllDone true;
   :local QueueLen [ :len $EmailQueue ];
 
-  :if ([ $TimeIsSync ] = false) do={
+  :if ([ $IsTimeSync ] = false) do={
     $LogPrintExit2 debug $0 ("Time is not synced, not flushing.") false;
     :return false;
   }
@@ -459,6 +459,34 @@
   } on-error={
     :return false;
   }
+  :return true;
+}
+
+# check if system time is sync
+:set IsTimeSync do={
+  :global LogPrintExit2;
+
+  :if ([ /system/ntp/client/get enabled ] = true) do={
+    :do {
+      :if ([ /system/ntp/client/get status ] = "synchronized") do={
+        :return true;
+      }
+    } on-error={
+      :if ([ :typeof [ /system/ntp/client/get last-adjustment ] ] = "time") do={
+        :return true;
+      }
+    }
+    :return false;
+  }
+
+  :if ([ /ip/cloud/get ddns-enabled ] = true && [ /ip/cloud/get update-time ] = true) do={
+    :if ([ :typeof [ /ip/cloud/get public-address ] ] = "ip") do={
+      :return true;
+    }
+    :return false;
+  }
+
+  $LogPrintExit2 debug $0 ("No time source configured! Returning gracefully...") false;
   :return true;
 }
 
@@ -1110,34 +1138,6 @@
   :return ($Return . " ");
 }
 
-# check if system time is sync
-:set TimeIsSync do={
-  :global LogPrintExit2;
-
-  :if ([ /system/ntp/client/get enabled ] = true) do={
-    :do {
-      :if ([ /system/ntp/client/get status ] = "synchronized") do={
-        :return true;
-      }
-    } on-error={
-      :if ([ :typeof [ /system/ntp/client/get last-adjustment ] ] = "time") do={
-        :return true;
-      }
-    }
-    :return false;
-  }
-
-  :if ([ /ip/cloud/get ddns-enabled ] = true && [ /ip/cloud/get update-time ] = true) do={
-    :if ([ :typeof [ /ip/cloud/get public-address ] ] = "ip") do={
-      :return true;
-    }
-    :return false;
-  }
-
-  $LogPrintExit2 debug $0 ("No time source configured! Returning gracefully...") false;
-  :return true;
-}
-
 # url encoding
 :set UrlEncode do={
   :local Input [ :tostr $1 ];
@@ -1256,9 +1256,9 @@
 
 # wait for time to become synced
 :set WaitTimeSync do={
-  :global TimeIsSync;
+  :global IsTimeSync;
 
-  :while ([ $TimeIsSync ] = false) do={
+  :while ([ $IsTimeSync ] = false) do={
     :delay 1s;
   }
 }
