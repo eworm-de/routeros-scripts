@@ -240,6 +240,18 @@ without modification.
 Starting a script's name with `mod/` makes it a module and it is run
 automatically by `global-functions`.
 
+Removing a script
+-----------------
+
+There is no specific function for script removal. Just remove it from
+configuration...
+
+    /system/script/remove to-be-removed;
+
+![screenshot: remove script](README.d/13-remove-script.avif)
+
+Possibly a scheduler and other configuration has to be removed as well.
+
 Contact
 -------
 
