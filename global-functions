@@ -808,7 +808,13 @@
             :set SourceNew ($Result->"data");
           }
         } on-error={
-          $LogPrintExit2 warning $0 ("Failed fetching script '" . $ScriptVal->"name" . "'!") false;
+          :if ($ScriptVal->"source" = "#!rsc by RouterOS\n") do={
+            $LogPrintExit2 warning $0 ("Failed fetching script '" . $ScriptVal->"name" . \
+              "', removing dummy. Typo on installation?") false;
+            /system/script/remove $Script;
+          } else={
+            $LogPrintExit2 warning $0 ("Failed fetching script '" . $ScriptVal->"name" . "'!") false;
+          }
         }
       }
     }
