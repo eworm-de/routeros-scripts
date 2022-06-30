@@ -11,7 +11,6 @@
 :global BridgePortVlan do={
   :local ConfigTo [ :tostr $1 ];
 
-  :global CharacterReplace;
   :global IfThenElse;
   :global LogPrintExit2;
   :global ParseKeyValueStore;
@@ -55,7 +54,7 @@
             :local Disable [ /interface/ethernet/find where name=$BridgePortVal->"interface" ];
             :if ([ :len $Disable ] > 0) do={
               /interface/ethernet/disable $Disable;
-              :set InterfaceReEnable ($InterfaceReEnable, $BridgePortVal->"interface");
+              :set InterfaceReEnable ($InterfaceReEnable, $Disable);
             }
             /interface/bridge/port/set disabled=no pvid=$Vlan $BridgePort;
           } else={
@@ -68,10 +67,7 @@
   }
   :if ([ :len $InterfaceReEnable ] > 0) do={
     :delay 2s;
-    $LogPrintExit2 info $0 ("Re-enabling interfaces: " . \
-      [ $CharacterReplace [ :tostr $InterfaceReEnable ] ";" " " ]) false;
-    :foreach Interface in=$InterfaceReEnable do={
-      /interface/ethernet/enable [ find where name=$Interface ];
-    }
+    $LogPrintExit2 info $0 ("Re-enabling interfaces...") false;
+    /interface/ethernet/enable $InterfaceReEnable;
   }
 }
