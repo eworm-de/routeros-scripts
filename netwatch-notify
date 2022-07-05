@@ -22,8 +22,9 @@
 
 :local NetwatchNotifyHook do={
   :local Name  [ :tostr $1 ];
-  :local State [ :tostr $2 ];
-  :local Hook  [ :tostr $3 ];
+  :local Type  [ :tostr $2 ];
+  :local State [ :tostr $3 ];
+  :local Hook  [ :tostr $4 ];
 
   :global LogPrintExit2;
   :global ValidateSyntax;
@@ -32,15 +33,15 @@
     :do {
       [ :parse $Hook ];
     } on-error={
-      $LogPrintExit2 warning $0 ("The " . $State . "-hook for host " . $Name . " failed to run.") false;
+      $LogPrintExit2 warning $0 ("The " . $State . "-hook for " . $Type . " " . $Name . " failed to run.") false;
       :return ("The hook failed to run.");
     }
   } else={
-    $LogPrintExit2 warning $0 ("The " . $State . "-hook for host " . $Name . " failed syntax validation.") false;
+    $LogPrintExit2 warning $0 ("The " . $State . "-hook for " . $Type . " " . $Name . " failed syntax validation.") false;
     :return ("The hook failed syntax validation.");
   }
 
-  $LogPrintExit2 info $0 ("Ran hook on host " . $Name . " " . $State . ": " . $Hook) false;
+  $LogPrintExit2 info $0 ("Ran hook on " . $Type . " " . $Name . " " . $State . ": " . $Hook) false;
   :return ("Ran hook:\n" . $Hook);
 }
 
@@ -56,6 +57,7 @@ $ScriptLock $0;
 
 :foreach Host in=[ /tool/netwatch/find where comment~"notify" !disabled ] do={
   :local HostVal [ /tool/netwatch/get $Host ];
+  :local Type [ $IfThenElse ($HostVal->"type" ~ "^(http-get|tcp-conn)\$") "service" "host" ];
   :local HostInfo [ $ParseKeyValueStore ($HostVal->"comment") ];
 
   :if ($HostInfo->"notify" = true && $HostInfo->"disabled" != true) do={
@@ -72,7 +74,7 @@ $ScriptLock $0;
           :local Resolve [ :resolve ($HostInfo->"resolve") ];
           :if ($Resolve != $HostVal->"host") do={
              $LogPrintExit2 info $0 ("Name '" . $HostInfo->"resolve" . [ $IfThenElse ($HostInfo->"resolve" != \
-               $HostInfo->"name") ("' for host '" . $HostInfo->"name") "" ] . \
+               $HostInfo->"name") ("' for " . $Type . " '" . $HostInfo->"name") "" ] . \
                "' resolves to different address " . $Resolve . ", updating.") false;
             /tool/netwatch/set host=$Resolve $Host;
             :set ($Metric->"resolve-failed") false;
@@ -80,7 +82,7 @@ $ScriptLock $0;
         } on-error={
           :if ($Metric->"resolve-failed" != true) do={
             $LogPrintExit2 warning $0 ("Resolving name '" . $HostInfo->"resolve" . [ $IfThenElse ($HostInfo->"resolve" != \
-              $HostInfo->"name") ("' for host '" . $HostInfo->"name") "" ] . "' failed.") false;
+              $HostInfo->"name") ("' for " . $Type . " '" . $HostInfo->"name") "" ] . "' failed.") false;
             :set ($Metric->"resolve-failed") true;
           }
         }
@@ -90,14 +92,14 @@ $ScriptLock $0;
     :if ($HostVal->"status" = "up") do={
       :local Count ($Metric->"count");
       :if ($Count > 0) do={
-        $LogPrintExit2 info $0 ("Host " . $Name . " (" . $HostVal->"host" . ") is up.") false;
+        $LogPrintExit2 info $0 ("The " . $Type . " " . $Name . " (" . $HostVal->"host" . ") is up.") false;
         :set ($Metric->"count") 0;
       }
       :if ($Metric->"notified" = true) do={
-        :local Message ("Host " . $Name . " (" . $HostVal->"host" . ") is up since " . $HostVal->"since" . ".\n" . \
+        :local Message ("The " . $Type . " " . $Name . " (" . $HostVal->"host" . ") is up since " . $HostVal->"since" . ".\n" . \
           "It was down for " . $Count . " checks since " . ($Metric->"since") . ".");
         :if ([ :typeof ($HostInfo->"up-hook") ] = "str") do={
-          :set Message ($Message . "\n\n" . [ $NetwatchNotifyHook $Name "up" ($HostInfo->"up-hook") ]);
+          :set Message ($Message . "\n\n" . [ $NetwatchNotifyHook $Name $Type "up" ($HostInfo->"up-hook") ]);
         }
         $SendNotification2 ({ origin=$0; \
           subject=([ $SymbolForNotification "white-heavy-check-mark" ] . "Netwatch Notify: " . $Name . " up"); \
@@ -125,16 +127,16 @@ $ScriptLock $0;
         }
       }
       $LogPrintExit2 [ $IfThenElse ($HostInfo->"no-down-notification" != true) info debug ] $0 \
-        ("Host " . $Name . " (" . $HostVal->"host" . ") is down for " . $Metric->"count" . " checks, " . \
+        ("The " . $Type . " " . $Name . " (" . $HostVal->"host" . ") is down for " . $Metric->"count" . " checks, " . \
         [ $IfThenElse ($ParentNotified = false) [ $IfThenElse ($Metric->"notified" = true) ("already notified.") \
-        ($Count - $Metric->"count" . " to go.") ] ("parent host " . $Parent . " is down.") ]) false;
+        ($Count - $Metric->"count" . " to go.") ] ("parent " . $Type . " " . $Parent . " is down.") ]) false;
       :if ((($Count * 2) - ($Metric->"count" * 3)) / 2 = 0 && [ :typeof ($HostInfo->"pre-down-hook") ] = "str") do={
-        $NetwatchNotifyHook $Name "pre-down" ($HostInfo->"pre-down-hook");
+        $NetwatchNotifyHook $Name $Type "pre-down" ($HostInfo->"pre-down-hook");
       }
       :if ($ParentNotified = false && $Metric->"count" >= $Count && $Metric->"notified" != true) do={
-        :local Message ("Host " . $Name . " (" . $HostVal->"host" . ") is down since " . $HostVal->"since" . ".");
+        :local Message ("The " . $Type . " " . $Name . " (" . $HostVal->"host" . ") is down since " . $HostVal->"since" . ".");
         :if ([ :typeof ($HostInfo->"down-hook") ] = "str") do={
-          :set Message ($Message . "\n\n" . [ $NetwatchNotifyHook $Name "down" ($HostInfo->"down-hook") ]);
+          :set Message ($Message . "\n\n" . [ $NetwatchNotifyHook $Name $Type "down" ($HostInfo->"down-hook") ]);
         }
         :if ($HostInfo->"no-down-notification" != true) do={
           $SendNotification2 ({ origin=$0; \
