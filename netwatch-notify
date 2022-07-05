@@ -12,6 +12,7 @@
 
 :global NetwatchNotify;
 
+:global EitherOr;
 :global IfThenElse;
 :global IsDNSResolving;
 :global LogPrintExit2;
@@ -61,7 +62,7 @@ $ScriptLock $0;
   :local HostInfo [ $ParseKeyValueStore ($HostVal->"comment") ];
 
   :if ($HostInfo->"notify" = true && $HostInfo->"disabled" != true) do={
-    :local Name ($HostInfo->"name");
+    :local Name [ $EitherOr ($HostInfo->"name") ($HostVal->"name") ];
 
     :local Metric { "count"=0; "notified"=false };
     :if ([ :typeof ($NetwatchNotify->$Name) ] = "array") do={
