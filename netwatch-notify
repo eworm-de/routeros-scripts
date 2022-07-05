@@ -54,7 +54,7 @@ $ScriptLock $0;
   :set NetwatchNotify [ :toarray "" ];
 }
 
-:foreach Host in=[ /tool/netwatch/find where comment~"notify" disabled=no ] do={
+:foreach Host in=[ /tool/netwatch/find where comment~"notify" !disabled ] do={
   :local HostVal [ /tool/netwatch/get $Host ];
   :local HostInfo [ $ParseKeyValueStore ($HostVal->"comment") ];
 
