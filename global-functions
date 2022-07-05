@@ -10,7 +10,7 @@
 :local 0 "global-functions";
 
 # expected configuration version
-:global ExpectedConfigVersion 81;
+:global ExpectedConfigVersion 82;
 
 # global variables not to be changed by user
 :global GlobalFunctionsReady false;

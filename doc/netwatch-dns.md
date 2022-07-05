@@ -57,7 +57,7 @@ Tips & Tricks
 Netwatch entries can be created to work with both - this script and
 [netwatch-notify](netwatch-notify.md). Just give options for both:
 
-    /tool/netwatch/add comment="doh, notify, hostname=cloudflare-dns" host=1.1.1.1;
+    /tool/netwatch/add comment="doh, notify, name=cloudflare-dns" host=1.1.1.1;
 
 Also this allows to update host address, see option `resolve`.
 

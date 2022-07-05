@@ -36,7 +36,7 @@ Configuration
 
 The hosts to be checked have to be added to netwatch with specific comment:
 
-    /tool/netwatch/add comment="notify, hostname=example.com" host=[ :resolve "example.com" ];
+    /tool/netwatch/add comment="notify, name=example.com" host=[ :resolve "example.com" ];
 
 ### Hooks
 
@@ -44,7 +44,7 @@ It is possible to run an up hook command (`up-hook`) or down hook command
 (`down-hook`) when a notification is triggered. This has to be added in
 comment, note that some characters need extra escaping:
 
-    /tool/netwatch/add comment=("notify, hostname=device, down-hook=/interface/ethernet \\{ disable \\\"en2\\\"; enable \\\"en2\\\"; \\}") host=10.0.0.20;
+    /tool/netwatch/add comment=("notify, name=device, down-hook=/interface/ethernet \\{ disable \\\"en2\\\"; enable \\\"en2\\\"; \\}") host=10.0.0.20;
 
 Also there is a `pre-down-hook` that fires at two thirds of failed checks
 required for the notification. The idea is to fix the issue before a
@@ -54,15 +54,15 @@ notification is sent.
 
 The count threshould (default is 5 checks) is configurable as well:
 
-    /tool/netwatch/add comment="notify, hostname=example.com, count=10" host=104.18.144.11;
+    /tool/netwatch/add comment="notify, name=example.com, count=10" host=104.18.144.11;
 
 ### Parents & dependencies
 
 If the host is behind another checked host add a dependency, this will
 suppress notification if the parent host is down:
 
-    /tool/netwatch/add comment="notify, hostname=gateway" host=93.184.216.1;
-    /tool/netwatch/add comment="notify, hostname=example.com, parent=gateway" host=93.184.216.34;
+    /tool/netwatch/add comment="notify, name=gateway" host=93.184.216.1;
+    /tool/netwatch/add comment="notify, name=example.com, parent=gateway" host=93.184.216.34;
 
 Note that every configured parent in a chain increases the check count
 threshould by one.
@@ -72,7 +72,7 @@ threshould by one.
 The host address can be updated dynamically. Give extra parameter `resolve`
 with a resolvable name:
 
-    /tool/netwatch/add comment="notify, hostname=example.com, resolve=example.com";
+    /tool/netwatch/add comment="notify, name=example.com, resolve=example.com";
 
 But be warned: Dynamic updates will probably cause issues if the name has
 more than one record in dns - a high rate of configuration changes (and flash
@@ -84,7 +84,7 @@ Also suppressing the notification on host down is possible with parameter
 `no-down-notification`. This may be desired for devices that are usually
 powered off, but accessibility is of interest.
 
-    /tool/netwatch/add comment="notify, hostname=printer, no-down-notification" host=10.0.0.30;
+    /tool/netwatch/add comment="notify, name=printer, no-down-notification" host=10.0.0.30;
 
 Go and get your coffee ☕️ before sending the print job.
 
@@ -99,10 +99,10 @@ Tips & Tricks
 
 Sometimes it is sufficient if one of a number of hosts is available. You can
 make `netwatch-notify` check for that by adding several items with same
-`hostname`. Note that `count` has to be multiplied to keep the actual time.
+`name`. Note that `count` has to be multiplied to keep the actual time.
 
-    /tool/netwatch/add comment="notify, hostname=service, count=10" host=10.0.0.10;
-    /tool/netwatch/add comment="notify, hostname=service, count=10" host=10.0.0.20;
+    /tool/netwatch/add comment="notify, name=service, count=10" host=10.0.0.10;
+    /tool/netwatch/add comment="notify, name=service, count=10" host=10.0.0.20;
 
 ### Checking internet connectivity
 
@@ -112,11 +112,11 @@ check `1.1.1.1` (Cloudflare DNS), `9.9.9.9` (Quad-nine DNS), `8.8.8.8`
 (Google DNS) or any other reliable address that indicates internet
 connectivity.
 
-    /tool/netwatch/add comment="notify, hostname=internet" host=1.1.1.1;
+    /tool/netwatch/add comment="notify, name=internet" host=1.1.1.1;
 
 A target like this suits well to be parent for other checks.
 
-    /tool/netwatch/add comment="notify, hostname=example.com, parent=internet" host=93.184.216.34;
+    /tool/netwatch/add comment="notify, name=example.com, parent=internet" host=93.184.216.34;
 
 ### Checking specific ISP
 
@@ -130,7 +130,7 @@ Create a route and firewall mangle rule.
 
 Finally monitor the address with `netwatch-notify`.
 
-    /tool/netwatch/add comment="notify, hostname=quad-one via isp1" host=1.0.0.1;
+    /tool/netwatch/add comment="notify, name=quad-one via isp1" host=1.0.0.1;
 
 Note that *all* traffic to the given address is routed that way. In case of
 link failure this address is not available, so use something reliable but
@@ -142,7 +142,7 @@ non-essential. In this example the address `1.0.0.1` is used, the same service
 Netwatch entries can be created to work with both - this script and
 [netwatch-dns](netwatch-dns.md). Just give options for both:
 
-    /tool/netwatch/add comment="doh, notify, hostname=cloudflare-dns" host=1.1.1.1;
+    /tool/netwatch/add comment="doh, notify, name=cloudflare-dns" host=1.1.1.1;
 
 See also
 --------

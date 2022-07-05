@@ -59,7 +59,7 @@ $ScriptLock $0;
   :local HostInfo [ $ParseKeyValueStore ($HostVal->"comment") ];
 
   :if ($HostInfo->"notify" = true && $HostInfo->"disabled" != true) do={
-    :local HostName ($HostInfo->"hostname");
+    :local HostName ($HostInfo->"name");
 
     :local Metric { "count"=0; "notified"=false };
     :if ([ :typeof ($NetwatchNotify->$HostName) ] = "array") do={
@@ -72,7 +72,7 @@ $ScriptLock $0;
           :local Resolve [ :resolve ($HostInfo->"resolve") ];
           :if ($Resolve != $HostVal->"host") do={
              $LogPrintExit2 info $0 ("Name '" . $HostInfo->"resolve" . [ $IfThenElse ($HostInfo->"resolve" != \
-               $HostInfo->"hostname") ("' for host '" . $HostInfo->"hostname") "" ] . \
+               $HostInfo->"name") ("' for host '" . $HostInfo->"name") "" ] . \
                "' resolves to different address " . $Resolve . ", updating.") false;
             /tool/netwatch/set host=$Resolve $Host;
             :set ($Metric->"resolve-failed") false;
@@ -80,7 +80,7 @@ $ScriptLock $0;
         } on-error={
           :if ($Metric->"resolve-failed" != true) do={
             $LogPrintExit2 warning $0 ("Resolving name '" . $HostInfo->"resolve" . [ $IfThenElse ($HostInfo->"resolve" != \
-              $HostInfo->"hostname") ("' for host '" . $HostInfo->"hostname") "" ] . "' failed.") false;
+              $HostInfo->"name") ("' for host '" . $HostInfo->"name") "" ] . "' failed.") false;
             :set ($Metric->"resolve-failed") true;
           }
         }
