@@ -21,9 +21,9 @@
 :global SymbolForNotification;
 
 :local NetwatchNotifyHook do={
-  :local Name [ :tostr $1 ];
-  :local Type [ :tostr $2 ];
-  :local Hook [ :tostr $3 ];
+  :local Name  [ :tostr $1 ];
+  :local State [ :tostr $2 ];
+  :local Hook  [ :tostr $3 ];
 
   :global LogPrintExit2;
   :global ValidateSyntax;
@@ -32,15 +32,15 @@
     :do {
       [ :parse $Hook ];
     } on-error={
-      $LogPrintExit2 warning $0 ("The " . $Type . "-hook for host " . $Name . " failed to run.") false;
+      $LogPrintExit2 warning $0 ("The " . $State . "-hook for host " . $Name . " failed to run.") false;
       :return ("The hook failed to run.");
     }
   } else={
-    $LogPrintExit2 warning $0 ("The " . $Type . "-hook for host " . $Name . " failed syntax validation.") false;
+    $LogPrintExit2 warning $0 ("The " . $State . "-hook for host " . $Name . " failed syntax validation.") false;
     :return ("The hook failed syntax validation.");
   }
 
-  $LogPrintExit2 info $0 ("Ran hook on host " . $Name . " " . $Type . ": " . $Hook) false;
+  $LogPrintExit2 info $0 ("Ran hook on host " . $Name . " " . $State . ": " . $Hook) false;
   :return ("Ran hook:\n" . $Hook);
 }
 
