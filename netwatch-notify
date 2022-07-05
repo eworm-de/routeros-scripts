@@ -59,11 +59,11 @@ $ScriptLock $0;
   :local HostInfo [ $ParseKeyValueStore ($HostVal->"comment") ];
 
   :if ($HostInfo->"notify" = true && $HostInfo->"disabled" != true) do={
-    :local HostName ($HostInfo->"name");
+    :local Name ($HostInfo->"name");
 
     :local Metric { "count"=0; "notified"=false };
-    :if ([ :typeof ($NetwatchNotify->$HostName) ] = "array") do={
-      :set $Metric ($NetwatchNotify->$HostName);
+    :if ([ :typeof ($NetwatchNotify->$Name) ] = "array") do={
+      :set $Metric ($NetwatchNotify->$Name);
     }
 
     :if ([ :typeof ($HostInfo->"resolve") ] = "str") do={
@@ -90,17 +90,17 @@ $ScriptLock $0;
     :if ($HostVal->"status" = "up") do={
       :local Count ($Metric->"count");
       :if ($Count > 0) do={
-        $LogPrintExit2 info $0 ("Host " . $HostName . " (" . $HostVal->"host" . ") is up.") false;
+        $LogPrintExit2 info $0 ("Host " . $Name . " (" . $HostVal->"host" . ") is up.") false;
         :set ($Metric->"count") 0;
       }
       :if ($Metric->"notified" = true) do={
-        :local Message ("Host " . $HostName . " (" . $HostVal->"host" . ") is up since " . $HostVal->"since" . ".\n" . \
+        :local Message ("Host " . $Name . " (" . $HostVal->"host" . ") is up since " . $HostVal->"since" . ".\n" . \
           "It was down for " . $Count . " checks since " . ($Metric->"since") . ".");
         :if ([ :typeof ($HostInfo->"up-hook") ] = "str") do={
-          :set Message ($Message . "\n\n" . [ $NetwatchNotifyHook $HostName "up" ($HostInfo->"up-hook") ]);
+          :set Message ($Message . "\n\n" . [ $NetwatchNotifyHook $Name "up" ($HostInfo->"up-hook") ]);
         }
         $SendNotification2 ({ origin=$0; \
-          subject=([ $SymbolForNotification "white-heavy-check-mark" ] . "Netwatch Notify: " . $HostName . " up"); \
+          subject=([ $SymbolForNotification "white-heavy-check-mark" ] . "Netwatch Notify: " . $Name . " up"); \
           message=$Message });
       }
       :set ($Metric->"notified") false;
@@ -125,26 +125,26 @@ $ScriptLock $0;
         }
       }
       $LogPrintExit2 [ $IfThenElse ($HostInfo->"no-down-notification" != true) info debug ] $0 \
-        ("Host " . $HostName . " (" . $HostVal->"host" . ") is down for " . $Metric->"count" . " checks, " . \
+        ("Host " . $Name . " (" . $HostVal->"host" . ") is down for " . $Metric->"count" . " checks, " . \
         [ $IfThenElse ($ParentNotified = false) [ $IfThenElse ($Metric->"notified" = true) ("already notified.") \
         ($Count - $Metric->"count" . " to go.") ] ("parent host " . $Parent . " is down.") ]) false;
       :if ((($Count * 2) - ($Metric->"count" * 3)) / 2 = 0 && [ :typeof ($HostInfo->"pre-down-hook") ] = "str") do={
-        $NetwatchNotifyHook $HostName "pre-down" ($HostInfo->"pre-down-hook");
+        $NetwatchNotifyHook $Name "pre-down" ($HostInfo->"pre-down-hook");
       }
       :if ($ParentNotified = false && $Metric->"count" >= $Count && $Metric->"notified" != true) do={
-        :local Message ("Host " . $HostName . " (" . $HostVal->"host" . ") is down since " . $HostVal->"since" . ".");
+        :local Message ("Host " . $Name . " (" . $HostVal->"host" . ") is down since " . $HostVal->"since" . ".");
         :if ([ :typeof ($HostInfo->"down-hook") ] = "str") do={
-          :set Message ($Message . "\n\n" . [ $NetwatchNotifyHook $HostName "down" ($HostInfo->"down-hook") ]);
+          :set Message ($Message . "\n\n" . [ $NetwatchNotifyHook $Name "down" ($HostInfo->"down-hook") ]);
         }
         :if ($HostInfo->"no-down-notification" != true) do={
           $SendNotification2 ({ origin=$0; \
-            subject=([ $SymbolForNotification "cross-mark" ] . "Netwatch Notify: " . $HostName . " down"); \
+            subject=([ $SymbolForNotification "cross-mark" ] . "Netwatch Notify: " . $Name . " down"); \
             message=$Message });
         }
         :set ($Metric->"notified") true;
       }
     }
-    :set ($NetwatchNotify->$HostName) {
+    :set ($NetwatchNotify->$Name) {
       "count"=($Metric->"count");
       "notified"=($Metric->"notified");
       "parent"=($Metric->"parent");
