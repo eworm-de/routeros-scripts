@@ -40,6 +40,7 @@
 :global MkDir;
 :global NotificationFunctions;
 :global ParseKeyValueStore;
+:global PrettyPrint;
 :global QuotedPrintable;
 :global RandomDelay;
 :global Read;
@@ -646,6 +647,15 @@
     }
   }
   :return $Result;
+}
+
+# print lines with trailing carriage return
+:set PrettyPrint do={
+  :local Input [ :tostr $1 ];
+
+  :global CharacterReplace;
+
+  :put [ $CharacterReplace $Input ("\n") ("\n\r") ];
 }
 
 # convert string to quoted-printable
