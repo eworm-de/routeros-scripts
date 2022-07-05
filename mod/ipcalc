@@ -11,15 +11,16 @@
   :local Input [ :tostr $1 ];
 
   :global IPCalcReturn;
+  :global PrettyPrint;
 
   :local Values [ $IPCalcReturn $1 ];
 
-  :put ( \
-    "Address:   " . $Values->"address" . "\n\r" . \
-    "Netmask:   " . $Values->"netmask" . "\n\r" . \
-    "Network:   " . $Values->"network" . "\n\r" . \
-    "HostMin:   " . $Values->"hostmin" . "\n\r" . \
-    "HostMax:   " . $Values->"hostmax" . "\n\r" . \
+  $PrettyPrint ( \
+    "Address:   " . $Values->"address" . "\n" . \
+    "Netmask:   " . $Values->"netmask" . "\n" . \
+    "Network:   " . $Values->"network" . "\n" . \
+    "HostMin:   " . $Values->"hostmin" . "\n" . \
+    "HostMax:   " . $Values->"hostmax" . "\n" . \
     "Broadcast: " . $Values->"broadcast");
 }
 
