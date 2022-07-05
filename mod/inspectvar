@@ -8,10 +8,10 @@
 
 # inspect variable and print on terminal
 :set InspectVar do={
-  :global CharacterReplace;
   :global InspectVarReturn;
+  :global PrettyPrint;
 
-  :put [ $CharacterReplace [ $InspectVarReturn $1 ] ("\n") ("\n\r") ];
+  $PrettyPrint [ $InspectVarReturn $1 ];
 }
 
 # inspect variable and return formatted string
