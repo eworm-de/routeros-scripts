@@ -48,7 +48,8 @@ $ScriptLock $0;
 } else={
   :if ([ :len $DnsFallback ] > 0) do={
     :if ($DnsFallback != $DnsCurrent) do={
-      $LogPrintExit2 info $0 ("Updating DNS servers to fallback: " . [ :tostr $DnsFallback ]) false;
+      $LogPrintExit2 info $0 ("Updating DNS servers to fallback: " . \
+          [ :tostr $DnsFallback ]) false;
       /ip/dns/set servers=$DnsFallback;
       /ip/dns/cache/flush;
     }
@@ -62,8 +63,10 @@ $ScriptLock $0;
   :local HostVal [ /tool/netwatch/get $Host ];
   :local HostInfo [ $ParseKeyValueStore ($HostVal->"comment") ];
 
-  :if ($HostVal->"status" = "up" && $HostInfo->"doh" = true && $HostInfo->"disabled" != true && $DohServer = "") do={
-    :set DohServer [ $EitherOr ($HostInfo->"doh-url") ("https://" . $HostVal->"host" . "/dns-query") ];
+  :if ($HostVal->"status" = "up" && $HostInfo->"doh" = true && \
+       $HostInfo->"disabled" != true && $DohServer = "") do={
+    :set DohServer [ $EitherOr ($HostInfo->"doh-url") \
+        ("https://" . $HostVal->"host" . "/dns-query") ];
   }
 }
 
