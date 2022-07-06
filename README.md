@@ -124,6 +124,11 @@ everything is up-to-date it will not produce any output.
 
 ![screenshot: update scripts](README.d/08-update-scripts.avif)
 
+If the update includes news or requires configuration changes a notification
+is sent - in addition to terminal output and log messages.
+
+![news and changes notification](README.d/news-and-changes-notification.svg)
+
 Adding a script
 ---------------
 
