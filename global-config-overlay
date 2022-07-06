@@ -10,7 +10,7 @@
 # Comment or remove to disable news and change notifications.
 :global GlobalConfigVersion 82;
 
-# Copy configuration from global-config here and modify it.
+# Copy configuration from global-config, paste and modify it here.
 
 
 # End of global-config-overlay
