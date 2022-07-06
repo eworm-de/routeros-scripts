@@ -5,11 +5,6 @@
 # global configuration, custom overlay
 # https://git.eworm.de/cgit/routeros-scripts/about/
 
-# Make sure all configuration properties are up to date and this
-# value is in sync with value in script 'global-functions'!
-# Comment or remove to disable news and change notifications.
-:global GlobalConfigVersion 82;
-
 # Copy configuration from global-config, paste and modify it here.
 
 

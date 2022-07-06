@@ -91,6 +91,7 @@
   80="The 'routeros-v7' branch will now freeze, and vanish any time in future. You already switched to 'main' branch, well done!";
   81="Dropped script 'rotate-ntp', as the limitation does no longer exist.";
   82="Renamed the comment parameter 'hostname' to just 'name' for 'netwatch-notify'.";
+  83="Introduced new setting to disable news and change notifications, dropped version from configuration.";
 };
 
 # Migration steps to be applied on script updates

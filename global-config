@@ -6,9 +6,8 @@
 # global configuration
 # https://git.eworm.de/cgit/routeros-scripts/about/
 
-# Make sure all configuration properties are up to date and this
-# value is in sync with value in script 'global-functions'!
-:global GlobalConfigVersion 82;
+# Set this to 'true' to disable news and change notifications.
+:global NoNewsAndChangesNotification false;
 
 # This is used for DNS and backup file.
 :global Domain "example.com";

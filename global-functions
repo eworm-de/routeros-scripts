@@ -10,7 +10,7 @@
 :local 0 "global-functions";
 
 # expected configuration version
-:global ExpectedConfigVersion 82;
+:global ExpectedConfigVersion 83;
 
 # global variables not to be changed by user
 :global GlobalFunctionsReady false;
@@ -188,7 +188,6 @@
 # get readable device info
 :set DeviceInfo do={
   :global ExpectedConfigVersion;
-  :global GlobalConfigVersion;
   :global Identity;
 
   :global IfThenElse;
@@ -211,7 +210,7 @@
            (" " . $RouterBoard->"revision") ] . \
        "\nSerial number:  " . $RouterBoard->"serial-number") ] . \
     [ $IfThenElse ([ :len ($License->"level") ] > 0) \
-       ("\nLicense:        " . $License->"level") ] . \
+      ("\nLicense:        " . $License->"level") ] . \
        "\nRouterOS:" . \
        "\n    Channel:    " . $Update->"channel" . \
        "\n    Installed:  " . $Update->"installed-version" . \
@@ -220,11 +219,9 @@
       ("\n    Available:  " . $Update->"latest-version") ] . \
     [ $IfThenElse ($RouterBoard->"routerboard" = true && \
         $RouterBoard->"current-firmware" != $RouterBoard->"upgrade-firmware") \
-       ("\n    Firmware:   " . $RouterBoard->"current-firmware") ] . \
+      ("\n    Firmware:   " . $RouterBoard->"current-firmware") ] . \
        "\nRouterOS-Scripts:" . \
-       "\n    Current:    " . $GlobalConfigVersion . \
-    [ $IfThenElse ($GlobalConfigVersion != $ExpectedConfigVersion) \
-      ("\n    Expected:   " . $ExpectedConfigVersion) ]);
+       "\n    Version:    " . $ExpectedConfigVersion);
 }
 
 # download package from upgrade server
@@ -753,9 +750,9 @@
   :local NewComment [ :tostr   $2 ];
 
   :global ExpectedConfigVersion;
-  :global GlobalConfigVersion;
   :global Identity;
   :global IDonate;
+  :global NoNewsAndChangesNotification;
   :global NotificationsWithSymbols;
   :global ScriptUpdatesBaseUrl;
   :global ScriptUpdatesFetch;
@@ -926,16 +923,15 @@
     }
 
     :if ($SentConfigChangesNotification != $ExpectedConfigVersion && \
-         $GlobalConfigVersion < $ExpectedConfigVersion) do={
-      :local NotificationMessage ("Current configuration on " . $Identity . \
-          " is out of date. Please update global-config-overlay, then increase " . \
-          "\$GlobalConfigVersion (currently " . $GlobalConfigVersion . \
-          ") to " . $ExpectedConfigVersion . " and re-run global-config.");
+         $NoNewsAndChangesNotification != true) do={
+      :local NotificationMessage ("The configuration version on " . $Identity . " increased " . \
+         "to " . $ExpectedConfigVersion . ", current configuration may need modification. " . \
+         "Please review and update global-config-overlay, then re-run global-config.");
       $LogPrintExit2 info $0 ($NotificationMessage) false;
 
       :if ([ :len $GlobalConfigChanges ] > 0) do={
         :set NotificationMessage ($NotificationMessage . "\n\nChanges:");
-        :for I from=($GlobalConfigVersion + 1) to=$ExpectedConfigVersion do={
+        :for I from=($ExpectedConfigVersionBefore + 1) to=$ExpectedConfigVersion do={
           :local Change ($GlobalConfigChanges->[ :tostr $I ]);
           :set NotificationMessage ($NotificationMessage . "\n " . \
               [ $IfThenElse ($NotificationsWithSymbols = true) ("\E2\97\8F") "*" ] . " " . $Change);
