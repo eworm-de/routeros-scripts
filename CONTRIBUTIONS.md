@@ -3,7 +3,7 @@ Past Contributions
 
 [◀ Go back to main README](README.md)
 
-Thanks a lot for your contributions!
+Thanks a lot for your contributions! ❤️
 
 ## Patches
 
