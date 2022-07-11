@@ -25,7 +25,7 @@ $ScriptLock $0;
 :local DnsFallback [ :toarray "" ];
 :local DnsCurrent [ /ip/dns/get servers ];
 
-:foreach Host in=[ /tool/netwatch/find where comment~"dns" disabled=no ] do={
+:foreach Host in=[ /tool/netwatch/find where comment~"dns" !disabled ] do={
   :local HostVal [ /tool/netwatch/get $Host ];
   :local HostInfo [ $ParseKeyValueStore ($HostVal->"comment") ];
 
@@ -59,7 +59,7 @@ $ScriptLock $0;
 :local DohServer "";
 :local DohCurrent [ /ip/dns/get use-doh-server ];
 
-:foreach Host in=[ /tool/netwatch/find where comment~"doh" disabled=no ] do={
+:foreach Host in=[ /tool/netwatch/find where comment~"doh" !disabled ] do={
   :local HostVal [ /tool/netwatch/get $Host ];
   :local HostInfo [ $ParseKeyValueStore ($HostVal->"comment") ];
 
