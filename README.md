@@ -270,7 +270,7 @@ support!
 Contribute
 ----------
 
-Thanks a lot for [past contributions](CONTRIBUTIONS.md)!
+Thanks a lot for [past contributions](CONTRIBUTIONS.md)! ❤️
 
 ### Patches, issues and whishlist
 
