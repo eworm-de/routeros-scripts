@@ -22,6 +22,7 @@ Add yourself to the list,
 [donate with PayPal](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=A4ZXBD6YS2W8J)!
 
 * Abdul Mannan Abbasi
+* Andrea Ruffini Perico
 * Andrew Cox
 * Christoph Boss (@Kampfwurst)
 * Devin Dean (@dd2594gh)
