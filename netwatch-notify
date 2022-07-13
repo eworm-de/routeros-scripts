@@ -56,7 +56,7 @@ $ScriptLock $0;
 }
 
 :if ([ :typeof $NetwatchNotify ] = "nothing") do={
-  :set NetwatchNotify [ :toarray "" ];
+  :set NetwatchNotify ({});
 }
 
 :foreach Host in=[ /tool/netwatch/find where comment~"notify" !disabled ] do={
