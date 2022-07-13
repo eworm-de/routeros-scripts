@@ -14,8 +14,8 @@
 
 :global Read;
 
-:local Seen [ :toarray "" ];
-:local Shown [ :toarray "" ];
+:local Seen ({});
+:local Shown ({});
 
 :foreach AccList in=[ /caps-man/access-list/find where mac-address!="00:00:00:00:00:00" ] do={
   :local Mac [ /caps-man/access-list/get $AccList mac-address ];
