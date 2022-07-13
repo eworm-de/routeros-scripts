@@ -13,7 +13,7 @@
 :global SentLteFirmwareUpgradeNotification;
 
 :if ([ :typeof $SentLteFirmwareUpgradeNotification ] != "array") do={
-  :global SentLteFirmwareUpgradeNotification [ :toarray "" ];
+  :global SentLteFirmwareUpgradeNotification ({});
 }
 
 :local CheckInterface do={
