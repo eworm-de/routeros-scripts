@@ -46,7 +46,7 @@ $ScriptLock $0;
 :local Messages "";
 :local Warning false;
 :local MessageVal;
-:local MessageDups [ :toarray "" ];
+:local MessageDups ({});
 
 :local LogForwardFilterLogForwarding ("^Error sending e-mail <(" . \
     [ $EscapeForRegEx [ $QuotedPrintable ("[" . $Identity . "] " . \
