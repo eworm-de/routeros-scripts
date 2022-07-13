@@ -50,7 +50,7 @@ $WaitFullyConnected;
 :local FilePath ($0 . "/" . $FileName);
 :local BackupFile "none";
 :local ConfigFile "none";
-:local Attach [ :toarray "" ];
+:local Attach ({});
 
 # binary backup
 :if ($BackupSendBinary = true) do={
