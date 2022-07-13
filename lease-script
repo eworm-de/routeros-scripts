@@ -31,7 +31,7 @@ $ScriptLock $0 false 10;
   $LogPrintExit2 debug $0 ("More invocations are waiting, exiting early.") true;
 }
 
-:local RunOrder [ :toarray "" ];
+:local RunOrder ({});
 
 :foreach Script in=[ /system/script/find where source~("\n# provides: lease-script, ") ] do={
   :local Name [ /system/script/get $Script name ];

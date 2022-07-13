@@ -21,8 +21,8 @@ $ScriptLock $0;
   $LogPrintExit2 info $0 ("System just booted, giving netwatch some time to settle.") true;
 }
 
-:local DnsServers [ :toarray "" ];
-:local DnsFallback [ :toarray "" ];
+:local DnsServers ({});
+:local DnsFallback ({});
 :local DnsCurrent [ /ip/dns/get servers ];
 
 :foreach Host in=[ /tool/netwatch/find where comment~"dns" !disabled ] do={

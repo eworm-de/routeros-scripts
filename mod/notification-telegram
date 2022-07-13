@@ -139,7 +139,7 @@
     $LogPrintExit2 info $0 ("Failed sending telegram notification! Queuing...") false;
 
     :if ([ :typeof $TelegramQueue ] = "nothing") do={
-      :set TelegramQueue [ :toarray "" ];
+      :set TelegramQueue ({});
     }
     :set Text ($Text . [ $UrlEncode ("\n" . [ $SymbolForNotification "alarm-clock" ] . \
       [ $EscapeMD ("This message was queued since " . [ /system/clock/get date ] . \

@@ -15,8 +15,8 @@
 
 :global Read;
 
-:local Seen [ :toarray "" ];
-:local Shown [ :toarray "" ];
+:local Seen ({});
+:local Shown ({});
 
 :foreach AccList in=[ /%PATH%/access-list/find where mac-address!="00:00:00:00:00:00" ] do={
   :local Mac [ /%PATH%/access-list/get $AccList mac-address ];

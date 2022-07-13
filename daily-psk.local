@@ -55,7 +55,7 @@ $WaitFullyConnected;
     ($DailyPskSecrets->2->$WeekDay));
 }
 
-:local Seen [ :toarray "" ];
+:local Seen ({});
 :local Date [ /system/clock/get date ];
 :local NewPsk [ $GeneratePSK $Date ];
 

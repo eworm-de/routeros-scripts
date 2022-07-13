@@ -129,7 +129,7 @@
     $LogPrintExit2 info $0 ("Failed sending Matrix notification! Queuing...") false;
 
     :if ([ :typeof $MatrixQueue ] = "nothing") do={
-      :set MatrixQueue [ :toarray "" ];
+      :set MatrixQueue ({});
     }
     :local Text ([ $SymbolForNotification "alarm-clock" ] . \
       "This message was queued since " . [ /system/clock/get date ] . \

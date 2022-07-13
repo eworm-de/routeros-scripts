@@ -14,8 +14,8 @@
 
 :global Read;
 
-:local Seen [ :toarray "" ];
-:local Shown [ :toarray "" ];
+:local Seen ({});
+:local Shown ({});
 
 :foreach AccList in=[ /interface/wireless/access-list/find where mac-address!="00:00:00:00:00:00" ] do={
   :local Mac [ /interface/wireless/access-list/get $AccList mac-address ];

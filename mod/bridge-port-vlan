@@ -15,7 +15,7 @@
   :global LogPrintExit2;
   :global ParseKeyValueStore;
 
-  :local InterfaceReEnable [ :toarray "" ];
+  :local InterfaceReEnable ({});
   :foreach BridgePort in=[ /interface/bridge/port/find where !(comment=[]) ] do={
     :local BridgePortVal [ /interface/bridge/port/get $BridgePort ];
     :foreach Config,Vlan in=[ $ParseKeyValueStore ($BridgePortVal->"comment") ] do={
