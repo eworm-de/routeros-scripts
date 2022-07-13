@@ -35,10 +35,10 @@
 }
 
 :if ([ :typeof $CheckHealthLast ] != "array") do={
-  :set CheckHealthLast [ :toarray "" ];
+  :set CheckHealthLast ({});
 }
 :if ([ :typeof $CheckHealthTemperatureNotified ] != "array") do={
-  :set CheckHealthTemperatureNotified [ :toarray "" ];
+  :set CheckHealthTemperatureNotified ({});
 }
 
 $ScriptLock $0;
