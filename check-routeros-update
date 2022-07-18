@@ -53,10 +53,6 @@ $LogPrintExit2 debug $0 ("Checking for updates...") false;
 /system/package/update/check-for-updates without-paging as-value;
 :local Update [ /system/package/update/get ];
 
-:if ([ :len ($Update->"latest-version") ] = 0) do={
-  $LogPrintExit2 info $0 ("An empty string is not a valid version.") true;
-}
-
 :if ([ $ScriptFromTerminal $0 ] = true && ($Update->"installed-version") = ($Update->"latest-version")) do={
   $LogPrintExit2 info $0 ("System is already up to date.") true;
 }
@@ -64,6 +60,10 @@ $LogPrintExit2 debug $0 ("Checking for updates...") false;
 :local NumInstalled [ $VersionToNum ($Update->"installed-version") ];
 :local NumLatest [ $VersionToNum ($Update->"latest-version") ];
 :local Link ("https://mikrotik.com/download/changelogs/" . $Update->"channel" . "-release-tree");
+
+:if ($NumLatest < 117505792) do={
+  $LogPrintExit2 info $0 ("The version '" . ($Update->"latest-version") . "' is not a valid version.") true;
+}
 
 :if ($NumInstalled < $NumLatest) do={
   :if ($SafeUpdatePatch = true && ($NumInstalled & 0xffff0000) = ($NumLatest & 0xffff0000)) do={
