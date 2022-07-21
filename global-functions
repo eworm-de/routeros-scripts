@@ -490,7 +490,7 @@
     :return false;
   }
 
-  :if ([ /ip/cloud/get ddns-enabled ] = true && [ /ip/cloud/get update-time ] = true) do={
+  :if ([ /ip/cloud/get update-time ] = true) do={
     :if ([ :typeof [ /ip/cloud/get public-address ] ] = "ip") do={
       :return true;
     }
