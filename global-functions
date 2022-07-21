@@ -484,14 +484,8 @@
   :global LogPrintExit2;
 
   :if ([ /system/ntp/client/get enabled ] = true) do={
-    :do {
-      :if ([ /system/ntp/client/get status ] = "synchronized") do={
-        :return true;
-      }
-    } on-error={
-      :if ([ :typeof [ /system/ntp/client/get last-adjustment ] ] = "time") do={
-        :return true;
-      }
+    :if ([ /system/ntp/client/get status ] = "synchronized") do={
+      :return true;
     }
     :return false;
   }
