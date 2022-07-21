@@ -472,7 +472,7 @@
   }
   :if ([ $IsDNSResolving ] = false) do={
     :return false;
-  }  
+  }
   :if ([ $IsTimeSync ] = false) do={
     :return false;
   }
