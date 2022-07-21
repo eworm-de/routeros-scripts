@@ -481,10 +481,17 @@
 
 # check if system time is sync
 :set IsTimeSync do={
+  :global IsTimeSyncCached;
+
   :global LogPrintExit2;
+
+  :if ($IsTimeSyncCached = true) do={
+    :return true;
+  }
 
   :if ([ /system/ntp/client/get enabled ] = true) do={
     :if ([ /system/ntp/client/get status ] = "synchronized") do={
+      :set IsTimeSyncCached true;
       :return true;
     }
     :return false;
@@ -492,6 +499,7 @@
 
   :if ([ /ip/cloud/get update-time ] = true) do={
     :if ([ :typeof [ /ip/cloud/get public-address ] ] = "ip") do={
+      :set IsTimeSyncCached true;
       :return true;
     }
     :return false;
