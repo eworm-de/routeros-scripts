@@ -62,7 +62,7 @@ $WaitFullyConnected;
   }
 }
 
-:foreach Log in=[ /log/find where topics=({"caps", "error"}) \
+:foreach Log in=[ /log/find where topics=({"caps"; "error"}) \
     message~("upgrade status: failed, failed to download file '.*-" . $InstalledVersion . \
     "-.*\\.npk', no such file") ] do={
   :local Message [ /log/get $Log message ];
