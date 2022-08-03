@@ -41,13 +41,13 @@
   }
 
   :if (($Firmware->"installed") = ($Firmware->"latest")) do={
-    :if ([ $ScriptFromTerminal "check-lte-firmware-upgrade" ] = true) do={
+    :if ([ $ScriptFromTerminal $0 ] = true) do={
       $LogPrintExit2 info $0 ("No firmware upgrade available for LTE interface " . $IntName . ".") false;
     }
     :return true;
   }
 
-  :if ([ $ScriptFromTerminal "check-lte-firmware-upgrade" ] = true && \
+  :if ([ $ScriptFromTerminal $0 ] = true && \
       [ :len [ /system/script/find where name="unattended-lte-firmware-upgrade" ] ] > 0) do={
     :put ("Do you want to start unattended lte firmware upgrade for interface " . $IntName . "? [y/N]");
     :if (([ /terminal/inkey timeout=60 ] % 32) = 25) do={
