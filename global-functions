@@ -402,7 +402,7 @@
 
 # generate random 20 chars hex (0-9 and a-f)
 :set GetRandom20CharHex do={
-  :return ([ /certificate/scep-server/otp/generate minutes-valid=0 as-value ]->"password");
+  :return [ :rndstr length=20 from="0123456789abcdef" ];
 }
 
 # generate random number
