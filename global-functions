@@ -407,15 +407,9 @@
 
 # generate random number
 :set GetRandomNumber do={
-  :local Max 4294967295;
-  :if ([ :typeof $1 ] != "nothing" ) do={
-    :set Max ([ :tonum $1 ] + 1);
-  }
+  :global EitherOr;
 
-  :global GetRandom20CharHex;
-  :global HexToNum;
-
-  :return ([ $HexToNum [ :pick [ $GetRandom20CharHex ] 0 15 ] ] % $Max);
+  :return [ :rndnum from=0 to=[ $EitherOr [ :tonum $1 ] 4294967295 ] ];
 }
 
 # convert from hex (string) to num
