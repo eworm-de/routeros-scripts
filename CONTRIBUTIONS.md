@@ -34,6 +34,7 @@ Add yourself to the list,
 * Oleksandr Yukhymchuk
 * Peter Holtkamp
 * Reiner Vehrenkamp
+* Richard Österreicher
 * Simon Hitzemann
 * Sunny Chu (@sunnychuchu)
 * Zac Kornilakis
