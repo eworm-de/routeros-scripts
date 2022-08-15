@@ -103,7 +103,7 @@
   board-temperature2=50;
 }
 # This is deviation on recovery threshold against notification flooding.
-:global CheckHealthTemperatureDeviation 2;
+:global CheckHealthTemperatureDeviation 3;
 :global CheckHealthVoltageLow 115;
 :global CheckHealthVoltagePercent 10;
 
