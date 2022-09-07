@@ -69,7 +69,7 @@ $ScriptLock $0;
   :if ($HostInfo->"notify" = true && $HostInfo->"disabled" != true) do={
     :local Name [ $EitherOr ($HostInfo->"name") ($HostVal->"name") ];
 
-    :local Metric { "count-down"=0; "notified"=false };
+    :local Metric { "count-down"=0; "count-up"=0; "notified"=false };
     :if ([ :typeof ($NetwatchNotify->$Name) ] = "array") do={
       :set $Metric ($NetwatchNotify->$Name);
     }
@@ -104,6 +104,7 @@ $ScriptLock $0;
             ("The " . $Type . " '" . $Name . "' (" . $HostDetails . ") is up.") false;
         :set ($Metric->"count-down") 0;
       }
+      :set ($Metric->"count-up") ($Metric->"count-up" + 1);
       :if ($Metric->"notified" = true) do={
         :local Message ("The " . $Type . " '" . $Name . "' (" . $HostDetails . \
             ") is up since " . $HostVal->"since" . ".\n" . \
@@ -122,6 +123,7 @@ $ScriptLock $0;
       :set ($Metric->"since");
     } else={
       :set ($Metric->"count-down") ($Metric->"count-down" + 1);
+      :set ($Metric->"count-up") 0;
       :set ($Metric->"parent") ($HostInfo->"parent");
       :set ($Metric->"since") ($HostVal->"since");
       :local CountDown [ $IfThenElse ([ :tonum ($HostInfo->"count-down") ] > 0) ($HostInfo->"count-down") 5 ];
@@ -167,6 +169,7 @@ $ScriptLock $0;
     }
     :set ($NetwatchNotify->$Name) {
       "count-down"=($Metric->"count-down");
+      "count-up"=($Metric->"count-up");
       "notified"=($Metric->"notified");
       "parent"=($Metric->"parent");
       "resolve-failed"=($Metric->"resolve-failed");
