@@ -28,6 +28,7 @@
 :global EscapeForRegEx;
 :global FlushEmailQueue;
 :global GetMacVendor;
+:global GetRandom20CharAlNum;
 :global GetRandom20CharHex;
 :global GetRandomNumber;
 :global HexToNum;
@@ -398,6 +399,13 @@
     }
     :return "unknown vendor";
   }
+}
+
+# generate random 20 chars alphabetical (A-Z & a-z) and numerical (0-9)
+:set GetRandom20CharAlNum do={
+  :global EitherOr;
+
+  :return [ :rndstr length=[ $EitherOr [ :tonum $1 ] 20 ] from="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789" ];
 }
 
 # generate random 20 chars hex (0-9 and a-f)
