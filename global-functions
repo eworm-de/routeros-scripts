@@ -402,7 +402,9 @@
 
 # generate random 20 chars hex (0-9 and a-f)
 :set GetRandom20CharHex do={
-  :return [ :rndstr length=20 from="0123456789abcdef" ];
+  :global EitherOr;
+
+  :return [ :rndstr length=[ $EitherOr [ :tonum $1 ] 20 ] from="0123456789abcdef" ];
 }
 
 # generate random number
