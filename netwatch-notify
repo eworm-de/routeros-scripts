@@ -69,7 +69,7 @@ $ScriptLock $0;
   :if ($HostInfo->"notify" = true && $HostInfo->"disabled" != true) do={
     :local Name [ $EitherOr ($HostInfo->"name") ($HostVal->"name") ];
 
-    :local Metric { "count"=0; "notified"=false };
+    :local Metric { "count-down"=0; "count-up"=0; "notified"=false };
     :if ([ :typeof ($NetwatchNotify->$Name) ] = "array") do={
       :set $Metric ($NetwatchNotify->$Name);
     }
@@ -98,16 +98,17 @@ $ScriptLock $0;
     }
 
     :if ($HostVal->"status" = "up") do={
-      :local Count ($Metric->"count");
-      :if ($Count > 0) do={
+      :local CountDown ($Metric->"count-down");
+      :if ($CountDown > 0) do={
         $LogPrintExit2 info $0 \
             ("The " . $Type . " '" . $Name . "' (" . $HostDetails . ") is up.") false;
-        :set ($Metric->"count") 0;
+        :set ($Metric->"count-down") 0;
       }
+      :set ($Metric->"count-up") ($Metric->"count-up" + 1);
       :if ($Metric->"notified" = true) do={
         :local Message ("The " . $Type . " '" . $Name . "' (" . $HostDetails . \
             ") is up since " . $HostVal->"since" . ".\n" . \
-            "It was down for " . $Count . " checks since " . ($Metric->"since") . ".");
+            "It was down for " . $CountDown . " checks since " . ($Metric->"since") . ".");
         :if ([ :typeof ($HostInfo->"up-hook") ] = "str") do={
           :set Message ($Message . "\n\n" . [ $NetwatchNotifyHook $Name $Type "up" \
               ($HostInfo->"up-hook") ]);
@@ -121,13 +122,15 @@ $ScriptLock $0;
       :set ($Metric->"parent") ($HostInfo->"parent");
       :set ($Metric->"since");
     } else={
-      :set ($Metric->"count") ($Metric->"count" + 1);
+      :set ($Metric->"count-down") ($Metric->"count-down" + 1);
+      :set ($Metric->"count-up") 0;
       :set ($Metric->"parent") ($HostInfo->"parent");
       :set ($Metric->"since") ($HostVal->"since");
-      :local Count [ $IfThenElse ([ :tonum ($HostInfo->"count") ] > 0) ($HostInfo->"count") 5 ];
+      :local CountDown [ $IfThenElse ([ :tonum ($HostInfo->"count-down") ] > 0) ($HostInfo->"count-down") 5 ];
       :local Parent ($HostInfo->"parent");
+      :local ParentUp false;
       :while ([ :len $Parent ] > 0) do={
-        :set Count ($Count + 1);
+        :set CountDown ($CountDown + 1);
         :set Parent ($NetwatchNotify->$Parent->"parent");
       }
       :set Parent ($HostInfo->"parent");
@@ -135,21 +138,22 @@ $ScriptLock $0;
       :while ($ParentNotified = false && [ :len $Parent ] > 0) do={
         :set ParentNotified [ $IfThenElse (($NetwatchNotify->$Parent->"notified") = true) \
             true false ];
+        :set ParentUp ($NetwatchNotify->$Parent->"count-up");
         :if ($ParentNotified = false) do={
           :set Parent ($NetwatchNotify->$Parent->"parent");
         }
       }
       $LogPrintExit2 [ $IfThenElse ($HostInfo->"no-down-notification" != true) info debug ] $0 \
           ("The " . $Type . " '" . $Name . "' (" . $HostDetails . ") is down for " . \
-          $Metric->"count" . " checks, " . [ $IfThenElse ($ParentNotified = false) [ $IfThenElse \
-          ($Metric->"notified" = true) ("already notified.") ($Count - $Metric->"count" . \
+          $Metric->"count-down" . " checks, " . [ $IfThenElse ($ParentNotified = false) [ $IfThenElse \
+          ($Metric->"notified" = true) ("already notified.") ($CountDown - $Metric->"count-down" . \
           " to go.") ] ("parent " . $Type . " " . $Parent . " is down.") ]) false;
-      :if ((($Count * 2) - ($Metric->"count" * 3)) / 2 = 0 && \
+      :if ((($CountDown * 2) - ($Metric->"count-down" * 3)) / 2 = 0 && \
            [ :typeof ($HostInfo->"pre-down-hook") ] = "str") do={
         $NetwatchNotifyHook $Name $Type "pre-down" ($HostInfo->"pre-down-hook");
       }
-      :if ($ParentNotified = false && $Metric->"count" >= $Count && \
-           $Metric->"notified" != true) do={
+      :if ($ParentNotified = false && $Metric->"count-down" >= $CountDown && \
+           ($ParentUp = false || $ParentUp > 2) && $Metric->"notified" != true) do={
         :local Message ("The " . $Type . " '" . $Name . "' (" . $HostDetails . \
             ") is down since " . $HostVal->"since" . ".");
         :if ([ :typeof ($HostInfo->"down-hook") ] = "str") do={
@@ -166,7 +170,8 @@ $ScriptLock $0;
       }
     }
     :set ($NetwatchNotify->$Name) {
-      "count"=($Metric->"count");
+      "count-down"=($Metric->"count-down");
+      "count-up"=($Metric->"count-up");
       "notified"=($Metric->"notified");
       "parent"=($Metric->"parent");
       "resolve-failed"=($Metric->"resolve-failed");
