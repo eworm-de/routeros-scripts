@@ -777,6 +777,10 @@
     $LogPrintExit2 warning $0 ("Downloading certificate failed, trying without.") false;
   }
 
+  :if ([ $CertificateAvailable "E1" ] = false) do={
+    $LogPrintExit2 warning $0 ("Downloading certificate failed, trying without.") false;
+  }
+
   :foreach Script in=$Scripts do={
     :if ([ :len [ /system/script/find where name=$Script ] ] = 0) do={
       $LogPrintExit2 info $0 ("Adding new script: " . $Script) false;
