@@ -43,6 +43,13 @@ Giving a specific query url for DoH is possible:
 
 Note that using a name in DoH url may introduce a chicken-and-egg issue!
 
+Importing a certificate automatically is possible, at least if available in
+the repository (see `certs` sub directory).
+
+    /tool/netwatch/add comment="doh, doh-cert=DigiCert TLS Hybrid ECC SHA384 2020 CA1" host=1.1.1.1;
+    /tool/netwatch/add comment="doh, doh-cert=DigiCert TLS Hybrid ECC SHA384 2020 CA1" host=9.9.9.9;
+    /tool/netwatch/add comment="doh, doh-cert=GTS CA 1C3" host=8.8.8.8;
+
 Sometimes using just one specific (possibly internal) DNS server may be
 desired, with fallback in case it fails. This is possible as well:
 

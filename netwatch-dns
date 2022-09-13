@@ -10,6 +10,7 @@
 :global GlobalFunctionsReady;
 :while ($GlobalFunctionsReady != true) do={ :delay 500ms; }
 
+:global CertificateAvailable;
 :global EitherOr;
 :global LogPrintExit2;
 :global ParseKeyValueStore;
@@ -58,6 +59,7 @@ $ScriptLock $0;
 
 :local DohServer "";
 :local DohCurrent [ /ip/dns/get use-doh-server ];
+:local DohCert "";
 
 :foreach Host in=[ /tool/netwatch/find where comment~"doh" !disabled ] do={
   :local HostVal [ /tool/netwatch/get $Host ];
@@ -67,12 +69,19 @@ $ScriptLock $0;
        $HostInfo->"disabled" != true && $DohServer = "") do={
     :set DohServer [ $EitherOr ($HostInfo->"doh-url") \
         ("https://" . $HostVal->"host" . "/dns-query") ];
+    :set DohCert ($HostInfo->"doh-cert");
   }
 }
 
 :if ($DohServer != "") do={
   :if ($DohServer != $DohCurrent) do={
     $LogPrintExit2 info $0 ("Updating DoH server: " . $DohServer) false;
+    :if ([ :len $DohCert ] > 0) do={
+      /ip/dns/set use-doh-server="";
+      :if ([ $CertificateAvailable $DohCert ] = false) do={
+        $LogPrintExit2 warning $0 ("Downloading certificate failed, trying without.") false;
+      }
+    }
     /ip/dns/set use-doh-server=$DohServer;
     /ip/dns/cache/flush;
   }
