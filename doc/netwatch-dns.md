@@ -39,7 +39,7 @@ If *cloudflare-dns* is down the script will fall back to *quad-nine* for DoH.
 
 Giving a specific query url for DoH is possible:
 
-    /tool/netwatch/add comment="doh, ame=nextdns, doh-url=https://dns.nextdns.io/dns-query" host=199.247.16.158;
+    /tool/netwatch/add comment="doh, doh-url=https://dns.nextdns.io/dns-query" host=199.247.16.158;
 
 Note that using a name in DoH url may introduce a chicken-and-egg issue!
 
