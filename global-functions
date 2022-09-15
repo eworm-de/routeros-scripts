@@ -340,11 +340,11 @@
     :return false;
   }
 
-  :if ([ :len [ /system/scheduler/find where name="FlushEmailQueue" ] ] > 0 && $QueueLen = 0) do={
+  :if ([ :len [ /system/scheduler/find where name=$0 ] ] > 0 && $QueueLen = 0) do={
     $LogPrintExit2 warning $0 ("Flushing E-Mail messages from scheduler, but queue is empty.") false;
   }
 
-  /system/scheduler/set interval=($QueueLen . "m") [ find where name="FlushEmailQueue" ];
+  /system/scheduler/set interval=($QueueLen . "m") [ find where name=$0 ];
 
   :foreach Id,Message in=$EmailQueue do={
     :if ([ :typeof $Message ] = "array" ) do={
@@ -374,10 +374,10 @@
   }
 
   :if ($AllDone = true && $QueueLen = [ :len $EmailQueue ]) do={
-    /system/scheduler/remove [ find where name="FlushEmailQueue" ];
+    /system/scheduler/remove [ find where name=$0 ];
     :set EmailQueue;
   } else={
-    /system/scheduler/set interval=1m [ find where name="FlushEmailQueue" ];
+    /system/scheduler/set interval=1m [ find where name=$0 ];
   }
 }
 
@@ -634,8 +634,8 @@
       [ $IfThenElse ([ :len ($Notification->"link") ] > 0) ("\n\n" . ($Notification->"link")) "" ] . \
       [ $IfThenElse ([ :len $Signature ] > 0) ("\n-- \n" . $Signature) "" ]); \
     attach=($Notification->"attach"); remove-attach=($Notification->"remove-attach") };
-  :if ([ :len [ /system/scheduler/find where name="FlushEmailQueue" ] ] = 0) do={
-    /system/scheduler/add name=FlushEmailQueue interval=1s start-time=startup \
+  :if ([ :len [ /system/scheduler/find where name="\$FlushEmailQueue" ] ] = 0) do={
+    /system/scheduler/add name="\$FlushEmailQueue" interval=1s start-time=startup \
       on-event=(":global FlushEmailQueue; \$FlushEmailQueue;");
   }
 }
