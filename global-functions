@@ -323,6 +323,7 @@
   :global EmailQueue;
 
   :global EitherOr;
+  :global IsDNSResolving;
   :global IsTimeSync;
   :global LogPrintExit2;
 
@@ -331,6 +332,11 @@
 
   :if ([ $IsTimeSync ] = false) do={
     $LogPrintExit2 debug $0 ("Time is not synced, not flushing.") false;
+    :return false;
+  }
+
+  :if ([ :typeof [ :toip [ /tool/e-mail/get address ] ] ] != "ip" && [ $IsDNSResolving ] = false) do={
+    $LogPrintExit2 debug $0 ("Server address is a DNS name and resolving fails, not flushing.") false;
     :return false;
   }
 
