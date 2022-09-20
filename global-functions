@@ -388,6 +388,10 @@
   :global CertificateAvailable;
   :global LogPrintExit2;
 
+  :if ([ :tonum ("0x" . [ :pick $Mac 0 [ :find $Mac ":" ] ]) ] & 2 = 2) do={
+    :return "locally administered";
+  }
+
   :do {
     :if ([ $CertificateAvailable "R3" ] = false) do={
       $LogPrintExit2 warning $0 ("Downloading required certificate failed.") true;
