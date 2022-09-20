@@ -69,7 +69,7 @@ $ScriptLock $0;
   :if ($HostInfo->"notify" = true && $HostInfo->"disabled" != true) do={
     :local Name [ $EitherOr ($HostInfo->"name") ($HostVal->"name") ];
 
-    :local Metric { "count-down"=0; "count-up"=0; "notified"=false };
+    :local Metric { "count-down"=0; "count-up"=0; "notified"=false; "resolve-failcnt"=0 };
     :if ([ :typeof ($NetwatchNotify->$Name) ] = "array") do={
       :set $Metric ($NetwatchNotify->$Name);
     }
@@ -84,14 +84,14 @@ $ScriptLock $0;
                  $HostInfo->"name") "" ] . "' resolves to different address " . $Resolve . \
                  ", updating.") false;
             /tool/netwatch/set host=$Resolve $Host;
-            :set ($Metric->"resolve-failed") false;
+            :set ($Metric->"resolve-failcnt") 0;
           }
         } on-error={
-          :if ($Metric->"resolve-failed" != true) do={
+          :set ($Metric->"resolve-failcnt") ($Metric->"resolve-failcnt" + 1);
+          :if ($Metric->"resolve-failcnt" = 3) do={
             $LogPrintExit2 warning $0 ("Resolving name '" . $HostInfo->"resolve" . [ $IfThenElse \
                 ($HostInfo->"resolve" != $HostInfo->"name") ("' for " . $Type . " '" . \
                 $HostInfo->"name") "" ] . "' failed.") false;
-            :set ($Metric->"resolve-failed") true;
           }
         }
       }
@@ -174,7 +174,7 @@ $ScriptLock $0;
       "count-up"=($Metric->"count-up");
       "notified"=($Metric->"notified");
       "parent"=($Metric->"parent");
-      "resolve-failed"=($Metric->"resolve-failed");
+      "resolve-failcnt"=($Metric->"resolve-failcnt");
       "since"=($Metric->"since") };
   }
 }
