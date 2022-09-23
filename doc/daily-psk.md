@@ -51,7 +51,8 @@ Then add an access list entry:
 
     /interface/wireless/access-list/add comment="Daily PSK" interface=wl-daily private-pre-shared-key="ToBeChangedDaily";
 
-Also notification settings are required for e-mail,
+Also notification settings are required for
+[e-mail](mod/notification-email.md),
 [matrix](mod/notification-matrix.md) and/or
 [telegram](mod/notification-telegram.md).
 

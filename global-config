@@ -15,9 +15,11 @@
 :global PrefixInZone true;
 :global ServerNameInZone false;
 
-# These addresses are used to send e-mails to. The to-address needs
-# to be filled; cc-address can be empty, one address or a comma
-# separated list of addresses.
+# You can send e-mail notifications. Configure the system's mail settings
+# (/tool/e-mail), then install the module:
+# $ScriptInstallUpdate mod/notification-email
+# The to-address needs to be filled; cc-address can be empty, one address
+# or a comma separated list of addresses.
 :global EmailGeneralTo "";
 :global EmailGeneralCc "";
 #:global EmailGeneralTo "mail@example.com";

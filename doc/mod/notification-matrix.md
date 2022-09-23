@@ -103,6 +103,7 @@ methods:
 See also
 --------
 
+* [Send notifications via e-mail](notification-email.md)
 * [Send notifications via Telegram](notification-telegram.md)
 
 ---

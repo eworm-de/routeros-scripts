@@ -26,10 +26,6 @@ Just install the script:
 Configuration
 -------------
 
-The expiry notifications just require notification settings for e-mail,
-[matrix](mod/notification-matrix.md) and/or
-[telegram](mod/notification-telegram.md).
-
 For automatic download and renewal of certificates you need configuration
 in `global-config-overlay`, these are the parameters:
 
@@ -38,6 +34,11 @@ in `global-config-overlay`, these are the parameters:
 
 Certificates on the web server should be named `CN.pem` (`PEM` format) or
 `CN.p12` (`PKCS#12` format).
+
+Also notification settings are required for
+[e-mail](mod/notification-email.md),
+[matrix](mod/notification-matrix.md) and/or
+[telegram](mod/notification-telegram.md).
 
 Usage and invocation
 --------------------

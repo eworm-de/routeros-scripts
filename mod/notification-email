@@ -1,0 +1,133 @@
+#!rsc by RouterOS
+# RouterOS script: mod/notification-email
+# Copyright (c) 2013-2022 Christian Hesse <mail@eworm.de>
+# https://git.eworm.de/cgit/routeros-scripts/about/COPYING.md
+
+:global FlushEmailQueue;
+:global NotificationFunctions;
+:global SendEMail;
+:global SendEMail2;
+
+# flush e-mail queue
+:set FlushEmailQueue do={
+  :global EmailQueue;
+
+  :global EitherOr;
+  :global IsDNSResolving;
+  :global IsTimeSync;
+  :global LogPrintExit2;
+
+  :local AllDone true;
+  :local QueueLen [ :len $EmailQueue ];
+
+  :if ([ /tool/e-mail/get last-status ] = "in-progress") do={
+    $LogPrintExit2 debug $0 ("Sending mail in currently in progress, not flushing.") false;
+    :return false;
+  }
+
+  :if ([ $IsTimeSync ] = false) do={
+    $LogPrintExit2 debug $0 ("Time is not synced, not flushing.") false;
+    :return false;
+  }
+
+  :if ([ :typeof [ :toip [ /tool/e-mail/get address ] ] ] != "ip" && [ $IsDNSResolving ] = false) do={
+    $LogPrintExit2 debug $0 ("Server address is a DNS name and resolving fails, not flushing.") false;
+    :return false;
+  }
+
+  :if ([ :len [ /system/scheduler/find where name=$0 ] ] > 0 && $QueueLen = 0) do={
+    $LogPrintExit2 warning $0 ("Flushing E-Mail messages from scheduler, but queue is empty.") false;
+  }
+
+  /system/scheduler/set interval=($QueueLen . "m") [ find where name=$0 ];
+
+  :foreach Id,Message in=$EmailQueue do={
+    :if ([ :typeof $Message ] = "array" ) do={
+      :local Attach [ $EitherOr ($Message->"attach") "" ];
+      :while ([ /tool/e-mail/get last-status ] = "in-progress") do={ :delay 1s; }
+      /tool/e-mail/send to=($Message->"to") cc=($Message->"cc") subject=($Message->"subject") \
+        body=($Message->"body") file=$Attach;
+      :local Wait true;
+      :do {
+        :delay 1s;
+        :local Status [ /tool/e-mail/get last-status ];
+        :if ($Status = "succeeded") do={
+          :set ($EmailQueue->$Id);
+          :set Wait false;
+          :if (($Message->"remove-attach") = true) do={
+            :foreach File in=[ :toarray $Attach ] do={
+              /file/remove $File;
+            }
+          }
+        }
+        :if ($Status = "failed") do={
+          :set AllDone false;
+          :set Wait false;
+        }
+      } while=($Wait = true);
+    }
+  }
+
+  :if ($AllDone = true && $QueueLen = [ :len $EmailQueue ]) do={
+    /system/scheduler/remove [ find where name=$0 ];
+    :set EmailQueue;
+  } else={
+    /system/scheduler/set interval=1m [ find where name=$0 ];
+  }
+}
+
+# send notification via e-mail - expects one array argument
+:set ($NotificationFunctions->"email") do={
+  :local Notification $1;
+
+  :global Identity;
+  :global EmailGeneralTo;
+  :global EmailGeneralToOverride;
+  :global EmailGeneralCc;
+  :global EmailGeneralCcOverride;
+  :global EmailQueue;
+
+  :global EitherOr;
+  :global IfThenElse;
+  :global QuotedPrintable;
+
+  :local To [ $EitherOr ($EmailGeneralToOverride->($Notification->"origin")) $EmailGeneralTo ];
+  :local Cc [ $EitherOr ($EmailGeneralCcOverride->($Notification->"origin")) $EmailGeneralCc ];
+
+  :local EMailSettings [ /tool/e-mail/get ];
+  :if ([ :len $To ] = 0 || ($EMailSettings->"address") = "0.0.0.0" || ($EMailSettings->"from") = "<>") do={
+    :return false;
+  }
+
+  :if ([ :typeof $EmailQueue ] = "nothing") do={
+      :set EmailQueue ({});
+  }
+  :local Signature [ /system/note/get note ];
+  :set ($EmailQueue->[ :len $EmailQueue ]) {
+    to=$To; cc=$Cc;
+    subject=[ $QuotedPrintable ("[" . $Identity . "] " . ($Notification->"subject")) ];
+    body=(($Notification->"message") . \
+      [ $IfThenElse ([ :len ($Notification->"link") ] > 0) ("\n\n" . ($Notification->"link")) "" ] . \
+      [ $IfThenElse ([ :len $Signature ] > 0) ("\n-- \n" . $Signature) "" ]); \
+    attach=($Notification->"attach"); remove-attach=($Notification->"remove-attach") };
+  :if ([ :len [ /system/scheduler/find where name="\$FlushEmailQueue" ] ] = 0) do={
+    /system/scheduler/add name="\$FlushEmailQueue" interval=1s start-time=startup \
+      on-event=(":global FlushEmailQueue; \$FlushEmailQueue;");
+  }
+}
+
+# send notification via e-mail - expects at least two string arguments
+:set SendEMail do={
+  :global SendEMail2;
+
+  $SendEMail2 ({ subject=$1; message=$2; link=$3 });
+}
+
+# send notification via e-mail - expects one array argument
+:set SendEMail2 do={
+  :local Notification $1;
+
+  :global NotificationFunctions;
+
+  ($NotificationFunctions->"email") ("\$NotificationFunctions->\"email\"") $Notification;
+}

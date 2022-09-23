@@ -15,9 +15,12 @@ configuration export (`/export terse show-sensitive`) via e-mail.
 Requirements and installation
 -----------------------------
 
-Just install the script:
+Just install the script and the required module:
 
-    $ScriptInstallUpdate backup-email;
+    $ScriptInstallUpdate mod/notification-email,backup-email;
+
+Also make sure you configure
+[sending notifications via e-mail](mod/notification-email.md).
 
 Configuration
 -------------
@@ -28,8 +31,6 @@ The configuration goes to `global-config-overlay`, these are the parameters:
 * `BackupSendExport`: whether to send configuration export
 * `BackupPassword`: password to encrypt the backup with
 * `BackupRandomDelay`: delay up to amount of seconds when run from scheduler
-
-Also valid e-mail settings are required to send mails.
 
 Usage and invocation
 --------------------
@@ -47,6 +48,7 @@ See also
 
 * [Upload backup to Mikrotik cloud](backup-cloud.md)
 * [Save configuration to fallback partition](doc/backup-partition.md)
+* [Send notifications via e-mail](mod/notification-email.md)
 * [Upload backup to server](backup-upload.md)
 
 ---

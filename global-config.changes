@@ -92,6 +92,7 @@
   81="Dropped script 'rotate-ntp', as the limitation does no longer exist.";
   82="Renamed the comment parameter 'hostname' to just 'name' for 'netwatch-notify'.";
   83="Introduced new setting to disable news and change notifications, dropped version from configuration.";
+  84="Support for e-mail notifications moved to a module. It is installed automatically if required.";
 };
 
 # Migration steps to be applied on script updates
@@ -106,4 +107,5 @@
   73=":global ScriptInstallUpdate; :global CharacterReplace; :foreach Old,New in={ \"cloud-backup\"=\"backup-cloud\"; \"email-backup\"=\"backup-email\"; \"upload-backup\"=\"backup-upload\" } do={ /system/script/set name=\$New [ find where name=\$Old ]; :foreach Scheduler in=[ /system/scheduler/find where on-event~\$Old ] do={ /system/scheduler/set \$Scheduler name=[ \$CharacterReplace [ get \$Scheduler name ] \$Old \$New ] on-event=[ \$CharacterReplace [ get \$Scheduler on-event ] \$Old \$New ]; }; }; \$ScriptInstallUpdate;";
   81=":global NtpPool; :if ([ :len [ /system/script/find where name=\"rotate-ntp\" ] ] > 0) do={ /system/script/remove [ find where name=\"rotate-ntp\" ]; /system/scheduler/remove [ find where name=\"rotate-ntp\" ]; /system/ntp/client/set servers=\$NtpPool; };";
   82=":global CharacterReplace; :foreach Netwatch in=[ /tool/netwatch/find where comment~\"notify\" !disabled ] do={ /tool/netwatch/set \$Netwatch comment=[ \$CharacterReplace [ get \$Netwatch comment ] \"hostname=\" \"name=\" ]; };";
+  84=":global ScriptInstallUpdate; :global EmailGeneralTo; :if ([ /tool/e-mail/get address ] != \"0.0.0.0\" && [ :len \$EmailGeneralTo ] > 0) do={ \$ScriptInstallUpdate mod/notification-email; }";
 };

@@ -66,6 +66,7 @@ methods:
 See also
 --------
 
+* [Send notifications via e-mail](notification-email.md)
 * [Send notifications via Matrix](notification-matrix.md)
 
 ---

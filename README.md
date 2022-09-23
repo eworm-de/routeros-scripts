@@ -218,6 +218,7 @@ Available modules
 * [Manage VLANs on bridge ports](doc/mod/bridge-port-vlan.md)
 * [Inspect variables](doc/mod/inspectvar.md)
 * [IP address calculation](doc/mod/ipcalc.md)
+* [Send notifications via e-mail](doc/mod/notification-email.md)
 * [Send notifications via Matrix](doc/mod/notification-matrix.md)
 * [Send notifications via Telegram](doc/mod/notification-telegram.md)
 * [Download script and run it once](doc/mod/scriptrunonce.md)
