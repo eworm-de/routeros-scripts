@@ -93,6 +93,7 @@
   82="Renamed the comment parameter 'hostname' to just 'name' for 'netwatch-notify'.";
   83="Introduced new setting to disable news and change notifications, dropped version from configuration.";
   84="Support for e-mail notifications moved to a module. It is installed automatically if required.";
+  85="Dropped 'netwatch-syslog', filtering in firewall is advised.";
 };
 
 # Migration steps to be applied on script updates
