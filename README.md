@@ -206,10 +206,6 @@ Available scripts
 * [Update GRE configuration with dynamic addresses](doc/update-gre-address.md)
 * [Update tunnelbroker configuration](doc/update-tunnelbroker.md)
 
-[comment]: # (TODO: currently undocumented)
-[comment]: # (* learn-mac-based-vlan)
-[comment]: # (* manage-umts)
-
 Available modules
 -----------------
 
