@@ -667,7 +667,6 @@
   :global ScriptUpdatesBaseUrl;
   :global ScriptUpdatesFetch;
   :global ScriptUpdatesUrlSuffix;
-  :global SentConfigChangesNotification;
 
   :global CertificateAvailable;
   :global IfThenElse;
@@ -833,8 +832,7 @@
       }
     }
 
-    :if ($SentConfigChangesNotification != $ExpectedConfigVersion && \
-         $NoNewsAndChangesNotification != true) do={
+    :if ($NoNewsAndChangesNotification != true) do={
       :local NotificationMessage ("The configuration version on " . $Identity . " increased " . \
          "to " . $ExpectedConfigVersion . ", current configuration may need modification. " . \
          "Please review and update global-config-overlay, then re-run global-config.");
@@ -865,7 +863,6 @@
       $SendNotification2 ({ origin=$0; \
         subject=([ $SymbolForNotification "pushpin" ] . "News and configuration changes"); \
         message=$NotificationMessage; link=$Link });
-      :set SentConfigChangesNotification $ExpectedConfigVersion;
     }
 
     :set GlobalConfigChanges;
