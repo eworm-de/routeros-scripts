@@ -30,6 +30,10 @@
 :global WaitForFile;
 :global WaitFullyConnected;
 
+:if ([ :typeof $SendEMail2 ] = "nothing") do={
+  $LogPrintExit2 error $0 ("The module for sending notifications via e-mail is not installed.") true;
+}
+
 :if ($BackupSendBinary != true && \
      $BackupSendExport != true) do={
   $LogPrintExit2 error $0 ("Configured to send neither backup nor config export.") true;
