@@ -38,9 +38,13 @@
       $LogPrintExit2 error $0 ("Downloading required certificate failed.") true;
     }
     $LogPrintExit2 info $0 ("Local address changed, sending UPDATE to tunnelbroker! New address: " . $PublicAddress) false;
-    /tool/fetch check-certificate=yes-without-crl \
-        ("https://ipv4.tunnelbroker.net/nic/update\?hostname=" . $Comment->"id") \
-        user=($Comment->"user") password=($Comment->"pass") output=none as-value;
+    :do {
+      /tool/fetch check-certificate=yes-without-crl \
+          ("https://ipv4.tunnelbroker.net/nic/update\?hostname=" . $Comment->"id") \
+          user=($Comment->"user") password=($Comment->"pass") output=none as-value;
+    } on-error={
+      $LogPrintExit2 error $0 ("Failed sending the local address to tunnelbroker! Wrong credentials?") true;
+    }
     /interface/6to4/set $Interface local-address=$PublicAddress;
   } else={
     $LogPrintExit2 debug $0 ("All tunnelbroker configuration is up to date for interface " . $InterfaceVal->"name" . ".") false;
