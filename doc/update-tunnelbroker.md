@@ -28,7 +28,10 @@ Configuration
 
 The configuration goes to interface's comment:
 
-    /interface/6to4/set comment="tunnelbroker, user=user, pass=s3cr3t, id=12345" tunnelbroker;
+    /interface/6to4/set comment="tunnelbroker, user=user, id=12345, pass=s3cr3t" tunnelbroker;
+
+You should know you user name from login. The `id` is the tunnel's numeric
+id, `pass` is the *update key* found on the tunnel's advanced tab.
 
 Also enabling dynamic DNS in Mikrotik cloud is required:
 
