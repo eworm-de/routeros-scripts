@@ -17,16 +17,22 @@
 :global LogPrintExit2;
 :global ParseKeyValueStore;
 
-:if ([ /ip/cloud/get ddns-enabled ] != true) do={
-  $LogPrintExit2 error $0 ("IP cloud DDNS is not enabled.") true;
+:if ([ $CertificateAvailable "Starfield Secure Certificate Authority - G2" ] = false || \
+     [ $CertificateAvailable "R3" ] = false) do={
+  $LogPrintExit2 error $0 ("Downloading required certificate failed.") true;
 }
 
-# Get the current ip address from cloud
-/ip/cloud/force-update;
-:while ([ /ip/cloud/get status ] != "updated") do={
-  :delay 1s;
+:local PublicAddress;
+:do {
+  :set PublicAddress ([ /tool/fetch check-certificate=yes-without-crl \
+    "https://ipv4.showipv6.de/short" output=user as-value ]->"data");
+} on-error={
+  $LogPrintExit2 error $0 ("Failed getting public address.") true;
 }
-:local PublicAddress [ /ip/cloud/get public-address ];
+
+:if ([ :len [ /ip/address find where address~("^" . $PublicAddress . "/") ] ] < 1) do={
+  $LogPrintExit2 warning $0 ("The address " . $PublicAddress . " is not configured on your device. NAT by ISP?") false;
+}
 
 :foreach Interface in=[ /interface/6to4/find where comment~"^tunnelbroker" !disabled ] do={
   :local InterfaceVal [ /interface/6to4/get $Interface ];
@@ -36,9 +42,6 @@
     :local Success false;
     :local Comment [ $ParseKeyValueStore ($InterfaceVal->"comment") ];
 
-    :if ([ $CertificateAvailable "Starfield Secure Certificate Authority - G2" ] = false) do={
-      $LogPrintExit2 error $0 ("Downloading required certificate failed.") true;
-    }
     $LogPrintExit2 info $0 ("Local address changed, sending UPDATE to tunnelbroker! New address: " . $PublicAddress) false;
     :while ($I < 3 && $Success = false) do={
       :do {

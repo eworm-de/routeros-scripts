@@ -33,10 +33,6 @@ The configuration goes to interface's comment:
 You should know you user name from login. The `id` is the tunnel's numeric
 id, `pass` is the *update key* found on the tunnel's advanced tab.
 
-Also enabling dynamic DNS in Mikrotik cloud is required:
-
-    /ip/cloud/set ddns-enabled=yes;
-
 See also
 --------
 
