@@ -17,48 +17,39 @@
 :global LogPrintExit2;
 :global ParseKeyValueStore;
 
-:if ([ $CertificateAvailable "Starfield Secure Certificate Authority - G2" ] = false || \
-     [ $CertificateAvailable "R3" ] = false) do={
+:if ([ $CertificateAvailable "Starfield Secure Certificate Authority - G2" ] = false) do={
   $LogPrintExit2 error $0 ("Downloading required certificate failed.") true;
 }
 
-:local PublicAddress;
-:do {
-  :set PublicAddress ([ /tool/fetch check-certificate=yes-without-crl \
-    "https://ipv4.showipv6.de/short" output=user as-value ]->"data");
-} on-error={
-  $LogPrintExit2 error $0 ("Failed getting public address.") true;
-}
-
-:if ([ :len [ /ip/address find where address~("^" . $PublicAddress . "/") ] ] < 1) do={
-  $LogPrintExit2 warning $0 ("The address " . $PublicAddress . " is not configured on your device. NAT by ISP?") false;
-}
-
 :foreach Interface in=[ /interface/6to4/find where comment~"^tunnelbroker" !disabled ] do={
+  :local I 0;
+  :local Response "";
   :local InterfaceVal [ /interface/6to4/get $Interface ];
+  :local Comment [ $ParseKeyValueStore ($InterfaceVal->"comment") ];
+
+  :while ($I < 3 && $Response = "") do={
+    :do {
+      :set Response ([ /tool/fetch check-certificate=yes-without-crl \
+          ("https://ipv4.tunnelbroker.net/nic/update\?hostname=" . $Comment->"id") \
+          user=($Comment->"user") password=($Comment->"pass") output=user as-value ]->"data");
+    } on-error={
+      :delay 10s;
+      :set I ($I + 1);
+    }
+  }
+
+  :if (!($Response~"^(good|nochg) ")) do={
+    $LogPrintExit2 error $0 ("Failed sending the local address to tunnelbroker or unexpected response!") true;
+  }
+
+  :local PublicAddress [ :pick $Response ([ :find $Response " " ] + 1) [ :find $Response "\n" ] ];
 
   :if ($PublicAddress != $InterfaceVal->"local-address") do={
-    :local I 0;
-    :local Success false;
-    :local Comment [ $ParseKeyValueStore ($InterfaceVal->"comment") ];
+    :if ([ :len [ /ip/address find where address~("^" . $PublicAddress . "/") ] ] < 1) do={
+      $LogPrintExit2 warning $0 ("The address " . $PublicAddress . " is not configured on your device. NAT by ISP?") false;
+    }
 
-    $LogPrintExit2 info $0 ("Local address changed, sending UPDATE to tunnelbroker! New address: " . $PublicAddress) false;
-    :while ($I < 3 && $Success = false) do={
-      :do {
-        /tool/fetch check-certificate=yes-without-crl \
-            ("https://ipv4.tunnelbroker.net/nic/update\?hostname=" . $Comment->"id") \
-            user=($Comment->"user") password=($Comment->"pass") output=none as-value;
-        :set Success true;
-      } on-error={
-        :delay 10s;
-        :set I ($I + 1);
-      }
-    }
-    :if ($Success = false) do={
-      $LogPrintExit2 error $0 ("Failed sending the local address to tunnelbroker! Wrong credentials?") true;
-    }
+    $LogPrintExit2 info $0 ("Local address changed, updating tunnel configuration with address: " . $PublicAddress) false;
     /interface/6to4/set $Interface local-address=$PublicAddress;
-  } else={
-    $LogPrintExit2 debug $0 ("All tunnelbroker configuration is up to date for interface " . $InterfaceVal->"name" . ".") false;
   }
 }
