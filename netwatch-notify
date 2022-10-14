@@ -126,7 +126,7 @@ $ScriptLock $0;
       :set ($Metric->"count-up") 0;
       :set ($Metric->"parent") ($HostInfo->"parent");
       :set ($Metric->"since") ($HostVal->"since");
-      :local CountDown [ $IfThenElse ([ :tonum ($HostInfo->"count-down") ] > 0) ($HostInfo->"count-down") 5 ];
+      :local CountDown [ $IfThenElse ([ :tonum ($HostInfo->"count") ] > 0) ($HostInfo->"count") 5 ];
       :local Parent ($HostInfo->"parent");
       :local ParentUp false;
       :while ([ :len $Parent ] > 0) do={
