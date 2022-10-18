@@ -11,13 +11,14 @@
 :global GlobalFunctionsReady;
 :while ($GlobalFunctionsReady != true) do={ :delay 500ms; }
 
+:global CharacterReplace;
 :global LogPrintExit2;
 
 /interface/gre/set remote-address=0.0.0.0 disabled=yes [ find where !running !disabled ];
 
 :foreach Peer in=[ /ip/ipsec/active-peers/find ] do={
   :local PeerVal [ /ip/ipsec/active-peers/get $Peer ];
-  :local GreInt [ /interface/gre/find where comment=$PeerVal->"id" ];
+  :local GreInt [ /interface/gre/find where comment=($PeerVal->"id") or comment=[ $CharacterReplace ($PeerVal->"id") "CN=" "" ] ];
   :if ([ :len $GreInt ] > 0) do={
     :local GreIntVal [ /interface/gre/get $GreInt ];
     :if ([ :typeof ($PeerVal->"dynamic-address") ] = "str" && \
