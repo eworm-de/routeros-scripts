@@ -46,8 +46,9 @@
 
 :foreach Peer in=[ /ip/ipsec/active-peers/find where !(dynamic-address=[]) ] do={
   :local PeerVal [ /ip/ipsec/active-peers/get $Peer ];
-  :local Comment ($CommentPrefix . $PeerVal->"id");
-  :local HostName [ :pick ($PeerVal->"id") 0 [ :find ($PeerVal->"id" . ".") "." ] ];
+  :local PeerId [ $CharacterReplace ($PeerVal->"id") "CN=" "" ];
+  :local Comment ($CommentPrefix . $PeerId);
+  :local HostName [ :pick $PeerId 0 [ :find ($PeerId . ".") "." ] ];
 
   :local Fqdn ($HostName . "." . $Zone);
   :local DnsRecord [ /ip/dns/static/find where name=$Fqdn ];
