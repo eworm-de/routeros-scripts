@@ -121,7 +121,7 @@
   }
   :if ($Truncated = true) do={
     :set Text ($Text . "\n" . [ $SymbolForNotification "scissors" ] . \
-      [ $EscapeMD ("The Telegram message was too long and has been truncated, cut off " . \
+      [ $EscapeMD ("The message was too long and has been truncated, cut off " . \
       (($LenSum - [ :len $Text ]) * 100 / $LenSum) . "%!") "plain" ]);
   }
   :set Text [ $UrlEncode $Text ];
