@@ -15,7 +15,7 @@ A broadband interface with SMS support is required.
 
 ### Sample notification
 
-![sms-forward notification](sms-forward.d/notification.svg)
+![sms-forward notification](sms-forward.d/notification.avif)
 
 Requirements and installation
 -----------------------------

@@ -22,7 +22,7 @@ and forwards them via notification.
 
 ### Sample notification
 
-![log-forward notification](log-forward.d/notification.svg)
+![log-forward notification](log-forward.d/notification.avif)
 
 Requirements and installation
 -----------------------------

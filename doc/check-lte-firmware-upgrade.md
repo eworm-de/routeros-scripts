@@ -19,7 +19,7 @@ upgrades. Currently supported LTE hardware:
 
 ### Sample notification
 
-![check-lte-firmware-upgrade notification](check-lte-firmware-upgrade.d/notification.svg)
+![check-lte-firmware-upgrade notification](check-lte-firmware-upgrade.d/notification.avif)
 
 Requirements and installation
 -----------------------------

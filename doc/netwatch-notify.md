@@ -17,8 +17,8 @@ optional parent host is not down to avoid false alerts.
 
 ### Sample notifications
 
-![netwatch-notify notification down](netwatch-notify.d/notification-01-down.svg)  
-![netwatch-notify notification up](netwatch-notify.d/notification-02-up.svg)
+![netwatch-notify notification down](netwatch-notify.d/notification-01-down.avif)  
+![netwatch-notify notification up](netwatch-notify.d/notification-02-up.avif)
 
 Requirements and installation
 -----------------------------

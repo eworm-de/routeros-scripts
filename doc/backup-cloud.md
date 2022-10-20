@@ -19,7 +19,7 @@ This script uploads
 
 ### Sample notification
 
-![backup-cloud notification](backup-cloud.d/notification.svg)
+![backup-cloud notification](backup-cloud.d/notification.avif)
 
 Requirements and installation
 -----------------------------

@@ -27,17 +27,17 @@ hardware supports:
 
 #### Voltage
 
-![check-health notification voltage](check-health.d/notification-01-voltage.svg)
+![check-health notification voltage](check-health.d/notification-01-voltage.avif)
 
 #### Temperature
 
-![check-health notification](check-health.d/notification-02-temperature-high.svg)  
-![check-health notification](check-health.d/notification-03-temperature-ok.svg)
+![check-health notification](check-health.d/notification-02-temperature-high.avif)  
+![check-health notification](check-health.d/notification-03-temperature-ok.avif)
 
 #### PSU state
 
-![check-health notification](check-health.d/notification-04-psu-fail.svg)  
-![check-health notification](check-health.d/notification-05-psu-ok.svg)
+![check-health notification](check-health.d/notification-04-psu-fail.avif)  
+![check-health notification](check-health.d/notification-05-psu-ok.avif)
 
 Requirements and installation
 -----------------------------

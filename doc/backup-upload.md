@@ -19,7 +19,7 @@ configuration export (`/export terse show-sensitive`) to external server.
 
 ### Sample notification
 
-![backup-upload notification](backup-upload.d/notification.svg)
+![backup-upload notification](backup-upload.d/notification.avif)
 
 Requirements and installation
 -----------------------------
