@@ -30,7 +30,7 @@ automatically is supported.
 
 ### Sample notification
 
-![check-routeros-update notification](check-routeros-update.d/notification.svg)
+![check-routeros-update notification](check-routeros-update.d/notification.avif)
 
 Requirements and installation
 -----------------------------
