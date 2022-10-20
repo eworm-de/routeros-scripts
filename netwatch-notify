@@ -143,11 +143,13 @@ $ScriptLock $0;
           :set Parent ($NetwatchNotify->$Parent->"parent");
         }
       }
-      $LogPrintExit2 [ $IfThenElse ($HostInfo->"no-down-notification" != true) info debug ] $0 \
-          ("The " . $Type . " '" . $Name . "' (" . $HostDetails . ") is down for " . \
-          $Metric->"count-down" . " checks, " . [ $IfThenElse ($ParentNotified = false) [ $IfThenElse \
-          ($Metric->"notified" = true) ("already notified.") ($CountDown - $Metric->"count-down" . \
-          " to go.") ] ("parent " . $Type . " " . $Parent . " is down.") ]) false;
+      :if ($Metric->"notified" = false || $Metric->"count-down" % 120 = 0) do={
+        $LogPrintExit2 [ $IfThenElse ($HostInfo->"no-down-notification" != true) info debug ] $0 \
+            ("The " . $Type . " '" . $Name . "' (" . $HostDetails . ") is down for " . \
+            $Metric->"count-down" . " checks, " . [ $IfThenElse ($ParentNotified = false) [ $IfThenElse \
+            ($Metric->"notified" = true) ("already notified.") ($CountDown - $Metric->"count-down" . \
+            " to go.") ] ("parent " . $Type . " " . $Parent . " is down.") ]) false;
+      }
       :if ((($CountDown * 2) - ($Metric->"count-down" * 3)) / 2 = 0 && \
            [ :typeof ($HostInfo->"pre-down-hook") ] = "str") do={
         $NetwatchNotifyHook $Name $Type "pre-down" ($HostInfo->"pre-down-hook");
