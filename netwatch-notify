@@ -17,6 +17,7 @@
 :global IsDNSResolving;
 :global LogPrintExit2;
 :global ParseKeyValueStore;
+:global ScriptFromTerminal;
 :global ScriptLock;
 :global SendNotification2;
 :global SymbolForNotification;
@@ -143,7 +144,8 @@ $ScriptLock $0;
           :set Parent ($NetwatchNotify->$Parent->"parent");
         }
       }
-      :if ($Metric->"notified" = false || $Metric->"count-down" % 120 = 0) do={
+      :if ($Metric->"notified" = false || $Metric->"count-down" % 120 = 0 || \
+           [ $ScriptFromTerminal $0 ] = true) do={
         $LogPrintExit2 [ $IfThenElse ($HostInfo->"no-down-notification" != true) info debug ] $0 \
             ("The " . $Type . " '" . $Name . "' (" . $HostDetails . ") is down for " . \
             $Metric->"count-down" . " checks, " . [ $IfThenElse ($ParentNotified = false) [ $IfThenElse \
