@@ -52,6 +52,8 @@
 
 $ScriptLock $0;
 
+:local ScriptFromTerminalCached [ $ScriptFromTerminal $0 ];
+
 :if ([ /system/resource/get uptime ] < 5m) do={
   $LogPrintExit2 info $0 ("System just booted, giving netwatch some time to settle.") true;
 }
@@ -145,7 +147,7 @@ $ScriptLock $0;
         }
       }
       :if ($Metric->"notified" = false || $Metric->"count-down" % 120 = 0 || \
-           [ $ScriptFromTerminal $0 ] = true) do={
+           $ScriptFromTerminalCached = true) do={
         $LogPrintExit2 [ $IfThenElse ($HostInfo->"no-down-notification" != true) info debug ] $0 \
             ("The " . $Type . " '" . $Name . "' (" . $HostDetails . ") is down for " . \
             $Metric->"count-down" . " checks, " . [ $IfThenElse ($ParentNotified = false) [ $IfThenElse \
