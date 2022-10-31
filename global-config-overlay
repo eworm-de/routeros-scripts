@@ -5,7 +5,7 @@
 # global configuration, custom overlay
 # https://git.eworm.de/cgit/routeros-scripts/about/
 
-# Copy configuration from global-config, paste and modify it here.
+# Copy relevant configuration from global-config, paste and modify it here.
 
 
 # End of global-config-overlay

@@ -92,7 +92,7 @@ Now let's download the main scripts and add them in configuration on the fly.
 ![screenshot: import scripts](README.d/04-import-scripts.avif)
 
 The configuration needs to be tweaked for your needs. Edit
-`global-config-overlay`, copy configuration from
+`global-config-overlay`, copy relevant configuration from
 [`global-config`](global-config) (the one without `-overlay`).
 Save changes and exit with `Ctrl-o`.
 
