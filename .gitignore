@@ -1,3 +1,4 @@
 *~
 *.patch
 *.html
+.DS_Store

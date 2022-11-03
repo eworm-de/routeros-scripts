@@ -18,6 +18,12 @@
 :global SendNotification2;
 :global SymbolForNotification;
 :global WaitFullyConnected;
+:global ValidateSyntax;
+:global SmsForwardHooks;
+
+:if ([ :typeof $SmsForwardHooks ] != "array") do={
+  :global SmsForwardHooks ({});
+}
 
 $ScriptLock $0;
 
@@ -43,6 +49,27 @@ $WaitFullyConnected;
       $LogPrintExit2 debug $0 ("Removing SMS, which started a script.") false;
       /tool/sms/inbox/remove $Sms;
     } else={
+      :local processed false;
+      $LogPrintExit2 debug $0 ("Processing message:" . $SmsVal->"message" . " " . $Phone) false;
+      :foreach Hook in=$SmsForwardHooks do={
+        $LogPrintExit2 debug $0 ("Checking SMS forward hook '" . $Hook . "' on message: '" . $SmsVal->"message" . "'") false;
+        :local Code ($Hook->"command");
+        :local Regex ($Hook->"match");
+        :local AllowedNumber ($Hook->"allowed-number");
+        :if ($processed = false && $Phone~$AllowedNumber && ($SmsVal->"message")~$Regex) do={
+          :if ([ $ValidateSyntax $Code ] = true) do={
+            :log info ("Acting on SMS forward hook '" . $Regex . "': " . $Code);
+            :delay 1s;
+            [ :parse $Code ];
+            :log info ("Finished SMS forward hook '" . $Regex . "': " . $Code);
+          } else={
+            $LogPrintExit2 warning $0 ("The code for forward hook '" . $Regex . "': '" . $Code . "' failed syntax validation!") false;
+          }
+          # $LogPrintExit2 debug $0 ("Removing SMS, which started a forward script.") false;
+          # /tool/sms/inbox/remove $Sms;
+          :set processed true;
+        }
+      }
       :set Messages ($Messages . "\n\nOn " . $SmsVal->"timestamp" . \
           " type " . $SmsVal->"type" . ":\n" . $SmsVal->"message");
       :set Delete ($Delete, $Sms);

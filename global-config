@@ -147,6 +147,14 @@
 # add more here...
 };
 
+# Run commands on SMS forward action.
+:global SmsForwardHooks {
+  # { match="magic string";
+  #       allowed-number="1234";
+  #       command="/system/script/run ..." };
+# add more here...
+};
+
 # This is the address used to send gps data to.
 :global GpsTrackUrl "https://example.com/index.php";
 
