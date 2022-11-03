@@ -35,10 +35,38 @@ You have to enable receiving of SMS:
 
     /tool/sms/set receive-enabled=yes;
 
+The configuration goes to `global-config-overlay`, this is the only parameter:
+
+* `SmsForwardHooks`: an array with pre-defined hooks, where each hook consists
+  of `match` (which is matched against the received message), `allowed-number`
+  (which is matched against the sending phone number or name) and `command`.
+  For `match` and `allowed-number` regular expressions are supported.
+
 Notification settings are required for
 [e-mail](mod/notification-email.md),
 [matrix](mod/notification-matrix.md) and/or
 [telegram](mod/notification-telegram.md).
+
+Tips & Tricks
+-------------
+
+### Order new volume
+
+Most broadband providers include a volume limit for their data plans. The
+hook functionality can be used to order new volume automatically.
+
+Let's assume an imaginary provider **ABC** sends a message when the available
+volume is about to deplete. The message is sent from `ABC` and the text
+contains the string `80%`. New volume can be ordered by sending a SMS back to
+the phone number `1234` with the text `data-plan`.
+
+    :global SmsForwardHooks {
+      { match="80%";
+        allowed-number="ABC";
+        command="/tool/sms/send lte1 phone-number=1234 message=\"data-plan\";" };
+    };
+
+Adjust the values to your own needs.
 
 See also
 --------

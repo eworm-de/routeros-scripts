@@ -94,6 +94,7 @@
   83="Introduced new setting to disable news and change notifications, dropped version from configuration.";
   84="Support for e-mail notifications moved to a module. It is installed automatically if required.";
   85="Dropped 'netwatch-syslog', filtering in firewall is advised.";
+  86="Added support for hooks in 'sms-forward'. This now provides similar functionality to 'sms-action', but is more flexible.";
 };
 
 # Migration steps to be applied on script updates
