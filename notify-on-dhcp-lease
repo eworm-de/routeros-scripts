@@ -1,0 +1,68 @@
+#!rsc by RouterOS
+# RouterOS script: notify-on-dhcp-lease
+# Copyright (c) 2018-2022 Christian Hesse <mail@eworm.de>
+# https://git.eworm.de/cgit/routeros-scripts/about/COPYING.md
+#
+# provides: lease-script, order=90
+#
+# send notification on a new DHCP lease
+# https://git.eworm.de/cgit/routeros-scripts/about/doc/notify-on-dhcp-lease.md
+
+:local 0 "notify-on-dhcp-lease";
+:global GlobalFunctionsReady;
+:while ($GlobalFunctionsReady != true) do={ :delay 500ms; }
+
+:global Identity;
+
+:global IfThenElse;
+:global LogPrintExit2;
+:global ScriptLock;
+:global SendNotification2;
+:global SymbolForNotification;
+:global WaitFullyConnected;
+
+$ScriptLock $0;
+
+:global CurrentLeases;
+
+:if ([ :typeof $CurrentLeases ] != "array") do={
+  :global CurrentLeases ({});
+}
+
+$WaitFullyConnected;
+
+$LogPrintExit2 debug $0 ("Prepared") false;
+$LogPrintExit2 debug $0 ("Searching for leases") false;
+:local FoundLeases ({});
+
+:foreach Lease in=[ /ip/dhcp-server/lease/find where dynamic=yes status=bound ] do={
+  :local LeaseVal [ /ip/dhcp-server/lease/get $Lease ];
+  :local MacAddress ($LeaseVal->"mac-address");
+  :local IpAddress ($LeaseVal->"address");
+  :local Hostname ($LeaseVal->"host-name");
+  :local Comment ($LeaseVal->"comment");
+  :local LeaseName ("$MacAddress::$IpAddress::$Hostname::$Comment");
+  :local CurrentLease ($CurrentLeases->$MacAddress);
+  :local Message ("New DHCP lease: $LeaseName.");
+  :if ( $CurrentLease = nil ) do={
+    $LogPrintExit2 info $0 ($Message) false;
+    $SendNotification2 ({ origin=$0; \
+      subject=([ $SymbolForNotification "sparkles" ] . "New DHCP lease"); \
+      message=($Message); silent=true });
+    :set ($CurrentLeases->$MacAddress) ($LeaseName);
+  } else={
+    $LogPrintExit2 debug $0 ("Lease $LeaseName already known.") false;
+  }
+  :set ($FoundLeases->$MacAddress) ($LeaseName);
+}
+
+:foreach MacAddress,LeaseName in=$CurrentLeases do={
+  :if ($FoundLeases->$MacAddress = nil) do={
+    :local Message ("A DHCP lease $LeaseName has been released.");
+    $LogPrintExit2 info $0 ($Message) false;
+    $SendNotification2 ({ origin=$0; \
+      subject=([ $SymbolForNotification "sparkles" ] . "A DHCP lease has been released"); \
+      message=($Message); silent=true });
+    :set ($CurrentLeases->$MacAddress) (nil);
+  }
+}
