@@ -43,8 +43,15 @@
 
   :foreach Id,Message in=$EmailQueue do={
     :if ([ :typeof $Message ] = "array" ) do={
-      :local Attach [ :toarray [ $EitherOr ($Message->"attach") "" ] ];
+      :local Attach ({});
       :while ([ /tool/e-mail/get last-status ] = "in-progress") do={ :delay 1s; }
+      :foreach File in=[ :toarray [ $EitherOr ($Message->"attach") "" ] ] do={
+        :if ([ :len [ /file/find where name=$File ] ] = 1) do={
+          :set Attach ($Attach, $File);
+        } else={
+          $LogPrintExit2 warning $0 ("File '" . $File . "' does not exist, can not attach.") false;
+        }
+      }
       /tool/e-mail/send to=($Message->"to") cc=($Message->"cc") subject=($Message->"subject") \
         body=($Message->"body") file=$Attach;
       :local Wait true;
