@@ -21,7 +21,7 @@
   :local QueueLen [ :len $EmailQueue ];
 
   :if ([ /tool/e-mail/get last-status ] = "in-progress") do={
-    $LogPrintExit2 debug $0 ("Sending mail in currently in progress, not flushing.") false;
+    $LogPrintExit2 debug $0 ("Sending mail is currently in progress, not flushing.") false;
     :return false;
   }
 
