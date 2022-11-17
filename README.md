@@ -241,6 +241,26 @@ without modification.
 Starting a script's name with `mod/` makes it a module and it is run
 automatically by `global-functions`.
 
+### Linked custom scripts & modules
+
+> ⚠️ **Warning**: These links are being provided for your convenience only;
+> they do not constitute an endorsement or an approval by me. I bear no
+> responsibility for the accuracy, legality or content of the external site
+> or for that of subsequent links. Contact the external site for answers to
+> questions regarding its content.
+
+* [Hello World](https://git.eworm.de/cgit/routeros-scripts-custom/about/doc/hello-world.md)
+  (This is a demo script to show how the linking to external documentation
+  will be done.)
+
+> ℹ️ **Info**: You have your own set of scripts and/or modules and want these
+> to be listed here? There should be a general info page that links here,
+> and documentation for each script. You can start by cloning my
+> [Custom RouterOS-Scripts](https://git.eworm.de/cgit/routeros-scripts-custom/)
+> (or fork on [GitHub](https://github.com/eworm-de/routeros-scripts-custom)
+> or [GitLab](https://gitlab.com/eworm-de/routeros-scripts-custom)) and make
+> your changes. Then please [get in contact](#patches-issues-and-whishlist)...
+
 Removing a script
 -----------------
 
