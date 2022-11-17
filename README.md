@@ -241,6 +241,21 @@ without modification.
 Starting a script's name with `mod/` makes it a module and it is run
 automatically by `global-functions`.
 
+### Foreign scripts & modules
+
+> ⚠️ **Warning**: These links are being provided as a convenience only; they
+> do not constitute an endorsement or an approval by me. I bear no
+> responsibility for the accuracy, legality or content of the external site
+> or for that of subsequent links. Contact the external site for answers to
+> questions regarding its content.
+
+Currently there are none, but this is being worked on.
+
+> ℹ️ **Info**: You have your own set of scripts and/or modules and want these
+> to be listed here? There should be a general info page that links here,
+> and documentation for each script. Please
+> [get in contact](#patches-issues-and-whishlist)...
+
 Removing a script
 -----------------
 
