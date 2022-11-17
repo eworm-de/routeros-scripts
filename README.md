@@ -271,7 +271,9 @@ Thanks a lot for [past contributions](CONTRIBUTIONS.md)! ❤️
 ### Patches, issues and whishlist
 
 Feel free to contact me via e-mail or open an
-[issue at github](https://github.com/eworm-de/routeros-scripts/issues).
+[issue](https://github.com/eworm-de/routeros-scripts/issues) or
+[pull request](https://github.com/eworm-de/routeros-scripts/pulls)
+at github.
 
 ### Donate
 
