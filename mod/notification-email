@@ -39,7 +39,7 @@
     $LogPrintExit2 warning $0 ("Flushing E-Mail messages from scheduler, but queue is empty.") false;
   }
 
-  /system/scheduler/set interval=($QueueLen . "m") [ find where name=$0 ];
+  /system/scheduler/set interval=([ $EitherOr $QueueLen 1 ] . "m") [ find where name=$0 ];
 
   :foreach Id,Message in=$EmailQueue do={
     :if ([ :typeof $Message ] = "array" ) do={
