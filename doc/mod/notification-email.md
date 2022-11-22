@@ -26,6 +26,8 @@ Configuration
 
 Set up your device's
 [e-mail settings](https://wiki.mikrotik.com/wiki/Manual:Tools/email).
+Also make sure the device has correct time configured, best is to set up
+the ntp client.
 
 Then edit `global-config-overlay`, add `EmailGeneralTo` with a valid
 recipient address. Finally reload the configuration.
