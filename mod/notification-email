@@ -22,7 +22,7 @@
   :local Scheduler [ /system/scheduler/find where name=$0 ];
   
   :if ([ :len $Scheduler ] > 0 && [ /system/scheduler/get $Scheduler interval ] < 1m) do={
-    /system/scheduler/set interval=1m $Scheduler;
+    /system/scheduler/set interval=1m comment="Doing initial checks..." $Scheduler;
   }
 
   :if ([ /tool/e-mail/get last-status ] = "in-progress") do={
@@ -44,7 +44,7 @@
     $LogPrintExit2 warning $0 ("Flushing E-Mail messages from scheduler, but queue is empty.") false;
   }
 
-  /system/scheduler/set interval=([ $EitherOr $QueueLen 1 ] . "m") $Scheduler;
+  /system/scheduler/set interval=([ $EitherOr $QueueLen 1 ] . "m") comment="Sending..." $Scheduler;
 
   :foreach Id,Message in=$EmailQueue do={
     :if ([ :typeof $Message ] = "array" ) do={
@@ -84,7 +84,7 @@
     /system/scheduler/remove $Scheduler;
     :set EmailQueue;
   } else={
-    /system/scheduler/set interval=1m $Scheduler;
+    /system/scheduler/set interval=1m comment="Waiting for retry..." $Scheduler;
   }
 }
 
@@ -124,7 +124,7 @@
     attach=($Notification->"attach"); remove-attach=($Notification->"remove-attach") };
   :if ([ :len [ /system/scheduler/find where name="\$FlushEmailQueue" ] ] = 0) do={
     /system/scheduler/add name="\$FlushEmailQueue" interval=1s start-time=startup \
-      on-event=(":global FlushEmailQueue; \$FlushEmailQueue;");
+      comment="Queuing new mail..." on-event=(":global FlushEmailQueue; \$FlushEmailQueue;");
   }
 }
 
