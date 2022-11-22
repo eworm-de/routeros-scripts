@@ -20,6 +20,10 @@
   :local AllDone true;
   :local QueueLen [ :len $EmailQueue ];
   :local Scheduler [ /system/scheduler/find where name=$0 ];
+  
+  :if ([ :len $Scheduler ] > 0 && [ /system/scheduler/get $Scheduler interval ] < 1m) do={
+    /system/scheduler/set interval=1m $Scheduler;
+  }
 
   :if ([ /tool/e-mail/get last-status ] = "in-progress") do={
     $LogPrintExit2 debug $0 ("Sending mail is currently in progress, not flushing.") false;
