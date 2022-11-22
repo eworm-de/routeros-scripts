@@ -445,6 +445,11 @@
     :return false;
   }
 
+  :if ([ /system/license/get ]->"level" = "free") do={
+    $LogPrintExit2 debug $0 ("No ntp client configured, relying on RTC for CHR free license.") false;
+    :return true;
+  }
+
   :if ([ /ip/cloud/get update-time ] = true) do={
     :if ([ :typeof [ /ip/cloud/get public-address ] ] = "ip") do={
       :set IsTimeSyncCached true;
