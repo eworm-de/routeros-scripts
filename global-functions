@@ -876,7 +876,7 @@
   :local DoReturn $2;
   :local WaitMax  ([ :tonum $3 ] * 10);
 
-  :global GetRandom20CharHex;
+  :global GetRandom20CharAlNum;
   :global IfThenElse;
   :global LogPrintExit2;
 
@@ -977,7 +977,7 @@
     /system/script/job/remove [ find where script=$Script ];
   }
 
-  :local MyTicket [ $GetRandom20CharHex ];
+  :local MyTicket [ $GetRandom20CharAlNum 6 ];
   $AddTicket $Script $MyTicket;
 
   :local WaitCount 0;
