@@ -445,8 +445,9 @@
     :return false;
   }
 
-  :if ([ /system/license/get ]->"level" = "free") do={
-    $LogPrintExit2 debug $0 ("No ntp client configured, relying on RTC for CHR free license.") false;
+  :if ([ /system/license/get ]->"level" = "free" || \
+       [ /system/resource/get ]->"board-name" = "x86") do={
+    $LogPrintExit2 debug $0 ("No ntp client configured, relying on RTC for CHR free license and x86.") false;
     :return true;
   }
 
