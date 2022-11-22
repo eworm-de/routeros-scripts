@@ -506,7 +506,7 @@
   :local Dir [ :tostr $1 ];
 
   :global CleanFilePath;
-  :global GetRandom20CharHex;
+  :global GetRandom20CharAlNum;
   :global LogPrintExit2;
   :global WaitForFile;
 
@@ -521,7 +521,7 @@
   }
 
   :local Return true;
-  :local Name ($Dir . "-" . [ $GetRandom20CharHex ]);
+  :local Name ($Dir . "-" . [ $GetRandom20CharAlNum 6 ]);
   :do {
     /ip/smb/share/add disabled=yes directory=$Dir name=$Name;
     $WaitForFile $Dir;
