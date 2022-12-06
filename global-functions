@@ -1060,7 +1060,7 @@
     "white-heavy-check-mark"="\E2\9C\85"
   }
 
-  :return ($Symbols->$1);
+  :return (($Symbols->$1) . "\EF\B8\8F");
 }
 
 # return symbol for notification
