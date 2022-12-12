@@ -45,16 +45,16 @@ $WaitFullyConnected;
   $RandomDelay $BackupRandomDelay;
 }
 
-:if ([ $MkDir $0 ] = false) do={
-  $LogPrintExit2 error $0 ("Failed creating directory!") true;
-}
-
 # filename based on identity
 :local FileName [ $CharacterReplace ($Identity . "." . $Domain) "." "_" ];
 :local FilePath ($0 . "/" . $FileName);
 :local BackupFile "none";
 :local ConfigFile "none";
 :local Failed 0;
+
+:if ([ $MkDir $0 ] = false) do={
+  $LogPrintExit2 error $0 ("Failed creating directory!") true;
+}
 
 # binary backup
 :if ($BackupSendBinary = true) do={
