@@ -1203,6 +1203,9 @@
   }
 }
 
+# check for required RouterOS version
+$RequiredRouterOS $0 "7.1" true;
+
 # load modules
 :foreach Script in=[ /system/script/find where name ~ "^mod/." ] do={
   :local ScriptVal [ /system/script/get $Script ];
@@ -1216,9 +1219,6 @@
     $LogPrintExit2 error $0 ("Module '" . $ScriptVal->"name" . "' failed syntax validation, skipping.") false;
   }
 }
-
-# check for required RouterOS version
-$RequiredRouterOS $0 "7.1" true;
 
 # signal we are ready
 :set GlobalFunctionsReady true;
