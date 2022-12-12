@@ -46,13 +46,14 @@ $WaitFullyConnected;
 }
 
 # filename based on identity
+:local DirName ("tmpfs/" . $0);
 :local FileName [ $CharacterReplace ($Identity . "." . $Domain) "." "_" ];
-:local FilePath ($0 . "/" . $FileName);
+:local FilePath ($DirName . "/" . $FileName);
 :local BackupFile "none";
 :local ConfigFile "none";
 :local Attach ({});
 
-:if ([ $MkDir $0 ] = false) do={
+:if ([ $MkDir $DirName ] = false) do={
   $LogPrintExit2 error $0 ("Failed creating directory!") true;
 }
 
