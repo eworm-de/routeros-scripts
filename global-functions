@@ -536,6 +536,11 @@
     :return true;
   }
 
+  :if ([ :len [ /file/find where name=$Dir ] ] = 1) do={
+    $LogPrintExit2 warning $0 ("The path '" . $Dir . "' exists, but is not a directory.") false;
+    :return false;
+  }
+
   :local Return true;
   :local Name ($Dir . "-" . [ $GetRandom20CharAlNum 6 ]);
   :do {
