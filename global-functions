@@ -525,6 +525,7 @@
   :global CleanFilePath;
   :global GetRandom20CharAlNum;
   :global LogPrintExit2;
+  :global RequiredRouterOS;
   :global WaitForFile;
 
   :set Path [ $CleanFilePath $Path ];
@@ -544,6 +545,15 @@
     :set PathNext [ $CleanFilePath ($PathNext . "/" . $Dir) ];
 
     :if ([ :len [ /file/find where name=$PathNext type="directory" ] ] = 1) do={
+      :set Continue true;
+    }
+
+    :if ($Continue = false && $PathNext = "tmpfs" && [ $RequiredRouterOS $0 "7.7rc1" false ] = true) do={
+      :if ([ :len [ /disk/find where slot=tmpfs type=tmpfs ] ] = 0) do={
+        $LogPrintExit2 info $0 ("Creating disk of type tmpfs.") false;
+        /file/remove [ find where name="tmpfs" type="directory" ];
+        [ :parse "/disk/add slot=tmpfs type=tmpfs;" ];
+      }
       :set Continue true;
     }
 
