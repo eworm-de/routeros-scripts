@@ -519,35 +519,35 @@
 
 # create directory
 :set MkDir do={
-  :local Dir [ :tostr $1 ];
+  :local Path [ :tostr $1 ];
 
   :global CleanFilePath;
   :global GetRandom20CharAlNum;
   :global LogPrintExit2;
   :global WaitForFile;
 
-  :set Dir [ $CleanFilePath $Dir ];
+  :set Path [ $CleanFilePath $Path ];
 
-  :if ($Dir = "") do={
+  :if ($Path = "") do={
     :return true;
   }
 
-  :if ([ :len [ /file/find where name=$Dir type="directory" ] ] = 1) do={
+  :if ([ :len [ /file/find where name=$Path type="directory" ] ] = 1) do={
     :return true;
   }
 
-  :if ([ :len [ /file/find where name=$Dir ] ] = 1) do={
-    $LogPrintExit2 warning $0 ("The path '" . $Dir . "' exists, but is not a directory.") false;
+  :if ([ :len [ /file/find where name=$Path ] ] = 1) do={
+    $LogPrintExit2 warning $0 ("The path '" . $Path . "' exists, but is not a directory.") false;
     :return false;
   }
 
   :local Return true;
-  :local Name ($Dir . "-" . [ $GetRandom20CharAlNum 6 ]);
+  :local Name ($Path . "-" . [ $GetRandom20CharAlNum 6 ]);
   :do {
-    /ip/smb/share/add disabled=yes directory=$Dir name=$Name;
-    $WaitForFile $Dir;
+    /ip/smb/share/add disabled=yes directory=$Path name=$Name;
+    $WaitForFile $Path;
   } on-error={
-    $LogPrintExit2 warning $0 ("Making directory '" . $Dir . "' failed!") false;
+    $LogPrintExit2 warning $0 ("Making directory '" . $Path . "' failed!") false;
     :set Return false;
   }
   /ip/smb/share/remove [ find where name=$Name ];
