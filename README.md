@@ -96,7 +96,7 @@ The configuration needs to be tweaked for your needs. Edit
 [`global-config`](global-config) (the one without `-overlay`).
 Save changes and exit with `Ctrl-o`.
 
-    /system/script edit global-config-overlay source;
+    /system/script/edit global-config-overlay source;
 
 ![screenshot: edit global-config-overlay](README.d/05-edit-global-config-overlay.avif)
 
