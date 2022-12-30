@@ -1,8 +1,10 @@
 # backup and temporary files
 *~
 
-# patches
+# patches and related files
+*.orig
 *.patch
+*.rej
 
 # html files (as generated from markdown)
 *.html
