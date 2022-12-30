@@ -8,3 +8,6 @@
 
 # html files (as generated from markdown)
 *.html
+
+# Mac OS X folder settings file
+.DS_Store
