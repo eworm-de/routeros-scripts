@@ -10,6 +10,7 @@ Thanks a lot for your contributions! ❤️
 These persons contributed code or documentation. See the git history
 for details!
 
+* [Anatoly Bubenkov](mailto:bubenkoff@gmail.com) (@bubenkoff)
 * [Ben Harris](mailto:mail@bharr.is) (@bharrisau)
 * [Daniel Ziegenberg](mailto:daniel@ziegenberg.at) (@ziegenberg)
 * [Michael Gisbers](mailto:michael@gisbers.de) (@mgisbers)
