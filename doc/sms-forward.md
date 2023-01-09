@@ -50,6 +50,13 @@ Notification settings are required for
 Tips & Tricks
 -------------
 
+### Take care of harmful commands!
+
+It is easy to fake the sending phone number! So make sure you do not rely on
+that number for potentially harmful commands. Add a shared secret to match
+into the text instead, for example: `reboot-53cr3t-5tr1n9` instead of just
+`reboot`.
+
 ### Order new volume
 
 Most broadband providers include a volume limit for their data plans. The
