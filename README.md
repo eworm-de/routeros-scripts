@@ -227,12 +227,9 @@ still use my scripts to manage and deploy yours, by specifying `base-url`
 
 This will fetch and install a script `hello-world.rsc` from the given url:
 
-    $ScriptInstallUpdate hello-world.rsc "base-url=https://git.eworm.de/cgit/routeros-scripts/plain/README.d/";
+    $ScriptInstallUpdate hello-world.rsc "base-url=https://git.eworm.de/cgit/routeros-scripts-custom/plain/";
 
 ![screenshot: install custom script](README.d/12-install-custom-script.avif)
-
-(Yes, the example url still belongs to the repository for easy
-handling - but the url can be what ever you use.)
 
 For a script to be considered valid it has to begin with a *magic token*.
 Have a look at [any script](README.d/hello-world.rsc) and copy the first line
