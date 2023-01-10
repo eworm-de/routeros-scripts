@@ -1,7 +1,7 @@
 Mode button with multiple presses
 =================================
 
-[◀ Go back to main README](../README.md)
+[⬅️ Go back to main README](../README.md)
 
 > ℹ️ **Info**: This script can not be used on its own but requires the base
 > installation. See [main README](../README.md) for details.
@@ -60,5 +60,5 @@ Usage and invocation
 Press the mode button. 😜
 
 ---
-[◀ Go back to main README](../README.md)  
-[▲ Go back to top](#top)
+[⬅️ Go back to main README](../README.md)  
+[⬆️ Go back to top](#top)

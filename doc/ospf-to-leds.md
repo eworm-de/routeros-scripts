@@ -1,7 +1,7 @@
 Visualize OSPF state via LEDs
 =============================
 
-[◀ Go back to main README](../README.md)
+[⬅️ Go back to main README](../README.md)
 
 > ℹ️ **Info**: This script can not be used on its own but requires the base
 > installation. See [main README](../README.md) for details.
@@ -33,5 +33,5 @@ instance `default` via LED `user-led` set this:
     /routing/ospf/instance/set default comment="ospf-to-leds, leds=user-led";
 
 ---
-[◀ Go back to main README](../README.md)  
-[▲ Go back to top](#top)
+[⬅️ Go back to main README](../README.md)  
+[⬆️ Go back to top](#top)

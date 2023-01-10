@@ -1,7 +1,7 @@
 IP address calculation
 ======================
 
-[◀ Go back to main README](../../README.md)
+[⬅️ Go back to main README](../../README.md)
 
 > ℹ️️ **Info**: This module can not be used on its own but requires the base
 > installation. See [main README](../../README.md) for details.
@@ -49,5 +49,5 @@ the information in a named array.
 ![IPCalcReturn](ipcalc.d/ipcalcreturn.avif)
 
 ---
-[◀ Go back to main README](../../README.md)  
-[▲ Go back to top](#top)
+[⬅️ Go back to main README](../../README.md)  
+[⬆️ Go back to top](#top)

@@ -1,7 +1,7 @@
 Download script and run it once
 ===============================
 
-[◀ Go back to main README](../../README.md)
+[⬅️ Go back to main README](../../README.md)
 
 > ℹ️️ **Info**: This module can not be used on its own but requires the base
 > installation. See [main README](../../README.md) for details.
@@ -44,5 +44,5 @@ The function `$ScriptRunOnce` expects an URL (or name if
 Giving multiple scripts is possible, separated by comma.
 
 ---
-[◀ Go back to main README](../../README.md)  
-[▲ Go back to top](#top)
+[⬅️ Go back to main README](../../README.md)  
+[⬆️ Go back to top](#top)

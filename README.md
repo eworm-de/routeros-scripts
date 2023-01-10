@@ -327,4 +327,4 @@ Mirror:
 [GitLab.com](https://gitlab.com/eworm-de/routeros-scripts#routeros-scripts)
 
 ---
-[▲ Go back to top](#top)
+[⬆️ Go back to top](#top)

@@ -1,7 +1,7 @@
 Install LTE firmware upgrade
 ============================
 
-[◀ Go back to main README](../README.md)
+[⬅️ Go back to main README](../README.md)
 
 Description
 -----------
@@ -42,5 +42,5 @@ See also
 * [Notify on LTE firmware upgrade](check-lte-firmware-upgrade.md)
 
 ---
-[◀ Go back to main README](../README.md)  
-[▲ Go back to top](#top)
+[⬅️ Go back to main README](../README.md)  
+[⬆️ Go back to top](#top)

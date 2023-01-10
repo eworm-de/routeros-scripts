@@ -1,7 +1,7 @@
 Download packages for CAP upgrade from CAPsMAN
 =============================================
 
-[◀ Go back to main README](../README.md)
+[⬅️ Go back to main README](../README.md)
 
 > ℹ️ **Info**: This script can not be used on its own but requires the base
 > installation. See [main README](../README.md) for details.
@@ -49,5 +49,5 @@ See also
 * [Run rolling CAP upgrades from CAPsMAN](capsman-rolling-upgrade.md)
 
 ---
-[◀ Go back to main README](../README.md)  
-[▲ Go back to top](#top)
+[⬅️ Go back to main README](../README.md)  
+[⬆️ Go back to top](#top)

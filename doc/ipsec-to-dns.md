@@ -1,7 +1,7 @@
 Create DNS records for IPSec peers
 ==================================
 
-[◀ Go back to main README](../README.md)
+[⬅️ Go back to main README](../README.md)
 
 > ℹ️ **Info**: This script can not be used on its own but requires the base
 > installation. See [main README](../README.md) for details.
@@ -42,5 +42,5 @@ See also
 * [Create DNS records for DHCP leases](dns-to-dhcp.md)
 
 ---
-[◀ Go back to main README](../README.md)  
-[▲ Go back to top](#top)
+[⬅️ Go back to main README](../README.md)  
+[⬆️ Go back to top](#top)

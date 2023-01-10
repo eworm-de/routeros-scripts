@@ -1,7 +1,7 @@
 Initial commands
 ================
 
-[◀ Go back to main README](README.md)
+[⬅️ Go back to main README](README.md)
 
 > ⚠️ **Warning**: These command are inteneded for initial setup. If you are
 > not aware of the procedure please follow
@@ -33,5 +33,5 @@ Optional to update the scripts automatically:
     /system/scheduler/add name="ScriptInstallUpdate" start-time=startup interval=1d on-event=":global ScriptInstallUpdate; \$ScriptInstallUpdate;";
 
 ---
-[◀ Go back to main README](README.md)  
-[▲ Go back to top](#top)
+[⬅️ Go back to main README](README.md)  
+[⬆️ Go back to top](#top)

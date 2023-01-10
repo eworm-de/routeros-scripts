@@ -1,7 +1,7 @@
 Manage IP addresses with bridge status
 ======================================
 
-[◀ Go back to main README](../README.md)
+[⬅️ Go back to main README](../README.md)
 
 Description
 -----------
@@ -28,5 +28,5 @@ Note that IP addresses on bridges without a single port (acting as loopback
 interface) are ignored.
 
 ---
-[◀ Go back to main README](../README.md)  
-[▲ Go back to top](#top)
+[⬅️ Go back to main README](../README.md)  
+[⬆️ Go back to top](#top)

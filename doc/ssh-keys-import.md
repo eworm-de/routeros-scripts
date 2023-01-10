@@ -1,7 +1,7 @@
 Import SSH keys
 ===============
 
-[◀ Go back to main README](../README.md)
+[⬅️ Go back to main README](../README.md)
 
 Description
 -----------
@@ -29,5 +29,5 @@ Starting with an `authorized_keys` file you can split it on a shell:
     grep -E '^ssh-rsa' authorized_keys | nl -nrz | while read num type key name; do echo $type $key $name > $num-$name.pub; done
 
 ---
-[◀ Go back to main README](../README.md)  
-[▲ Go back to top](#top)
+[⬅️ Go back to main README](../README.md)  
+[⬆️ Go back to top](#top)

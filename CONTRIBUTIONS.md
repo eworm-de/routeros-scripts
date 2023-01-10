@@ -1,7 +1,7 @@
 Past Contributions
 ==================
 
-[◀ Go back to main README](README.md)
+[⬅️ Go back to main README](README.md)
 
 Thanks a lot for your contributions! ❤️
 
@@ -41,5 +41,5 @@ Add yourself to the list,
 * Zac Kornilakis
 
 ---
-[◀ Go back to main README](README.md)  
-[▲ Go back to top](#top)
+[⬅️ Go back to main README](README.md)  
+[⬆️ Go back to top](#top)

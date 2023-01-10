@@ -1,7 +1,7 @@
 Update GRE configuration with dynamic addresses
 ===============================================
 
-[◀ Go back to main README](../README.md)
+[⬅️ Go back to main README](../README.md)
 
 > ℹ️ **Info**: This script can not be used on its own but requires the base
 > installation. See [main README](../README.md) for details.
@@ -37,5 +37,5 @@ certificate CN into the comment:
     /interface/gre/set comment="ikev2-client1" gre-client1;
 
 ---
-[◀ Go back to main README](../README.md)  
-[▲ Go back to top](#top)
+[⬅️ Go back to main README](../README.md)  
+[⬆️ Go back to top](#top)

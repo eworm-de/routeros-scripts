@@ -1,7 +1,7 @@
 Manage VLANs on bridge ports
 ============================
 
-[◀ Go back to main README](../../README.md)
+[⬅️ Go back to main README](../../README.md)
 
 > ℹ️️ **Info**: This module can not be used on its own but requires the base
 > installation. See [main README](../../README.md) for details.
@@ -81,5 +81,5 @@ See also
 * [Manage ports in bridge](bridge-port-to.md)
 
 ---
-[◀ Go back to main README](../../README.md)  
-[▲ Go back to top](#top)
+[⬅️ Go back to main README](../../README.md)  
+[⬆️ Go back to top](#top)

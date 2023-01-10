@@ -1,7 +1,7 @@
 Manage DNS and DoH servers from netwatch
 ========================================
 
-[◀ Go back to main README](../README.md)
+[⬅️ Go back to main README](../README.md)
 
 > ℹ️ **Info**: This script can not be used on its own but requires the base
 > installation. See [main README](../README.md) for details.
@@ -74,5 +74,5 @@ See also
 * [Notify on host up and down](netwatch-notify.md)
 
 ---
-[◀ Go back to main README](../README.md)  
-[▲ Go back to top](#top)
+[⬅️ Go back to main README](../README.md)  
+[⬆️ Go back to top](#top)

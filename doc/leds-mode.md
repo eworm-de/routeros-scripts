@@ -1,7 +1,7 @@
 Manage LEDs dark mode
 =====================
 
-[◀ Go back to main README](../README.md)
+[⬅️ Go back to main README](../README.md)
 
 Description
 -----------
@@ -46,5 +46,5 @@ See also
 * [Mode button with multiple presses](mode-button.md)
 
 ---
-[◀ Go back to main README](../README.md)  
-[▲ Go back to top](#top)
+[⬅️ Go back to main README](../README.md)  
+[⬆️ Go back to top](#top)

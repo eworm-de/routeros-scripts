@@ -1,7 +1,7 @@
 Play Super Mario theme
 ======================
 
-[◀ Go back to main README](../README.md)
+[⬅️ Go back to main README](../README.md)
 
 Description
 -----------
@@ -27,5 +27,5 @@ Just run the script to play:
 For extra fun use it for dhcp lease script. :)
 
 ---
-[◀ Go back to main README](../README.md)  
-[▲ Go back to top](#top)
+[⬅️ Go back to main README](../README.md)  
+[⬆️ Go back to top](#top)

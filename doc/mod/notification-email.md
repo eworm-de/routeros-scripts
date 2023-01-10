@@ -1,7 +1,7 @@
 Send notifications via e-mail
 =============================
 
-[◀ Go back to main README](../../README.md)
+[⬅️ Go back to main README](../../README.md)
 
 > ℹ️️ **Info**: This module can not be used on its own but requires the base
 > installation. See [main README](../../README.md) for details.
@@ -61,5 +61,5 @@ See also
 * [Send notifications via Telegram](notification-telegram.md)
 
 ---
-[◀ Go back to main README](../../README.md)  
-[▲ Go back to top](#top)
+[⬅️ Go back to main README](../../README.md)  
+[⬆️ Go back to top](#top)
