@@ -147,6 +147,22 @@
 # add more here...
 };
 
+# host to test for internet connectivity (btest server, disabled by default)
+:global CheckLteStateUpdateBtestHost;
+# :global CheckLteStateUpdateBtestHost "example.com"; # enable btest
+# user to test for internet connectivity (btest server)
+:global CheckLteStateUpdateBtestUser;
+# :global CheckLteStateUpdateBtestUser "mikrotik"; # enable btest
+# password to test for internet connectivity (btest server)
+:global CheckLteStateUpdateBtestPassword;
+# :global CheckLteStateUpdateBtestPassword "v3ry-s3cr3t"; # enable btest
+:global CheckLteStateUpdateIP true;
+# :global CheckLteStateUpdateIP false; # disable checking IP
+:global CheckLteStateUpdatePrimaryBand false;
+# :global CheckLteStateUpdatePrimaryBand true; # enable checking primary band
+:global CheckLteStateUpdateCABand false;
+# :global CheckLteStateUpdateCABand true; # enable checking CA band
+
 # This is the address used to send gps data to.
 :global GpsTrackUrl "https://example.com/index.php";
 
