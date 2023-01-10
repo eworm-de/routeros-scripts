@@ -107,10 +107,11 @@
 # generate the e-mail subject
 :set NotificationEMailSubject do={
   :global Identity;
+  :global IdentityExtra;
 
   :global QuotedPrintable;
 
-  :return [ $QuotedPrintable ("[" . $Identity . "] " . $1) ];
+  :return [ $QuotedPrintable ("[" . $IdentityExtra . $Identity . "] " . $1) ];
 }
 
 # send notification via e-mail - expects one array argument

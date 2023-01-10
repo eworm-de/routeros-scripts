@@ -9,6 +9,9 @@
 # Set this to 'true' to disable news and change notifications.
 :global NoNewsAndChangesNotification false;
 
+# Add extra text (or emojis) in notification tags.
+:global IdentityExtra "";
+
 # This is used for DNS and backup file.
 :global Domain "example.com";
 :global HostNameInZone true;

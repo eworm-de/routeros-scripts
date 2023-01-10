@@ -56,6 +56,7 @@
   :local Notification $1;
 
   :global Identity;
+  :global IdentityExtra;
   :global MatrixAccessToken;
   :global MatrixAccessTokenOverride;
   :global MatrixHomeServer;
@@ -106,10 +107,11 @@
     :return false;
   }
 
-  :local Plain [ $PrepareText ("## [" . $Identity . "] " . ($Notification->"subject") . "\n```\n" . \
-    ($Notification->"message") . "\n```") "plain" ];
-  :local Formatted ("<h2>" . [ $PrepareText ("[" . $Identity . "] " . ($Notification->"subject")) "format" ] . "</h2>" . \
-    "<pre><code>" . [ $PrepareText ($Notification->"message") "format" ] . "</code></pre>");
+  :local Plain [ $PrepareText ("## [" . $IdentityExtra . $Identity . "] " . \
+    ($Notification->"subject") . "\n```\n" . ($Notification->"message") . "\n```") "plain" ];
+  :local Formatted ("<h2>" . [ $PrepareText ("[" . $IdentityExtra . $Identity . "] " . \
+    ($Notification->"subject")) "format" ] . "</h2>" . "<pre><code>" . \
+    [ $PrepareText ($Notification->"message") "format" ] . "</code></pre>");
   :if ([ :len ($Notification->"link") ] > 0) do={
     :set Plain ($Plain . "\\n" . [ $SymbolForNotification "link" ] . \
       [ $PrepareText ("[" . $Notification->"link" . "](" . $Notification->"link" . ")") "plain" ]);

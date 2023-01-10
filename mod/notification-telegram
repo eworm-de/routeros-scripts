@@ -55,6 +55,7 @@
   :local Notification $1;
 
   :global Identity;
+  :global IdentityExtra;
   :global TelegramChatId;
   :global TelegramChatIdOverride;
   :global TelegramFixedWidthFont;
@@ -105,7 +106,8 @@
   }
 
   :local Truncated false;
-  :local Text ("*__" . [ $EscapeMD ("[" . $Identity . "] " . ($Notification->"subject")) "plain" ] . "__*\n\n");
+  :local Text ("*__" . [ $EscapeMD ("[" . $IdentityExtra . $Identity . "] " . \
+    ($Notification->"subject")) "plain" ] . "__*\n\n");
   :local LenSubject [ :len $Text ];
   :local LenMessage [ :len ($Notification->"message") ];
   :local LenLink [ :len ($Notification->"link") ];

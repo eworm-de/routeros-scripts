@@ -95,6 +95,7 @@
   84="Support for e-mail notifications moved to a module. It is installed automatically if required.";
   85="Dropped 'netwatch-syslog', filtering in firewall is advised.";
   86="Added support for hooks in 'sms-forward'. This now provides similar functionality to 'sms-action', but is more flexible.";
+  87="Added support for extra text (or emojis \F0\9F\9A\80) in notification tags.";
 };
 
 # Migration steps to be applied on script updates
