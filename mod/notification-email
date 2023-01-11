@@ -5,6 +5,7 @@
 
 :global FlushEmailQueue;
 :global LogForwardFilterLogForwarding;
+:global NotificationEMailSubject;
 :global NotificationFunctions;
 :global QuotedPrintable;
 :global SendEMail;
@@ -92,24 +93,30 @@
 
 # generate filter for log-forward
 :set LogForwardFilterLogForwarding do={
-  :global Identity;
-
   :global EscapeForRegEx;
-  :global QuotedPrintable;
+  :global NotificationEMailSubject;
   :global SymbolForNotification;
 
   :return ("^Error sending e-mail <(" . \
-    [ $EscapeForRegEx [ $QuotedPrintable ("[" . $Identity . "] " . \
-      [ $SymbolForNotification "memo" ] . "Log Forwarding") ] ] . "|" . \
-    [ $EscapeForRegEx [ $QuotedPrintable ("[" . $Identity . "] " . \
-      [ $SymbolForNotification "warning-sign" ] . "Log Forwarding") ] ] . ")>:");
+    [ $EscapeForRegEx [ $NotificationEMailSubject ([ $SymbolForNotification \
+      "memo" ] . "Log Forwarding") ] ] . "|" . \
+    [ $EscapeForRegEx [ $NotificationEMailSubject ([ $SymbolForNotification \
+      "warning-sign" ] . "Log Forwarding") ] ] . ")>:");
+}
+
+# generate the e-mail subject
+:set NotificationEMailSubject do={
+  :global Identity;
+
+  :global QuotedPrintable;
+
+  :return [ $QuotedPrintable ("[" . $Identity . "] " . $1) ];
 }
 
 # send notification via e-mail - expects one array argument
 :set ($NotificationFunctions->"email") do={
   :local Notification $1;
 
-  :global Identity;
   :global EmailGeneralTo;
   :global EmailGeneralToOverride;
   :global EmailGeneralCc;
@@ -118,7 +125,7 @@
 
   :global EitherOr;
   :global IfThenElse;
-  :global QuotedPrintable;
+  :global NotificationEMailSubject;
 
   :local To [ $EitherOr ($EmailGeneralToOverride->($Notification->"origin")) $EmailGeneralTo ];
   :local Cc [ $EitherOr ($EmailGeneralCcOverride->($Notification->"origin")) $EmailGeneralCc ];
@@ -134,7 +141,7 @@
   :local Signature [ /system/note/get note ];
   :set ($EmailQueue->[ :len $EmailQueue ]) {
     to=$To; cc=$Cc;
-    subject=[ $QuotedPrintable ("[" . $Identity . "] " . ($Notification->"subject")) ];
+    subject=[ $NotificationEMailSubject ($Notification->"subject") ];
     body=(($Notification->"message") . \
       [ $IfThenElse ([ :len ($Notification->"link") ] > 0) ("\n\n" . ($Notification->"link")) "" ] . \
       [ $IfThenElse ([ :len $Signature ] > 0) ("\n-- \n" . $Signature) "" ]); \
