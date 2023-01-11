@@ -26,7 +26,6 @@
 :global LogPrintExit2;
 :global ScriptLock;
 :global SendNotification2;
-:global SymbolByUnicodeName;
 :global SymbolForNotification;
 
 $ScriptLock $0;
