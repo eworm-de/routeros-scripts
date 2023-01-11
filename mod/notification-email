@@ -4,6 +4,7 @@
 # https://git.eworm.de/cgit/routeros-scripts/about/COPYING.md
 
 :global FlushEmailQueue;
+:global LogForwardFilterLogForwarding;
 :global NotificationFunctions;
 :global SendEMail;
 :global SendEMail2;
@@ -86,6 +87,21 @@
   } else={
     /system/scheduler/set interval=1m comment="Waiting for retry..." $Scheduler;
   }
+}
+
+# generate filter for log-forward
+:set LogForwardFilterLogForwarding do={
+  :global Identity;
+
+  :global EscapeForRegEx;
+  :global QuotedPrintable;
+  :global SymbolForNotification;
+
+  :return ("^Error sending e-mail <(" . \
+    [ $EscapeForRegEx [ $QuotedPrintable ("[" . $Identity . "] " . \
+      [ $SymbolForNotification "memo" ] . "Log Forwarding") ] ] . "|" . \
+    [ $EscapeForRegEx [ $QuotedPrintable ("[" . $Identity . "] " . \
+      [ $SymbolForNotification "warning-sign" ] . "Log Forwarding") ] ] . ")>:");
 }
 
 # send notification via e-mail - expects one array argument
