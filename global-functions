@@ -4,7 +4,7 @@
 #                         Michael Gisbers <michael@gisbers.de>
 # https://git.eworm.de/cgit/routeros-scripts/about/COPYING.md
 #
-# requires RouterOS, version=7.1
+# requires RouterOS, version=7.7
 #
 # global functions
 # https://git.eworm.de/cgit/routeros-scripts/about/
@@ -581,12 +581,12 @@
       :set Continue true;
     }
 
-    :if ($Continue = false && $PathNext = "tmpfs" && [ $RequiredRouterOS $0 "7.7rc1" false ] = true) do={
+    :if ($Continue = false && $PathNext = "tmpfs") do={
       :if ([ :len [ /disk/find where slot=tmpfs type=tmpfs ] ] = 0) do={
         $LogPrintExit2 info $0 ("Creating disk of type tmpfs.") false;
         /file/remove [ find where name="tmpfs" type="directory" ];
         :do {
-          [ :parse "/disk/add slot=tmpfs type=tmpfs tmpfs-max-size=([ /system/resource/get total-memory ] / 3);" ];
+          /disk/add slot=tmpfs type=tmpfs tmpfs-max-size=([ /system/resource/get total-memory ] / 3);
           $WaitForFile "tmpfs";
         } on-error={
           $LogPrintExit2 warning $0 ("Creating disk of type tmpfs failed!") false;
