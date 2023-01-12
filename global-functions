@@ -543,7 +543,7 @@
     :local Continue false;
     :set PathNext [ $CleanFilePath ($PathNext . "/" . $Dir) ];
 
-    :if ([ :len [ /file/find where name=$PathNext type="directory" ] ] = 1) do={
+    :if ([ :len [ /file/find where name=$PathNext !(name="tmpfs") type="directory" ] ] = 1) do={
       :set Continue true;
     }
 
