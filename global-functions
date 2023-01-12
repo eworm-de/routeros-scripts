@@ -796,7 +796,13 @@
     }
   }
 
-  :if ($ExpectedConfigVersionBefore != $ExpectedConfigVersion) do={
+  :if ($ExpectedConfigVersionBefore > $ExpectedConfigVersion) do={
+    $LogPrintExit2 warning $0 ("The configuration version decreased from " . \
+      $ExpectedConfigVersionBefore . " to " . $ExpectedConfigVersion . \
+      ". Installed an older version?") false;
+  }
+
+  :if ($ExpectedConfigVersionBefore < $ExpectedConfigVersion) do={
     :global GlobalConfigChanges;
     :global GlobalConfigMigration;
     :local ChangeLogCode;
