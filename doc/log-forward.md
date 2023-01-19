@@ -66,6 +66,18 @@ Also notification settings are required for
 [matrix](mod/notification-matrix.md) and/or
 [telegram](mod/notification-telegram.md).
 
+Tips & Tricks
+-------------
+
+### Notification on reboot
+
+You want to receive a notification on every device (re-)boot? Quite easy,
+just add:
+
+    :global LogForwardIncludeMessage "(^router rebooted)";
+
+This will match on every log message beginning with `router rebooted`.
+
 ---
 [⬅️ Go back to main README](../README.md)  
 [⬆️ Go back to top](#top)
