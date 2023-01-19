@@ -700,9 +700,12 @@
   :global ScriptUpdatesUrlSuffix;
 
   :global CertificateAvailable;
+  :global EitherOr;
+  :global Grep;
   :global IfThenElse;
   :global LogPrintExit2;
   :global ParseKeyValueStore;
+  :global RequiredRouterOS;
   :global SendNotification2;
   :global SymbolForNotification;
   :global ValidateSyntax;
@@ -773,18 +776,24 @@
     :if ([ :len $SourceNew ] > 0) do={
       :if ($SourceNew != $ScriptVal->"source") do={
         :if ([ :pick $SourceNew 0 18 ] = "#!rsc by RouterOS\n") do={
-          :if ([ $ValidateSyntax $SourceNew ] = true) do={
-            $LogPrintExit2 info $0 ("Updating script: " . $ScriptVal->"name") false;
-            /system/script/set owner=($ScriptVal->"name") source=$SourceNew $Script;
-            :if ($ScriptVal->"name" = "global-config") do={
-              :set ReloadGlobalConfig true;
-            }
-            :if ($ScriptVal->"name" = "global-functions" || $ScriptVal->"name" ~ ("^mod/.")) do={
-              :set ReloadGlobalFunctions true;
+          :local Required ([ $ParseKeyValueStore [ $Grep $SourceNew "# requires RouterOS, " ] ]->"version");
+          :if ([ $RequiredRouterOS $0 [ $EitherOr $Required "0.0" ] false ] = true) do={
+            :if ([ $ValidateSyntax $SourceNew ] = true) do={
+              $LogPrintExit2 info $0 ("Updating script: " . $ScriptVal->"name") false;
+              /system/script/set owner=($ScriptVal->"name") source=$SourceNew $Script;
+              :if ($ScriptVal->"name" = "global-config") do={
+                :set ReloadGlobalConfig true;
+              }
+              :if ($ScriptVal->"name" = "global-functions" || $ScriptVal->"name" ~ ("^mod/.")) do={
+                :set ReloadGlobalFunctions true;
+              }
+            } else={
+              $LogPrintExit2 warning $0 ("Syntax validation for script '" . $ScriptVal->"name" . \
+                "' failed! Ignoring!") false;
             }
           } else={
-            $LogPrintExit2 warning $0 ("Syntax validation for script '" . $ScriptVal->"name" . \
-              "' failed! Ignoring!") false;
+            $LogPrintExit2 warning $0 ("The script '" . $ScriptVal->"name" . "' requires RouterOS " . \
+              $Required . ", which is not met by your installation. Ignoring!") false;
           }
         } else={
           $LogPrintExit2 warning $0 ("Looks like new script '" . $ScriptVal->"name" . \
