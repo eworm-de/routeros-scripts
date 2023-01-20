@@ -12,6 +12,7 @@
 
 :global CheckHealthCPULoad;
 :global CheckHealthCPULoadNotified;
+:global CheckHealthFreeRAMNotified;
 :global CheckHealthLast;
 :global CheckHealthTemperature;
 :global CheckHealthTemperatureDeviation;
@@ -45,7 +46,9 @@
 
 $ScriptLock $0;
 
-:set CheckHealthCPULoad (($CheckHealthCPULoad * 4 + [ /system/resource/get cpu-load ] * 10) / 5);
+:local Resource [ /system/resource/get ];
+
+:set CheckHealthCPULoad (($CheckHealthCPULoad * 4 + ($Resource->"cpu-load") * 10) / 5);
 :if ($CheckHealthCPULoad > 750 && $CheckHealthCPULoadNotified != true) do={
   $SendNotification2 ({ origin=$0; \
     subject=([ $SymbolForNotification "abacus,chart-increasing" ] . "Health warning: CPU load"); \
@@ -58,6 +61,23 @@ $ScriptLock $0;
     message=("The average CPU load on " . $Identity . " decreased to " . ($CheckHealthCPULoad / 10) . "%.") });
   :set CheckHealthCPULoadNotified false;
 }
+
+:local CheckHealthFreeRAM ($Resource->"free-memory" * 100  / $Resource->"total-memory");
+:if ($CheckHealthFreeRAM < 20 && $CheckHealthFreeRAMNotified != true) do={
+  $SendNotification2 ({ origin=$0; \
+    subject=([ $SymbolForNotification "card-file-box,chart-decreasing" ] . "Health warning: free RAM"); \
+    message=("The available free RAM on " . $Identity . " is at " . $CheckHealthFreeRAM . "% (" . \
+    ($Resource->"free-memory" / 1024 / 1024) . "MiB)!") });
+  :set CheckHealthFreeRAMNotified true;
+}
+:if ($CheckHealthFreeRAM > 30 && $CheckHealthFreeRAMNotified = true) do={
+  $SendNotification2 ({ origin=$0; \
+    subject=([ $SymbolForNotification "card-file-box,chart-increasing" ] . "Health recovery: free RAM"); \
+    message=("The available free RAM on " . $Identity . " increased to " . $CheckHealthFreeRAM . "% (" . \
+    ($Resource->"free-memory" / 1024 / 1024) . "MiB).") });
+  :set CheckHealthFreeRAMNotified false;
+}
+
 
 :foreach Voltage in=[ /system/health/find where type="V" ] do={
   :local Name  [ /system/health/get $Voltage name  ];
