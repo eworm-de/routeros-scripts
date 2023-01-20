@@ -1075,6 +1075,7 @@
 # return UTF-8 symbol for unicode name
 :set SymbolByUnicodeName do={
   :local Symbols {
+    "abacus"="\F0\9F\A7\AE";
     "alarm-clock"="\E2\8F\B0";
     "calendar"="\F0\9F\93\85";
     "chart-decreasing"="\F0\9F\93\89";

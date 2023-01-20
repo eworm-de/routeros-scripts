@@ -10,6 +10,8 @@
 :global GlobalFunctionsReady;
 :while ($GlobalFunctionsReady != true) do={ :delay 500ms; }
 
+:global CheckHealthCPULoad;
+:global CheckHealthCPULoadNotified;
 :global CheckHealthLast;
 :global CheckHealthTemperature;
 :global CheckHealthTemperatureDeviation;
@@ -42,6 +44,20 @@
 }
 
 $ScriptLock $0;
+
+:set CheckHealthCPULoad (($CheckHealthCPULoad * 4 + [ /system/resource/get cpu-load ] * 10) / 5);
+:if ($CheckHealthCPULoad > 750 && $CheckHealthCPULoadNotified != true) do={
+  $SendNotification2 ({ origin=$0; \
+    subject=([ $SymbolForNotification "abacus,chart-increasing" ] . "Health warning: CPU load"); \
+    message=("The average CPU load on " . $Identity . " is at " . ($CheckHealthCPULoad / 10) . "%!") });
+  :set CheckHealthCPULoadNotified true;
+}
+:if ($CheckHealthCPULoad < 650 && $CheckHealthCPULoadNotified = true) do={
+  $SendNotification2 ({ origin=$0; \
+    subject=([ $SymbolForNotification "abacus,chart-decreasing" ] . "Health recovery: CPU load"); \
+    message=("The average CPU load on " . $Identity . " decreased to " . ($CheckHealthCPULoad / 10) . "%.") });
+  :set CheckHealthCPULoadNotified false;
+}
 
 :foreach Voltage in=[ /system/health/find where type="V" ] do={
   :local Name  [ /system/health/get $Voltage name  ];
