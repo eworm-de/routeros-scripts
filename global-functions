@@ -30,6 +30,7 @@
 :global GetRandom20CharAlNum;
 :global GetRandom20CharHex;
 :global GetRandomNumber;
+:global Grep;
 :global HexToNum;
 :global IfThenElse;
 :global IsDefaultRouteReachable;
@@ -365,6 +366,26 @@
   :global EitherOr;
 
   :return [ :rndnum from=0 to=[ $EitherOr [ :tonum $1 ] 4294967295 ] ];
+}
+
+# return first line that matches a pattern
+:set Grep do={
+  :local Input  ([ :tostr $1 ] . "\n");
+  :local Pattern [ :tostr $2 ];
+
+  :if ([ :typeof [ :find $Input $Pattern ] ] = "nil") do={
+    :return [];
+  }
+
+  :do {
+    :local Line [ :pick $Input 0 [ :find $Input "\n" ] ];
+    :if ([ :typeof [ :find $Line $Pattern ] ] = "num") do={
+      :return $Line;
+    }
+    :set Input [ :pick $Input ([ :find $Input "\n" ] + 1) [ :len $Input ] ];
+  } while=([ :len $Input ] > 0);
+
+  :return [];
 }
 
 # convert from hex (string) to num
