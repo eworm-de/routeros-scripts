@@ -33,17 +33,6 @@
   :return ($T->0 * 10 + $T->1);
 }
 
-:if ([ :len [ /system/health/find ] ] = 0) do={
-  $LogPrintExit2 error $0 ("Your device does not provide any health values.") true;
-}
-
-:if ([ :typeof $CheckHealthLast ] != "array") do={
-  :set CheckHealthLast ({});
-}
-:if ([ :typeof $CheckHealthTemperatureNotified ] != "array") do={
-  :set CheckHealthTemperatureNotified ({});
-}
-
 $ScriptLock $0;
 
 :local Resource [ /system/resource/get ];
@@ -76,6 +65,17 @@ $ScriptLock $0;
     message=("The available free RAM on " . $Identity . " increased to " . $CheckHealthFreeRAM . "% (" . \
     ($Resource->"free-memory" / 1024 / 1024) . "MiB).") });
   :set CheckHealthFreeRAMNotified false;
+}
+
+:if ([ :len [ /system/health/find ] ] = 0) do={
+  $LogPrintExit2 debug $0 ("Your device does not provide any health values.") true;
+}
+
+:if ([ :typeof $CheckHealthLast ] != "array") do={
+  :set CheckHealthLast ({});
+}
+:if ([ :typeof $CheckHealthTemperatureNotified ] != "array") do={
+  :set CheckHealthTemperatureNotified ({});
 }
 
 
