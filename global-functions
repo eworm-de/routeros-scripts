@@ -574,7 +574,13 @@
       :if ([ :len [ /disk/find where slot=tmpfs type=tmpfs ] ] = 0) do={
         $LogPrintExit2 info $0 ("Creating disk of type tmpfs.") false;
         /file/remove [ find where name="tmpfs" type="directory" ];
-        [ :parse "/disk/add slot=tmpfs type=tmpfs tmpfs-max-size=([ /system/resource/get total-memory ] / 3);" ];
+        :do {
+          [ :parse "/disk/add slot=tmpfs type=tmpfs tmpfs-max-size=([ /system/resource/get total-memory ] / 3);" ];
+          $WaitForFile "tmpfs";
+        } on-error={
+          $LogPrintExit2 warning $0 ("Creating disk of type tmpfs failed!") false;
+          :set Error true;
+        }
       }
       :set Continue true;
     }
