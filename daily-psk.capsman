@@ -60,8 +60,9 @@ $WaitFullyConnected;
 :local NewPsk [ $GeneratePSK $Date ];
 
 :foreach AccList in=[ /caps-man/access-list/find where comment~$DailyPskMatchComment ] do={
-  :local Ssid [ /caps-man/access-list/get $AccList ssid-regexp ];
-  :local Configuration [ /caps-man/configuration/get ([ find where ssid=$Ssid ]->0) name ];
+  :local SsidRegExp [ /caps-man/access-list/get $AccList ssid-regexp ];
+  :local Configuration ([ /caps-man/configuration/find where ssid~$SsidRegExp ]->0);
+  :local Ssid [ /caps-man/configuration/get $Configuration ssid ];
   :local OldPsk [ /caps-man/access-list/get $AccList private-passphrase ];
   :local Skip 0;
 
@@ -69,7 +70,7 @@ $WaitFullyConnected;
     $LogPrintExit2 info $0 ("Updating daily PSK for " . $Ssid . " to " . $NewPsk . " (was " . $OldPsk . ")") false;
     /caps-man/access-list/set $AccList private-passphrase=$NewPsk;
 
-    :if ([ :len [ /caps-man/interface/find where configuration=$Configuration ] ] > 0) do={
+    :if ([ :len [ /caps-man/actual-interface-configuration/find where configuration.ssid=$Ssid !disabled ] ] > 0) do={
       :foreach SeenSsid in=$Seen do={
         :if ($SeenSsid = $Ssid) do={
           $LogPrintExit2 debug $0 ("Already sent a mail for SSID " . $Ssid . ", skipping.") false;
