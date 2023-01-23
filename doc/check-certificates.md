@@ -30,6 +30,7 @@ For automatic download and renewal of certificates you need configuration
 in `global-config-overlay`, these are the parameters:
 
 * `CertRenewPass`: an array of passphrases to try
+* `CertRenewTime`: on what remaining time to try a renew
 * `CertRenewUrl`: the url to download certificates from
 
 Certificates on the web server should be named `CN.pem` (`PEM` format) or
