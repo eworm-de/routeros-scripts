@@ -32,6 +32,7 @@ in `global-config-overlay`, these are the parameters:
 * `CertRenewPass`: an array of passphrases to try
 * `CertRenewTime`: on what remaining time to try a renew
 * `CertRenewUrl`: the url to download certificates from
+* `CertWarnTime`: on what remaining time to warn via notification
 
 Certificates on the web server should be named `CN.pem` (`PEM` format) or
 `CN.p12` (`PKCS#12` format).

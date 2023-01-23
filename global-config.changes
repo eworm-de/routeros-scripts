@@ -97,6 +97,7 @@
   86="Added support for hooks in 'sms-forward'. This now provides similar functionality to 'sms-action', but is more flexible.";
   87="Added support for extra text (or emojis \F0\9F\9A\80) in notification tags.";
   88="Added support for monitoring CPU load and available free RAM in 'check-health'.";
+  89="Made the warning time for 'check-certificates' configurable.";
 };
 
 # Migration steps to be applied on script updates
