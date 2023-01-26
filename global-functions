@@ -531,11 +531,11 @@
   }
 
   :if ($Severity != "debug" || $Debug = true) do={
-    :if ($Exit = "true") do={
-      :error ([ $PrintSeverity $Severity ] . ": " . $Message);
-    } else={
-      :put ([ $PrintSeverity $Severity ] . ": " . $Message);
-    }
+    :put ([ $PrintSeverity $Severity ] . ": " . $Message);
+  }
+
+  :if ($Exit = "true") do={
+    :error ("Hard error to exit.");
   }
 }
 
