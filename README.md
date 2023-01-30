@@ -202,6 +202,7 @@ Available scripts
 * [Forward received SMS](doc/sms-forward.md)
 * [Import SSH keys](doc/ssh-keys-import.md)
 * [Play Super Mario theme](doc/super-mario-theme.md)
+* [Chat with your router and send commands via Telegram bot](doc/telegram-chat.md)
 * [Install LTE firmware upgrade](doc/unattended-lte-firmware-upgrade.md)
 * [Update GRE configuration with dynamic addresses](doc/update-gre-address.md)
 * [Update tunnelbroker configuration](doc/update-tunnelbroker.md)

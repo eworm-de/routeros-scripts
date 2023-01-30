@@ -1,0 +1,120 @@
+#!rsc by RouterOS
+# RouterOS script: telegram-chat
+# Copyright (c) 2023 Christian Hesse <mail@eworm.de>
+# https://git.eworm.de/cgit/routeros-scripts/about/COPYING.md
+#
+# use Telegram to chat with your Router and send commands
+# https://git.eworm.de/cgit/routeros-scripts/about/doc/telegram-chat.md
+
+:local 0 "telegram-chat";
+:global GlobalFunctionsReady;
+:while ($GlobalFunctionsReady != true) do={ :delay 500ms; }
+
+:global Identity;
+:global TelegramChatActive;
+:global TelegramChatGroups;
+:global TelegramChatId;
+:global TelegramChatIdsTrusted;
+:global TelegramChatOffset;
+:global TelegramTokenId;
+
+:global CertificateAvailable;
+:global EscapeForRegEx;
+:global GetRandom20CharAlNum;
+:global IfThenElse;
+:global LogPrintExit2;
+:global MkDir;
+:global ScriptLock;
+:global SendTelegram2;
+:global SymbolForNotification;
+:global ValidateSyntax;
+:global WaitForFile;
+:global WaitFullyConnected;
+
+$ScriptLock $0;
+
+$WaitFullyConnected;
+
+:if ([ :typeof $TelegramChatOffset ] != "num") do={
+  :set TelegramChatOffset 0;
+}
+
+:if ([ $CertificateAvailable "Go Daddy Secure Certificate Authority - G2" ] = false) do={
+  $LogPrintExit2 warning $0 ("Downloading required certificate failed.") true;
+}
+
+:local JsonGetKey do={
+  :local Array [ :toarray $1 ];
+  :local Key   [ :tostr $2 ];
+
+  :for I from=0 to=([ :len $Array ] - 1) do={
+    :if (($Array->$I) = $Key) do={
+      :if ($Array->($I + 1) = ":") do={
+        :return ($Array->($I + 2));
+      }
+      :return [ :pick ($Array->($I + 1)) 1 [ :len ($Array->($I + 1)) ] ];
+    }
+  }
+
+  :return false;
+}
+
+:local Data;
+:do {
+  :set Data ([ /tool/fetch check-certificate=yes-without-crl output=user \
+    ("https://api.telegram.org/bot" . $TelegramTokenId . "/getUpdates?offset=" . \
+    $TelegramChatOffset . "&allowed_updates=%5B%22message%22%5D") as-value ]->"data");
+  :set Data [ :pick $Data ([ :find $Data "[" ] + 1) ([ :len $Data ] - 2) ];
+} on-error={
+  $LogPrintExit2 info $0 ("Failed getting updates from Telegram.") true;
+}
+
+:foreach Update in=[ :toarray $Data ] do={
+  :local UpdateID [ $JsonGetKey $Update "update_id" ];
+  :if ($UpdateID >= $TelegramChatOffset) do={
+    :set TelegramChatOffset ($UpdateID + 1);
+    :local Trusted false;
+    :local Message [ $JsonGetKey $Update "message" ];
+    :local From [ $JsonGetKey $Message "from" ];
+    :local FromID [ $JsonGetKey $From "id" ];
+    :local FromUserName [ $JsonGetKey $From "username" ];
+    :foreach IdsTrusted in=($TelegramChatId, $TelegramChatIdsTrusted) do={
+      :if ($FromID = $IdsTrusted || $FromUserName = $IdsTrusted) do={
+        :set Trusted true;
+      }
+    }
+
+    :if ($Trusted = true) do={
+      :local Text [ $JsonGetKey $Message "text" ];
+      :if ([ :pick $Text 0 1 ] = "!") do={
+        :if ($Text ~ ("^! *(" . [ $EscapeForRegEx $Identity ] . "|@" . $TelegramChatGroups . ")\$")) do={
+          :set TelegramChatActive true;
+        } else={
+          :set TelegramChatActive false;
+        }
+        $LogPrintExit2 info $0 ("Now " . [ $IfThenElse $TelegramChatActive "active" "passive" ] . "!") false;
+      } else={
+        :if ($TelegramChatActive = true && [ :len $Text ] > 0) do={
+          :if ([ $ValidateSyntax $Text ] = true) do={
+            :local File ("tmpfs/telegram-chat/" . [ $GetRandom20CharAlNum 6 ]);
+            $MkDir "tmpfs/telegram-chat";
+            $LogPrintExit2 info $0 ("Running command: " . $Text) false;
+            :exec script=($Text . "; :execute script=\":put\" file=" . $File . ".done") file=$File;
+            :if ([ $WaitForFile ($File . ".done.txt") 200 ] = false) do={
+              $LogPrintExit2 warning $0 ("Command did not finish, possibly still running.") false;
+            }
+            :local Content [ /file/get ($File . ".txt") content ];
+            $SendTelegram2 ({ origin=$0; silent=false; \
+              subject=([ $SymbolForNotification "speech-balloon" ] . "Telegram Chat"); \
+              message=("Command:\n" . $Text . "\n\nOutput:\n" . $Content) });
+            /file/remove "tmpfs/telegram-chat";
+          } else={
+            $LogPrintExit2 warning $0 ("The command failed syntax validation: " . $Text) false;
+          }
+        }
+      }
+    } else={
+      $LogPrintExit2 warning $0 ("Received a message from untrusted contact '" . $FromUserName . "' (ID " . $FromID . ")!") false;
+    }
+  }
+}

@@ -35,6 +35,14 @@
 :global TelegramChatId "";
 #:global TelegramTokenId "123456:ABCDEF-GHI";
 #:global TelegramChatId "12345678";
+# Using telegram-chat you have to define trusted chat ids (not group ids!)
+# or user names. Groups allow to chat with devices simultaneously.
+#:global TelegramChatIdsTrusted {
+#  "12345678";
+#  "example_user";
+#};
+:global TelegramChatGroups "(all)";
+#:global TelegramChatGroups "(all|home|office)";
 # This is whether or not to send Telegram messages with fixed-width font.
 :global TelegramFixedWidthFont true;
 
