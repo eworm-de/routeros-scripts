@@ -100,6 +100,7 @@
   89="Made the warning time for 'check-certificates' configurable.";
   90="Chat with your router! Introduced 'telegram-chat' to chat via Telegram bot and send commands to your router.";
   91="Dropped check for CAP in 'check-routeros-update' to solve issues with wifiwave2 package.";
+  92="Made qr-code url configurable for 'daily-psk'.";
 };
 
 # Migration steps to be applied on script updates

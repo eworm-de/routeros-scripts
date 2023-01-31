@@ -121,6 +121,7 @@
 # Access-list entries matching this comment are updated
 # with daily pseudo-random PSK.
 :global DailyPskMatchComment "Daily PSK";
+:global DailyPskQrCodeUrl "https://www.eworm.de/cgi-bin/cqrlogo-wifi.cgi";
 :global DailyPskSecrets {
   { "Abusive"; "Aggressive"; "Bored"; "Chemical"; "Cold";
     "Cruel"; "Curved"; "Delightful"; "Discreet"; "Elite";

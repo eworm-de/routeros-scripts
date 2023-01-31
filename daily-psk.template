@@ -15,6 +15,7 @@
 :while ($GlobalFunctionsReady != true) do={ :delay 500ms; }
 
 :global DailyPskMatchComment;
+:global DailyPskQrCodeUrl;
 :global Identity;
 
 :global LogPrintExit2;
@@ -87,7 +88,7 @@ $WaitFullyConnected;
 
       :if ($Skip = 0) do={
         :set Seen ($Seen, $Ssid);
-        :local Link ("https://www.eworm.de/cgi-bin/cqrlogo-wifi.cgi" . \
+        :local Link ($DailyPskQrCodeUrl . \
             "?scale=8&level=1&ssid=" . [ $UrlEncode $Ssid ] . "&pass=" . [ $UrlEncode $NewPsk ]);
         $SendNotification2 ({ origin=$0; \
           subject=([ $SymbolForNotification "calendar" ] . "daily PSK " . $Ssid); \
