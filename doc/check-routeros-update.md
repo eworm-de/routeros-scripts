@@ -51,7 +51,6 @@ safe versions from a web server. The configuration goes to
 `global-config-overlay`, this is the parameter:
 
 * `SafeUpdateNeighbor`: install updates automatically if seen in neighbor list
-* `SafeUpdateOnCap`: check for updates even if device is managed by CAPsMAN
 * `SafeUpdatePatch`: install patch updates automatically
 * `SafeUpdateUrl`: url to check for safe update, the channel (`long-term`,
 `stable` or `testing`) is appended

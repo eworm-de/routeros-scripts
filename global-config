@@ -104,8 +104,6 @@
 :global SafeUpdatePatch false;
 # Allow to install updates automatically if seen in neighbor list.
 :global SafeUpdateNeighbor false;
-# Allow to install updates even if device is managed by CAPsMAN.
-:global SafeUpdateOnCap false;
 
 # These thresholds control when to send health notification
 # on temperature and voltage.
