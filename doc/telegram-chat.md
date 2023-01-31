@@ -79,6 +79,12 @@ scripting capabilities. Try to print what you want to act on...
 
     /ip/address/remove [ find where interface=eth ];
 
+### Sending commands to a group
+
+Adding a bot to a group allows it to send messages to that group. To allow
+it to receive messages you have to make it an admin of that group! It is
+fine to deny all permissions, though.
+
 See also
 --------
 
