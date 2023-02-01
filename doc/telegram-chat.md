@@ -79,6 +79,12 @@ scripting capabilities. Try to print what you want to act on...
 
     /ip/address/remove [ find where interface=eth ];
 
+### Mind command runtime
+
+The command is run in background while the script waits for it - about
+20 seconds at maximum. A command exceeding that time continues to run in
+background, but the output in the message is missing or truncated then.
+
 ### Sending commands to a group
 
 Adding a bot to a group allows it to send messages to that group. To allow
