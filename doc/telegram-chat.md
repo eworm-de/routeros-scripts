@@ -85,6 +85,9 @@ Adding a bot to a group allows it to send messages to that group. To allow
 it to receive messages you have to make it an admin of that group! It is
 fine to deny all permissions, though.
 
+Also adding an admin to a group can cause the group id to change, so check
+that if things break suddenly.
+
 See also
 --------
 
