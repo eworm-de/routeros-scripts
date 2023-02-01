@@ -85,6 +85,12 @@ The command is run in background while the script waits for it - about
 20 seconds at maximum. A command exceeding that time continues to run in
 background, but the output in the message is missing or truncated then.
 
+### Output size
+
+RouterOS is limited in reading file content to a size of about four
+kilobytes. Reading larger files does just fail, and that is also the limit
+for command output.
+
 ### Sending commands to a group
 
 Adding a bot to a group allows it to send messages to that group. To allow
