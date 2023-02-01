@@ -111,7 +111,8 @@ $WaitFullyConnected;
             :local Content [ /file/get ($File . ".txt") content ];
             $SendTelegram2 ({ origin=$0; silent=false; \
               subject=([ $SymbolForNotification "speech-balloon" ] . "Telegram Chat"); \
-              message=("Command:\n" . $Text . "\n\n" . $State . "Output:\n" . $Content) });
+              message=("Command:\n" . $Text . "\n\n" . $State . [ $IfThenElse ([ :len $Content ] > 0) \
+                ("Output:\n" . $Content) "No output available." ]) });
             /file/remove "tmpfs/telegram-chat";
           } else={
             $SendTelegram2 ({ origin=$0; silent=false; \
