@@ -85,6 +85,13 @@ The command is run in background while the script waits for it - about
 20 seconds at maximum. A command exceeding that time continues to run in
 background, but the output in the message is missing or truncated then.
 
+If you still want a response you can work around this by making your code
+send information on its own. Something like this should do the job:
+
+    :global SendTelegram;
+    :delay 30s;
+    $SendTelegram "Command finished" "Your command finished...";
+
 ### Output size
 
 RouterOS is limited in reading file content to a size of about four
