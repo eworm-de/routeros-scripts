@@ -96,17 +96,18 @@ $WaitFullyConnected;
       } else={
         :if ($TelegramChatActive = true && [ :len $Text ] > 0) do={
           :if ([ $ValidateSyntax $Text ] = true) do={
+            :local State "";
             :local File ("tmpfs/telegram-chat/" . [ $GetRandom20CharAlNum 6 ]);
             $MkDir "tmpfs/telegram-chat";
             $LogPrintExit2 info $0 ("Running command: " . $Text) false;
             :exec script=($Text . "; :execute script=\":put\" file=" . $File . ".done") file=$File;
             :if ([ $WaitForFile ($File . ".done.txt") 200 ] = false) do={
-              $LogPrintExit2 warning $0 ("Command did not finish, possibly still running.") false;
+              :set State "The command did not finish, still running in background.\n\n";
             }
             :local Content [ /file/get ($File . ".txt") content ];
             $SendTelegram2 ({ origin=$0; silent=false; \
               subject=([ $SymbolForNotification "speech-balloon" ] . "Telegram Chat"); \
-              message=("Command:\n" . $Text . "\n\nOutput:\n" . $Content) });
+              message=("Command:\n" . $Text . "\n\n" . $State . "Output:\n" . $Content) });
             /file/remove "tmpfs/telegram-chat";
           } else={
             $LogPrintExit2 warning $0 ("The command failed syntax validation: " . $Text) false;
