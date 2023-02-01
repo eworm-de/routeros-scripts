@@ -100,10 +100,13 @@ $WaitFullyConnected;
             :local File ("tmpfs/telegram-chat/" . [ $GetRandom20CharAlNum 6 ]);
             $MkDir "tmpfs/telegram-chat";
             $LogPrintExit2 info $0 ("Running command: " . $Text) false;
-            :exec script=(":do {\n" . $Text . "\n} on-error={};" . \
+            :exec script=(":do {\n" . $Text . "\n} on-error={ :execute script=\":put\" file=" . $File . ".failed };" . \
               ":execute script=\":put\" file=" . $File . ".done") file=$File;
             :if ([ $WaitForFile ($File . ".done.txt") 200 ] = false) do={
               :set State "The command did not finish, still running in background.\n\n";
+            }
+            :if ([ :len [ /file/find where name=($File . ".failed.txt") ] ] > 0) do={
+              :set State "The command failed with an error!\n\n";
             }
             :local Content [ /file/get ($File . ".txt") content ];
             $SendTelegram2 ({ origin=$0; silent=false; \
