@@ -114,7 +114,9 @@ $WaitFullyConnected;
               message=("Command:\n" . $Text . "\n\n" . $State . "Output:\n" . $Content) });
             /file/remove "tmpfs/telegram-chat";
           } else={
-            $LogPrintExit2 warning $0 ("The command failed syntax validation: " . $Text) false;
+            $SendTelegram2 ({ origin=$0; silent=false; \
+              subject=([ $SymbolForNotification "speech-balloon" ] . "Telegram Chat"); \
+              message=("Command:\n" . $Text . "\n\nThe command failed syntax validation!") });
           }
         }
       }
