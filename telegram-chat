@@ -16,9 +16,11 @@
 :global TelegramChatId;
 :global TelegramChatIdsTrusted;
 :global TelegramChatOffset;
+:global TelegramChatRunTime;
 :global TelegramTokenId;
 
 :global CertificateAvailable;
+:global EitherOr;
 :global EscapeForRegEx;
 :global GetRandom20CharAlNum;
 :global IfThenElse;
@@ -103,7 +105,7 @@ $WaitFullyConnected;
             $LogPrintExit2 info $0 ("Running command: " . $Text) false;
             :exec script=(":do {\n" . $Text . "\n} on-error={ :execute script=\":put\" file=" . $File . ".failed };" . \
               ":execute script=\":put\" file=" . $File . ".done") file=$File;
-            :if ([ $WaitForFile ($File . ".done.txt") 20s ] = false) do={
+            :if ([ $WaitForFile ($File . ".done.txt") [ $EitherOr $TelegramChatRunTime 20s ] ] = false) do={
               :set State "The command did not finish, still running in background.\n\n";
             }
             :if ([ :len [ /file/find where name=($File . ".failed.txt") ] ] > 0) do={
