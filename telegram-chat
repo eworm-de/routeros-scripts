@@ -79,6 +79,7 @@ $WaitFullyConnected;
     :local FromID [ $JsonGetKey $From "id" ];
     :local FromUserName [ $JsonGetKey $From "username" ];
     :local ChatID [ $JsonGetKey [ $JsonGetKey $Message "chat" ] "id" ];
+    :local Text [ $JsonGetKey $Message "text" ];
     :foreach IdsTrusted in=($TelegramChatId, $TelegramChatIdsTrusted) do={
       :if ($FromID = $IdsTrusted || $FromUserName = $IdsTrusted) do={
         :set Trusted true;
@@ -86,7 +87,6 @@ $WaitFullyConnected;
     }
 
     :if ($Trusted = true) do={
-      :local Text [ $JsonGetKey $Message "text" ];
       :if ([ :pick $Text 0 1 ] = "!") do={
         :if ($Text ~ ("^! *(" . [ $EscapeForRegEx $Identity ] . "|@" . $TelegramChatGroups . ")\$")) do={
           :set TelegramChatActive true;
@@ -124,6 +124,11 @@ $WaitFullyConnected;
       }
     } else={
       $LogPrintExit2 warning $0 ("Received a message from untrusted contact '" . $FromUserName . "' (ID " . $FromID . ")!") false;
+      :if ($Text ~ ("^! *" . [ $EscapeForRegEx $Identity ] . "\$")) do={
+        $SendTelegram2 ({ origin=$0; chatid=$ChatID; silent=false; \
+          subject=([ $SymbolForNotification "speech-balloon" ] . "Telegram Chat"); \
+          message=("You are not trusted.") });
+      }
     }
   }
 }
