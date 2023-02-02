@@ -78,6 +78,7 @@ $WaitFullyConnected;
     :local From [ $JsonGetKey $Message "from" ];
     :local FromID [ $JsonGetKey $From "id" ];
     :local FromUserName [ $JsonGetKey $From "username" ];
+    :local ChatID [ $JsonGetKey [ $JsonGetKey $Message "chat" ] "id" ];
     :foreach IdsTrusted in=($TelegramChatId, $TelegramChatIdsTrusted) do={
       :if ($FromID = $IdsTrusted || $FromUserName = $IdsTrusted) do={
         :set Trusted true;
@@ -109,13 +110,13 @@ $WaitFullyConnected;
               :set State "The command failed with an error!\n\n";
             }
             :local Content [ /file/get ($File . ".txt") content ];
-            $SendTelegram2 ({ origin=$0; silent=false; \
+            $SendTelegram2 ({ origin=$0; chatid=$ChatID; silent=false; \
               subject=([ $SymbolForNotification "speech-balloon" ] . "Telegram Chat"); \
               message=("Command:\n" . $Text . "\n\n" . $State . [ $IfThenElse ([ :len $Content ] > 0) \
                 ("Output:\n" . $Content) "No output available." ]) });
             /file/remove "tmpfs/telegram-chat";
           } else={
-            $SendTelegram2 ({ origin=$0; silent=false; \
+            $SendTelegram2 ({ origin=$0; chatid=$ChatID; silent=false; \
               subject=([ $SymbolForNotification "speech-balloon" ] . "Telegram Chat"); \
               message=("Command:\n" . $Text . "\n\nThe command failed syntax validation!") });
           }
