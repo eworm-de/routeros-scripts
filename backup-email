@@ -83,3 +83,13 @@ $SendEMail2 ({ origin=$0; \
     "Backup file:    " . $BackupFile . "\n" . \
     "Config file:    " . $ConfigFile); \
   attach=$Attach; remove-attach=true });
+
+# wait for the mail to be sent
+:local I 0;
+:while ([ :len [ /file/find where name ~ ($FilePath . "\\.(backup|rsc)\$") ] ] > 0) do={
+  :if ($I >= 120) do={
+    $LogPrintExit2 warning $0 ("Files are still available, sending e-mail failed.") true;
+  }
+  :delay 1s;
+  :set I ($I + 1);
+}
