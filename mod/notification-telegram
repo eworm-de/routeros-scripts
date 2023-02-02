@@ -98,7 +98,8 @@
     :return $Return;
   }
 
-  :local ChatId [ $EitherOr ($TelegramChatIdOverride->($Notification->"origin")) $TelegramChatId ];
+  :local ChatId [ $EitherOr ($Notification->"chatid") \
+    [ $EitherOr ($TelegramChatIdOverride->($Notification->"origin")) $TelegramChatId ] ];
   :local TokenId [ $EitherOr ($TelegramTokenIdOverride->($Notification->"origin")) $TelegramTokenId ];
 
   :if ([ :len $TokenId ] = 0 || [ :len $ChatId ] = 0) do={
