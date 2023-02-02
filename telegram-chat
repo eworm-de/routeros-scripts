@@ -97,7 +97,7 @@ $WaitFullyConnected;
         }
         $LogPrintExit2 info $0 ("Now " . [ $IfThenElse $TelegramChatActive "active" "passive" ] . "!") false;
       } else={
-        :if ($TelegramChatActive = true && [ :len $Text ] > 0) do={
+        :if ($TelegramChatActive = true && $Text != false && [ :len $Text ] > 0) do={
           :if ([ $ValidateSyntax $Text ] = true) do={
             :local State "";
             :local File ("tmpfs/telegram-chat/" . [ $GetRandom20CharAlNum 6 ]);
