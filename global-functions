@@ -1213,20 +1213,21 @@
 
 # wait for file to be available
 :set WaitForFile do={
-  :local FileName [ :tostr $1 ];
-  :local Iter     [ :tonum $2 ];
+  :local FileName [ :tostr  $1 ];
+  :local WaitTime [ :totime $2 ];
 
   :global CleanFilePath;
   :global EitherOr;
 
   :set FileName [ $CleanFilePath $FileName ];
-  :local I 0;
+  :local I 1;
+  :local Delay ([ :totime [ $EitherOr $WaitTime 2s ] ] / 20);
 
   :while ([ :len [ /file/find where name=$FileName ] ] = 0) do={
-    :if ($I > [ $EitherOr $Iter 20 ]) do={
+    :if ($I >= 20) do={
       :return false;
     }
-    :delay 100ms;
+    :delay $Delay;
     :set I ($I + 1);
   }
   :return true;
