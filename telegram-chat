@@ -37,8 +37,8 @@ $ScriptLock $0;
 
 $WaitFullyConnected;
 
-:if ([ :typeof $TelegramChatOffset ] != "num") do={
-  :set TelegramChatOffset 0;
+:if ([ :typeof $TelegramChatOffset ] != "array") do={
+  :set TelegramChatOffset { 0; 0; 0 };
 }
 
 :if ([ $CertificateAvailable "Go Daddy Secure Certificate Authority - G2" ] = false) do={
@@ -65,16 +65,16 @@ $WaitFullyConnected;
 :do {
   :set Data ([ /tool/fetch check-certificate=yes-without-crl output=user \
     ("https://api.telegram.org/bot" . $TelegramTokenId . "/getUpdates?offset=" . \
-    $TelegramChatOffset . "&allowed_updates=%5B%22message%22%5D") as-value ]->"data");
+    $TelegramChatOffset->0 . "&allowed_updates=%5B%22message%22%5D") as-value ]->"data");
   :set Data [ :pick $Data ([ :find $Data "[" ] + 1) ([ :len $Data ] - 2) ];
 } on-error={
   $LogPrintExit2 info $0 ("Failed getting updates from Telegram.") true;
 }
 
+:local UpdateID 0;
 :foreach Update in=[ :toarray $Data ] do={
-  :local UpdateID [ $JsonGetKey $Update "update_id" ];
-  :if ($UpdateID >= $TelegramChatOffset) do={
-    :set TelegramChatOffset ($UpdateID + 1);
+  :set UpdateID [ $JsonGetKey $Update "update_id" ];
+  :if ($UpdateID >= $TelegramChatOffset->2) do={
     :local Trusted false;
     :local Message [ $JsonGetKey $Update "message" ];
     :local From [ $JsonGetKey $Message "from" ];
@@ -139,3 +139,5 @@ $WaitFullyConnected;
     }
   }
 }
+:set TelegramChatOffset ([ :pick $TelegramChatOffset 1 3 ], \
+  [ $IfThenElse ($UpdateID > 0) ($UpdateID + 1) ($TelegramChatOffset->2) ]);
