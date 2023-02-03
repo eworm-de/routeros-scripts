@@ -68,7 +68,7 @@ $WaitFullyConnected;
     $TelegramChatOffset->0 . "&allowed_updates=%5B%22message%22%5D") as-value ]->"data");
   :set Data [ :pick $Data ([ :find $Data "[" ] + 1) ([ :len $Data ] - 2) ];
 } on-error={
-  $LogPrintExit2 info $0 ("Failed getting updates from Telegram.") true;
+  $LogPrintExit2 debug $0 ("Failed getting updates from Telegram.") true;
 }
 
 :local UpdateID 0;
