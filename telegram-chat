@@ -125,7 +125,9 @@ $WaitFullyConnected;
         }
       }
     } else={
-      $LogPrintExit2 warning $0 ("Received a message from untrusted contact '" . $FromUserName . "' (ID " . $FromID . ")!") false;
+      $LogPrintExit2 warning $0 ("Received a message from untrusted contact " . \
+        [ $IfThenElse ($FromUserName = false) "without username" ("'" . $FromUserName . "'") ] . \
+        " (ID " . $FromID . ")!") false;
       :if ($Text ~ ("^! *" . [ $EscapeForRegEx $Identity ] . "\$")) do={
         $SendTelegram2 ({ origin=$0; chatid=$ChatID; silent=false; \
           subject=([ $SymbolForNotification "speech-balloon" ] . "Telegram Chat"); \
