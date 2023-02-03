@@ -125,13 +125,16 @@ $WaitFullyConnected;
         }
       }
     } else={
-      $LogPrintExit2 warning $0 ("Received a message from untrusted contact " . \
+      :local Message ("Received a message from untrusted contact " . \
         [ $IfThenElse ($FromUserName = false) "without username" ("'" . $FromUserName . "'") ] . \
-        " (ID " . $FromID . ")!") false;
+        " (ID " . $FromID . ")!");
       :if ($Text ~ ("^! *" . [ $EscapeForRegEx $Identity ] . "\$")) do={
+        $LogPrintExit2 warning $0 $Message false;
         $SendTelegram2 ({ origin=$0; chatid=$ChatID; silent=false; \
           subject=([ $SymbolForNotification "speech-balloon" ] . "Telegram Chat"); \
           message=("You are not trusted.") });
+      } else={
+        $LogPrintExit2 info $0 $Message false;
       }
     }
   }
