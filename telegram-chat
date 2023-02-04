@@ -115,7 +115,8 @@ $WaitFullyConnected;
             $SendTelegram2 ({ origin=$0; chatid=$ChatID; silent=false; \
               subject=([ $SymbolForNotification "speech-balloon" ] . "Telegram Chat"); \
               message=("Command:\n" . $Text . "\n\n" . $State . [ $IfThenElse ([ :len $Content ] > 0) \
-                ("Output:\n" . $Content) "No output available." ]) });
+                ("Output:\n" . $Content) [ $IfThenElse ([ /file/get ($File . ".txt") size ] > 0) \
+                ("Output exceeds file read size.") ("No output.") ] ]) });
             /file/remove "tmpfs/telegram-chat";
           } else={
             $SendTelegram2 ({ origin=$0; chatid=$ChatID; silent=false; \
