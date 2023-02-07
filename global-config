@@ -72,6 +72,7 @@
 # This defines what backups to generate and what password to use.
 :global BackupSendBinary false;
 :global BackupSendExport true;
+:global BackupSendGlobalConfig true;
 :global BackupPassword "v3ry-s3cr3t";
 :global BackupRandomDelay 0;
 # These credentials are used to upload backup and config export files.
