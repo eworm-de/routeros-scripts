@@ -16,6 +16,7 @@
 :global BackupRandomDelay;
 :global BackupSendBinary;
 :global BackupSendExport;
+:global BackupSendGlobalConfig;
 :global BackupUploadPass;
 :global BackupUploadUrl;
 :global BackupUploadUser;
@@ -50,6 +51,7 @@ $WaitFullyConnected;
 :local FileName [ $CharacterReplace ($Identity . "." . $Domain) "." "_" ];
 :local FilePath ($DirName . "/" . $FileName);
 :local BackupFile "none";
+:local ExportFile "none";
 :local ConfigFile "none";
 :local Failed 0;
 
@@ -83,14 +85,33 @@ $WaitFullyConnected;
   :do {
     /tool/fetch upload=yes url=($BackupUploadUrl . "/" . $FileName . ".rsc") \
         user=$BackupUploadUser password=$BackupUploadPass src-path=($FilePath . ".rsc");
-    :set ConfigFile ($FileName . ".rsc");
+    :set ExportFile ($FileName . ".rsc");
   } on-error={
     $LogPrintExit2 error $0 ("Uploading configuration export failed!") false;
-    :set ConfigFile "failed";
+    :set ExportFile "failed";
     :set Failed 1;
   }
 
   /file/remove ($FilePath . ".rsc");
+}
+
+# global-config-overlay
+:if ($BackupSendGlobalConfig = true) do={
+  :execute script={ / } file=($FilePath . ".conf");
+  $WaitForFile ($FilePath . ".conf.txt");
+  /file/set ($FilePath . ".conf.txt") contents=[ /system/script/get global-config-overlay source ];
+
+  :do {
+    /tool/fetch upload=yes url=($BackupUploadUrl . "/" . $FileName . ".conf") \
+        user=$BackupUploadUser password=$BackupUploadPass src-path=($FilePath . ".conf.txt");
+    :set ConfigFile ($FileName . ".conf");
+  } on-error={
+    $LogPrintExit2 error $0 ("Uploading global-config-overlay failed!") false;
+    :set ConfigFile "failed";
+    :set Failed 1;
+  }
+
+  /file/remove ($FilePath . ".conf.txt");
 }
 
 $SendNotification2 ({ origin=$0; \
@@ -100,6 +121,7 @@ $SendNotification2 ({ origin=$0; \
   message=("Backup and config export upload for " . $Identity . ".\n\n" . \
     [ $DeviceInfo ] . "\n\n" . \
     "Backup file:    " . $BackupFile . "\n" . \
+    "Export file:    " . $ExportFile . "\n" . \
     "Config file:    " . $ConfigFile); silent=true });
 
 :if ($Failed = 1) do={
