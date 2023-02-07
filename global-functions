@@ -748,7 +748,7 @@
     :local ScriptFile [ /file/find where name=("script-updates/" . $ScriptVal->"name") ];
     :local SourceNew;
     :if ([ :len $ScriptFile ] > 0) do={
-      :set SourceNew [ /file/get $ScriptFile content ];
+      :set SourceNew [ /file/get $ScriptFile contents ];
       /file/remove $ScriptFile;
     }
 
