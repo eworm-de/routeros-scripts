@@ -111,7 +111,7 @@ $WaitFullyConnected;
             :if ([ :len [ /file/find where name=($File . ".failed.txt") ] ] > 0) do={
               :set State "The command failed with an error!\n\n";
             }
-            :local Content [ /file/get ($File . ".txt") content ];
+            :local Content [ /file/get ($File . ".txt") contents ];
             $SendTelegram2 ({ origin=$0; chatid=$ChatID; silent=false; \
               subject=([ $SymbolForNotification "speech-balloon" ] . "Telegram Chat"); \
               message=("Command:\n" . $Text . "\n\n" . $State . [ $IfThenElse ([ :len $Content ] > 0) \
