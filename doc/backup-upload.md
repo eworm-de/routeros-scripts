@@ -35,6 +35,7 @@ The configuration goes to `global-config-overlay`, these are the parameters:
 
 * `BackupSendBinary`: whether to send binary backup
 * `BackupSendExport`: whether to send configuration export
+* `BackupSendGlobalConfig`: whether to send `global-config-overlay`
 * `BackupPassword`: password to encrypt the backup with
 * `BackupRandomDelay`: delay up to amount of seconds when run from scheduler
 * `BackupUploadUrl`: url to upload to
