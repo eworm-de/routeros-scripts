@@ -97,9 +97,9 @@ $WaitFullyConnected;
 
 # global-config-overlay
 :if ($BackupSendGlobalConfig = true) do={
-  :execute script={ / } file=($FilePath . ".conf");
+  :execute script={ :put [ /system/script/get global-config-overlay source ]; } \
+      file=($FilePath . ".conf");
   $WaitForFile ($FilePath . ".conf.txt");
-  /file/set ($FilePath . ".conf.txt") contents=[ /system/script/get global-config-overlay source ];
 
   :do {
     /tool/fetch upload=yes url=($BackupUploadUrl . "/" . $FileName . ".conf") \
