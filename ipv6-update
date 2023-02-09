@@ -38,7 +38,7 @@
     :local ListEntryVal [ /ipv6/firewall/address-list/get $ListEntry ];
     :local Comment [ $ParseKeyValueStore ($ListEntryVal->"comment") ];
 
-    :local Address [ /ipv6/address/find where from-pool=$Pool interface=($Comment->"interface") ];
+    :local Address [ /ipv6/address/find where from-pool=$Pool interface=($Comment->"interface") global ];
     :if ([ :len $Address ] = 1) do={
       :set Address [ /ipv6/address/get $Address address ];
       $LogPrintExit2 info $0 ("Updating IPv6 address list with new IPv6 prefix " . $Address . \
@@ -51,7 +51,7 @@
     :local RecordVal [ /ip/dns/static/get $Record ];
     :local Comment [ $ParseKeyValueStore ($RecordVal->"comment") ];
 
-    :local Prefix [ /ipv6/address/get [ find where interface=($Comment->"interface") from-pool=$Pool global ] address ];
+    :local Prefix [ /ipv6/address/get [ find where from-pool=$Pool interface=($Comment->"interface") global ] address ];
     :set Prefix ([ :toip6 [ :pick $Prefix 0 [ :find $Prefix "/64" ] ] ] & ffff:ffff:ffff:ffff::);
     :local Address ($Prefix | ([ :toip6 ($RecordVal->"address") ] & ::ffff:ffff:ffff:ffff));
 
