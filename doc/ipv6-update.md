@@ -11,7 +11,7 @@ Description
 
 With changing IPv6 prefix from ISP this script handles to update...
 
-* ipv6 firewall address-list
+* ipv6 firewall address-list (prefixes (`/64`) and host addresses (`/128`))
 * dns records
 
 Requirements and installation
@@ -51,6 +51,11 @@ interface needs to get its address from pool `isp` and the address list entry
 has to be associated to an interface in comment:
 
     /ipv6/firewall/address-list/add address=2003:cf:2f0f:de01::/64 comment="ipv6-pool-isp, interface=br-local" list=local;
+
+Updating address list entries with host addresses works as well, the new
+prefix is combinded with given suffix then:
+
+    /ipv6/firewall/address-list/add address=2003:cf:2f0f:de01:e3e0:f8fa:8cd6:dbe1/128 comment="ipv6-pool-isp, interface=br-local" list=hosts;
 
 Static DNS records need a special comment to be updated. Again it has to
 start with "`ipv6-pool-`" and actual pool name, followed by a comma,

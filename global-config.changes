@@ -102,6 +102,7 @@
   91="Dropped check for CAP in 'check-routeros-update' to solve issues with wifiwave2 package.";
   92="Made qr-code url configurable for 'daily-psk'.";
   93="Added support to backup global-config-overlay in 'backup-email' and 'backup-upload'.";
+  94="Added support for host addresses in address-list for 'ipv6-update'.";
 };
 
 # Migration steps to be applied on script updates

@@ -41,9 +41,20 @@
     :local Prefix [ /ipv6/address/find where from-pool=$Pool interface=($Comment->"interface") global ];
     :if ([ :len $Prefix ] = 1) do={
       :set Prefix [ /ipv6/address/get $Prefix address ];
-      $LogPrintExit2 info $0 ("Updating IPv6 address list with new IPv6 prefix " . $Prefix . \
-        " from interface " . ($Comment->"interface")) false;
-      /ipv6/firewall/address-list/set address=$Prefix $ListEntry;
+
+      :if ([ :typeof [ :find ($ListEntryVal->"address") "/128" ] ] = "num" ) do={
+        :set Prefix ([ :toip6 [ :pick $Prefix 0 [ :find $Prefix "/64" ] ] ] & ffff:ffff:ffff:ffff::);
+        :local Address ($ListEntryVal->"address");
+        :local Address ($Prefix | ([ :toip6 [ :pick $Address 0 [ :find $Address "/128" ] ] ] & ::ffff:ffff:ffff:ffff));
+
+        $LogPrintExit2 info $0 ("Updating IPv6 address list with new IPv6 host address " . $Address . \
+          " from interface " . ($Comment->"interface")) false;
+        /ipv6/firewall/address-list/set address=$Address $ListEntry;
+      } else={
+        $LogPrintExit2 info $0 ("Updating IPv6 address list with new IPv6 prefix " . $Prefix . \
+          " from interface " . ($Comment->"interface")) false;
+        /ipv6/firewall/address-list/set address=$Prefix $ListEntry;
+      }
     }
   }
 
