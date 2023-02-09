@@ -38,12 +38,12 @@
     :local ListEntryVal [ /ipv6/firewall/address-list/get $ListEntry ];
     :local Comment [ $ParseKeyValueStore ($ListEntryVal->"comment") ];
 
-    :local Address [ /ipv6/address/find where from-pool=$Pool interface=($Comment->"interface") global ];
-    :if ([ :len $Address ] = 1) do={
-      :set Address [ /ipv6/address/get $Address address ];
-      $LogPrintExit2 info $0 ("Updating IPv6 address list with new IPv6 prefix " . $Address . \
+    :local Prefix [ /ipv6/address/find where from-pool=$Pool interface=($Comment->"interface") global ];
+    :if ([ :len $Prefix ] = 1) do={
+      :set Prefix [ /ipv6/address/get $Prefix address ];
+      $LogPrintExit2 info $0 ("Updating IPv6 address list with new IPv6 prefix " . $Prefix . \
         " from interface " . ($Comment->"interface")) false;
-      /ipv6/firewall/address-list/set address=$Address $ListEntry;
+      /ipv6/firewall/address-list/set address=$Prefix $ListEntry;
     }
   }
 
