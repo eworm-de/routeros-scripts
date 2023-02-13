@@ -55,6 +55,7 @@
 :global SendNotification2;
 :global SymbolByUnicodeName;
 :global SymbolForNotification;
+:global Unix2Dos;
 :global UrlEncode;
 :global ValidateSyntax;
 :global VersionToNum;
@@ -1123,6 +1124,16 @@
     :set Return ($Return . [ $SymbolByUnicodeName $Symbol ]);
   }
   :return ($Return . " ");
+}
+
+# convert line endings, UNIX -> DOS
+:set Unix2Dos do={
+  :local Input [ :tostr $1 ];
+
+  :global CharacterReplace;
+
+  :return [ $CharacterReplace [ $CharacterReplace $Input \
+    ("\n") ("\r\n") ] ("\r\r\n") ("\r\n") ];
 }
 
 # url encoding
