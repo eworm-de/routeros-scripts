@@ -100,6 +100,11 @@ Save changes and exit with `Ctrl-o`.
 
 ![screenshot: edit global-config-overlay](README.d/05-edit-global-config-overlay.avif)
 
+> ℹ️ **Info**: It is recommended to edit the configuration using the command
+> line interface. If using Winbox on Windows OS, the line endings may be
+> missing. To fix this, use the below (to load global functions), then run:
+> `/system/script/set source=[ $Unix2Dos [ get global-config-overlay source ] ] global-config-overlay;`
+
 And finally load configuration and functions and add the scheduler.
 
     /system/script { run global-config; run global-functions; };
