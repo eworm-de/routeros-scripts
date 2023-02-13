@@ -14,7 +14,8 @@ health related events:
 
 * high CPU load
 * low available free RAM
-* voltage jumps up or down more than configured threshold or drops below limit
+* voltage jumps up or down more than configured threshold
+* voltage drops below hard lower limit
 * power supply failed or recovered
 * temperature is above or below threshold
 
