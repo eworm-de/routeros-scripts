@@ -646,9 +646,9 @@
 :set PrettyPrint do={
   :local Input [ :tostr $1 ];
 
-  :global CharacterReplace;
+  :global Unix2Dos;
 
-  :put [ $CharacterReplace $Input ("\n") ("\n\r") ];
+  :put [ $Unix2Dos $Input ];
 }
 
 # delay a random amount of seconds
