@@ -25,6 +25,7 @@
 :global CharacterReplace;
 :global CleanFilePath;
 :global DeviceInfo;
+:global Dos2Unix;
 :global DownloadPackage;
 :global EitherOr;
 :global EscapeForRegEx;
@@ -224,6 +225,15 @@
       ("\n    Firmware:   " . $RouterBoard->"current-firmware") ] . \
        "\nRouterOS-Scripts:" . \
        "\n    Version:    " . $ExpectedConfigVersion);
+}
+
+# convert line endings, DOS -> UNIX
+:set Dos2Unix do={
+  :local Input [ :tostr $1 ];
+
+  :global CharacterReplace;
+
+  :return [ $CharacterReplace $Input ("\r\n") ("\n") ];
 }
 
 # download package from upgrade server
