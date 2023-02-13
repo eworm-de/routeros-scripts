@@ -30,12 +30,12 @@ hardware supports:
 
 #### CPU load
 
-![check-health notification cpu load high](check-health.d/notification-01-cpu-load-high.avif)
+![check-health notification cpu load high](check-health.d/notification-01-cpu-load-high.avif)  
 ![check-health notification cpu load ok](check-health.d/notification-02-cpu-load-ok.avif)
 
 #### Available free RAM
 
-![check-health notification free ram low](check-health.d/notification-03-free-ram-low.avif)
+![check-health notification free ram low](check-health.d/notification-03-free-ram-low.avif)  
 ![check-health notification free ram ok](check-health.d/notification-04-free-ram-ok.avif)
 
 #### Voltage
