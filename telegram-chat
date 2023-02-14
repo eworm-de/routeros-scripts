@@ -144,4 +144,4 @@ $WaitFullyConnected;
   }
 }
 :set TelegramChatOffset ([ :pick $TelegramChatOffset 1 3 ], \
-  [ $IfThenElse ($UpdateID > 0) ($UpdateID + 1) ($TelegramChatOffset->2) ]);
+  [ $IfThenElse ($UpdateID >= $TelegramChatOffset->2) ($UpdateID + 1) ($TelegramChatOffset->2) ]);
