@@ -95,14 +95,15 @@ $WaitFullyConnected;
         } else={
           :set TelegramChatActive false;
         }
-        $LogPrintExit2 info $0 ("Now " . [ $IfThenElse $TelegramChatActive "active" "passive" ] . "!") false;
+        $LogPrintExit2 info $0 ("Now " . [ $IfThenElse $TelegramChatActive "active" "passive" ] . \
+          " from update " . $UpdateID . "!") false;
       } else={
         :if ($TelegramChatActive = true && $Text != false && [ :len $Text ] > 0) do={
           :if ([ $ValidateSyntax $Text ] = true) do={
             :local State "";
             :local File ("tmpfs/telegram-chat/" . [ $GetRandom20CharAlNum 6 ]);
             $MkDir "tmpfs/telegram-chat";
-            $LogPrintExit2 info $0 ("Running command: " . $Text) false;
+            $LogPrintExit2 info $0 ("Running command from update " . $UpdateID . ": " . $Text) false;
             :exec script=(":do {\n" . $Text . "\n} on-error={ :execute script=\"/\" file=" . $File . ".failed };" . \
               ":execute script=\"/\" file=" . $File . ".done") file=$File;
             :if ([ $WaitForFile ($File . ".done.txt") [ $EitherOr $TelegramChatRunTime 20s ] ] = false) do={
@@ -128,7 +129,7 @@ $WaitFullyConnected;
     } else={
       :local Message ("Received a message from untrusted contact " . \
         [ $IfThenElse ($FromUserName = false) "without username" ("'" . $FromUserName . "'") ] . \
-        " (ID " . $FromID . ")!");
+        " (ID " . $FromID . ") in update " . $UpdateID . "!");
       :if ($Text ~ ("^! *" . [ $EscapeForRegEx $Identity ] . "\$")) do={
         $LogPrintExit2 warning $0 $Message false;
         $SendTelegram2 ({ origin=$0; chatid=$ChatID; silent=false; \
