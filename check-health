@@ -10,8 +10,8 @@
 :global GlobalFunctionsReady;
 :while ($GlobalFunctionsReady != true) do={ :delay 500ms; }
 
-:global CheckHealthCPULoad;
-:global CheckHealthCPULoadNotified;
+:global CheckHealthCPUUtilization;
+:global CheckHealthCPUUtilizationNotified;
 :global CheckHealthFreeRAMNotified;
 :global CheckHealthLast;
 :global CheckHealthTemperature;
@@ -37,18 +37,18 @@ $ScriptLock $0;
 
 :local Resource [ /system/resource/get ];
 
-:set CheckHealthCPULoad (($CheckHealthCPULoad * 4 + ($Resource->"cpu-load") * 10) / 5);
-:if ($CheckHealthCPULoad > 750 && $CheckHealthCPULoadNotified != true) do={
+:set CheckHealthCPUUtilization (($CheckHealthCPUUtilization * 4 + ($Resource->"cpu-load") * 10) / 5);
+:if ($CheckHealthCPUUtilization > 750 && $CheckHealthCPUUtilizationNotified != true) do={
   $SendNotification2 ({ origin=$0; \
-    subject=([ $SymbolForNotification "abacus,chart-increasing" ] . "Health warning: CPU load"); \
-    message=("The average CPU load on " . $Identity . " is at " . ($CheckHealthCPULoad / 10) . "%!") });
-  :set CheckHealthCPULoadNotified true;
+    subject=([ $SymbolForNotification "abacus,chart-increasing" ] . "Health warning: CPU utilization"); \
+    message=("The average CPU utilization on " . $Identity . " is at " . ($CheckHealthCPUUtilization / 10) . "%!") });
+  :set CheckHealthCPUUtilizationNotified true;
 }
-:if ($CheckHealthCPULoad < 650 && $CheckHealthCPULoadNotified = true) do={
+:if ($CheckHealthCPUUtilization < 650 && $CheckHealthCPUUtilizationNotified = true) do={
   $SendNotification2 ({ origin=$0; \
-    subject=([ $SymbolForNotification "abacus,chart-decreasing" ] . "Health recovery: CPU load"); \
-    message=("The average CPU load on " . $Identity . " decreased to " . ($CheckHealthCPULoad / 10) . "%.") });
-  :set CheckHealthCPULoadNotified false;
+    subject=([ $SymbolForNotification "abacus,chart-decreasing" ] . "Health recovery: CPU utilization"); \
+    message=("The average CPU utilization on " . $Identity . " decreased to " . ($CheckHealthCPUUtilization / 10) . "%.") });
+  :set CheckHealthCPUUtilizationNotified false;
 }
 
 :local CheckHealthFreeRAM ($Resource->"free-memory" * 100  / $Resource->"total-memory");
