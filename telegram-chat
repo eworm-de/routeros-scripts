@@ -139,6 +139,8 @@ $WaitFullyConnected;
         $LogPrintExit2 info $0 $Message false;
       }
     }
+  } else={
+    $LogPrintExit2 debug $0 ("Already handled update " . $UpdateID . ".") false;
   }
 }
 :set TelegramChatOffset ([ :pick $TelegramChatOffset 1 3 ], \
