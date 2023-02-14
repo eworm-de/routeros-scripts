@@ -120,6 +120,7 @@ $WaitFullyConnected;
                 ("Output exceeds file read size.") ("No output.") ] ]) });
             /file/remove "tmpfs/telegram-chat";
           } else={
+            $LogPrintExit2 info $0 ("The command from update " . $UpdateID . " failed syntax validation!") false;
             $SendTelegram2 ({ origin=$0; chatid=$ChatID; silent=false; \
               subject=([ $SymbolForNotification "speech-balloon" ] . "Telegram Chat"); \
               message=("Command:\n" . $Text . "\n\nThe command failed syntax validation!") });
