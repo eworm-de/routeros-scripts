@@ -81,10 +81,14 @@ $ScriptLock $0;
 :if ([ $ScriptFromTerminal $0 ] = true) do={
   :put "Do you want to (s)chedule reboot or (r)eboot now? [s/R]";
   :if (([ /terminal/inkey timeout=60 ] % 32) = 19) do={
+    :global RebootForUpdate do={
+      :global RandomDelay;
+      $RandomDelay 3600;
+      /system/reboot;
+    }
     /system/scheduler/add name="reboot-for-update" start-time=03:00:00 interval=1d \
         on-event=("/system/scheduler/remove reboot-for-update; " . \
-        ":if ([ /system/package/update/get installed-version ] != \"" . $Update->"latest-version" . "\") " . \
-        "do={ :global RandomDelay; \$RandomDelay 3600; /system/reboot; }");
+        ":global RebootForUpdate; \$RebootForUpdate;");
     $LogPrintExit2 info $0 ("Scheduled reboot for update between 03:00 and 04:00.") true;
   }
 }
