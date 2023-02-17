@@ -98,8 +98,10 @@ And finally load configuration and functions and add the scheduler.
 
 ![screenshot: run and schedule scripts](README.d/05-run-and-schedule-scripts.avif)
 
-The last step is optional: Add this scheduler **only** if you want the scripts
-to be updated automatically!
+### Scheduled automatic updates
+
+The last step is optional: Add this scheduler **only** if you want the
+scripts to be updated automatically!
 
     /system/scheduler/add name="ScriptInstallUpdate" start-time=startup interval=1d on-event=":global ScriptInstallUpdate; \$ScriptInstallUpdate;";
 
