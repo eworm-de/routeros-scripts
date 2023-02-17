@@ -28,9 +28,9 @@ Run the complete base installation:
       $CertificateNameByCN "ISRG Root X1";
     };
 
-Optional to update the scripts automatically:
-
-    /system/scheduler/add name="ScriptInstallUpdate" start-time=startup interval=1d on-event=":global ScriptInstallUpdate; \$ScriptInstallUpdate;";
+Then continue setup with
+[scheduled automatic updates](README.md#scheduled-automatic-updates) or
+[editing configuration](README.md#editing-configuration).
 
 ---
 [⬅️ Go back to main README](README.md)  
