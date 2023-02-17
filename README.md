@@ -91,6 +91,23 @@ Now let's download the main scripts and add them in configuration on the fly.
 
 ![screenshot: import scripts](README.d/04-import-scripts.avif)
 
+And finally load configuration and functions and add the scheduler.
+
+    /system/script { run global-config; run global-functions; };
+    /system/scheduler/add name="global-scripts" start-time=startup on-event="/system/script { run global-config; run global-functions; }";
+
+![screenshot: run and schedule scripts](README.d/05-run-and-schedule-scripts.avif)
+
+The last step is optional: Add this scheduler **only** if you want the scripts
+to be updated automatically!
+
+    /system/scheduler/add name="ScriptInstallUpdate" start-time=startup interval=1d on-event=":global ScriptInstallUpdate; \$ScriptInstallUpdate;";
+
+![screenshot: schedule update](README.d/06-schedule-update.avif)
+
+Editing configuration
+---------------------
+
 The configuration needs to be tweaked for your needs. Edit
 `global-config-overlay`, copy relevant configuration from
 [`global-config`](global-config) (the one without `-overlay`).
@@ -98,26 +115,21 @@ Save changes and exit with `Ctrl-o`.
 
     /system/script/edit global-config-overlay source;
 
-![screenshot: edit global-config-overlay](README.d/05-edit-global-config-overlay.avif)
+![screenshot: edit global-config-overlay](README.d/07-edit-global-config-overlay.avif)
+
+To apply your changes run `global-config`, which will automatically load
+the overlay as well:
+
+    /system/script/run global-config;
+
+![screenshot: apply configuration](README.d/08-apply-configuration.avif)
+
+This last step is required when ever you make changes to your configuration.
 
 > ℹ️ **Info**: It is recommended to edit the configuration using the command
 > line interface. If using Winbox on Windows OS, the line endings may be
-> missing. To fix this, use the below (to load global functions), then run:
+> missing. To fix this run:
 > `/system/script/set source=[ $Unix2Dos [ get global-config-overlay source ] ] global-config-overlay;`
-
-And finally load configuration and functions and add the scheduler.
-
-    /system/script { run global-config; run global-functions; };
-    /system/scheduler/add name="global-scripts" start-time=startup on-event="/system/script { run global-config; run global-functions; }";
-
-![screenshot: run and schedule scripts](README.d/06-run-and-schedule-scripts.avif)
-
-The last step is optional: Add this scheduler **only** if you want the scripts
-to be updated automatically!
-
-    /system/scheduler/add name="ScriptInstallUpdate" start-time=startup interval=1d on-event=":global ScriptInstallUpdate; \$ScriptInstallUpdate;";
-
-![screenshot: schedule update](README.d/07-schedule-update.avif)
 
 Updating scripts
 ----------------
@@ -127,7 +139,7 @@ everything is up-to-date it will not produce any output.
 
     $ScriptInstallUpdate;
 
-![screenshot: update scripts](README.d/08-update-scripts.avif)
+![screenshot: update scripts](README.d/09-update-scripts.avif)
 
 If the update includes news or requires configuration changes a notification
 is sent - in addition to terminal output and log messages.
@@ -142,7 +154,7 @@ a comma separated list of script names.
 
     $ScriptInstallUpdate check-certificates,check-routeros-update;
 
-![screenshot: install scripts](README.d/09-install-scripts.avif)
+![screenshot: install scripts](README.d/10-install-scripts.avif)
 
 Scheduler and events
 --------------------
@@ -154,7 +166,7 @@ miss an update.
 
     /system/scheduler/add name="check-routeros-update" interval=1h on-event="/system/script/run check-routeros-update;";
 
-![screenshot: schedule script](README.d/10-schedule-script.avif)
+![screenshot: schedule script](README.d/11-schedule-script.avif)
 
 Some events can run a script. If you want your DHCP hostnames to be available
 in DNS use `dhcp-to-dns` with the events from dhcp server. For a regular
@@ -164,7 +176,7 @@ cleanup add a scheduler entry.
     /ip/dhcp-server/set lease-script=lease-script [ find ];
     /system/scheduler/add name="dhcp-to-dns" interval=5m on-event="/system/script/run dhcp-to-dns;";
 
-![screenshot: setup lease script](README.d/11-setup-lease-script.avif)
+![screenshot: setup lease script](README.d/12-setup-lease-script.avif)
 
 There's much more to explore... Have fun!
 
@@ -235,7 +247,7 @@ This will fetch and install a script `hello-world.rsc` from the given url:
 
     $ScriptInstallUpdate hello-world.rsc "base-url=https://git.eworm.de/cgit/routeros-scripts-custom/plain/";
 
-![screenshot: install custom script](README.d/12-install-custom-script.avif)
+![screenshot: install custom script](README.d/13-install-custom-script.avif)
 
 For a script to be considered valid it has to begin with a *magic token*.
 Have a look at [any script](README.d/hello-world.rsc) and copy the first line
@@ -272,7 +284,7 @@ configuration...
 
     /system/script/remove to-be-removed;
 
-![screenshot: remove script](README.d/13-remove-script.avif)
+![screenshot: remove script](README.d/14-remove-script.avif)
 
 Possibly a scheduler and other configuration has to be removed as well.
 
