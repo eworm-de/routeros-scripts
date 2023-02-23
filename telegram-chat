@@ -77,6 +77,7 @@ $WaitFullyConnected;
   :if ($UpdateID >= $TelegramChatOffset->2) do={
     :local Trusted false;
     :local Message [ $JsonGetKey $Update "message" ];
+    :local MessageId [ $JsonGetKey $Message "message_id" ];
     :local From [ $JsonGetKey $Message "from" ];
     :local FromID [ $JsonGetKey $From "id" ];
     :local FromUserName [ $JsonGetKey $From "username" ];
@@ -113,7 +114,7 @@ $WaitFullyConnected;
               :set State "The command failed with an error!\n\n";
             }
             :local Content [ /file/get ($File . ".txt") contents ];
-            $SendTelegram2 ({ origin=$0; chatid=$ChatID; silent=false; \
+            $SendTelegram2 ({ origin=$0; chatid=$ChatID; silent=false; replyto=$MessageId; \
               subject=([ $SymbolForNotification "speech-balloon" ] . "Telegram Chat"); \
               message=("Command:\n" . $Text . "\n\n" . $State . [ $IfThenElse ([ :len $Content ] > 0) \
                 ("Output:\n" . $Content) [ $IfThenElse ([ /file/get ($File . ".txt") size ] > 0) \
@@ -121,7 +122,7 @@ $WaitFullyConnected;
             /file/remove "tmpfs/telegram-chat";
           } else={
             $LogPrintExit2 info $0 ("The command from update " . $UpdateID . " failed syntax validation!") false;
-            $SendTelegram2 ({ origin=$0; chatid=$ChatID; silent=false; \
+            $SendTelegram2 ({ origin=$0; chatid=$ChatID; silent=false; replyto=$MessageId; \
               subject=([ $SymbolForNotification "speech-balloon" ] . "Telegram Chat"); \
               message=("Command:\n" . $Text . "\n\nThe command failed syntax validation!") });
           }
@@ -133,7 +134,7 @@ $WaitFullyConnected;
         " (ID " . $FromID . ") in update " . $UpdateID . "!");
       :if ($Text ~ ("^! *" . [ $EscapeForRegEx $Identity ] . "\$")) do={
         $LogPrintExit2 warning $0 $Message false;
-        $SendTelegram2 ({ origin=$0; chatid=$ChatID; silent=false; \
+        $SendTelegram2 ({ origin=$0; chatid=$ChatID; silent=false; replyto=$MessageId; \
           subject=([ $SymbolForNotification "speech-balloon" ] . "Telegram Chat"); \
           message=("You are not trusted.") });
       } else={
