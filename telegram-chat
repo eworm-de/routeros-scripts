@@ -72,10 +72,10 @@ $WaitFullyConnected;
 }
 
 :local UpdateID 0;
+:local Uptime [ /system/resource/get uptime ];
 :foreach Update in=[ :toarray $Data ] do={
   :set UpdateID [ $JsonGetKey $Update "update_id" ];
-  :if (($TelegramChatOffset->0 > 0 || [ /system/resource/get uptime ] > 5m) && \
-       $UpdateID >= $TelegramChatOffset->2) do={
+  :if (($TelegramChatOffset->0 > 0 || $Uptime > 5m) && $UpdateID >= $TelegramChatOffset->2) do={
     :local Trusted false;
     :local Message [ $JsonGetKey $Update "message" ];
     :local MessageId [ $JsonGetKey $Message "message_id" ];
