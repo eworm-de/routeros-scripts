@@ -105,6 +105,9 @@
 :global SafeUpdatePatch false;
 # Allow to install updates automatically if seen in neighbor list.
 :global SafeUpdateNeighbor false;
+# Install *ALL* updates automatically!
+# Set to all upper-case "Yes, please!" to enable.
+:global SafeUpdateAll "no";
 
 # These thresholds control when to send health notification
 # on temperature and voltage.

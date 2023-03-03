@@ -11,6 +11,7 @@
 :while ($GlobalFunctionsReady != true) do={ :delay 500ms; }
 
 :global Identity;
+:global SafeUpdateAll;
 :global SafeUpdateNeighbor;
 :global SafeUpdatePatch;
 :global SafeUpdateUrl;
@@ -59,6 +60,16 @@ $LogPrintExit2 debug $0 ("Checking for updates...") false;
 }
 
 :if ($NumInstalled < $NumLatest) do={
+  :if ($SafeUpdateAll ~ "^YES,? ?PLEASE!?\$") do={
+    $LogPrintExit2 info $0 ("Installing ALL versions automatically, including " . \
+      $Update->"latest-version" . "...") false;
+    $SendNotification2 ({ origin=$0; \
+      subject=([ $SymbolForNotification "sparkles" ] . "RouterOS update"); \
+      message=("Installing ALL versions automatically, including " . $Update->"latest-version" . \
+        "... Updating on " . $Identity . "..."); link=$Link; silent=true });
+    $DoUpdate;
+  }
+
   :if ($SafeUpdatePatch = true && ($NumInstalled & 0xffff0000) = ($NumLatest & 0xffff0000)) do={
     $LogPrintExit2 info $0 ("Version " . $Update->"latest-version" . " is a patch release, updating...") false;
     $SendNotification2 ({ origin=$0; \

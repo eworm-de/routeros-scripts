@@ -56,6 +56,10 @@ The configuration goes to `global-config-overlay`, these are the parameters:
   automatically
 * `SafeUpdateUrl`: url on webserver to check for safe update, the channel
   (`long-term`, `stable` or `testing`) is appended
+* `SafeUpdateAll`: install **all** updates automatically
+
+> ℹ️ **Info**: Installing **all** updates automatically requires extra
+> confirmation. See `global-config` for details.
 
 Also notification settings are required for
 [e-mail](mod/notification-email.md),
