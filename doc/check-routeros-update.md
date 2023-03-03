@@ -46,14 +46,16 @@ And add a scheduler for automatic update notification:
 Configuration
 -------------
 
-Configuration is required only if you want to control update process with
-safe versions from a web server. The configuration goes to
-`global-config-overlay`, this is the parameter:
+No extra configuration is required to receive notifications. Several
+mechanisms are availalbe to enable automatic installation of updates.
+The configuration goes to `global-config-overlay`, these are the parameters:
 
-* `SafeUpdateNeighbor`: install updates automatically if seen in neighbor list
-* `SafeUpdatePatch`: install patch updates automatically
-* `SafeUpdateUrl`: url to check for safe update, the channel (`long-term`,
-`stable` or `testing`) is appended
+* `SafeUpdateNeighbor`: install updates automatically if at least one other
+  device is seen in neighbor list with new version
+* `SafeUpdatePatch`: install patch updates (where just last digit changes)
+  automatically
+* `SafeUpdateUrl`: url on webserver to check for safe update, the channel
+  (`long-term`, `stable` or `testing`) is appended
 
 Also notification settings are required for
 [e-mail](mod/notification-email.md),
