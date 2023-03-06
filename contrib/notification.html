@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>RouterOS-Scripts Notification Generator</title>
+<link rel="stylesheet" type="text/css" href="notification.d/style.css">
+</head>
+<body>
+
+<h1>RouterOS-Scripts Notification Generator</h1>
+
+<div class="notification">
+  <img src="../logo.svg" class="logo" width=48 height=48>
+  <div class="content">
+  <p id="heading" class="heading">[<span id="hostname">MikroTik</span>] <span id="subject">ℹ️  Subject</span></p>
+  <pre id="message">Message</pre>
+  <p id="link" class="hint">🔗 <span id="link-text" class="link">https://eworm.de/</span></p>
+  <p id="queued" class="hint">⏰ This message was queued since <span id="queued-since">oct/18/2022 18:30:48</span> and may be obsolete.</p>
+  <p id="cut" class="hint">✂️ The message was too long and has been truncated, cut off <span id="cut-percent">13</span>%!</p>
+  </div>
+</div>
+
+<p>Hostname: <input type="text" value="MikroTik" onchange="update(this, 'hostname')"></p>
+<p>Subject: <input type="text" size=50 value="ℹ️  Subject"onchange="update(this, 'subject')"></p>
+<p>Message: <textarea id="w3review" name="w3review" rows="4" cols="50" onchange="update(this, 'message')">Message</textarea></p>
+<p><input type="checkbox" onclick="visible(this, 'link')"> Show link: <input type="text" value="https://eworm.de/" onchange="update(this, 'link-text')"></p>
+<p><input type="checkbox" onclick="visible(this, 'queued')"> Queued since <input type="text" value="oct/18/2022 18:30:48" onchange="update(this, 'queued-since')"></p>
+<p><input type="checkbox" onclick="visible(this, 'cut')"> Cut-off with <input type="number" min=1 max=99 value=13 onchange="update(this, 'cut-percent')"> percent</p>
+
+<p>ℹ️  Open the inspector, select the <tt>div</tt> element, right click and select "<i>Screenshot Node</i>"!</p>
+
+</body>
+</html>
