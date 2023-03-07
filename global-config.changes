@@ -103,6 +103,7 @@
   92="Made qr-code url configurable for 'daily-psk'.";
   93="Added support to backup global-config-overlay in 'backup-email' and 'backup-upload'.";
   94="Added support for host addresses in address-list for 'ipv6-update'.";
+  95="Renamed script files in repository, running migration. No user interaction is required.";
 };
 
 # Migration steps to be applied on script updates
@@ -118,4 +119,5 @@
   81=":global NtpPool; :if ([ :len [ /system/script/find where name=\"rotate-ntp\" ] ] > 0) do={ /system/script/remove [ find where name=\"rotate-ntp\" ]; /system/scheduler/remove [ find where name=\"rotate-ntp\" ]; /system/ntp/client/set servers=\$NtpPool; };";
   82=":global CharacterReplace; :foreach Netwatch in=[ /tool/netwatch/find where comment~\"notify\" !disabled ] do={ /tool/netwatch/set \$Netwatch comment=[ \$CharacterReplace [ get \$Netwatch comment ] \"hostname=\" \"name=\" ]; };";
   84=":global ScriptInstallUpdate; :global EmailGeneralTo; :if ([ /tool/e-mail/get address ] != \"0.0.0.0\" && [ :len \$EmailGeneralTo ] > 0) do={ \$ScriptInstallUpdate mod/notification-email; }";
+  95=":global ScriptInstallUpdate; :global CharacterReplace; :foreach Script in=[ /system/script/find where name~\"\\\\.rsc\\\$\" source~\"^#!rsc by RouterOS\\n\" ] do={ /system/script/set \$Script name=[ \$CharacterReplace [ get \$Script name ] \".rsc\" \"\" ]; }; \$ScriptInstallUpdate;";
 };

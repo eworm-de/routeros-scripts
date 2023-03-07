@@ -28,8 +28,8 @@ The optional configuration goes to `global-config-overlay`.
 * `ScriptRunOnceUrlSuffix`: url suffix, appended to parameter
 
 If the parameter passed to the function is not a complete URL (starting
-with protocol `ftp://`, `http://`, `https://` or `sftp://`) the values are
-prepended and appended.
+with protocol `ftp://`, `http://`, `https://` or `sftp://`) the base-url is
+prepended, and file extension `.rsc` and url-suffix are appended.
 
 Usage and invocation
 --------------------

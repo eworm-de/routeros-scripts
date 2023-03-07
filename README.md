@@ -87,7 +87,7 @@ date and time is set correctly!
 
 Now let's download the main scripts and add them in configuration on the fly.
 
-    :foreach Script in={ "global-config"; "global-config-overlay"; "global-functions" } do={ /system/script/add name=$Script source=([ /tool/fetch check-certificate=yes-without-crl ("https://git.eworm.de/cgit/routeros-scripts/plain/" . $Script) output=user as-value]->"data"); };
+    :foreach Script in={ "global-config"; "global-config-overlay"; "global-functions" } do={ /system/script/add name=$Script source=([ /tool/fetch check-certificate=yes-without-crl ("https://git.eworm.de/cgit/routeros-scripts/plain/" . $Script . ".rsc") output=user as-value]->"data"); };
 
 ![screenshot: import scripts](README.d/04-import-scripts.avif)
 
@@ -112,7 +112,7 @@ Editing configuration
 
 The configuration needs to be tweaked for your needs. Edit
 `global-config-overlay`, copy relevant configuration from
-[`global-config`](global-config) (the one without `-overlay`).
+[`global-config`](global-config.rsc) (the one without `-overlay`).
 Save changes and exit with `Ctrl-o`.
 
     /system/script/edit global-config-overlay source;
@@ -247,7 +247,7 @@ still use my scripts to manage and deploy yours, by specifying `base-url`
 
 This will fetch and install a script `hello-world.rsc` from the given url:
 
-    $ScriptInstallUpdate hello-world.rsc "base-url=https://git.eworm.de/cgit/routeros-scripts-custom/plain/";
+    $ScriptInstallUpdate hello-world "base-url=https://git.eworm.de/cgit/routeros-scripts-custom/plain/";
 
 ![screenshot: install custom script](README.d/13-install-custom-script.avif)
 
