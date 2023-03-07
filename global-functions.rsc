@@ -801,7 +801,7 @@
     :if ([ :len $SourceNew ] > 0) do={
       :if ($SourceNew != $ScriptVal->"source") do={
         :if ([ :pick $SourceNew 0 18 ] = "#!rsc by RouterOS\n") do={
-          :local Required ([ $ParseKeyValueStore [ $Grep $SourceNew "# requires RouterOS, " ] ]->"version");
+          :local Required ([ $ParseKeyValueStore [ $Grep $SourceNew ("\23 requires RouterOS, ") ] ]->"version");
           :if ([ $RequiredRouterOS $0 [ $EitherOr $Required "0.0" ] false ] = true) do={
             :if ([ $ValidateSyntax $SourceNew ] = true) do={
               $LogPrintExit2 info $0 ("Updating script: " . $ScriptVal->"name") false;
