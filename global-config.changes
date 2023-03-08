@@ -103,7 +103,7 @@
   92="Made qr-code url configurable for 'daily-psk'.";
   93="Added support to backup global-config-overlay in 'backup-email' and 'backup-upload'.";
   94="Added support for host addresses in address-list for 'ipv6-update'.";
-  95="Renamed script files in repository, running migration. No user interaction is required.";
+  95="Renamed script files in repository, running migration. Warnings (one per script) are expected, no user interaction is required.";
 };
 
 # Migration steps to be applied on script updates
