@@ -753,6 +753,7 @@
   :local ExpectedConfigVersionBefore $ExpectedConfigVersion;
   :local ReloadGlobalFunctions false;
   :local ReloadGlobalConfig false;
+  :local UserAgent ("User-Agent: Mikrotik/" . [ /system/resource/get version ] . " Fetch");
 
   :foreach Script in=[ /system/script/find where source~"^#!rsc by RouterOS\n" ] do={
     :local ScriptVal [ /system/script/get $Script ];
@@ -782,7 +783,8 @@
           :local Url ($BaseUrl . $ScriptVal->"name" . ".rsc" . $UrlSuffix);
 
           $LogPrintExit2 debug $0 ("Fetching script '" . $ScriptVal->"name" . "' from url: " . $Url) false;
-          :local Result [ /tool/fetch check-certificate=yes-without-crl $Url output=user as-value ];
+          :local Result [ /tool/fetch check-certificate=yes-without-crl http-header-field=$UserAgent \
+            $Url output=user as-value ];
           :if ($Result->"status" = "finished") do={
             :set SourceNew ($Result->"data");
           }
@@ -865,7 +867,8 @@
     :do {
       :local Url ($ScriptUpdatesBaseUrl . "news-and-changes.rsc" . $ScriptUpdatesUrlSuffix);
       $LogPrintExit2 debug $0 ("Fetching news, changes and migration: " . $Url) false;
-      :local Result [ /tool/fetch check-certificate=yes-without-crl $Url output=user as-value ];
+      :local Result [ /tool/fetch check-certificate=yes-without-crl http-header-field=$UserAgent \
+        $Url output=user as-value ];
       :if ($Result->"status" = "finished") do={
         :set ChangeLogCode ($Result->"data");
       }
