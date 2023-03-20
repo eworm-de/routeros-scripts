@@ -112,6 +112,9 @@ $ScriptLock $0;
         :local Message ("The " . $Type . " '" . $Name . "' (" . $HostDetails . \
             ") is up since " . $HostVal->"since" . ".\n" . \
             "It was down for " . $CountDown . " checks since " . ($Metric->"since") . ".");
+        :if ([ :typeof ($HostInfo->"note") ] = "str") do={
+          :set Message ($Message . "\n\nNote:\n" . ($HostInfo->"note"));
+        }
         :if ([ :typeof ($HostInfo->"up-hook") ] = "str") do={
           :set Message ($Message . "\n\n" . [ $NetwatchNotifyHook $Name $Type "up" \
               ($HostInfo->"up-hook") ]);
@@ -162,6 +165,9 @@ $ScriptLock $0;
            ($ParentUp = false || $ParentUp > 2) && $Metric->"notified" != true) do={
         :local Message ("The " . $Type . " '" . $Name . "' (" . $HostDetails . \
             ") is down since " . $HostVal->"since" . ".");
+        :if ([ :typeof ($HostInfo->"note") ] = "str") do={
+          :set Message ($Message . "\n\nNote:\n" . ($HostInfo->"note"));
+        }
         :if ([ :typeof ($HostInfo->"down-hook") ] = "str") do={
           :set Message ($Message . "\n\n" . [ $NetwatchNotifyHook $Name $Type "down" \
               ($HostInfo->"down-hook") ]);

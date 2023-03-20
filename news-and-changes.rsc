@@ -9,8 +9,10 @@
 
 # Changes for global-config to be added to notification on script updates
 :global GlobalConfigChanges {
+  96="Added support for notes in 'netwatch-notify', these are included verbatim into the notification.";
 };
 
 # Migration steps to be applied on script updates
 :global GlobalConfigMigration {
+  0;
 };

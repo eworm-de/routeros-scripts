@@ -88,6 +88,13 @@ powered off, but accessibility is of interest.
 
 Go and get your coffee ☕️ before sending the print job.
 
+### Add a note in notification
+
+For some extra information it is possible to add a text note. This is
+included verbatim into the notification.
+
+    /tool/netwatch/add comment="notify, name=example, note=Do not touch!" host=10.0.0.31;
+
 Also notification settings are required for
 [e-mail](mod/notification-email.md),
 [matrix](mod/notification-matrix.md) and/or
