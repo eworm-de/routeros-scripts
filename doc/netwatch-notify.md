@@ -38,6 +38,11 @@ The hosts to be checked have to be added to netwatch with specific comment:
 
     /tool/netwatch/add comment="notify, name=example.com" host=[ :resolve "example.com" ];
 
+Also notification settings are required for
+[e-mail](mod/notification-email.md),
+[matrix](mod/notification-matrix.md) and/or
+[telegram](mod/notification-telegram.md).
+
 ### Hooks
 
 It is possible to run an up hook command (`up-hook`) or down hook command
@@ -94,11 +99,6 @@ For some extra information it is possible to add a text note. This is
 included verbatim into the notification.
 
     /tool/netwatch/add comment="notify, name=example, note=Do not touch!" host=10.0.0.31;
-
-Also notification settings are required for
-[e-mail](mod/notification-email.md),
-[matrix](mod/notification-matrix.md) and/or
-[telegram](mod/notification-telegram.md).
 
 Tips & Tricks
 -------------
