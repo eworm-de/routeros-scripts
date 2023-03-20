@@ -55,6 +55,9 @@ Also there is a `pre-down-hook` that fires at two thirds of failed checks
 required for the notification. The idea is to fix the issue before a
 notification is sent.
 
+Getting the escaping right may be troublesome. Please consider adding a
+script in `/system/script`, then running that from hook.
+
 ### Count threshould
 
 The count threshould (default is 5 checks) is configurable as well:
