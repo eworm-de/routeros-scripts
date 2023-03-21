@@ -63,9 +63,9 @@ $ScriptLock $0 false 10;
     :local HostName [ $IfThenElse ([ :len ($LeaseVal->"host-name") ] = 0) \
       [ $CharacterReplace ($LeaseVal->"mac-address") ":" "-" ] \
       [ $CharacterReplace ($LeaseVal->"host-name") " " "" ] ];
+    :local Domain ([ $IfThenElse ($ServerNameInZone = true) ($LeaseVal->"server" . ".") ] . $Zone);
 
-    :local Fqdn ($HostName . "." . [ $IfThenElse ($ServerNameInZone = true) ($LeaseVal->"server" . ".") ] . $Zone);
-    :local DnsRecord [ /ip/dns/static/find where name=$Fqdn ];
+    :local DnsRecord [ /ip/dns/static/find where name=($HostName . "." . $Domain) ];
     :if ([ :len $DnsRecord ] > 0) do={
       :local DnsIp [ /ip/dns/static/get $DnsRecord address ];
 
@@ -82,14 +82,14 @@ $ScriptLock $0 false 10;
       }
 
       :if ($DnsIp = $LeaseVal->"address") do={
-        $LogPrintExit2 debug $0 ("DNS entry for " . $Fqdn . " does not need updating.") false;
+        $LogPrintExit2 debug $0 ("DNS entry for " . ($HostName . "." . $Domain) . " does not need updating.") false;
       } else={
-        $LogPrintExit2 info $0 ("Replacing DNS entry for " . $Fqdn . ", new address is " . $LeaseVal->"address" . ".") false;
-        /ip/dns/static/set name=$Fqdn address=($LeaseVal->"address") ttl=$Ttl comment=$Comment $DnsRecord;
+        $LogPrintExit2 info $0 ("Replacing DNS entry for " . ($HostName . "." . $Domain) . ", new address is " . $LeaseVal->"address" . ".") false;
+        /ip/dns/static/set name=($HostName . "." . $Domain) address=($LeaseVal->"address") ttl=$Ttl comment=$Comment $DnsRecord;
       }
     } else={
-      $LogPrintExit2 info $0 ("Adding new DNS entry for " . $Fqdn . ", address is " . $LeaseVal->"address" . ".") false;
-      /ip/dns/static/add name=$Fqdn address=($LeaseVal->"address") ttl=$Ttl comment=$Comment place-before=$PlaceBefore;
+      $LogPrintExit2 info $0 ("Adding new DNS entry for " . ($HostName . "." . $Domain) . ", address is " . $LeaseVal->"address" . ".") false;
+      /ip/dns/static/add name=($HostName . "." . $Domain) address=($LeaseVal->"address") ttl=$Ttl comment=$Comment place-before=$PlaceBefore;
     }
   } else={
     $LogPrintExit2 debug $0 ("No address available... Ignoring.") false;
