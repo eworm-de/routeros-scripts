@@ -27,11 +27,11 @@
 :local CommentPrefix ("managed by " . $0 . " for ");
 :local CommentString ("--- " . $0 . " above ---");
 
-:if ([ :len [ /ip/dns/static/find where comment=$CommentString name=- type=NXDOMAIN disabled ] ] = 0) do={
-  /ip/dns/static/add comment=$CommentString name=- type=NXDOMAIN disabled=yes;
-  $LogPrintExit2 warning $0 ("Added disabled static dns record with comment '" . $CommentString . "'.") false;
+:if ([ :len [ /ip/dns/static/find where (name=$CommentString or (comment=$CommentString and name=-)) type=NXDOMAIN disabled ] ] = 0) do={
+  /ip/dns/static/add name=$CommentString type=NXDOMAIN disabled=yes;
+  $LogPrintExit2 warning $0 ("Added disabled static dns record with name '" . $CommentString . "'.") false;
 }
-:local PlaceBefore ([ /ip/dns/static/find where comment=$CommentString name=- type=NXDOMAIN disabled ]->0);
+:local PlaceBefore ([ /ip/dns/static/find where (name=$CommentString or (comment=$CommentString and name=-)) type=NXDOMAIN disabled ]->0);
 
 :foreach DnsRecord in=[ /ip/dns/static/find where comment ~ $CommentPrefix ] do={
   :local DnsRecordVal [ /ip/dns/static/get $DnsRecord ];
