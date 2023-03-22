@@ -38,7 +38,7 @@ $ScriptLock $0 false 10;
   :local ScriptVal [ /system/script/get $Script ];
   :local Store [ $ParseKeyValueStore [ $Grep ($ScriptVal->"source") ("\23 provides: lease-script, ") ] ];
 
-  :set ($RunOrder->($Store->"order")) ($ScriptVal->"name");
+  :set ($RunOrder->($Store->"order" . "-" . $ScriptVal->"name")) ($ScriptVal->"name");
 }
 
 :foreach Order,Script in=$RunOrder do={
