@@ -33,7 +33,7 @@
 }
 :local PlaceBefore ([ /ip/dns/static/find where (name=$CommentString or (comment=$CommentString and name=-)) type=NXDOMAIN disabled ]->0);
 
-:foreach DnsRecord in=[ /ip/dns/static/find where comment ~ $CommentPrefix ] do={
+:foreach DnsRecord in=[ /ip/dns/static/find where comment~("^" . $CommentPrefix) ] do={
   :local DnsRecordVal [ /ip/dns/static/get $DnsRecord ];
   :local PeerId [ $CharacterReplace ($DnsRecordVal->"comment") $CommentPrefix "" ];
   :if ([ :len [ /ip/ipsec/active-peers/find where id~("^(CN=)?" . [ $EscapeForRegEx $PeerId ] . "\$") \
