@@ -81,6 +81,12 @@ $ScriptLock $0 false 10;
         $LogPrintExit2 info $0 ("Replacing DNS entry for " . ($MacDash . "." . $Domain) . ", new address is " . $LeaseVal->"address" . ".") false;
         /ip/dns/static/set address=($LeaseVal->"address") $DnsRecord;
       }
+
+      :local Cname [ /ip/dns/static/find where type=CNAME cname=($MacDash . "." . $Domain) comment=$Comment ];
+      :if ([ :len $Cname ] > 0 && [ /ip/dns/static/get $Cname name ] != ($HostName . "." . $Domain)) do={
+        $LogPrintExit2 info $0 ("Host name changed, updating CNAME (pointing to " . ($MacDash . "." . $Domain) . ") to " . ($HostName . "." . $Domain) . ".") false;
+        /ip/dns/static/set name=($HostName . "." . $Domain) $Cname;
+      }
     } else={
       $LogPrintExit2 info $0 ("Adding new DNS entry for " . ($MacDash . "." . $Domain) . ", address is " . $LeaseVal->"address" . ".") false;
       /ip/dns/static/add name=($MacDash . "." . $Domain) type=A address=($LeaseVal->"address") ttl=$Ttl comment=$Comment place-before=$PlaceBefore;
