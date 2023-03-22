@@ -79,7 +79,7 @@ $ScriptLock $0 false 10;
         $LogPrintExit2 debug $0 ("DNS entry for " . ($MacDash . "." . $Domain) . " does not need updating.") false;
       } else={
         $LogPrintExit2 info $0 ("Replacing DNS entry for " . ($MacDash . "." . $Domain) . ", new address is " . $LeaseVal->"address" . ".") false;
-        /ip/dns/static/set name=($MacDash . "." . $Domain) address=($LeaseVal->"address") ttl=$Ttl comment=$Comment $DnsRecord;
+        /ip/dns/static/set address=($LeaseVal->"address") $DnsRecord;
       }
     } else={
       $LogPrintExit2 info $0 ("Adding new DNS entry for " . ($MacDash . "." . $Domain) . ", address is " . $LeaseVal->"address" . ".") false;
