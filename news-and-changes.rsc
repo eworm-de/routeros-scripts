@@ -10,9 +10,10 @@
 # Changes for global-config to be added to notification on script updates
 :global GlobalConfigChanges {
   96="Added support for notes in 'netwatch-notify', these are included verbatim into the notification.";
+  97="Modified 'dhcp-to-dns' to always add A records for names with mac address, and optionally add CNAME records if the host name is available.";
 };
 
 # Migration steps to be applied on script updates
 :global GlobalConfigMigration {
-  0;
+  97=":local Rec [ /ip/dns/static/find where comment~\"^managed by dhcp-to-dns for \" ]; :if ([ :len \$Rec ] > 0) do={ /ip/dns/static/remove \$Rec; /system/script/run dhcp-to-dns; }";
 };
