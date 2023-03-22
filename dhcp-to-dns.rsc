@@ -74,13 +74,6 @@ $ScriptLock $0 false 10;
         :set ($LeaseVal->"address") [ /ip/dhcp-server/lease/get ($DupMacLeases->([ :len $DupMacLeases ] - 1)) address ];
       }
 
-      :if ([ :len ($LeaseVal->"host-name") ] > 0) do={
-        :local HostNameLeases [ /ip/dhcp-server/lease/find where host-name=($LeaseVal->"host-name") status=bound ];
-        :if ([ :len $HostNameLeases ] > 1) do={
-          :set ($LeaseVal->"address") [ /ip/dhcp-server/lease/get ($HostNameLeases->0) address ];
-        }
-      }
-
       :if ($DnsIp = $LeaseVal->"address") do={
         $LogPrintExit2 debug $0 ("DNS entry for " . ($MacDash . "." . $Domain) . " does not need updating.") false;
       } else={
