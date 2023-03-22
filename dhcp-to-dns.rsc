@@ -71,6 +71,7 @@ $ScriptLock $0 false 10;
 
       :local DupMacLeases [ /ip/dhcp-server/lease/find where mac-address=($LeaseVal->"mac-address") status=bound ];
       :if ([ :len $DupMacLeases ] > 1) do={
+        $LogPrintExit2 debug $0 ("Multiple bound leases found for mac-address " . ($LeaseVal->"mac-address") . ", using ip address of last one.") false;
         :set ($LeaseVal->"address") [ /ip/dhcp-server/lease/get ($DupMacLeases->([ :len $DupMacLeases ] - 1)) address ];
       }
 
