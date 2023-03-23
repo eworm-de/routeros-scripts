@@ -13,9 +13,11 @@
 
 :global Identity;
 :global SmsForwardHooks;
+:global SmsForwardWorkaround;
 
 :global IfThenElse;
 :global LogPrintExit2;
+:global RequiredRouterOS;
 :global ScriptLock;
 :global SendNotification2;
 :global SymbolForNotification;
@@ -26,6 +28,14 @@ $ScriptLock $0;
 
 :if ([ /tool/sms/get receive-enabled ] = false) do={
   $LogPrintExit2 warning $0 ("Receiving of SMS is not enabled.") true;
+}
+
+:if ($SmsForwardWorkaround != true && \
+     [ $RequiredRouterOS $0 "7.8" false ] = true) do={
+  :local AutoErase [ /tool/sms/get auto-erase ];
+  /tool/sms/set auto-erase=(!$AutoErase);
+  /tool/sms/set auto-erase=$AutoErase;
+  :set SmsForwardWorkaround true;
 }
 
 $WaitFullyConnected;
