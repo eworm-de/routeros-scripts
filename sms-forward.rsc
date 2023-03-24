@@ -31,7 +31,8 @@ $ScriptLock $0;
 }
 
 :if ($SmsForwardWorkaround != true && \
-     [ $RequiredRouterOS $0 "7.8" false ] = true) do={
+     [ $RequiredRouterOS $0 "7.8" false ] = true && \
+     [ $RequiredRouterOS $0 "7.9beta4" false ] = false) do={
   :local AutoErase [ /tool/sms/get auto-erase ];
   /tool/sms/set auto-erase=(!$AutoErase);
   /tool/sms/set auto-erase=$AutoErase;
