@@ -558,7 +558,6 @@
   :global CleanFilePath;
   :global GetRandom20CharAlNum;
   :global LogPrintExit2;
-  :global RequiredRouterOS;
   :global WaitForFile;
 
   :set Path [ $CleanFilePath $Path ];
