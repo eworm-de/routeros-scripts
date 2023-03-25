@@ -589,7 +589,7 @@
           $WaitForFile "tmpfs";
         } on-error={
           $LogPrintExit2 warning $0 ("Creating disk of type tmpfs failed!") false;
-          :set Error true;
+          :return false;
         }
       }
       :set Continue true;
