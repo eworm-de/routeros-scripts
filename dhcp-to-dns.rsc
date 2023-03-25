@@ -83,6 +83,10 @@ $ScriptLock $0 false 10;
       }
 
       :local Cname [ /ip/dns/static/find where type=CNAME cname=($MacDash . "." . $Domain) comment=$Comment ];
+      :if ([ :len $Cname ] = 0 && [ :len $HostName ] > 0) do={
+        $LogPrintExit2 info $0 ("Host name appeared, adding CNAME " . ($HostName . "." . $Domain) . " pointing to " . ($MacDash . "." . $Domain) . ".") false;
+        /ip/dns/static/add name=($HostName . "." . $Domain) type=CNAME cname=($MacDash . "." . $Domain) ttl=$Ttl comment=$Comment place-before=$PlaceBefore;
+      }
       :if ([ :len $Cname ] > 0 && [ /ip/dns/static/get $Cname name ] != ($HostName . "." . $Domain)) do={
         $LogPrintExit2 info $0 ("Host name changed, updating CNAME (pointing to " . ($MacDash . "." . $Domain) . ") to " . ($HostName . "." . $Domain) . ".") false;
         /ip/dns/static/set name=($HostName . "." . $Domain) $Cname;
