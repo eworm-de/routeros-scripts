@@ -41,6 +41,19 @@ The configuration goes to `global-config-overlay`, these are the parameters:
 * `PrefixInZone`: whether or not to add prefix `dhcp`
 * `ServerNameInZone`: whether or not to add DHCP server name
 
+### Host name from DHCP lease comment
+
+Overwriting the host name from dhcp lease comment is supported, just add
+something like `hostname=new-hostname` in comment, and separate it by comma
+from other information if required:
+
+    /ip/dhcp-server/lease/add address=10.0.0.50 comment="my device, hostname=new-hostname" mac-address=00:11:22:33:44:55 server=dhcp;
+
+Note this information can be configured in wireless access list with
+[dhcp-lease-comment](dhcp-lease-comment.md), though it comes with a delay
+then due to script execution order. Decrease the scheduler interval to
+reduce the effect.
+
 See also
 --------
 

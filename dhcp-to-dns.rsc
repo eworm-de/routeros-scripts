@@ -19,8 +19,10 @@
 :global ServerNameInZone;
 
 :global CharacterReplace;
+:global EitherOr;
 :global IfThenElse;
 :global LogPrintExit2;
+:global ParseKeyValueStore;
 :global ScriptLock;
 
 $ScriptLock $0 false 10;
@@ -62,7 +64,7 @@ $ScriptLock $0 false 10;
   :if ([ :len ($LeaseVal->"address") ] > 0) do={
     :local Comment ($CommentPrefix . $LeaseVal->"mac-address");
     :local MacDash [ $CharacterReplace ($LeaseVal->"mac-address") ":" "-" ];
-    :local HostName [ $CharacterReplace ($LeaseVal->"host-name") " " "" ];
+    :local HostName [ $CharacterReplace [ $EitherOr ([ $ParseKeyValueStore ($LeaseVal->"comment") ]->"hostname") ($LeaseVal->"host-name") ] " " "" ];
     :local Domain ([ $IfThenElse ($ServerNameInZone = true) ($LeaseVal->"server" . ".") ] . $Zone);
 
     :local DnsRecord [ /ip/dns/static/find where name=($MacDash . "." . $Domain) ];
