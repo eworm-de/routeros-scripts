@@ -558,6 +558,7 @@
   :global CleanFilePath;
   :global GetRandom20CharAlNum;
   :global LogPrintExit2;
+  :global RequiredRouterOS;
   :global WaitForFile;
 
   :local MkTmpfs do={
@@ -590,7 +591,23 @@
     :return true;
   }
 
-  {
+  :if ([ $RequiredRouterOS $0 "7.9beta4" false ] = true) do={
+    :if ([ :pick $Path 0 5 ] = "tmpfs") do={
+      :if ([ $MkTmpfs ] = false) do={
+        :return false;
+      }
+    }
+
+    :do {
+      :local File ($Path . "/file");
+      /file/add name=$File;
+      $WaitForFile $File;
+      /file/remove $File;
+    } on-error={
+      $LogPrintExit2 warning $0 ("Making directory '" . $Path . "' failed!") false;
+      :return false;
+    }
+  } else={
     :local Error false;
     :local PathNext "";
     :foreach Dir in=[ :toarray [ $CharacterReplace $Path "/" "," ] ] do={
