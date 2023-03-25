@@ -560,6 +560,26 @@
   :global LogPrintExit2;
   :global WaitForFile;
 
+  :local MkTmpfs do={
+    :global LogPrintExit2;
+    :global WaitForFile;
+
+    :if ([ :len [ /disk/find where slot=tmpfs type=tmpfs ] ] = 1) do={
+      :return true;
+    }
+
+    $LogPrintExit2 info $0 ("Creating disk of type tmpfs.") false;
+    /file/remove [ find where name="tmpfs" type="directory" ];
+    :do {
+      /disk/add slot=tmpfs type=tmpfs tmpfs-max-size=([ /system/resource/get total-memory ] / 3);
+      $WaitForFile "tmpfs";
+    } on-error={
+      $LogPrintExit2 warning $0 ("Creating disk of type tmpfs failed!") false;
+      :return false;
+    }
+    :return true;
+  }
+
   :set Path [ $CleanFilePath $Path ];
 
   :if ($Path = "") do={
@@ -581,16 +601,8 @@
     }
 
     :if ($Continue = false && $PathNext = "tmpfs") do={
-      :if ([ :len [ /disk/find where slot=tmpfs type=tmpfs ] ] = 0) do={
-        $LogPrintExit2 info $0 ("Creating disk of type tmpfs.") false;
-        /file/remove [ find where name="tmpfs" type="directory" ];
-        :do {
-          /disk/add slot=tmpfs type=tmpfs tmpfs-max-size=([ /system/resource/get total-memory ] / 3);
-          $WaitForFile "tmpfs";
-        } on-error={
-          $LogPrintExit2 warning $0 ("Creating disk of type tmpfs failed!") false;
-          :return false;
-        }
+      :if ([ $MkTmpfs ] = false) do={
+        :return false;
       }
       :set Continue true;
     }
