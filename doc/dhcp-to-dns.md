@@ -9,7 +9,9 @@ Create DNS records for DHCP leases
 Description
 -----------
 
-This script adds (and removes) dns records based on dhcp server leases.
+This script adds (and updates & removes) dns records based on dhcp server
+leases. An A record based on mac address is created for all bound lease,
+additionally a CNAME record is created from host name if available.
 
 Requirements and installation
 -----------------------------
