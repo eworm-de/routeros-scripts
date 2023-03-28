@@ -590,40 +590,42 @@
     :return true;
   }
 
-  :local Error false;
-  :local PathNext "";
-  :foreach Dir in=[ :toarray [ $CharacterReplace $Path "/" "," ] ] do={
-    :local Continue false;
-    :set PathNext [ $CleanFilePath ($PathNext . "/" . $Dir) ];
+  {
+    :local Error false;
+    :local PathNext "";
+    :foreach Dir in=[ :toarray [ $CharacterReplace $Path "/" "," ] ] do={
+      :local Continue false;
+      :set PathNext [ $CleanFilePath ($PathNext . "/" . $Dir) ];
 
-    :if ([ :len [ /file/find where name=$PathNext !(name="tmpfs") type="directory" ] ] = 1) do={
-      :set Continue true;
-    }
+      :if ([ :len [ /file/find where name=$PathNext !(name="tmpfs") type="directory" ] ] = 1) do={
+        :set Continue true;
+      }
 
-    :if ($Continue = false && $PathNext = "tmpfs") do={
-      :if ([ $MkTmpfs ] = false) do={
+      :if ($Continue = false && $PathNext = "tmpfs") do={
+        :if ([ $MkTmpfs ] = false) do={
+          :return false;
+        }
+        :set Continue true;
+      }
+
+      :if ($Continue = false && [ :len [ /file/find where name=$PathNext ] ] = 1) do={
+        $LogPrintExit2 warning $0 ("The path '" . $PathNext . "' exists, but is not a directory.") false;
         :return false;
       }
-      :set Continue true;
-    }
 
-    :if ($Continue = false && [ :len [ /file/find where name=$PathNext ] ] = 1) do={
-      $LogPrintExit2 warning $0 ("The path '" . $PathNext . "' exists, but is not a directory.") false;
-      :return false;
-    }
-
-    :if ($Continue = false) do={
-      :local Name ($PathNext . "-" . [ $GetRandom20CharAlNum 6 ]);
-      :do {
-        /ip/smb/share/add disabled=yes directory=$PathNext name=$Name;
-        $WaitForFile $PathNext;
-      } on-error={
-        $LogPrintExit2 warning $0 ("Making directory '" . $PathNext . "' failed!") false;
-        :set Error true;
-      }
-      /ip/smb/share/remove [ find where name=$Name ];
-      :if ($Error = true) do={
-        :return false;
+      :if ($Continue = false) do={
+        :local Name ($PathNext . "-" . [ $GetRandom20CharAlNum 6 ]);
+        :do {
+          /ip/smb/share/add disabled=yes directory=$PathNext name=$Name;
+          $WaitForFile $PathNext;
+        } on-error={
+          $LogPrintExit2 warning $0 ("Making directory '" . $PathNext . "' failed!") false;
+          :set Error true;
+        }
+        /ip/smb/share/remove [ find where name=$Name ];
+        :if ($Error = true) do={
+          :return false;
+        }
       }
     }
   }
