@@ -635,23 +635,22 @@
     :return true;
   }
 
-  {
-    :if ([ :pick $Path 0 5 ] = "tmpfs") do={
-      :if ([ $MkTmpfs ] = false) do={
-        :return false;
-      }
-    }
-
-    :do {
-      :local File ($Path . "/file");
-      /file/add name=$File;
-      $WaitForFile $File;
-      /file/remove $File;
-    } on-error={
-      $LogPrintExit2 warning $0 ("Making directory '" . $Path . "' failed!") false;
+  :if ([ :pick $Path 0 5 ] = "tmpfs") do={
+    :if ([ $MkTmpfs ] = false) do={
       :return false;
     }
   }
+
+  :do {
+    :local File ($Path . "/file");
+    /file/add name=$File;
+    $WaitForFile $File;
+    /file/remove $File;
+  } on-error={
+    $LogPrintExit2 warning $0 ("Making directory '" . $Path . "' failed!") false;
+    :return false;
+  }
+
   :return true;
 }
 
