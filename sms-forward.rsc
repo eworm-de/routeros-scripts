@@ -43,6 +43,10 @@ $WaitFullyConnected;
 
 :local Settings [ /tool/sms/get ];
 
+:if ([ /interface/lte/get ($Settings->"port") running ] != true) do={
+  $LogPrintExit2 info $0 ("The LTE interface is not in running state, skipping.") true;
+}
+
 # forward SMS in a loop
 :while ([ :len [ /tool/sms/inbox/find ] ] > 0) do={
   :local Phone [ /tool/sms/inbox/get ([ find ]->0) phone ];
