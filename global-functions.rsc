@@ -561,6 +561,26 @@
   :global RequiredRouterOS;
   :global WaitForFile;
 
+  :local MkTmpfs do={
+    :global LogPrintExit2;
+    :global WaitForFile;
+
+    :if ([ :len [ /disk/find where slot=tmpfs type=tmpfs ] ] = 1) do={
+      :return true;
+    }
+
+    $LogPrintExit2 info $0 ("Creating disk of type tmpfs.") false;
+    /file/remove [ find where name="tmpfs" type="directory" ];
+    :do {
+      /disk/add slot=tmpfs type=tmpfs tmpfs-max-size=([ /system/resource/get total-memory ] / 3);
+      $WaitForFile "tmpfs";
+    } on-error={
+      $LogPrintExit2 warning $0 ("Creating disk of type tmpfs failed!") false;
+      :return false;
+    }
+    :return true;
+  }
+
   :set Path [ $CleanFilePath $Path ];
 
   :if ($Path = "") do={
@@ -571,48 +591,58 @@
     :return true;
   }
 
-  :local Error false;
-  :local PathNext "";
-  :foreach Dir in=[ :toarray [ $CharacterReplace $Path "/" "," ] ] do={
-    :local Continue false;
-    :set PathNext [ $CleanFilePath ($PathNext . "/" . $Dir) ];
-
-    :if ([ :len [ /file/find where name=$PathNext !(name="tmpfs") type="directory" ] ] = 1) do={
-      :set Continue true;
-    }
-
-    :if ($Continue = false && $PathNext = "tmpfs") do={
-      :if ([ :len [ /disk/find where slot=tmpfs type=tmpfs ] ] = 0) do={
-        $LogPrintExit2 info $0 ("Creating disk of type tmpfs.") false;
-        /file/remove [ find where name="tmpfs" type="directory" ];
-        :do {
-          /disk/add slot=tmpfs type=tmpfs tmpfs-max-size=([ /system/resource/get total-memory ] / 3);
-          $WaitForFile "tmpfs";
-        } on-error={
-          $LogPrintExit2 warning $0 ("Creating disk of type tmpfs failed!") false;
-          :set Error true;
-        }
+  :if ([ $RequiredRouterOS $0 "7.9beta4" false ] = true) do={
+    :if ([ :pick $Path 0 5 ] = "tmpfs") do={
+      :if ([ $MkTmpfs ] = false) do={
+        :return false;
       }
-      :set Continue true;
     }
 
-    :if ($Continue = false && [ :len [ /file/find where name=$PathNext ] ] = 1) do={
-      $LogPrintExit2 warning $0 ("The path '" . $PathNext . "' exists, but is not a directory.") false;
+    :do {
+      :local File ($Path . "/file");
+      /file/add name=$File;
+      $WaitForFile $File;
+      /file/remove $File;
+    } on-error={
+      $LogPrintExit2 warning $0 ("Making directory '" . $Path . "' failed!") false;
       :return false;
     }
+  } else={
+    :local Error false;
+    :local PathNext "";
+    :foreach Dir in=[ :toarray [ $CharacterReplace $Path "/" "," ] ] do={
+      :local Continue false;
+      :set PathNext [ $CleanFilePath ($PathNext . "/" . $Dir) ];
 
-    :if ($Continue = false) do={
-      :local Name ($PathNext . "-" . [ $GetRandom20CharAlNum 6 ]);
-      :do {
-        /ip/smb/share/add disabled=yes directory=$PathNext name=$Name;
-        $WaitForFile $PathNext;
-      } on-error={
-        $LogPrintExit2 warning $0 ("Making directory '" . $PathNext . "' failed!") false;
-        :set Error true;
+      :if ([ :len [ /file/find where name=$PathNext !(name="tmpfs") type="directory" ] ] = 1) do={
+        :set Continue true;
       }
-      /ip/smb/share/remove [ find where name=$Name ];
-      :if ($Error = true) do={
+
+      :if ($Continue = false && $PathNext = "tmpfs") do={
+        :if ([ $MkTmpfs ] = false) do={
+          :return false;
+        }
+        :set Continue true;
+      }
+
+      :if ($Continue = false && [ :len [ /file/find where name=$PathNext ] ] = 1) do={
+        $LogPrintExit2 warning $0 ("The path '" . $PathNext . "' exists, but is not a directory.") false;
         :return false;
+      }
+
+      :if ($Continue = false) do={
+        :local Name ($PathNext . "-" . [ $GetRandom20CharAlNum 6 ]);
+        :do {
+          /ip/smb/share/add disabled=yes directory=$PathNext name=$Name;
+          $WaitForFile $PathNext;
+        } on-error={
+          $LogPrintExit2 warning $0 ("Making directory '" . $PathNext . "' failed!") false;
+          :set Error true;
+        }
+        /ip/smb/share/remove [ find where name=$Name ];
+        :if ($Error = true) do={
+          :return false;
+        }
       }
     }
   }
