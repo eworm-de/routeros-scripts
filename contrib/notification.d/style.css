@@ -34,6 +34,7 @@ pre {
 span.link {
   color: #863600;
 }
-tt {
+span.tag {
+  font-family: monospace;
   background-color: #e6e6e6;
 }
