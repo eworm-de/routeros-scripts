@@ -40,7 +40,7 @@ $ScriptLock $0 false 10;
 }
 :local PlaceBefore ([ /ip/dns/static/find where (name=$CommentString or (comment=$CommentString and name=-)) type=NXDOMAIN disabled ]->0);
 
-:foreach DnsRecord in=[ /ip/dns/static/find where comment~("^" . $CommentPrefix) !(type=CNAME) ] do={
+:foreach DnsRecord in=[ /ip/dns/static/find where comment~("^" . $CommentPrefix) (!type or type=A) ] do={
   :local DnsRecordVal [ /ip/dns/static/get $DnsRecord ];
   :local MacAddress [ $CharacterReplace ($DnsRecordVal->"comment") $CommentPrefix "" ];
   :if ([ :len [ /ip/dhcp-server/lease/find where mac-address=$MacAddress address=($DnsRecordVal->"address") status=bound ] ] > 0) do={
