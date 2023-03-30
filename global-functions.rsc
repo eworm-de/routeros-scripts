@@ -1226,8 +1226,10 @@
 
   :global CharacterReplace;
 
-  :set Input [ $CharacterReplace [ $CharacterReplace [ $CharacterReplace $Input \
-    "." "," ] "beta" ",beta," ] "rc" ",rc," ];
+  :set Input [ $CharacterReplace $Input "." "," ];
+  :foreach I in={ "alpha"; "beta"; "rc" } do={
+    :set Input [ $CharacterReplace $Input $I ("," . $I . ",") ];
+  }
 
   :foreach Value in=([ :toarray $Input ], 0) do={
     :local Num [ :tonum $Value ];
@@ -1236,7 +1238,8 @@
         :set Return ($Return + 0xff00);
         :set Multi ($Multi / 0x100);
       } else={
-        :if ($Value = "beta") do={ :set Return ($Return + 0x3f00); }
+        :if ($Value = "alpha") do={ :set Return ($Return + 0x3f00); }
+        :if ($Value = "beta") do={ :set Return ($Return + 0x5f00); }
         :if ($Value = "rc") do={ :set Return ($Return + 0x7f00); }
       }
     }
