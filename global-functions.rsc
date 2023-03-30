@@ -704,7 +704,7 @@
   :global LogPrintExit2;
   :global VersionToNum;
 
-  :if (!($Required ~ "^\\d+\\.\\d+((beta|rc|\\.)\\d+|)\$")) do={
+  :if (!($Required ~ "^\\d+\\.\\d+((alpha|beta|rc|\\.)\\d+|)\$")) do={
     $LogPrintExit2 error $0 ("No valid RouterOS version: " . $Required) false;
     :return false;
   }
