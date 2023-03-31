@@ -59,7 +59,11 @@ Requirements and installation
 Just install the script and create a scheduler:
 
     $ScriptInstallUpdate check-health;
-    /system/scheduler/add interval=1m name=check-health on-event="/system/script/run check-health;" start-time=startup;
+    /system/scheduler/add interval=53s name=check-health on-event="/system/script/run check-health;" start-time=startup;
+
+> ℹ️ **Info**: Running lots of scripts simultaneously can tamper the
+> precision of cpu utilization, escpecially on devices with limited
+> resources. Thus an unusual interval is used here.
 
 Configuration
 -------------
