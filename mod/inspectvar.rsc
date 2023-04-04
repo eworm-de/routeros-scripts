@@ -2,6 +2,9 @@
 # RouterOS script: mod/inspectvar
 # Copyright (c) 2020-2023 Christian Hesse <mail@eworm.de>
 # https://git.eworm.de/cgit/routeros-scripts/about/COPYING.md
+#
+# inspect variables
+# https://git.eworm.de/cgit/routeros-scripts/about/doc/mod/inspectvar.md
 
 :global InspectVar;
 :global InspectVarReturn;
