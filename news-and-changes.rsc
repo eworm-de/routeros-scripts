@@ -13,9 +13,11 @@
   97="Modified 'dhcp-to-dns' to always add A records for names with mac address, and optionally add CNAME records if the host name is available.";
   98="Extended 'check-certificates' to download new certificate by SubjectAltNames if download by CommonName fails.";
   99="Modified 'dhcp-to-dns', which dropped global configuration. Settings moved to dhcp server's network definitions.";
+  100="The script 'ssh-keys-import' became a module 'mod/ssh-keys-import' with enhanced functionality.";
 };
 
 # Migration steps to be applied on script updates
 :global GlobalConfigMigration {
   97=":local Rec [ /ip/dns/static/find where comment~\"^managed by dhcp-to-dns for \" ]; :if ([ :len \$Rec ] > 0) do={ /ip/dns/static/remove \$Rec; /system/script/run dhcp-to-dns; }";
+  100=":global ScriptInstallUpdate; :if ([ :len [ /system/script/find where name=\"ssh-keys-import\" source~\"^#!rsc by RouterOS\\n\" ] ] > 0) do={ /system/script/set name=\"mod/ssh-keys-import\" ssh-keys-import; \$ScriptInstallUpdate; }";
 };

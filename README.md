@@ -225,7 +225,6 @@ Available scripts
 * [Run scripts on ppp connection](doc/ppp-on-up.md)
 * [Act on received SMS](doc/sms-action.md)
 * [Forward received SMS](doc/sms-forward.md)
-* [Import SSH keys](doc/ssh-keys-import.md)
 * [Play Super Mario theme](doc/super-mario-theme.md)
 * [Chat with your router and send commands via Telegram bot](doc/telegram-chat.md)
 * [Install LTE firmware upgrade](doc/unattended-lte-firmware-upgrade.md)
@@ -243,6 +242,7 @@ Available modules
 * [Send notifications via Matrix](doc/mod/notification-matrix.md)
 * [Send notifications via Telegram](doc/mod/notification-telegram.md)
 * [Download script and run it once](doc/mod/scriptrunonce.md)
+* [Import ssh keys for public key authentication](doc/mod/ssh-keys-import.md)
 
 Installing custom scripts & modules
 -----------------------------------
