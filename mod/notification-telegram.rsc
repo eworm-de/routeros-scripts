@@ -2,6 +2,9 @@
 # RouterOS script: mod/notification-telegram
 # Copyright (c) 2013-2023 Christian Hesse <mail@eworm.de>
 # https://git.eworm.de/cgit/routeros-scripts/about/COPYING.md
+#
+# send notifications via Telegram
+# https://git.eworm.de/cgit/routeros-scripts/about/doc/mod/notification-telegram.md
 
 :global FlushTelegramQueue;
 :global NotificationFunctions;
