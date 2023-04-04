@@ -3,6 +3,9 @@
 # Copyright (c) 2013-2023 Michael Gisbers <michael@gisbers.de>
 #                         Christian Hesse <mail@eworm.de>
 # https://git.eworm.de/cgit/routeros-scripts/about/COPYING.md
+#
+# send notifications via Matrix
+# https://git.eworm.de/cgit/routeros-scripts/about/doc/mod/notification-matrix.md
 
 :global FlushMatrixQueue;
 :global NotificationFunctions;
