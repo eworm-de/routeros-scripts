@@ -2,6 +2,9 @@
 # RouterOS script: mod/ipcalc
 # Copyright (c) 2020-2023 Christian Hesse <mail@eworm.de>
 # https://git.eworm.de/cgit/routeros-scripts/about/COPYING.md
+#
+# ip address calculation
+# https://git.eworm.de/cgit/routeros-scripts/about/doc/mod/ipcalc.md
 
 :global IPCalc;
 :global IPCalcReturn;
