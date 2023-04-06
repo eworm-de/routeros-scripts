@@ -34,6 +34,8 @@
   :global UrlEncode;
   :global WaitForFile;
 
+  :local Return false;
+
   :foreach Type in={ ".pem"; ".p12" } do={
     :local CertFileName ([ $UrlEncode $Name ] . $Type);
     :do {
@@ -57,10 +59,14 @@
       :foreach CertInChain in=[ /certificate/find where name~("^" . $CertFileName . "_[0-9]+\$") common-name!=$Name !(common-name=[]) ] do={
         $CertificateNameByCN [ /certificate/get $CertInChain common-name ];
       }
+
+      :set Return true;
     } on-error={
       $LogPrintExit2 debug $0 ("Could not download certificate file " . $CertFileName) false;
     }
   }
+
+  :return $Return;
 }
 
 :local FormatInfo do={
@@ -106,7 +112,8 @@ $WaitFullyConnected;
     }
     $LogPrintExit2 info $0 ("Attempting to renew certificate " . ($CertVal->"name") . ".") false;
 
-    $CheckCertificatesDownloadImport ($CertVal->"common-name");
+    :local ImportSuccess false;
+    :set ImportSuccess [ $CheckCertificatesDownloadImport ($CertVal->"common-name") ];
 
     :local CertNew [ /certificate/find where common-name=($CertVal->"common-name") fingerprint!=[ :tostr ($CertVal->"fingerprint") ] expires-after>$CertRenewTime ];
     :local CertNewVal [ /certificate/get $CertNew ];
