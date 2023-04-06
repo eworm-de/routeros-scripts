@@ -16,11 +16,13 @@
 :global Identity;
 
 :global CertificateAvailable
+:global EscapeForRegEx;
 :global IfThenElse;
 :global LogPrintExit2;
 :global ParseKeyValueStore;
 :global SendNotification2;
 :global SymbolForNotification;
+:global UrlEncode;
 :global WaitFullyConnected;
 
 :local CheckCertificatesDownloadImport do={
@@ -56,7 +58,8 @@
         $LogPrintExit2 warning $0 ("Decryption failed for certificate file " . $CertFileName) false;
       }
 
-      :foreach CertInChain in=[ /certificate/find where name~("^" . $CertFileName . "_[0-9]+\$") common-name!=$Name !(common-name=[]) ] do={
+      :foreach CertInChain in=[ /certificate/find where name~("^" . $CertFileName . "_[0-9]+\$") \
+          common-name!=$Name !(subject-alt-name~("(^|\\W)(DNS|IP):" . [ $EscapeForRegEx $Name ] . "(\\W|\$)")) !(common-name=[]) ] do={
         $CertificateNameByCN [ /certificate/get $CertInChain common-name ];
       }
 
@@ -105,6 +108,7 @@ $WaitFullyConnected;
 
 :foreach Cert in=[ /certificate/find where !revoked !ca !scep-url expires-after<$CertRenewTime ] do={
   :local CertVal [ /certificate/get $Cert ];
+  :local LastName;
 
   :do {
     :if ([ :len $CertRenewUrl ] = 0) do={
@@ -113,9 +117,18 @@ $WaitFullyConnected;
     $LogPrintExit2 info $0 ("Attempting to renew certificate " . ($CertVal->"name") . ".") false;
 
     :local ImportSuccess false;
-    :set ImportSuccess [ $CheckCertificatesDownloadImport ($CertVal->"common-name") ];
+    :set LastName ($CertVal->"common-name");
+    :set ImportSuccess [ $CheckCertificatesDownloadImport $LastName ];
+    :foreach SAN in=($CertVal->"subject-alt-name") do={
+      :if ($ImportSuccess = false) do={
+        :set LastName [ :pick $SAN ([ :find $SAN ":" ] + 1) [ :len $SAN ] ];
+        :set ImportSuccess [ $CheckCertificatesDownloadImport $LastName ];
+      }
+    }
 
-    :local CertNew [ /certificate/find where common-name=($CertVal->"common-name") fingerprint!=[ :tostr ($CertVal->"fingerprint") ] expires-after>$CertRenewTime ];
+    :local CertNew [ /certificate/find where name~("^" . [ $EscapeForRegEx [ $UrlEncode $LastName ] ] . "\\.(p12|pem)_[0-9]+\$") \
+      (common-name=($CertVal->"common-name") or subject-alt-name~("(^|\\W)(DNS|IP):" . [ $EscapeForRegEx $LastName ] . "(\\W|\$)")) \
+      fingerprint!=[ :tostr ($CertVal->"fingerprint") ] expires-after>$CertRenewTime ];
     :local CertNewVal [ /certificate/get $CertNew ];
 
     :if ([ $CertificateAvailable ([ $ParseKeyValueStore ($CertNewVal->"issuer") ]->"CN") ] = false) do={

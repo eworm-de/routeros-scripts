@@ -34,8 +34,9 @@ in `global-config-overlay`, these are the parameters:
 * `CertRenewUrl`: the url to download certificates from
 * `CertWarnTime`: on what remaining time to warn via notification
 
-Certificates on the web server should be named `CN.pem` (`PEM` format) or
-`CN.p12` (`PKCS#12` format).
+Certificates on the web server should be named by their common name, like
+`CN.pem` (`PEM` format) or`CN.p12` (`PKCS#12` format). Alternatively any
+subject alternative name (aka *Subject Alt Name* or *SAN*) can be used.
 
 Also notification settings are required for
 [e-mail](mod/notification-email.md),
