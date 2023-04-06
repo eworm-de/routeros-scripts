@@ -10,22 +10,58 @@
 :global GlobalFunctionsReady;
 :while ($GlobalFunctionsReady != true) do={ :delay 500ms; }
 
-:global CertRenewPass;
 :global CertRenewTime;
 :global CertRenewUrl;
 :global CertWarnTime;
 :global Identity;
 
 :global CertificateAvailable
-:global CertificateNameByCN;
 :global IfThenElse;
 :global LogPrintExit2;
 :global ParseKeyValueStore;
 :global SendNotification2;
 :global SymbolForNotification;
-:global UrlEncode;
-:global WaitForFile;
 :global WaitFullyConnected;
+
+:local CheckCertificatesDownloadImport do={
+  :local Name [ :tostr $1 ];
+
+  :global CertRenewUrl;
+  :global CertRenewPass;
+
+  :global CertificateNameByCN;
+  :global LogPrintExit2;
+  :global UrlEncode;
+  :global WaitForFile;
+
+  :foreach Type in={ ".pem"; ".p12" } do={
+    :local CertFileName ([ $UrlEncode $Name ] . $Type);
+    :do {
+      /tool/fetch check-certificate=yes-without-crl \
+          ($CertRenewUrl . $CertFileName) dst-path=$CertFileName as-value;
+      $WaitForFile $CertFileName;
+
+      :local DecryptionFailed true;
+      :foreach PassPhrase in=$CertRenewPass do={
+        :local Result [ /certificate/import file-name=$CertFileName passphrase=$PassPhrase as-value ];
+        :if ($Result->"decryption-failures" = 0) do={
+          :set DecryptionFailed false;
+        }
+      }
+      /file/remove [ find where name=$CertFileName ];
+
+      :if ($DecryptionFailed = true) do={
+        $LogPrintExit2 warning $0 ("Decryption failed for certificate file " . $CertFileName) false;
+      }
+
+      :foreach CertInChain in=[ /certificate/find where name~("^" . $CertFileName . "_[0-9]+\$") common-name!=$Name ] do={
+        $CertificateNameByCN [ /certificate/get $CertInChain common-name ];
+      }
+    } on-error={
+      $LogPrintExit2 debug $0 ("Could not download certificate file " . $CertFileName) false;
+    }
+  }
+}
 
 :local FormatInfo do={
   :local CertVal $1;
@@ -70,33 +106,7 @@ $WaitFullyConnected;
     }
     $LogPrintExit2 info $0 ("Attempting to renew certificate " . ($CertVal->"name") . ".") false;
 
-    :foreach Type in={ ".pem"; ".p12" } do={
-      :local CertFileName ([ $UrlEncode ($CertVal->"common-name") ] . $Type);
-      :do {
-        /tool/fetch check-certificate=yes-without-crl \
-            ($CertRenewUrl . $CertFileName) dst-path=$CertFileName as-value;
-        $WaitForFile $CertFileName;
-
-        :local DecryptionFailed true;
-        :foreach PassPhrase in=$CertRenewPass do={
-          :local Result [ /certificate/import file-name=$CertFileName passphrase=$PassPhrase as-value ];
-          :if ($Result->"decryption-failures" = 0) do={
-            :set DecryptionFailed false;
-          }
-        }
-        /file/remove [ find where name=$CertFileName ];
-
-        :if ($DecryptionFailed = true) do={
-          $LogPrintExit2 warning $0 ("Decryption failed for certificate file " . $CertFileName) false;
-        }
-
-        :foreach CertInChain in=[ /certificate/find where name~("^" . $CertFileName . "_[0-9]+\$") common-name!=($CertVal->"common-name") ] do={
-          $CertificateNameByCN [ /certificate/get $CertInChain common-name ];
-        }
-      } on-error={
-        $LogPrintExit2 debug $0 ("Could not download certificate file " . $CertFileName) false;
-      }
-    }
+    $CheckCertificatesDownloadImport ($CertVal->"common-name");
 
     :local CertNew [ /certificate/find where common-name=($CertVal->"common-name") fingerprint!=[ :tostr ($CertVal->"fingerprint") ] expires-after>$CertRenewTime ];
     :local CertNewVal [ /certificate/get $CertNew ];
