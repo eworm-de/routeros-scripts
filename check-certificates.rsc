@@ -27,9 +27,25 @@
 :global WaitForFile;
 :global WaitFullyConnected;
 
-:local FormatExpire do={
-  :global CharacterReplace;
-  :return [ $CharacterReplace [ $CharacterReplace [ :tostr $1 ] "w" "w " ] "d" "d " ];
+:local FormatInfo do={
+  :local CertVal $1;
+
+  :global IfThenElse;
+  :global ParseKeyValueStore;
+  
+  :local FormatExpire do={
+    :global CharacterReplace;
+    :return [ $CharacterReplace [ $CharacterReplace [ :tostr $1 ] "w" "w " ] "d" "d " ];
+  }
+
+  :return ( \
+    "Name:        " . ($CertVal->"name") . "\n" . \
+    "CommonName:  " . ($CertVal->"common-name") . "\n" . \
+    "Private key: " . [ $IfThenElse (($CertVal->"private-key") = true) "available" "missing" ] . "\n" . \
+    "Fingerprint: " . ($CertVal->"fingerprint") . "\n" . \
+    "Issuer:      " . ($CertVal->"ca") . ([ $ParseKeyValueStore ($CertVal->"issuer") ]->"CN") . "\n" . \
+    "Validity:    " . ($CertVal->"invalid-before") . " to " . ($CertVal->"invalid-after") . "\n" . \
+    "Expires in:  " . [ $IfThenElse (($CertVal->"expired") = true) "expired" [ $FormatExpire ($CertVal->"expires-after") ] ]);
 }
 
 $WaitFullyConnected;
@@ -95,18 +111,13 @@ $WaitFullyConnected;
 
       /certificate/remove $Cert;
       /certificate/set $CertNew name=($CertVal->"name");
+      :set CertNewVal;
+      :set CertVal [ /certificate/get $CertNew ];;
     }
 
-    $SendNotification2 ({ origin=$0; \
+    $SendNotification2 ({ origin=$0; silent=true; \
       subject=([ $SymbolForNotification "lock-with-ink-pen" ] . "Certificate renewed"); \
-      message=("A certificate on " . $Identity . " has been renewed.\n\n" . \
-        "Name:        " . ($CertVal->"name") . "\n" . \
-        "CommonName:  " . ($CertNewVal->"common-name") . "\n" . \
-        "Private key: " . [ $IfThenElse (($CertNewVal->"private-key") = true) "available" "missing" ] . "\n" . \
-        "Fingerprint: " . ($CertNewVal->"fingerprint") . "\n" . \
-        "Issuer:      " . ([ $ParseKeyValueStore ($CertNewVal->"issuer") ]->"CN") . "\n" . \
-        "Validity:    " . ($CertNewVal->"invalid-before") . " to " . ($CertNewVal->"invalid-after") . "\n" . \
-        "Expires in:  " . [ $FormatExpire ($CertNewVal->"expires-after") ]); silent=true });
+      message=("A certificate on " . $Identity . " has been renewed.\n\n" . [ $FormatInfo $CertVal ]) });
     $LogPrintExit2 info $0 ("The certificate " . ($CertVal->"name") . " has been renewed.") false;
   } on-error={
     $LogPrintExit2 debug $0 ("Could not renew certificate " . ($CertVal->"name") . ".") false;
@@ -124,14 +135,7 @@ $WaitFullyConnected;
 
     $SendNotification2 ({ origin=$0; \
       subject=([ $SymbolForNotification "warning-sign" ] . "Certificate warning!"); \
-      message=("A certificate on " . $Identity . " " . $State . ".\n\n" . \
-        "Name:        " . ($CertVal->"name") . "\n" . \
-        "CommonName:  " . ($CertVal->"common-name") . "\n" . \
-        "Private key: " . [ $IfThenElse (($CertVal->"private-key") = true) "available" "missing" ] . "\n" . \
-        "Fingerprint: " . ($CertVal->"fingerprint") . "\n" . \
-        "Issuer:      " . ($CertVal->"ca") . ([ $ParseKeyValueStore ($CertVal->"issuer") ]->"CN") . "\n" . \
-        "Validity:    " . ($CertVal->"invalid-before") . " to " . ($CertVal->"invalid-after") . "\n" . \
-        "Expires in:  " . [ $IfThenElse (($CertVal->"expired") = true) "expired" [ $FormatExpire ($CertVal->"expires-after") ] ]) });
+      message=("A certificate on " . $Identity . " " . $State . ".\n\n" . [ $FormatInfo $CertVal ]) });
     $LogPrintExit2 info $0 ("The certificate " . ($CertVal->"name") . " " . $State . \
         ", it is invalid after " . ($CertVal->"invalid-after") . ".") false;
   }
