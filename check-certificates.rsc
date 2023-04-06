@@ -40,7 +40,7 @@
 
   :return ( \
     "Name:        " . ($CertVal->"name") . "\n" . \
-    "CommonName:  " . ($CertVal->"common-name") . "\n" . \
+    [ $IfThenElse ([ :len ($CertVal->"common-name") ] > 0) ("CommonName:  " . ($CertVal->"common-name") . "\n") ] . \
     "Private key: " . [ $IfThenElse (($CertVal->"private-key") = true) "available" "missing" ] . "\n" . \
     "Fingerprint: " . ($CertVal->"fingerprint") . "\n" . \
     "Issuer:      " . ($CertVal->"ca") . ([ $ParseKeyValueStore ($CertVal->"issuer") ]->"CN") . "\n" . \
