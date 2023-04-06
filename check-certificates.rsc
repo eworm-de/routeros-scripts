@@ -54,7 +54,7 @@
         $LogPrintExit2 warning $0 ("Decryption failed for certificate file " . $CertFileName) false;
       }
 
-      :foreach CertInChain in=[ /certificate/find where name~("^" . $CertFileName . "_[0-9]+\$") common-name!=$Name ] do={
+      :foreach CertInChain in=[ /certificate/find where name~("^" . $CertFileName . "_[0-9]+\$") common-name!=$Name !(common-name=[]) ] do={
         $CertificateNameByCN [ /certificate/get $CertInChain common-name ];
       }
     } on-error={
