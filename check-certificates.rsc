@@ -38,9 +38,20 @@
     :return [ $CharacterReplace [ $CharacterReplace [ :tostr $1 ] "w" "w " ] "d" "d " ];
   }
 
+  :local FormatSANs do={
+    :local SANs $1;
+    :local Return "";
+
+    :foreach SAN in=$SANs do={
+      :set Return ($Return . "\n             " . $SAN);
+    }
+    :return $Return;
+  }
+
   :return ( \
     "Name:        " . ($CertVal->"name") . "\n" . \
     [ $IfThenElse ([ :len ($CertVal->"common-name") ] > 0) ("CommonName:  " . ($CertVal->"common-name") . "\n") ] . \
+    [ $IfThenElse ([ :len ($CertVal->"subject-alt-name") ] > 0) ("SubjectAltNames:" . [ $FormatSANs ($CertVal->"subject-alt-name") ] . "\n") ] . \
     "Private key: " . [ $IfThenElse (($CertVal->"private-key") = true) "available" "missing" ] . "\n" . \
     "Fingerprint: " . ($CertVal->"fingerprint") . "\n" . \
     "Issuer:      " . ($CertVal->"ca") . ([ $ParseKeyValueStore ($CertVal->"issuer") ]->"CN") . "\n" . \
