@@ -10,32 +10,106 @@
 :global GlobalFunctionsReady;
 :while ($GlobalFunctionsReady != true) do={ :delay 500ms; }
 
-:global CertRenewPass;
 :global CertRenewTime;
 :global CertRenewUrl;
 :global CertWarnTime;
 :global Identity;
 
 :global CertificateAvailable
-:global CertificateNameByCN;
+:global EscapeForRegEx;
 :global IfThenElse;
 :global LogPrintExit2;
 :global ParseKeyValueStore;
 :global SendNotification2;
 :global SymbolForNotification;
 :global UrlEncode;
-:global WaitForFile;
 :global WaitFullyConnected;
 
-:local FormatExpire do={
-  :global CharacterReplace;
-  :return [ $CharacterReplace [ $CharacterReplace [ :tostr $1 ] "w" "w " ] "d" "d " ];
+:local CheckCertificatesDownloadImport do={
+  :local Name [ :tostr $1 ];
+
+  :global CertRenewUrl;
+  :global CertRenewPass;
+
+  :global CertificateNameByCN;
+  :global EscapeForRegEx;
+  :global LogPrintExit2;
+  :global UrlEncode;
+  :global WaitForFile;
+
+  :local Return false;
+
+  :foreach Type in={ ".pem"; ".p12" } do={
+    :local CertFileName ([ $UrlEncode $Name ] . $Type);
+    :do {
+      /tool/fetch check-certificate=yes-without-crl \
+          ($CertRenewUrl . $CertFileName) dst-path=$CertFileName as-value;
+      $WaitForFile $CertFileName;
+
+      :local DecryptionFailed true;
+      :foreach PassPhrase in=$CertRenewPass do={
+        :local Result [ /certificate/import file-name=$CertFileName passphrase=$PassPhrase as-value ];
+        :if ($Result->"decryption-failures" = 0) do={
+          :set DecryptionFailed false;
+        }
+      }
+      /file/remove [ find where name=$CertFileName ];
+
+      :if ($DecryptionFailed = true) do={
+        $LogPrintExit2 warning $0 ("Decryption failed for certificate file " . $CertFileName) false;
+      }
+
+      :foreach CertInChain in=[ /certificate/find where name~("^" . [ $EscapeForRegEx $CertFileName ] . "_[0-9]+\$") \
+          common-name!=$Name !(subject-alt-name~("(^|\\W)(DNS|IP):" . [ $EscapeForRegEx $Name ] . "(\\W|\$)")) !(common-name=[]) ] do={
+        $CertificateNameByCN [ /certificate/get $CertInChain common-name ];
+      }
+
+      :set Return true;
+    } on-error={
+      $LogPrintExit2 debug $0 ("Could not download certificate file " . $CertFileName) false;
+    }
+  }
+
+  :return $Return;
+}
+
+:local FormatInfo do={
+  :local CertVal $1;
+
+  :global IfThenElse;
+  :global ParseKeyValueStore;
+  
+  :local FormatExpire do={
+    :global CharacterReplace;
+    :return [ $CharacterReplace [ $CharacterReplace [ :tostr $1 ] "w" "w " ] "d" "d " ];
+  }
+
+  :local FormatSANs do={
+    :local SANs $1;
+    :local Return "";
+
+    :foreach SAN in=$SANs do={
+      :set Return ($Return . "\n             " . $SAN);
+    }
+    :return $Return;
+  }
+
+  :return ( \
+    "Name:        " . ($CertVal->"name") . "\n" . \
+    [ $IfThenElse ([ :len ($CertVal->"common-name") ] > 0) ("CommonName:  " . ($CertVal->"common-name") . "\n") ] . \
+    [ $IfThenElse ([ :len ($CertVal->"subject-alt-name") ] > 0) ("SubjectAltNames:" . [ $FormatSANs ($CertVal->"subject-alt-name") ] . "\n") ] . \
+    "Private key: " . [ $IfThenElse (($CertVal->"private-key") = true) "available" "missing" ] . "\n" . \
+    "Fingerprint: " . ($CertVal->"fingerprint") . "\n" . \
+    "Issuer:      " . ($CertVal->"ca") . ([ $ParseKeyValueStore ($CertVal->"issuer") ]->"CN") . "\n" . \
+    "Validity:    " . ($CertVal->"invalid-before") . " to " . ($CertVal->"invalid-after") . "\n" . \
+    "Expires in:  " . [ $IfThenElse (($CertVal->"expired") = true) "expired" [ $FormatExpire ($CertVal->"expires-after") ] ]);
 }
 
 $WaitFullyConnected;
 
 :foreach Cert in=[ /certificate/find where !revoked !ca !scep-url expires-after<$CertRenewTime ] do={
   :local CertVal [ /certificate/get $Cert ];
+  :local LastName;
 
   :do {
     :if ([ :len $CertRenewUrl ] = 0) do={
@@ -43,35 +117,19 @@ $WaitFullyConnected;
     }
     $LogPrintExit2 info $0 ("Attempting to renew certificate " . ($CertVal->"name") . ".") false;
 
-    :foreach Type in={ ".pem"; ".p12" } do={
-      :local CertFileName ([ $UrlEncode ($CertVal->"common-name") ] . $Type);
-      :do {
-        /tool/fetch check-certificate=yes-without-crl \
-            ($CertRenewUrl . $CertFileName) dst-path=$CertFileName as-value;
-        $WaitForFile $CertFileName;
-
-        :local DecryptionFailed true;
-        :foreach PassPhrase in=$CertRenewPass do={
-          :local Result [ /certificate/import file-name=$CertFileName passphrase=$PassPhrase as-value ];
-          :if ($Result->"decryption-failures" = 0) do={
-            :set DecryptionFailed false;
-          }
-        }
-        /file/remove [ find where name=$CertFileName ];
-
-        :if ($DecryptionFailed = true) do={
-          $LogPrintExit2 warning $0 ("Decryption failed for certificate file " . $CertFileName) false;
-        }
-
-        :foreach CertInChain in=[ /certificate/find where name~("^" . $CertFileName . "_[0-9]+\$") common-name!=($CertVal->"common-name") ] do={
-          $CertificateNameByCN [ /certificate/get $CertInChain common-name ];
-        }
-      } on-error={
-        $LogPrintExit2 debug $0 ("Could not download certificate file " . $CertFileName) false;
+    :local ImportSuccess false;
+    :set LastName ($CertVal->"common-name");
+    :set ImportSuccess [ $CheckCertificatesDownloadImport $LastName ];
+    :foreach SAN in=($CertVal->"subject-alt-name") do={
+      :if ($ImportSuccess = false) do={
+        :set LastName [ :pick $SAN ([ :find $SAN ":" ] + 1) [ :len $SAN ] ];
+        :set ImportSuccess [ $CheckCertificatesDownloadImport $LastName ];
       }
     }
 
-    :local CertNew [ /certificate/find where common-name=($CertVal->"common-name") fingerprint!=[ :tostr ($CertVal->"fingerprint") ] expires-after>$CertRenewTime ];
+    :local CertNew [ /certificate/find where name~("^" . [ $EscapeForRegEx [ $UrlEncode $LastName ] ] . "\\.(p12|pem)_[0-9]+\$") \
+      (common-name=($CertVal->"common-name") or subject-alt-name~("(^|\\W)(DNS|IP):" . [ $EscapeForRegEx $LastName ] . "(\\W|\$)")) \
+      fingerprint!=[ :tostr ($CertVal->"fingerprint") ] expires-after>$CertRenewTime ];
     :local CertNewVal [ /certificate/get $CertNew ];
 
     :if ([ $CertificateAvailable ([ $ParseKeyValueStore ($CertNewVal->"issuer") ]->"CN") ] = false) do={
@@ -95,18 +153,13 @@ $WaitFullyConnected;
 
       /certificate/remove $Cert;
       /certificate/set $CertNew name=($CertVal->"name");
+      :set CertNewVal;
+      :set CertVal [ /certificate/get $CertNew ];;
     }
 
-    $SendNotification2 ({ origin=$0; \
+    $SendNotification2 ({ origin=$0; silent=true; \
       subject=([ $SymbolForNotification "lock-with-ink-pen" ] . "Certificate renewed"); \
-      message=("A certificate on " . $Identity . " has been renewed.\n\n" . \
-        "Name:        " . ($CertVal->"name") . "\n" . \
-        "CommonName:  " . ($CertNewVal->"common-name") . "\n" . \
-        "Private key: " . [ $IfThenElse (($CertNewVal->"private-key") = true) "available" "missing" ] . "\n" . \
-        "Fingerprint: " . ($CertNewVal->"fingerprint") . "\n" . \
-        "Issuer:      " . ([ $ParseKeyValueStore ($CertNewVal->"issuer") ]->"CN") . "\n" . \
-        "Validity:    " . ($CertNewVal->"invalid-before") . " to " . ($CertNewVal->"invalid-after") . "\n" . \
-        "Expires in:  " . [ $FormatExpire ($CertNewVal->"expires-after") ]); silent=true });
+      message=("A certificate on " . $Identity . " has been renewed.\n\n" . [ $FormatInfo $CertVal ]) });
     $LogPrintExit2 info $0 ("The certificate " . ($CertVal->"name") . " has been renewed.") false;
   } on-error={
     $LogPrintExit2 debug $0 ("Could not renew certificate " . ($CertVal->"name") . ".") false;
@@ -124,14 +177,7 @@ $WaitFullyConnected;
 
     $SendNotification2 ({ origin=$0; \
       subject=([ $SymbolForNotification "warning-sign" ] . "Certificate warning!"); \
-      message=("A certificate on " . $Identity . " " . $State . ".\n\n" . \
-        "Name:        " . ($CertVal->"name") . "\n" . \
-        "CommonName:  " . ($CertVal->"common-name") . "\n" . \
-        "Private key: " . [ $IfThenElse (($CertVal->"private-key") = true) "available" "missing" ] . "\n" . \
-        "Fingerprint: " . ($CertVal->"fingerprint") . "\n" . \
-        "Issuer:      " . ($CertVal->"ca") . ([ $ParseKeyValueStore ($CertVal->"issuer") ]->"CN") . "\n" . \
-        "Validity:    " . ($CertVal->"invalid-before") . " to " . ($CertVal->"invalid-after") . "\n" . \
-        "Expires in:  " . [ $IfThenElse (($CertVal->"expired") = true) "expired" [ $FormatExpire ($CertVal->"expires-after") ] ]) });
+      message=("A certificate on " . $Identity . " " . $State . ".\n\n" . [ $FormatInfo $CertVal ]) });
     $LogPrintExit2 info $0 ("The certificate " . ($CertVal->"name") . " " . $State . \
         ", it is invalid after " . ($CertVal->"invalid-after") . ".") false;
   }
