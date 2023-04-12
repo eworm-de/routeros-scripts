@@ -70,34 +70,34 @@ $ScriptLock $0 false 10;
     :local Comment ($CommentPrefix . $LeaseVal->"mac-address");
     :local MacDash [ $CharacterReplace ($LeaseVal->"mac-address") ":" "-" ];
     :local HostName [ $CharacterReplace [ $EitherOr ([ $ParseKeyValueStore ($LeaseVal->"comment") ]->"hostname") ($LeaseVal->"host-name") ] " " "" ];
-    :local Domain ([ $IfThenElse ($ServerNameInZone = true) ($LeaseVal->"server" . ".") ] . $Zone);
+    :local NetDomain ([ $IfThenElse ($ServerNameInZone = true) ($LeaseVal->"server" . ".") ] . $Zone);
 
     :local DnsRecord [ /ip/dns/static/find where comment=$Comment (!type or type=A) ];
     :if ([ :len $DnsRecord ] > 0) do={
       :local DnsRecordVal [ /ip/dns/static/get $DnsRecord ];
 
-      :if ($DnsRecordVal->"address" = $LeaseVal->"address" && $DnsRecordVal->"name" = ($MacDash . "." . $Domain)) do={
+      :if ($DnsRecordVal->"address" = $LeaseVal->"address" && $DnsRecordVal->"name" = ($MacDash . "." . $NetDomain)) do={
         $LogPrintExit2 debug $0 ("DNS entry for " . $LeaseVal->"mac-address" . " does not need updating.") false;
       } else={
-        $LogPrintExit2 info $0 ("Replacing DNS entry for " . $LeaseVal->"mac-address" . " (" . ($MacDash . "." . $Domain) . " -> " . $LeaseVal->"address" . ").") false;
-        /ip/dns/static/set address=($LeaseVal->"address") name=($MacDash . "." . $Domain) $DnsRecord;
+        $LogPrintExit2 info $0 ("Replacing DNS entry for " . $LeaseVal->"mac-address" . " (" . ($MacDash . "." . $NetDomain) . " -> " . $LeaseVal->"address" . ").") false;
+        /ip/dns/static/set address=($LeaseVal->"address") name=($MacDash . "." . $NetDomain) $DnsRecord;
       }
 
       :local Cname [ /ip/dns/static/find where comment=$Comment type=CNAME ];
       :if ([ :len $Cname ] = 0 && [ :len $HostName ] > 0) do={
-        $LogPrintExit2 info $0 ("Host name appeared, adding CNAME (" . ($HostName . "." . $Domain) . " -> " . ($MacDash . "." . $Domain) . ").") false;
-        /ip/dns/static/add name=($HostName . "." . $Domain) type=CNAME cname=($MacDash . "." . $Domain) ttl=$Ttl comment=$Comment place-before=$PlaceBefore;
+        $LogPrintExit2 info $0 ("Host name appeared, adding CNAME (" . ($HostName . "." . $NetDomain) . " -> " . ($MacDash . "." . $NetDomain) . ").") false;
+        /ip/dns/static/add name=($HostName . "." . $NetDomain) type=CNAME cname=($MacDash . "." . $NetDomain) ttl=$Ttl comment=$Comment place-before=$PlaceBefore;
       }
-      :if ([ :len $Cname ] > 0 && [ /ip/dns/static/get $Cname name ] != ($HostName . "." . $Domain)) do={
-        $LogPrintExit2 info $0 ("Host name or domain changed, updating CNAME (" . ($HostName . "." . $Domain) . " -> " . ($MacDash . "." . $Domain) . ").") false;
-        /ip/dns/static/set name=($HostName . "." . $Domain) cname=($MacDash . "." . $Domain) $Cname;
+      :if ([ :len $Cname ] > 0 && [ /ip/dns/static/get $Cname name ] != ($HostName . "." . $NetDomain)) do={
+        $LogPrintExit2 info $0 ("Host name or domain changed, updating CNAME (" . ($HostName . "." . $NetDomain) . " -> " . ($MacDash . "." . $NetDomain) . ").") false;
+        /ip/dns/static/set name=($HostName . "." . $NetDomain) cname=($MacDash . "." . $NetDomain) $Cname;
       }
     } else={
-      $LogPrintExit2 info $0 ("Adding new DNS entry for " . $LeaseVal->"mac-address" . " (" . ($MacDash . "." . $Domain) . " -> " . $LeaseVal->"address" . ").") false;
-      /ip/dns/static/add name=($MacDash . "." . $Domain) type=A address=($LeaseVal->"address") ttl=$Ttl comment=$Comment place-before=$PlaceBefore;
+      $LogPrintExit2 info $0 ("Adding new DNS entry for " . $LeaseVal->"mac-address" . " (" . ($MacDash . "." . $NetDomain) . " -> " . $LeaseVal->"address" . ").") false;
+      /ip/dns/static/add name=($MacDash . "." . $NetDomain) type=A address=($LeaseVal->"address") ttl=$Ttl comment=$Comment place-before=$PlaceBefore;
       :if ([ :len $HostName ] > 0) do={
-        $LogPrintExit2 info $0 ("Adding new CNAME (" . ($HostName . "." . $Domain) . " -> " . ($MacDash . "." . $Domain) . ").") false;
-        /ip/dns/static/add name=($HostName . "." . $Domain) type=CNAME cname=($MacDash . "." . $Domain) ttl=$Ttl comment=$Comment place-before=$PlaceBefore;
+        $LogPrintExit2 info $0 ("Adding new CNAME (" . ($HostName . "." . $NetDomain) . " -> " . ($MacDash . "." . $NetDomain) . ").") false;
+        /ip/dns/static/add name=($HostName . "." . $NetDomain) type=CNAME cname=($MacDash . "." . $NetDomain) ttl=$Ttl comment=$Comment place-before=$PlaceBefore;
       }
     }
   } else={
