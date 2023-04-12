@@ -74,9 +74,9 @@ $ScriptLock $0 false 10;
 
     :local DnsRecord [ /ip/dns/static/find where comment=$Comment (!type or type=A) ];
     :if ([ :len $DnsRecord ] > 0) do={
-      :local DnsIp [ /ip/dns/static/get $DnsRecord address ];
+      :local DnsRecordVal [ /ip/dns/static/get $DnsRecord ];
 
-      :if ($DnsIp = $LeaseVal->"address") do={
+      :if ($DnsRecordVal->"address" = $LeaseVal->"address") do={
         $LogPrintExit2 debug $0 ("DNS entry for " . ($MacDash . "." . $Domain) . " does not need updating.") false;
       } else={
         $LogPrintExit2 info $0 ("Replacing DNS entry for " . ($MacDash . "." . $Domain) . ", new address is " . $LeaseVal->"address" . ".") false;
