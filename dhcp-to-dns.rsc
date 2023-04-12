@@ -67,7 +67,7 @@ $ScriptLock $0 false 10;
     :local HostName [ $CharacterReplace [ $EitherOr ([ $ParseKeyValueStore ($LeaseVal->"comment") ]->"hostname") ($LeaseVal->"host-name") ] " " "" ];
     :local Domain ([ $IfThenElse ($ServerNameInZone = true) ($LeaseVal->"server" . ".") ] . $Zone);
 
-    :local DnsRecord [ /ip/dns/static/find where name=($MacDash . "." . $Domain) ];
+    :local DnsRecord [ /ip/dns/static/find where comment=$Comment (!type or type=A) ];
     :if ([ :len $DnsRecord ] > 0) do={
       :local DnsIp [ /ip/dns/static/get $DnsRecord address ];
 
