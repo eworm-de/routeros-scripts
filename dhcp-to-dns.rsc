@@ -13,10 +13,7 @@
 :while ($GlobalFunctionsReady != true) do={ :delay 500ms; }
 
 :global Domain;
-:global HostNameInZone;
 :global Identity;
-:global PrefixInZone;
-:global ServerNameInZone;
 
 :global CharacterReplace;
 :global EitherOr;
@@ -27,9 +24,6 @@
 
 $ScriptLock $0 false 10;
 
-:local Zone \
-  ([ $IfThenElse ($PrefixInZone = true) "dhcp." ] . \
-   [ $IfThenElse ($HostNameInZone = true) ($Identity . ".") ] . $Domain);
 :local Ttl 5m;
 :local CommentPrefix ("managed by " . $0 . " for ");
 :local CommentString ("--- " . $0 . " above ---");
@@ -70,7 +64,14 @@ $ScriptLock $0 false 10;
     :local Comment ($CommentPrefix . $LeaseVal->"mac-address");
     :local MacDash [ $CharacterReplace ($LeaseVal->"mac-address") ":" "-" ];
     :local HostName [ $CharacterReplace [ $EitherOr ([ $ParseKeyValueStore ($LeaseVal->"comment") ]->"hostname") ($LeaseVal->"host-name") ] " " "" ];
-    :local NetDomain ([ $IfThenElse ($ServerNameInZone = true) ($LeaseVal->"server" . ".") ] . $Zone);
+    :local Network [ /ip/dhcp-server/network/find where ($LeaseVal->"address") in address ];
+    :local NetworkVal;
+    :if ([ :len $Network ] > 0) do={
+      :set NetworkVal [ /ip/dhcp-server/network/get ($Network->0) ];
+    }
+    :local NetworkInfo [ $ParseKeyValueStore ($NetworkVal->"comment") ];
+    :local NetDomain ([ $IfThenElse ([ :len ($NetworkInfo->"name-extra") ] > 0) ($NetworkInfo->"name-extra" . ".") ] . \
+      [ $EitherOr [ $EitherOr ($NetworkInfo->"domain") ($NetworkVal->"domain") ] $Domain ]);
 
     :local DnsRecord [ /ip/dns/static/find where comment=$Comment (!type or type=A) ];
     :if ([ :len $DnsRecord ] > 0) do={
