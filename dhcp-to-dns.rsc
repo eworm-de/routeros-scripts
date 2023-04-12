@@ -57,6 +57,11 @@ $ScriptLock $0 false 10;
   :local LeaseVal;
   :do {
     :set LeaseVal [ /ip/dhcp-server/lease/get $Lease ];
+    :local DupMacLeases [ /ip/dhcp-server/lease/find where mac-address=($LeaseVal->"mac-address") status=bound ];
+    :if ([ :len $DupMacLeases ] > 1) do={
+      $LogPrintExit2 debug $0 ("Multiple bound leases found for mac-address " . ($LeaseVal->"mac-address") . ", using last one.") false;
+      :set LeaseVal [ /ip/dhcp-server/lease/get ($DupMacLeases->([ :len $DupMacLeases ] - 1)) ];
+    }
   } on-error={
     $LogPrintExit2 debug $0 ("A lease just vanished, ignoring.") false;
   }
@@ -70,12 +75,6 @@ $ScriptLock $0 false 10;
     :local DnsRecord [ /ip/dns/static/find where comment=$Comment (!type or type=A) ];
     :if ([ :len $DnsRecord ] > 0) do={
       :local DnsIp [ /ip/dns/static/get $DnsRecord address ];
-
-      :local DupMacLeases [ /ip/dhcp-server/lease/find where mac-address=($LeaseVal->"mac-address") status=bound ];
-      :if ([ :len $DupMacLeases ] > 1) do={
-        $LogPrintExit2 debug $0 ("Multiple bound leases found for mac-address " . ($LeaseVal->"mac-address") . ", using ip address of last one.") false;
-        :set ($LeaseVal->"address") [ /ip/dhcp-server/lease/get ($DupMacLeases->([ :len $DupMacLeases ] - 1)) address ];
-      }
 
       :if ($DnsIp = $LeaseVal->"address") do={
         $LogPrintExit2 debug $0 ("DNS entry for " . ($MacDash . "." . $Domain) . " does not need updating.") false;
