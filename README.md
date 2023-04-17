@@ -21,7 +21,10 @@ Requirements
 ------------
 
 Latest version of the scripts require recent RouterOS to function properly.
-Make sure to install latest updates before you begin.
+Make sure to install latest updates before you begin. If new functionality
+or a breaking change in RouterOS `7.n` is used in my scripts I push my
+change some time after `7.(n+1)` was released. At any time you should have
+at least two minor and their bugfix releases to choose from.
 
 Specific scripts may require even newer RouterOS version.
 
