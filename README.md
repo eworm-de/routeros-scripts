@@ -301,7 +301,7 @@ Contact
 
 We have a Telegram Group [RouterOS-Scripts](https://t.me/routeros_scripts)!
 
-![RouterOS Scripts Telegram Group](README.d/telegram-group.avif)
+[![RouterOS Scripts Telegram Group](README.d/telegram-group.avif)](https://t.me/routeros_scripts)
 
 Get help, give feedback or just chat - but do not expect free professional
 support!
