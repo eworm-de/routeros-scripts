@@ -158,7 +158,7 @@ $WaitFullyConnected;
     }
 
     $SendNotification2 ({ origin=$0; silent=true; \
-      subject=([ $SymbolForNotification "lock-with-ink-pen" ] . "Certificate renewed"); \
+      subject=([ $SymbolForNotification "lock-with-ink-pen" ] . "Certificate renewed: " . ($CertVal->"name")); \
       message=("A certificate on " . $Identity . " has been renewed.\n\n" . [ $FormatInfo $CertVal ]) });
     $LogPrintExit2 info $0 ("The certificate " . ($CertVal->"name") . " has been renewed.") false;
   } on-error={
@@ -176,7 +176,7 @@ $WaitFullyConnected;
     :local State [ $IfThenElse (($CertVal->"expired") = true) "expired" "is about to expire" ];
 
     $SendNotification2 ({ origin=$0; \
-      subject=([ $SymbolForNotification "warning-sign" ] . "Certificate warning!"); \
+      subject=([ $SymbolForNotification "warning-sign" ] . "Certificate warning: " . ($CertVal->"name")); \
       message=("A certificate on " . $Identity . " " . $State . ".\n\n" . [ $FormatInfo $CertVal ]) });
     $LogPrintExit2 info $0 ("The certificate " . ($CertVal->"name") . " " . $State . \
         ", it is invalid after " . ($CertVal->"invalid-after") . ".") false;
