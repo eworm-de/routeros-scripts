@@ -23,6 +23,7 @@
   :global SentLteFirmwareUpgradeNotification;
 
   :global CharacterReplace;
+  :global FormatLine;
   :global LogPrintExit2;
   :global ScriptFromTerminal;
   :global SendNotification2;
@@ -71,9 +72,9 @@
     subject=([ $SymbolForNotification "sparkles" ] . "LTE firmware upgrade"); \
     message=("A new firmware version " . ($Firmware->"latest") . " is available for " . \
       "LTE interface " . $IntName . " on " . $Identity . ".\n\n" . \
-      "Interface: " . [ $CharacterReplace ($Info->"manufacturer" . " " . $Info->"model") ("\"") "" ] . "\n" . \
-      "Installed: " . ($Firmware->"installed") . "\n" . \
-      "Available: " . ($Firmware->"latest")); silent=true });
+      [ $FormatLine "Interface" [ $CharacterReplace ($Info->"manufacturer" . " " . $Info->"model") ("\"") "" ] ] . "\n" . \
+      [ $FormatLine "Installed" ($Firmware->"installed") ] . "\n" . \
+      [ $FormatLine "Available" ($Firmware->"latest") ]); silent=true });
   :set ($SentLteFirmwareUpgradeNotification->$IntName) ($Firmware->"latest");
 }
 
