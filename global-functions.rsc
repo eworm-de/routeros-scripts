@@ -195,6 +195,7 @@
   :global Identity;
 
   :global IfThenElse;
+  :global FormatLine;
 
   :local Resource [ /system/resource/get ];
   :local RouterBoard;
@@ -205,27 +206,27 @@
   :local Update [ /system/package/update/get ];
 
   :return ( \
-         "Hostname:       " . $Identity . \
-       "\nBoard name:     " . $Resource->"board-name" . \
-       "\nArchitecture:   " . $Resource->"architecture-name" . \
+    [ $FormatLine "Hostname" $Identity ] . "\n" . \
+    [ $FormatLine "Board name" ($Resource->"board-name") ] . "\n" . \
+    [ $FormatLine "Architecture" ($Resource->"architecture-name") ] . "\n" . \
     [ $IfThenElse ($RouterBoard->"routerboard" = true) \
-      ("\nModel:          " . $RouterBoard->"model" . \
-         [ $IfThenElse ([ :len ($RouterBoard->"revision") ] > 0) \
-           (" " . $RouterBoard->"revision") ] . \
-       "\nSerial number:  " . $RouterBoard->"serial-number") ] . \
+      ([ $FormatLine "Model" ($RouterBoard->"model") ] . \
+       [ $IfThenElse ([ :len ($RouterBoard->"revision") ] > 0) \
+           (" " . $RouterBoard->"revision") ] . "\n" . \
+       [ $FormatLine "Serial number" ($RouterBoard->"serial-number") ] . "\n") ] . \
     [ $IfThenElse ([ :len ($License->"level") ] > 0) \
-      ("\nLicense:        " . $License->"level") ] . \
-       "\nRouterOS:" . \
-       "\n    Channel:    " . $Update->"channel" . \
-       "\n    Installed:  " . $Update->"installed-version" . \
+      ([ $FormatLine "License" ($License->"level") ] . "\n") ] . \
+    "RouterOS:\n" . \
+    [ $FormatLine "    Channel" ($Update->"channel") ] . "\n" . \
+    [ $FormatLine "    Installed" ($Update->"installed-version") ] . "\n" . \
     [ $IfThenElse ([ :typeof ($Update->"latest-version") ] != "nothing" && \
         $Update->"installed-version" != $Update->"latest-version") \
-      ("\n    Available:  " . $Update->"latest-version") ] . \
+      ([ $FormatLine "    Available" ($Update->"latest-version") ] . "\n") ] . \
     [ $IfThenElse ($RouterBoard->"routerboard" = true && \
         $RouterBoard->"current-firmware" != $RouterBoard->"upgrade-firmware") \
-      ("\n    Firmware:   " . $RouterBoard->"current-firmware") ] . \
-       "\nRouterOS-Scripts:" . \
-       "\n    Version:    " . $ExpectedConfigVersion);
+      ([ $FormatLine "    Firmware" ($RouterBoard->"current-firmware") ] . "\n") ] . \
+    "RouterOS-Scripts:\n" . \
+    [ $FormatLine "    Version" $ExpectedConfigVersion ]);
 }
 
 # convert line endings, DOS -> UNIX
