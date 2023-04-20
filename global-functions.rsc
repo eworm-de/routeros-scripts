@@ -29,6 +29,7 @@
 :global DownloadPackage;
 :global EitherOr;
 :global EscapeForRegEx;
+:global FormatLine;
 :global GetMacVendor;
 :global GetRandom20CharAlNum;
 :global GetRandom20CharHex;
@@ -324,6 +325,32 @@
       :set Char ("\\" . $Char);
     }
     :set Return ($Return . $Char);
+  }
+
+  :return $Return;
+}
+
+# format a line for output
+:set FormatLine do={
+  :local Key    [ :tostr   $1 ];
+  :local Values [ :toarray $2 ];
+  :local Indent [ :tonum   $3 ];
+  :local Spaces "                ";
+  :local Return "";
+
+  :global EitherOr;
+  :global FormatLine;
+
+  :set Indent [ $EitherOr $Indent 16 ];
+
+  :if ([ :len $Key ] > 0) do={ :set Return ($Key . ":"); }
+  :if ([ :len $Key ] > ($Indent - 2)) do={
+    :set Return ($Return . "\n" . [ :pick $Spaces 0 $Indent ] . ($Values->0));
+  } else={
+    :set Return ($Return . [ :pick $Spaces 0 ($Indent - [ :len $Return ]) ] . ($Values->0));
+  }
+  :foreach Value in=[ :pick $Values 1 [ :len $Values ] ] do={
+    :set Return ($Return . "\n" . [ $FormatLine "" ({$Value}) $Indent ]);
   }
 
   :return $Return;
