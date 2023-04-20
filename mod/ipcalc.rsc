@@ -13,18 +13,19 @@
 :set IPCalc do={
   :local Input [ :tostr $1 ];
 
+  :global FormatLine;
   :global IPCalcReturn;
   :global PrettyPrint;
 
   :local Values [ $IPCalcReturn $1 ];
 
   $PrettyPrint ( \
-    "Address:   " . $Values->"address" . "\n" . \
-    "Netmask:   " . $Values->"netmask" . "\n" . \
-    "Network:   " . $Values->"network" . "\n" . \
-    "HostMin:   " . $Values->"hostmin" . "\n" . \
-    "HostMax:   " . $Values->"hostmax" . "\n" . \
-    "Broadcast: " . $Values->"broadcast");
+    [ $FormatLine "Address" ($Values->"address") ] . "\n" . \
+    [ $FormatLine "Netmask" ($Values->"netmask") ] . "\n" . \
+    [ $FormatLine "Network" ($Values->"network") ] . "\n" . \
+    [ $FormatLine "HostMin" ($Values->"hostmin") ] . "\n" . \
+    [ $FormatLine "HostMax" ($Values->"hostmax") ] . "\n" . \
+    [ $FormatLine "Broadcast" ($Values->"broadcast") ]);
 }
 
 # calculate and return netmask, network, min host, max host and broadcast
