@@ -17,6 +17,7 @@
 :global Identity;
 
 :global DeviceInfo;
+:global FormatLine;
 :global LogPrintExit2;
 :global RandomDelay;
 :global ScriptFromTerminal;
@@ -47,9 +48,9 @@ $WaitFullyConnected;
     subject=([ $SymbolForNotification "floppy-disk,cloud" ] . "Cloud backup"); \
     message=("Uploaded backup for " . $Identity . " to cloud.\n\n" . \
       [ $DeviceInfo ] . "\n\n" . \
-      "Name:           " . $Cloud->"name" . "\n" . \
-      "Size:           " . $Cloud->"size" . " B (" . ($Cloud->"size" / 1024) . " KiB)\n" . \
-      "Download key:   " . $Cloud->"secret-download-key"); silent=true });
+      [ $FormatLine "Name" ($Cloud->"name") ] . "\n" . \
+      [ $FormatLine "Size" ($Cloud->"size" . " B (" . ($Cloud->"size" / 1024) . " KiB)") ] . "\n" . \
+      [ $FormatLine "Download key" ($Cloud->"secret-download-key") ]); silent=true });
 } on-error={
   $SendNotification2 ({ origin=$0; \
     subject=([ $SymbolForNotification "floppy-disk,warning-sign" ] . "Cloud backup failed"); \
