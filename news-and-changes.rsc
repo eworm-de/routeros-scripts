@@ -12,6 +12,7 @@
   96="Added support for notes in 'netwatch-notify', these are included verbatim into the notification.";
   97="Modified 'dhcp-to-dns' to always add A records for names with mac address, and optionally add CNAME records if the host name is available.";
   98="Extended 'check-certificates' to download new certificate by SubjectAltNames if download by CommonName fails.";
+  99="Modified 'dhcp-to-dns', which dropped global configuration. Settings moved to dhcp server's network definitions.";
 };
 
 # Migration steps to be applied on script updates

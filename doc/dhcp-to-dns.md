@@ -34,12 +34,27 @@ On first run a disabled static dns record acting as marker (with comment
 "`--- dhcp-to-dns above ---`") is added. Move this entry to define where new
 entries are to be added.
 
-The configuration goes to `global-config-overlay`, these are the parameters:
+The configuration goes to dhcp server's network definition. The domain is
+used to form the dns name:
+
+    /ip/dhcp-server/network/add address=10.0.0.0/24 domain=example.com;
+
+A bound lease for mac address `00:11:22:33:44:55` with ip address
+`10.0.0.50` would result in an A record `00-11-22-33-44-55.example.com`
+pointing to the given ip address.
+
+Additional options can be given from comment, to add an extra level in
+dns name or define a different domain.
+
+    /ip/dhcp-server/network/add address=10.0.0.0/24 domain=example.com comment="domain=another-domain.com, name-extra=dhcp";
+
+This example would result in name `00-11-22-33-44-55.dhcp.another-domain.com`
+for the same lease.
+
+If no domain is found in dhcp server's network definition a fallback from
+`global-config-overlay` is used. This is the parameter:
 
 * `Domain`: the domain used for dns records
-* `HostNameInZone`: whether or not to add the dhcp/dns server's hostname
-* `PrefixInZone`: whether or not to add prefix `dhcp`
-* `ServerNameInZone`: whether or not to add DHCP server name
 
 ### Host name from DHCP lease comment
 

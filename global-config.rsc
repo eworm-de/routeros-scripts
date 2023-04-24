@@ -14,9 +14,6 @@
 
 # This is used for DNS and backup file.
 :global Domain "example.com";
-:global HostNameInZone true;
-:global PrefixInZone true;
-:global ServerNameInZone false;
 
 # You can send e-mail notifications. Configure the system's mail settings
 # (/tool/e-mail), then install the module:
