@@ -25,6 +25,7 @@
 
 :global CharacterReplace;
 :global DeviceInfo;
+:global FormatLine;
 :global IfThenElse;
 :global LogPrintExit2;
 :global MkDir;
@@ -120,9 +121,9 @@ $SendNotification2 ({ origin=$0; \
     ([ $SymbolForNotification "floppy-disk,up-arrow" ] . "Backup & Config upload") ]; \
   message=("Backup and config export upload for " . $Identity . ".\n\n" . \
     [ $DeviceInfo ] . "\n\n" . \
-    "Backup file:    " . $BackupFile . "\n" . \
-    "Export file:    " . $ExportFile . "\n" . \
-    "Config file:    " . $ConfigFile); silent=true });
+    [ $FormatLine "Backup file" $BackupFile ] . "\n" . \
+    [ $FormatLine "Export file" $ExportFile ] . "\n" . \
+    [ $FormatLine "Config file" $ConfigFile ]); silent=true });
 
 :if ($Failed = 1) do={
   :error "An error occured!";

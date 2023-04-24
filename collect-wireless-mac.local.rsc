@@ -17,6 +17,7 @@
 :global Identity;
 
 :global EitherOr;
+:global FormatLine;
 :global GetMacVendor;
 :global LogPrintExit2;
 :global ScriptLock;
@@ -70,15 +71,15 @@ $ScriptLock $0 false 10;
       $SendNotification2 ({ origin=$0; \
         subject=([ $SymbolForNotification "mobile-phone" ] . $RegVal->"mac-address" . " connected to " . $RegVal->"ssid"); \
         message=("A device with unknown MAC address connected to " . $RegVal->"ssid" . " on " . $Identity . ".\n\n" . \
-          "Controller: " . $Identity . "\n" . \
-          "Interface:  " . $RegVal->"interface" . "\n" . \
-          "SSID:       " . $RegVal->"ssid" . "\n" . \
-          "MAC:        " . $RegVal->"mac-address" . "\n" . \
-          "Vendor:     " . $Vendor . "\n" . \
-          "Hostname:   " . $HostName . "\n" . \
-          "Address:    " . $Address . "\n" . \
-          "DNS name:   " . $DnsName . "\n" . \
-          "Date:       " . $DateTime) });
+          [ $FormatLine "Controller" $Identity ] . "\n" . \
+          [ $FormatLine "Interface" ($RegVal->"interface") ] . "\n" . \
+          [ $FormatLine "SSID" ($RegVal->"ssid") ] . "\n" . \
+          [ $FormatLine "MAC" ($RegVal->"mac-address") ] . "\n" . \
+          [ $FormatLine "Vendor" $Vendor ] . "\n" . \
+          [ $FormatLine "Hostname" $HostName ] . "\n" . \
+          [ $FormatLine "Address" $Address ] . "\n" . \
+          [ $FormatLine "DNS name" $DnsName ] . "\n" . \
+          [ $FormatLine "Date" $DateTime ]) });
     }
   } else={
     $LogPrintExit2 debug $0 ("No mac address available... Ignoring.") false;

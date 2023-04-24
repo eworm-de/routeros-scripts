@@ -22,6 +22,7 @@
 
 :global CharacterReplace;
 :global DeviceInfo;
+:global FormatLine;
 :global LogPrintExit2;
 :global MkDir;
 :global RandomDelay;
@@ -91,9 +92,9 @@ $SendEMail2 ({ origin=$0; \
   message=("See attached files for backup and config export for " . \
     $Identity . ".\n\n" . \
     [ $DeviceInfo ] . "\n\n" . \
-    "Backup file:    " . $BackupFile . "\n" . \
-    "Export file:    " . $ExportFile . "\n" . \
-    "Config file:    " . $ConfigFile); \
+    [ $FormatLine "Backup file" $BackupFile ] . "\n" . \
+    [ $FormatLine "Export file" $ExportFile ] . "\n" . \
+    [ $FormatLine "Config file" $ConfigFile ]); \
   attach=$Attach; remove-attach=true });
 
 # wait for the mail to be sent

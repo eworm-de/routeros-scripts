@@ -29,6 +29,7 @@
 :global DownloadPackage;
 :global EitherOr;
 :global EscapeForRegEx;
+:global FormatLine;
 :global GetMacVendor;
 :global GetRandom20CharAlNum;
 :global GetRandom20CharHex;
@@ -194,6 +195,7 @@
   :global Identity;
 
   :global IfThenElse;
+  :global FormatLine;
 
   :local Resource [ /system/resource/get ];
   :local RouterBoard;
@@ -204,27 +206,27 @@
   :local Update [ /system/package/update/get ];
 
   :return ( \
-         "Hostname:       " . $Identity . \
-       "\nBoard name:     " . $Resource->"board-name" . \
-       "\nArchitecture:   " . $Resource->"architecture-name" . \
+    [ $FormatLine "Hostname" $Identity ] . "\n" . \
+    [ $FormatLine "Board name" ($Resource->"board-name") ] . "\n" . \
+    [ $FormatLine "Architecture" ($Resource->"architecture-name") ] . "\n" . \
     [ $IfThenElse ($RouterBoard->"routerboard" = true) \
-      ("\nModel:          " . $RouterBoard->"model" . \
-         [ $IfThenElse ([ :len ($RouterBoard->"revision") ] > 0) \
-           (" " . $RouterBoard->"revision") ] . \
-       "\nSerial number:  " . $RouterBoard->"serial-number") ] . \
+      ([ $FormatLine "Model" ($RouterBoard->"model") ] . \
+       [ $IfThenElse ([ :len ($RouterBoard->"revision") ] > 0) \
+           (" " . $RouterBoard->"revision") ] . "\n" . \
+       [ $FormatLine "Serial number" ($RouterBoard->"serial-number") ] . "\n") ] . \
     [ $IfThenElse ([ :len ($License->"level") ] > 0) \
-      ("\nLicense:        " . $License->"level") ] . \
-       "\nRouterOS:" . \
-       "\n    Channel:    " . $Update->"channel" . \
-       "\n    Installed:  " . $Update->"installed-version" . \
+      ([ $FormatLine "License" ($License->"level") ] . "\n") ] . \
+    "RouterOS:\n" . \
+    [ $FormatLine "    Channel" ($Update->"channel") ] . "\n" . \
+    [ $FormatLine "    Installed" ($Update->"installed-version") ] . "\n" . \
     [ $IfThenElse ([ :typeof ($Update->"latest-version") ] != "nothing" && \
         $Update->"installed-version" != $Update->"latest-version") \
-      ("\n    Available:  " . $Update->"latest-version") ] . \
+      ([ $FormatLine "    Available" ($Update->"latest-version") ] . "\n") ] . \
     [ $IfThenElse ($RouterBoard->"routerboard" = true && \
         $RouterBoard->"current-firmware" != $RouterBoard->"upgrade-firmware") \
-      ("\n    Firmware:   " . $RouterBoard->"current-firmware") ] . \
-       "\nRouterOS-Scripts:" . \
-       "\n    Version:    " . $ExpectedConfigVersion);
+      ([ $FormatLine "    Firmware" ($RouterBoard->"current-firmware") ] . "\n") ] . \
+    "RouterOS-Scripts:\n" . \
+    [ $FormatLine "    Version" $ExpectedConfigVersion ]);
 }
 
 # convert line endings, DOS -> UNIX
@@ -324,6 +326,32 @@
       :set Char ("\\" . $Char);
     }
     :set Return ($Return . $Char);
+  }
+
+  :return $Return;
+}
+
+# format a line for output
+:set FormatLine do={
+  :local Key    [ :tostr   $1 ];
+  :local Values [ :toarray $2 ];
+  :local Indent [ :tonum   $3 ];
+  :local Spaces "                ";
+  :local Return "";
+
+  :global EitherOr;
+  :global FormatLine;
+
+  :set Indent [ $EitherOr $Indent 16 ];
+
+  :if ([ :len $Key ] > 0) do={ :set Return ($Key . ":"); }
+  :if ([ :len $Key ] > ($Indent - 2)) do={
+    :set Return ($Return . "\n" . [ :pick $Spaces 0 $Indent ] . ($Values->0));
+  } else={
+    :set Return ($Return . [ :pick $Spaces 0 ($Indent - [ :len $Return ]) ] . ($Values->0));
+  }
+  :foreach Value in=[ :pick $Values 1 [ :len $Values ] ] do={
+    :set Return ($Return . "\n" . [ $FormatLine "" ({$Value}) $Indent ]);
   }
 
   :return $Return;

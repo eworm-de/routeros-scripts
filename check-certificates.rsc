@@ -76,6 +76,7 @@
 :local FormatInfo do={
   :local CertVal $1;
 
+  :global FormatLine;
   :global IfThenElse;
   :global ParseKeyValueStore;
   
@@ -84,25 +85,15 @@
     :return [ $CharacterReplace [ $CharacterReplace [ :tostr $1 ] "w" "w " ] "d" "d " ];
   }
 
-  :local FormatSANs do={
-    :local SANs $1;
-    :local Return "";
-
-    :foreach SAN in=$SANs do={
-      :set Return ($Return . "\n             " . $SAN);
-    }
-    :return $Return;
-  }
-
   :return ( \
-    "Name:        " . ($CertVal->"name") . "\n" . \
-    [ $IfThenElse ([ :len ($CertVal->"common-name") ] > 0) ("CommonName:  " . ($CertVal->"common-name") . "\n") ] . \
-    [ $IfThenElse ([ :len ($CertVal->"subject-alt-name") ] > 0) ("SubjectAltNames:" . [ $FormatSANs ($CertVal->"subject-alt-name") ] . "\n") ] . \
-    "Private key: " . [ $IfThenElse (($CertVal->"private-key") = true) "available" "missing" ] . "\n" . \
-    "Fingerprint: " . ($CertVal->"fingerprint") . "\n" . \
-    "Issuer:      " . ($CertVal->"ca") . ([ $ParseKeyValueStore ($CertVal->"issuer") ]->"CN") . "\n" . \
-    "Validity:    " . ($CertVal->"invalid-before") . " to " . ($CertVal->"invalid-after") . "\n" . \
-    "Expires in:  " . [ $IfThenElse (($CertVal->"expired") = true) "expired" [ $FormatExpire ($CertVal->"expires-after") ] ]);
+    [ $FormatLine "Name" ($CertVal->"name") ] . "\n" . \
+    [ $IfThenElse ([ :len ($CertVal->"common-name") ] > 0) ([ $FormatLine "CommonName" ($CertVal->"common-name") ] . "\n") ] . \
+    [ $IfThenElse ([ :len ($CertVal->"subject-alt-name") ] > 0) ([ $FormatLine "SubjectAltNames" ($CertVal->"subject-alt-name") ] . "\n") ] . \
+    [ $FormatLine "Private key" [ $IfThenElse (($CertVal->"private-key") = true) "available" "missing" ] ] . "\n" . \
+    [ $FormatLine "Fingerprint" ($CertVal->"fingerprint") ] . "\n" . \
+    [ $FormatLine "Issuer" ($CertVal->"ca" . ([ $ParseKeyValueStore ($CertVal->"issuer") ]->"CN")) ] . "\n" . \
+    [ $FormatLine "Validity" ($CertVal->"invalid-before" . " to " . $CertVal->"invalid-after") ] . "\n" . \
+    [ $FormatLine "Expires in" [ $IfThenElse (($CertVal->"expired") = true) "expired" [ $FormatExpire ($CertVal->"expires-after") ] ] ]);
 }
 
 $WaitFullyConnected;

@@ -18,6 +18,7 @@
 :global DailyPskQrCodeUrl;
 :global Identity;
 
+:global FormatLine;
 :global LogPrintExit2;
 :global SendNotification2;
 :global SymbolForNotification;
@@ -93,9 +94,9 @@ $WaitFullyConnected;
         $SendNotification2 ({ origin=$0; \
           subject=([ $SymbolForNotification "calendar" ] . "daily PSK " . $Ssid); \
           message=("This is the daily PSK on " . $Identity . ":\n\n" . \
-            "SSID: " . $Ssid . "\n" . \
-            "PSK:  " . $NewPsk . "\n" . \
-            "Date: " . $Date . "\n\n" . \
+            [ $FormatLine "SSID" $Ssid ] . "\n" . \
+            [ $FormatLine "PSK" $NewPsk ] . "\n" . \
+            [ $FormatLine "Date" $Date ] . "\n\n" . \
             "A client device specific rule must not exist!"); link=$Link });
       }
     }

@@ -21,6 +21,7 @@
 :global CheckHealthVoltagePercent;
 :global Identity;
 
+:global FormatLine;
 :global IfThenElse;
 :global LogPrintExit2;
 :global ScriptLock;
@@ -93,8 +94,8 @@ $ScriptLock $0;
         subject=([ $SymbolForNotification ("high-voltage-sign,chart-" . [ $IfThenElse ($NumLast < \
           $NumCurr) "in" "de" ] . "creasing") ] . "Health warning: " . $Name); \
         message=("The " . $Name . " on " . $Identity . " jumped more than " . $CheckHealthVoltagePercent . "%.\n\n" . \
-          "old value: " . ($CheckHealthLast->$Name) . " V\n" . \
-          "new value: " . $Value . " V") });
+          [ $FormatLine "old value" ($CheckHealthLast->$Name . " V") ] . "\n" . \
+          [ $FormatLine "new value" ($Value . " V") ]) });
     } else={ 
       :if ($NumCurr <= $CheckHealthVoltageLow && $NumLast > $CheckHealthVoltageLow) do={ 
         $SendNotification2 ({ origin=$0; \ 
