@@ -58,7 +58,7 @@
     }
   }
   :if ([ :len $InterfaceReEnable ] > 0) do={
-    :delay 2s;
+    :delay 5s;
     $LogPrintExit2 info $0 ("Re-enabling interfaces...") false;
     /interface/ethernet/enable $InterfaceReEnable;
   }
