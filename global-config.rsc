@@ -139,6 +139,10 @@
     "String"; "Whistle" }
 }
 
+# Specify how to assemble DNS names in ipsec-to-dns.
+:global HostNameInZone true;
+:global PrefixInZone true;
+
 # Run different commands with multiple mode-button presses.
 :global ModeButton {
   1="/system/script/run leds-toggle-mode;";
