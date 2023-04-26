@@ -12,7 +12,8 @@
 # Add extra text (or emojis) in notification tags.
 :global IdentityExtra "";
 
-# This is used for DNS and backup file.
+# This is used in DNS scripts ('ipsec-to-dns' and fallback in 'dhcp-to-dns')
+# and backup scripts for file names.
 :global Domain "example.com";
 
 # You can send e-mail notifications. Configure the system's mail settings
