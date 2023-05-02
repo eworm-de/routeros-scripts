@@ -28,6 +28,7 @@ Add yourself to the list,
 * Christoph Boss (@Kampfwurst)
 * Devin Dean (@dd2594gh)
 * Evaldo Gardenal
+* Harold Schoemaker
 * Hugo BV
 * Klaus Michael Rübsam
 * Linux-Schmie.de Michael Gisbers
