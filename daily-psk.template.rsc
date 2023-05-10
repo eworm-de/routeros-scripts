@@ -34,21 +34,18 @@ $WaitFullyConnected;
 
   :global DailyPskSecrets;
 
-  :local Months { "jan"=1; "feb"=2; "mar"=3; "apr"=4; "may"=5; "jun"=6;
-                  "jul"=7; "aug"=8; "sep"=9; "oct"=10; "nov"=11; "dec"=12 };
+  :global ParseDate;
 
-  :local Month ($Months->[ :pick $Date 0 3 ]);
-  :local Day [ :tonum [ :pick $Date 4 6 ] ];
-  :local Year [ :tonum [ :pick $Date 7 11 ] ];
+  :set Date [ $ParseDate $Date ];
 
-  :local A ((14 - $Month) / 12);
-  :local B ($Year - $A);
-  :local C ($Month + 12 * $A - 2);
-  :local WeekDay (7000 + $Day + $B + ($B / 4) - ($B / 100) + ($B / 400) + ((31 * $C) / 12));
+  :local A ((14 - ($Date->"month")) / 12);
+  :local B (($Date->"year") - $A);
+  :local C (($Date->"month") + 12 * $A - 2);
+  :local WeekDay (7000 + ($Date->"day") + $B + ($B / 4) - ($B / 100) + ($B / 400) + ((31 * $C) / 12));
   :set WeekDay ($WeekDay - (($WeekDay / 7) * 7));
 
-  :return (($DailyPskSecrets->0->($Day - 1)) . \
-    ($DailyPskSecrets->1->($Month - 1)) . \
+  :return (($DailyPskSecrets->0->(($Date->"day") - 1)) . \
+    ($DailyPskSecrets->1->(($Date->"month") - 1)) . \
     ($DailyPskSecrets->2->$WeekDay));
 }
 
