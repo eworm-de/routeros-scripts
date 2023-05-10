@@ -38,7 +38,7 @@ $WaitFullyConnected;
 
   :local Month ($Months->[ :pick $Date 0 3 ]);
   :local Day [ :tonum [ :pick $Date 4 6 ] ];
-  :local Year [ :pick $Date 7 11 ];
+  :local Year [ :tonum [ :pick $Date 7 11 ] ];
 
   :local A ((14 - $Month) / 12);
   :local B ($Year - $A);
