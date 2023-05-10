@@ -45,6 +45,7 @@
 :global LogPrintExit2;
 :global MkDir;
 :global NotificationFunctions;
+:global ParseDate;
 :global ParseKeyValueStore;
 :global PrettyPrint;
 :global RandomDelay;
@@ -680,6 +681,18 @@
 # prepare NotificationFunctions array
 :if ([ :typeof $NotificationFunctions ] != "array") do={
   :set NotificationFunctions ({});
+}
+
+# parse the date and return a named array
+:set ParseDate do={
+  :local Date [ :tostr $1 ];
+
+    :local Months { "jan"=1; "feb"=2; "mar"=3; "apr"=4; "may"=5; "jun"=6;
+                    "jul"=7; "aug"=8; "sep"=9; "oct"=10; "nov"=11; "dec"=12 };
+
+    :return ({ "year"=[ :tonum [ :pick $Date 7 11 ] ];
+              "month"=($Months->[ :pick $Date 0 3 ]);
+                "day"=[ :tonum [ :pick $Date 4 6 ] ] });
 }
 
 # parse key value store
