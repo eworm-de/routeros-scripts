@@ -33,18 +33,12 @@ $WaitFullyConnected;
 
   :global DailyPskSecrets;
 
-  :local Months { "jan"; "feb"; "mar"; "apr"; "may"; "jun";
-                  "jul"; "aug"; "sep"; "oct"; "nov"; "dec" };
+  :local Months { "jan"=1; "feb"=2; "mar"=3; "apr"=4; "may"=5; "jun"=6;
+                  "jul"=7; "aug"=8; "sep"=9; "oct"=10; "nov"=11; "dec"=12 };
 
-  :local Month [ :pick $Date 0 3 ];
+  :local Month ($Months->[ :pick $Date 0 3 ]);
   :local Day [ :tonum [ :pick $Date 4 6 ] ];
   :local Year [ :pick $Date 7 11 ];
-
-  :for MIndex from=0 to=[ :len $Months ] do={
-    :if ($Months->$MIndex = $Month) do={
-      :set Month ($MIndex + 1);
-    }
-  }
 
   :local A ((14 - $Month) / 12);
   :local B ($Year - $A);
