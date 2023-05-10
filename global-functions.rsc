@@ -4,7 +4,7 @@
 #                         Michael Gisbers <michael@gisbers.de>
 # https://git.eworm.de/cgit/routeros-scripts/about/COPYING.md
 #
-# requires RouterOS, version=7.9beta4
+# requires RouterOS, version=7.10beta5
 #
 # global functions
 # https://git.eworm.de/cgit/routeros-scripts/about/
@@ -703,15 +703,6 @@
 # parse the date and return a named array
 :set ParseDate do={
   :local Date [ :tostr $1 ];
-
-  :if ([ :pick $Date 4 5 ] != "-") do={
-    :local Months { "jan"=1; "feb"=2; "mar"=3; "apr"=4; "may"=5; "jun"=6;
-                    "jul"=7; "aug"=8; "sep"=9; "oct"=10; "nov"=11; "dec"=12 };
-
-    :return ({ "year"=[ :tonum [ :pick $Date 7 11 ] ];
-              "month"=($Months->[ :pick $Date 0 3 ]);
-                "day"=[ :tonum [ :pick $Date 4 6 ] ] });
-  }
 
   :return ({ "year"=[ :tonum [ :pick $Date 0 4 ] ];
             "month"=[ :tonum [ :pick $Date 5 7 ] ];
