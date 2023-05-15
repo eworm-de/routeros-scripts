@@ -37,7 +37,7 @@
           ("https://api.telegram.org/bot" . ($Message->"tokenid") . "/sendMessage") \
           http-data=("chat_id=" . ($Message->"chatid") . \
           "&disable_notification=" . ($Message->"silent") . \
-          "&reply_to_message_id=" . ($Notification->"replyto") . \
+          "&reply_to_message_id=" . ($Message->"replyto") . \
           "&disable_web_page_preview=true&parse_mode=" . ($Message->"parsemode") . \
           "&text=" . ($Message->"text")) as-value;
         :set ($TelegramQueue->$Id);
