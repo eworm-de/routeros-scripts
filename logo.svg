@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
-<svg id="svg5" width="96" height="96" version="1.1" viewBox="0 0 25.4 25.4" xmlns="http://www.w3.org/2000/svg">
- <defs id="defs2">
+<svg id="svg" width="96" height="96" version="1.1" viewBox="0 0 25.4 25.4" xmlns="http://www.w3.org/2000/svg">
+ <defs id="defs">
   <radialGradient id="radGradDark" cx="7.5006" cy="9.4015" r="9.7854" gradientTransform="matrix(1.6107 1.0797 -.58681 .87543 .93614 -7.022)" gradientUnits="userSpaceOnUse">
-   <stop id="stop1045" stop-color="#222" offset="0"/>
-   <stop id="stop1047" stop-color="#444" offset="1"/>
+   <stop id="dark-1" stop-color="#222" offset="0"/>
+   <stop id="dark-2" stop-color="#444" offset="1"/>
   </radialGradient>
   <radialGradient id="radGradRed" cx="14.501" cy="10.029" r="2.6711" gradientTransform="matrix(1.3827 .62837 -.44627 .98203 -1.0744 -8.9965)" gradientUnits="userSpaceOnUse">
-   <stop id="stop975" stop-color="#a00" offset="0"/>
-   <stop id="stop977" stop-color="#c22" offset="1"/>
+   <stop id="red-1" stop-color="#a00" offset="0"/>
+   <stop id="red-2" stop-color="#c22" offset="1"/>
   </radialGradient>
  </defs>
  <g id="layer1">
