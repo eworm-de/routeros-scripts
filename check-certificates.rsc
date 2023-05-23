@@ -92,7 +92,9 @@
     [ $FormatLine "Private key" [ $IfThenElse (($CertVal->"private-key") = true) "available" "missing" ] ] . "\n" . \
     [ $FormatLine "Fingerprint" ($CertVal->"fingerprint") ] . "\n" . \
     [ $FormatLine "Issuer" ($CertVal->"ca" . ([ $ParseKeyValueStore ($CertVal->"issuer") ]->"CN")) ] . "\n" . \
-    [ $FormatLine "Validity" ($CertVal->"invalid-before" . " to " . $CertVal->"invalid-after") ] . "\n" . \
+    "Validity:\n" . \
+    [ $FormatLine "    from" ($CertVal->"invalid-before") ] . "\n" . \
+    [ $FormatLine "    to" ($CertVal->"invalid-after") ] . "\n" . \
     [ $FormatLine "Expires in" [ $IfThenElse (($CertVal->"expired") = true) "expired" [ $FormatExpire ($CertVal->"expires-after") ] ] ]);
 }
 
