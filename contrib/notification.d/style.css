@@ -1,5 +1,5 @@
 body {
-  font-family: fira-sans, sans;
+  font-family: fira-sans, sans-serif;
   font-size: 10pt;
   background-color: transparent;
 }
@@ -28,13 +28,13 @@ p.hint {
   display: none;
 }
 pre {
-  font-family: fira-mono, mono;
+  font-family: fira-mono, monospace;
   white-space: pre-wrap;
 }
 span.link {
   color: #863600;
 }
 span.tag {
-  font-family: monospace;
+  font-family: fira-mono, monospace;
   background-color: #e6e6e6;
 }
