@@ -69,6 +69,20 @@ Place this before you call them:
     :global SendTelegram;
     :global SendNotification;
 
+Tips & Tricks
+-------------
+
+### Set a profile photo
+
+You can use a profile photo for your bot to make it recognizable. Open the
+chat with [BotFather](https://t.me/BotFather) and set it there.
+
+![set profile photo](notification-telegram.d/setuserpic.avif)
+
+Have a look at my
+[RouterOS-Scripts Logo Color Changer](https://git.eworm.de/cgit/routeros-scripts/plain/contrib/logo-color.html)
+to create a colored version of this scripts' logo.
+
 See also
 --------
 
