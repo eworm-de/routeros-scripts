@@ -54,9 +54,14 @@ Just run the script:
 
     /system/scheduler/add interval=1d name=check-certificates on-event="/system/script/run check-certificates;" start-time=startup;
 
-Alternatively running on startup may be desired:
 
-    /system/scheduler/add name=check-certificates-startup on-event="/system/script/run check-certificates;" start-time=startup;
+Tips & Tricks
+-------------
+
+The script checks for full connectivity before acting, so scheduling at
+startup is perfectly valid:
+
+    /system/scheduler/add name=check-certificates@startup on-event="/system/script/run check-certificates;" start-time=startup;
 
 See also
 --------
