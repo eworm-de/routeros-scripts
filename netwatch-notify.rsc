@@ -3,6 +3,8 @@
 # Copyright (c) 2020-2023 Christian Hesse <mail@eworm.de>
 # https://git.eworm.de/cgit/routeros-scripts/about/COPYING.md
 #
+# requires RouterOS, version=7.9beta4
+#
 # monitor netwatch and send notifications
 # https://git.eworm.de/cgit/routeros-scripts/about/doc/netwatch-notify.md
 
@@ -53,10 +55,6 @@
 $ScriptLock $0;
 
 :local ScriptFromTerminalCached [ $ScriptFromTerminal $0 ];
-
-:if ([ /system/resource/get uptime ] < 5m) do={
-  $LogPrintExit2 info $0 ("System just booted, giving netwatch some time to settle.") true;
-}
 
 :if ([ :typeof $NetwatchNotify ] = "nothing") do={
   :set NetwatchNotify ({});
