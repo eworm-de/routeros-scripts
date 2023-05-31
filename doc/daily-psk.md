@@ -28,14 +28,14 @@ and add schedulers to run the script:
 For CAPsMAN:
 
     $ScriptInstallUpdate daily-psk.capsman;
-    /system/scheduler/add interval=1d name=daily-psk-nightly on-event="/system/script/run daily-psk.capsman;" start-time=03:00:00;
-    /system/scheduler/add name=daily-psk-startup on-event="/system/script/run daily-psk.capsman;" start-time=startup;
+    /system/scheduler/add interval=1d name=daily-psk on-event="/system/script/run daily-psk.capsman;" start-time=03:00:00;
+    /system/scheduler/add name=daily-psk@startup on-event="/system/script/run daily-psk.capsman;" start-time=startup;
 
 For local interface:
 
     $ScriptInstallUpdate daily-psk.local;
-    /system/scheduler/add interval=1d name=daily-psk-nightly on-event="/system/script/run daily-psk.local;" start-time=03:00:00;
-    /system/scheduler/add name=daily-psk-startup on-event="/system/script/run daily-psk.local;" start-time=startup;
+    /system/scheduler/add interval=1d name=daily-psk on-event="/system/script/run daily-psk.local;" start-time=03:00:00;
+    /system/scheduler/add name=daily-psk@startup on-event="/system/script/run daily-psk.local;" start-time=startup;
 
 These will update the passphrase on boot and nightly at 3:00.
 
