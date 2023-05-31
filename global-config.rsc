@@ -114,7 +114,7 @@
   cpu-temperature=70;
   board-temperature1=50;
   board-temperature2=50;
-}
+};
 # This is deviation on recovery threshold against notification flooding.
 :global CheckHealthTemperatureDeviation 3;
 :global CheckHealthVoltageLow 115;
@@ -137,7 +137,7 @@
     "Staking"; "Thundering"; "Ultra"; "Unreal" };
   { "Belief"; "Button"; "Curtain"; "Edge"; "Jewel";
     "String"; "Whistle" }
-}
+};
 
 # Specify how to assemble DNS names in ipsec-to-dns.
 :global HostNameInZone true;
@@ -206,12 +206,12 @@
 :global CertRenewPass {
   "v3ry-s3cr3t";
   "4n0th3r-s3cr3t";
-}
+};
 :global CertWarnTime 2w;
 :global CertIssuedExportPass {
   "cert1-cn"="v3ry-s3cr3t";
   "cert2-cn"="4n0th3r-s3cr3t";
-}
+};
 
 # load custom settings from overlay
 # Warning: Do *NOT* copy this code to overlay!
