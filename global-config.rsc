@@ -80,6 +80,21 @@
 :global BackupUploadUser "mikrotik";
 :global BackupUploadPass "v3ry-s3cr3t";
 
+# This defines the settings for firewall address-lists (fw-addr-lists).
+:global FwAddrLists {
+#  "allow"={
+#    { url="https://eworm.de/ros/fw-addr-lists/allow";
+#      cert="R3" };
+#  };
+  "block"={
+#    { url="https://eworm.de/ros/fw-addr-lists/block";
+#      cert="R3" };
+    { url="https://www.dshield.org/block.txt"; cidr="/24";
+      cert="R3" };
+  };
+};
+:global FwAddrListTimeOut 1d;
+
 # This defines what log messages to filter or include by topic or message
 # text. Regular expressions are supported. Do *NOT* set an empty string,
 # that will filter or include everything!
