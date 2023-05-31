@@ -832,7 +832,7 @@
   :local ReloadGlobalConfig false;
   :local UserAgent ("User-Agent: Mikrotik/" . [ /system/resource/get version ] . " Fetch");
 
-  :foreach Script in=[ /system/script/find where source~"^#!rsc by RouterOS\n" ] do={
+  :foreach Script in=[ /system/script/find where source~"^#!rsc by RouterOS\r?\n" ] do={
     :local ScriptVal [ /system/script/get $Script ];
     :local ScriptFile [ /file/find where name=("script-updates/" . $ScriptVal->"name") . ".rsc" ];
     :local SourceNew;
