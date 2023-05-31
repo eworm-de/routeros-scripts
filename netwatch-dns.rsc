@@ -26,11 +26,11 @@ $ScriptLock $0;
 :local DnsFallback ({});
 :local DnsCurrent [ /ip/dns/get servers ];
 
-:foreach Host in=[ /tool/netwatch/find where comment~"dns" !disabled ] do={
+:foreach Host in=[ /tool/netwatch/find where comment~"dns" status="up" ] do={
   :local HostVal [ /tool/netwatch/get $Host ];
   :local HostInfo [ $ParseKeyValueStore ($HostVal->"comment") ];
 
-  :if ($HostVal->"status" = "up" && $HostInfo->"disabled" != true) do={
+  :if ($HostInfo->"disabled" != true) do={
     :if ($HostInfo->"dns" = true) do={
       :set DnsServers ($DnsServers, $HostVal->"host");
     }
@@ -61,12 +61,11 @@ $ScriptLock $0;
 :local DohCurrent [ /ip/dns/get use-doh-server ];
 :local DohCert "";
 
-:foreach Host in=[ /tool/netwatch/find where comment~"doh" !disabled ] do={
+:foreach Host in=[ /tool/netwatch/find where comment~"doh" status="up" ] do={
   :local HostVal [ /tool/netwatch/get $Host ];
   :local HostInfo [ $ParseKeyValueStore ($HostVal->"comment") ];
 
-  :if ($HostVal->"status" = "up" && $HostInfo->"doh" = true && \
-       $HostInfo->"disabled" != true && $DohServer = "") do={
+  :if ($HostInfo->"doh" = true && $HostInfo->"disabled" != true && $DohServer = "") do={
     :set DohServer [ $EitherOr ($HostInfo->"doh-url") \
         ("https://" . $HostVal->"host" . "/dns-query") ];
     :set DohCert ($HostInfo->"doh-cert");
