@@ -77,6 +77,14 @@ If an update is found you can install it right away.
 
 Installing script [packages-update](packages-update.md) gives extra options.
 
+Tips & Tricks
+-------------
+
+The script checks for full connectivity before acting, so scheduling at
+startup is perfectly valid:
+
+    /system/scheduler/add name=check-routeros-update@startup on-event="/system/script/run check-routeros-update;" start-time=startup;
+
 See also
 --------
 
