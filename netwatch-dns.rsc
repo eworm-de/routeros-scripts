@@ -18,7 +18,7 @@
 
 $ScriptLock $0;
 
-:if ([ /system/resource/get uptime ] < 5m) do={
+:if ([ /system/resource/get uptime ] < 5m30s) do={
   $LogPrintExit2 info $0 ("System just booted, giving netwatch some time to settle.") true;
 }
 
