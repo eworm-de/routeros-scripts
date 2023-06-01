@@ -137,6 +137,7 @@
         "CommonName \"" . $CommonName . "\"!") false;
     :return false;
   }
+  :delay 1s;
   :return true;
 }
 
