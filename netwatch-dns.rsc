@@ -58,8 +58,8 @@ $ScriptLock $0;
 }
 
 :local DohServer "";
-:local DohCurrent [ /ip/dns/get use-doh-server ];
 :local DohCert "";
+:local DohCurrent [ /ip/dns/get use-doh-server ];
 
 :foreach Host in=[ /tool/netwatch/find where comment~"doh" status="up" ] do={
   :local HostVal [ /tool/netwatch/get $Host ];
