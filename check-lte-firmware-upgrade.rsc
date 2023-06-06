@@ -73,8 +73,9 @@
     message=("A new firmware version " . ($Firmware->"latest") . " is available for " . \
       "LTE interface " . $IntName . " on " . $Identity . ".\n\n" . \
       [ $FormatLine "Interface" [ $CharacterReplace ($Info->"manufacturer" . " " . $Info->"model") ("\"") "" ] ] . "\n" . \
-      [ $FormatLine "Installed" ($Firmware->"installed") ] . "\n" . \
-      [ $FormatLine "Available" ($Firmware->"latest") ]); silent=true });
+      "Firmware version:\n" . \
+      [ $FormatLine "    Installed" ($Firmware->"installed") ] . "\n" . \
+      [ $FormatLine "    Available" ($Firmware->"latest") ]); silent=true });
   :set ($SentLteFirmwareUpgradeNotification->$IntName) ($Firmware->"latest");
 }
 
