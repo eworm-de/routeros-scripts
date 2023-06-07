@@ -27,6 +27,10 @@ The optional configuration goes to `global-config-overlay`.
 * `ScriptRunOnceBaseUrl`: base url, prepended to parameter
 * `ScriptRunOnceUrlSuffix`: url suffix, appended to parameter
 
+> ℹ️ **Info**: Copy relevant configuration from
+> [`global-config`](../../global-config.rsc) (the one without `-overlay`) to
+> your local `global-config-overlay` and modify it to your specific needs.
+
 If the parameter passed to the function is not a complete URL (starting
 with protocol `ftp://`, `http://`, `https://` or `sftp://`) the base-url is
 prepended, and file extension `.rsc` and url-suffix are appended.
