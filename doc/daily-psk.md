@@ -47,6 +47,10 @@ The configuration goes to `global-config-overlay`, these are the parameters:
 * `DailyPskMatchComment`: pattern to match the wireless access list comment
 * `DailyPskSecrets`: an array with pseudo random strings
 
+> ℹ️ **Info**: Copy relevant configuration from
+> [`global-config`](../global-config.rsc) (the one without `-overlay`) to
+> your local `global-config-overlay` and modify it to your specific needs.
+
 Then add an access list entry. For CAPsMAN:
 
     /caps-man/access-list/add comment="Daily PSK" ssid-regexp="-guest\$" private-passphrase="ToBeChangedDaily";
