@@ -41,6 +41,10 @@ Finally edit `global-config-overlay`, add `TelegramTokenId` with the token
 from *BotFather* and `TelegramChatId` with your id from *GetIDs Bot*. Then
 reload the configuration.
 
+> ℹ️ **Info**: Copy relevant configuration from
+> [`global-config`](../../global-config.rsc) (the one without `-overlay`) to
+> your local `global-config-overlay` and modify it to your specific needs.
+
 ### Notifications to a group
 
 Sending notifications to a group is possible as well. Add your bot and the
