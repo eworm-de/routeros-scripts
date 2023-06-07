@@ -28,6 +28,10 @@ The configuration goes to `global-config-overlay`, this is the only parameter:
 
 * `SmsAction`: an array with pre-defined actions
 
+> ℹ️ **Info**: Copy relevant configuration from
+> [`global-config`](../global-config.rsc) (the one without `-overlay`) to
+> your local `global-config-overlay` and modify it to your specific needs.
+
 Then enable SMS actions:
 
     /tool/sms/set allowed-number=+491234567890 receive-enabled=yes secret=s3cr3t;
