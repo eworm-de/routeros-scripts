@@ -3,7 +3,7 @@
 # https://git.eworm.de/cgit/routeros-scripts/about/COPYING.md
 #
 # global configuration, custom overlay
-# https://git.eworm.de/cgit/routeros-scripts/about/
+# https://git.eworm.de/cgit/routeros-scripts/about/#editing-configuration
 
 # Copy relevant configuration from global-config, paste and modify it here.
 
