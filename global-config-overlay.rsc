@@ -6,6 +6,7 @@
 # https://git.eworm.de/cgit/routeros-scripts/about/#editing-configuration
 
 # Copy relevant configuration from global-config, paste and modify it here.
+# https://git.eworm.de/cgit/routeros-scripts/about/global-config.rsc
 
 
 # End of global-config-overlay
