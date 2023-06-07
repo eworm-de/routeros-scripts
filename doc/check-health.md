@@ -74,6 +74,10 @@ The configuration goes to `global-config-overlay`, these are the parameters:
 * `CheckHealthVoltageLow`: value (in volt*10) giving a hard lower limit
 * `CheckHealthVoltagePercent`: percentage value to trigger voltage jumps
 
+> ℹ️ **Info**: Copy relevant configuration from
+> [`global-config`](../global-config.rsc) (the one without `-overlay`) to
+> your local `global-config-overlay` and modify it to your specific needs.
+
 Also notification settings are required for
 [e-mail](mod/notification-email.md),
 [matrix](mod/notification-matrix.md) and/or
