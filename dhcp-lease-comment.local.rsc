@@ -19,12 +19,12 @@
 :foreach Lease in=[ /ip/dhcp-server/lease/find where dynamic=yes status=bound ] do={
   :local LeaseVal [ /ip/dhcp-server/lease/get $Lease ];
   :local NewComment;
-  :local AccessList ([ /interface/wireless/access-list/find where mac-address=($LeaseVal->"mac-address") ]->0);
+  :local AccessList ([ /interface/wireless/access-list/find where mac-address=($LeaseVal->"active-mac-address") ]->0);
   :if ([ :len $AccessList ] > 0) do={
     :set NewComment [ /interface/wireless/access-list/get $AccessList comment ];
   }
   :if ([ :len $NewComment ] != 0 && $LeaseVal->"comment" != $NewComment) do={
-    $LogPrintExit2 info $0 ("Updating comment for DHCP lease " . $LeaseVal->"mac-address" . ": " . $NewComment) false;
+    $LogPrintExit2 info $0 ("Updating comment for DHCP lease " . $LeaseVal->"active-mac-address" . ": " . $NewComment) false;
     /ip/dhcp-server/lease/set comment=$NewComment $Lease;
   }
 }
