@@ -56,6 +56,10 @@ If no domain is found in dhcp server's network definition a fallback from
 
 * `Domain`: the domain used for dns records
 
+> ℹ️ **Info**: Copy relevant configuration from
+> [`global-config`](../global-config.rsc) (the one without `-overlay`) to
+> your local `global-config-overlay` and modify it to your specific needs.
+
 ### Host name from DHCP lease comment
 
 Overwriting the host name from dhcp lease comment is supported, just add

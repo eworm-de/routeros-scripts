@@ -36,6 +36,10 @@ The configuration goes to `global-config-overlay`, these are the parameters:
 * `HostNameInZone`: whether or not to add the ipsec/dns server's hostname
 * `PrefixInZone`: whether or not to add prefix `ipsec`
 
+> ℹ️ **Info**: Copy relevant configuration from
+> [`global-config`](../global-config.rsc) (the one without `-overlay`) to
+> your local `global-config-overlay` and modify it to your specific needs.
+
 See also
 --------
 

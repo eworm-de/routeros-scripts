@@ -32,6 +32,10 @@ the ntp client.
 Then edit `global-config-overlay`, add `EmailGeneralTo` with a valid
 recipient address. Finally reload the configuration.
 
+> ℹ️ **Info**: Copy relevant configuration from
+> [`global-config`](../../global-config.rsc) (the one without `-overlay`) to
+> your local `global-config-overlay` and modify it to your specific needs.
+
 ### Sending to several recipients
 
 Sending notifications to several recipients is possible as well. Add

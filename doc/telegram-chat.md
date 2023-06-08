@@ -39,6 +39,10 @@ parameters:
 * `TelegramChatIdsTrusted`: an array with trusted chat ids or user names
 * `TelegramChatGroups`: define the groups a device should belong to
 
+> ℹ️ **Info**: Copy relevant configuration from
+> [`global-config`](../global-config.rsc) (the one without `-overlay`) to
+> your local `global-config-overlay` and modify it to your specific needs.
+
 Usage and invocation
 --------------------
 

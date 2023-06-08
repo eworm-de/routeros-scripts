@@ -44,6 +44,10 @@ The configuration goes to `global-config-overlay`, this is the only parameter:
   (which is matched against the sending phone number or name) and `command`.
   For `match` and `allowed-number` regular expressions are supported.
 
+> ℹ️ **Info**: Copy relevant configuration from
+> [`global-config`](../global-config.rsc) (the one without `-overlay`) to
+> your local `global-config-overlay` and modify it to your specific needs.
+
 Notification settings are required for
 [e-mail](mod/notification-email.md),
 [matrix](mod/notification-matrix.md) and/or

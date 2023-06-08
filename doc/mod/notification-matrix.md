@@ -31,6 +31,10 @@ Edit `global-config-overlay`, add `MatrixHomeServer`, `MatrixAccessToken` and
 `MatrixRoom` - see below on hints how to retrieve this information. Then
 reload the configuration.
 
+> ℹ️ **Info**: Copy relevant configuration from
+> [`global-config`](../../global-config.rsc) (the one without `-overlay`) to
+> your local `global-config-overlay` and modify it to your specific needs.
+
 ### Home server
 
 Matrix user accounts are identified by a unique user id in the form of

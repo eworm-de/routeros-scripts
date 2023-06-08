@@ -54,6 +54,10 @@ The configuration goes to `global-config-overlay`, these are the parameters:
 * `ModeButton`: an array with defined actions
 * `ModeButtonLED`: led to give visual feedback
 
+> ℹ️ **Info**: Copy relevant configuration from
+> [`global-config`](../global-config.rsc) (the one without `-overlay`) to
+> your local `global-config-overlay` and modify it to your specific needs.
+
 Usage and invocation
 --------------------
 

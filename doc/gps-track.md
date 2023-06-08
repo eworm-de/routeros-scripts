@@ -32,6 +32,10 @@ The configuration goes to `global-config-overlay`, the only parameter is:
 
 * `GpsTrackUrl`: the url to send json data to
 
+> ℹ️ **Info**: Copy relevant configuration from
+> [`global-config`](../global-config.rsc) (the one without `-overlay`) to
+> your local `global-config-overlay` and modify it to your specific needs.
+
 The configured coordinate format (see `/system/gps`) defines the format
 sent to the server.
 

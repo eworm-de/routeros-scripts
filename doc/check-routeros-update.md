@@ -58,8 +58,9 @@ The configuration goes to `global-config-overlay`, these are the parameters:
   (`long-term`, `stable` or `testing`) is appended
 * `SafeUpdateAll`: install **all** updates automatically
 
-> ℹ️ **Info**: Installing **all** updates automatically requires extra
-> confirmation. See `global-config` for details.
+> ℹ️ **Info**: Copy relevant configuration from
+> [`global-config`](../global-config.rsc) (the one without `-overlay`) to
+> your local `global-config-overlay` and modify it to your specific needs.
 
 Also notification settings are required for
 [e-mail](mod/notification-email.md),

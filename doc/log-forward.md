@@ -54,6 +54,10 @@ The configuration goes to `global-config-overlay`, these are the parameters:
 * `LogForwardIncludeMessage`: define message text to be forwarded (even if
   filter matches)
 
+> ℹ️ **Info**: Copy relevant configuration from
+> [`global-config`](../global-config.rsc) (the one without `-overlay`) to
+> your local `global-config-overlay` and modify it to your specific needs.
+
 These patterns are matched as
 [regular expressions](https://wiki.mikrotik.com/wiki/Manual:Regular_Expressions).
 To forward **all** (ignoring severity) log messages with topics `account`

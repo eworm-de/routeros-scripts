@@ -33,6 +33,10 @@ The configuration goes to `global-config-overlay`, these are the parameters:
 * `BackupPassword`: password to encrypt the backup with
 * `BackupRandomDelay`: delay up to amount of seconds when run from scheduler
 
+> ℹ️ **Info**: Copy relevant configuration from
+> [`global-config`](../global-config.rsc) (the one without `-overlay`) to
+> your local `global-config-overlay` and modify it to your specific needs.
+
 Usage and invocation
 --------------------
 
