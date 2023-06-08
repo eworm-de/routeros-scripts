@@ -51,9 +51,9 @@ $ScriptLock $0 false 10;
       :local Address "no dhcp lease";
       :local DnsName "no dhcp lease";
       :local HostName "no dhcp lease";
-      :local Lease ([ /ip/dhcp-server/lease/find where mac-address=($RegVal->"mac-address") dynamic=yes status=bound ]->0);
+      :local Lease ([ /ip/dhcp-server/lease/find where active-mac-address=($RegVal->"mac-address") dynamic=yes status=bound ]->0);
       :if ([ :len $Lease ] > 0) do={
-        :set Address [ /ip/dhcp-server/lease/get $Lease address ];
+        :set Address [ /ip/dhcp-server/lease/get $Lease active-address ];
         :set HostName [ $EitherOr [ /ip/dhcp-server/lease/get $Lease host-name ] "no hostname" ];
         :set DnsName "no dns name";
         :local DnsRec ([ /ip/dns/static/find where address=$Address ]->0);
