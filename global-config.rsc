@@ -89,6 +89,10 @@
   "block"={
 #    { url="https://eworm.de/ros/fw-addr-lists/block";
 #      cert="R3" };
+    { url="https://feodotracker.abuse.ch/downloads/ipblocklist_recommended.txt";
+      cert="GlobalSign Atlas R3 DV TLS CA 2022 Q3" };
+    { url="https://sslbl.abuse.ch/blacklist/sslipblacklist.txt";
+      cert="GlobalSign Atlas R3 DV TLS CA 2022 Q3" };
     { url="https://www.dshield.org/block.txt"; cidr="/24";
       cert="R3" };
   };
