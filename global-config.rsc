@@ -95,6 +95,10 @@
       cert="GlobalSign Atlas R3 DV TLS CA 2022 Q3" };
     { url="https://www.dshield.org/block.txt"; cidr="/24";
       cert="R3" };
+#    { url="https://www.spamhaus.org/drop/drop.txt";
+#      cert="Cloudflare Inc ECC CA-3" };
+#    { url="https://www.spamhaus.org/drop/edrop.txt";
+#      cert="Cloudflare Inc ECC CA-3" };
   };
 };
 :global FwAddrListTimeOut 1d;
