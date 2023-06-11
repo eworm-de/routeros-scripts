@@ -16,6 +16,11 @@
 
 :local MacAddress $"mac-address";
 :local UserName $username;
+
+:if ([ :typeof $MacAddress ] = "nothing" || [ :typeof $UserName ] = "nothing") do={
+  $LogPrintExit2 error $0 ("This script is supposed to run from hotspot on login.") true;
+}
+
 :local Date [ /system/clock/get date ];
 :local UserVal [ /ip/hotspot/user/get [ find where name=$UserName ] ];
 :local UserInfo [ $ParseKeyValueStore ($UserVal->"comment") ];
