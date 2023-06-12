@@ -21,10 +21,12 @@
 :global LogPrintExit2;
 :global RandomDelay;
 :global ScriptFromTerminal;
+:global ScriptLock;
 :global SendNotification2;
 :global SymbolForNotification;
 :global WaitFullyConnected;
 
+$ScriptLock $0;
 $WaitFullyConnected;
 
 :if ([ $ScriptFromTerminal $0 ] = false && $BackupRandomDelay > 0) do={
