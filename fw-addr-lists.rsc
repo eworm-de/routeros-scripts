@@ -19,7 +19,7 @@
 :global WaitFullyConnected;
 
 :local FindDelim do={
-  :local ValidChars "0123456789./";
+  :local ValidChars "0123456789./ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz-";
   :for I from=0 to=[ :len $1 ] do={
     :if ([ :typeof [ :find $ValidChars [ :pick ($1 . " ") $I ] ] ] != "num") do={
       :return $I;
@@ -28,7 +28,6 @@
 }
 
 $ScriptLock $0;
-
 $WaitFullyConnected;
 
 :local ListComment ("managed by " . $0);
@@ -61,7 +60,8 @@ $WaitFullyConnected;
     :while ([ :len $Data ] != 0) do={
       :local Line [ :pick $Data 0 [ :find $Data "\n" ] ];
       :local Address ([ :pick $Line 0 [ $FindDelim $Line ] ] . ($List->"cidr"));
-      :if ($Address ~ "^[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}(/[0-9]{1,2})?\$") do={
+      :if ($Address ~ "^[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}(/[0-9]{1,2})?\$" || \
+           $Address ~ "^[\\.a-zA-Z0-9-]+\\.[a-zA-Z]{2,}\$") do={
         :set ($Addresses->$Address) 1;
       }
       :set Data [ :pick $Data ([ :len $Line ] + 1) [ :len $Data ] ];
