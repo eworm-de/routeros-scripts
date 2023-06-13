@@ -116,14 +116,15 @@
   :global UrlEncode;
   :global WaitForFile;
 
+  :local UserAgent ("User-Agent: Mikrotik/" . [ /system/resource/get version ] . " Fetch");
+
   $LogPrintExit2 info $0 ("Downloading and importing certificate with " . \
       "CommonName \"" . $CommonName . "\".") false;
   :do {
     :local LocalFileName ($CommonName . ".pem");
     :local UrlFileName ([ $UrlEncode $CommonName ] . ".pem");
-    /tool/fetch check-certificate=yes-without-crl \
-      ($ScriptUpdatesBaseUrl . "certs/" . \
-      $UrlFileName . $ScriptUpdatesUrlSuffix) \
+    /tool/fetch check-certificate=yes-without-crl http-header-field=$UserAgent \
+      ($ScriptUpdatesBaseUrl . "certs/" . $UrlFileName . $ScriptUpdatesUrlSuffix) \
       dst-path=$LocalFileName as-value;
     $WaitForFile $LocalFileName;
     /certificate/import file-name=$LocalFileName passphrase="" as-value;
