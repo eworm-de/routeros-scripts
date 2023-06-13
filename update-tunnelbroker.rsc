@@ -16,6 +16,9 @@
 :global CertificateAvailable;
 :global LogPrintExit2;
 :global ParseKeyValueStore;
+:global ScriptLock;
+
+$ScriptLock $0;
 
 :if ([ $CertificateAvailable "Starfield Secure Certificate Authority - G2" ] = false) do={
   $LogPrintExit2 error $0 ("Downloading required certificate failed.") true;
