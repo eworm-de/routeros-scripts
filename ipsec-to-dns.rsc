@@ -19,6 +19,9 @@
 :global EscapeForRegEx;
 :global IfThenElse;
 :global LogPrintExit2;
+:global ScriptLock;
+
+$ScriptLock $0;
 
 :local Zone \
   ([ $IfThenElse ($PrefixInZone = true) "ipsec." ] . \
