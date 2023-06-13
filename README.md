@@ -208,6 +208,7 @@ Available scripts
 * [Comment DHCP leases with info from access list](doc/dhcp-lease-comment.md)
 * [Create DNS records for DHCP leases](doc/dhcp-to-dns.md)
 * [Automatically upgrade firmware and reboot](doc/firmware-upgrade-reboot.md)
+* [Download, import and update firewall address-lists](doc/fw-addr-lists.md)
 * [Wait for global functions und modules](doc/global-wait.md)
 * [Send GPS position to server](doc/gps-track.md)
 * [Use WPA2 network with hotspot credentials](doc/hotspot-to-wpa.md)

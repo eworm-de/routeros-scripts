@@ -80,6 +80,29 @@
 :global BackupUploadUser "mikrotik";
 :global BackupUploadPass "v3ry-s3cr3t";
 
+# This defines the settings for firewall address-lists (fw-addr-lists).
+:global FwAddrLists {
+#  "allow"={
+#    { url="https://eworm.de/ros/fw-addr-lists/allow";
+#      cert="R3" };
+#  };
+  "block"={
+#    { url="https://eworm.de/ros/fw-addr-lists/block";
+#      cert="R3" };
+    { url="https://feodotracker.abuse.ch/downloads/ipblocklist_recommended.txt";
+      cert="GlobalSign Atlas R3 DV TLS CA 2022 Q3" };
+    { url="https://sslbl.abuse.ch/blacklist/sslipblacklist.txt";
+      cert="GlobalSign Atlas R3 DV TLS CA 2022 Q3" };
+    { url="https://www.dshield.org/block.txt"; cidr="/24";
+      cert="R3" };
+#    { url="https://www.spamhaus.org/drop/drop.txt";
+#      cert="Cloudflare Inc ECC CA-3" };
+#    { url="https://www.spamhaus.org/drop/edrop.txt";
+#      cert="Cloudflare Inc ECC CA-3" };
+  };
+};
+:global FwAddrListTimeOut 1d;
+
 # This defines what log messages to filter or include by topic or message
 # text. Regular expressions are supported. Do *NOT* set an empty string,
 # that will filter or include everything!
