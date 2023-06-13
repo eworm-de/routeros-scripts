@@ -14,6 +14,9 @@
 
 :global LogPrintExit2;
 :global MkDir;
+:global ScriptLock;
+
+$ScriptLock $0;
 
 :foreach Cert in=[ /certificate/find where issued expires-after<3w ] do={
   :local CertVal [ /certificate/get $Cert ];
