@@ -13,6 +13,9 @@
 :global EitherOr;
 :global LogPrintExit2;
 :global ParseKeyValueStore;
+:global ScriptLock;
+
+$ScriptLock $0;
 
 :local MacAddress $"mac-address";
 :local UserName $username;

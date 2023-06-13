@@ -12,6 +12,9 @@
 
 :global LogPrintExit2;
 :global ParseKeyValueStore;
+:global ScriptLock;
+
+$ScriptLock $0;
 
 :foreach Instance in=[ /routing/ospf/instance/find where comment~"^ospf-to-leds," ] do={
   :local InstanceVal [ /routing/ospf/instance/get $Instance ];

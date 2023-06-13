@@ -20,6 +20,7 @@
 :global IfThenElse;
 :global LogPrintExit2;
 :global ParseKeyValueStore;
+:global ScriptLock;
 :global SendNotification2;
 :global SymbolForNotification;
 :global UrlEncode;
@@ -98,6 +99,7 @@
     [ $FormatLine "Expires in" [ $IfThenElse (($CertVal->"expired") = true) "expired" [ $FormatExpire ($CertVal->"expires-after") ] ] ]);
 }
 
+$ScriptLock $0;
 $WaitFullyConnected;
 
 :foreach Cert in=[ /certificate/find where !revoked !ca !scep-url expires-after<$CertRenewTime ] do={

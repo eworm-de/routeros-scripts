@@ -11,7 +11,10 @@
 :while ($GlobalFunctionsReady != true) do={ :delay 500ms; }
 
 :global LogPrintExit2;
+:global ScriptLock;
 :global VersionToNum;
+
+$ScriptLock $0;
 
 :local RouterBoard [ /system/routerboard/get ];
 :if ($RouterBoard->"current-firmware" = $RouterBoard->"upgrade-firmware") do={

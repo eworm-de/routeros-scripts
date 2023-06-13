@@ -14,6 +14,9 @@
 
 :global LogPrintExit2;
 :global ParseKeyValueStore;
+:global ScriptLock;
+
+$ScriptLock $0;
 
 :if ([ :typeof $PdPrefix ] = "nothing") do={
   $LogPrintExit2 error $0 ("This script is supposed to run from ipv6 dhcp-client.") true;

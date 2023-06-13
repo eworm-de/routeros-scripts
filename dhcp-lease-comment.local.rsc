@@ -15,6 +15,9 @@
 :while ($GlobalFunctionsReady != true) do={ :delay 500ms; }
 
 :global LogPrintExit2;
+:global ScriptLock;
+
+$ScriptLock $0;
 
 :foreach Lease in=[ /ip/dhcp-server/lease/find where dynamic=yes status=bound ] do={
   :local LeaseVal [ /ip/dhcp-server/lease/get $Lease ];

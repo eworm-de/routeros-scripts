@@ -31,6 +31,7 @@
 :global MkDir;
 :global RandomDelay;
 :global ScriptFromTerminal;
+:global ScriptLock;
 :global SendNotification2;
 :global SymbolForNotification;
 :global WaitForFile;
@@ -41,6 +42,7 @@
   $LogPrintExit2 error $0 ("Configured to send neither backup nor config export.") true;
 }
 
+$ScriptLock $0;
 $WaitFullyConnected;
 
 :if ([ $ScriptFromTerminal $0 ] = false && $BackupRandomDelay > 0) do={

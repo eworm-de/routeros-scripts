@@ -14,6 +14,9 @@
 :global Identity;
 
 :global LogPrintExit2;
+:global ScriptLock;
+
+$ScriptLock $0;
 
 :local CoordinateFormat [ /system/gps/get coordinate-format ];
 :local Gps [ /system/gps/monitor once as-value ];

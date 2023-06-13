@@ -13,6 +13,9 @@
 :while ($GlobalFunctionsReady != true) do={ :delay 500ms; }
 
 :global LogPrintExit2;
+:global ScriptLock;
+
+$ScriptLock $0;
 
 :if ([ :len [ /partitions/find ] ] < 2) do={
   $LogPrintExit2 error $0 ("Device does not have a fallback partition.") true;

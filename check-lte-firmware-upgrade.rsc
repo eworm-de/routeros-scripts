@@ -12,6 +12,10 @@
 
 :global SentLteFirmwareUpgradeNotification;
 
+:global ScriptLock;
+
+$ScriptLock $0;
+
 :if ([ :typeof $SentLteFirmwareUpgradeNotification ] != "array") do={
   :global SentLteFirmwareUpgradeNotification ({});
 }
