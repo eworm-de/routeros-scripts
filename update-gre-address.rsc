@@ -13,6 +13,9 @@
 
 :global CharacterReplace;
 :global LogPrintExit2;
+:global ScriptLock; 
+
+$ScriptLock $0;
 
 /interface/gre/set remote-address=0.0.0.0 disabled=yes [ find where !running !disabled ];
 
