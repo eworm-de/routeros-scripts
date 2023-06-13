@@ -20,12 +20,14 @@
 
 :global FormatLine;
 :global LogPrintExit2;
+:global ScriptLock;
 :global SendNotification2;
 :global SymbolForNotification;
 :global UrlEncode;
 :global WaitForFile;
 :global WaitFullyConnected;
 
+$ScriptLock $0;
 $WaitFullyConnected;
 
 # return pseudo-random string for PSK
