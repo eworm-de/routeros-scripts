@@ -15,8 +15,10 @@
 
 :global LogPrintExit2;
 :global ScriptLock;
+:global WaitFullyConnected;
 
 $ScriptLock $0;
+$WaitFullyConnected;
 
 :local CoordinateFormat [ /system/gps/get coordinate-format ];
 :local Gps [ /system/gps/monitor once as-value ];
