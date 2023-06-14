@@ -40,6 +40,7 @@ Add yourself to the list,
 * Richard Österreicher
 * Simon Hitzemann
 * Sunny Chu (@sunnychuchu)
+* Ulrich Wessendorf
 * Zac Kornilakis
 
 ---
