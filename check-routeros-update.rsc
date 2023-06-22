@@ -39,7 +39,7 @@ $ScriptLock $0;
 
 $WaitFullyConnected;
 
-:if ([ :len [ /system/scheduler/find where name="reboot-for-update" ] ] > 0) do={
+:if ([ :len [ /system/scheduler/find where name="\$RebootForUpdate" ] ] > 0) do={
   :error "A reboot for update is already scheduled.";
 }
 
