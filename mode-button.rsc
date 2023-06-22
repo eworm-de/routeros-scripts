@@ -16,10 +16,10 @@
 
 :set ($ModeButton->"count") ($ModeButton->"count" + 1);
 
-:local Scheduler [ /system/scheduler/find where name="ModeButtonScheduler" ];
+:local Scheduler [ /system/scheduler/find where name="\$ModeButtonScheduler" ];
 
 :if ([ :len $Scheduler ] = 0) do={
-  $LogPrintExit2 info $0 ("Creating scheduler ModeButtonScheduler, counting presses...") false;
+  $LogPrintExit2 info $0 ("Creating scheduler \$ModeButtonScheduler, counting presses...") false;
   :global ModeButtonScheduler do={
     :global ModeButton;
 
@@ -44,7 +44,7 @@
 
     :set ($ModeButton->"count") 0;
     :set ModeButtonScheduler;
-    /system/scheduler/remove ModeButtonScheduler;
+    /system/scheduler/remove [ find where name=$0 ];
 
     :if ([ :len $Code ] > 0) do={
       :if ([ $ValidateSyntax $Code ] = true) do={
@@ -68,9 +68,9 @@
       $LogPrintExit2 info $0 ("No action defined for " . $Count . " mode-button presses.") false;
     }
   }
-  /system/scheduler/add name="ModeButtonScheduler" \
+  /system/scheduler/add name="\$ModeButtonScheduler" \
       on-event=":global ModeButtonScheduler; \$ModeButtonScheduler;" interval=3s;
 } else={
-  $LogPrintExit2 debug $0 ("Updating scheduler ModeButtonScheduler...") false;
+  $LogPrintExit2 debug $0 ("Updating scheduler \$ModeButtonScheduler...") false;
   /system/scheduler/set $Scheduler start-time=[ /system/clock/get time ];
 }
