@@ -504,6 +504,7 @@
 # check if system time is sync
 :set IsTimeSync do={
   :global IsTimeSyncCached;
+  :global IsTimeSyncResetNtp;
 
   :global LogPrintExit2;
 
@@ -516,6 +517,18 @@
       :set IsTimeSyncCached true;
       :return true;
     }
+
+    :if ([ /system/resource/get uptime ] < 3m || $IsTimeSyncResetNtp = true) do={
+      :return false;
+    }
+
+    :set IsTimeSyncResetNtp true;
+    /system/ntp/client/set enabled=no;
+    :delay 20ms;
+    /system/ntp/client/set enabled=yes;
+    /system/scheduler/add name="clear-IsTimeSyncResetNtp" interval=1m \
+      on-event=("/system/scheduler/remove clear-IsTimeSyncResetNtp; " . \
+      ":global IsTimeSyncResetNtp; :set IsTimeSyncResetNtp;");
     :return false;
   }
 
