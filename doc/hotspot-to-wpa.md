@@ -54,6 +54,9 @@ Create hotspot login credentials:
     /ip/hotspot/user/add comment="Test User 1" name=user1 password=v3ry;
     /ip/hotspot/user/add comment="Test User 2" name=user2 password=s3cr3t;
 
+This also works with authentication via radius, but is limited then:
+Additional information is not available, including the password.
+
 Additionally templates can be created to give more options for access list:
 
 * `action`: set to `reject` to ignore logins on that hotspot

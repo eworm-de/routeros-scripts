@@ -25,7 +25,10 @@ $ScriptLock $0;
 }
 
 :local Date [ /system/clock/get date ];
-:local UserVal [ /ip/hotspot/user/get [ find where name=$UserName ] ];
+:local UserVal ({});
+:if ([ :len [ /ip/hotspot/user/find where name=$UserName ] ] > 0) do={
+  :set UserVal [ /ip/hotspot/user/get [ find where name=$UserName ] ];
+}
 :local UserInfo [ $ParseKeyValueStore ($UserVal->"comment") ];
 :local Hotspot [ /ip/hotspot/host/get [ find where mac-address=$MacAddress authorized ] server ];
 
