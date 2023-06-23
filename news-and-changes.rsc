@@ -16,6 +16,7 @@
   100="The script 'ssh-keys-import' became a module 'mod/ssh-keys-import' with enhanced functionality.";
   101="Introduced new script 'fw-addr-lists' to download, import and update firewall address-lists.";
   102="Modified 'hotspot-to-wpa' to support non-local (radius) users.";
+  103="Dropped hard-coded name from 'hotspot-to-wpa-cleanup', instead a comment is required for dhcp server now.";
 };
 
 # Migration steps to be applied on script updates

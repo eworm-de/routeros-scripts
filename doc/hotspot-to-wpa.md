@@ -38,9 +38,11 @@ Create a scheduler:
 
     /system/scheduler/add interval=1d name=hotspot-to-wpa-cleanup on-event="/system/script/run hotspot-to-wpa-cleanup;" start-time=startup;
 
-And add the lease script to your wpa interfaces' dhcp server:
+And add the lease script and matcher comment to your wpa interfaces' dhcp
+server. You can add more information to the comment, separated by comma. In
+this example the server is called `hotspot-to-wpa`.
 
-    /ip/dhcp-server/set lease-script=lease-script [ find where name~"wpa" ];
+    /ip/dhcp-server/set lease-script=lease-script comment="hotspot-to-wpa=wpa" hotspot-to-wpa;
 
 Configuration
 -------------
