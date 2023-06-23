@@ -25,27 +25,28 @@ $ScriptLock $0;
 }
 
 :foreach Interface in=[ /interface/6to4/find where comment~"^tunnelbroker" !disabled ] do={
-  :local I 0;
-  :local Response "";
+  :local Data false;
   :local InterfaceVal [ /interface/6to4/get $Interface ];
   :local Comment [ $ParseKeyValueStore ($InterfaceVal->"comment") ];
 
-  :while ($I < 3 && $Response = "") do={
-    :do {
-      :set Response ([ /tool/fetch check-certificate=yes-without-crl \
+  :for I from=2 to=0 do={
+    :if ($Data = false) do={
+      :do {
+        :set Data ([ /tool/fetch check-certificate=yes-without-crl \
           ("https://ipv4.tunnelbroker.net/nic/update\?hostname=" . $Comment->"id") \
           user=($Comment->"user") password=($Comment->"pass") output=user as-value ]->"data");
-    } on-error={
-      :delay 10s;
-      :set I ($I + 1);
+      } on-error={
+        $LogPrintExit2 debug $0 ("Failed downloading, " . $I . " retries pending.") false;
+        :delay 2s;
+      }
     }
   }
 
-  :if (!($Response~"^(good|nochg) ")) do={
+  :if (!($Data ~ "^(good|nochg) ")) do={
     $LogPrintExit2 error $0 ("Failed sending the local address to tunnelbroker or unexpected response!") true;
   }
 
-  :local PublicAddress [ :pick $Response ([ :find $Response " " ] + 1) [ :find $Response "\n" ] ];
+  :local PublicAddress [ :pick $Data ([ :find $Data " " ] + 1) [ :find $Data "\n" ] ];
 
   :if ($PublicAddress != $InterfaceVal->"local-address") do={
     :if ([ :len [ /ip/address find where address~("^" . $PublicAddress . "/") ] ] < 1) do={
