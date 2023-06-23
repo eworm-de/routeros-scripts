@@ -40,8 +40,8 @@ $WaitFullyConnected;
   :local Failure false;
 
   :foreach List in=$FwList do={
-    :local Data;
     :local CheckCertificate "no";
+    :local Data false;
 
     :if ([ :len ($List->"cert") ] > 0) do={
       :set CheckCertificate "yes-without-crl";
@@ -50,9 +50,19 @@ $WaitFullyConnected;
       }
     }
 
-    :do {
-      :set Data ([ /tool/fetch ($List->"url") check-certificate=$CheckCertificate output=user as-value ]->"data");
-    } on-error={
+    :for I from=2 to=0 do={
+      :if ($Data = false) do={
+        :do {
+          :set Data ([ /tool/fetch ($List->"url") check-certificate=$CheckCertificate output=user as-value ]->"data");
+        } on-error={
+          $LogPrintExit2 debug $0 ("Failed downloading, " . $I . " retries pending: " . $List->"url") false;
+          :delay 2s;
+        }
+      }
+    }
+
+    :if ($Data = false) do={
+      :set Data "";
       :set Failure true;
       $LogPrintExit2 warning $0 ("Failed downloading list from: " . $List->"url") false;
     }
