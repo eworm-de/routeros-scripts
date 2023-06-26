@@ -207,7 +207,7 @@
 #:global ScriptUpdatesBaseUrl "https://gitlab.com/eworm-de/routeros-scripts/raw/next/";
 :global ScriptUpdatesUrlSuffix "";
 # use next branch with default url (git.eworm.de)
-#:global ScriptUpdatesUrlSuffix "\?h=next";
+#:global ScriptUpdatesUrlSuffix "?h=next";
 
 # Use this for defaults with $ScriptRunOnce
 # Install module with:
