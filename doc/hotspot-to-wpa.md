@@ -38,9 +38,16 @@ Create a scheduler:
 
     /system/scheduler/add interval=1d name=hotspot-to-wpa-cleanup on-event="/system/script/run hotspot-to-wpa-cleanup;" start-time=startup;
 
-And add the lease script to your wpa interfaces' dhcp server:
+And add the lease script and matcher comment to your wpa interfaces' dhcp
+server. You can add more information to the comment, separated by comma. In
+this example the server is called `hotspot-to-wpa`.
 
-    /ip/dhcp-server/set lease-script=lease-script [ find where name~"wpa" ];
+    /ip/dhcp-server/set lease-script=lease-script comment="hotspot-to-wpa=wpa" hotspot-to-wpa;
+
+You can specify the timeout after which a device is removed from leases and
+access-list. The default is four weeks.
+
+    /ip/dhcp-server/set lease-script=lease-script comment="hotspot-to-wpa=wpa, timeout=2w" hotspot-to-wpa;
 
 Configuration
 -------------
@@ -53,6 +60,9 @@ Create hotspot login credentials:
 
     /ip/hotspot/user/add comment="Test User 1" name=user1 password=v3ry;
     /ip/hotspot/user/add comment="Test User 2" name=user2 password=s3cr3t;
+
+This also works with authentication via radius, but is limited then:
+Additional information is not available, including the password.
 
 Additionally templates can be created to give more options for access list:
 

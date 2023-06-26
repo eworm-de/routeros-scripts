@@ -12,27 +12,40 @@
 :global GlobalFunctionsReady;
 :while ($GlobalFunctionsReady != true) do={ :delay 500ms; }
 
+:global EitherOr;
 :global LogPrintExit2;
+:global ParseKeyValueStore;
 :global ScriptLock;
 
 $ScriptLock $0 false 10;
 
-:foreach Client in=[ /caps-man/registration-table/find where comment~"^hotspot-to-wpa:" ] do={
-  :local ClientVal [ /caps-man/registration-table/get $Client ];
-  :local Lease [ /ip/dhcp-server/lease/find where server~"wpa" dynamic \
-    mac-address=($ClientVal->"mac-address") ];
-  :if ([ :len $Lease ] > 0) do={
-    $LogPrintExit2 info $0 ("Client with mac address " . ($ClientVal->"mac-address") . \
-      " connected to WPA, making lease static.") false;
-    /ip/dhcp-server/lease/make-static $Lease;
-    /ip/dhcp-server/lease/set comment=($ClientVal->"comment") $Lease;
+:local DHCPServers ({});
+:foreach Server in=[ /ip/dhcp-server/find where comment~"hotspot-to-wpa" ] do={
+  :local ServerVal [ /ip/dhcp-server/get $Server ]
+  :local ServerInfo [ $ParseKeyValueStore ($ServerVal->"comment") ];
+  :if (($ServerInfo->"hotspot-to-wpa") = "wpa") do={
+    :set ($DHCPServers->($ServerVal->"name")) \
+      [ :totime [ $EitherOr ($ServerInfo->"timeout") 4w ] ];
   }
 }
 
-:foreach Client in=[ /caps-man/access-list/find where comment~"^hotspot-to-wpa:" and \
+:foreach Client in=[ /caps-man/registration-table/find where comment~"^hotspot-to-wpa:" ] do={
+  :local ClientVal [ /caps-man/registration-table/get $Client ];
+  :foreach Lease in=[ /ip/dhcp-server/lease/find where dynamic \
+      mac-address=($ClientVal->"mac-address") ] do={
+    :if (($DHCPServers->[ /ip/dhcp-server/lease/get $Lease server ]) > 0s) do={
+      $LogPrintExit2 info $0 ("Client with mac address " . ($ClientVal->"mac-address") . \
+        " connected to WPA, making lease static.") false;
+      /ip/dhcp-server/lease/make-static $Lease;
+      /ip/dhcp-server/lease/set comment=($ClientVal->"comment") $Lease;
+    }
+  }
+}
+
+:foreach Client in=[ /caps-man/access-list/find where comment~"^hotspot-to-wpa:" \
     !(comment~[ /system/clock/get date ]) ] do={
   :local ClientVal [ /caps-man/access-list/get $Client ];
-  :if ([ :len [ /ip/dhcp-server/lease/find where server~"wpa" !dynamic \
+  :if ([ :len [ /ip/dhcp-server/lease/find where !dynamic comment~"^hotspot-to-wpa:" \
        mac-address=($ClientVal->"mac-address") ] ] = 0) do={
     $LogPrintExit2 info $0 ("Client with mac address " . ($ClientVal->"mac-address") . \
       " did not connect to WPA, removing from access list.") false;
@@ -40,12 +53,14 @@ $ScriptLock $0 false 10;
   }
 }
 
-:foreach Lease in=[ /ip/dhcp-server/lease/find where !dynamic status=waiting \
-    last-seen>4w comment~"^hotspot-to-wpa:" ] do={
-  :local LeaseVal [ /ip/dhcp-server/lease/get $Lease ];
-  $LogPrintExit2 info $0 ("Client with mac address " . ($LeaseVal->"mac-address") . \
-    " was not seen for long time, removing.") false;
-  /caps-man/access-list/remove [ find where comment~"^hotspot-to-wpa:" \
-     mac-address=($LeaseVal->"mac-address") ];
-  /ip/dhcp-server/lease/remove $Lease;
+:foreach Server,Timeout in=$DHCPServers do={
+  :foreach Lease in=[ /ip/dhcp-server/lease/find where !dynamic status="waiting" \
+      server=$Server last-seen>$Timeout comment~"^hotspot-to-wpa:" ] do={
+    :local LeaseVal [ /ip/dhcp-server/lease/get $Lease ];
+    $LogPrintExit2 info $0 ("Client with mac address " . ($LeaseVal->"mac-address") . \
+      " was not seen for " . $Timeout . ", removing.") false;
+    /caps-man/access-list/remove [ find where comment~"^hotspot-to-wpa:" \
+      mac-address=($LeaseVal->"mac-address") ];
+    /ip/dhcp-server/lease/remove $Lease;
+  }
 }

@@ -25,7 +25,10 @@ $ScriptLock $0;
 }
 
 :local Date [ /system/clock/get date ];
-:local UserVal [ /ip/hotspot/user/get [ find where name=$UserName ] ];
+:local UserVal ({});
+:if ([ :len [ /ip/hotspot/user/find where name=$UserName ] ] > 0) do={
+  :set UserVal [ /ip/hotspot/user/get [ find where name=$UserName ] ];
+}
 :local UserInfo [ $ParseKeyValueStore ($UserVal->"comment") ];
 :local Hotspot [ /ip/hotspot/host/get [ find where mac-address=$MacAddress authorized ] server ];
 
@@ -54,7 +57,8 @@ $LogPrintExit2 info $0 ("Adding/updating access-list entry for mac address " . $
   " (user " . $UserName . ").") false;
 /caps-man/access-list/remove [ find where mac-address=$MacAddress comment~"^hotspot-to-wpa: " ];
 /caps-man/access-list/add comment=("hotspot-to-wpa: " . $UserName . ", " . $MacAddress . ", " . $Date) \
-    mac-address=$MacAddress private-passphrase=($UserVal->"password") ssid-regexp="-wpa\$" place-before=$PlaceBefore;
+    mac-address=$MacAddress private-passphrase=($UserVal->"password") ssid-regexp="-wpa\$" \
+    action=reject place-before=$PlaceBefore;
 
 :local Entry [ /caps-man/access-list/find where mac-address=$MacAddress \
     comment=("hotspot-to-wpa: " . $UserName . ", " . $MacAddress . ", " . $Date) ];
@@ -78,3 +82,6 @@ $LogPrintExit2 info $0 ("Adding/updating access-list entry for mac address " . $
 :if ([ :len $VlanMode] > 0) do={
   /caps-man/access-list/set $Entry vlan-mode=$VlanMode;
 }
+
+:delay 2s;
+/caps-man/access-list/set $Entry action=accept;
