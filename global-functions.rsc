@@ -321,7 +321,7 @@
   }
 
   :local Return "";
-  :local Chars ("^.[]\$()|*+\?{}\\");
+  :local Chars ("^.[]\$()|*+?{}\\");
 
   :for I from=0 to=([ :len $Input ] - 1) do={
     :local Char [ :pick $Input $I ];
@@ -942,7 +942,7 @@
       /system/script/run global-config;
     } on-error={
       $LogPrintExit2 error $0 ("Reloading global configuration failed!" . \
-        " Syntax error or missing overlay\?") false;
+        " Syntax error or missing overlay?") false;
     }
   }
 
@@ -1251,7 +1251,7 @@
   }
 
   :local Return "";
-  :local Chars ("\n\r !\"#\$%&'()*+,:;<=>\?@[\\]^`{|}~");
+  :local Chars ("\n\r !\"#\$%&'()*+,:;<=>?@[\\]^`{|}~");
   :local Subs { "%0A"; "%0D"; "%20"; "%21"; "%22"; "%23"; "%24"; "%25"; "%26"; "%27";
          "%28"; "%29"; "%2A"; "%2B"; "%2C"; "%3A"; "%3B"; "%3C"; "%3D"; "%3E"; "%3F";
          "%40"; "%5B"; "%5C"; "%5D"; "%5E"; "%60"; "%7B"; "%7C"; "%7D"; "%7E" };
