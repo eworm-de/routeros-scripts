@@ -19,7 +19,7 @@
   :global ValidateSyntax;
 
   :foreach Script in=$Scripts do={
-    :if (!($Script ~ "^(ftp|https\?|sftp)://")) do={
+    :if (!($Script ~ "^(ftp|https?|sftp)://")) do={
       :if ([ :len $ScriptRunOnceBaseUrl ] = 0) do={
         $LogPrintExit2 warning $0 ("Script '" . $Script . "' is not an url and base url is not available.") true;
       }

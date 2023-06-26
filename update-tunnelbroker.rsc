@@ -33,7 +33,7 @@ $ScriptLock $0;
     :if ($Data = false) do={
       :do {
         :set Data ([ /tool/fetch check-certificate=yes-without-crl \
-          ("https://ipv4.tunnelbroker.net/nic/update\?hostname=" . $Comment->"id") \
+          ("https://ipv4.tunnelbroker.net/nic/update?hostname=" . $Comment->"id") \
           user=($Comment->"user") password=($Comment->"pass") output=user as-value ]->"data");
       } on-error={
         $LogPrintExit2 debug $0 ("Failed downloading, " . $I . " retries pending.") false;

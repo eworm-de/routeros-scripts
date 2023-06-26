@@ -189,7 +189,7 @@
     :return $Input;
   }
 
-  :return ("=\?utf-8\?Q\?" . $Return . "\?=");
+  :return ("=?utf-8?Q?" . $Return . "?=");
 }
 
 # send notification via e-mail - expects at least two string arguments

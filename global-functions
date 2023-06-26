@@ -166,7 +166,7 @@
       /system/script/run global-config;
     } on-error={
       $LogPrintExit2 error $0 ("Reloading global configuration failed!" . \
-        " Syntax error or missing overlay\?") false;
+        " Syntax error or missing overlay?") false;
     }
   }
 
