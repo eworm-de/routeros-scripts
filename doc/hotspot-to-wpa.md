@@ -44,6 +44,11 @@ this example the server is called `hotspot-to-wpa`.
 
     /ip/dhcp-server/set lease-script=lease-script comment="hotspot-to-wpa=wpa" hotspot-to-wpa;
 
+You can specify the timeout after which a device is removed from leases and
+access-list. The default is four weeks.
+
+    /ip/dhcp-server/set lease-script=lease-script comment="hotspot-to-wpa=wpa, timeout=2w" hotspot-to-wpa;
+
 Configuration
 -------------
 
