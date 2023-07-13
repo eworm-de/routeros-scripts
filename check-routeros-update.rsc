@@ -80,7 +80,7 @@ $LogPrintExit2 debug $0 ("Checking for updates...") false;
   }
 
   :if ($SafeUpdateNeighbor = true && [ :len [ /ip/neighbor/find where \
-       version=($Update->"latest-version" . " (" . $Update->"channel" . ")") ] ] > 0) do={
+       version~($Update->"latest-version" . " \\(" . $Update->"channel" . "\\).*") ] ] > 0) do={
     $LogPrintExit2 info $0 ("Seen a neighbor running version " . $Update->"latest-version" . ", updating...") false;
     $SendNotification2 ({ origin=$0; \
       subject=([ $SymbolForNotification "sparkles" ] . "RouterOS update: " . $Update->"latest-version"); \
