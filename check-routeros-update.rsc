@@ -80,7 +80,7 @@ $LogPrintExit2 debug $0 ("Checking for updates...") false;
     $DoUpdate;
   }
 
-  :if ($SafeUpdateNeighbor = true && [ :len [ /ip/neighbor/find where \
+  :if ($SafeUpdateNeighbor = true && [ :len [ /ip/neighbor/find where platform="MikroTik" \
        version~("^" . [ $EscapeForRegEx ($Update->"latest-version" . " (" . $Update->"channel" . ")") ]) ] ] > 0) do={
     $LogPrintExit2 info $0 ("Seen a neighbor running version " . $Update->"latest-version" . ", updating...") false;
     $SendNotification2 ({ origin=$0; \
