@@ -122,17 +122,20 @@ $WaitFullyConnected;
       }
     }
 
-    :local CertNew [ /certificate/find where name~("^" . [ $EscapeForRegEx [ $UrlEncode $LastName ] ] . "\\.(p12|pem)_[0-9]+\$") \
-      (common-name=($CertVal->"common-name") or subject-alt-name~("(^|\\W)(DNS|IP):" . [ $EscapeForRegEx $LastName ] . "(\\W|\$)")) \
-      fingerprint!=[ :tostr ($CertVal->"fingerprint") ] expires-after>$CertRenewTime ];
-    :local CertNewVal [ /certificate/get $CertNew ];
-
-    :if ([ $CertificateAvailable ([ $ParseKeyValueStore ($CertNewVal->"issuer") ]->"CN") ] = false) do={
-      $LogPrintExit2 warning $0 ("The certificate chain is not available!") false;
-    }
-
-    :if ($Cert != $CertNew) do={
+    :if ($CertVal->"fingerprint" != [ /certificate/get $Cert fingerprint ]) do={
+      $LogPrintExit2 debug $0 ("Certificate '" . $CertVal->"name" . "' was updated in place.") false;
+      :set CertVal [ /certificate/get $Cert ];
+    } else {
       $LogPrintExit2 debug $0 ("Certificate '" . $CertVal->"name" . "' was not updated, but replaced.") false;
+
+      :local CertNew [ /certificate/find where name~("^" . [ $EscapeForRegEx [ $UrlEncode $LastName ] ] . "\\.(p12|pem)_[0-9]+\$") \
+        (common-name=($CertVal->"common-name") or subject-alt-name~("(^|\\W)(DNS|IP):" . [ $EscapeForRegEx $LastName ] . "(\\W|\$)")) \
+        fingerprint!=[ :tostr ($CertVal->"fingerprint") ] expires-after>$CertRenewTime ];
+      :local CertNewVal [ /certificate/get $CertNew ];
+
+      :if ([ $CertificateAvailable ([ $ParseKeyValueStore ($CertNewVal->"issuer") ]->"CN") ] = false) do={
+        $LogPrintExit2 warning $0 ("The certificate chain is not available!") false;
+      }
 
       :if (($CertVal->"private-key") = true && ($CertVal->"private-key") != ($CertNewVal->"private-key")) do={
         /certificate/remove $CertNew;
