@@ -110,6 +110,11 @@ Place this before you call them:
     :global SendMatrix;
     :global SendNotification;
 
+In case there is a situation when the queue needs to be purged there is a
+function available:
+
+    $PurgeMatrixQueue;
+
 See also
 --------
 

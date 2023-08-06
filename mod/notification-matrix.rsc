@@ -9,6 +9,7 @@
 
 :global FlushMatrixQueue;
 :global NotificationFunctions;
+:global PurgeMatrixQueue;
 :global SendMatrix;
 :global SendMatrix2;
 
@@ -149,6 +150,14 @@
         on-event=(":global FlushMatrixQueue; \$FlushMatrixQueue;");
     }
   }
+}
+
+# purge the Matrix queue
+:set PurgeMatrixQueue do={
+  :global MatrixQueue;
+
+  /system/scheduler/remove [ find where name="\$FlushMatrixQueue" ];
+  :set MatrixQueue;
 }
 
 # send notification via Matrix - expects at least two string arguments
