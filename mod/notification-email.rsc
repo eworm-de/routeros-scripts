@@ -10,6 +10,7 @@
 :global LogForwardFilterLogForwarding;
 :global NotificationEMailSubject;
 :global NotificationFunctions;
+:global PurgeEMailQueue;
 :global QuotedPrintable;
 :global SendEMail;
 :global SendEMail2;
@@ -154,6 +155,14 @@
     /system/scheduler/add name="\$FlushEmailQueue" interval=1s start-time=startup \
       comment="Queuing new mail..." on-event=(":global FlushEmailQueue; \$FlushEmailQueue;");
   }
+}
+
+# purge the e-mail queue
+:set PurgeEMailQueue do={
+  :global EmailQueue;
+
+  /system/scheduler/remove [ find where name="\$FlushEmailQueue" ];
+  :set EmailQueue;
 }
 
 # convert string to quoted-printable
