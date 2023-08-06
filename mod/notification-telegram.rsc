@@ -8,6 +8,7 @@
 
 :global FlushTelegramQueue;
 :global NotificationFunctions;
+:global PurgeTelegramQueue;
 :global SendTelegram;
 :global SendTelegram2;
 
@@ -160,6 +161,14 @@
         on-event=(":global FlushTelegramQueue; \$FlushTelegramQueue;");
     }
   }
+}
+
+# purge the Telegram queue
+:set PurgeTelegramQueue do={
+  :global TelegramQueue;
+
+  /system/scheduler/remove [ find where name="\$FlushTelegramQueue" ];
+  :set TelegramQueue;
 }
 
 # send notification via telegram - expects at least two string arguments

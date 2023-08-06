@@ -73,6 +73,11 @@ Place this before you call them:
     :global SendTelegram;
     :global SendNotification;
 
+In case there is a situation when the queue needs to be purged there is a
+function available:
+
+    $PurgeTelegramQueue;
+
 Tips & Tricks
 -------------
 
