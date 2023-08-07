@@ -55,6 +55,7 @@ $WaitFullyConnected;
   }
 }
 
+# NOT /interface/wifiwave2 #
 :if ([ :len [ /system/logging/find where topics~"error" !(topics~"!error") \
      !(topics~"!caps") action=memory !disabled !invalid ] ] < 1) do={
   $LogPrintExit2 warning $0 ("Looks like error messages for 'caps' are not sent to memory. " . \
@@ -81,6 +82,7 @@ $WaitFullyConnected;
   }
 }
 
+# NOT /interface/wifiwave2 #
 :if ($Updated = true) do={
   :local Script ([ /system/script/find where source~"\n# provides: capsman-rolling-upgrade\n" ]->0);
   :if ([ :len $Script ] > 0) do={

@@ -39,8 +39,10 @@ For legacy CAPsMAN:
     /system/scheduler/add name=capsman-download-packages on-event="/system/script/run capsman-download-packages.capsman;" start-time=startup;
 
 Packages available in local storage in older version are downloaded
-unconditionally. The script tries to download missing packages by guessing
-from system log.
+unconditionally.
+
+If no packages are found the script tries to download missing packages for
+legacy CAPsMAN by guessing from system log.
 
 Usage and invocation
 --------------------
