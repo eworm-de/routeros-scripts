@@ -4,6 +4,8 @@
 #                         Michael Gisbers <michael@gisbers.de>
 # https://git.eworm.de/cgit/routeros-scripts/about/COPYING.md
 #
+# provides: capsman-rolling-upgrade
+#
 # upgrade CAPs one after another
 # https://git.eworm.de/cgit/routeros-scripts/about/doc/capsman-rolling-upgrade.md
 

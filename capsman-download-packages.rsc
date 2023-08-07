@@ -78,8 +78,9 @@ $WaitFullyConnected;
 }
 
 :if ($Updated = true) do={
-  :if ([ :len [ /system/script/find where name="capsman-rolling-upgrade" ] ] > 0) do={
-    /system/script/run capsman-rolling-upgrade;
+  :local Script ([ /system/script/find where source~"\n# provides: capsman-rolling-upgrade\n" ]->0);
+  :if ([ :len $Script ] > 0) do={
+    /system/script/run $Script;
   } else={
     /caps-man/remote-cap/upgrade [ find where version!=$InstalledVersion ];
   }
