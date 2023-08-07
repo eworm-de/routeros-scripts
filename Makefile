@@ -2,10 +2,9 @@
 #  template scripts -> final scripts
 #  markdown files -> html files
 
-TEMPLATE = $(wildcard *.template.rsc)
-CAPSMAN = $(TEMPLATE:.template.rsc=.capsman.rsc)
-LOCAL = $(TEMPLATE:.template.rsc=.local.rsc)
-WIFIWAVE2 = $(TEMPLATE:.template.rsc=.wifiwave2.rsc)
+CAPSMAN = $(wildcard *.capsman.rsc)
+LOCAL = $(wildcard *.local.rsc)
+WIFIWAVE2 = $(wildcard *.wifiwave2.rsc)
 
 MARKDOWN = $(wildcard *.md doc/*.md doc/mod/*.md)
 HTML = $(MARKDOWN:.md=.html)
