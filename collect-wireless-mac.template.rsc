@@ -3,10 +3,10 @@
 # Copyright (c) 2013-2023 Christian Hesse <mail@eworm.de>
 # https://git.eworm.de/cgit/routeros-scripts/about/COPYING.md
 #
+# provides: lease-script, order=40
+#
 # collect wireless mac adresses in access list
 # https://git.eworm.de/cgit/routeros-scripts/about/doc/collect-wireless-mac.md
-#
-# provides: lease-script, order=40
 #
 # !! This is just a template to generate the real script!
 # !! Pattern '%TEMPL%' is replaced, paths are filtered.
