@@ -20,9 +20,17 @@ parallel.
 Requirements and installation
 -----------------------------
 
-Just install the script:
+Just install the script on CAPsMAN device. Depending on whether you use
+`wifiwave2` package (`/interface/wifiwave2`) or legacy wifi with CAPsMAN
+(`/caps-man`) you need to install a different script.
 
-    $ScriptInstallUpdate capsman-rolling-upgrade;
+For `wifiwave2`:
+
+    $ScriptInstallUpdate capsman-rolling-upgrade.wifiwave2;
+
+For legacy CAPsMAN:
+
+    $ScriptInstallUpdate capsman-rolling-upgrade.capsman;
 
 Usage and invocation
 --------------------
@@ -33,7 +41,7 @@ that script when required.
 
 Alternatively run it manually:
 
-    /system/script/run capsman-rolling-upgrade;
+    /system/script/run capsman-rolling-upgrade.wifiwave2;
 
 See also
 --------
