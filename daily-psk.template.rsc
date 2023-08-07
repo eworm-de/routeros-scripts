@@ -7,8 +7,8 @@
 # update daily PSK (pre shared key)
 # https://git.eworm.de/cgit/routeros-scripts/about/doc/daily-psk.md
 #
-# !! This is just a template! Replace '%PATH%' with 'caps-man'
-# !! or 'interface wireless'!
+# !! This is just a template to generate the real script!
+# !! Pattern '%TEMPL%' is replaced, paths are filtered.
 
 :local 0 "daily-psk%TEMPL%";
 :global GlobalFunctionsReady;
@@ -55,24 +55,25 @@ $WaitFullyConnected;
 :local Date [ /system/clock/get date ];
 :local NewPsk [ $GeneratePSK $Date ];
 
-:foreach AccList in=[ /%PATH%/access-list/find where comment~$DailyPskMatchComment ] do={
-  :local IntName [ /interface/wireless/access-list/get $AccList interface ];
-  :local Ssid [ /interface/wireless/get $IntName ssid ];
-  :local OldPsk [ /interface/wireless/access-list/get $AccList private-pre-shared-key ];
-  # /interface/wireless above - /caps-man below
+:foreach AccList in=[ /caps-man/access-list/find where comment~$DailyPskMatchComment ] do={
+:foreach AccList in=[ /interface/wireless/access-list/find where comment~$DailyPskMatchComment ] do={
   :local SsidRegExp [ /caps-man/access-list/get $AccList ssid-regexp ];
   :local Configuration ([ /caps-man/configuration/find where ssid~$SsidRegExp ]->0);
   :local Ssid [ /caps-man/configuration/get $Configuration ssid ];
   :local OldPsk [ /caps-man/access-list/get $AccList private-passphrase ];
+  # /caps-man above - /interface/wireless below
+  :local IntName [ /interface/wireless/access-list/get $AccList interface ];
+  :local Ssid [ /interface/wireless/get $IntName ssid ];
+  :local OldPsk [ /interface/wireless/access-list/get $AccList private-pre-shared-key ];
   :local Skip 0;
 
   :if ($NewPsk != $OldPsk) do={
     $LogPrintExit2 info $0 ("Updating daily PSK for " . $Ssid . " to " . $NewPsk . " (was " . $OldPsk . ")") false;
-    /interface/wireless/access-list/set $AccList private-pre-shared-key=$NewPsk;
     /caps-man/access-list/set $AccList private-passphrase=$NewPsk;
+    /interface/wireless/access-list/set $AccList private-pre-shared-key=$NewPsk;
 
-    :if ([ :len [ /interface/wireless/find where name=$IntName !disabled ] ] = 1) do={
     :if ([ :len [ /caps-man/actual-interface-configuration/find where configuration.ssid=$Ssid !disabled ] ] > 0) do={
+    :if ([ :len [ /interface/wireless/find where name=$IntName !disabled ] ] = 1) do={
       :foreach SeenSsid in=$Seen do={
         :if ($SeenSsid = $Ssid) do={
           $LogPrintExit2 debug $0 ("Already sent a mail for SSID " . $Ssid . ", skipping.") false;

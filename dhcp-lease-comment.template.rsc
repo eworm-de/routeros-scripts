@@ -8,8 +8,8 @@
 # update dhcp-server lease comment with infos from access-list
 # https://git.eworm.de/cgit/routeros-scripts/about/doc/dhcp-lease-comment.md
 #
-# !! This is just a template! Replace '%PATH%' with 'caps-man'
-# !! or 'interface wireless'!
+# !! This is just a template to generate the real script!
+# !! Pattern '%TEMPL%' is replaced, paths are filtered.
 
 :local 0 "dhcp-lease-comment%TEMPL%";
 :global GlobalFunctionsReady;
@@ -23,9 +23,11 @@ $ScriptLock $0;
 :foreach Lease in=[ /ip/dhcp-server/lease/find where dynamic=yes status=bound ] do={
   :local LeaseVal [ /ip/dhcp-server/lease/get $Lease ];
   :local NewComment;
-  :local AccessList ([ /%PATH%/access-list/find where mac-address=($LeaseVal->"active-mac-address") ]->0);
+  :local AccessList ([ /caps-man/access-list/find where mac-address=($LeaseVal->"active-mac-address") ]->0);
+  :local AccessList ([ /interface/wireless/access-list/find where mac-address=($LeaseVal->"active-mac-address") ]->0);
   :if ([ :len $AccessList ] > 0) do={
-    :set NewComment [ /%PATH%/access-list/get $AccessList comment ];
+    :set NewComment [ /caps-man/access-list/get $AccessList comment ];
+    :set NewComment [ /interface/wireless/access-list/get $AccessList comment ];
   }
   :if ([ :len $NewComment ] != 0 && $LeaseVal->"comment" != $NewComment) do={
     $LogPrintExit2 info $0 ("Updating comment for DHCP lease " . $LeaseVal->"active-mac-address" . ": " . $NewComment) false;
