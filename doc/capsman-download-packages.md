@@ -42,7 +42,8 @@ Packages available in local storage in older version are downloaded
 unconditionally.
 
 If no packages are found the script tries to download missing packages for
-legacy CAPsMAN by guessing from system log.
+legacy CAPsMAN by guessing from system log. For `wifiwave2` a default set
+of packages (`routeros` and `wifiwave2` for *arm* and *arm64*) is downloaded.
 
 Usage and invocation
 --------------------

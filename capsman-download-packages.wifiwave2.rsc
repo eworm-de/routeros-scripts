@@ -53,6 +53,17 @@ $WaitFullyConnected;
   }
 }
 
+:if ([ :len [ /file/find where type=package name~("^" . $PackagePath) ] ] = 0) do={
+  $LogPrintExit2 info $0 ("No packages available, downloading default set.") false;
+  :foreach Arch in={ "arm"; "arm64" } do={
+    :foreach Package in={ "routeros"; "wifiwave2" } do={
+      :if ([ $DownloadPackage $Package $InstalledVersion $Arch $PackagePath ] = true) do={
+        :set Updated true;
+      }
+    }
+  }
+}
+
 :if ($Updated = true) do={
   :local Script ([ /system/script/find where source~"\n# provides: capsman-rolling-upgrade\n" ]->0);
   :if ([ :len $Script ] > 0) do={
