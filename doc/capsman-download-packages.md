@@ -18,13 +18,25 @@ This script automatically downloads these packages.
 Requirements and installation
 -----------------------------
 
-Just install the script on CAPsMAN device:
+Just install the script on CAPsMAN device. Depending on whether you use
+`wifiwave2` package (`/interface/wifiwave2`) or legacy wifi with CAPsMAN
+(`/caps-man`) you need to install a different script.
 
-    $ScriptInstallUpdate capsman-download-packages;
+For `wifiwave2`:
 
-Optionally add a scheduler to run after startup:
+    $ScriptInstallUpdate capsman-download-packages.wifiwave2;
 
-    /system/scheduler/add name=capsman-download-packages on-event="/system/script/run capsman-download-packages;" start-time=startup;
+For legacy CAPsMAN:
+
+    $ScriptInstallUpdate capsman-download-packages.capsman;
+
+Optionally add a scheduler to run after startup. For `wifiwave2`:
+
+    /system/scheduler/add name=capsman-download-packages on-event="/system/script/run capsman-download-packages.wifiwave2;" start-time=startup;
+
+For legacy CAPsMAN:
+
+    /system/scheduler/add name=capsman-download-packages on-event="/system/script/run capsman-download-packages.capsman;" start-time=startup;
 
 Packages available in local storage in older version are downloaded
 unconditionally. The script tries to download missing packages by guessing
@@ -35,7 +47,7 @@ Usage and invocation
 
 Run the script manually:
 
-    /system/script/run capsman-download-packages;
+    /system/script/run capsman-download-packages.wifiwave2;
 
 ... or from scheduler.
 
