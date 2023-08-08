@@ -21,17 +21,24 @@ Requirements and installation
 
 Just install this script.
 
-Depending on whether you use CAPsMAN (`/caps-man`) or local wireless
-interface (`/interface/wireless`) you need to install a different script
-and add schedulers to run the script:
+Depending on whether you use `wifiwave2` package (`/interface/wifiwave2`)
+or legacy wifi with CAPsMAN (`/caps-man`) or local wireless interface
+(`/interface/wireless`) you need to install a different script and add
+schedulers to run the script:
 
-For CAPsMAN:
+For `wifiwave2`:
+
+    $ScriptInstallUpdate daily-psk.wifiwave2;
+    /system/scheduler/add interval=1d name=daily-psk on-event="/system/script/run daily-psk.wifiwave2;" start-time=03:00:00;
+    /system/scheduler/add name=daily-psk@startup on-event="/system/script/run daily-psk.wifiwave2;" start-time=startup;
+
+For legacy CAPsMAN:
 
     $ScriptInstallUpdate daily-psk.capsman;
     /system/scheduler/add interval=1d name=daily-psk on-event="/system/script/run daily-psk.capsman;" start-time=03:00:00;
     /system/scheduler/add name=daily-psk@startup on-event="/system/script/run daily-psk.capsman;" start-time=startup;
 
-For local interface:
+For legacy local interface:
 
     $ScriptInstallUpdate daily-psk.local;
     /system/scheduler/add interval=1d name=daily-psk on-event="/system/script/run daily-psk.local;" start-time=03:00:00;
@@ -51,11 +58,15 @@ The configuration goes to `global-config-overlay`, these are the parameters:
 > [`global-config`](../global-config.rsc) (the one without `-overlay`) to
 > your local `global-config-overlay` and modify it to your specific needs.
 
-Then add an access list entry. For CAPsMAN:
+Then add an access list entry. For `wifiwave2`:
+
+    /interface/wifiwave2/access-list/add comment="Daily PSK" ssid-regexp="-guest\$" passphrase="ToBeChangedDaily";
+
+For legacy CAPsMAN:
 
     /caps-man/access-list/add comment="Daily PSK" ssid-regexp="-guest\$" private-passphrase="ToBeChangedDaily";
 
-For local interface:
+For legacy local interface:
 
     /interface/wireless/access-list/add comment="Daily PSK" interface=wl-daily private-pre-shared-key="ToBeChangedDaily";
 
