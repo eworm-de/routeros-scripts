@@ -19,24 +19,35 @@ Requirements and installation
 You need a properly configured hotspot on one (open) SSID and a WP2 enabled
 SSID with suffix "`-wpa`".
 
-Then install the script:
+Then install the script. Depending on whether you use `wifiwave2` package
+(`/interface/wifiwave2`) or legacy wifi with CAPsMAN (`/caps-man`) you need
+to install a different script and set it as `on-login` script in hotspot.
 
-    $ScriptInstallUpdate hotspot-to-wpa;
+For `wifiwave2`:
 
-Configure your hotspot to use this script as `on-login` script:
+    $ScriptInstallUpdate hotspot-to-wpa.wifiwave2;
+    /ip/hotspot/user/profile/set on-login="hotspot-to-wpa.wifiwave2" [ find ];
 
-    /ip/hotspot/user/profile/set on-login=hotspot-to-wpa [ find ];
+For legacy CAPsMAN:
+
+    $ScriptInstallUpdate hotspot-to-wpa.capsman;
+    /ip/hotspot/user/profile/set on-login="hotspot-to-wpa.capsman" [ find ];
 
 ### Automatic cleanup
 
 With just `hotspot-to-wpa` installed the mac addresses will last in the
-access list forever. Install the optional script for automatic cleanup:
+access list forever. Install the optional script for automatic cleanup
+and add a scheduler.
 
-    $ScriptInstallUpdate hotspot-to-wpa-cleanup,lease-script;
+For `wifiwave2`:
 
-Create a scheduler:
+    $ScriptInstallUpdate hotspot-to-wpa-cleanup.wifiwave2,lease-script;
+    /system/scheduler/add interval=1d name=hotspot-to-wpa-cleanup on-event="/system/script/run hotspot-to-wpa-cleanup.wifiwave2;" start-time=startup;
 
-    /system/scheduler/add interval=1d name=hotspot-to-wpa-cleanup on-event="/system/script/run hotspot-to-wpa-cleanup;" start-time=startup;
+For legacy CAPsMAN:
+
+    $ScriptInstallUpdate hotspot-to-wpa-cleanup.capsman,lease-script;
+    /system/scheduler/add interval=1d name=hotspot-to-wpa-cleanup on-event="/system/script/run hotspot-to-wpa-cleanup.capsman;" start-time=startup;
 
 And add the lease script and matcher comment to your wpa interfaces' dhcp
 server. You can add more information to the comment, separated by comma. In
@@ -74,7 +85,12 @@ Additionally templates can be created to give more options for access list:
 * `vlan-id`: connect device to specific VLAN
 * `vlan-mode`: set the VLAN mode for device
 
-For a hotspot called `example` the template could look like this:
+For a hotspot called `example` the template could look like this. For
+`wifiwave2`:
+
+    /interface/wifiwave2/access-list/add comment="hotspot-to-wpa template example" disabled=yes private-passphrase="ignore" ssid-regexp="^example\$" vlan-id=10;
+
+For legacy CAPsMAN:
 
     /caps-man/access-list/add comment="hotspot-to-wpa template example" disabled=yes private-passphrase="ignore" ssid-regexp="^example\$" vlan-id=10 vlan-mode=use-tag;
 
