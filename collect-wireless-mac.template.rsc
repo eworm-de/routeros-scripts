@@ -3,13 +3,13 @@
 # Copyright (c) 2013-2023 Christian Hesse <mail@eworm.de>
 # https://git.eworm.de/cgit/routeros-scripts/about/COPYING.md
 #
+# provides: lease-script, order=40
+#
 # collect wireless mac adresses in access list
 # https://git.eworm.de/cgit/routeros-scripts/about/doc/collect-wireless-mac.md
 #
-# provides: lease-script, order=40
-#
-# !! This is just a template! Replace '%PATH%' with 'caps-man'
-# !! or 'interface wireless'!
+# !! This is just a template to generate the real script!
+# !! Pattern '%TEMPL%' is replaced, paths are filtered.
 
 :local 0 "collect-wireless-mac%TEMPL%";
 :global GlobalFunctionsReady;
@@ -27,25 +27,39 @@
 
 $ScriptLock $0 false 10;
 
-:if ([ :len [ /%PATH%/access-list/find where comment="--- collected above ---" disabled ] ] = 0) do={
-  /%PATH%/access-list/add comment="--- collected above ---" disabled=yes;
+:if ([ :len [ /caps-man/access-list/find where comment="--- collected above ---" disabled ] ] = 0) do={
+:if ([ :len [ /interface/wifiwave2/access-list/find where comment="--- collected above ---" disabled ] ] = 0) do={
+:if ([ :len [ /interface/wireless/access-list/find where comment="--- collected above ---" disabled ] ] = 0) do={
+  /caps-man/access-list/add comment="--- collected above ---" disabled=yes;
+  /interface/wifiwave2/access-list/add comment="--- collected above ---" disabled=yes;
+  /interface/wireless/access-list/add comment="--- collected above ---" disabled=yes;
   $LogPrintExit2 warning $0 ("Added disabled access-list entry with comment '--- collected above ---'.") false;
 }
-:local PlaceBefore ([ /%PATH%/access-list/find where comment="--- collected above ---" disabled ]->0);
+:local PlaceBefore ([ /caps-man/access-list/find where comment="--- collected above ---" disabled ]->0);
+:local PlaceBefore ([ /interface/wifiwave2/access-list/find where comment="--- collected above ---" disabled ]->0);
+:local PlaceBefore ([ /interface/wireless/access-list/find where comment="--- collected above ---" disabled ]->0);
 
-:foreach Reg in=[ /%PATH%/registration-table/find ] do={
+:foreach Reg in=[ /caps-man/registration-table/find ] do={
+:foreach Reg in=[ /interface/wifiwave2/registration-table/find ] do={
+:foreach Reg in=[ /interface/wireless/registration-table/find ] do={
   :local RegVal;
   :do {
-    :set RegVal [ /%PATH%/registration-table/get $Reg ];
+    :set RegVal [ /caps-man/registration-table/get $Reg ];
+    :set RegVal [ /interface/wifiwave2/registration-table/get $Reg ];
+    :set RegVal [ /interface/wireless/registration-table/get $Reg ];
   } on-error={
     $LogPrintExit2 debug $0 ("Device already gone... Ignoring.") false;
   }
 
   :if ([ :len ($RegVal->"mac-address") ] > 0) do={
-    :local AccessList ([ /%PATH%/access-list/find where mac-address=($RegVal->"mac-address") ]->0);
+    :local AccessList ([ /caps-man/access-list/find where mac-address=($RegVal->"mac-address") ]->0);
+    :local AccessList ([ /interface/wifiwave2/access-list/find where mac-address=($RegVal->"mac-address") ]->0);
+    :local AccessList ([ /interface/wireless/access-list/find where mac-address=($RegVal->"mac-address") ]->0);
     :if ([ :len $AccessList ] > 0) do={
       $LogPrintExit2 debug $0 ("MAC address " . $RegVal->"mac-address" . " already known: " . \
-        [ /%PATH%/access-list/get $AccessList comment ]) false;
+        [ /caps-man/access-list/get $AccessList comment ]) false;
+        [ /interface/wifiwave2/access-list/get $AccessList comment ]) false;
+        [ /interface/wireless/access-list/get $AccessList comment ]) false;
     }
 
     :if ([ :len $AccessList ] = 0) do={
@@ -68,7 +82,9 @@ $ScriptLock $0 false 10;
       :local Message ("MAC address " . $RegVal->"mac-address" . " (" . $Vendor . ", " . $HostName . ") " . \
         "first seen on " . $DateTime . " connected to SSID " . $RegVal->"ssid" . ", interface " . $RegVal->"interface");
       $LogPrintExit2 info $0 $Message false;
-      /%PATH%/access-list/add place-before=$PlaceBefore comment=$Message mac-address=($RegVal->"mac-address") disabled=yes;
+      /caps-man/access-list/add place-before=$PlaceBefore comment=$Message mac-address=($RegVal->"mac-address") disabled=yes;
+      /interface/wifiwave2/access-list/add place-before=$PlaceBefore comment=$Message mac-address=($RegVal->"mac-address") disabled=yes;
+      /interface/wireless/access-list/add place-before=$PlaceBefore comment=$Message mac-address=($RegVal->"mac-address") disabled=yes;
       $SendNotification2 ({ origin=$0; \
         subject=([ $SymbolForNotification "mobile-phone" ] . $RegVal->"mac-address" . " connected to " . $RegVal->"ssid"); \
         message=("A device with unknown MAC address connected to " . $RegVal->"ssid" . " on " . $Identity . ".\n\n" . \

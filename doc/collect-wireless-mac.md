@@ -22,14 +22,19 @@ and modify it to your needs.
 Requirements and installation
 -----------------------------
 
-Depending on whether you use CAPsMAN (`/caps-man`) or local wireless
-interface (`/interface/wireless`) you need to install a different script.
+Depending on whether you use `wifiwave2` package (`/interface/wifiwave2`)
+or legacy wifi with CAPsMAN (`/caps-man`) or local wireless interface
+(`/interface/wireless`) you need to install a different script.
 
-For CAPsMAN:
+For `wifiwave2`:
+
+    $ScriptInstallUpdate collect-wireless-mac.capsman.wifiwave2;
+
+For legacy CAPsMAN:
 
     $ScriptInstallUpdate collect-wireless-mac.capsman;
 
-For local interface:
+For legacy local interface:
 
     $ScriptInstallUpdate collect-wireless-mac.local;
 

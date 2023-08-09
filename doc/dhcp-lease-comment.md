@@ -15,14 +15,19 @@ from wireless access list.
 Requirements and installation
 -----------------------------
 
-Depending on whether you use CAPsMAN (`/caps-man`) or local wireless
-interface (`/interface/wireless`) you need to install a different script.
+Depending on whether you use `wifiwave2` package (`/interface/wifiwave2`)
+or legacy wifi with CAPsMAN (`/caps-man`) or local wireless interface
+(`/interface/wireless`) you need to install a different script.
 
-For CAPsMAN:
+For `wifiwave2`:
+
+    $ScriptInstallUpdate dhcp-lease-comment.wifiwave2;
+
+For legacy CAPsMAN:
 
     $ScriptInstallUpdate dhcp-lease-comment.capsman;
 
-For local interface:
+For legacy local interface:
 
     $ScriptInstallUpdate dhcp-lease-comment.local;
 
