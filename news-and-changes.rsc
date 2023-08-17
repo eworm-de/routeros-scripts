@@ -18,6 +18,7 @@
   102="Modified 'hotspot-to-wpa' to support non-local (radius) users.";
   103="Dropped hard-coded name and timeout from 'hotspot-to-wpa-cleanup', instead a comment is required for dhcp server now.";
   104="All relevant scripts were ported to new wifiwave2 and are available for AX devices now!";
+  105="Extended 'check-routeros-update' to support automatic update from specific neighbor(s).";
 };
 
 # Migration steps to be applied on script updates

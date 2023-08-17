@@ -52,6 +52,8 @@ The configuration goes to `global-config-overlay`, these are the parameters:
 
 * `SafeUpdateNeighbor`: install updates automatically if at least one other
   device is seen in neighbor list with new version
+* `SafeUpdateNeighborIdentity`: regular expression to match identity for
+  trusted devices, leave empty to match all
 * `SafeUpdatePatch`: install patch updates (where just last digit changes)
   automatically
 * `SafeUpdateUrl`: url on webserver to check for safe update, the channel

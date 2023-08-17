@@ -126,6 +126,7 @@
 :global SafeUpdatePatch false;
 # Allow to install updates automatically if seen in neighbor list.
 :global SafeUpdateNeighbor false;
+:global SafeUpdateNeighborIdentity "";
 # Install *ALL* updates automatically!
 # Set to all upper-case "Yes, please!" to enable.
 :global SafeUpdateAll "no";
