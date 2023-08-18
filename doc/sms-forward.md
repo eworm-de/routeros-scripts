@@ -3,8 +3,6 @@ Forward received SMS
 
 [⬅️ Go back to main README](../README.md)
 
-[![required RouterOS version](https://img.shields.io/badge/RouterOS-7.9beta4-yellow?style=flat)](https://mikrotik.com/download/changelogs/)
-
 > ℹ️ **Info**: This script can not be used on its own but requires the base
 > installation. See [main README](../README.md) for details.
 
