@@ -3,8 +3,6 @@
 # Copyright (c) 2020-2023 Christian Hesse <mail@eworm.de>
 # https://git.eworm.de/cgit/routeros-scripts/about/COPYING.md
 #
-# requires RouterOS, version=7.9beta4
-#
 # monitor netwatch and send notifications
 # https://git.eworm.de/cgit/routeros-scripts/about/doc/netwatch-notify.md
 
