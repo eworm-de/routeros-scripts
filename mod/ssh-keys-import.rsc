@@ -20,7 +20,6 @@
   :global GetRandom20CharAlNum;
   :global LogPrintExit2;
   :global MkDir;
-  :global RequiredRouterOS;
   :global WaitForFile;
 
   :if ([ :len $Key ] = 0 || [ :len $User ] = 0) do={
@@ -32,7 +31,7 @@
   }
 
   :local KeyVal [ :toarray [ $CharacterReplace $Key " " "," ] ];
-  :if (!(([ $RequiredRouterOS $0 "7.12beta1" ] = true && $KeyVal->0 = "ssh-ed25519") || $KeyVal->0 = "ssh-rsa")) do={
+  :if (!($KeyVal->0 = "ssh-ed25519" || $KeyVal->0 = "ssh-rsa")) do={
     $LogPrintExit2 warning $0 ("SSH key of type '" . $KeyVal->0 . "' is not supported.") true;
   }
 
@@ -63,7 +62,6 @@
   :global EitherOr;
   :global LogPrintExit2;
   :global ParseKeyValueStore;
-  :global RequiredRouterOS;
   :global SSHKeysImport;
 
   :if ([ :len $FileName ] = 0 || [ :len $User ] = 0) do={
@@ -81,7 +79,7 @@
     :local Line [ :pick $Keys 0 [ :find $Keys "\n" ] ];
     :set Keys [ :pick $Keys ([ :find $Keys "\n" ] + 1) [ :len $Keys ] ];
     :local KeyVal [ :toarray [ $CharacterReplace $Key " " "," ] ];
-    :if (([ $RequiredRouterOS $0 "7.12beta1" ] = true && $KeyVal->0 = "ssh-ed25519") || $KeyVal->0 = "ssh-rsa") do={
+    :if ($KeyVal->0 = "ssh-ed25519" || $KeyVal->0 = "ssh-rsa") do={
       $SSHKeysImport $Line $User;
       :set Continue true;
     }
