@@ -16,6 +16,7 @@
 
 # global variables not to be changed by user
 :global GlobalFunctionsReady false;
+:global FetchUserAgent ("User-Agent: Mikrotik/" . [ /system/resource/get version ] . " Fetch");
 :global Identity [ /system/identity/get name ];
 
 # global functions
@@ -108,6 +109,7 @@
 :set CertificateDownload do={
   :local CommonName [ :tostr $1 ];
 
+  :global FetchUserAgent;
   :global ScriptUpdatesBaseUrl;
   :global ScriptUpdatesUrlSuffix;
 
@@ -116,14 +118,12 @@
   :global UrlEncode;
   :global WaitForFile;
 
-  :local UserAgent ("User-Agent: Mikrotik/" . [ /system/resource/get version ] . " Fetch");
-
   $LogPrintExit2 info $0 ("Downloading and importing certificate with " . \
       "CommonName \"" . $CommonName . "\".") false;
   :do {
     :local LocalFileName ($CommonName . ".pem");
     :local UrlFileName ([ $UrlEncode $CommonName ] . ".pem");
-    /tool/fetch check-certificate=yes-without-crl http-header-field=$UserAgent \
+    /tool/fetch check-certificate=yes-without-crl http-header-field=$FetchUserAgent \
       ($ScriptUpdatesBaseUrl . "certs/" . $UrlFileName . $ScriptUpdatesUrlSuffix) \
       dst-path=$LocalFileName as-value;
     $WaitForFile $LocalFileName;
@@ -769,6 +769,7 @@
   :local NewComment [ :tostr   $2 ];
 
   :global ExpectedConfigVersion;
+  :global FetchUserAgent;
   :global Identity;
   :global IDonate;
   :global NoNewsAndChangesNotification;
@@ -806,7 +807,6 @@
   :local ExpectedConfigVersionBefore $ExpectedConfigVersion;
   :local ReloadGlobalFunctions false;
   :local ReloadGlobalConfig false;
-  :local UserAgent ("User-Agent: Mikrotik/" . [ /system/resource/get version ] . " Fetch");
 
   :foreach Script in=[ /system/script/find where source~"^#!rsc by RouterOS\r?\n" ] do={
     :local ScriptVal [ /system/script/get $Script ];
@@ -836,7 +836,7 @@
           :local Url ($BaseUrl . $ScriptVal->"name" . ".rsc" . $UrlSuffix);
 
           $LogPrintExit2 debug $0 ("Fetching script '" . $ScriptVal->"name" . "' from url: " . $Url) false;
-          :local Result [ /tool/fetch check-certificate=yes-without-crl http-header-field=$UserAgent \
+          :local Result [ /tool/fetch check-certificate=yes-without-crl http-header-field=$FetchUserAgent \
             $Url output=user as-value ];
           :if ($Result->"status" = "finished") do={
             :set SourceNew ($Result->"data");
@@ -920,7 +920,7 @@
     :do {
       :local Url ($ScriptUpdatesBaseUrl . "news-and-changes.rsc" . $ScriptUpdatesUrlSuffix);
       $LogPrintExit2 debug $0 ("Fetching news, changes and migration: " . $Url) false;
-      :local Result [ /tool/fetch check-certificate=yes-without-crl http-header-field=$UserAgent \
+      :local Result [ /tool/fetch check-certificate=yes-without-crl http-header-field=$FetchUserAgent \
         $Url output=user as-value ];
       :if ($Result->"status" = "finished") do={
         :set ChangeLogCode ($Result->"data");
