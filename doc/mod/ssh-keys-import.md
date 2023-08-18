@@ -27,7 +27,7 @@ Usage and invocation
 Call the function `$SSHKeysImport` with key and user as parameter to
 import that key:
 
-    $SSHKeysImport "ssh-rsa ssh-rsa AAAAB3Nza...QYZk8= user" admin;
+    $SSHKeysImport "ssh-rsa AAAAB3Nza...QYZk8= user" admin;
 
 The third part of the key (`user` in this example) is inherited as
 `key-owner` in RouterOS.
