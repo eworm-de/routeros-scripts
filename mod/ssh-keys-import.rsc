@@ -17,6 +17,7 @@
   :global GetRandom20CharAlNum;
   :global LogPrintExit2;
   :global MkDir;
+  :global RequiredRouterOS;
   :global WaitForFile;
 
   :if ([ :len $Key ] = 0 || [ :len $User ] = 0) do={
@@ -25,6 +26,11 @@
 
   :if ([ :len [ /user/find where name=$User ] ] = 0) do={
     $LogPrintExit2 warning $0 ("User '" . $User . "' does not exist.") true;
+  }
+
+  :local Type [ :pick $Key 0 [ :find $Key " " ] ];
+  :if (!(([ $RequiredRouterOS $0 "7.12beta1" ] = true && $Type = "ssh-ed25519") || $Type = "ssh-rsa")) do={
+    $LogPrintExit2 warning $0 ("SSH key of type '" . $Type . "' is not supported.") true;
   }
 
   :if ([ $MkDir "tmpfs/ssh-keys-import" ] = false) do={
