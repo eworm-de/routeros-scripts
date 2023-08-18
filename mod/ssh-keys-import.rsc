@@ -3,8 +3,6 @@
 # Copyright (c) 2020-2023 Christian Hesse <mail@eworm.de>
 # https://git.eworm.de/cgit/routeros-scripts/about/COPYING.md
 #
-# requires RouterOS, version=7.9beta4
-#
 # import ssh keys for public key authentication
 # https://git.eworm.de/cgit/routeros-scripts/about/doc/mod/ssh-keys-import.md
 
