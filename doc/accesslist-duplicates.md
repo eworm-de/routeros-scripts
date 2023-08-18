@@ -3,6 +3,8 @@ Find and remove access list duplicates
 
 [⬅️ Go back to main README](../README.md)
 
+[![required RouterOS version](https://img.shields.io/badge/RouterOS-7.12beta1-yellow?style=flat)](https://mikrotik.com/download/changelogs/)
+
 > ℹ️️ **Info**: This script can not be used on its own but requires the base
 > installation. See [main README](../README.md) for details.
 
