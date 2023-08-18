@@ -50,6 +50,7 @@
   :global EitherOr;
   :global LogPrintExit2;
   :global ParseKeyValueStore;
+  :global RequiredRouterOS;
   :global SSHKeysImport;
 
   :if ([ :len $FileName ] = 0 || [ :len $User ] = 0) do={
@@ -67,7 +68,7 @@
     :local Line [ :pick $Keys 0 [ :find $Keys "\n" ] ];
     :set Keys [ :pick $Keys ([ :find $Keys "\n" ] + 1) [ :len $Keys ] ];
     :local Type [ :pick $Line 0 [ :find $Line " " ] ];
-    :if ($Type = "ssh-rsa") do={
+    :if (([ $RequiredRouterOS $0 "7.12beta1" ] = true && $Type = "ssh-ed25519") || $Type = "ssh-rsa") do={
       $SSHKeysImport $Line $User;
       :set Continue true;
     }

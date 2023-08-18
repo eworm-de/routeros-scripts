@@ -29,6 +29,11 @@ import that key:
 
     $SSHKeysImport "ssh-rsa AAAAB3Nza...QYZk8= user" admin;
 
+Starting with RouterOS *7.12beta1* support for keys of type `ed25519` has
+been added:
+
+    $SSHKeysImport "ssh-ed25519 AAAAC3Nza...ZVugJT user" admin;
+
 The third part of the key (`user` in this example) is inherited as
 `key-owner` in RouterOS.
 
@@ -39,7 +44,7 @@ and import all the keys. The user given to the function can be overwritting
 from comments in the file. Create a file `keys.pub` with this content:
 
 ```
-ssh-rsa AAAAB3Nza...QYZk8= user@client
+ssh-ed25519 AAAAC3Nza...3OcN8A user@client
 ssh-rsa AAAAB3Nza...ozyts= worker@station
 # user=example
 ssh-rsa AAAAB3Nza...GXQVk= person@host
