@@ -100,13 +100,13 @@ $WaitFullyConnected;
 
 # global-config-overlay
 :if ($BackupSendGlobalConfig = true) do={
-  :execute script={ :put [ /system/script/get global-config-overlay source ]; } \
-      file=($FilePath . ".conf");
-  $WaitForFile ($FilePath . ".conf.txt");
+  :local Config [ /system/script/get global-config-overlay source ];
+  /file/add name=($FilePath . ".conf") contents=$Config;
+  $WaitForFile ($FilePath . ".conf");
 
   :do {
     /tool/fetch upload=yes url=($BackupUploadUrl . "/" . $FileName . ".conf") \
-        user=$BackupUploadUser password=$BackupUploadPass src-path=($FilePath . ".conf.txt");
+        user=$BackupUploadUser password=$BackupUploadPass src-path=($FilePath . ".conf");
     :set ConfigFile ($FileName . ".conf");
   } on-error={
     $LogPrintExit2 error $0 ("Uploading global-config-overlay failed!") false;
@@ -114,7 +114,7 @@ $WaitFullyConnected;
     :set Failed 1;
   }
 
-  /file/remove ($FilePath . ".conf.txt");
+  /file/remove ($FilePath . ".conf");
 }
 
 $SendNotification2 ({ origin=$0; \
