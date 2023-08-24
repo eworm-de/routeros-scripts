@@ -104,12 +104,19 @@ $WaitFullyConnected;
   /file/add name=($FilePath . ".conf") contents=$Config;
   $WaitForFile ($FilePath . ".conf");
 
-  :do {
-    /tool/fetch upload=yes url=($BackupUploadUrl . "/" . $FileName . ".conf") \
-        user=$BackupUploadUser password=$BackupUploadPass src-path=($FilePath . ".conf");
-    :set ConfigFile ($FileName . ".conf");
-  } on-error={
-    $LogPrintExit2 error $0 ("Uploading global-config-overlay failed!") false;
+  :local Size [ :len $Config ];
+  :if ([ /file/get ($FilePath . ".conf") size ] = $Size) do={
+    :do {
+      /tool/fetch upload=yes url=($BackupUploadUrl . "/" . $FileName . ".conf") \
+          user=$BackupUploadUser password=$BackupUploadPass src-path=($FilePath . ".conf");
+      :set ConfigFile ($FileName . ".conf");
+    } on-error={
+      $LogPrintExit2 error $0 ("Uploading global-config-overlay failed!") false;
+      :set ConfigFile "failed";
+      :set Failed 1;
+    }
+  } else={
+    $LogPrintExit2 warning $0 ("Creating config file failed. Size should be " . $Size . " bytes, but is not.") false;
     :set ConfigFile "failed";
     :set Failed 1;
   }
