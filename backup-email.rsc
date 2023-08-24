@@ -80,11 +80,11 @@ $WaitFullyConnected;
 
 # global-config-overlay
 :if ($BackupSendGlobalConfig = true) do={
-  :execute script={ :put [ /system/script/get global-config-overlay source ]; } \
-      file=($FilePath . ".conf");
-  $WaitForFile ($FilePath . ".conf.txt");
-  :set ConfigFile ($FileName . ".conf.txt");
-  :set Attach ($Attach, ($FilePath . ".conf.txt"));
+  :local Config [ /system/script/get global-config-overlay source ];
+  /file/add name=($FilePath . ".conf") contents=$Config;
+  $WaitForFile ($FilePath . ".conf");
+  :set ConfigFile ($FileName . ".conf");
+  :set Attach ($Attach, ($FilePath . ".conf"));
 }
 
 # send email with status and files
