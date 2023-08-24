@@ -85,8 +85,16 @@ $WaitFullyConnected;
   :local Config [ /system/script/get global-config-overlay source ];
   /file/add name=($FilePath . ".conf") contents=$Config;
   $WaitForFile ($FilePath . ".conf");
-  :set ConfigFile ($FileName . ".conf");
-  :set Attach ($Attach, ($FilePath . ".conf"));
+
+  :local Size [ :len $Config ];
+  :if ([ /file/get ($FilePath . ".conf") size ] = $Size) do={
+    :set ConfigFile ($FileName . ".conf");
+    :set Attach ($Attach, ($FilePath . ".conf"));
+  } else={
+    $LogPrintExit2 warning $0 ("Creating config file failed. Size should be " . $Size . " bytes, but is not.") false;
+    :set ConfigFile "failed";
+    :set Failed 1;
+  }
 }
 
 # send email with status and files
