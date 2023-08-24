@@ -81,15 +81,19 @@ $LogPrintExit2 debug $0 ("Checking for updates...") false;
     $DoUpdate;
   }
 
-  :if ($SafeUpdateNeighbor = true && [ :len [ /ip/neighbor/find where platform="MikroTik" \
-       version~("^" . [ $EscapeForRegEx ($Update->"latest-version" . " (" . $Update->"channel" . ")") ]) \
-       identity~$SafeUpdateNeighborIdentity ] ] > 0) do={
-    $LogPrintExit2 info $0 ("Seen a neighbor running version " . $Update->"latest-version" . ", updating...") false;
-    $SendNotification2 ({ origin=$0; \
-      subject=([ $SymbolForNotification "sparkles" ] . "RouterOS update: " . $Update->"latest-version"); \
-      message=("Seen a neighbor running version " . $Update->"latest-version" . " from " . $Update->"channel" . \
-        ", updating on " . $Identity . "..."); link=$Link; silent=true });
-    $DoUpdate;
+  :if ($SafeUpdateNeighbor = true) do={
+    :local Neighbors [ /ip/neighbor/find where platform="MikroTik" identity~$SafeUpdateNeighborIdentity \
+       version~("^" . [ $EscapeForRegEx ($Update->"latest-version" . " (" . $Update->"channel" . ")") ]) ];
+    :if ([ :len $Neighbors ] > 0) do={
+      :local Neighbor [ /ip/neighbor/get ($Neighbors->0) identity ];
+      $LogPrintExit2 info $0 ("Seen a neighbor (" . $Neighbor . ") running version " . \
+        $Update->"latest-version" . " from " . $Update->"channel" . ", updating...") false;
+      $SendNotification2 ({ origin=$0; \
+        subject=([ $SymbolForNotification "sparkles" ] . "RouterOS update: " . $Update->"latest-version"); \
+        message=("Seen a neighbor (" . $Neighbor . ") running version " . $Update->"latest-version" . \
+          " from " . $Update->"channel" . ", updating on " . $Identity . "..."); link=$Link; silent=true });
+      $DoUpdate;
+    }
   }
 
   :if ([ :len $SafeUpdateUrl ] > 0) do={
