@@ -23,6 +23,7 @@
 :global CharacterReplace;
 :global DeviceInfo;
 :global FormatLine;
+:global IfThenElse;
 :global LogPrintExit2;
 :global MkDir;
 :global RandomDelay;
@@ -57,6 +58,7 @@ $WaitFullyConnected;
 :local ExportFile "none";
 :local ConfigFile "none";
 :local Attach ({});
+:local Failed 0;
 
 :if ([ $MkDir $DirName ] = false) do={
   $LogPrintExit2 error $0 ("Failed creating directory!") true;
@@ -89,8 +91,9 @@ $WaitFullyConnected;
 
 # send email with status and files
 $SendEMail2 ({ origin=$0; \
-  subject=([ $SymbolForNotification "floppy-disk,incoming-envelope" ] . \
-    "Backup & Config"); \
+  subject=[ $IfThenElse ($Failed > 0) \
+    ([ $SymbolForNotification "floppy-disk,warning-sign" ] . "Backup & Config with failure") \
+    ([ $SymbolForNotification "floppy-disk,incoming-envelope" ] . "Backup & Config") ]; \
   message=("See attached files for backup and config export for " . \
     $Identity . ".\n\n" . \
     [ $DeviceInfo ] . "\n\n" . \
@@ -107,4 +110,8 @@ $SendEMail2 ({ origin=$0; \
   }
   :delay 1s;
   :set I ($I + 1);
+}
+
+:if ($Failed = 1) do={
+  :error "An error occured!";
 }
