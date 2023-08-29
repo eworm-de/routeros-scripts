@@ -5,7 +5,7 @@
 #
 # provides: lease-script, order=80
 # NOT /caps-man/ #
-# requires RouterOS, version=7.12beta3
+# requires RouterOS, version=7.12
 # NOT /caps-man/ #
 #
 # manage and clean up private WPA passphrase after hotspot login
