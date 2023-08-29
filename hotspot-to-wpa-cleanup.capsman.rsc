@@ -60,7 +60,7 @@ $ScriptLock $0 false 10;
       server=$Server last-seen>$Timeout comment~"^hotspot-to-wpa:" ] do={
     :local LeaseVal [ /ip/dhcp-server/lease/get $Lease ];
     $LogPrintExit2 info $0 ("Client with mac address " . ($LeaseVal->"mac-address") . \
-      " was not seen for " . $Timeout . ", removing.") false;
+      " was not seen for " . ($LeaseVal->"last-seen") . ", removing.") false;
     /caps-man/access-list/remove [ find where comment~"^hotspot-to-wpa:" \
       mac-address=($LeaseVal->"mac-address") ];
     /ip/dhcp-server/lease/remove $Lease;
