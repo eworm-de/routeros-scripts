@@ -23,7 +23,6 @@
 :global CharacterReplace;
 :global DeviceInfo;
 :global FormatLine;
-:global IfThenElse;
 :global LogPrintExit2;
 :global MkDir;
 :global RandomDelay;
@@ -58,7 +57,6 @@ $WaitFullyConnected;
 :local ExportFile "none";
 :local ConfigFile "none";
 :local Attach ({});
-:local Failed 0;
 
 :if ([ $MkDir $DirName ] = false) do={
   $LogPrintExit2 error $0 ("Failed creating directory!") true;
@@ -82,27 +80,18 @@ $WaitFullyConnected;
 
 # global-config-overlay
 :if ($BackupSendGlobalConfig = true) do={
-  :local Config [ /system/script/get global-config-overlay source ];
-  :local Size [ :len $Config ];
-
-  :if ($Size <= 4095) {
-    /file/add name=($FilePath . ".conf") contents=$Config;
-    $WaitForFile ($FilePath . ".conf");
-    :set ConfigFile ($FileName . ".conf");
-    :set Attach ($Attach, ($FilePath . ".conf"));
-  } else={
-    $LogPrintExit2 warning $0 ("Creating config file not possible. Limit is 4kB, configuration has " . \
-        $Size . " bytes.") false;
-    :set ConfigFile "failed";
-    :set Failed 1;
-  }
+  # Do *NOT* use '/file/add ...' here, as it is limited to 4095 bytes!
+  :execute script={ :put [ /system/script/get global-config-overlay source ]; } \
+      file=($FilePath . ".conf");
+  $WaitForFile ($FilePath . ".conf.txt");
+  :set ConfigFile ($FileName . ".conf.txt");
+  :set Attach ($Attach, ($FilePath . ".conf.txt"));
 }
 
 # send email with status and files
 $SendEMail2 ({ origin=$0; \
-  subject=[ $IfThenElse ($Failed > 0) \
-    ([ $SymbolForNotification "floppy-disk,warning-sign" ] . "Backup & Config with failure") \
-    ([ $SymbolForNotification "floppy-disk,incoming-envelope" ] . "Backup & Config") ]; \
+  subject=([ $SymbolForNotification "floppy-disk,incoming-envelope" ] . \
+    "Backup & Config"); \
   message=("See attached files for backup and config export for " . \
     $Identity . ".\n\n" . \
     [ $DeviceInfo ] . "\n\n" . \
@@ -119,8 +108,4 @@ $SendEMail2 ({ origin=$0; \
   }
   :delay 1s;
   :set I ($I + 1);
-}
-
-:if ($Failed = 1) do={
-  :error "An error occured!";
 }
