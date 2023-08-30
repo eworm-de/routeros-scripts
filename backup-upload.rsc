@@ -100,30 +100,22 @@ $WaitFullyConnected;
 
 # global-config-overlay
 :if ($BackupSendGlobalConfig = true) do={
-  :local Config [ /system/script/get global-config-overlay source ];
-  :local Size [ :len $Config ];
+  # Do *NOT* use '/file/add ...' here, as it is limited to 4095 bytes!
+  :execute script={ :put [ /system/script/get global-config-overlay source ]; } \
+      file=($FilePath . ".conf");
+  $WaitForFile ($FilePath . ".conf.txt");
 
-  :if ($Size <= 4095) {
-    /file/add name=($FilePath . ".conf") contents=$Config;
-    $WaitForFile ($FilePath . ".conf");
-
-    :do {
-      /tool/fetch upload=yes url=($BackupUploadUrl . "/" . $FileName . ".conf") \
-          user=$BackupUploadUser password=$BackupUploadPass src-path=($FilePath . ".conf");
-      :set ConfigFile ($FileName . ".conf");
-    } on-error={
-      $LogPrintExit2 error $0 ("Uploading global-config-overlay failed!") false;
-      :set ConfigFile "failed";
-      :set Failed 1;
-    }
-
-    /file/remove ($FilePath . ".conf");
-  } else={
-    $LogPrintExit2 warning $0 ("Creating config file not possible. Limit is 4kB, configuration has " . \
-        $Size . " bytes.") false;
+  :do {
+    /tool/fetch upload=yes url=($BackupUploadUrl . "/" . $FileName . ".conf") \
+        user=$BackupUploadUser password=$BackupUploadPass src-path=($FilePath . ".conf.txt");
+    :set ConfigFile ($FileName . ".conf");
+  } on-error={
+    $LogPrintExit2 error $0 ("Uploading global-config-overlay failed!") false;
     :set ConfigFile "failed";
     :set Failed 1;
   }
+
+  /file/remove ($FilePath . ".conf.txt");
 }
 
 $SendNotification2 ({ origin=$0; \
