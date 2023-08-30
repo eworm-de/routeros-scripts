@@ -101,11 +101,12 @@ $WaitFullyConnected;
 # global-config-overlay
 :if ($BackupSendGlobalConfig = true) do={
   :local Config [ /system/script/get global-config-overlay source ];
-  /file/add name=($FilePath . ".conf") contents=$Config;
-  $WaitForFile ($FilePath . ".conf");
-
   :local Size [ :len $Config ];
-  :if ([ /file/get ($FilePath . ".conf") size ] = $Size) do={
+
+  :if ($Size <= 4095) {
+    /file/add name=($FilePath . ".conf") contents=$Config;
+    $WaitForFile ($FilePath . ".conf");
+
     :do {
       /tool/fetch upload=yes url=($BackupUploadUrl . "/" . $FileName . ".conf") \
           user=$BackupUploadUser password=$BackupUploadPass src-path=($FilePath . ".conf");
@@ -115,13 +116,14 @@ $WaitFullyConnected;
       :set ConfigFile "failed";
       :set Failed 1;
     }
+
+    /file/remove ($FilePath . ".conf");
   } else={
-    $LogPrintExit2 warning $0 ("Creating config file failed. Size should be " . $Size . " bytes, but is not.") false;
+    $LogPrintExit2 warning $0 ("Creating config file not possible. Limit is 4kB, configuration has " . \
+        $Size . " bytes.") false;
     :set ConfigFile "failed";
     :set Failed 1;
   }
-
-  /file/remove ($FilePath . ".conf");
 }
 
 $SendNotification2 ({ origin=$0; \
