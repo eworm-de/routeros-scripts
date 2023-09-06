@@ -105,5 +105,5 @@ $WaitFullyConnected;
     }
   }
 
-  $LogPrintExit2 info $0 ("List: " . $FwListName . " -- Added: " . $CntAdd . " - renewed: " . $CntRenew . " - removed: " . $CntRemove) false;
+  $LogPrintExit2 info $0 ("list: " . $FwListName . " -- added: " . $CntAdd . " - renewed: " . $CntRenew . " - removed: " . $CntRemove) false;
 }
