@@ -91,8 +91,12 @@ $ScriptLock $0;
         ":global RebootForUpdate; \$RebootForUpdate;");
     $LogPrintExit2 info $0 ("Scheduled reboot for update between 03:00 and 04:00.") true;
   }
-}
 
-$LogPrintExit2 info $0 ("Rebooting for update.") false;
-:delay 1s;
-/system/reboot;
+  $LogPrintExit2 info $0 ("Rebooting for update now.") false;
+  :delay 1s;
+  /system/reboot;
+} else={
+  $LogPrintExit2 info $0 ("Rebooting for update soon.") false;
+  :delay 300s;
+  /system/reboot;
+}
