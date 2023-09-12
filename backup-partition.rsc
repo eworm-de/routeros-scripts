@@ -3,7 +3,7 @@
 # Copyright (c) 2022-2023 Christian Hesse <mail@eworm.de>
 # https://git.eworm.de/cgit/routeros-scripts/about/COPYING.md
 #
-# provides: backup-script
+# provides: backup-script, order=70
 #
 # save configuration to fallback partition
 # https://git.eworm.de/cgit/routeros-scripts/about/doc/backup-partition.md

@@ -11,7 +11,9 @@
 :while ($GlobalFunctionsReady != true) do={ :delay 500ms; }
 
 :global DownloadPackage;
+:global Grep;
 :global LogPrintExit2;
+:global ParseKeyValueStore;
 :global ScriptFromTerminal;
 :global ScriptLock;
 :global VersionToNum;
@@ -52,13 +54,21 @@ $ScriptLock $0;
   }
 }
 
-:foreach Script in=[ /system/script/find where source~"\n# provides: backup-script\n" ] do={
-  :local ScriptName [ /system/script/get $Script name ];
+:local RunOrder ({});
+
+:foreach Script in=[ /system/script/find where source~("\n# provides: backup-script, ") ] do={
+  :local ScriptVal [ /system/script/get $Script ];
+  :local Store [ $ParseKeyValueStore [ $Grep ($ScriptVal->"source") ("\23 provides: backup-script, ") ] ];
+
+  :set ($RunOrder->($Store->"order" . "-" . $ScriptVal->"name")) ($ScriptVal->"name");
+}
+
+:foreach Order,Script in=$RunOrder do={
   :do {
-    $LogPrintExit2 info $0 ("Running backup script " . $ScriptName . " before update.") false;
+    $LogPrintExit2 info $0 ("Running backup script " . $Script . " (order " . $Order . ") before update.") false;
     /system/script/run $Script;
   } on-error={
-    $LogPrintExit2 warning $0 ("Running backup script " . $ScriptName . " before update failed!") false;
+    $LogPrintExit2 warning $0 ("Running backup script " . $Script . " before update failed!") false;
     :if ([ $ScriptFromTerminal $0 ] = true) do={
       :put "Do you want to continue anyway? [y/N]";
       :if (([ /terminal/inkey timeout=60 ] % 32) = 25) do={
