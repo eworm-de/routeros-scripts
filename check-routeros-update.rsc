@@ -83,7 +83,7 @@ $LogPrintExit2 debug $0 ("Checking for updates...") false;
 
   :if ($SafeUpdateNeighbor = true) do={
     :local Neighbors [ /ip/neighbor/find where platform="MikroTik" identity~$SafeUpdateNeighborIdentity \
-       version~("^" . [ $EscapeForRegEx ($Update->"latest-version" . " (" . $Update->"channel" . ")") ]) ];
+       version~("^" . [ $EscapeForRegEx ($Update->"latest-version") ] . "\\b") ];
     :if ([ :len $Neighbors ] > 0) do={
       :local Neighbor [ /ip/neighbor/get ($Neighbors->0) identity ];
       $LogPrintExit2 info $0 ("Seen a neighbor (" . $Neighbor . ") running version " . \
