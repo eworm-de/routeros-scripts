@@ -55,8 +55,7 @@ $ScriptLock $0;
 }
 
 :local RunOrder ({});
-
-:foreach Script in=[ /system/script/find where source~("\n# provides: backup-script, ") ] do={
+:foreach Script in=[ /system/script/find where source~("\n# provides: backup-script\\b") ] do={
   :local ScriptVal [ /system/script/get $Script ];
   :local Store [ $ParseKeyValueStore [ $Grep ($ScriptVal->"source") ("\23 provides: backup-script, ") ] ];
 
