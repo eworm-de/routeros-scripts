@@ -65,7 +65,7 @@ $ScriptLock $0;
 
 :foreach Order,Script in=$RunOrder do={
   :do {
-    $LogPrintExit2 info $0 ("Running backup script " . $Script . " (order " . $Order . ") before update.") false;
+    $LogPrintExit2 info $0 ("Running backup script " . $Script . " before update.") false;
     /system/script/run $Script;
   } on-error={
     $LogPrintExit2 warning $0 ("Running backup script " . $Script . " before update failed!") false;
