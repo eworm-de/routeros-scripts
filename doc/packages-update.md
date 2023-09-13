@@ -16,8 +16,12 @@ verification.
 
 But it provides some extra functionality:
 
+* upload backup to Mikrotik cloud if [backup-cloud](backup-cloud.md) is
+  installed
 * send backup via e-mail if [backup-email](backup-email.md) is installed
-* upload backup if [backup-upload](backup-upload.md) is installed
+* save configuration to fallback partition if
+  [backup-partition](backup-partition.md) is installed
+* upload backup to server if [backup-upload](backup-upload.md) is installed
 * schedule reboot at night
 
 Requirements and installation
@@ -40,11 +44,11 @@ Alternatively run it manually:
 See also
 --------
 
-* [Notify on RouterOS update](check-routeros-update.md)
 * [Upload backup to Mikrotik cloud](backup-cloud.md)
 * [Send backup via e-mail](backup-email.md)
-* [Save configuration to fallback partition](doc/backup-partition.md)
+* [Save configuration to fallback partition](backup-partition.md)
 * [Upload backup to server](backup-upload.md)
+* [Notify on RouterOS update](check-routeros-update.md)
 * [Automatically upgrade firmware and reboot](firmware-upgrade-reboot.md)
 
 ---
