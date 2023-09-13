@@ -33,8 +33,7 @@ $ScriptLock $0 false 10;
 }
 
 :local RunOrder ({});
-
-:foreach Script in=[ /system/script/find where source~("\n# provides: lease-script, ") ] do={
+:foreach Script in=[ /system/script/find where source~("\n# provides: lease-script\\b") ] do={
   :local ScriptVal [ /system/script/get $Script ];
   :local Store [ $ParseKeyValueStore [ $Grep ($ScriptVal->"source") ("\23 provides: lease-script, ") ] ];
 
