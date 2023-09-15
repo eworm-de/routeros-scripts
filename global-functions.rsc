@@ -309,6 +309,9 @@
   :if ([ :typeof $1 ] = "num") do={
     :return [ $IfThenElse ($1 != 0) $1 $2 ];
   }
+  :if ([ :typeof $1 ] = "time") do={
+    :return [ $IfThenElse ($1 > 0s) $1 $2 ];
+  }
   :return [ $IfThenElse ([ :len [ :tostr $1 ] ] > 0) $1 $2 ];
 }
 
