@@ -106,7 +106,7 @@ $WaitFullyConnected;
             :local File ("tmpfs/telegram-chat/" . [ $GetRandom20CharAlNum 6 ]);
             $MkDir "tmpfs/telegram-chat";
             $LogPrintExit2 info $0 ("Running command from update " . $UpdateID . ": " . $Text) false;
-            :exec script=(":do {\n" . $Text . "\n} on-error={ :execute script=\"/\" file=" . $File . ".failed };" . \
+            :execute script=(":do {\n" . $Text . "\n} on-error={ :execute script=\"/\" file=" . $File . ".failed };" . \
               ":execute script=\"/\" file=" . $File . ".done") file=$File;
             :if ([ $WaitForFile ($File . ".done.txt") [ $EitherOr $TelegramChatRunTime 20s ] ] = false) do={
               :set State "The command did not finish, still running in background.\n\n";
