@@ -31,6 +31,7 @@
 :global EitherOr;
 :global EscapeForRegEx;
 :global FormatLine;
+:global FormatMultiLines;
 :global GetMacVendor;
 :global GetRandom20CharAlNum;
 :global GetRandom20CharHex;
@@ -339,25 +340,38 @@
 
 # format a line for output
 :set FormatLine do={
-  :local Key    [ :tostr   $1 ];
-  :local Values [ :toarray $2 ];
-  :local Indent [ :tonum   $3 ];
+  :local Key    [ :tostr $1 ];
+  :local Value  [ :tostr $2 ];
+  :local Indent [ :tonum $3 ];
   :local Spaces "                ";
   :local Return "";
 
   :global EitherOr;
-  :global FormatLine;
 
   :set Indent [ $EitherOr $Indent 16 ];
 
   :if ([ :len $Key ] > 0) do={ :set Return ($Key . ":"); }
   :if ([ :len $Key ] > ($Indent - 2)) do={
-    :set Return ($Return . "\n" . [ :pick $Spaces 0 $Indent ] . ($Values->0));
+    :set Return ($Return . "\n" . [ :pick $Spaces 0 $Indent ] . $Value);
   } else={
-    :set Return ($Return . [ :pick $Spaces 0 ($Indent - [ :len $Return ]) ] . ($Values->0));
+    :set Return ($Return . [ :pick $Spaces 0 ($Indent - [ :len $Return ]) ] . $Value);
   }
+
+  :return $Return;
+}
+
+# format multiple lines for output
+:set FormatMultiLines do={
+  :local Key    [ :tostr   $1 ];
+  :local Values [ :toarray $2 ];
+  :local Indent [ :tonum   $3 ];
+  :local Return;
+
+  :global FormatLine;
+
+  :set Return [ $FormatLine $Key ($Values->0) $Indent ];
   :foreach Value in=[ :pick $Values 1 [ :len $Values ] ] do={
-    :set Return ($Return . "\n" . [ $FormatLine "" ({$Value}) $Indent ]);
+    :set Return ($Return . "\n" . [ $FormatLine "" $Value $Indent ]);
   }
 
   :return $Return;

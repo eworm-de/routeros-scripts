@@ -78,6 +78,7 @@
   :local CertVal $1;
 
   :global FormatLine;
+  :global FormatMultiLines;
   :global IfThenElse;
   :global ParseKeyValueStore;
   
@@ -89,7 +90,7 @@
   :return ( \
     [ $FormatLine "Name" ($CertVal->"name") ] . "\n" . \
     [ $IfThenElse ([ :len ($CertVal->"common-name") ] > 0) ([ $FormatLine "CommonName" ($CertVal->"common-name") ] . "\n") ] . \
-    [ $IfThenElse ([ :len ($CertVal->"subject-alt-name") ] > 0) ([ $FormatLine "SubjectAltNames" ($CertVal->"subject-alt-name") ] . "\n") ] . \
+    [ $IfThenElse ([ :len ($CertVal->"subject-alt-name") ] > 0) ([ $FormatMultiLines "SubjectAltNames" ($CertVal->"subject-alt-name") ] . "\n") ] . \
     [ $FormatLine "Private key" [ $IfThenElse (($CertVal->"private-key") = true) "available" "missing" ] ] . "\n" . \
     [ $FormatLine "Fingerprint" ($CertVal->"fingerprint") ] . "\n" . \
     [ $FormatLine "Issuer" ($CertVal->"ca" . ([ $ParseKeyValueStore ($CertVal->"issuer") ]->"CN")) ] . "\n" . \
