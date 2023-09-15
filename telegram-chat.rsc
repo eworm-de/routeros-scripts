@@ -106,12 +106,12 @@ $WaitFullyConnected;
             :local File ("tmpfs/telegram-chat/" . [ $GetRandom20CharAlNum 6 ]);
             $MkDir "tmpfs/telegram-chat";
             $LogPrintExit2 info $0 ("Running command from update " . $UpdateID . ": " . $Text) false;
-            :execute script=(":do {\n" . $Text . "\n} on-error={ :execute script=\"/\" file=" . $File . ".failed };" . \
-              ":execute script=\"/\" file=" . $File . ".done") file=$File;
-            :if ([ $WaitForFile ($File . ".done.txt") [ $EitherOr $TelegramChatRunTime 20s ] ] = false) do={
+            :execute script=(":do {\n" . $Text . "\n} on-error={ /file/add name=\"" . $File . ".failed\" };" . \
+              "/file/add name=\"" . $File . ".done\"") file=$File;
+            :if ([ $WaitForFile ($File . ".done") [ $EitherOr $TelegramChatRunTime 20s ] ] = false) do={
               :set State "The command did not finish, still running in background.\n\n";
             }
-            :if ([ :len [ /file/find where name=($File . ".failed.txt") ] ] > 0) do={
+            :if ([ :len [ /file/find where name=($File . ".failed") ] ] > 0) do={
               :set State "The command failed with an error!\n\n";
             }
             :local Content [ /file/get ($File . ".txt") contents ];
