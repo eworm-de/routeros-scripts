@@ -75,7 +75,7 @@ $ScriptLock $0 false 10;
         :local DnsRec ([ /ip/dns/static/find where address=$Address ]->0);
         :if ([ :len $DnsRec ] > 0) do={
           :set DnsName ({ [ /ip/dns/static/get $DnsRec name ] });
-          :foreach CName in=[ /ip/dns/static/find where cname=($DnsName->0) ] do={
+          :foreach CName in=[ /ip/dns/static/find where type=CNAME cname=($DnsName->0) ] do={
             :set DnsName ($DnsName, [ /ip/dns/static/get $CName name ]);
           }
         }
