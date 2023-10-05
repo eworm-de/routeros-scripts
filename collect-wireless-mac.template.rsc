@@ -42,7 +42,7 @@ $ScriptLock $0 false 10;
 
 :foreach Reg in=[ /caps-man/registration-table/find ] do={
 :foreach Reg in=[ /interface/wifiwave2/registration-table/find ] do={
-:foreach Reg in=[ /interface/wireless/registration-table/find ] do={
+:foreach Reg in=[ /interface/wireless/registration-table/find where ap=no ] do={
   :local RegVal;
   :do {
     :set RegVal [ /caps-man/registration-table/get $Reg ];

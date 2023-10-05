@@ -33,7 +33,7 @@ $ScriptLock $0 false 10;
 }
 :local PlaceBefore ([ /interface/wireless/access-list/find where comment="--- collected above ---" disabled ]->0);
 
-:foreach Reg in=[ /interface/wireless/registration-table/find ] do={
+:foreach Reg in=[ /interface/wireless/registration-table/find where ap=no ] do={
   :local RegVal;
   :do {
     :set RegVal [ /interface/wireless/registration-table/get $Reg ];
