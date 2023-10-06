@@ -42,7 +42,8 @@
     :return false;
   }
 
-  :if ([ :typeof [ :toip [ /tool/e-mail/get address ] ] ] != "ip" && [ $IsDNSResolving ] = false) do={
+  :local EMailSettings [ /tool/e-mail/get ];
+  :if ([ :typeof [ :toip [ $EitherOr ($EMailSettings->"server") ($EMailSettings->"address") ] ] ] != "ip" && [ $IsDNSResolving ] = false) do={
     $LogPrintExit2 debug $0 ("Server address is a DNS name and resolving fails, not flushing.") false;
     :return false;
   }
@@ -136,7 +137,7 @@
   :local Cc [ $EitherOr ($EmailGeneralCcOverride->($Notification->"origin")) $EmailGeneralCc ];
 
   :local EMailSettings [ /tool/e-mail/get ];
-  :if ([ :len $To ] = 0 || ($EMailSettings->"address") = "0.0.0.0" || ($EMailSettings->"from") = "<>") do={
+  :if ([ :len $To ] = 0 || [ $EitherOr ($EMailSettings->"server") ($EMailSettings->"address") ] = "0.0.0.0" || ($EMailSettings->"from") = "<>") do={
     :return false;
   }
 
