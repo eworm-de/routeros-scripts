@@ -3,6 +3,8 @@
 # Copyright (c) 2013-2024 Christian Hesse <mail@eworm.de>
 # https://git.eworm.de/cgit/routeros-scripts/about/COPYING.md
 #
+# requires RouterOS, version=7.12
+#
 # send notifications via e-mail
 # https://git.eworm.de/cgit/routeros-scripts/about/doc/mod/notification-email.md
 
@@ -43,7 +45,7 @@
   }
 
   :local EMailSettings [ /tool/e-mail/get ];
-  :if ([ :typeof [ :toip [ $EitherOr ($EMailSettings->"server") ($EMailSettings->"address") ] ] ] != "ip" && [ $IsDNSResolving ] = false) do={
+  :if ([ :typeof [ :toip ($EMailSettings->"server") ] ] != "ip" && [ $IsDNSResolving ] = false) do={
     $LogPrintExit2 debug $0 ("Server address is a DNS name and resolving fails, not flushing.") false;
     :return false;
   }
@@ -138,7 +140,7 @@
   :local Cc [ $EitherOr ($EmailGeneralCcOverride->($Notification->"origin")) $EmailGeneralCc ];
 
   :local EMailSettings [ /tool/e-mail/get ];
-  :if ([ :len $To ] = 0 || [ $EitherOr ($EMailSettings->"server") ($EMailSettings->"address") ] = "0.0.0.0" || ($EMailSettings->"from") = "<>") do={
+  :if ([ :len $To ] = 0 || ($EMailSettings->"server") = "0.0.0.0" || ($EMailSettings->"from") = "<>") do={
     :return false;
   }
 
