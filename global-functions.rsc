@@ -703,7 +703,7 @@
   :local Return ({});
   :local Skip 0;
 
-  :for I from=0 to=([ :len $Input ] - 1) do={
+  :for I from=0 to=[ :len $Input ] do={
     :if ($Skip > 0 || $Input->$I = "\n" || $Input->$I = "\r\n") do={
       :if ($Skip > 0) do={
         :set $Skip ($Skip - 1);
