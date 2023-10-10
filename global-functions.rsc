@@ -905,8 +905,8 @@
           :local Url ($BaseUrl . $ScriptVal->"name" . ".rsc" . $UrlSuffix);
 
           $LogPrintExit2 debug $0 ("Fetching script '" . $ScriptVal->"name" . "' from url: " . $Url) false;
-          :local Result [ /tool/fetch check-certificate=yes-without-crl http-header-field=$FetchUserAgent \
-            $Url output=user as-value ];
+          :local Result [ /tool/fetch check-certificate=yes-without-crl \
+            http-header-field=({ $FetchUserAgent }) $Url output=user as-value ];
           :if ($Result->"status" = "finished") do={
             :set SourceNew ($Result->"data");
           }
@@ -989,8 +989,8 @@
     :do {
       :local Url ($ScriptUpdatesBaseUrl . "news-and-changes.rsc" . $ScriptUpdatesUrlSuffix);
       $LogPrintExit2 debug $0 ("Fetching news, changes and migration: " . $Url) false;
-      :local Result [ /tool/fetch check-certificate=yes-without-crl http-header-field=$FetchUserAgent \
-        $Url output=user as-value ];
+      :local Result [ /tool/fetch check-certificate=yes-without-crl \
+        http-header-field=({ $FetchUserAgent }) $Url output=user as-value ];
       :if ($Result->"status" = "finished") do={
         :set ChangeLogCode ($Result->"data");
       }
