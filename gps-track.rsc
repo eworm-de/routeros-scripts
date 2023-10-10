@@ -26,7 +26,7 @@ $WaitFullyConnected;
 :if ($Gps->"valid" = true) do={
   :do {
     /tool/fetch check-certificate=yes-without-crl $GpsTrackUrl output=none \
-      http-method=post http-header-field="Content-Type: application/json" \
+      http-method=post http-header-field=({ "Content-Type: application/json" }) \
       http-data=("{" . \
         "\"lat\":\"" . ($Gps->"latitude") . "\"," . \
         "\"lon\":\"" . ($Gps->"longitude") . "\"," . \
