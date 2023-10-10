@@ -12,7 +12,7 @@
 :local 0 "global-functions";
 
 # expected configuration version
-:global ExpectedConfigVersion 107;
+:global ExpectedConfigVersion 108;
 
 # global variables not to be changed by user
 :global GlobalFunctionsReady false;
@@ -1230,6 +1230,9 @@
     "floppy-disk"="\F0\9F\92\BE";
     "high-voltage-sign"="\E2\9A\A1";
     "incoming-envelope"="\F0\9F\93\A8";
+    "information"="\E2\84\B9";
+    "large-orange-circle"="\F0\9F\9F\A0";
+    "large-red-circle"="\F0\9F\94\B4";
     "link"="\F0\9F\94\97";
     "lock-with-ink-pen"="\F0\9F\94\8F";
     "memo"="\F0\9F\93\9D";

@@ -17,7 +17,6 @@
 :global LogForwardIncludeMessage;
 :global LogForwardLast;
 :global LogForwardRateLimit;
-:global NotificationsWithSymbols;
 
 :global EitherOr;
 :global HexToNum;
@@ -53,14 +52,19 @@ $ScriptLock $0;
     !(topics~$LogForwardFilter) and !(message~$LogForwardFilterMessage)) or \
     topics~$LogForwardInclude or message~$LogForwardIncludeMessage ] do={
   :set MessageVal [ /log/get $Message ];
+  :local Bullet "information";
 
   :if ($Last < [ $HexToNum ($MessageVal->".id") ]) do={
     :local DupCount ($MessageDups->($MessageVal->"message"));
-    :if ($MessageVal->"topics" ~ "(emergency|alert|critical|error|warning)") do={
+    :if ($MessageVal->"topics" ~ "(warning)") do={
       :set Warning true;
+      :set Bullet "large-orange-circle";
+    }
+    :if ($MessageVal->"topics" ~ "(emergency|alert|critical|error)") do={
+      :set Bullet "large-red-circle";
     }
     :if ($DupCount < 3) do={
-      :set Messages ($Messages . "\n" . [ $IfThenElse ($NotificationsWithSymbols = true) (" \E2\97\8F ") ] . \
+      :set Messages ($Messages . "\n" . [ $SymbolForNotification $Bullet ] . \
         $MessageVal->"time" . " " . [ :tostr ($MessageVal->"topics") ] . " " . $MessageVal->"message");
     } else={
       :set Duplicates true;
