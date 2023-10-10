@@ -698,10 +698,15 @@
 # parse JSON into array
 # Warning: This is not a complete parser!
 :set ParseJson do={
-  :local Input [ :toarray $1 ];
+  :local Input [ :tostr $1 ];
 
   :local Return ({});
   :local Skip 0;
+
+  :if ([ :pick $Input 0 ] = "{") do={
+    :set Input [ :pick $Input 1 ([ :len $Input ] - 1) ];
+  }
+  :set Input [ :toarray $Input ];
 
   :for I from=0 to=[ :len $Input ] do={
     :if ($Skip > 0 || $Input->$I = "\n" || $Input->$I = "\r\n") do={
