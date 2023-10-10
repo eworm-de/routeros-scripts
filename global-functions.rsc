@@ -48,6 +48,7 @@
 :global MkDir;
 :global NotificationFunctions;
 :global ParseDate;
+:global ParseJson;
 :global ParseKeyValueStore;
 :global PrettyPrint;
 :global RandomDelay;
@@ -692,6 +693,34 @@
   :return ({ "year"=[ :tonum [ :pick $Date 0 4 ] ];
             "month"=[ :tonum [ :pick $Date 5 7 ] ];
               "day"=[ :tonum [ :pick $Date 8 10 ] ] });
+}
+
+# parse JSON into array
+# Warning: This is not a complete parser!
+:set ParseJson do={
+  :local Input [ :toarray $1 ];
+
+  :local Return ({});
+  :local Skip 0;
+
+  :for I from=0 to=([ :len $Input ] - 1) do={
+    :if ($Skip > 0 || $Input->$I = "\n" || $Input->$I = "\r\n") do={
+      :if ($Skip > 0) do={
+        :set $Skip ($Skip - 1);
+      }
+    } else={
+      :local Key ($Input->$I);
+      :if ($Input->($I + 1) = ":") do={
+        :set ($Return->$Key) ($Input->($I + 2));
+        :set Skip 2;
+      } else={
+        :set ($Return->$Key) [ :pick ($Input->($I + 1)) 1 [ :len ($Input->($I + 1)) ] ];
+        :set Skip 1;
+      }
+    }
+  }
+
+  :return $Return;
 }
 
 # parse key value store

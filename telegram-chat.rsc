@@ -26,6 +26,7 @@
 :global IfThenElse;
 :global LogPrintExit2;
 :global MkDir;
+:global ParseJson;
 :global ScriptLock;
 :global SendTelegram2;
 :global SymbolForNotification;
@@ -43,32 +44,6 @@ $WaitFullyConnected;
 
 :if ([ $CertificateAvailable "Go Daddy Secure Certificate Authority - G2" ] = false) do={
   $LogPrintExit2 warning $0 ("Downloading required certificate failed.") true;
-}
-
-:local ParseJson do={
-  :local Input [ :toarray $1 ];
-
-  :local Return ({});
-  :local Skip 0;
-
-  :for I from=0 to=([ :len $Input ] - 1) do={
-    :if ($Skip > 0 || $Input->$I = "\n" || $Input->$I = "\r\n") do={
-      :if ($Skip > 0) do={
-        :set $Skip ($Skip - 1);
-      }
-    } else={
-      :local Key ($Input->$I);
-      :if ($Input->($I + 1) = ":") do={
-        :set ($Return->$Key) ($Input->($I + 2));
-        :set Skip 2;
-      } else={
-        :set ($Return->$Key) [ :pick ($Input->($I + 1)) 1 [ :len ($Input->($I + 1)) ] ];
-        :set Skip 1;
-      }
-    }
-  }
-
-  :return $Return;
 }
 
 :local Data;
