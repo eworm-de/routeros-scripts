@@ -15,9 +15,11 @@
 # flush telegram queue
 :set FlushTelegramQueue do={
   :global TelegramQueue;
+  :global TelegramMessageIDs;
 
   :global IsFullyConnected;
   :global LogPrintExit2;
+  :global ParseJson;
 
   :if ([ $IsFullyConnected ] = false) do={
     $LogPrintExit2 debug $0 ("System is not fully connected, not flushing.") false;
@@ -34,14 +36,13 @@
   :foreach Id,Message in=$TelegramQueue do={
     :if ([ :typeof $Message ] = "array" ) do={
       :do {
-        /tool/fetch check-certificate=yes-without-crl output=none http-method=post \
+        :local Data ([ /tool/fetch check-certificate=yes-without-crl output=user http-method=post \
           ("https://api.telegram.org/bot" . ($Message->"tokenid") . "/sendMessage") \
-          http-data=("chat_id=" . ($Message->"chatid") . \
-          "&disable_notification=" . ($Message->"silent") . \
-          "&reply_to_message_id=" . ($Message->"replyto") . \
-          "&disable_web_page_preview=true&parse_mode=" . ($Message->"parsemode") . \
-          "&text=" . ($Message->"text")) as-value;
+          http-data=("chat_id=" . ($Message->"chatid") . "&disable_notification=" . ($Message->"silent") . \
+          "&reply_to_message_id=" . ($Message->"replyto") . "&disable_web_page_preview=true" . \
+          "&parse_mode=" . ($Message->"parsemode") . "&text=" . ($Message->"text")) as-value ]->"data");
         :set ($TelegramQueue->$Id);
+        :set ($TelegramMessageIDs->([ $ParseJson ([ $ParseJson $Data ]->"result") ]->"message_id")) 1;
       } on-error={
         $LogPrintExit2 debug $0 ("Sending queued Telegram message failed.") false;
         :set AllDone false;
@@ -64,6 +65,7 @@
   :global TelegramChatId;
   :global TelegramChatIdOverride;
   :global TelegramFixedWidthFont;
+  :global TelegramMessageIDs;
   :global TelegramQueue;
   :global TelegramTokenId;
   :global TelegramTokenIdOverride;
@@ -73,6 +75,7 @@
   :global EitherOr;
   :global IfThenElse;
   :global LogPrintExit2;
+  :global ParseJson;
   :global SymbolForNotification;
   :global UrlEncode;
 
@@ -111,6 +114,10 @@
     :return false;
   }
 
+  :if ([ :typeof $TelegramMessageIDs ] = "nothing") do={
+    :set TelegramMessageIDs ({});
+  }
+
   :local Truncated false;
   :local Text ("*__" . [ $EscapeMD ("[" . $IdentityExtra . $Identity . "] " . \
     ($Notification->"subject")) "plain" ] . "__*\n\n");
@@ -139,11 +146,12 @@
     :if ([ $CertificateAvailable "Go Daddy Secure Certificate Authority - G2" ] = false) do={
       $LogPrintExit2 warning $0 ("Downloading required certificate failed.") true;
     }
-    /tool/fetch check-certificate=yes-without-crl output=none http-method=post \
+    :local Data ([ /tool/fetch check-certificate=yes-without-crl output=user http-method=post \
       ("https://api.telegram.org/bot" . $TokenId . "/sendMessage") \
       http-data=("chat_id=" . $ChatId . "&disable_notification=" . ($Notification->"silent") . \
-      "&reply_to_message_id=" . ($Notification->"replyto") . \
-      "&disable_web_page_preview=true&parse_mode=" . $ParseMode . "&text=" . $Text) as-value;
+      "&reply_to_message_id=" . ($Notification->"replyto") . "&disable_web_page_preview=true" . \
+      "&parse_mode=" . $ParseMode . "&text=" . $Text) as-value ]->"data");
+    :set ($TelegramMessageIDs->([ $ParseJson ([ $ParseJson $Data ]->"result") ]->"message_id")) 1;
   } on-error={
     $LogPrintExit2 info $0 ("Failed sending telegram notification! Queuing...") false;
 
