@@ -46,6 +46,8 @@ parameters:
 Usage and invocation
 --------------------
 
+### Activating device(s)
+
 This script is capable of chatting with multiple devices. By default a
 device is passive and not acting on messages. To activate it send a message
 containing `! identity` (exclamation mark, optional space and system's
@@ -62,6 +64,19 @@ act on your commands.
 
 Send a single exclamation mark or non-existent identity to make all
 devices passive again.
+
+### Reply to message
+
+Let's assume you received a message from a device before, and want to send
+a command to that device. No need to activate it, you can just reply to
+that message.
+
+![reply to message](telegram-chat.d/03-reply.avif)
+
+Associated messages are cleared on device reboot.
+
+> ⚠️ **Warning**: If another device is activated both will act, the one from
+> reply and the active one!
 
 Known limitations
 -----------------

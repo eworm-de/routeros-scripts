@@ -17,6 +17,7 @@
 :global TelegramChatIdsTrusted;
 :global TelegramChatOffset;
 :global TelegramChatRunTime;
+:global TelegramMessageIDs;
 :global TelegramTokenId;
 
 :global CertificateAvailable;
@@ -83,7 +84,8 @@ $WaitFullyConnected;
         $LogPrintExit2 info $0 ("Now " . [ $IfThenElse $TelegramChatActive "active" "passive" ] . \
           " from update " . $UpdateID . "!") false;
       } else={
-        :if ($TelegramChatActive = true && [ :len ($Message->"text") ] > 0) do={
+        :if (($TelegramMessageIDs->([ $ParseJson ($Message->"reply_to_message") ]->"message_id") = 1 || \
+             $TelegramChatActive = true) && [ :len ($Message->"text") ] > 0) do={
           :if ([ $ValidateSyntax ($Message->"text") ] = true) do={
             :local State "";
             :local File ("tmpfs/telegram-chat/" . [ $GetRandom20CharAlNum 6 ]);
