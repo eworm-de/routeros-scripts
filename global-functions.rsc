@@ -125,7 +125,7 @@
   :do {
     :local LocalFileName ($CommonName . ".pem");
     :local UrlFileName ([ $UrlEncode $CommonName ] . ".pem");
-    /tool/fetch check-certificate=yes-without-crl http-header-field=$FetchUserAgent \
+    /tool/fetch check-certificate=yes-without-crl http-header-field=({ $FetchUserAgent }) \
       ($ScriptUpdatesBaseUrl . "certs/" . $UrlFileName . $ScriptUpdatesUrlSuffix) \
       dst-path=$LocalFileName as-value;
     $WaitForFile $LocalFileName;
