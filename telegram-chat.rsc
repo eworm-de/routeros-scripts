@@ -45,20 +45,30 @@ $WaitFullyConnected;
   $LogPrintExit2 warning $0 ("Downloading required certificate failed.") true;
 }
 
-:local JsonGetKey do={
-  :local Array [ :toarray $1 ];
-  :local Key   [ :tostr $2 ];
+:local ParseJson do={
+  :local Input [ :toarray $1 ];
 
-  :for I from=0 to=([ :len $Array ] - 1) do={
-    :if (($Array->$I) = $Key) do={
-      :if ($Array->($I + 1) = ":") do={
-        :return ($Array->($I + 2));
+  :local Return ({});
+  :local Skip 0;
+
+  :for I from=0 to=([ :len $Input ] - 1) do={
+    :if ($Skip > 0 || $Input->$I = "\n" || $Input->$I = "\r\n") do={
+      :if ($Skip > 0) do={
+        :set $Skip ($Skip - 1);
       }
-      :return [ :pick ($Array->($I + 1)) 1 [ :len ($Array->($I + 1)) ] ];
+    } else={
+      :local Key ($Input->$I);
+      :if ($Input->($I + 1) = ":") do={
+        :set ($Return->$Key) ($Input->($I + 2));
+        :set Skip 2;
+      } else={
+        :set ($Return->$Key) [ :pick ($Input->($I + 1)) 1 [ :len ($Input->($I + 1)) ] ];
+        :set Skip 1;
+      }
     }
   }
 
-  :return false;
+  :return $Return;
 }
 
 :local Data;
@@ -73,26 +83,24 @@ $WaitFullyConnected;
 
 :local UpdateID 0;
 :local Uptime [ /system/resource/get uptime ];
-:foreach Update in=[ :toarray $Data ] do={
-  :set UpdateID [ $JsonGetKey $Update "update_id" ];
+:foreach UpdateArray in=[ :toarray $Data ] do={
+  :local Update [ $ParseJson $UpdateArray ];
+  :set UpdateID ($Update->"update_id");
   :if (($TelegramChatOffset->0 > 0 || $Uptime > 5m) && $UpdateID >= $TelegramChatOffset->2) do={
     :local Trusted false;
-    :local Message [ $JsonGetKey $Update "message" ];
-    :local MessageId [ $JsonGetKey $Message "message_id" ];
-    :local From [ $JsonGetKey $Message "from" ];
-    :local FromID [ $JsonGetKey $From "id" ];
-    :local FromUserName [ $JsonGetKey $From "username" ];
-    :local ChatID [ $JsonGetKey [ $JsonGetKey $Message "chat" ] "id" ];
-    :local Text [ $JsonGetKey $Message "text" ];
+    :local Message [ $ParseJson ($Update->"message") ];
+    :local Chat [ $ParseJson ($Message->"chat") ];
+    :local From [ $ParseJson ($Message->"from") ];
+
     :foreach IdsTrusted in=($TelegramChatId, $TelegramChatIdsTrusted) do={
-      :if ($FromID = $IdsTrusted || $FromUserName = $IdsTrusted) do={
+      :if ($From->"id" = $IdsTrusted || $From->"username" = $IdsTrusted) do={
         :set Trusted true;
       }
     }
 
     :if ($Trusted = true) do={
-      :if ([ :pick $Text 0 1 ] = "!") do={
-        :if ($Text ~ ("^! *(" . [ $EscapeForRegEx $Identity ] . "|@" . $TelegramChatGroups . ")\$")) do={
+      :if ([ :pick ($Message->"text") 0 1 ] = "!") do={
+        :if ($Message->"text" ~ ("^! *(" . [ $EscapeForRegEx $Identity ] . "|@" . $TelegramChatGroups . ")\$")) do={
           :set TelegramChatActive true;
         } else={
           :set TelegramChatActive false;
@@ -100,13 +108,13 @@ $WaitFullyConnected;
         $LogPrintExit2 info $0 ("Now " . [ $IfThenElse $TelegramChatActive "active" "passive" ] . \
           " from update " . $UpdateID . "!") false;
       } else={
-        :if ($TelegramChatActive = true && $Text != false && [ :len $Text ] > 0) do={
-          :if ([ $ValidateSyntax $Text ] = true) do={
+        :if ($TelegramChatActive = true && [ :len ($Message->"text") ] > 0) do={
+          :if ([ $ValidateSyntax ($Message->"text") ] = true) do={
             :local State "";
             :local File ("tmpfs/telegram-chat/" . [ $GetRandom20CharAlNum 6 ]);
             $MkDir "tmpfs/telegram-chat";
-            $LogPrintExit2 info $0 ("Running command from update " . $UpdateID . ": " . $Text) false;
-            :execute script=(":do {\n" . $Text . "\n} on-error={ /file/add name=\"" . $File . ".failed\" };" . \
+            $LogPrintExit2 info $0 ("Running command from update " . $UpdateID . ": " . $Message->"text") false;
+            :execute script=(":do {\n" . $Message->"text" . "\n} on-error={ /file/add name=\"" . $File . ".failed\" };" . \
               "/file/add name=\"" . $File . ".done\"") file=$File;
             :if ([ $WaitForFile ($File . ".done") [ $EitherOr $TelegramChatRunTime 20s ] ] = false) do={
               :set State "The command did not finish, still running in background.\n\n";
@@ -115,27 +123,27 @@ $WaitFullyConnected;
               :set State "The command failed with an error!\n\n";
             }
             :local Content [ /file/get ($File . ".txt") contents ];
-            $SendTelegram2 ({ origin=$0; chatid=$ChatID; silent=false; replyto=$MessageId; \
+            $SendTelegram2 ({ origin=$0; chatid=($Chat->"id"); silent=false; replyto=($Message->"message_id"); \
               subject=([ $SymbolForNotification "speech-balloon" ] . "Telegram Chat"); \
-              message=("Command:\n" . $Text . "\n\n" . $State . [ $IfThenElse ([ :len $Content ] > 0) \
+              message=("Command:\n" . $Message->"text" . "\n\n" . $State . [ $IfThenElse ([ :len $Content ] > 0) \
                 ("Output:\n" . $Content) [ $IfThenElse ([ /file/get ($File . ".txt") size ] > 0) \
                 ("Output exceeds file read size.") ("No output.") ] ]) });
             /file/remove "tmpfs/telegram-chat";
           } else={
             $LogPrintExit2 info $0 ("The command from update " . $UpdateID . " failed syntax validation!") false;
-            $SendTelegram2 ({ origin=$0; chatid=$ChatID; silent=false; replyto=$MessageId; \
+            $SendTelegram2 ({ origin=$0; chatid=($Chat->"id"); silent=false; replyto=($Message->"message_id"); \
               subject=([ $SymbolForNotification "speech-balloon" ] . "Telegram Chat"); \
-              message=("Command:\n" . $Text . "\n\nThe command failed syntax validation!") });
+              message=("Command:\n" . $Message->"text" . "\n\nThe command failed syntax validation!") });
           }
         }
       }
     } else={
       :local MessageText ("Received a message from untrusted contact " . \
-        [ $IfThenElse ($FromUserName = false) "without username" ("'" . $FromUserName . "'") ] . \
-        " (ID " . $FromID . ") in update " . $UpdateID . "!");
-      :if ($Text ~ ("^! *" . [ $EscapeForRegEx $Identity ] . "\$")) do={
+        [ $IfThenElse ([ :len ($From->"username") ] = 0) "without username" ("'" . $From->"username" . "'") ] . \
+        " (ID " . $From->"id" . ") in update " . $UpdateID . "!");
+      :if ($Message->"text" ~ ("^! *" . [ $EscapeForRegEx $Identity ] . "\$")) do={
         $LogPrintExit2 warning $0 $MessageText false;
-        $SendTelegram2 ({ origin=$0; chatid=$ChatID; silent=false; replyto=$MessageId; \
+        $SendTelegram2 ({ origin=$0; chatid=($Chat->"id"); silent=false; replyto=($Message->"message_id"); \
           subject=([ $SymbolForNotification "speech-balloon" ] . "Telegram Chat"); \
           message=("You are not trusted.") });
       } else={
