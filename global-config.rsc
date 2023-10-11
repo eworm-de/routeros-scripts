@@ -105,7 +105,7 @@
 # text. Regular expressions are supported. Do *NOT* set an empty string,
 # that will filter or include everything!
 # These are filters, so excluding messages from forwarding.
-:global LogForwardFilter "(debug|info|raw)";
+:global LogForwardFilter "(debug|info|packet|raw)";
 :global LogForwardFilterMessage [];
 #:global LogForwardFilterMessage "message text";
 #:global LogForwardFilterMessage "(message text|another text|...)";
