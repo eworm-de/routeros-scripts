@@ -58,7 +58,8 @@ $WaitFullyConnected;
             $LogPrintExit2 info $0 ("Running hook '" . $Hook->"match" . "': " . \
                 $Hook->"command") false;
             :do {
-              [ :parse ($Hook->"command") ];
+              :local Command [ :parse ($Hook->"command") ];
+              $Command Phone=$Phone Message=($SmsVal->"message");
               :set Messages ($Messages . "\n\nRan hook '" . $Hook->"match" . "':\n" . \
                   $Hook->"command");
             } on-error={

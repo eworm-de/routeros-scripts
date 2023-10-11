@@ -40,7 +40,8 @@ The configuration goes to `global-config-overlay`, this is the only parameter:
 * `SmsForwardHooks`: an array with pre-defined hooks, where each hook consists
   of `match` (which is matched against the received message), `allowed-number`
   (which is matched against the sending phone number or name) and `command`.
-  For `match` and `allowed-number` regular expressions are supported.
+  For `match` and `allowed-number` regular expressions are supported. Actual
+  phone number (`$Phone`) and message (`$Message`) are available for the hook.
 
 > ℹ️ **Info**: Copy relevant configuration from
 > [`global-config`](../global-config.rsc) (the one without `-overlay`) to
