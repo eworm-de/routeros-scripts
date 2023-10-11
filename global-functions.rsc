@@ -842,7 +842,6 @@
   :global Identity;
   :global IDonate;
   :global NoNewsAndChangesNotification;
-  :global NotificationsWithSymbols;
   :global ScriptUpdatesBaseUrl;
   :global ScriptUpdatesFetch;
   :global ScriptUpdatesUrlSuffix;
@@ -1038,7 +1037,7 @@
       :for I from=($ExpectedConfigVersionBefore + 1) to=$ExpectedConfigVersion do={
         :local Change ($GlobalConfigChanges->[ :tostr $I ]);
         :set NotificationMessage ($NotificationMessage . "\n " . \
-            [ $IfThenElse ($NotificationsWithSymbols = true) ("\E2\97\8F") "*" ] . " " . $Change);
+            [ $SymbolForNotification "pushpin" "* " ] . $Change);
         $LogPrintExit2 info $0 ("Change " . $I . ": " . $Change) false;
       }
     } else={
