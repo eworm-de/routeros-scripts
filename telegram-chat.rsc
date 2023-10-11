@@ -62,9 +62,10 @@ $WaitFullyConnected;
 :foreach UpdateArray in=[ :toarray $Data ] do={
   :local Update [ $ParseJson $UpdateArray ];
   :set UpdateID ($Update->"update_id");
-  :if (($TelegramChatOffset->0 > 0 || $Uptime > 5m) && $UpdateID >= $TelegramChatOffset->2) do={
+  :local Message [ $ParseJson ($Update->"message") ];
+  :local IsReply ($TelegramMessageIDs->([ $ParseJson ($Message->"reply_to_message") ]->"message_id"));
+  :if (($IsReply = 1 || $TelegramChatOffset->0 > 0 || $Uptime > 5m) && $UpdateID >= $TelegramChatOffset->2) do={
     :local Trusted false;
-    :local Message [ $ParseJson ($Update->"message") ];
     :local Chat [ $ParseJson ($Message->"chat") ];
     :local From [ $ParseJson ($Message->"from") ];
 
@@ -84,8 +85,7 @@ $WaitFullyConnected;
         $LogPrintExit2 info $0 ("Now " . [ $IfThenElse $TelegramChatActive "active" "passive" ] . \
           " from update " . $UpdateID . "!") false;
       } else={
-        :if (($TelegramMessageIDs->([ $ParseJson ($Message->"reply_to_message") ]->"message_id") = 1 || \
-             $TelegramChatActive = true) && [ :len ($Message->"text") ] > 0) do={
+        :if (($IsReply = 1 || $TelegramChatActive = true) && [ :len ($Message->"text") ] > 0) do={
           :if ([ $ValidateSyntax ($Message->"text") ] = true) do={
             :local State "";
             :local File ("tmpfs/telegram-chat/" . [ $GetRandom20CharAlNum 6 ]);
