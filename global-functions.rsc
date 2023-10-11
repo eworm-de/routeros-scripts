@@ -1255,7 +1255,7 @@
   :global SymbolByUnicodeName;
 
   :if ($NotificationsWithSymbols != true) do={
-    :return "";
+    :return [ :tostr $2 ];
   }
   :local Return "";
   :foreach Symbol in=[ :toarray $1 ] do={
