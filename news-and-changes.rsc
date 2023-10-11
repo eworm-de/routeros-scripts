@@ -22,6 +22,7 @@
   106="Modified 'telegram-chat' to make it act on message replies, without activation. Also made it answer a single question mark with a short notice.";
   107="Dropped support for non-fixed width font in Telegram notifications.";
   108="Enhanced 'log-forward' to list log messages with colorful bullets to indicate severity.";
+  109="Added support to send notifications via Ntfy (ntfy.sh).";
 };
 
 # Migration steps to be applied on script updates

@@ -40,7 +40,8 @@ The hosts to be checked have to be added to netwatch with specific comment:
 
 Also notification settings are required for
 [e-mail](mod/notification-email.md),
-[matrix](mod/notification-matrix.md) and/or
+[matrix](mod/notification-matrix.md),
+[ntfy](mod/notification-ntfy.md) and/or
 [telegram](mod/notification-telegram.md).
 
 ### Hooks

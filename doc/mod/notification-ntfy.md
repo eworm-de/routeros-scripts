@@ -1,5 +1,5 @@
-Send notifications via e-mail
-=============================
+Send notifications via Ntfy
+===========================
 
 [⬅️ Go back to main README](../../README.md)
 
@@ -9,49 +9,47 @@ Send notifications via e-mail
 Description
 -----------
 
-This module adds support for sending notifications via e-mail. A queue is
-used to make sure notifications are not lost on failure but sent later.
+This module adds support for sending notifications via
+[Ntfy](https://ntfy.sh/). A queue is used to make sure
+notifications are not lost on failure but sent later.
 
 Requirements and installation
 -----------------------------
 
 Just install the module:
 
-    $ScriptInstallUpdate mod/notification-email;
+    $ScriptInstallUpdate mod/notification-ntfy;
 
-Also you need a valid e-mail account with smtp login credentials.
+Also install the Ntfy app on your mobile device or use the
+[web app](https://ntfy.sh/app) in a browser of your choice.
 
 Configuration
 -------------
 
-Set up your device's
-[e-mail settings](https://wiki.mikrotik.com/wiki/Manual:Tools/email).
-Also make sure the device has correct time configured, best is to set up
-the ntp client.
+Creating an account is not required. Just choose a topic and you are good
+to go.
 
-Then edit `global-config-overlay`, add `EmailGeneralTo` with a valid
-recipient address. Finally reload the configuration.
+> ⚠️ **Warning**: If you use ntfy without sign-up, the topic is essentially
+> a password, so pick something that's not easily guessable.
+
+Edit `global-config-overlay`, add `NtfyServer` (leave it unchanged, unless
+you are self-hosting the service) and `NtfyTopic` with your choosen topic.
+Then reload the configuration.
 
 > ℹ️ **Info**: Copy relevant configuration from
 > [`global-config`](../../global-config.rsc) (the one without `-overlay`) to
 > your local `global-config-overlay` and modify it to your specific needs.
 
-### Sending to several recipients
-
-Sending notifications to several recipients is possible as well. Add
-`EmailGeneralCc` on top, which can have a single mail address or a comma
-separated list.
-
 Usage and invocation
 --------------------
 
 There's nothing special to do. Every script or function sending a notification
-will now send it to your e-mail account.
+will now send it to your Ntfy topic.
 
 But of course you can use the function to send notifications directly. Give
 it a try:
 
-    $SendEMail "Subject..." "Body..."
+    $SendNtfy "Subject..." "Body..."
 
 Alternatively this sends a notification with all available and configured
 methods:
@@ -61,19 +59,19 @@ methods:
 To use the functions in your own scripts you have to declare them first.
 Place this before you call them:
 
-    :global SendEMail;
+    :global SendNtfy;
     :global SendNotification;
 
 In case there is a situation when the queue needs to be purged there is a
 function available:
 
-    $PurgeEMailQueue;
+    $PurgeNtfyQueue;
 
 See also
 --------
 
+* [Send notifications via e-mail](notification-email.md)
 * [Send notifications via Matrix](notification-matrix.md)
-* [Send notifications via Ntfy](notification-ntfy.md)
 * [Send notifications via Telegram](notification-telegram.md)
 
 ---

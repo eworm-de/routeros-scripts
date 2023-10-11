@@ -52,9 +52,15 @@
 #:global MatrixAccessToken "123456ABCDEFGHI...";
 #:global MatrixRoom "!example:matrix.org";
 
-# It is possible to override e-mail, Telegram and Matrix setting for every
-# script. This is done in arrays, where 'Override' is appended to the
-# variable name, like this:
+# You can send Ntfy notifications. Configure these settings and
+# install the module:
+# $ScriptInstallUpdate mod/notification-ntfy
+:global NtfyServer "ntfy.sh";
+:global NtfyTopic "";
+
+# It is possible to override e-mail, Telegram, Matrix and Ntfy setting
+# for every script. This is done in arrays, where 'Override' is appended
+# to the variable name, like this:
 #:global EmailGeneralToOverride {
 #  "check-certificates"="override@example.com";
 #  "backup-email"="backup@example.com";

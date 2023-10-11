@@ -67,7 +67,8 @@ To forward **all** (ignoring severity) log messages with topics `account`
 
 Also notification settings are required for
 [e-mail](mod/notification-email.md),
-[matrix](mod/notification-matrix.md) and/or
+[matrix](mod/notification-matrix.md),
+[ntfy](mod/notification-ntfy.md) and/or
 [telegram](mod/notification-telegram.md).
 
 Tips & Tricks
