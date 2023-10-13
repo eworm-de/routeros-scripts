@@ -78,6 +78,11 @@ Associated messages are cleared on device reboot.
 > ⚠️ **Warning**: If another device is activated both will act, the one from
 > reply and the active one!
 
+### Ask for devices
+
+Send a message with a single question mark (`?`) to query for devices
+currenty online. The answer can be used for command via reply then.
+
 Known limitations
 -----------------
 

@@ -77,7 +77,13 @@ $WaitFullyConnected;
 
     :if ($Trusted = true) do={
       :local Done false;
-      :if ([ :pick ($Message->"text") 0 1 ] = "!") do={
+      :if ($Message->"text" = "?") do={
+        $SendTelegram2 ({ origin=$0; chatid=($Chat->"id"); silent=false; replyto=($Message->"message_id"); \
+          subject=([ $SymbolForNotification "speech-balloon" ] . "Telegram Chat"); \
+          message=("Online, awaiting your commands!") });
+        :set Done true;
+      }
+      :if ($Done = false && [ :pick ($Message->"text") 0 1 ] = "!") do={
         :if ($Message->"text" ~ ("^! *(" . [ $EscapeForRegEx $Identity ] . "|@" . $TelegramChatGroups . ")\$")) do={
           :set TelegramChatActive true;
         } else={
