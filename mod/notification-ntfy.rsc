@@ -63,6 +63,7 @@
   :global NtfyTopic;
   :global NtfyTopicOverride;
 
+  :global CertificateAvailable;
   :global EitherOr;
   :global IfThenElse;
   :global LogPrintExit2;
@@ -85,6 +86,11 @@
   }
 
   :do {
+    :if ($NtfyServer = "ntfy.sh") do={
+      :if ([ $CertificateAvailable "R3" ] = false) do={
+        $LogPrintExit2 warning $0 ("Downloading required certificate failed.") true;
+      }
+    }
     /tool/fetch check-certificate=yes-without-crl output=none http-method=post \
       $Url http-header-field=$Headers http-data=$Text as-value;
   } on-error={
