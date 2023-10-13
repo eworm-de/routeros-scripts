@@ -723,6 +723,19 @@
         :set Skip 2;
         :set Done true;
       }
+      :if ($Done = false && $Val1 = ":[") do={
+        :local Tmp "";
+        :local End;
+        :set Skip 1;
+        :do {
+          :set Skip ($Skip + 1);
+          :local ValX ($Input->($I + $Skip));
+          :set End [ :pick $ValX ([ :len $ValX ] - 1) ];
+          :set Tmp ($Tmp . "},{" . $ValX);
+        } while=($End != "]");
+        :set ($Return->$Key) ("{" . [ :pick $Tmp 0 ([ :len $Tmp ] - 1) ] . "}");
+        :set Done true;
+      }
       :if ($Done = false) do={
         :set ($Return->$Key) [ :pick $Val1 1 [ :len $Val1 ] ];
         :set Skip 1;
