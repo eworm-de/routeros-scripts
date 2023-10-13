@@ -41,8 +41,6 @@
 #};
 :global TelegramChatGroups "(all)";
 #:global TelegramChatGroups "(all|home|office)";
-# This is whether or not to send Telegram messages with fixed-width font.
-:global TelegramFixedWidthFont true;
 
 # You can send Matrix notifications. Configure these settings and
 # install the module:

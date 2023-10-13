@@ -20,6 +20,7 @@
   104="All relevant scripts were ported to new wifiwave2 and are available for AX devices now!";
   105="Extended 'check-routeros-update' to support automatic update from specific neighbor(s).";
   106="Modified 'telegram-chat' to make it act on message replies, without activation. Also made it answer a single question mark with a short notice.";
+  107="Dropped support for non-fixed width font in Telegram notifications.";
 };
 
 # Migration steps to be applied on script updates

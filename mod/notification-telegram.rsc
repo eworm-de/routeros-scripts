@@ -40,7 +40,7 @@
           ("https://api.telegram.org/bot" . ($Message->"tokenid") . "/sendMessage") \
           http-data=("chat_id=" . ($Message->"chatid") . "&disable_notification=" . ($Message->"silent") . \
           "&reply_to_message_id=" . ($Message->"replyto") . "&disable_web_page_preview=true" . \
-          "&parse_mode=" . ($Message->"parsemode") . "&text=" . ($Message->"text")) as-value ]->"data");
+          "&parse_mode=MarkdownV2&text=" . ($Message->"text")) as-value ]->"data");
         :set ($TelegramQueue->$Id);
         :set ($TelegramMessageIDs->([ $ParseJson ([ $ParseJson $Data ]->"result") ]->"message_id")) 1;
       } on-error={
@@ -64,7 +64,6 @@
   :global IdentityExtra;
   :global TelegramChatId;
   :global TelegramChatIdOverride;
-  :global TelegramFixedWidthFont;
   :global TelegramMessageIDs;
   :global TelegramQueue;
   :global TelegramTokenId;
@@ -80,14 +79,8 @@
   :global UrlEncode;
 
   :local EscapeMD do={
-    :global TelegramFixedWidthFont;
-
     :global CharacterReplace;
     :global IfThenElse;
-
-    :if ($TelegramFixedWidthFont != true) do={
-      :return ($1 . [ $IfThenElse ($2 = "body") ("\n") "" ]);
-    }
 
     :local Return $1;
     :local Chars {
@@ -140,7 +133,6 @@
       (($LenSum - [ :len $Text ]) * 100 / $LenSum) . "%!") "plain" ]);
   }
   :set Text [ $UrlEncode $Text ];
-  :local ParseMode [ $IfThenElse ($TelegramFixedWidthFont = true) "MarkdownV2" "" ];
 
   :do {
     :if ([ $CertificateAvailable "Go Daddy Secure Certificate Authority - G2" ] = false) do={
@@ -150,7 +142,7 @@
       ("https://api.telegram.org/bot" . $TokenId . "/sendMessage") \
       http-data=("chat_id=" . $ChatId . "&disable_notification=" . ($Notification->"silent") . \
       "&reply_to_message_id=" . ($Notification->"replyto") . "&disable_web_page_preview=true" . \
-      "&parse_mode=" . $ParseMode . "&text=" . $Text) as-value ]->"data");
+      "&parse_mode=MarkdownV2&text=" . $Text) as-value ]->"data");
     :set ($TelegramMessageIDs->([ $ParseJson ([ $ParseJson $Data ]->"result") ]->"message_id")) 1;
   } on-error={
     $LogPrintExit2 info $0 ("Failed sending telegram notification! Queuing...") false;
@@ -162,8 +154,7 @@
       [ $EscapeMD ("This message was queued since " . [ /system/clock/get date ] . \
       " " . [ /system/clock/get time ] . " and may be obsolete.") "plain" ]) ]);
     :set ($TelegramQueue->[ :len $TelegramQueue ]) { chatid=$ChatId; tokenid=$TokenId;
-      parsemode=$ParseMode; text=$Text; silent=($Notification->"silent");
-      replyto=($Notification->"replyto") };
+      text=$Text; silent=($Notification->"silent"); replyto=($Notification->"replyto") };
     :if ([ :len [ /system/scheduler/find where name="\$FlushTelegramQueue" ] ] = 0) do={
       /system/scheduler/add name="\$FlushTelegramQueue" interval=1m start-time=startup \
         on-event=(":global FlushTelegramQueue; \$FlushTelegramQueue;");
