@@ -52,14 +52,13 @@ $WaitFullyConnected;
   :set Data ([ /tool/fetch check-certificate=yes-without-crl output=user \
     ("https://api.telegram.org/bot" . $TelegramTokenId . "/getUpdates?offset=" . \
     $TelegramChatOffset->0 . "&allowed_updates=%5B%22message%22%5D") as-value ]->"data");
-  :set Data [ :pick $Data ([ :find $Data "[" ] + 1) ([ :len $Data ] - 2) ];
 } on-error={
   $LogPrintExit2 debug $0 ("Failed getting updates from Telegram.") true;
 }
 
 :local UpdateID 0;
 :local Uptime [ /system/resource/get uptime ];
-:foreach UpdateArray in=[ :toarray $Data ] do={
+:foreach UpdateArray in=[ :toarray ([ $ParseJson $Data ]->"result") ] do={
   :local Update [ $ParseJson $UpdateArray ];
   :set UpdateID ($Update->"update_id");
   :local Message [ $ParseJson ($Update->"message") ];
