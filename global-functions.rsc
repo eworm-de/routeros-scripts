@@ -888,30 +888,29 @@
       }
     }
 
-      :if (!($ScriptInfo->"ignore" = true)) do={
-        :do {
-          :local BaseUrl $ScriptUpdatesBaseUrl;
-          :local UrlSuffix $ScriptUpdatesUrlSuffix;
-          :if ([ :typeof ($ScriptInfo->"base-url") ] = "str") do={ :set BaseUrl ($ScriptInfo->"base-url"); }
-          :if ([ :typeof ($ScriptInfo->"url-suffix") ] = "str") do={ :set UrlSuffix ($ScriptInfo->"url-suffix"); }
-          :local Url ($BaseUrl . $ScriptVal->"name" . ".rsc" . $UrlSuffix);
-
-          $LogPrintExit2 debug $0 ("Fetching script '" . $ScriptVal->"name" . "' from url: " . $Url) false;
-          :local Result [ /tool/fetch check-certificate=yes-without-crl \
-            http-header-field=({ $FetchUserAgent }) $Url output=user as-value ];
-          :if ($Result->"status" = "finished") do={
-            :set SourceNew ($Result->"data");
-          }
-        } on-error={
-          :if ($ScriptVal->"source" = "#!rsc by RouterOS\n") do={
-            $LogPrintExit2 warning $0 ("Failed fetching script '" . $ScriptVal->"name" . \
-              "', removing dummy. Typo on installation?") false;
-            /system/script/remove $Script;
-          } else={
-            $LogPrintExit2 warning $0 ("Failed fetching script '" . $ScriptVal->"name" . "'!") false;
-          }
+    :if (!($ScriptInfo->"ignore" = true)) do={
+      :do {
+        :local BaseUrl $ScriptUpdatesBaseUrl;
+        :local UrlSuffix $ScriptUpdatesUrlSuffix;
+        :if ([ :typeof ($ScriptInfo->"base-url") ] = "str") do={ :set BaseUrl ($ScriptInfo->"base-url"); }
+        :if ([ :typeof ($ScriptInfo->"url-suffix") ] = "str") do={ :set UrlSuffix ($ScriptInfo->"url-suffix"); }
+        :local Url ($BaseUrl . $ScriptVal->"name" . ".rsc" . $UrlSuffix);
+        $LogPrintExit2 debug $0 ("Fetching script '" . $ScriptVal->"name" . "' from url: " . $Url) false;
+        :local Result [ /tool/fetch check-certificate=yes-without-crl \
+          http-header-field=({ $FetchUserAgent }) $Url output=user as-value ];
+        :if ($Result->"status" = "finished") do={
+          :set SourceNew ($Result->"data");
+        }
+      } on-error={
+        :if ($ScriptVal->"source" = "#!rsc by RouterOS\n") do={
+          $LogPrintExit2 warning $0 ("Failed fetching script '" . $ScriptVal->"name" . \
+            "', removing dummy. Typo on installation?") false;
+          /system/script/remove $Script;
+        } else={
+          $LogPrintExit2 warning $0 ("Failed fetching script '" . $ScriptVal->"name" . "'!") false;
         }
       }
+    }
 
     :if ([ :len $SourceNew ] > 0) do={
       :if ($SourceNew != $ScriptVal->"source") do={
