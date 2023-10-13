@@ -23,6 +23,7 @@
   107="Dropped support for non-fixed width font in Telegram notifications.";
   108="Enhanced 'log-forward' to list log messages with colorful bullets to indicate severity.";
   109="Added support to send notifications via Ntfy (ntfy.sh).";
+  110="Dropped support for loading scripts from local storage.";
 };
 
 # Migration steps to be applied on script updates

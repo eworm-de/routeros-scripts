@@ -12,7 +12,7 @@
 :local 0 "global-functions";
 
 # expected configuration version
-:global ExpectedConfigVersion 109;
+:global ExpectedConfigVersion 110;
 
 # global variables not to be changed by user
 :global GlobalFunctionsReady false;
@@ -843,7 +843,6 @@
   :global IDonate;
   :global NoNewsAndChangesNotification;
   :global ScriptUpdatesBaseUrl;
-  :global ScriptUpdatesFetch;
   :global ScriptUpdatesUrlSuffix;
 
   :global CertificateAvailable;
@@ -878,12 +877,8 @@
 
   :foreach Script in=[ /system/script/find where source~"^#!rsc by RouterOS\r?\n" ] do={
     :local ScriptVal [ /system/script/get $Script ];
-    :local ScriptFile [ /file/find where name=("script-updates/" . $ScriptVal->"name") . ".rsc" ];
+    :local ScriptInfo [ $ParseKeyValueStore ($ScriptVal->"comment") ];
     :local SourceNew;
-    :if ([ :len $ScriptFile ] > 0) do={
-      :set SourceNew [ /file/get $ScriptFile contents ];
-      /file/remove $ScriptFile;
-    }
 
     :foreach Scheduler in=[ /system/scheduler/find where on-event~("\\b" . $ScriptVal->"name" . "\\b") ] do={
       :local SchedulerVal [ /system/scheduler/get $Scheduler ];
@@ -893,8 +888,6 @@
       }
     }
 
-    :if ([ :len $SourceNew ] = 0 && $ScriptUpdatesFetch = true) do={
-      :local ScriptInfo [ $ParseKeyValueStore ($ScriptVal->"comment") ];
       :if (!($ScriptInfo->"ignore" = true)) do={
         :do {
           :local BaseUrl $ScriptUpdatesBaseUrl;
@@ -919,7 +912,6 @@
           }
         }
       }
-    }
 
     :if ([ :len $SourceNew ] > 0) do={
       :if ($SourceNew != $ScriptVal->"source") do={

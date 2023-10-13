@@ -202,8 +202,7 @@
 # This is the address used to send gps data to.
 :global GpsTrackUrl "https://example.com/index.php";
 
-# Enable this to fetch scripts from given url.
-:global ScriptUpdatesFetch true;
+# This is the base url to fetch scripts from.
 :global ScriptUpdatesBaseUrl "https://git.eworm.de/cgit/routeros-scripts/plain/";
 # alternative urls - main: stable code - next: currently in development
 #:global ScriptUpdatesBaseUrl "https://raw.githubusercontent.com/eworm-de/routeros-scripts/main/";
