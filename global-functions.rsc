@@ -894,13 +894,13 @@
     }
 
     :if ([ :len $SourceNew ] = 0 && $ScriptUpdatesFetch = true) do={
-      :local Comment [ $ParseKeyValueStore ($ScriptVal->"comment") ];
-      :if (!($Comment->"ignore" = true)) do={
+      :local ScriptInfo [ $ParseKeyValueStore ($ScriptVal->"comment") ];
+      :if (!($ScriptInfo->"ignore" = true)) do={
         :do {
           :local BaseUrl $ScriptUpdatesBaseUrl;
           :local UrlSuffix $ScriptUpdatesUrlSuffix;
-          :if ([ :typeof ($Comment->"base-url") ] = "str") do={ :set BaseUrl ($Comment->"base-url"); }
-          :if ([ :typeof ($Comment->"url-suffix") ] = "str") do={ :set UrlSuffix ($Comment->"url-suffix"); }
+          :if ([ :typeof ($ScriptInfo->"base-url") ] = "str") do={ :set BaseUrl ($ScriptInfo->"base-url"); }
+          :if ([ :typeof ($ScriptInfo->"url-suffix") ] = "str") do={ :set UrlSuffix ($ScriptInfo->"url-suffix"); }
           :local Url ($BaseUrl . $ScriptVal->"name" . ".rsc" . $UrlSuffix);
 
           $LogPrintExit2 debug $0 ("Fetching script '" . $ScriptVal->"name" . "' from url: " . $Url) false;
