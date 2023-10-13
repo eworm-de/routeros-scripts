@@ -890,10 +890,8 @@
 
     :if (!($ScriptInfo->"ignore" = true)) do={
       :do {
-        :local BaseUrl $ScriptUpdatesBaseUrl;
-        :local UrlSuffix $ScriptUpdatesUrlSuffix;
-        :if ([ :typeof ($ScriptInfo->"base-url") ] = "str") do={ :set BaseUrl ($ScriptInfo->"base-url"); }
-        :if ([ :typeof ($ScriptInfo->"url-suffix") ] = "str") do={ :set UrlSuffix ($ScriptInfo->"url-suffix"); }
+        :local BaseUrl [ $EitherOr ($ScriptInfo->"base-url") $ScriptUpdatesBaseUrl ];
+        :local UrlSuffix [ $EitherOr ($ScriptInfo->"url-suffix") $ScriptUpdatesUrlSuffix ];
         :local Url ($BaseUrl . $ScriptVal->"name" . ".rsc" . $UrlSuffix);
         $LogPrintExit2 debug $0 ("Fetching script '" . $ScriptVal->"name" . "' from url: " . $Url) false;
         :local Result [ /tool/fetch check-certificate=yes-without-crl \
