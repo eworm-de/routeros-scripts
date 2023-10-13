@@ -12,7 +12,7 @@
 :local 0 "global-functions";
 
 # expected configuration version
-:global ExpectedConfigVersion 105;
+:global ExpectedConfigVersion 107;
 
 # global variables not to be changed by user
 :global GlobalFunctionsReady false;
@@ -48,6 +48,7 @@
 :global MkDir;
 :global NotificationFunctions;
 :global ParseDate;
+:global ParseJson;
 :global ParseKeyValueStore;
 :global PrettyPrint;
 :global RandomDelay;
@@ -692,6 +693,57 @@
   :return ({ "year"=[ :tonum [ :pick $Date 0 4 ] ];
             "month"=[ :tonum [ :pick $Date 5 7 ] ];
               "day"=[ :tonum [ :pick $Date 8 10 ] ] });
+}
+
+# parse JSON into array
+# Warning: This is not a complete parser!
+:set ParseJson do={
+  :local Input [ :tostr $1 ];
+
+  :local Return ({});
+  :local Skip 0;
+
+  :if ([ :pick $Input 0 ] = "{") do={
+    :set Input [ :pick $Input 1 ([ :len $Input ] - 1) ];
+  }
+  :set Input [ :toarray $Input ];
+
+  :for I from=0 to=[ :len $Input ] do={
+    :if ($Skip > 0 || $Input->$I = "\n" || $Input->$I = "\r\n") do={
+      :if ($Skip > 0) do={
+        :set $Skip ($Skip - 1);
+      }
+    } else={
+      :local Done false;
+      :local Key ($Input->$I);
+      :local Val1 ($Input->($I + 1));
+      :local Val2 ($Input->($I + 2));
+      :if ($Val1 = ":") do={
+        :set ($Return->$Key) $Val2;
+        :set Skip 2;
+        :set Done true;
+      }
+      :if ($Done = false && $Val1 = ":[") do={
+        :local Tmp "";
+        :local End;
+        :set Skip 1;
+        :do {
+          :set Skip ($Skip + 1);
+          :local ValX ($Input->($I + $Skip));
+          :set End [ :pick $ValX ([ :len $ValX ] - 1) ];
+          :set Tmp ($Tmp . "},{" . $ValX);
+        } while=($End != "]");
+        :set ($Return->$Key) ("{" . [ :pick $Tmp 0 ([ :len $Tmp ] - 1) ] . "}");
+        :set Done true;
+      }
+      :if ($Done = false) do={
+        :set ($Return->$Key) [ :pick $Val1 1 [ :len $Val1 ] ];
+        :set Skip 1;
+      }
+    }
+  }
+
+  :return $Return;
 }
 
 # parse key value store
