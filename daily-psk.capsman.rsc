@@ -66,15 +66,9 @@ $WaitFullyConnected;
     /caps-man/access-list/set $AccList private-passphrase=$NewPsk;
 
     :if ([ :len [ /caps-man/actual-interface-configuration/find where configuration.ssid=$Ssid !disabled ] ] > 0) do={
-      :foreach SeenSsid in=$Seen do={
-        :if ($SeenSsid = $Ssid) do={
-          $LogPrintExit2 debug $0 ("Already sent a mail for SSID " . $Ssid . ", skipping.") false;
-          :set Skip 1;
-        }
-      }
-
-      :if ($Skip = 0) do={
-        :set Seen ($Seen, $Ssid);
+      :if ($Seen->$Ssid = 1) do={
+        $LogPrintExit2 debug $0 ("Already sent a mail for SSID " . $Ssid . ", skipping.") false;
+      } else={
         :local Link ($DailyPskQrCodeUrl . \
             "?scale=8&level=1&ssid=" . [ $UrlEncode $Ssid ] . "&pass=" . [ $UrlEncode $NewPsk ]);
         $SendNotification2 ({ origin=$0; \
@@ -84,6 +78,7 @@ $WaitFullyConnected;
             [ $FormatLine "PSK" $NewPsk ] . "\n" . \
             [ $FormatLine "Date" $Date ] . "\n\n" . \
             "A client device specific rule must not exist!"); link=$Link });
+        :set ($Seen->$Ssid) 1;
       }
     }
   }
