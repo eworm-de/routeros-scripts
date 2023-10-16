@@ -19,18 +19,15 @@
 
 :foreach AccList in=[ /caps-man/access-list/find where mac-address!="00:00:00:00:00:00" ] do={
   :local Mac [ /caps-man/access-list/get $AccList mac-address ];
-  :foreach SeenMac in=$Seen do={
-    :if ($SeenMac = $Mac && $Shown->$Mac != 1) do={
-      /caps-man/access-list/print where mac-address=$Mac;
-
-      :put "\nNumeric id to remove, any key to skip!";
-      :local Remove [ :tonum [ $Read ] ];
-      :if ([ :typeof $Remove ] = "num") do={
-        :put ("Removing numeric id " . $Remove . "...\n");
-        /caps-man/access-list/remove $Remove;
-      }
-      :set ($Shown->$Mac) 1;
+  :if ($Seen->$Mac = 1 && $Shown->$Mac != 1) do={
+    /caps-man/access-list/print where mac-address=$Mac;
+    :put "\nNumeric id to remove, any key to skip!";
+    :local Remove [ :tonum [ $Read ] ];
+    :if ([ :typeof $Remove ] = "num") do={
+      :put ("Removing numeric id " . $Remove . "...\n");
+      /caps-man/access-list/remove $Remove;
     }
+    :set ($Shown->$Mac) 1;
   }
-  :set Seen ($Seen, $Mac);
+  :set ($Seen->$Mac) 1;
 }
