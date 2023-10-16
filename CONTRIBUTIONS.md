@@ -28,6 +28,7 @@ Add yourself to the list,
 * Christoph Boss (@Kampfwurst)
 * Devin Dean (@dd2594gh)
 * Evaldo Gardenal
+* Giorgio Bikos
 * Harold Schoemaker
 * Hugo BV
 * Klaus Michael Rübsam
