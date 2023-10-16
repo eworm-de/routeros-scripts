@@ -714,13 +714,16 @@
         :set $Skip ($Skip - 1);
       }
     } else={
+      :local Done false;
       :local Key ($Input->$I);
       :local Val1 ($Input->($I + 1));
       :local Val2 ($Input->($I + 2));
       :if ($Val1 = ":") do={
         :set ($Return->$Key) $Val2;
         :set Skip 2;
-      } else={
+        :set Done true;
+      }
+      :if ($Done = false) do={
         :set ($Return->$Key) [ :pick $Val1 1 [ :len $Val1 ] ];
         :set Skip 1;
       }
