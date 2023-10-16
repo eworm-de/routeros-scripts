@@ -88,33 +88,33 @@ $WaitFullyConnected;
         :set Done true;
       }
       :if ($Done = false && ($IsReply = 1 || $TelegramChatActive = true) && [ :len ($Message->"text") ] > 0) do={
-          :if ([ $ValidateSyntax ($Message->"text") ] = true) do={
-            :local State "";
-            :local File ("tmpfs/telegram-chat/" . [ $GetRandom20CharAlNum 6 ]);
-            $MkDir "tmpfs/telegram-chat";
-            $LogPrintExit2 info $0 ("Running command from update " . $UpdateID . ": " . $Message->"text") false;
-            :execute script=(":do {\n" . $Message->"text" . "\n} on-error={ /file/add name=\"" . $File . ".failed\" };" . \
-              "/file/add name=\"" . $File . ".done\"") file=$File;
-            :if ([ $WaitForFile ($File . ".done") [ $EitherOr $TelegramChatRunTime 20s ] ] = false) do={
-              :set State "The command did not finish, still running in background.\n\n";
-            }
-            :if ([ :len [ /file/find where name=($File . ".failed") ] ] > 0) do={
-              :set State "The command failed with an error!\n\n";
-            }
-            :local Content [ /file/get ($File . ".txt") contents ];
-            $SendTelegram2 ({ origin=$0; chatid=($Chat->"id"); silent=false; replyto=($Message->"message_id"); \
-              subject=([ $SymbolForNotification "speech-balloon" ] . "Telegram Chat"); \
-              message=("Command:\n" . $Message->"text" . "\n\n" . $State . [ $IfThenElse ([ :len $Content ] > 0) \
-                ("Output:\n" . $Content) [ $IfThenElse ([ /file/get ($File . ".txt") size ] > 0) \
-                ("Output exceeds file read size.") ("No output.") ] ]) });
-            /file/remove "tmpfs/telegram-chat";
-          } else={
-            $LogPrintExit2 info $0 ("The command from update " . $UpdateID . " failed syntax validation!") false;
-            $SendTelegram2 ({ origin=$0; chatid=($Chat->"id"); silent=false; replyto=($Message->"message_id"); \
-              subject=([ $SymbolForNotification "speech-balloon" ] . "Telegram Chat"); \
-              message=("Command:\n" . $Message->"text" . "\n\nThe command failed syntax validation!") });
+        :if ([ $ValidateSyntax ($Message->"text") ] = true) do={
+          :local State "";
+          :local File ("tmpfs/telegram-chat/" . [ $GetRandom20CharAlNum 6 ]);
+          $MkDir "tmpfs/telegram-chat";
+          $LogPrintExit2 info $0 ("Running command from update " . $UpdateID . ": " . $Message->"text") false;
+          :execute script=(":do {\n" . $Message->"text" . "\n} on-error={ /file/add name=\"" . $File . ".failed\" };" . \
+            "/file/add name=\"" . $File . ".done\"") file=$File;
+          :if ([ $WaitForFile ($File . ".done") [ $EitherOr $TelegramChatRunTime 20s ] ] = false) do={
+            :set State "The command did not finish, still running in background.\n\n";
           }
+          :if ([ :len [ /file/find where name=($File . ".failed") ] ] > 0) do={
+            :set State "The command failed with an error!\n\n";
+          }
+          :local Content [ /file/get ($File . ".txt") contents ];
+          $SendTelegram2 ({ origin=$0; chatid=($Chat->"id"); silent=false; replyto=($Message->"message_id"); \
+            subject=([ $SymbolForNotification "speech-balloon" ] . "Telegram Chat"); \
+            message=("Command:\n" . $Message->"text" . "\n\n" . $State . [ $IfThenElse ([ :len $Content ] > 0) \
+              ("Output:\n" . $Content) [ $IfThenElse ([ /file/get ($File . ".txt") size ] > 0) \
+              ("Output exceeds file read size.") ("No output.") ] ]) });
+          /file/remove "tmpfs/telegram-chat";
+        } else={
+          $LogPrintExit2 info $0 ("The command from update " . $UpdateID . " failed syntax validation!") false;
+          $SendTelegram2 ({ origin=$0; chatid=($Chat->"id"); silent=false; replyto=($Message->"message_id"); \
+            subject=([ $SymbolForNotification "speech-balloon" ] . "Telegram Chat"); \
+            message=("Command:\n" . $Message->"text" . "\n\nThe command failed syntax validation!") });
         }
+      }
     } else={
       :local MessageText ("Received a message from untrusted contact " . \
         [ $IfThenElse ([ :len ($From->"username") ] = 0) "without username" ("'" . $From->"username" . "'") ] . \
