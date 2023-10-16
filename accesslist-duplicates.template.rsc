@@ -25,26 +25,20 @@
   :local Mac [ /interface/wifiwave2/access-list/get $AccList mac-address ];
   :local Mac [ /interface/wireless/access-list/get $AccList mac-address ];
   :foreach SeenMac in=$Seen do={
-    :if ($SeenMac = $Mac) do={
-      :local Skip 0;
-      :foreach ShownMac in=$Shown do={
-        :if ($ShownMac = $Mac) do={ :set Skip 1; }
-      }
-      :if ($Skip = 0) do={
-        /caps-man/access-list/print where mac-address=$Mac;
-        /interface/wifiwave2/access-list/print where mac-address=$Mac;
-        /interface/wireless/access-list/print where mac-address=$Mac;
-        :set Shown ($Shown, $Mac);
+    :if ($SeenMac = $Mac && $Shown->$Mac != 1) do={
+      /caps-man/access-list/print where mac-address=$Mac;
+      /interface/wifiwave2/access-list/print where mac-address=$Mac;
+      /interface/wireless/access-list/print where mac-address=$Mac;
 
-        :put "\nNumeric id to remove, any key to skip!";
-        :local Remove [ :tonum [ $Read ] ];
-        :if ([ :typeof $Remove ] = "num") do={
-          :put ("Removing numeric id " . $Remove . "...\n");
-          /caps-man/access-list/remove $Remove;
-          /interface/wifiwave2/access-list/remove $Remove;
-          /interface/wireless/access-list/remove $Remove;
-        }
+      :put "\nNumeric id to remove, any key to skip!";
+      :local Remove [ :tonum [ $Read ] ];
+      :if ([ :typeof $Remove ] = "num") do={
+        :put ("Removing numeric id " . $Remove . "...\n");
+        /caps-man/access-list/remove $Remove;
+        /interface/wifiwave2/access-list/remove $Remove;
+        /interface/wireless/access-list/remove $Remove;
       }
+      :set ($Shown->$Mac) 1;
     }
   }
   :set Seen ($Seen, $Mac);
