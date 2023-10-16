@@ -76,6 +76,7 @@ $WaitFullyConnected;
     }
 
     :if ($Trusted = true) do={
+      :local Done false;
       :if ([ :pick ($Message->"text") 0 1 ] = "!") do={
         :if ($Message->"text" ~ ("^! *(" . [ $EscapeForRegEx $Identity ] . "|@" . $TelegramChatGroups . ")\$")) do={
           :set TelegramChatActive true;
@@ -84,8 +85,9 @@ $WaitFullyConnected;
         }
         $LogPrintExit2 info $0 ("Now " . [ $IfThenElse $TelegramChatActive "active" "passive" ] . \
           " from update " . $UpdateID . "!") false;
-      } else={
-        :if (($IsReply = 1 || $TelegramChatActive = true) && [ :len ($Message->"text") ] > 0) do={
+        :set Done true;
+      }
+      :if ($Done = false && ($IsReply = 1 || $TelegramChatActive = true) && [ :len ($Message->"text") ] > 0) do={
           :if ([ $ValidateSyntax ($Message->"text") ] = true) do={
             :local State "";
             :local File ("tmpfs/telegram-chat/" . [ $GetRandom20CharAlNum 6 ]);
@@ -113,7 +115,6 @@ $WaitFullyConnected;
               message=("Command:\n" . $Message->"text" . "\n\nThe command failed syntax validation!") });
           }
         }
-      }
     } else={
       :local MessageText ("Received a message from untrusted contact " . \
         [ $IfThenElse ([ :len ($From->"username") ] = 0) "without username" ("'" . $From->"username" . "'") ] . \
