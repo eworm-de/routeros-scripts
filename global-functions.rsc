@@ -715,11 +715,13 @@
       }
     } else={
       :local Key ($Input->$I);
-      :if ($Input->($I + 1) = ":") do={
-        :set ($Return->$Key) ($Input->($I + 2));
+      :local Val1 ($Input->($I + 1));
+      :local Val2 ($Input->($I + 2));
+      :if ($Val1 = ":") do={
+        :set ($Return->$Key) $Val2;
         :set Skip 2;
       } else={
-        :set ($Return->$Key) [ :pick ($Input->($I + 1)) 1 [ :len ($Input->($I + 1)) ] ];
+        :set ($Return->$Key) [ :pick $Val1 1 [ :len $Val1 ] ];
         :set Skip 1;
       }
     }
