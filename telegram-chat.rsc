@@ -78,7 +78,7 @@ $WaitFullyConnected;
     :if ($Trusted = true) do={
       :local Done false;
       :if ($Message->"text" = "?") do={
-        $SendTelegram2 ({ origin=$0; chatid=($Chat->"id"); silent=false; replyto=($Message->"message_id"); \
+        $SendTelegram2 ({ origin=$0; chatid=($Chat->"id"); silent=true; replyto=($Message->"message_id"); \
           subject=([ $SymbolForNotification "speech-balloon" ] . "Telegram Chat"); \
           message=("Online, awaiting your commands!") });
         :set Done true;
@@ -108,7 +108,7 @@ $WaitFullyConnected;
             :set State "The command failed with an error!\n\n";
           }
           :local Content [ /file/get ($File . ".txt") contents ];
-          $SendTelegram2 ({ origin=$0; chatid=($Chat->"id"); silent=false; replyto=($Message->"message_id"); \
+          $SendTelegram2 ({ origin=$0; chatid=($Chat->"id"); silent=true; replyto=($Message->"message_id"); \
             subject=([ $SymbolForNotification "speech-balloon" ] . "Telegram Chat"); \
             message=("Command:\n" . $Message->"text" . "\n\n" . $State . [ $IfThenElse ([ :len $Content ] > 0) \
               ("Output:\n" . $Content) [ $IfThenElse ([ /file/get ($File . ".txt") size ] > 0) \
