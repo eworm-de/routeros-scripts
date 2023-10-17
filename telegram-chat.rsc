@@ -47,13 +47,22 @@ $WaitFullyConnected;
   $LogPrintExit2 warning $0 ("Downloading required certificate failed.") true;
 }
 
-:local Data;
-:do {
-  :set Data ([ /tool/fetch check-certificate=yes-without-crl output=user \
-    ("https://api.telegram.org/bot" . $TelegramTokenId . "/getUpdates?offset=" . \
-    $TelegramChatOffset->0 . "&allowed_updates=%5B%22message%22%5D") as-value ]->"data");
-} on-error={
-  $LogPrintExit2 debug $0 ("Failed getting updates from Telegram.") true;
+:local Data false;
+:for I from=2 to=0 do={
+  :if ($Data = false) do={
+    :do {
+      :set Data ([ /tool/fetch check-certificate=yes-without-crl output=user \
+        ("https://api.telegram.org/bot" . $TelegramTokenId . "/getUpdates?offset=" . \
+        $TelegramChatOffset->0 . "&allowed_updates=%5B%22message%22%5D") as-value ]->"data");
+    } on-error={
+      $LogPrintExit2 debug $0 ("Fetch failed, " . $I . " retries pending.") false;
+      :delay 2s;
+    }
+  }
+}
+
+:if ($Data = false) do={
+  $LogPrintExit2 warning $0 ("Failed getting updates from Telegram.") true;
 }
 
 :local UpdateID 0;
