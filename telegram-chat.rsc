@@ -67,7 +67,7 @@ $WaitFullyConnected;
 
 :local UpdateID 0;
 :local Uptime [ /system/resource/get uptime ];
-:foreach UpdateArray in=[ :toarray ([ $ParseJson $Data ]->"result") ] do={
+:foreach UpdateArray in=([ $ParseJson $Data ]->"result") do={
   :local Update [ $ParseJson $UpdateArray ];
   :set UpdateID ($Update->"update_id");
   :local Message [ $ParseJson ($Update->"message") ];
