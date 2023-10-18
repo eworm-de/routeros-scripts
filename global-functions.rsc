@@ -719,26 +719,33 @@
       :local Val1 ($Input->($I + 1));
       :local Val2 ($Input->($I + 2));
       :if ($Val1 = ":") do={
-        :set ($Return->$Key) $Val2;
         :set Skip 2;
+        :set ($Return->$Key) $Val2;
         :set Done true;
       }
       :if ($Done = false && $Val1 = ":[") do={
-        :local Tmp "";
-        :local End;
+        :local Last false;
         :set Skip 1;
+        :set ($Return->$Key) ({});
         :do {
           :set Skip ($Skip + 1);
           :local ValX ($Input->($I + $Skip));
-          :set End [ :pick $ValX ([ :len $ValX ] - 1) ];
-          :set Tmp ($Tmp . "},{" . $ValX);
-        } while=($End != "]");
-        :set ($Return->$Key) ("{" . [ :pick $Tmp 0 ([ :len $Tmp ] - 1) ] . "}");
+          :if ([ :pick $ValX ([ :len $ValX ] - 1) ] = "]") do={
+            :set Last true;
+            :set ValX [ :pick $ValX 0 ([ :len $ValX ] - 1) ];
+          }
+          :set ($Return->$Key) (($Return->$Key), $ValX);
+        } while=($Last = false);
+        :set Done true;
+      }
+      :if ($Done = false && $Val1 = ":[]") do={
+        :set Skip 1;
+        :set ($Return->$Key) ({});
         :set Done true;
       }
       :if ($Done = false) do={
-        :set ($Return->$Key) [ :pick $Val1 1 [ :len $Val1 ] ];
         :set Skip 1;
+        :set ($Return->$Key) [ :pick $Val1 1 [ :len $Val1 ] ];
       }
     }
   }
