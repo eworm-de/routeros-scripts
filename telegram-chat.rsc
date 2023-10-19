@@ -87,6 +87,7 @@ $WaitFullyConnected;
     :if ($Trusted = true) do={
       :local Done false;
       :if ($Message->"text" = "?") do={
+        $LogPrintExit2 info $0 ("Sending notice for update " . $UpdateID . ".") false;
         $SendTelegram2 ({ origin=$0; chatid=($Chat->"id"); silent=true; replyto=($Message->"message_id"); \
           subject=([ $SymbolForNotification "speech-balloon" ] . "Telegram Chat"); \
           message=("Online, awaiting your commands!") });
