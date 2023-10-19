@@ -61,6 +61,7 @@ $ScriptLock $0;
       :set Bullet "large-orange-circle";
     }
     :if ($MessageVal->"topics" ~ "(emergency|alert|critical|error)") do={
+      :set Warning true;
       :set Bullet "large-red-circle";
     }
     :if ($DupCount < 3) do={
