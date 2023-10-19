@@ -50,13 +50,16 @@ $WaitFullyConnected;
       }
     }
 
-    :for I from=2 to=0 do={
+    :for I from=1 to=4 do={
       :if ($Data = false) do={
         :do {
-          :set Data ([ /tool/fetch ($List->"url") check-certificate=$CheckCertificate output=user as-value ]->"data");
+          :set Data ([ /tool/fetch check-certificate=$CheckCertificate output=user \
+            ($List->"url") as-value ]->"data");
         } on-error={
-          $LogPrintExit2 debug $0 ("Failed downloading, " . $I . " retries pending: " . $List->"url") false;
-          :delay 2s;
+          :if ($I < 4) do={
+            $LogPrintExit2 debug $0 ("Failed downloading, " . $I . ". try: " . $List->"url") false;
+            :delay (($I * $I) . "s");
+          }
         }
       }
     }
