@@ -48,15 +48,17 @@ $WaitFullyConnected;
 }
 
 :local Data false;
-:for I from=2 to=0 do={
+:for I from=1 to=4 do={
   :if ($Data = false) do={
     :do {
       :set Data ([ /tool/fetch check-certificate=yes-without-crl output=user \
         ("https://api.telegram.org/bot" . $TelegramTokenId . "/getUpdates?offset=" . \
         $TelegramChatOffset->0 . "&allowed_updates=%5B%22message%22%5D") as-value ]->"data");
     } on-error={
-      $LogPrintExit2 debug $0 ("Fetch failed, " . $I . " retries pending.") false;
-      :delay 2s;
+      :if ($I < 4) do={
+        $LogPrintExit2 debug $0 ("Fetch failed, " . $I . ". try.") false;
+        :delay (($I * $I) "s");
+      }
     }
   }
 }
