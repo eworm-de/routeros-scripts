@@ -46,6 +46,18 @@ $ScriptLock $0 false 10;
     /ip/dns/static/remove [ find where type=CNAME comment=($DnsRecordVal->"comment") ];
   }
 }
+:foreach DnsRecord in=[ /ip/dns/static/find where comment~("^" . $CommentPrefix) type=AAAA ] do={
+  :local DnsRecordVal [ /ip/dns/static/get $DnsRecord ];
+  :local MacAddress [ $CharacterReplace ($DnsRecordVal->"comment") $CommentPrefix "" ];
+  :if (([ :len [ /ip/dhcp-server/lease/find where active-mac-address=$MacAddress status=bound ] ] > 0) and ([ :len [ /ipv6/neighbor/find where mac-address=$MacAddress address=($DnsRecordVal->"address") status!=failed ] ] > 0)) do={
+    $LogPrintExit2 debug $0 ("Lease and IPv6 neighbor for " . $MacAddress . " (" . $DnsRecordVal->"name" . ") still exists. Not deleting AAAA DNS entry.") false;
+  } else={
+    :local Found false;
+    $LogPrintExit2 info $0 ("Lease expired or IPv6 neighbor failed for " . $MacAddress . " (" . $DnsRecordVal->"name" . "), deleting AAAA DNS entry.") false;
+    /ip/dns/static/remove $DnsRecord;
+    # /ip/dns/static/remove [ find where type=CNAME comment=($DnsRecordVal->"comment") ];
+  }
+}
 
 :foreach Lease in=[ /ip/dhcp-server/lease/find where status=bound ] do={
   :local LeaseVal;
@@ -99,6 +111,25 @@ $ScriptLock $0 false 10;
       :if ([ :len $HostName ] > 0) do={
         $LogPrintExit2 info $0 ("Adding new CNAME (" . ($HostName . "." . $NetDomain) . " -> " . ($MacDash . "." . $NetDomain) . ").") false;
         /ip/dns/static/add name=($HostName . "." . $NetDomain) type=CNAME cname=($MacDash . "." . $NetDomain) ttl=$Ttl comment=$Comment place-before=$PlaceBefore;
+      }
+    }
+
+    :local V6Neighbors [ /ipv6/neighbor/find where mac-address=($LeaseVal->"active-mac-address") (((address & ffff::) ^ fe80::) != ::) (status=reachable) ];
+    :if ([ :len $V6Neighbors ] > 0) do={
+      :local V6Neighbor ($V6Neighbors->0);
+      :local V6NeighborVal [ /ipv6/neighbor/get $V6Neighbor ];
+      :local DnsRecord [ /ip/dns/static/find where comment=$Comment type=AAAA ];
+      :if ([ :len $DnsRecord ] > 0) do={
+        :local DnsRecordVal [ /ip/dns/static/get $DnsRecord ];
+        :if ($DnsRecordVal->"address" = $V6NeighborVal->"address" && $DnsRecordVal->"name" = ($MacDash . "." . $NetDomain)) do={
+          $LogPrintExit2 debug $0 ("V6 DNS entry for " . $LeaseVal->"active-mac-address" . " does not need updating.") false;
+        } else={
+          $LogPrintExit2 info $0 ("Replacing V6 DNS entry for " . $LeaseVal->"active-mac-address" . " (" . ($MacDash . "." . $NetDomain) . " -> " . $V6NeighborVal->"address" . ").") false;
+          /ip/dns/static/set address=($V6NeighborVal->"address") name=($MacDash . "." . $NetDomain) $DnsRecord;
+        }
+      } else={
+        $LogPrintExit2 info $0 ("Adding new V6 DNS entry for " . $LeaseVal->"active-mac-address" . " (" . ($MacDash . "." . $NetDomain) . " -> " . $V6NeighborVal->"address" . ").") false;
+        /ip/dns/static/add name=($MacDash . "." . $NetDomain) type=AAAA address=($V6NeighborVal->"address") ttl=$Ttl comment=$Comment place-before=$PlaceBefore;
       }
     }
   } else={
