@@ -34,28 +34,30 @@ $ScriptLock $0 false 10;
 }
 :local PlaceBefore ([ /ip/dns/static/find where (name=$CommentString or (comment=$CommentString and name=-)) type=NXDOMAIN disabled ]->0);
 
-:foreach DnsRecord in=[ /ip/dns/static/find where comment~("^" . $CommentPrefix) (!type or type=A) ] do={
+:foreach DnsRecord in=[ /ip/dns/static/find where comment~("^" . $CommentPrefix) (!type or type=A or type=AAAA) ] do={
   :local DnsRecordVal [ /ip/dns/static/get $DnsRecord ];
-  :local MacAddress [ $CharacterReplace ($DnsRecordVal->"comment") $CommentPrefix "" ];
-  :if ([ :len [ /ip/dhcp-server/lease/find where active-mac-address=$MacAddress active-address=($DnsRecordVal->"address") status=bound ] ] > 0) do={
-    $LogPrintExit2 debug $0 ("Lease for " . $MacAddress . " (" . $DnsRecordVal->"name" . ") still exists. Not deleting DNS entry.") false;
+  :local MacAddrIface [ $CharacterReplace ($DnsRecordVal->"comment") $CommentPrefix "" ];
+  :local MacAddress [ :pick $MacAddrIface 0 [ :find $MacAddrIface "%" ] ];
+  :local Interface [ :pick $MacAddrIface ([ :find $MacAddrIface "%" ]+1) [ :len $MacAddrIface ] ];
+  :local DHCPServerName [ /ip/dhcp-server/get [ find where interface=$Interface ] name ];
+
+  :if ($DnsRecordVal->"type" != "AAAA") do={
+    :if ([ :len [ /ip/dhcp-server/lease/find where active-mac-address=$MacAddress active-address=($DnsRecordVal->"address") server=$DHCPServerName status=bound ] ] > 0) do={
+      $LogPrintExit2 debug $0 ("Lease for " . $MacAddrIface . " (" . $DnsRecordVal->"name" . ") still exists. Not deleting DNS entry.") false;
+    } else={
+      :local Found false;
+      $LogPrintExit2 info $0 ("Lease expired for " . $MacAddrIface . " (" . $DnsRecordVal->"name" . "), deleting DNS entry.") false;
+      /ip/dns/static/remove $DnsRecord;
+      /ip/dns/static/remove [ find where type=CNAME comment=($DnsRecordVal->"comment") ];
+    }
   } else={
-    :local Found false;
-    $LogPrintExit2 info $0 ("Lease expired for " . $MacAddress . " (" . $DnsRecordVal->"name" . "), deleting DNS entry.") false;
-    /ip/dns/static/remove $DnsRecord;
-    /ip/dns/static/remove [ find where type=CNAME comment=($DnsRecordVal->"comment") ];
-  }
-}
-:foreach DnsRecord in=[ /ip/dns/static/find where comment~("^" . $CommentPrefix) type=AAAA ] do={
-  :local DnsRecordVal [ /ip/dns/static/get $DnsRecord ];
-  :local MacAddress [ $CharacterReplace ($DnsRecordVal->"comment") $CommentPrefix "" ];
-  :if (([ :len [ /ip/dhcp-server/lease/find where active-mac-address=$MacAddress status=bound ] ] > 0) and ([ :len [ /ipv6/neighbor/find where mac-address=$MacAddress address=($DnsRecordVal->"address") status!=failed ] ] > 0)) do={
-    $LogPrintExit2 debug $0 ("Lease and IPv6 neighbor for " . $MacAddress . " (" . $DnsRecordVal->"name" . ") still exists. Not deleting AAAA DNS entry.") false;
-  } else={
-    :local Found false;
-    $LogPrintExit2 info $0 ("Lease expired or IPv6 neighbor failed for " . $MacAddress . " (" . $DnsRecordVal->"name" . "), deleting AAAA DNS entry.") false;
-    /ip/dns/static/remove $DnsRecord;
-    # /ip/dns/static/remove [ find where type=CNAME comment=($DnsRecordVal->"comment") ];
+    :if (([ :len [ /ip/dhcp-server/lease/find where active-mac-address=$MacAddress server=$DHCPServerName status=bound ] ] > 0) and ([ :len [ /ipv6/neighbor/find where mac-address=$MacAddress address=($DnsRecordVal->"address") interface=$Interface status!=failed ] ] > 0)) do={
+      $LogPrintExit2 debug $0 ("Lease and IPv6 neighbor for " . $MacAddrIface . " (" . $DnsRecordVal->"name" . ") still exists. Not deleting AAAA DNS entry.") false;
+    } else={
+      :local Found false;
+      $LogPrintExit2 info $0 ("Lease expired or IPv6 neighbor failed for " . $MacAddrIface . " (" . $DnsRecordVal->"name" . "), deleting AAAA DNS entry.") false;
+      /ip/dns/static/remove $DnsRecord;
+    }
   }
 }
 
@@ -63,7 +65,7 @@ $ScriptLock $0 false 10;
   :local LeaseVal;
   :do {
     :set LeaseVal [ /ip/dhcp-server/lease/get $Lease ];
-    :local DupMacLeases [ /ip/dhcp-server/lease/find where active-mac-address=($LeaseVal->"active-mac-address") status=bound ];
+    :local DupMacLeases [ /ip/dhcp-server/lease/find where active-mac-address=($LeaseVal->"active-mac-address") server=($LeaseVal->"server") status=bound ];
     :if ([ :len $DupMacLeases ] > 1) do={
       $LogPrintExit2 debug $0 ("Multiple bound leases found for mac-address " . ($LeaseVal->"active-mac-address") . ", using last one.") false;
       :set LeaseVal [ /ip/dhcp-server/lease/get ($DupMacLeases->([ :len $DupMacLeases ] - 1)) ];
@@ -73,7 +75,8 @@ $ScriptLock $0 false 10;
   }
 
   :if ([ :len ($LeaseVal->"active-address") ] > 0) do={
-    :local Comment ($CommentPrefix . $LeaseVal->"active-mac-address");
+    :local Interface ([ /ip/dhcp-server/get [ find where name=($LeaseVal->"server") ] ]->"interface");
+    :local Comment ($CommentPrefix . $LeaseVal->"active-mac-address" . "%" . $Interface);
     :local MacDash [ $CharacterReplace ($LeaseVal->"active-mac-address") ":" "-" ];
     :local HostName [ $CharacterReplace [ $EitherOr ([ $ParseKeyValueStore ($LeaseVal->"comment") ]->"hostname") ($LeaseVal->"host-name") ] " " "" ];
     :local Network [ /ip/dhcp-server/network/find where ($LeaseVal->"active-address") in address ];
@@ -114,7 +117,7 @@ $ScriptLock $0 false 10;
       }
     }
 
-    :local V6Neighbors [ /ipv6/neighbor/find where mac-address=($LeaseVal->"active-mac-address") (((address & ffff::) ^ fe80::) != ::) (status=reachable) ];
+    :local V6Neighbors [ /ipv6/neighbor/find where mac-address=($LeaseVal->"active-mac-address") interface=$Interface (((address & ffff::) ^ fe80::) != ::) status=reachable ];
     :if ([ :len $V6Neighbors ] > 0) do={
       :local V6Neighbor ($V6Neighbors->0);
       :local V6NeighborVal [ /ipv6/neighbor/get $V6Neighbor ];
