@@ -13,7 +13,7 @@ This script is run from scheduler periodically, sending notification on
 health related events:
 
 * high CPU utilization
-* low available free RAM
+* high RAM utilization (low available RAM)
 * voltage jumps up or down more than configured threshold
 * voltage drops below hard lower limit
 * power supply failed or recovered
@@ -21,9 +21,9 @@ health related events:
 
 Note that bad initial state will not trigger an event.
 
-Monitoring CPU utilization and available free RAM works on all devices.
-Other than that only sensors available in hardware can be checked. See what
-your hardware supports:
+Monitoring CPU and RAM utilization (available processing and memory
+resources) works on all devices. Other than that only sensors available
+in hardware can be checked. See what your hardware supports:
 
     /system/health/print;
 
@@ -34,10 +34,10 @@ your hardware supports:
 ![check-health notification cpu utilization high](check-health.d/notification-01-cpu-utilization-high.avif)  
 ![check-health notification cpu utilization ok](check-health.d/notification-02-cpu-utilization-ok.avif)
 
-#### Available free RAM
+#### RAM utilization (low available RAM)
 
-![check-health notification free ram low](check-health.d/notification-03-free-ram-low.avif)  
-![check-health notification free ram ok](check-health.d/notification-04-free-ram-ok.avif)
+![check-health notification ram utilization high](check-health.d/notification-03-ram-utilization-high.avif)  
+![check-health notification ram utilization ok](check-health.d/notification-04-ram-utilization-ok.avif)
 
 #### Voltage
 

@@ -12,8 +12,8 @@
 
 :global CheckHealthCPUUtilization;
 :global CheckHealthCPUUtilizationNotified;
-:global CheckHealthFreeRAMNotified;
 :global CheckHealthLast;
+:global CheckHealthRAMUtilizationNotified;
 :global CheckHealthTemperature;
 :global CheckHealthTemperatureDeviation;
 :global CheckHealthTemperatureNotified;
@@ -52,20 +52,21 @@ $ScriptLock $0;
   :set CheckHealthCPUUtilizationNotified false;
 }
 
-:local CheckHealthFreeRAM ($Resource->"free-memory" * 100  / $Resource->"total-memory");
-:if ($CheckHealthFreeRAM < 20 && $CheckHealthFreeRAMNotified != true) do={
+:local CheckHealthRAMUtilization (($Resource->"total-memory" - $Resource->"free-memory") * 100 / $Resource->"total-memory");
+:if ($CheckHealthRAMUtilization >=80 && $CheckHealthRAMUtilizationNotified != true) do={
   $SendNotification2 ({ origin=$0; \
-    subject=([ $SymbolForNotification "card-file-box,chart-decreasing" ] . "Health warning: free RAM"); \
-    message=("The available free RAM on " . $Identity . " is at " . $CheckHealthFreeRAM . "% (" . \
-    ($Resource->"free-memory" / 1024 / 1024) . "MiB)!") });
-  :set CheckHealthFreeRAMNotified true;
+    subject=([ $SymbolForNotification "card-file-box,chart-increasing" ] . "Health warning: RAM utilization"); \
+    message=("The RAM utilization on " . $Identity . " is at " . $CheckHealthRAMUtilization . "%!\n\n" . \
+    [ $FormatLine "total" (($Resource->"total-memory" / 1024 / 1024) . " MiB") ] . "\n" . \
+    [ $FormatLine "used" ((($Resource->"total-memory" - $Resource->"free-memory") / 1024 / 1024) . " MiB") ] . "\n" . \
+    [ $FormatLine "free" (($Resource->"free-memory" / 1024 / 1024) . " MiB") ]) });
+  :set CheckHealthRAMUtilizationNotified true;
 }
-:if ($CheckHealthFreeRAM > 30 && $CheckHealthFreeRAMNotified = true) do={
+:if ($CheckHealthRAMUtilization < 70 && $CheckHealthRAMUtilizationNotified = true) do={
   $SendNotification2 ({ origin=$0; \
-    subject=([ $SymbolForNotification "card-file-box,chart-increasing" ] . "Health recovery: free RAM"); \
-    message=("The available free RAM on " . $Identity . " increased to " . $CheckHealthFreeRAM . "% (" . \
-    ($Resource->"free-memory" / 1024 / 1024) . "MiB).") });
-  :set CheckHealthFreeRAMNotified false;
+    subject=([ $SymbolForNotification "card-file-box,chart-decreasing" ] . "Health recovery: RAM utilization"); \
+    message=("The RAM utilization on " . $Identity . " decreased to " . $CheckHealthRAMUtilization . "%.") });
+  :set CheckHealthRAMUtilizationNotified false;
 }
 
 :if ([ :len [ /system/health/find ] ] = 0) do={
