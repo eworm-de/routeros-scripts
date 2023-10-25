@@ -700,6 +700,7 @@
 :set ParseJson do={
   :local Input [ :tostr $1 ];
 
+  :local InLen;
   :local Return ({});
   :local Skip 0;
 
@@ -707,8 +708,9 @@
     :set Input [ :pick $Input 1 ([ :len $Input ] - 1) ];
   }
   :set Input [ :toarray $Input ];
+  :set InLen [ :len $Input ];
 
-  :for I from=0 to=[ :len $Input ] do={
+  :for I from=0 to=$InLen do={
     :if ($Skip > 0 || $Input->$I = "\n" || $Input->$I = "\r\n") do={
       :if ($Skip > 0) do={
         :set $Skip ($Skip - 1);
@@ -735,7 +737,7 @@
             :set ValX [ :pick $ValX 0 ([ :len $ValX ] - 1) ];
           }
           :set ($Return->$Key) (($Return->$Key), $ValX);
-        } while=($Last = false);
+        } while=($Last = false && $I + $Skip < $InLen);
         :set Done true;
       }
       :if ($Done = false && $Val1 = ":[]") do={
