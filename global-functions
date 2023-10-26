@@ -54,10 +54,6 @@
   :global SymbolForNotification;
   :global ValidateSyntax;
 
-  :if ([ $CertificateAvailable "R3" ] = false) do={
-    $LogPrintExit2 warning $0 ("Downloading certificate failed, trying without.") false;
-  }
-
   :if ([ $CertificateAvailable "E1" ] = false) do={
     $LogPrintExit2 warning $0 ("Downloading certificate failed, trying without.") false;
   }
