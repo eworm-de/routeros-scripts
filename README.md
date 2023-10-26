@@ -74,6 +74,9 @@ Then we import the certificates.
 
     /certificate/import file-name=letsencrypt-E1.pem passphrase="";
 
+Do not worry that the command is not shown - that happens because it contains
+a sensitive property, the passphrase.
+
 ![screenshot: import certs](README.d/02-import-certs.avif)
 
 For basic verification we rename the certificates and print their count. Make
