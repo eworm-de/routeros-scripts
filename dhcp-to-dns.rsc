@@ -19,6 +19,7 @@
 :global EitherOr;
 :global IfThenElse;
 :global LogPrintExit2;
+:global LogPrintOnce;
 :global ParseKeyValueStore;
 :global ScriptLock;
 
@@ -107,6 +108,10 @@ $ScriptLock $0 false 10;
           $LeaseVal->"server" . " (" . ($HostName . "." . $NetDomain) . " -> " . ($MacDash . "." . $NetDomain) . ").") false;
         /ip/dns/static/add name=($HostName . "." . $NetDomain) type=CNAME cname=($MacDash . "." . $NetDomain) ttl=$Ttl comment=$Comment place-before=$PlaceBefore;
       }
+    }
+
+    :if ([ :len [ /ip/dns/static/find where name=($MacDash . "." . $NetDomain) (!type or type=A) ] ] > 1) do={
+      $LogPrintOnce warning $0 ("The name '" . $MacDash . "." . $NetDomain . "' appeared in more than one A record!");
     }
   } else={
     $LogPrintExit2 debug $0 ("No address available... Ignoring.") false;
