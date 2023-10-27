@@ -58,7 +58,7 @@ $ScriptLock $0;
   :set NetwatchNotify ({});
 }
 
-:foreach Host in=[ /tool/netwatch/find where comment~"notify" !disabled status!="unknown" ] do={
+:foreach Host in=[ /tool/netwatch/find where comment~"\\bnotify\\b" !disabled status!="unknown" ] do={
   :local HostVal [ /tool/netwatch/get $Host ];
   :local Type [ $IfThenElse ($HostVal->"type" ~ "^(https?-get|tcp-conn)\$") "service" "host" ];
   :local HostInfo [ $ParseKeyValueStore ($HostVal->"comment") ];
