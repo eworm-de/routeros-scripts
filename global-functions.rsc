@@ -45,6 +45,7 @@
 :global IsMacLocallyAdministered;
 :global IsTimeSync;
 :global LogPrintExit2;
+:global LogPrintOnce;
 :global MkDir;
 :global NotificationFunctions;
 :global ParseDate;
@@ -611,6 +612,28 @@
   :if ($Exit = "true") do={
     :error ("Hard error to exit.");
   }
+}
+
+# log and print, once until reboot
+:set LogPrintOnce do={
+  :local Severity [ :tostr $1 ];
+  :local Name     [ :tostr $2 ];
+  :local Message  [ :tostr $3 ];
+
+  :global LogPrintExit2;
+
+  :global LogPrintOnceMessages;
+
+  :if ([ :typeof $LogPrintOnceMessages ] = "nothing") do={
+    :set LogPrintOnceMessages ({});
+  }
+
+  :if ($LogPrintOnceMessages->$Message = 1) do={
+    :return true;
+  }
+
+  :set ($LogPrintOnceMessages->$Message) 1;
+  $LogPrintExit2 $Severity $Name $Message false;
 }
 
 # create directory
