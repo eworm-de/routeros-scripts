@@ -26,7 +26,7 @@ $ScriptLock $0;
 :local DnsFallback ({});
 :local DnsCurrent [ /ip/dns/get servers ];
 
-:foreach Host in=[ /tool/netwatch/find where comment~"dns" status="up" ] do={
+:foreach Host in=[ /tool/netwatch/find where comment~"\\bdns\\b" status="up" ] do={
   :local HostVal [ /tool/netwatch/get $Host ];
   :local HostInfo [ $ParseKeyValueStore ($HostVal->"comment") ];
 
@@ -61,7 +61,7 @@ $ScriptLock $0;
 :local DohCert "";
 :local DohCurrent [ /ip/dns/get use-doh-server ];
 
-:foreach Host in=[ /tool/netwatch/find where comment~"doh" status="up" ] do={
+:foreach Host in=[ /tool/netwatch/find where comment~"\\bdoh\\b" status="up" ] do={
   :local HostVal [ /tool/netwatch/get $Host ];
   :local HostInfo [ $ParseKeyValueStore ($HostVal->"comment") ];
 
