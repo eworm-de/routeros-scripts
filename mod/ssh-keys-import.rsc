@@ -14,6 +14,7 @@
   :local Key  [ :tostr $1 ];
   :local User [ :tostr $2 ];
 
+  :global CharacterReplace;
   :global GetRandom20CharAlNum;
   :global LogPrintExit2;
   :global MkDir;
@@ -28,9 +29,9 @@
     $LogPrintExit2 warning $0 ("User '" . $User . "' does not exist.") true;
   }
 
-  :local Type [ :pick $Key 0 [ :find $Key " " ] ];
-  :if (!(([ $RequiredRouterOS $0 "7.12beta1" ] = true && $Type = "ssh-ed25519") || $Type = "ssh-rsa")) do={
-    $LogPrintExit2 warning $0 ("SSH key of type '" . $Type . "' is not supported.") true;
+  :local KeyVal [ :toarray [ $CharacterReplace $Key " " "," ] ];
+  :if (!(([ $RequiredRouterOS $0 "7.12beta1" ] = true && $KeyVal->0 = "ssh-ed25519") || $KeyVal->0 = "ssh-rsa")) do={
+    $LogPrintExit2 warning $0 ("SSH key of type '" . $KeyVal->0 . "' is not supported.") true;
   }
 
   :if ([ $MkDir "tmpfs/ssh-keys-import" ] = false) do={
@@ -53,6 +54,7 @@
   :local FileName [ :tostr $1 ];
   :local User     [ :tostr $2 ];
 
+  :global CharacterReplace;
   :global EitherOr;
   :global LogPrintExit2;
   :global ParseKeyValueStore;
@@ -73,17 +75,17 @@
     :local Continue false;
     :local Line [ :pick $Keys 0 [ :find $Keys "\n" ] ];
     :set Keys [ :pick $Keys ([ :find $Keys "\n" ] + 1) [ :len $Keys ] ];
-    :local Type [ :pick $Line 0 [ :find $Line " " ] ];
-    :if (([ $RequiredRouterOS $0 "7.12beta1" ] = true && $Type = "ssh-ed25519") || $Type = "ssh-rsa") do={
+    :local KeyVal [ :toarray [ $CharacterReplace $Key " " "," ] ];
+    :if (([ $RequiredRouterOS $0 "7.12beta1" ] = true && $KeyVal->0 = "ssh-ed25519") || $KeyVal->0 = "ssh-rsa") do={
       $SSHKeysImport $Line $User;
       :set Continue true;
     }
-    :if ($Continue = false && $Type = "#") do={
+    :if ($Continue = false && $KeyVal->0 = "#") do={
       :set User [ $EitherOr ([ $ParseKeyValueStore [ :pick $Line 2 [ :len $Line ] ] ]->"user") $User ];
       :set Continue true;
     }
-    :if ($Continue = false && [ :len $Type ] > 0) do={
-      $LogPrintExit2 warning $0 ("SSH key of type '" . $Type . "' is not supported.") false;
+    :if ($Continue = false && [ :len ($KeyVal->0) ] > 0) do={
+      $LogPrintExit2 warning $0 ("SSH key of type '" . $KeyVal->0 . "' is not supported.") false;
     }
   } while=([ :len $Keys ] > 0);
 }
