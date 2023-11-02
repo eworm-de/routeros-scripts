@@ -3,6 +3,8 @@ Import ssh keys for public key authentication
 
 [⬅️ Go back to main README](../../README.md)
 
+[![required RouterOS version](https://img.shields.io/badge/RouterOS-7.12beta1-yellow?style=flat)](https://mikrotik.com/download/changelogs/)
+
 > ℹ️️ **Info**: This module can not be used on its own but requires the base
 > installation. See [main README](../../README.md) for details.
 
@@ -35,7 +37,11 @@ been added:
     $SSHKeysImport "ssh-ed25519 AAAAC3Nza...ZVugJT user" admin;
 
 The third part of the key (`user` in this example) is inherited as
-`key-owner` in RouterOS.
+`key-owner` in RouterOS. Also the `MD5` fingerprint is recorded, this helps
+to audit and verify the available keys.
+
+> ℹ️️ **Info**: Use `ssh-keygen` to show a fingerprint of an existing public
+> key file: `ssh-keygen -l -E md5 -f ~/.ssh/id_ed25519.pub`
 
 ### Import several keys from file
 

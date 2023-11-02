@@ -3,6 +3,8 @@
 # Copyright (c) 2020-2023 Christian Hesse <mail@eworm.de>
 # https://git.eworm.de/cgit/routeros-scripts/about/COPYING.md
 #
+# requires RouterOS, version=7.12beta1
+#
 # import ssh keys for public key authentication
 # https://git.eworm.de/cgit/routeros-scripts/about/doc/mod/ssh-keys-import.md
 
@@ -38,12 +40,15 @@
     $LogPrintExit2 warning $0 ("Creating directory 'tmpfs/ssh-keys-import' failed!") true;
   }
 
+  :local FingerPrintMD5 [ :convert from=base64 transform=md5 to=hex ($KeyVal->1) ];
   :local FileName ("tmpfs/ssh-keys-import/key-" . [ $GetRandom20CharAlNum 6 ] . ".pub");
-  /file/add name=$FileName contents=$Key;
+  /file/add name=$FileName contents=($Key . ", md5=" . $FingerPrintMD5);
   $WaitForFile $FileName;
 
   :do {
     /user/ssh-keys/import public-key-file=$FileName user=$User;
+    $LogPrintExit2 info $0 ("Imported ssh public key (" . $KeyVal->2 . ", " . $KeyVal->0 . ", " . \
+      "MD5:" . $FingerPrintMD5 . ") for user '" . $User . "'.") false;
   } on-error={
     $LogPrintExit2 warning $0 ("Failed importing key.") true;
   }
