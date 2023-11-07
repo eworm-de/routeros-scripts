@@ -40,6 +40,13 @@
   }
 
   :local FingerPrintMD5 [ :convert from=base64 transform=md5 to=hex ($KeyVal->1) ];
+
+  :if ([ :len [ /user/ssh-keys/find where user=$User key-owner~("\\bmd5=" . $FingerPrintMD5 . "\\b") ] ] > 0) do={
+    $LogPrintExit2 warning $0 ("The ssh public key (MD5:" . $FingerPrintMD5 . \
+      ") is already available for user '" . $User . "'.") false;
+    :return false;
+  }
+
   :local FileName ("tmpfs/ssh-keys-import/key-" . [ $GetRandom20CharAlNum 6 ] . ".pub");
   /file/add name=$FileName contents=($Key . ", md5=" . $FingerPrintMD5);
   $WaitForFile $FileName;
