@@ -87,7 +87,11 @@
     :set Keys [ :pick $Keys ([ :find $Keys "\n" ] + 1) [ :len $Keys ] ];
     :local KeyVal [ :toarray [ $CharacterReplace $Key " " "," ] ];
     :if ($KeyVal->0 = "ssh-ed25519" || $KeyVal->0 = "ssh-rsa") do={
-      $SSHKeysImport $Line $User;
+      :do {
+        $SSHKeysImport $Line $User;
+      } on-error={
+        $LogPrintExit2 warning $0 ("Failed importing key for user '" . $User . "'.") false;
+      }
       :set Continue true;
     }
     :if ($Continue = false && $KeyVal->0 = "#") do={
