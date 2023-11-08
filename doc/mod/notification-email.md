@@ -51,12 +51,12 @@ will now send it to your e-mail account.
 But of course you can use the function to send notifications directly. Give
 it a try:
 
-    $SendEMail "Subject..." "Body..."
+    $SendEMail "Subject..." "Body...";
 
 Alternatively this sends a notification with all available and configured
 methods:
 
-    $SendNotification "Subject..." "Body..."
+    $SendNotification "Subject..." "Body...";
 
 To use the functions in your own scripts you have to declare them first.
 Place this before you call them:
