@@ -26,6 +26,7 @@
   110="Dropped support for loading scripts from local storage.";
   111="Modified 'dhcp-to-dns' to allow multiple records for one mac address.";
   112="Enhanced 'mod/ssh-keys-import' to record the fingerprint of keys.";
+  113="Added helper functions for easier setup to Matrix notification module.";
 };
 
 # Migration steps to be applied on script updates

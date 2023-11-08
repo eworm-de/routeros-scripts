@@ -21,8 +21,8 @@ Just install the module:
     $ScriptInstallUpdate mod/notification-matrix;
 
 Also install a Matrix client on at least one of your mobile and/or desktop
-devices. As there is no privilege separation you should create a dedicated
-notification account, in addition to your general user account.
+devices. Create and setup an account there, we will reference that as
+"*general account*" later.
 
 Configuration
 -------------
@@ -35,58 +35,53 @@ reload the configuration.
 > [`global-config`](../../global-config.rsc) (the one without `-overlay`) to
 > your local `global-config-overlay` and modify it to your specific needs.
 
-### Home server
+The Matrix server is connected via encrypted https, and certificate
+verification is applied. So make sure you have the certificate chain for
+your server in device's certificate store.
+
+> ℹ️ **Info**: The *matrix.org* server uses a Cloudflare certificate. You can
+> install that with: `$CertificateAvailable "Cloudflare Inc ECC CA-3"`
+
+### From other device
+
+If you have setup your Matrix *notification account* before just reuse that.
+Copy the relevant configuration to the device to be configured.
+
+### Setup new account
+
+As there is no privilege separation you should create a dedicated account
+for use with these scripts, in addition to your *general account*.
+We will reference that as "*notification account*" in the following steps.
+
+#### Authenticate
 
 Matrix user accounts are identified by a unique user id in the form of
-`@localpart:domain`. The `domain` part is not necessarily your home server
-address, you have to resolve it with the procedure described in the
-[Matrix specification](https://spec.matrix.org/latest/client-server-api/#server-discovery).
+`@localpart:domain`. Use that and your password to generate an access token
+and write first part of the configuration:
 
-Your best bet is to query the server at `domain` with the
-[well-known uri](https://spec.matrix.org/latest/client-server-api/#well-known-uri).
-For "*matrix.org*" this query is:
+    $SetupMatrixAuthenticate "@example:matrix.org" "v3ry-s3cr3t";
 
-    /tool/fetch "https://matrix.org/.well-known/matrix/client" output=user;
+![authenticate](notification-matrix.d/01-authenticate.avif)
 
-![home server](notification-matrix.d/01-home-server.avif)
+#### Join Room
 
-So the home server for "*matrix.org*" is "*matrix-client.matrix.org*".
-Please strip the protocol ("*https://*") for `MatrixHomeServer` if given.
+Every Matix chat is a room, so we have to create one. Do that with your
+*general account*, this makes sure your *general account* is the room owner.
+Then join the room and invite the *notification account* by its user id
+"*@example:matrix.org*".
+Look up the *room id* within the Matrix client, it should read like
+"*!WUcxpSjKyxSGelouhA:matrix.org*" (starting with an exclamation mark and
+ending with the domain).
 
-### Access token
+Finally make the *notification account* join into the room by accepting
+the invite.
 
-After discovering the correct home server an access token has to be created.
-For this the login credentials (username and password) of the notification
-account must be sent to the home server via
-[client server api](https://matrix.org/docs/guides/client-server-api#login).
+    $SetupMatrixJoinRoom "!WUcxpSjKyxSGelouhA:matrix.org";
 
-We use the home server discovered above, "*matrix-client.matrix.org*".
-The user is "*example*" and password is "*v3ry-s3cr3t*".
+![join room](notification-matrix.d/02-join-room.avif)
 
-    /tool/fetch "https://matrix-client.matrix.org/_matrix/client/r0/login" http-method=post http-data="{\"type\":\"m.login.password\", \"user\":\"example\", \"password\":\"v3ry-s3cr3t\"}" output=user;
-
-![access token](notification-matrix.d/02-access-token.avif)
-
-The server replied with a JSON object containing the `access_token`, use that
-for `MatrixAccessToken`.
-
-### Room
-
-Every Matix chat is a room, so we have to create one. Do so with your general
-user, this makes sure your general user is the room owner. Then join the room
-and invite the notification user by its user id "*@example:matrix.org*". Look
-up the room id within the Matrix client, it should read like
-"*!WUcxpSjKyxSGelouhA:matrix.org*". Use that for `MatrixRoom`.
-
-Finally join the notification user to the room by accepting the invite. Again,
-this can be done with 
-[client server api](https://matrix.org/docs/guides/client-server-api#joining-a-room-via-an-invite).
-Make sure to replace room id ("*!*" is escaped with "*%21*") and access token
-with your data.
-
-    /tool/fetch "https://matrix-client.matrix.org/_matrix/client/r0/rooms/%21WUcxpSjKyxSGelouhA:matrix.org/join?access_token=yt_ZXdvcm0tdGVzdA_NNqUyvKHRhBLZmnzVVSK_0xu6yN" http-method=post http-data="" output=user;
-
-![join room](notification-matrix.d/03-join-room.avif)
+The settings have been appended to `global-config-overlay`. You may want to
+edit to move it to an appropriate place.
 
 Usage and invocation
 --------------------
