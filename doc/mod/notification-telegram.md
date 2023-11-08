@@ -60,12 +60,12 @@ will now send it to your Telegram account.
 But of course you can use the function to send notifications directly. Give
 it a try:
 
-    $SendTelegram "Subject..." "Body..."
+    $SendTelegram "Subject..." "Body...";
 
 Alternatively this sends a notification with all available and configured
 methods:
 
-    $SendNotification "Subject..." "Body..."
+    $SendNotification "Subject..." "Body...";
 
 To use the functions in your own scripts you have to declare them first.
 Place this before you call them:
