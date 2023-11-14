@@ -95,8 +95,8 @@ $ScriptLock $0;
       $RandomDelay 3600;
       /system/reboot;
     }
-    /system/scheduler/add name="\$RebootForUpdate" start-time=03:00:00 interval=1d \
-        on-event=("/system/scheduler/remove \"\\\$RebootForUpdate\"; " . \
+    /system/scheduler/add name="_RebootForUpdate" start-time=03:00:00 interval=1d \
+        on-event=("/system/scheduler/remove \"_RebootForUpdate\"; " . \
         ":global RebootForUpdate; \$RebootForUpdate;");
     $LogPrintExit2 info $0 ("Scheduled reboot for update between 03:00 and 04:00.") true;
   }
