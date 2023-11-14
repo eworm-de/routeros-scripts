@@ -7,8 +7,8 @@
 # download and cleanup packages for CAP installation from CAPsMAN
 # https://git.eworm.de/cgit/routeros-scripts/about/doc/capsman-download-packages.md
 #
-# !! This is just a template! Replace '%PATH%' with 'caps-man',
-# !! 'interface/wireless' or 'interface/wifiwave2'!
+# !! This is just a template to generate the real script!
+# !! Pattern '%TEMPL%' is replaced, paths are filtered.
 
 :local 0 "capsman-download-packages%TEMPL%";
 :global GlobalFunctionsReady;
