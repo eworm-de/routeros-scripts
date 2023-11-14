@@ -18,11 +18,16 @@ This script automatically downloads these packages.
 Requirements and installation
 -----------------------------
 
-Just install the script on CAPsMAN device. Depending on whether you use
-`wifiwave2` package (`/interface/wifiwave2`) or legacy wifi with CAPsMAN
-(`/caps-man`) you need to install a different script.
+Just install the script on CAPsMAN device.
+Depending on whether you use `wifi` package (`/interface/wifi`), `wifiwave2`
+package (`/interface/wifiwave2`) or legacy wifi with CAPsMAN (`/caps-man`)
+you need to install a different script.
 
-For `wifiwave2`:
+For `wifi` (RouterOS 7.13 and later):
+
+    $ScriptInstallUpdate capsman-download-packages.wifi;
+
+For `wifiwave2` (up to RouterOS 7.12):
 
     $ScriptInstallUpdate capsman-download-packages.wifiwave2;
 
@@ -30,7 +35,12 @@ For legacy CAPsMAN:
 
     $ScriptInstallUpdate capsman-download-packages.capsman;
 
-Optionally add a scheduler to run after startup. For `wifiwave2`:
+Optionally add a scheduler to run after startup. For `wifi` (RouterOS 7.13
+and later):
+
+    /system/scheduler/add name=capsman-download-packages on-event="/system/script/run capsman-download-packages.wifi;" start-time=startup;
+
+For `wifiwave2` (up to RouterOS 7.12):
 
     /system/scheduler/add name=capsman-download-packages on-event="/system/script/run capsman-download-packages.wifiwave2;" start-time=startup;
 
@@ -42,8 +52,11 @@ Packages available in local storage in older version are downloaded
 unconditionally.
 
 If no packages are found the script tries to download missing packages for
-legacy CAPsMAN by guessing from system log. For `wifiwave2` a default set
-of packages (`routeros` and `wifiwave2` for *arm* and *arm64*) is downloaded.
+legacy CAPsMAN by guessing from system log. For `wifi` and `wifiwave2` a
+default set of packages is downloaded.
+
+ * `wifi`: `routeros`, `wifi-qcom` and `wifi-qcom-ac` for *arm* and *arm64*
+ * `wifiwave2`: `routeros` and `wifiwave2` for *arm* and *arm64*
 
 > ℹ️ **Info**: If you have packages in the directory and things go wrong for
 > what ever unknown reason: Remove **all** packages and start over.
@@ -53,7 +66,7 @@ Usage and invocation
 
 Run the script manually:
 
-    /system/script/run capsman-download-packages.wifiwave2;
+    /system/script/run capsman-download-packages.wifi;
 
 ... or from scheduler.
 

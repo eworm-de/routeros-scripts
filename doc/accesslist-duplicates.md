@@ -17,11 +17,16 @@ entries in wireless access list.
 Requirements and installation
 -----------------------------
 
-Depending on whether you use `wifiwave2` package (`/interface/wifiwave2`)
-or legacy wifi with CAPsMAN (`/caps-man`) or local wireless interface
-(`/interface/wireless`) you need to install a different script.
+Depending on whether you use `wifi` package (`/interface/wifi`), `wifiwave2`
+package (`/interface/wifiwave2`), legacy wifi with CAPsMAN (`/caps-man`)
+or local wireless interface (`/interface/wireless`) you need to install a
+different script.
 
-For `wifiwave2`:
+For `wifi` (RouterOS 7.13 and later):
+
+    $ScriptInstallUpdate accesslist-duplicates.wifi;
+
+For `wifiwave2` (up to RouterOS 7.12):
 
     $ScriptInstallUpdate accesslist-duplicates.wifiwave2;
 
@@ -38,7 +43,7 @@ Usage and invocation
 
 Run this script from a terminal:
 
-    /system/script/run accesslist-duplicates.local;
+    /system/script/run accesslist-duplicates.wifi;
 
 ![screenshot: example](accesslist-duplicates.d/01-example.avif)
 
