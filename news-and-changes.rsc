@@ -5,7 +5,8 @@
 :global IfThenElse;
 :global RequiredRouterOS;
 
-# News, changes and migration up to change 95 are in global-config.changes!
+# News, changes and migration up to change 95:
+# https://git.eworm.de/cgit/routeros-scripts/plain/global-config.changes?h=change-95
 
 # Changes for global-config to be added to notification on script updates
 :global GlobalConfigChanges {
