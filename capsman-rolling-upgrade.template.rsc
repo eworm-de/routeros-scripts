@@ -33,9 +33,9 @@ $ScriptLock $0;
     :local RemoteCapVal [ /caps-man/remote-cap/get $RemoteCap ];
     :local RemoteCapVal [ /interface/wifiwave2/capsman/remote-cap/get $RemoteCap ];
     :if ([ :len $RemoteCapVal ] > 1) do={
-# NOT /caps-man #
+# NOT /caps-man/ #
       :set ($RemoteCapVal->"name") ($RemoteCapVal->"common-name");
-# NOT /caps-man #
+# NOT /caps-man/ #
       $LogPrintExit2 info $0 ("Starting upgrade for " . $RemoteCapVal->"name" . \
         " (" . $RemoteCapVal->"identity" . ")...") false;
       /caps-man/remote-cap/upgrade $RemoteCap;

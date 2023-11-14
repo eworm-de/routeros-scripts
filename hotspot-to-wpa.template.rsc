@@ -74,9 +74,9 @@ $LogPrintExit2 info $0 ("Adding/updating access-list entry for mac address " . $
 :local Entry [ /caps-man/access-list/find where mac-address=$MacAddress \
 :local Entry [ /interface/wifiwave2/access-list/find where mac-address=$MacAddress \
     comment=("hotspot-to-wpa: " . $UserName . ", " . $MacAddress . ", " . $Date) ];
-# NOT /caps-man #
+# NOT /caps-man/ #
 :set ($Template->"private-passphrase") ($Template->"passphrase");
-# NOT /caps-man #
+# NOT /caps-man/ #
 :local PrivatePassphrase [ $EitherOr ($UserInfo->"private-passphrase") ($Template->"private-passphrase") ];
 :if ([ :len $PrivatePassphrase ] > 0) do={
   :if ($PrivatePassphrase = "ignore") do={
@@ -97,12 +97,12 @@ $LogPrintExit2 info $0 ("Adding/updating access-list entry for mac address " . $
   /caps-man/access-list/set $Entry vlan-id=$VlanId;
   /interface/wifiwave2/access-list/set $Entry vlan-id=$VlanId;
 }
-# NOT /interface/wifiwave2 #
+# NOT /interface/wifiwave2/ #
 :local VlanMode [ $EitherOr ($UserInfo->"vlan-mode") ($Template->"vlan-mode") ];
 :if ([ :len $VlanMode] > 0) do={
   /caps-man/access-list/set $Entry vlan-mode=$VlanMode;
 }
-# NOT /interface/wifiwave2 #
+# NOT /interface/wifiwave2/ #
 
 :delay 2s;
 /caps-man/access-list/set $Entry action=accept;

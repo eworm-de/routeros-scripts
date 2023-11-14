@@ -66,7 +66,7 @@ $WaitFullyConnected;
   :local Ssid [ /interface/wifiwave2/configuration/get $Configuration ssid ];
   :local OldPsk [ /caps-man/access-list/get $AccList private-passphrase ];
   :local OldPsk [ /interface/wifiwave2/access-list/get $AccList passphrase ];
-  # /caps-man /interface/wifiwave2 above - /interface/wireless below
+  # /caps-man/ /interface/wifiwave2/ above - /interface/wireless/ below
   :local IntName [ /interface/wireless/access-list/get $AccList interface ];
   :local Ssid [ /interface/wireless/get $IntName ssid ];
   :local OldPsk [ /interface/wireless/access-list/get $AccList private-pre-shared-key ];

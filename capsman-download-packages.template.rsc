@@ -55,7 +55,7 @@ $WaitFullyConnected;
   }
 }
 
-# NOT /interface/wifiwave2 #
+# NOT /interface/wifiwave2/ #
 :if ([ :len [ /system/logging/find where topics~"error" !(topics~"!error") \
      !(topics~"!caps") action=memory !disabled !invalid ] ] < 1) do={
   $LogPrintExit2 warning $0 ("Looks like error messages for 'caps' are not sent to memory. " . \
@@ -81,8 +81,8 @@ $WaitFullyConnected;
     :set Updated true;
   }
 }
-# NOT /interface/wifiwave2 #
-# NOT /caps-man #
+# NOT /interface/wifiwave2/ #
+# NOT /caps-man/ #
 :if ([ :len [ /file/find where type=package name~("^" . $PackagePath) ] ] = 0) do={
   $LogPrintExit2 info $0 ("No packages available, downloading default set.") false;
   :foreach Arch in={ "arm"; "arm64" } do={
@@ -93,7 +93,7 @@ $WaitFullyConnected;
     }
   }
 }
-# NOT /caps-man #
+# NOT /caps-man/ #
 
 :if ($Updated = true) do={
   :local Script ([ /system/script/find where source~"\n# provides: capsman-rolling-upgrade\n" ]->0);
