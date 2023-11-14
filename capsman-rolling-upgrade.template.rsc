@@ -9,8 +9,8 @@
 # upgrade CAPs one after another
 # https://git.eworm.de/cgit/routeros-scripts/about/doc/capsman-rolling-upgrade.md
 #
-# !! This is just a template! Replace '%PATH%' with 'caps-man',
-# !! 'interface/wireless' or 'interface/wifiwave2'!
+# !! This is just a template to generate the real script!
+# !! Pattern '%TEMPL%' is replaced, paths are filtered.
 
 :local 0 "capsman-rolling-upgrade%TEMPL%";
 :global GlobalFunctionsReady;
