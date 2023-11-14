@@ -18,13 +18,16 @@
 :local Seen ({});
 
 :foreach AccList in=[ /caps-man/access-list/find where mac-address!="00:00:00:00:00:00" ] do={
+:foreach AccList in=[ /interface/wifi/access-list/find where mac-address!="00:00:00:00:00:00" ] do={
 :foreach AccList in=[ /interface/wifiwave2/access-list/find where mac-address!="00:00:00:00:00:00" ] do={
 :foreach AccList in=[ /interface/wireless/access-list/find where mac-address!="00:00:00:00:00:00" ] do={
   :local Mac [ /caps-man/access-list/get $AccList mac-address ];
+  :local Mac [ /interface/wifi/access-list/get $AccList mac-address ];
   :local Mac [ /interface/wifiwave2/access-list/get $AccList mac-address ];
   :local Mac [ /interface/wireless/access-list/get $AccList mac-address ];
   :if ($Seen->$Mac = 1) do={
     /caps-man/access-list/print where mac-address=$Mac;
+    /interface/wifi/access-list/print where mac-address=$Mac;
     /interface/wifiwave2/access-list/print where mac-address=$Mac;
     /interface/wireless/access-list/print where mac-address=$Mac;
     :local Remove [ :tonum [ /terminal/ask prompt="\nNumeric id to remove, any key to skip!" ] ];
@@ -32,6 +35,7 @@
     :if ([ :typeof $Remove ] = "num") do={
       :put ("Removing numeric id " . $Remove . "...\n");
       /caps-man/access-list/remove $Remove;
+      /interface/wifi/access-list/remove $Remove;
       /interface/wifiwave2/access-list/remove $Remove;
       /interface/wireless/access-list/remove $Remove;
     }
