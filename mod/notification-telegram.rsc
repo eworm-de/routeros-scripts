@@ -29,7 +29,7 @@
   :local AllDone true;
   :local QueueLen [ :len $TelegramQueue ];
 
-  :if ([ :len [ /system/scheduler/find where name=$0 ] ] > 0 && $QueueLen = 0) do={
+  :if ([ :len [ /system/scheduler/find where name="_FlushTelegramQueue" ] ] > 0 && $QueueLen = 0) do={
     $LogPrintExit2 warning $0 ("Flushing Telegram messages from scheduler, but queue is empty.") false;
   }
 
@@ -51,7 +51,7 @@
   }
 
   :if ($AllDone = true && $QueueLen = [ :len $TelegramQueue ]) do={
-    /system/scheduler/remove [ find where name=$0 ];
+    /system/scheduler/remove [ find where name="_FlushTelegramQueue" ];
     :set TelegramQueue;
   }
 }
@@ -155,8 +155,8 @@
       " " . [ /system/clock/get time ] . " and may be obsolete.") "plain" ]) ]);
     :set ($TelegramQueue->[ :len $TelegramQueue ]) { chatid=$ChatId; tokenid=$TokenId;
       text=$Text; silent=($Notification->"silent"); replyto=($Notification->"replyto") };
-    :if ([ :len [ /system/scheduler/find where name="\$FlushTelegramQueue" ] ] = 0) do={
-      /system/scheduler/add name="\$FlushTelegramQueue" interval=1m start-time=startup \
+    :if ([ :len [ /system/scheduler/find where name="_FlushTelegramQueue" ] ] = 0) do={
+      /system/scheduler/add name="_FlushTelegramQueue" interval=1m start-time=startup \
         on-event=(":global FlushTelegramQueue; \$FlushTelegramQueue;");
     }
   }
@@ -166,7 +166,7 @@
 :set PurgeTelegramQueue do={
   :global TelegramQueue;
 
-  /system/scheduler/remove [ find where name="\$FlushTelegramQueue" ];
+  /system/scheduler/remove [ find where name="_FlushTelegramQueue" ];
   :set TelegramQueue;
 }
 

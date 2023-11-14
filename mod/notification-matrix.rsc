@@ -30,7 +30,7 @@
   :local AllDone true;
   :local QueueLen [ :len $MatrixQueue ];
 
-  :if ([ :len [ /system/scheduler/find where name=$0 ] ] > 0 && $QueueLen = 0) do={
+  :if ([ :len [ /system/scheduler/find where name="_FlushMatrixQueue" ] ] > 0 && $QueueLen = 0) do={
     $LogPrintExit2 warning $0 ("Flushing Matrix messages from scheduler, but queue is empty.") false;
   }
 
@@ -52,7 +52,7 @@
   }
 
   :if ($AllDone = true && $QueueLen = [ :len $MatrixQueue ]) do={
-    /system/scheduler/remove [ find where name=$0 ];
+    /system/scheduler/remove [ find where name="_FlushMatrixQueue" ];
     :set MatrixQueue;
   }
 }
@@ -147,8 +147,8 @@
     :set ($MatrixQueue->[ :len $MatrixQueue ]) { room=$Room; \
       accesstoken=$AccessToken; homeserver=$HomeServer; \
       plain=$Plain; formatted=$Formatted };
-    :if ([ :len [ /system/scheduler/find where name="\$FlushMatrixQueue" ] ] = 0) do={
-      /system/scheduler/add name="\$FlushMatrixQueue" interval=1m start-time=startup \
+    :if ([ :len [ /system/scheduler/find where name="_FlushMatrixQueue" ] ] = 0) do={
+      /system/scheduler/add name="_FlushMatrixQueue" interval=1m start-time=startup \
         on-event=(":global FlushMatrixQueue; \$FlushMatrixQueue;");
     }
   }
@@ -158,7 +158,7 @@
 :set PurgeMatrixQueue do={
   :global MatrixQueue;
 
-  /system/scheduler/remove [ find where name="\$FlushMatrixQueue" ];
+  /system/scheduler/remove [ find where name="_FlushMatrixQueue" ];
   :set MatrixQueue;
 }
 

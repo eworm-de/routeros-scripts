@@ -28,7 +28,7 @@
   :local AllDone true;
   :local QueueLen [ :len $NtfyQueue ];
 
-  :if ([ :len [ /system/scheduler/find where name=$0 ] ] > 0 && $QueueLen = 0) do={
+  :if ([ :len [ /system/scheduler/find where name="_FlushNtfyQueue" ] ] > 0 && $QueueLen = 0) do={
     $LogPrintExit2 warning $0 ("Flushing Ntfy messages from scheduler, but queue is empty.") false;
   }
 
@@ -46,7 +46,7 @@
   }
 
   :if ($AllDone = true && $QueueLen = [ :len $NtfyQueue ]) do={
-    /system/scheduler/remove [ find where name=$0 ];
+    /system/scheduler/remove [ find where name="_FlushNtfyQueue" ];
     :set NtfyQueue;
   }
 }
@@ -103,8 +103,8 @@
       "This message was queued since " . [ /system/clock/get date ] . " " . \
       [ /system/clock/get time ] . " and may be obsolete.");
     :set ($NtfyQueue->[ :len $NtfyQueue ]) { url=$Url; headers=$Headers; text=$Text };
-    :if ([ :len [ /system/scheduler/find where name="\$FlushNtfyQueue" ] ] = 0) do={
-      /system/scheduler/add name="\$FlushNtfyQueue" interval=1m start-time=startup \
+    :if ([ :len [ /system/scheduler/find where name="_FlushNtfyQueue" ] ] = 0) do={
+      /system/scheduler/add name="_FlushNtfyQueue" interval=1m start-time=startup \
         on-event=(":global FlushNtfyQueue; \$FlushNtfyQueue;");
     }
   }
@@ -114,7 +114,7 @@
 :set PurgeNtfyQueue do={
   :global NtfyQueue;
 
-  /system/scheduler/remove [ find where name="\$FlushNtfyQueue" ];
+  /system/scheduler/remove [ find where name="_FlushNtfyQueue" ];
   :set NtfyQueue;
 }
 

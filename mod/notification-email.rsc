@@ -26,7 +26,7 @@
 
   :local AllDone true;
   :local QueueLen [ :len $EmailQueue ];
-  :local Scheduler [ /system/scheduler/find where name=$0 ];
+  :local Scheduler [ /system/scheduler/find where name="_FlushEmailQueue" ];
   
   :if ([ :len $Scheduler ] > 0 && [ /system/scheduler/get $Scheduler interval ] < 1m) do={
     /system/scheduler/set interval=1m comment="Doing initial checks..." $Scheduler;
@@ -152,8 +152,8 @@
       [ $IfThenElse ([ :len ($Notification->"link") ] > 0) ("\n\n" . ($Notification->"link")) "" ] . \
       [ $IfThenElse ([ :len $Signature ] > 0) ("\n-- \n" . $Signature) "" ]); \
     attach=($Notification->"attach"); remove-attach=($Notification->"remove-attach") };
-  :if ([ :len [ /system/scheduler/find where name="\$FlushEmailQueue" ] ] = 0) do={
-    /system/scheduler/add name="\$FlushEmailQueue" interval=1s start-time=startup \
+  :if ([ :len [ /system/scheduler/find where name="_FlushEmailQueue" ] ] = 0) do={
+    /system/scheduler/add name="_FlushEmailQueue" interval=1s start-time=startup \
       comment="Queuing new mail..." on-event=(":global FlushEmailQueue; \$FlushEmailQueue;");
   }
 }
@@ -162,7 +162,7 @@
 :set PurgeEMailQueue do={
   :global EmailQueue;
 
-  /system/scheduler/remove [ find where name="\$FlushEmailQueue" ];
+  /system/scheduler/remove [ find where name="_FlushEmailQueue" ];
   :set EmailQueue;
 }
 
