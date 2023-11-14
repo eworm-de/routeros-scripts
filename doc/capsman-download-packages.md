@@ -45,6 +45,9 @@ If no packages are found the script tries to download missing packages for
 legacy CAPsMAN by guessing from system log. For `wifiwave2` a default set
 of packages (`routeros` and `wifiwave2` for *arm* and *arm64*) is downloaded.
 
+> ℹ️ **Info**: If you have packages in the directory and things go wrong for
+> what ever unknown reason: Remove **all** packages and start over.
+
 Usage and invocation
 --------------------
 
