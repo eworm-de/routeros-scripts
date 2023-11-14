@@ -28,7 +28,7 @@ or legacy wifi with CAPsMAN (`/caps-man`) or local wireless interface
 
 For `wifiwave2`:
 
-    $ScriptInstallUpdate collect-wireless-mac.capsman.wifiwave2;
+    $ScriptInstallUpdate collect-wireless-mac.wifiwave2;
 
 For legacy CAPsMAN:
 
