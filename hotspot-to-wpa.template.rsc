@@ -101,7 +101,6 @@ $LogPrintExit2 info $0 ("Adding/updating access-list entry for mac address " . $
 :local VlanMode [ $EitherOr ($UserInfo->"vlan-mode") ($Template->"vlan-mode") ];
 :if ([ :len $VlanMode] > 0) do={
   /caps-man/access-list/set $Entry vlan-mode=$VlanMode;
-  /interface/wifiwave2/access-list/set $Entry vlan-mode=$VlanMode;
 }
 # NOT /interface/wifiwave2 #
 
