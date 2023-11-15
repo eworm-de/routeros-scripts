@@ -4,10 +4,12 @@
 #                         Anatoly Bubenkov <bubenkoff@gmail.com>
 # https://git.eworm.de/cgit/routeros-scripts/about/COPYING.md
 #
+# requires RouterOS, version=7.12
+#
 # forward SMS to e-mail
 # https://git.eworm.de/cgit/routeros-scripts/about/doc/sms-forward.md
 
-:local 0 "sms-forward";
+:local 0 [ :jobname ];
 :global GlobalFunctionsReady;
 :while ($GlobalFunctionsReady != true) do={ :delay 500ms; }
 
