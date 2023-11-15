@@ -4,13 +4,15 @@
 #                         Michael Gisbers <michael@gisbers.de>
 # https://git.eworm.de/cgit/routeros-scripts/about/COPYING.md
 #
+# requires RouterOS, version=7.12
+#
 # download and cleanup packages for CAP installation from CAPsMAN
 # https://git.eworm.de/cgit/routeros-scripts/about/doc/capsman-download-packages.md
 #
 # !! This is just a template to generate the real script!
 # !! Pattern '%TEMPL%' is replaced, paths are filtered.
 
-:local 0 "capsman-download-packages%TEMPL%";
+:local 0 [ :jobname ];
 :global GlobalFunctionsReady;
 :while ($GlobalFunctionsReady != true) do={ :delay 500ms; }
 
