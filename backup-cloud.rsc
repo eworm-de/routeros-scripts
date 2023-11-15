@@ -18,6 +18,7 @@
 
 :global DeviceInfo;
 :global FormatLine;
+:global HumanReadableNum;
 :global LogPrintExit2;
 :global RandomDelay;
 :global ScriptFromTerminal;
@@ -51,7 +52,7 @@ $WaitFullyConnected;
     message=("Uploaded backup for " . $Identity . " to cloud.\n\n" . \
       [ $DeviceInfo ] . "\n\n" . \
       [ $FormatLine "Name" ($Cloud->"name") ] . "\n" . \
-      [ $FormatLine "Size" ($Cloud->"size" . " B (" . ($Cloud->"size" / 1024) . " KiB)") ] . "\n" . \
+      [ $FormatLine "Size" ([ $HumanReadableNum ($Cloud->"size") 1024 ] . "iB") ] . "\n" . \
       [ $FormatLine "Download key" ($Cloud->"secret-download-key") ]); silent=true });
 } on-error={
   $SendNotification2 ({ origin=$0; \
