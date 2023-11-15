@@ -25,8 +25,6 @@
 
 :global CharacterReplace;
 :global DeviceInfo;
-:global FormatLine;
-:global HumanReadableNum;
 :global IfThenElse;
 :global LogPrintExit2;
 :global MkDir;
@@ -122,24 +120,30 @@ $WaitFullyConnected;
   /file/remove ($FilePath . ".conf.txt");
 }
 
+:local FileInfo do={
+  :local Name $1;
+  :local File $2;
+
+  :global FormatLine;
+  :global HumanReadableNum;
+  :global IfThenElse;
+
+  :return \
+    [ $IfThenElse ([ :typeof $File ] = "array") \
+      ($Name . ":\n" . [ $FormatLine "    name" ($File->"name") ] . "\n" . \
+        [ $FormatLine "    size" ([ $HumanReadableNum ($File->"size") 1024 ] . "iB") ]) \
+      [ $FormatLine $Name $File ] ];
+}
+
 $SendNotification2 ({ origin=$0; \
   subject=[ $IfThenElse ($Failed > 0) \
     ([ $SymbolForNotification "floppy-disk,warning-sign" ] . "Backup & Config upload with failure") \
     ([ $SymbolForNotification "floppy-disk,up-arrow" ] . "Backup & Config upload") ]; \
   message=("Backup and config export upload for " . $Identity . ".\n\n" . \
     [ $DeviceInfo ] . "\n\n" . \
-    [ $IfThenElse ([ :typeof $BackupFile ] = "array") \
-      ("Backup file:\n" . [ $FormatLine "    name" ($BackupFile->"name") ] . "\n" . \
-        [ $FormatLine "    size" [ $HumanReadableNum ($BackupFile->"size") 1024 ] ]) \
-      [ $FormatLine "Backup file" $BackupFile ] ] . "\n" . \
-    [ $IfThenElse ([ :typeof $ExportFile ] = "array") \
-      ("Export file:\n" . [ $FormatLine "    name" ($ExportFile->"name") ] . "\n" . \
-        [ $FormatLine "    size" [ $HumanReadableNum ($ExportFile->"size") 1024 ] ]) \
-      [ $FormatLine "Export file" $ExportFile ] ] . "\n" . \
-    [ $IfThenElse ([ :typeof $ConfigFile ] = "array") \
-      ("Config file:\n" . [ $FormatLine "    name" ($ConfigFile->"name") ] . "\n" . \
-        [ $FormatLine "    size" [ $HumanReadableNum ($ConfigFile->"size") 1024 ] ]) \
-      [ $FormatLine "Config file" $ConfigFile ] ]); silent=true });
+    [ $FileInfo "Backup file" $BackupFile ] . "\n" . \
+    [ $FileInfo "Export file" $ExportFile ] . "\n" . \
+    [ $FileInfo "Config file" $ConfigFile ]); silent=true });
 
 :if ($Failed = 1) do={
   :error "An error occured!";
