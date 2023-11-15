@@ -22,6 +22,7 @@
 :global Identity;
 
 :global FormatLine;
+:global HumanReadableNum;
 :global IfThenElse;
 :global LogPrintExit2;
 :global ScriptLock;
@@ -57,9 +58,9 @@ $ScriptLock $0;
   $SendNotification2 ({ origin=$0; \
     subject=([ $SymbolForNotification "card-file-box,chart-increasing" ] . "Health warning: RAM utilization"); \
     message=("The RAM utilization on " . $Identity . " is at " . $CheckHealthRAMUtilization . "%!\n\n" . \
-    [ $FormatLine "total" (($Resource->"total-memory" / 1024 / 1024) . " MiB") ] . "\n" . \
-    [ $FormatLine "used" ((($Resource->"total-memory" - $Resource->"free-memory") / 1024 / 1024) . " MiB") ] . "\n" . \
-    [ $FormatLine "free" (($Resource->"free-memory" / 1024 / 1024) . " MiB") ]) });
+    [ $FormatLine "total" ([ $HumanReadableNum ($Resource->"total-memory") 1024 ] . "iB") ] . "\n" . \
+    [ $FormatLine "used" ([ $HumanReadableNum ($Resource->"total-memory" - $Resource->"free-memory") 1024 ] . "iB") ] . "\n" . \
+    [ $FormatLine "free" ([ $HumanReadableNum ($Resource->"free-memory") 1024 ] . "iB") ]) });
   :set CheckHealthRAMUtilizationNotified true;
 }
 :if ($CheckHealthRAMUtilization < 70 && $CheckHealthRAMUtilizationNotified = true) do={
