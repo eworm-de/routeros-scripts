@@ -26,6 +26,7 @@
 :global CharacterReplace;
 :global DeviceInfo;
 :global FormatLine;
+:global HumanReadableNum;
 :global IfThenElse;
 :global LogPrintExit2;
 :global MkDir;
@@ -70,7 +71,8 @@ $WaitFullyConnected;
   :do {
     /tool/fetch upload=yes url=($BackupUploadUrl . "/" . $FileName . ".backup") \
         user=$BackupUploadUser password=$BackupUploadPass src-path=($FilePath . ".backup");
-    :set BackupFile ($FileName . ".backup");
+    :set BackupFile [ /file/get ($FilePath . ".backup") ];
+    :set ($BackupFile->"name") ($FileName . ".backup");
   } on-error={
     $LogPrintExit2 error $0 ("Uploading backup file failed!") false;
     :set BackupFile "failed";
@@ -88,7 +90,8 @@ $WaitFullyConnected;
   :do {
     /tool/fetch upload=yes url=($BackupUploadUrl . "/" . $FileName . ".rsc") \
         user=$BackupUploadUser password=$BackupUploadPass src-path=($FilePath . ".rsc");
-    :set ExportFile ($FileName . ".rsc");
+    :set ExportFile [ /file/get ($FilePath . ".rsc") ];
+    :set ($ExportFile->"name") ($FileName . ".rsc");
   } on-error={
     $LogPrintExit2 error $0 ("Uploading configuration export failed!") false;
     :set ExportFile "failed";
@@ -108,7 +111,8 @@ $WaitFullyConnected;
   :do {
     /tool/fetch upload=yes url=($BackupUploadUrl . "/" . $FileName . ".conf") \
         user=$BackupUploadUser password=$BackupUploadPass src-path=($FilePath . ".conf.txt");
-    :set ConfigFile ($FileName . ".conf");
+    :set ConfigFile [ /file/get ($FilePath . ".conf") ];
+    :set ($ConfigFile->"name") ($FileName . ".conf");
   } on-error={
     $LogPrintExit2 error $0 ("Uploading global-config-overlay failed!") false;
     :set ConfigFile "failed";
@@ -124,9 +128,18 @@ $SendNotification2 ({ origin=$0; \
     ([ $SymbolForNotification "floppy-disk,up-arrow" ] . "Backup & Config upload") ]; \
   message=("Backup and config export upload for " . $Identity . ".\n\n" . \
     [ $DeviceInfo ] . "\n\n" . \
-    [ $FormatLine "Backup file" $BackupFile ] . "\n" . \
-    [ $FormatLine "Export file" $ExportFile ] . "\n" . \
-    [ $FormatLine "Config file" $ConfigFile ]); silent=true });
+    [ $IfThenElse ([ :typeof $BackupFile ] = "array") \
+      ("Backup file:\n" . [ $FormatLine "    name" ($BackupFile->"name") ] . "\n" . \
+        [ $FormatLine "    size" [ $HumanReadableNum ($BackupFile->"size") 1024 ] ]) \
+      [ $FormatLine "Backup file" $BackupFile ] ] . "\n" . \
+    [ $IfThenElse ([ :typeof $ExportFile ] = "array") \
+      ("Export file:\n" . [ $FormatLine "    name" ($ExportFile->"name") ] . "\n" . \
+        [ $FormatLine "    size" [ $HumanReadableNum ($ExportFile->"size") 1024 ] ]) \
+      [ $FormatLine "Export file" $ExportFile ] ] . "\n" . \
+    [ $IfThenElse ([ :typeof $ConfigFile ] = "array") \
+      ("Config file:\n" . [ $FormatLine "    name" ($ConfigFile->"name") ] . "\n" . \
+        [ $FormatLine "    size" [ $HumanReadableNum ($ConfigFile->"size") 1024 ] ]) \
+      [ $FormatLine "Config file" $ConfigFile ] ]); silent=true });
 
 :if ($Failed = 1) do={
   :error "An error occured!";
