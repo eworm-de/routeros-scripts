@@ -11,7 +11,7 @@
 # !! This is just a template to generate the real script!
 # !! Pattern '%TEMPL%' is replaced, paths are filtered.
 
-:local 0 "accesslist-duplicates%TEMPL%";
+:local 0 [ :jobname ];
 :global GlobalFunctionsReady;
 :while ($GlobalFunctionsReady != true) do={ :delay 500ms; }
 
