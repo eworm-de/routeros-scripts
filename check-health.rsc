@@ -58,9 +58,9 @@ $ScriptLock $0;
   $SendNotification2 ({ origin=$0; \
     subject=([ $SymbolForNotification "card-file-box,chart-increasing" ] . "Health warning: RAM utilization"); \
     message=("The RAM utilization on " . $Identity . " is at " . $CheckHealthRAMUtilization . "%!\n\n" . \
-    [ $FormatLine "total" ([ $HumanReadableNum ($Resource->"total-memory") 1024 ] . "iB") ] . "\n" . \
-    [ $FormatLine "used" ([ $HumanReadableNum ($Resource->"total-memory" - $Resource->"free-memory") 1024 ] . "iB") ] . "\n" . \
-    [ $FormatLine "free" ([ $HumanReadableNum ($Resource->"free-memory") 1024 ] . "iB") ]) });
+    [ $FormatLine "total" ([ $HumanReadableNum ($Resource->"total-memory") 1024 ] . "iB") 8 ] . "\n" . \
+    [ $FormatLine "used" ([ $HumanReadableNum ($Resource->"total-memory" - $Resource->"free-memory") 1024 ] . "iB") 8 ] . "\n" . \
+    [ $FormatLine "free" ([ $HumanReadableNum ($Resource->"free-memory") 1024 ] . "iB") 8 ]) });
   :set CheckHealthRAMUtilizationNotified true;
 }
 :if ($CheckHealthRAMUtilization < 70 && $CheckHealthRAMUtilizationNotified = true) do={
@@ -96,8 +96,8 @@ $ScriptLock $0;
         subject=([ $SymbolForNotification ("high-voltage-sign,chart-" . [ $IfThenElse ($NumLast < \
           $NumCurr) "in" "de" ] . "creasing") ] . "Health warning: " . $Name); \
         message=("The " . $Name . " on " . $Identity . " jumped more than " . $CheckHealthVoltagePercent . "%.\n\n" . \
-          [ $FormatLine "old value" ($CheckHealthLast->$Name . " V") ] . "\n" . \
-          [ $FormatLine "new value" ($Value . " V") ]) });
+          [ $FormatLine "old value" ($CheckHealthLast->$Name . " V") 12 ] . "\n" . \
+          [ $FormatLine "new value" ($Value . " V") 12 ]) });
     } else={ 
       :if ($NumCurr <= $CheckHealthVoltageLow && $NumLast > $CheckHealthVoltageLow) do={ 
         $SendNotification2 ({ origin=$0; \ 
