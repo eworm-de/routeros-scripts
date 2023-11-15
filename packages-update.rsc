@@ -3,10 +3,12 @@
 # Copyright (c) 2019-2024 Christian Hesse <mail@eworm.de>
 # https://git.eworm.de/cgit/routeros-scripts/about/COPYING.md
 #
+# requires RouterOS, version=7.12
+#
 # download packages and reboot for installation
 # https://git.eworm.de/cgit/routeros-scripts/about/doc/packages-update.md
 
-:local 0 "packages-update";
+:local 0 [ :jobname ];
 :global GlobalFunctionsReady;
 :while ($GlobalFunctionsReady != true) do={ :delay 500ms; }
 
