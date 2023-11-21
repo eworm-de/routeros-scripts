@@ -33,6 +33,11 @@ $ScriptLock $0;
 :local NumInstalled [ $VersionToNum ($Update->"installed-version") ];
 :local NumLatest [ $VersionToNum ($Update->"latest-version") ];
 
+:if ($NumInstalled < 0x070d0000 && $NumLatest > 0x070d0000) do={
+  $LogPrintExit2 error $0 ("Migration to wireless/wifi package in RouterOS " . \
+    ($Update->"latest-version") . " is pending. Please update manually!") true;
+}
+
 :local DoDowngrade false;
 :if ($NumInstalled > $NumLatest) do={
   :if ([ $ScriptFromTerminal $0 ] = true) do={
