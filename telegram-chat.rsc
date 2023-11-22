@@ -112,18 +112,18 @@ $WaitFullyConnected;
           $MkDir "tmpfs/telegram-chat";
           $LogPrintExit2 info $0 ("Running command from update " . $UpdateID . ": " . $Message->"text") false;
           :execute script=(":do {\n" . $Message->"text" . "\n} on-error={ /file/add name=\"" . $File . ".failed\" };" . \
-            "/file/add name=\"" . $File . ".done\"") file=$File;
+            "/file/add name=\"" . $File . ".done\"") file=($File . "\00");
           :if ([ $WaitForFile ($File . ".done") [ $EitherOr $TelegramChatRunTime 20s ] ] = false) do={
             :set State "The command did not finish, still running in background.\n\n";
           }
           :if ([ :len [ /file/find where name=($File . ".failed") ] ] > 0) do={
             :set State "The command failed with an error!\n\n";
           }
-          :local Content [ /file/get ($File . ".txt") contents ];
+          :local Content [ /file/get $File contents ];
           $SendTelegram2 ({ origin=$0; chatid=($Chat->"id"); silent=true; replyto=($Message->"message_id"); \
             subject=([ $SymbolForNotification "speech-balloon" ] . "Telegram Chat"); \
             message=("Command:\n" . $Message->"text" . "\n\n" . $State . [ $IfThenElse ([ :len $Content ] > 0) \
-              ("Output:\n" . $Content) [ $IfThenElse ([ /file/get ($File . ".txt") size ] > 0) \
+              ("Output:\n" . $Content) [ $IfThenElse ([ /file/get $File size ] > 0) \
               ("Output exceeds file read size.") ("No output.") ] ]) });
           /file/remove "tmpfs/telegram-chat";
         } else={
