@@ -103,12 +103,12 @@ $WaitFullyConnected;
 :if ($BackupSendGlobalConfig = true) do={
   # Do *NOT* use '/file/add ...' here, as it is limited to 4095 bytes!
   :execute script={ :put [ /system/script/get global-config-overlay source ]; } \
-      file=($FilePath . ".conf");
-  $WaitForFile ($FilePath . ".conf.txt");
+      file=($FilePath . ".conf\00");
+  $WaitForFile ($FilePath . ".conf");
 
   :do {
     /tool/fetch upload=yes url=($BackupUploadUrl . "/" . $FileName . ".conf") \
-        user=$BackupUploadUser password=$BackupUploadPass src-path=($FilePath . ".conf.txt");
+        user=$BackupUploadUser password=$BackupUploadPass src-path=($FilePath . ".conf");
     :set ConfigFile [ /file/get ($FilePath . ".conf") ];
     :set ($ConfigFile->"name") ($FileName . ".conf");
   } on-error={
@@ -117,7 +117,7 @@ $WaitFullyConnected;
     :set Failed 1;
   }
 
-  /file/remove ($FilePath . ".conf.txt");
+  /file/remove ($FilePath . ".conf");
 }
 
 :local FileInfo do={
