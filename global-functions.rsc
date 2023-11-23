@@ -20,6 +20,7 @@
 :global Identity [ /system/identity/get name ];
 
 # global functions
+:global AlignRight;
 :global CertificateAvailable;
 :global CertificateDownload;
 :global CertificateNameByCN;
@@ -71,6 +72,19 @@
 :global WaitForFile;
 :global WaitFullyConnected;
 :global WaitTimeSync;
+
+# align string to the right
+:global AlignRight do={
+  :local Input [ :tostr $1 ];
+  :local Len   [ :tonum $2 ];
+
+  :global EitherOr;
+
+  :local Spaces "                ";
+  :set Len [ $EitherOr $Len 8 ];
+
+  :return ([ :pick $Spaces 0 ($Len - [ :len $Input ]) ] . $Input);
+}
 
 # check and download required certificate
 :set CertificateAvailable do={
