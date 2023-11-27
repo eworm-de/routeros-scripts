@@ -64,10 +64,15 @@ $ScriptLock $0;
 :foreach Host in=[ /tool/netwatch/find where comment~"\\bdoh\\b" status="up" ] do={
   :local HostVal [ /tool/netwatch/get $Host ];
   :local HostInfo [ $ParseKeyValueStore ($HostVal->"comment") ];
+  :local HostName [ /ip/dns/static/find where name address=($HostVal->"host") \
+      (!type or type="A" or type="AAAA") !disabled !dynamic ];
+  :if ([ :len $HostName ] > 0) do={
+    :set HostName [ /ip/dns/static/get ($HostName->0) name ];
+  }
 
   :if ($HostInfo->"doh" = true && $HostInfo->"disabled" != true && $DohServer = "") do={
     :set DohServer [ $EitherOr ($HostInfo->"doh-url") \
-        ("https://" . $HostVal->"host" . "/dns-query") ];
+        ("https://" . [ $EitherOr $HostName ($HostVal->"host") ] . "/dns-query") ];
     :set DohCert ($HostInfo->"doh-cert");
   }
 }
