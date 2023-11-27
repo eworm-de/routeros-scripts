@@ -4,6 +4,7 @@
 
 :global IfThenElse;
 :global RequiredRouterOS;
+:global SymbolForNotification;
 
 # News, changes and migration up to change 95:
 # https://git.eworm.de/cgit/routeros-scripts/plain/global-config.changes?h=change-95
@@ -29,6 +30,7 @@
   112="Enhanced 'mod/ssh-keys-import' to record the fingerprint of keys.";
   113="Added helper functions for easier setup to Matrix notification module.";
   114="All relevant scripts were ported to new wifi package for RouterOS 7.13 and later. Migration is complex and thus not done automatically!";
+  115=("Celebrating " . [ $SymbolForNotification "sparkles,star" ] . "1.000 stars " . [ $SymbolForNotification "star,sparkles" ] . "on Github! Please continue starring...");
 };
 
 # Migration steps to be applied on script updates

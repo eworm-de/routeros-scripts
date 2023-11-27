@@ -12,7 +12,7 @@
 :local 0 "global-functions";
 
 # expected configuration version
-:global ExpectedConfigVersion 114;
+:global ExpectedConfigVersion 115;
 
 # global variables not to be changed by user
 :global GlobalFunctionsReady false;
@@ -1320,6 +1320,7 @@
     "scissors"="\E2\9C\82";
     "sparkles"="\E2\9C\A8";
     "speech-balloon"="\F0\9F\92\AC";
+    "star"="\E2\AD\90";
     "warning-sign"="\E2\9A\A0";
     "white-heavy-check-mark"="\E2\9C\85"
   }
