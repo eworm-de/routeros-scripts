@@ -12,7 +12,7 @@
 :local 0 "global-functions";
 
 # expected configuration version
-:global ExpectedConfigVersion 115;
+:global ExpectedConfigVersion 116;
 
 # global variables not to be changed by user
 :global GlobalFunctionsReady false;
@@ -1297,6 +1297,7 @@
   :local Symbols {
     "abacus"="\F0\9F\A7\AE";
     "alarm-clock"="\E2\8F\B0";
+    "arrow-down"="\E2\AC\87";
     "arrow-up"="\E2\AC\86";
     "calendar"="\F0\9F\93\85";
     "card-file-box"="\F0\9F\97\83";
@@ -1307,6 +1308,7 @@
     "earth"="\F0\9F\8C\8D";
     "fire"="\F0\9F\94\A5";
     "floppy-disk"="\F0\9F\92\BE";
+    "heart"="\E2\99\A5";
     "high-voltage-sign"="\E2\9A\A1";
     "incoming-envelope"="\F0\9F\93\A8";
     "information"="\E2\84\B9";

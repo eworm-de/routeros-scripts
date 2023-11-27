@@ -2,6 +2,8 @@
 # Copyright (c) 2019-2023 Christian Hesse <mail@eworm.de>
 # https://git.eworm.de/cgit/routeros-scripts/about/COPYING.md
 
+:global IDonate;
+
 :global IfThenElse;
 :global RequiredRouterOS;
 :global SymbolForNotification;
@@ -31,6 +33,9 @@
   113="Added helper functions for easier setup to Matrix notification module.";
   114="All relevant scripts were ported to new wifi package for RouterOS 7.13 and later. Migration is complex and thus not done automatically!";
   115=("Celebrating " . [ $SymbolForNotification "sparkles,star" ] . "1.000 stars " . [ $SymbolForNotification "star,sparkles" ] . "on Github! Please continue starring...");
+  116=("... and also please keep in mind that it takes a huge amount of time maintaining these scripts. " . [ $IfThenElse ($IDonate != true) \
+        ("Following the donation hint " . [ $SymbolForNotification "arrow-down" "below" ] . "to keep me motivated is much appreciated. Thanks!") \
+        ("Looks like you did donate already. " . [ $SymbolForNotification "heart" "<3" ] . "Much appreciated, thanks!") ]);
 };
 
 # Migration steps to be applied on script updates
