@@ -1265,6 +1265,7 @@
   :local Symbols {
     "abacus"="\F0\9F\A7\AE";
     "alarm-clock"="\E2\8F\B0";
+    "arrow-up"="\E2\AC\86";
     "calendar"="\F0\9F\93\85";
     "card-file-box"="\F0\9F\97\83";
     "chart-decreasing"="\F0\9F\93\89";
@@ -1287,7 +1288,6 @@
     "scissors"="\E2\9C\82";
     "sparkles"="\E2\9C\A8";
     "speech-balloon"="\F0\9F\92\AC";
-    "up-arrow"="\E2\AC\86";
     "warning-sign"="\E2\9A\A0";
     "white-heavy-check-mark"="\E2\9C\85"
   }
