@@ -1084,7 +1084,7 @@
       :for I from=($ExpectedConfigVersionBefore + 1) to=$ExpectedConfigVersion do={
         :local Change ($GlobalConfigChanges->[ :tostr $I ]);
         :set NotificationMessage ($NotificationMessage . "\n " . \
-            [ $SymbolForNotification "pushpin" "* " ] . $Change);
+            [ $SymbolForNotification "pushpin" "*" ] . $Change);
         $LogPrintExit2 info $0 ("Change " . $I . ": " . $Change) false;
       }
     } else={
@@ -1299,9 +1299,10 @@
 :set SymbolForNotification do={
   :global NotificationsWithSymbols;
   :global SymbolByUnicodeName;
+  :global IfThenElse;
 
   :if ($NotificationsWithSymbols != true) do={
-    :return [ :tostr $2 ];
+    :return [ $IfThenElse ([ :len $2 ] > 0) ([ :tostr $2 ] . " ") "" ];
   }
   :local Return "";
   :foreach Symbol in=[ :toarray $1 ] do={
