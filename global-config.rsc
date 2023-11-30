@@ -88,7 +88,7 @@
 :global FwAddrLists {
 #  "allow"={
 #    { url="https://eworm.de/ros/fw-addr-lists/allow";
-#      cert="E1" };
+#      cert="E1"; timeout=1w };
 #  };
   "block"={
 #    { url="https://eworm.de/ros/fw-addr-lists/block";

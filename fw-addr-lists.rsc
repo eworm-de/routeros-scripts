@@ -14,6 +14,7 @@
 :global FwAddrListTimeOut;
 
 :global CertificateAvailable;
+:global EitherOr;
 :global LogPrintExit2;
 :global ScriptLock;
 :global WaitFullyConnected;
@@ -42,6 +43,7 @@ $WaitFullyConnected;
   :foreach List in=$FwList do={
     :local CheckCertificate "no";
     :local Data false;
+    :local TimeOut [ $EitherOr [ :totime ($List->"timeout") ] $FwAddrListTimeOut ];
 
     :if ([ :len ($List->"cert") ] > 0) do={
       :set CheckCertificate "yes-without-crl";
@@ -75,7 +77,7 @@ $WaitFullyConnected;
       :local Address ([ :pick $Line 0 [ $FindDelim $Line ] ] . ($List->"cidr"));
       :if ($Address ~ "^[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}(/[0-9]{1,2})?\$" || \
            $Address ~ "^[\\.a-zA-Z0-9-]+\\.[a-zA-Z]{2,}\$") do={
-        :set ($Addresses->$Address) 1;
+        :set ($Addresses->$Address) $TimeOut;
       }
       :set Data [ :pick $Data ([ :len $Line ] + 1) [ :len $Data ] ];
     }
@@ -83,9 +85,9 @@ $WaitFullyConnected;
 
   :foreach Entry in=[ /ip/firewall/address-list/find where list=$FwListName comment=$ListComment ] do={
     :local Address [ /ip/firewall/address-list/get $Entry address ];
-    :if (($Addresses->$Address) = 1) do={
-      $LogPrintExit2 debug $0 ("Renewing: " . $Address) false;
-      /ip/firewall/address-list/set $Entry timeout=$FwAddrListTimeOut;
+    :if ([ :typeof ($Addresses->$Address) ] = "time") do={
+      $LogPrintExit2 debug $0 ("Renewing for " . ($Addresses->$Address) . ": " . $Address) false;
+      /ip/firewall/address-list/set $Entry timeout=($Addresses->$Address);
       :set ($Addresses->$Address);
       :set CntRenew ($CntRenew + 1);
     } else={
@@ -98,9 +100,9 @@ $WaitFullyConnected;
   }
 
   :foreach Address,Ignore in=$Addresses do={
-    $LogPrintExit2 debug $0 ("Adding: " . $Address) false;
+    $LogPrintExit2 debug $0 ("Adding for " . ($Addresses->$Address) . ": " . $Address) false;
     :do {
-      /ip/firewall/address-list/add list=$FwListName comment=$ListComment address=$Address timeout=$FwAddrListTimeOut;
+      /ip/firewall/address-list/add list=$FwListName comment=$ListComment address=$Address timeout=($Addresses->$Address);
       :set ($Addresses->$Address);
       :set CntAdd ($CntAdd + 1);
     } on-error={
