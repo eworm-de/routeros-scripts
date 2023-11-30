@@ -49,6 +49,7 @@
 :global LogPrintExit2;
 :global LogPrintOnce;
 :global MAX;
+:global MIN;
 :global MkDir;
 :global NotificationFunctions;
 :global ParseDate;
@@ -684,6 +685,12 @@
 # get max value
 :set MAX do={
   :if ($1 > $2) do={ :return $1; }
+  :return $2;
+}
+
+# get min value
+:set MIN do={
+  :if ($1 < $2) do={ :return $1; }
   :return $2;
 }
 
