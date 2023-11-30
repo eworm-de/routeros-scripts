@@ -48,6 +48,7 @@
 :global IsTimeSync;
 :global LogPrintExit2;
 :global LogPrintOnce;
+:global MAX;
 :global MkDir;
 :global NotificationFunctions;
 :global ParseDate;
@@ -678,6 +679,12 @@
 
   :set ($LogPrintOnceMessages->$Message) 1;
   $LogPrintExit2 $Severity $Name $Message false;
+}
+
+# get max value
+:set MAX do={
+  :if ($1 > $2) do={ :return $1; }
+  :return $2;
 }
 
 # create directory
