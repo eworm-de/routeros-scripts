@@ -377,12 +377,14 @@
   :local Key    [ :tostr $1 ];
   :local Value  [ :tostr $2 ];
   :local Indent [ :tonum $3 ];
-  :local Spaces "                ";
+  :local Spaces;
   :local Return "";
 
+  :global CharacterMultiply;
   :global EitherOr;
 
   :set Indent [ $EitherOr $Indent 16 ];
+  :local Spaces [ $CharacterMultiply " " $Indent ];
 
   :if ([ :len $Key ] > 0) do={ :set Return ($Key . ":"); }
   :if ([ :len $Key ] > ($Indent - 2)) do={
