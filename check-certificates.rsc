@@ -95,7 +95,7 @@
     :local CertVal [ /certificate/get $Cert ];
     :local Return "";
 
-    :while (true) do={
+    :for I from=0 to=3 do={
       :set Return ($Return . [ $ParseKeyValueStore ($CertVal->"issuer") ]->"CN");
       :if (($CertVal->"akid") = "" || ($CertVal->"akid") = ($CertVal->"skid")) do={
         :return $Return;
@@ -103,6 +103,7 @@
       :set Return ($Return . " -> ");
       :set CertVal [ /certificate/get [ find where skid=($CertVal->"akid") ] ];
     }
+    :return ($Return . "...");
   }
 
   :local CertVal [ /certificate/get $Cert ];
