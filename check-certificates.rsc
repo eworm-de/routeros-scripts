@@ -90,18 +90,20 @@
   :local FormatCertChain do={
     :local Cert $1;
 
+    :global EitherOr;
     :global ParseKeyValueStore;
 
     :local CertVal [ /certificate/get $Cert ];
     :local Return "";
 
     :for I from=0 to=3 do={
-      :set Return ($Return . [ $ParseKeyValueStore ($CertVal->"issuer") ]->"CN");
+      :set Return ($Return . [ $EitherOr ([ $ParseKeyValueStore ($CertVal->"issuer") ]->"CN") \
+        ([ $ParseKeyValueStore (($CertVal->"issuer")->0) ]->"CN") ]);
+      :set CertVal [ /certificate/get [ find where skid=($CertVal->"akid") ] ];
       :if (($CertVal->"akid") = "" || ($CertVal->"akid") = ($CertVal->"skid")) do={
         :return $Return;
       }
       :set Return ($Return . " -> ");
-      :set CertVal [ /certificate/get [ find where skid=($CertVal->"akid") ] ];
     }
     :return ($Return . "...");
   }
