@@ -81,10 +81,11 @@
   :local Input [ :tostr $1 ];
   :local Len   [ :tonum $2 ];
 
+  :global CharacterMultiply;
   :global EitherOr;
 
-  :local Spaces "                ";
   :set Len [ $EitherOr $Len 8 ];
+  :local Spaces [ $CharacterMultiply " " $Len ];
 
   :return ([ :pick $Spaces 0 ($Len - [ :len $Input ]) ] . $Input);
 }
