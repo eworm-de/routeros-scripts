@@ -80,7 +80,6 @@
   :global FormatLine;
   :global FormatMultiLines;
   :global IfThenElse;
-  :global EitherOr;
 
   :local FormatExpire do={
     :global CharacterReplace;
@@ -96,7 +95,7 @@
     :local CertVal [ /certificate/get $Cert ];
     :local Return "";
 
-    :for I from=0 to=3 do={
+    :for I from=0 to=5 do={
       :set Return ($Return . [ $EitherOr ([ $ParseKeyValueStore ($CertVal->"issuer") ]->"CN") \
         ([ $ParseKeyValueStore (($CertVal->"issuer")->0) ]->"CN") ]);
       :set CertVal [ /certificate/get [ find where skid=($CertVal->"akid") ] ];
@@ -116,7 +115,7 @@
     [ $IfThenElse ([ :len ($CertVal->"subject-alt-name") ] > 0) ([ $FormatMultiLines "SubjectAltNames" ($CertVal->"subject-alt-name") ] . "\n") ] . \
     [ $FormatLine "Private key" [ $IfThenElse (($CertVal->"private-key") = true) "available" "missing" ] ] . "\n" . \
     [ $FormatLine "Fingerprint" ($CertVal->"fingerprint") ] . "\n" . \
-    [ $FormatLine "Issuer" [ $EitherOr ($CertVal->"ca") [ $FormatCertChain $Cert ] ] ] . "\n" . \
+    [ $IfThenElse ([ :len ($CertVal->"ca") ] > 0) [ $FormatLine "Issuer" ($CertVal->"ca") ] [ $FormatLine "Issuer chain" [ $FormatCertChain $Cert ] ] ] . "\n" . \
     "Validity:\n" . \
     [ $FormatLine "    from" ($CertVal->"invalid-before") ] . "\n" . \
     [ $FormatLine "    to" ($CertVal->"invalid-after") ] . "\n" . \
