@@ -131,6 +131,7 @@
 
   :global EitherOr;
   :global IfThenElse;
+  :global NotificationEMailSignature;
   :global NotificationEMailSubject;
 
   :local To [ $EitherOr ($EmailGeneralToOverride->($Notification->"origin")) $EmailGeneralTo ];
@@ -144,7 +145,7 @@
   :if ([ :typeof $EmailQueue ] = "nothing") do={
       :set EmailQueue ({});
   }
-  :local Signature [ /system/note/get note ];
+  :local Signature [ $EitherOr [ $NotificationEMailSignature ] [ /system/note/get note ] ];
   :set ($EmailQueue->[ :len $EmailQueue ]) {
     to=$To; cc=$Cc;
     subject=[ $NotificationEMailSubject ($Notification->"subject") ];
