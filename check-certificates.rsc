@@ -75,17 +75,37 @@
 }
 
 :local FormatInfo do={
-  :local CertVal $1;
+  :local Cert $1;
 
   :global FormatLine;
   :global FormatMultiLines;
   :global IfThenElse;
-  :global ParseKeyValueStore;
-  
+  :global EitherOr;
+
   :local FormatExpire do={
     :global CharacterReplace;
     :return [ $CharacterReplace [ $CharacterReplace [ :tostr $1 ] "w" "w " ] "d" "d " ];
   }
+
+  :local FormatCertChain do={
+    :local Cert $1;
+
+    :global ParseKeyValueStore;
+
+    :local CertVal [ /certificate/get $Cert ];
+    :local Return "";
+
+    :while (true) do={
+      :set Return ($Return . [ $ParseKeyValueStore ($CertVal->"issuer") ]->"CN");
+      :if (($CertVal->"akid") = "" || ($CertVal->"akid") = ($CertVal->"skid")) do={
+        :return $Return;
+      }
+      :set Return ($Return . " -> ");
+      :set CertVal [ /certificate/get [ find where skid=($CertVal->"akid") ] ];
+    }
+  }
+
+  :local CertVal [ /certificate/get $Cert ];
 
   :return ( \
     [ $FormatLine "Name" ($CertVal->"name") ] . "\n" . \
@@ -93,7 +113,7 @@
     [ $IfThenElse ([ :len ($CertVal->"subject-alt-name") ] > 0) ([ $FormatMultiLines "SubjectAltNames" ($CertVal->"subject-alt-name") ] . "\n") ] . \
     [ $FormatLine "Private key" [ $IfThenElse (($CertVal->"private-key") = true) "available" "missing" ] ] . "\n" . \
     [ $FormatLine "Fingerprint" ($CertVal->"fingerprint") ] . "\n" . \
-    [ $FormatLine "Issuer" ($CertVal->"ca" . ([ $ParseKeyValueStore ($CertVal->"issuer") ]->"CN")) ] . "\n" . \
+    [ $FormatLine "Issuer" [ $EitherOr ($CertVal->"ca") [ $FormatCertChain $Cert ] ] ] . "\n" . \
     "Validity:\n" . \
     [ $FormatLine "    from" ($CertVal->"invalid-before") ] . "\n" . \
     [ $FormatLine "    to" ($CertVal->"invalid-after") ] . "\n" . \
@@ -105,6 +125,7 @@ $WaitFullyConnected;
 
 :foreach Cert in=[ /certificate/find where !revoked !ca !scep-url expires-after<$CertRenewTime ] do={
   :local CertVal [ /certificate/get $Cert ];
+  :local CertNew;
   :local LastName;
 
   :do {
@@ -129,7 +150,7 @@ $WaitFullyConnected;
     } else={
       $LogPrintExit2 debug $0 ("Certificate '" . $CertVal->"name" . "' was not updated, but replaced.") false;
 
-      :local CertNew [ /certificate/find where name~("^" . [ $EscapeForRegEx [ $UrlEncode $LastName ] ] . "\\.(p12|pem)_[0-9]+\$") \
+      :set CertNew [ /certificate/find where name~("^" . [ $EscapeForRegEx [ $UrlEncode $LastName ] ] . "\\.(p12|pem)_[0-9]+\$") \
         (common-name=($CertVal->"common-name") or subject-alt-name~("(^|\\W)(DNS|IP):" . [ $EscapeForRegEx $LastName ] . "(\\W|\$)")) \
         fingerprint!=[ :tostr ($CertVal->"fingerprint") ] expires-after>$CertRenewTime ];
       :local CertNewVal [ /certificate/get $CertNew ];
@@ -158,7 +179,7 @@ $WaitFullyConnected;
 
     $SendNotification2 ({ origin=$0; silent=true; \
       subject=([ $SymbolForNotification "lock-with-ink-pen" ] . "Certificate renewed: " . ($CertVal->"name")); \
-      message=("A certificate on " . $Identity . " has been renewed.\n\n" . [ $FormatInfo $CertVal ]) });
+      message=("A certificate on " . $Identity . " has been renewed.\n\n" . [ $FormatInfo $CertNew ]) });
     $LogPrintExit2 info $0 ("The certificate " . ($CertVal->"name") . " has been renewed.") false;
   } on-error={
     $LogPrintExit2 debug $0 ("Could not renew certificate " . ($CertVal->"name") . ".") false;
@@ -176,7 +197,7 @@ $WaitFullyConnected;
 
     $SendNotification2 ({ origin=$0; \
       subject=([ $SymbolForNotification "warning-sign" ] . "Certificate warning: " . ($CertVal->"name")); \
-      message=("A certificate on " . $Identity . " " . $State . ".\n\n" . [ $FormatInfo $CertVal ]) });
+      message=("A certificate on " . $Identity . " " . $State . ".\n\n" . [ $FormatInfo $Cert ]) });
     $LogPrintExit2 info $0 ("The certificate " . ($CertVal->"name") . " " . $State . \
         ", it is invalid after " . ($CertVal->"invalid-after") . ".") false;
   }
