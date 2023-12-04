@@ -146,7 +146,7 @@ $WaitFullyConnected;
       }
     }
 
-    :if ($CertVal->"fingerprint" != [ /certificate/get $Cert fingerprint ]) do={
+    :if ([ :len ($CertVal->"fingerprint") ] > 0 && $CertVal->"fingerprint" != [ /certificate/get $Cert fingerprint ]) do={
       $LogPrintExit2 debug $0 ("Certificate '" . $CertVal->"name" . "' was updated in place.") false;
       :set CertVal [ /certificate/get $Cert ];
     } else={
