@@ -219,16 +219,21 @@
   :global IfThenElse;
   :global FormatLine;
 
+  :local License [ /system/license/get ];
   :local Resource [ /system/resource/get ];
   :local RouterBoard;
   :do {
     :set RouterBoard [[ :parse "/system/routerboard/get" ]];
   } on-error={ }
-  :local License [ /system/license/get ];
+  :local Snmp [ /snmp/get ];
   :local Update [ /system/package/update/get ];
 
   :return ( \
     [ $FormatLine "Hostname" $Identity ] . "\n" . \
+    [ $IfThenElse ([ :len ($Snmp->"location") ] > 0) \
+      ([ $FormatLine "Location" ($Snmp->"location") ] . "\n") ] . \
+    [ $IfThenElse ([ :len ($Snmp->"contact") ] > 0) \
+      ([ $FormatLine "Contact" ($Snmp->"contact") ] . "\n") ] . \
     [ $FormatLine "Board name" ($Resource->"board-name") ] . "\n" . \
     [ $FormatLine "Architecture" ($Resource->"architecture-name") ] . "\n" . \
     [ $IfThenElse ($RouterBoard->"routerboard" = true) \
