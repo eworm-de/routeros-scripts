@@ -24,6 +24,7 @@
 :global CertificateAvailable;
 :global CertificateDownload;
 :global CertificateNameByCN;
+:global CharacterMultiply;
 :global CharacterReplace;
 :global CleanFilePath;
 :global DeviceInfo;
@@ -170,6 +171,15 @@
   :local Cert [ /certificate/find where common-name=$CommonName ];
   /certificate/set $Cert \
     name=[ $CharacterReplace [ $CharacterReplace [ $CharacterReplace $CommonName "'" "-" ] " " "-" ] "---" "-" ];
+}
+
+# multiply given character(s)
+:set CharacterMultiply do={
+  :local Return "";
+  :for I from=1 to=$2 do={
+    :set Return ($Return . $1);
+  }
+  :return $Return;
 }
 
 # character replace
