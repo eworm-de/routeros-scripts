@@ -126,7 +126,7 @@ $WaitFullyConnected;
     :if ($CertVal->"fingerprint" != [ /certificate/get $Cert fingerprint ]) do={
       $LogPrintExit2 debug $0 ("Certificate '" . $CertVal->"name" . "' was updated in place.") false;
       :set CertVal [ /certificate/get $Cert ];
-    } else {
+    } else={
       $LogPrintExit2 debug $0 ("Certificate '" . $CertVal->"name" . "' was not updated, but replaced.") false;
 
       :local CertNew [ /certificate/find where name~("^" . [ $EscapeForRegEx [ $UrlEncode $LastName ] ] . "\\.(p12|pem)_[0-9]+\$") \
@@ -153,7 +153,7 @@ $WaitFullyConnected;
       /certificate/remove $Cert;
       /certificate/set $CertNew name=($CertVal->"name");
       :set CertNewVal;
-      :set CertVal [ /certificate/get $CertNew ];;
+      :set CertVal [ /certificate/get $CertNew ];
     }
 
     $SendNotification2 ({ origin=$0; silent=true; \
