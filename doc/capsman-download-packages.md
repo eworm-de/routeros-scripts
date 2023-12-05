@@ -18,7 +18,11 @@ This script automatically downloads these packages.
 Requirements and installation
 -----------------------------
 
-Just install the script on CAPsMAN device.
+Make sure you have the `package-path` set in your CAPsMAN configuration,
+as that is where packages are downloaded to and where the system expects
+them.
+
+Then just install the script on CAPsMAN device.
 Depending on whether you use `wifi` package (`/interface/wifi`), `wifiwave2`
 package (`/interface/wifiwave2`) or legacy wifi with CAPsMAN (`/caps-man`)
 you need to install a different script.
