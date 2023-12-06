@@ -3,7 +3,7 @@
 # Copyright (c) 2019-2024 Christian Hesse <mail@eworm.de>
 # https://git.eworm.de/cgit/routeros-scripts/about/COPYING.md
 #
-# requires RouterOS, version=7.12
+# requires RouterOS, version=7.13
 #
 # download packages and reboot for installation
 # https://git.eworm.de/cgit/routeros-scripts/about/doc/packages-update.md
@@ -62,12 +62,6 @@
 
   :local NumInstalled [ $VersionToNum ($Update->"installed-version") ];
   :local NumLatest [ $VersionToNum ($Update->"latest-version") ];
-
-  :if ($NumInstalled < 0x070d0000 && $NumLatest > 0x070d0000) do={
-    $LogPrint error $ScriptName ("Migration to wireless/wifi package in RouterOS " . \
-      ($Update->"latest-version") . " is pending. Please update manually!");
-    :error false;
-  }
 
   :local DoDowngrade false;
   :if ($NumInstalled > $NumLatest) do={
