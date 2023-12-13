@@ -16,6 +16,7 @@
 :global CertificateAvailable;
 :global EitherOr;
 :global LogPrintExit2;
+:global LogPrintOnce;
 :global ScriptLock;
 :global WaitFullyConnected;
 
@@ -70,6 +71,10 @@ $WaitFullyConnected;
       :set Data "";
       :set Failure true;
       $LogPrintExit2 warning $0 ("Failed downloading list from: " . $List->"url") false;
+    }
+
+    :if ([ :len $Data ] > 63000) do={
+      $LogPrintOnce warning $0 ("The list is huge and may be truncated: " . $List->"url");
     }
 
     :while ([ :len $Data ] != 0) do={
