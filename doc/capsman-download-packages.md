@@ -57,7 +57,7 @@ unconditionally.
 
 If no packages are found the script downloads a default set of packages:
 
- * `wifi`: `routeros`, `wifi-qcom` and `wifi-qcom-ac` for *arm* and *arm64*
+ * `wifi`: `routeros` and `wifi-qcom` for *arm* and *arm64*, `wifi-qcom-ac` for *arm*
  * `wifiwave2`: `routeros` and `wifiwave2` for *arm* and *arm64*
  * legacy CAPsMAN: `routeros` and `wireless` for *arm* and *mipsbe*
 

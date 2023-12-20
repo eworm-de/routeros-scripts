@@ -70,7 +70,9 @@ $WaitFullyConnected;
     :foreach Package in={ "routeros"; "wifiwave2" } do={
 # NOT /interface/wifi/ #
 # NOT /interface/wifiwave2/ #
-    :foreach Package in={ "routeros"; "wifi-qcom"; "wifi-qcom-ac" } do={
+    :local Packages { "arm"={ "routeros"; "wifi-qcom"; "wifi-qcom-ac" };
+                    "arm64"={ "routeros"; "wifi-qcom" } };
+    :foreach Package in=($Packages->$Arch) do={
 # NOT /interface/wifiwave2/ #
 # NOT /caps-man/ #
       :if ([ $DownloadPackage $Package $InstalledVersion $Arch $PackagePath ] = true) do={
