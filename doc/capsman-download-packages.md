@@ -55,12 +55,11 @@ For legacy CAPsMAN:
 Packages available in local storage in older version are downloaded
 unconditionally.
 
-If no packages are found the script tries to download missing packages for
-legacy CAPsMAN by guessing from system log. For `wifi` and `wifiwave2` a
-default set of packages is downloaded.
+If no packages are found the script downloads a default set of packages:
 
  * `wifi`: `routeros`, `wifi-qcom` and `wifi-qcom-ac` for *arm* and *arm64*
  * `wifiwave2`: `routeros` and `wifiwave2` for *arm* and *arm64*
+ * legacy CAPsMAN: `routeros` and `wireless` for *arm* and *mipsbe*
 
 > ℹ️ **Info**: If you have packages in the directory and things go wrong for
 > what ever unknown reason: Remove **all** packages and start over.

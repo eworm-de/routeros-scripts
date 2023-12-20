@@ -56,38 +56,15 @@ $WaitFullyConnected;
   }
 }
 
-# NOT /interface/wifi/ #
-# NOT /interface/wifiwave2/ #
-:if ([ :len [ /system/logging/find where topics~"error" !(topics~"!error") \
-     !(topics~"!caps") action=memory !disabled !invalid ] ] < 1) do={
-  $LogPrintExit2 warning $0 ("Looks like error messages for 'caps' are not sent to memory. " . \
-      "Probably can not download packages automatically.") false;
-} else={
-  :if ($Updated = false && [ /system/resource/get uptime ] < 2m) do={
-    $LogPrintExit2 info $0 ("No packages downloaded, yet. Delaying for logs.") false;
-    :delay 2m;
-  }
-}
-
-:foreach Log in=[ /log/find where topics=({"caps"; "error"}) \
-    message~("upgrade status: failed, failed to download file '.*-" . $InstalledVersion . \
-    "-.*\\.npk', no such file") ] do={
-  :local Message [ /log/get $Log message ];
-  :local Package [ :pick $Message \
-    ([ :find $Message "'" ] + 1) \
-    [ :find $Message ("-" . $InstalledVersion . "-") ] ];
-  :local Arch [ :pick $Message \
-    ([ :find $Message ("-" . $InstalledVersion . "-") ] + 2 + [ :len $InstalledVersion ]) \
-    [ :find $Message ".npk" ] ];
-  :if ([ $DownloadPackage $Package $InstalledVersion $Arch $PackagePath ] = true) do={
-    :set Updated true;
-  }
-}
-# NOT /interface/wifiwave2/ #
-# NOT /interface/wifi/ #
-# NOT /caps-man/ #
 :if ([ :len [ /file/find where type=package name~("^" . $PackagePath) ] ] = 0) do={
   $LogPrintExit2 info $0 ("No packages available, downloading default set.") false;
+# NOT /interface/wifi/ #
+# NOT /interface/wifiwave2/ #
+  :foreach Arch in={ "arm"; "mipsbe" } do={
+    :foreach Package in={ "routeros"; "wireless" } do={
+# NOT /interface/wifi/ #
+# NOT /interface/wifiwave2/ #
+# NOT /caps-man/ #
   :foreach Arch in={ "arm"; "arm64" } do={
 # NOT /interface/wifi/ #
     :foreach Package in={ "routeros"; "wifiwave2" } do={
@@ -95,13 +72,13 @@ $WaitFullyConnected;
 # NOT /interface/wifiwave2/ #
     :foreach Package in={ "routeros"; "wifi-qcom"; "wifi-qcom-ac" } do={
 # NOT /interface/wifiwave2/ #
+# NOT /caps-man/ #
       :if ([ $DownloadPackage $Package $InstalledVersion $Arch $PackagePath ] = true) do={
         :set Updated true;
       }
     }
   }
 }
-# NOT /caps-man/ #
 
 :if ($Updated = true) do={
   :local Script ([ /system/script/find where source~"\n# provides: capsman-rolling-upgrade\n" ]->0);

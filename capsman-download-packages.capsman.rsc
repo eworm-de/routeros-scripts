@@ -53,29 +53,14 @@ $WaitFullyConnected;
   }
 }
 
-:if ([ :len [ /system/logging/find where topics~"error" !(topics~"!error") \
-     !(topics~"!caps") action=memory !disabled !invalid ] ] < 1) do={
-  $LogPrintExit2 warning $0 ("Looks like error messages for 'caps' are not sent to memory. " . \
-      "Probably can not download packages automatically.") false;
-} else={
-  :if ($Updated = false && [ /system/resource/get uptime ] < 2m) do={
-    $LogPrintExit2 info $0 ("No packages downloaded, yet. Delaying for logs.") false;
-    :delay 2m;
-  }
-}
-
-:foreach Log in=[ /log/find where topics=({"caps"; "error"}) \
-    message~("upgrade status: failed, failed to download file '.*-" . $InstalledVersion . \
-    "-.*\\.npk', no such file") ] do={
-  :local Message [ /log/get $Log message ];
-  :local Package [ :pick $Message \
-    ([ :find $Message "'" ] + 1) \
-    [ :find $Message ("-" . $InstalledVersion . "-") ] ];
-  :local Arch [ :pick $Message \
-    ([ :find $Message ("-" . $InstalledVersion . "-") ] + 2 + [ :len $InstalledVersion ]) \
-    [ :find $Message ".npk" ] ];
-  :if ([ $DownloadPackage $Package $InstalledVersion $Arch $PackagePath ] = true) do={
-    :set Updated true;
+:if ([ :len [ /file/find where type=package name~("^" . $PackagePath) ] ] = 0) do={
+  $LogPrintExit2 info $0 ("No packages available, downloading default set.") false;
+  :foreach Arch in={ "arm"; "mipsbe" } do={
+    :foreach Package in={ "routeros"; "wireless" } do={
+      :if ([ $DownloadPackage $Package $InstalledVersion $Arch $PackagePath ] = true) do={
+        :set Updated true;
+      }
+    }
   }
 }
 
