@@ -85,7 +85,7 @@
     :local Continue false;
     :local Line [ :pick $Keys 0 [ :find $Keys "\n" ] ];
     :set Keys [ :pick $Keys ([ :find $Keys "\n" ] + 1) [ :len $Keys ] ];
-    :local KeyVal [ :toarray [ $CharacterReplace $Key " " "," ] ];
+    :local KeyVal [ :toarray [ $CharacterReplace $Line " " "," ] ];
     :if ($KeyVal->0 = "ssh-ed25519" || $KeyVal->0 = "ssh-rsa") do={
       :do {
         $SSHKeysImport $Line $User;
