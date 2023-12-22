@@ -426,7 +426,7 @@
   }
 
   :do {
-    :if ([ $CertificateAvailable "R3" ] = false) do={
+    :if ([ $CertificateAvailable "GTS CA 1P5" ] = false) do={
       $LogPrintExit2 warning $0 ("Downloading required certificate failed.") true;
     }
     :local Vendor ([ /tool/fetch check-certificate=yes-without-crl \
