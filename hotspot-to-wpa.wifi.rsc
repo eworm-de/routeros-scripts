@@ -1,6 +1,6 @@
 #!rsc by RouterOS
 # RouterOS script: hotspot-to-wpa.wifi
-# Copyright (c) 2019-2023 Christian Hesse <mail@eworm.de>
+# Copyright (c) 2019-2024 Christian Hesse <mail@eworm.de>
 # https://git.eworm.de/cgit/routeros-scripts/about/COPYING.md
 #
 # add private WPA passphrase after hotspot login

@@ -1,6 +1,6 @@
 #!rsc by RouterOS
 # RouterOS script: capsman-rolling-upgrade.wifiwave2
-# Copyright (c) 2018-2023 Christian Hesse <mail@eworm.de>
+# Copyright (c) 2018-2024 Christian Hesse <mail@eworm.de>
 #                         Michael Gisbers <michael@gisbers.de>
 # https://git.eworm.de/cgit/routeros-scripts/about/COPYING.md
 #

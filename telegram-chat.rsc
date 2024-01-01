@@ -1,6 +1,6 @@
 #!rsc by RouterOS
 # RouterOS script: telegram-chat
-# Copyright (c) 2023 Christian Hesse <mail@eworm.de>
+# Copyright (c) 2023-2024 Christian Hesse <mail@eworm.de>
 # https://git.eworm.de/cgit/routeros-scripts/about/COPYING.md
 #
 # use Telegram to chat with your Router and send commands

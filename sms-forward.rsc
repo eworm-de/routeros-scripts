@@ -1,6 +1,6 @@
 #!rsc by RouterOS
 # RouterOS script: sms-forward
-# Copyright (c) 2013-2023 Christian Hesse <mail@eworm.de>
+# Copyright (c) 2013-2024 Christian Hesse <mail@eworm.de>
 #                         Anatoly Bubenkov <bubenkoff@gmail.com>
 # https://git.eworm.de/cgit/routeros-scripts/about/COPYING.md
 #

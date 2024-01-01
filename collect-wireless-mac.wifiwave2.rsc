@@ -1,6 +1,6 @@
 #!rsc by RouterOS
 # RouterOS script: collect-wireless-mac.wifiwave2
-# Copyright (c) 2013-2023 Christian Hesse <mail@eworm.de>
+# Copyright (c) 2013-2024 Christian Hesse <mail@eworm.de>
 # https://git.eworm.de/cgit/routeros-scripts/about/COPYING.md
 #
 # provides: lease-script, order=40

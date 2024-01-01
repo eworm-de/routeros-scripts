@@ -1,6 +1,6 @@
 #!rsc by RouterOS
 # RouterOS script: fw-addr-lists
-# Copyright (c) 2023 Christian Hesse <mail@eworm.de>
+# Copyright (c) 2023-2024 Christian Hesse <mail@eworm.de>
 # https://git.eworm.de/cgit/routeros-scripts/about/COPYING.md
 #
 # download, import and update firewall address-lists
