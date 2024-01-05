@@ -45,6 +45,11 @@ $ScriptLock $0;
     :return false;
   }
 
+  :if ([ :len ($Firmware->"latest") ] = 0) do={
+    $LogPrintExit2 info $0 ("An empty string is not a valid version.") false;
+    :return false;
+  }
+
   :if (($Firmware->"installed") = ($Firmware->"latest")) do={
     :if ([ $ScriptFromTerminal $0 ] = true) do={
       $LogPrintExit2 info $0 ("No firmware upgrade available for LTE interface " . $IntName . ".") false;
