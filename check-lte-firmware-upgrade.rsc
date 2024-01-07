@@ -21,7 +21,8 @@ $ScriptLock $0;
 }
 
 :local CheckInterface do={
-  :local Interface $1;
+  :local ScriptName $1;
+  :local Interface  $2;
 
   :global Identity;
   :global SentLteFirmwareUpgradeNotification;
@@ -51,13 +52,13 @@ $ScriptLock $0;
   }
 
   :if (($Firmware->"installed") = ($Firmware->"latest")) do={
-    :if ([ $ScriptFromTerminal $0 ] = true) do={
+    :if ([ $ScriptFromTerminal $ScriptName ] = true) do={
       $LogPrintExit2 info $0 ("No firmware upgrade available for LTE interface " . $IntName . ".") false;
     }
     :return true;
   }
 
-  :if ([ $ScriptFromTerminal $0 ] = true && \
+  :if ([ $ScriptFromTerminal $ScriptName ] = true && \
       [ :len [ /system/script/find where name="unattended-lte-firmware-upgrade" ] ] > 0) do={
     :put ("Do you want to start unattended lte firmware upgrade for interface " . $IntName . "? [y/N]");
     :if (([ /terminal/inkey timeout=60 ] % 32) = 25) do={
@@ -89,5 +90,5 @@ $ScriptLock $0;
 }
 
 :foreach Interface in=[ /interface/lte/find ] do={
-  $CheckInterface $Interface;
+  $CheckInterface $0 $Interface;
 }
