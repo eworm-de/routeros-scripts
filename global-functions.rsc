@@ -149,6 +149,7 @@
       dst-path=$LocalFileName as-value;
     $WaitForFile $LocalFileName;
     /certificate/import file-name=$LocalFileName passphrase="" as-value;
+    :delay 1s;
     /file/remove $LocalFileName;
 
     :foreach Cert in=[ /certificate/find where name~("^" . $LocalFileName . "_[0-9]+\$") ] do={
@@ -159,7 +160,6 @@
         "CommonName \"" . $CommonName . "\"!") false;
     :return false;
   }
-  :delay 1s;
   :return true;
 }
 
