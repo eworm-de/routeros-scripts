@@ -55,7 +55,7 @@ manually!
 Importing a certificate automatically is possible, at least if available in
 the repository (see `certs` sub directory).
 
-    /tool/netwatch/add comment="doh, doh-cert=DigiCert TLS Hybrid ECC SHA384 2020 CA1" host=1.1.1.1;
+    /tool/netwatch/add comment="doh, doh-cert=DigiCert Global G2 TLS RSA SHA256 2020 CA1" host=1.1.1.1;
     /tool/netwatch/add comment="doh, doh-cert=DigiCert TLS Hybrid ECC SHA384 2020 CA1" host=9.9.9.9;
     /tool/netwatch/add comment="doh, doh-cert=GTS CA 1C3" host=8.8.8.8;
 
