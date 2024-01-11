@@ -12,6 +12,7 @@
 
 :global CertificateAvailable;
 :global EitherOr;
+:global IsDNSResolving;
 :global LogPrintExit2;
 :global ParseKeyValueStore;
 :global ScriptLock;
@@ -57,10 +58,9 @@ $ScriptLock $0;
   }
 }
 
-:local DohServer "";
-:local DohCert "";
 :local DohCertVerify [ /ip/dns/get verify-doh-cert ];
 :local DohCurrent [ /ip/dns/get use-doh-server ];
+:local DohServers ({});
 
 :foreach Host in=[ /tool/netwatch/find where comment~"\\bdoh\\b" status="up" ] do={
   :local HostVal [ /tool/netwatch/get $Host ];
@@ -71,30 +71,40 @@ $ScriptLock $0;
     :set HostName [ /ip/dns/static/get ($HostName->0) name ];
   }
 
-  :if ($HostInfo->"doh" = true && $HostInfo->"disabled" != true && $DohServer = "") do={
-    :set DohServer [ $EitherOr ($HostInfo->"doh-url") \
-        ("https://" . [ $EitherOr $HostName ($HostVal->"host") ] . "/dns-query") ];
-    :set DohCert ($HostInfo->"doh-cert");
+  :if ($HostInfo->"doh" = true && $HostInfo->"disabled" != true) do={
+    :if ([ :len ($HostInfo->"doh-url") ] = 0) do={
+      :set ($HostInfo->"doh-url") ("https://" . [ $EitherOr $HostName ($HostVal->"host") ] . "/dns-query");
+    }
+
+    :if ($DohCurrent = $HostInfo->"doh-url") do={
+      $LogPrintExit2 debug $0 ("Current DoH server is still up.") true;
+    }
+
+    :set ($DohServers->[ :len $DohServers ]) $HostInfo;
   }
 }
 
-:if ($DohServer != "") do={
-  :if ($DohServer != $DohCurrent) do={
-    $LogPrintExit2 info $0 ("Updating DoH server: " . $DohServer) false;
-    :if ([ :len $DohCert ] > 0) do={
-      :set DohCertVerify true;
-      /ip/dns/set use-doh-server="";
-      :if ([ $CertificateAvailable $DohCert ] = false) do={
-        $LogPrintExit2 warning $0 ("Downloading certificate failed, trying without.") false;
-      }
-    }
-    /ip/dns/set use-doh-server=$DohServer verify-doh-cert=$DohCertVerify;
-    /ip/dns/cache/flush;
-  }
-} else={
-  :if ($DohCurrent != "") do={
-    $LogPrintExit2 info $0 ("DoH server (" . $DohCurrent . ") is down, disabling.") false;
+:if ([ :len $DohCurrent ] > 0 && [ :len $DohServers ] = 0) do={
+  $LogPrintExit2 info $0 ("DoH server (" . $DohCurrent . ") is down, disabling.") false;
+  /ip/dns/set use-doh-server="";
+  /ip/dns/cache/flush;
+}
+
+:foreach DohServer in=$DohServers do={
+  $LogPrintExit2 info $0 ("Updating DoH server: " . ($DohServer->"doh-url")) false;
+  :if ([ :len ($DohServer->"doh-cert") ] > 0) do={
+    :set DohCertVerify true;
     /ip/dns/set use-doh-server="";
-    /ip/dns/cache/flush;
+    :if ([ $CertificateAvailable ($DohServer->"doh-cert") ] = false) do={
+      $LogPrintExit2 warning $0 ("Downloading certificate failed, trying without.") false;
+    }
+  }
+  /ip/dns/set use-doh-server=($DohServer->"doh-url") verify-doh-cert=$DohCertVerify;
+  /ip/dns/cache/flush;
+  :if ([ $IsDNSResolving ] = true) do={
+    $LogPrintExit2 debug $0 ("DoH server is functional.") true;
+  } else={
+    /ip/dns/set use-doh-server="";
+    $LogPrintExit2 warning $0 ("DoH server not functional, trying next.") false;
   }
 }
