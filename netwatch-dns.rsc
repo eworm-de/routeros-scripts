@@ -59,6 +59,7 @@ $ScriptLock $0;
 
 :local DohServer "";
 :local DohCert "";
+:local DohCertVerify [ /ip/dns/get verify-doh-cert ];
 :local DohCurrent [ /ip/dns/get use-doh-server ];
 
 :foreach Host in=[ /tool/netwatch/find where comment~"\\bdoh\\b" status="up" ] do={
@@ -81,12 +82,13 @@ $ScriptLock $0;
   :if ($DohServer != $DohCurrent) do={
     $LogPrintExit2 info $0 ("Updating DoH server: " . $DohServer) false;
     :if ([ :len $DohCert ] > 0) do={
+      :set DohCertVerify true;
       /ip/dns/set use-doh-server="";
       :if ([ $CertificateAvailable $DohCert ] = false) do={
         $LogPrintExit2 warning $0 ("Downloading certificate failed, trying without.") false;
       }
     }
-    /ip/dns/set use-doh-server=$DohServer;
+    /ip/dns/set use-doh-server=$DohServer verify-doh-cert=$DohCertVerify;
     /ip/dns/cache/flush;
   }
 } else={
