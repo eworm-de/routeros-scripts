@@ -12,7 +12,6 @@
 
 :global CertificateAvailable;
 :global EitherOr;
-:global IsDNSResolving;
 :global LogPrintExit2;
 :global ParseKeyValueStore;
 :global ScriptLock;
@@ -58,7 +57,6 @@ $ScriptLock $0;
   }
 }
 
-:local DohCertVerify [ /ip/dns/get verify-doh-cert ];
 :local DohCurrent [ /ip/dns/get use-doh-server ];
 :local DohServers ({});
 
@@ -77,34 +75,46 @@ $ScriptLock $0;
     }
 
     :if ($DohCurrent = $HostInfo->"doh-url") do={
-      $LogPrintExit2 debug $0 ("Current DoH server is still up.") true;
+      $LogPrintExit2 debug $0 ("Current DoH server is still up: " . $DohCurrent) true;
     }
 
     :set ($DohServers->[ :len $DohServers ]) $HostInfo;
   }
 }
 
-:if ([ :len $DohCurrent ] > 0 && [ :len $DohServers ] = 0) do={
-  $LogPrintExit2 info $0 ("DoH server (" . $DohCurrent . ") is down, disabling.") false;
+:if ([ :len $DohCurrent ] > 0) do={
+  $LogPrintExit2 info $0 ("Current DoH server is down, disabling: " . $DohCurrent) false;
   /ip/dns/set use-doh-server="";
   /ip/dns/cache/flush;
 }
 
 :foreach DohServer in=$DohServers do={
-  $LogPrintExit2 info $0 ("Updating DoH server: " . ($DohServer->"doh-url")) false;
   :if ([ :len ($DohServer->"doh-cert") ] > 0) do={
-    :set DohCertVerify true;
-    /ip/dns/set use-doh-server="";
     :if ([ $CertificateAvailable ($DohServer->"doh-cert") ] = false) do={
       $LogPrintExit2 warning $0 ("Downloading certificate failed, trying without.") false;
     }
   }
-  /ip/dns/set use-doh-server=($DohServer->"doh-url") verify-doh-cert=$DohCertVerify;
-  /ip/dns/cache/flush;
-  :if ([ $IsDNSResolving ] = true) do={
-    $LogPrintExit2 debug $0 ("DoH server is functional.") true;
-  } else={
-    /ip/dns/set use-doh-server="";
-    $LogPrintExit2 warning $0 ("DoH server not functional, trying next.") false;
+
+  :local Data false;
+  :do {
+    :set Data ([ /tool/fetch check-certificate=yes-without-crl output=user \
+      http-header-field=({ "accept: application/dns-message" }) \
+      url=(($DohServer->"doh-url") . "?dns=" . [ :convert to=base64 ([ :rndstr length=2 ] . \
+      "\01\00" . "\00\01" . "\00\00" . "\00\00" . "\00\00" . "\09doh-check\05eworm\02de\00" . \
+      "\00\10" . "\00\01") ]) as-value ]->"data");
+  } on-error={
+    $LogPrintExit2 warning $0 ("Request to DoH server failed (network or certificate issue): " . \
+      ($DohServer->"doh-url")) false;
+  }
+
+  :if ($Data != false) do={
+    :if ([ :typeof [ :find $Data "doh-check-OK" ] ] = "num") do={
+      /ip/dns/set use-doh-server=($DohServer->"doh-url") verify-doh-cert=yes;
+      /ip/dns/cache/flush;
+      $LogPrintExit2 info $0 ("Setting DoH server: " . ($DohServer->"doh-url")) true;
+    } else={
+      $LogPrintExit2 warning $0 ("Received unexpected response from DoH server: " . \
+        ($DohServer->"doh-url")) false;
+    }
   }
 }
