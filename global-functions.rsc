@@ -488,16 +488,14 @@
 # convert from hex (string) to num
 :set HexToNum do={
   :local Input [ :tostr $1 ];
-  :local Hex "0123456789abcdef0123456789ABCDEF";
-  :local Multi 1;
-  :local Return 0;
 
-  :for I from=([ :len $Input ] - 1) to=0 do={
-    :set Return ($Return + (([ :find $Hex [ :pick $Input $I ] ] % 16) * $Multi));
-    :set Multi ($Multi * 16);
+  :global HexToNum;
+
+  :if ([ :pick $Input 0 ] = "*") do={
+    :return [ $HexToNum [ :pick  $Input 1 [ :len $Input ] ] ];
   }
 
-  :return $Return;
+  :return [ :tonum ("0x" . $Input) ];
 }
 
 # return human readable number
