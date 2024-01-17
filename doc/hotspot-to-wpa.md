@@ -90,9 +90,9 @@ Additional information is not available, including the password.
 Additionally templates can be created to give more options for access list:
 
 * `action`: set to `reject` to ignore logins on that hotspot
-* `private-passphrase`: do **not** use passphrase from hotspot's user
-  credentials, but given one - or unset (use default passphrase) with
-  special word `ignore`
+* `passphrase` or `private-passphrase`: do **not** use passphrase from
+  hotspot's user credentials, but given one - or unset (use default
+  passphrase) with special word `ignore`
 * `ssid-regexp`: set a different SSID regular expression to match
 * `vlan-id`: connect device to specific VLAN
 * `vlan-mode`: set the VLAN mode for device
@@ -100,11 +100,11 @@ Additionally templates can be created to give more options for access list:
 For a hotspot called `example` the template could look like this. For
 `wifi` (RouterOS 7.13 and later):
 
-    /interface/wifi/access-list/add comment="hotspot-to-wpa template example" disabled=yes private-passphrase="ignore" ssid-regexp="^example\$" vlan-id=10;
+    /interface/wifi/access-list/add comment="hotspot-to-wpa template example" disabled=yes passphrase="ignore" ssid-regexp="^example\$" vlan-id=10;
 
 For `wifiwave2` (up to RouterOS 7.12):
 
-    /interface/wifiwave2/access-list/add comment="hotspot-to-wpa template example" disabled=yes private-passphrase="ignore" ssid-regexp="^example\$" vlan-id=10;
+    /interface/wifiwave2/access-list/add comment="hotspot-to-wpa template example" disabled=yes passphrase="ignore" ssid-regexp="^example\$" vlan-id=10;
 
 For legacy CAPsMAN:
 
