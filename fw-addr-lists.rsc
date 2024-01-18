@@ -74,7 +74,7 @@ $WaitFullyConnected;
     }
 
     :if ([ :len $Data ] > 63000) do={
-      $LogPrintOnce warning $0 ("The list is huge and may be truncated: " . $List->"url");
+      $LogPrintOnce warning $0 ("The list is huge and may be truncated: " . $List->"url") false;
     }
 
     :while ([ :len $Data ] != 0) do={

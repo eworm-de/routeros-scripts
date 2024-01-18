@@ -681,6 +681,7 @@
   :local Severity [ :tostr $1 ];
   :local Name     [ :tostr $2 ];
   :local Message  [ :tostr $3 ];
+  :local Exit     [ :tostr $4 ];
 
   :global LogPrintExit2;
 
@@ -695,7 +696,7 @@
   }
 
   :set ($LogPrintOnceMessages->$Message) 1;
-  $LogPrintExit2 $Severity $Name $Message false;
+  $LogPrintExit2 $Severity $Name $Message $Exit;
 }
 
 # get max value
