@@ -16,6 +16,7 @@
 
 :global IfThenElse;
 :global LogPrintExit2;
+:global LogPrintOnce;
 :global ScriptLock;
 :global SendNotification2;
 :global SymbolForNotification;
@@ -25,7 +26,7 @@
 $ScriptLock $0;
 
 :if ([ /tool/sms/get receive-enabled ] = false) do={
-  $LogPrintExit2 warning $0 ("Receiving of SMS is not enabled.") true;
+  $LogPrintOnce warning $0 ("Receiving of SMS is not enabled.") true;
 }
 
 $WaitFullyConnected;
