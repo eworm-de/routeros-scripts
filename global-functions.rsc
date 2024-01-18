@@ -1500,5 +1500,10 @@
   }
 }
 
+# Log success
+:local Resource [ /system/resource/get ];
+$LogPrintOnce info $0 ("Loaded on " . $Resource->"board-name" . \
+  " with RouterOS " . $Resource->"version" . ".") false;
+
 # signal we are ready
 :set GlobalFunctionsReady true;
