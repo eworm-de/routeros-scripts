@@ -18,8 +18,9 @@
 
 $ScriptLock $0;
 
-:if ([ /system/resource/get uptime ] < 5m30s) do={
-  $LogPrintExit2 info $0 ("System just booted, giving netwatch some time to settle.") true;
+:local SettleTime (5m30s - [ /system/resource/get uptime ]);
+:if ($SettleTime > 0s) do={
+  $LogPrintExit2 info $0 ("System just booted, giving netwatch " . $SettleTime . " to settle.") true;
 }
 
 :local DnsServers ({});
