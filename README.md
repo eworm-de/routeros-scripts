@@ -215,7 +215,7 @@ Available scripts
 * [Download, import and update firewall address-lists](doc/fw-addr-lists.md)
 * [Wait for global functions und modules](doc/global-wait.md)
 * [Send GPS position to server](doc/gps-track.md)
-* [Use WPA2 network with hotspot credentials](doc/hotspot-to-wpa.md)
+* [Use WPA network with hotspot credentials](doc/hotspot-to-wpa.md)
 * [Create DNS records for IPSec peers](doc/ipsec-to-dns.md)
 * [Update configuration on IPv6 prefix change](doc/ipv6-update.md)
 * [Manage IP addresses with bridge status](doc/ip-addr-bridge.md)

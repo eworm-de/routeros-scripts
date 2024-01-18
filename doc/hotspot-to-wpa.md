@@ -1,5 +1,5 @@
-Use WPA2 network with hotspot credentials
-=========================================
+Use WPA network with hotspot credentials
+========================================
 
 [⬅️ Go back to main README](../README.md)
 
@@ -10,13 +10,13 @@ Description
 -----------
 
 RouterOS supports an unlimited number of MAC address specific passphrases
-for WPA2 encrypted wifi networks via access list. The idea of this script
-is to transfer hotspot credentials to MAC address specific WPA2 passphrase.
+for WPA encrypted wifi networks via access list. The idea of this script
+is to transfer hotspot credentials to MAC address specific WPA passphrase.
 
 Requirements and installation
 -----------------------------
 
-You need a properly configured hotspot on one (open) SSID and a WP2 enabled
+You need a properly configured hotspot on one (open) SSID and a WPA enabled
 SSID with suffix "`-wpa`".
 
 Then install the script.
@@ -119,7 +119,7 @@ Usage and invocation
 --------------------
 
 Now let the users connect and login to the hotspot. After that the devices
-(identified by MAC address) can connect to the WPA2 network, using the
+(identified by MAC address) can connect to the WPA network, using the
 passphrase from hotspot credentials.
 
 See also
