@@ -1293,6 +1293,8 @@
 
 # return UTF-8 symbol for unicode name
 :set SymbolByUnicodeName do={
+  :local Name [ :tostr $1 ];
+
   :local Symbols {
     "abacus"="\F0\9F\A7\AE";
     "alarm-clock"="\E2\8F\B0";
@@ -1326,7 +1328,7 @@
     "white-heavy-check-mark"="\E2\9C\85"
   }
 
-  :return (($Symbols->$1) . "\EF\B8\8F");
+  :return (($Symbols->$Name) . "\EF\B8\8F");
 }
 
 # return symbol for notification
