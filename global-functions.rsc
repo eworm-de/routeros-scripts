@@ -1295,6 +1295,8 @@
 :set SymbolByUnicodeName do={
   :local Name [ :tostr $1 ];
 
+  :global LogPrintOnce;
+
   :local Symbols {
     "abacus"="\F0\9F\A7\AE";
     "alarm-clock"="\E2\8F\B0";
@@ -1326,6 +1328,11 @@
     "star"="\E2\AD\90";
     "warning-sign"="\E2\9A\A0";
     "white-heavy-check-mark"="\E2\9C\85"
+  }
+
+  :if ([ :len ($Symbols->$Name) ] = 0) do={
+    $LogPrintOnce warning $0 ("No symbol available for name '" . $Name . "'!") false;
+    :return "";
   }
 
   :return (($Symbols->$Name) . "\EF\B8\8F");
