@@ -138,7 +138,7 @@ $WaitFullyConnected;
 $SendNotification2 ({ origin=$0; \
   subject=[ $IfThenElse ($Failed > 0) \
     ([ $SymbolForNotification "floppy-disk,warning-sign" ] . "Backup & Config upload with failure") \
-    ([ $SymbolForNotification "floppy-disk,up-arrow" ] . "Backup & Config upload") ]; \
+    ([ $SymbolForNotification "floppy-disk,arrow-up" ] . "Backup & Config upload") ]; \
   message=("Backup and config export upload for " . $Identity . ".\n\n" . \
     [ $DeviceInfo ] . "\n\n" . \
     [ $FileInfo "Backup file" $BackupFile ] . "\n" . \
