@@ -10,6 +10,7 @@
 :global GlobalFunctionsReady;
 :while ($GlobalFunctionsReady != true) do={ :delay 500ms; }
 
+:global FetchUserAgent;
 :global FwAddrLists;
 :global FwAddrListTimeOut;
 
@@ -57,7 +58,7 @@ $WaitFullyConnected;
       :if ($Data = false) do={
         :do {
           :set Data ([ /tool/fetch check-certificate=$CheckCertificate output=user \
-            ($List->"url") as-value ]->"data");
+            http-header-field=({ $FetchUserAgent }) ($List->"url") as-value ]->"data");
         } on-error={
           :if ($I < 4) do={
             $LogPrintExit2 debug $0 ("Failed downloading, " . $I . ". try: " . $List->"url") false;
