@@ -186,7 +186,6 @@
   :global CharacterReplace;
   :global LogPrintExit2;
   :global ParseJson;
-  :global UrlEncode;
 
   :global MatrixAccessToken;
   :global MatrixHomeServer;
