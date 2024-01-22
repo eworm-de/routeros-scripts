@@ -20,6 +20,7 @@
   :global IsFullyConnected;
   :global LogPrintExit2;
   :global ParseJson;
+  :global UrlEncode;
 
   :if ([ $IsFullyConnected ] = false) do={
     $LogPrintExit2 debug $0 ("System is not fully connected, not flushing.") false;
@@ -40,7 +41,7 @@
           ("https://api.telegram.org/bot" . ($Message->"tokenid") . "/sendMessage") \
           http-data=("chat_id=" . ($Message->"chatid") . "&disable_notification=" . ($Message->"silent") . \
           "&reply_to_message_id=" . ($Message->"replyto") . "&disable_web_page_preview=true" . \
-          "&parse_mode=MarkdownV2&text=" . ($Message->"text")) as-value ]->"data");
+          "&parse_mode=MarkdownV2&text=" . [ $UrlEncode ($Message->"text") ]) as-value ]->"data");
         :set ($TelegramQueue->$Id);
         :set ($TelegramMessageIDs->([ $ParseJson ([ $ParseJson $Data ]->"result") ]->"message_id")) 1;
       } on-error={
@@ -132,7 +133,6 @@
       [ $EscapeMD ("The message was too long and has been truncated, cut off " . \
       (($LenSum - [ :len $Text ]) * 100 / $LenSum) . "%!") "plain" ]);
   }
-  :set Text [ $UrlEncode $Text ];
 
   :do {
     :if ([ $CertificateAvailable "Go Daddy Secure Certificate Authority - G2" ] = false) do={
@@ -142,7 +142,7 @@
       ("https://api.telegram.org/bot" . $TokenId . "/sendMessage") \
       http-data=("chat_id=" . $ChatId . "&disable_notification=" . ($Notification->"silent") . \
       "&reply_to_message_id=" . ($Notification->"replyto") . "&disable_web_page_preview=true" . \
-      "&parse_mode=MarkdownV2&text=" . $Text) as-value ]->"data");
+      "&parse_mode=MarkdownV2&text=" . [ $UrlEncode $Text ]) as-value ]->"data");
     :set ($TelegramMessageIDs->([ $ParseJson ([ $ParseJson $Data ]->"result") ]->"message_id")) 1;
   } on-error={
     $LogPrintExit2 info $0 ("Failed sending telegram notification! Queuing...") false;
@@ -150,9 +150,9 @@
     :if ([ :typeof $TelegramQueue ] = "nothing") do={
       :set TelegramQueue ({});
     }
-    :set Text ($Text . [ $UrlEncode ("\n" . [ $SymbolForNotification "alarm-clock" ] . \
+    :set Text ($Text . "\n" . [ $SymbolForNotification "alarm-clock" ] . \
       [ $EscapeMD ("This message was queued since " . [ /system/clock/get date ] . \
-      " " . [ /system/clock/get time ] . " and may be obsolete.") "plain" ]) ]);
+      " " . [ /system/clock/get time ] . " and may be obsolete.") "plain" ]);
     :set ($TelegramQueue->[ :len $TelegramQueue ]) { chatid=$ChatId; tokenid=$TokenId;
       text=$Text; silent=($Notification->"silent"); replyto=($Notification->"replyto") };
     :if ([ :len [ /system/scheduler/find where name="_FlushTelegramQueue" ] ] = 0) do={
