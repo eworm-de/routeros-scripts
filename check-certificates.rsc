@@ -17,7 +17,6 @@
 
 :global CertificateAvailable
 :global EscapeForRegEx;
-:global FetchUserAgent;
 :global IfThenElse;
 :global LogPrintExit2;
 :global ParseKeyValueStore;
@@ -35,6 +34,7 @@
 
   :global CertificateNameByCN;
   :global EscapeForRegEx;
+  :global FetchUserAgent;
   :global LogPrintExit2;
   :global UrlEncode;
   :global WaitForFile;
