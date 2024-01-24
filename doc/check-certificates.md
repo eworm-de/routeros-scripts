@@ -70,6 +70,16 @@ startup is perfectly valid:
 
     /system/scheduler/add name=check-certificates@startup on-event="/system/script/run check-certificates;" start-time=startup;
 
+### Initial import
+
+Given you have a certificate on you server, you can use `check-certificates`
+for the initial import. Just create a *dummy* certificate with short lifetime
+that matches criteria to be renewed:
+
+    /certificate/add name=example.com common-name=example.com days-valid=1;
+    /certificate/sign example.com;
+    /system/script/run check-certificates;
+
 See also
 --------
 
