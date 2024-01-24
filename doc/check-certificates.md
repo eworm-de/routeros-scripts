@@ -63,6 +63,8 @@ Just run the script:
 Tips & Tricks
 -------------
 
+### Schedule at startup
+
 The script checks for full connectivity before acting, so scheduling at
 startup is perfectly valid:
 
