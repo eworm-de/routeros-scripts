@@ -32,6 +32,7 @@ Add yourself to the list,
 * Harold Schoemaker
 * Hugo BV
 * Klaus Michael Rübsam
+* Leonardo Valeri Manera
 * Linux-Schmie.de Michael Gisbers
 * Manuel Kuhn
 * Marek Čábák
