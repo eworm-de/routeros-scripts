@@ -18,6 +18,17 @@
 :global ScriptLock;
 :global VersionToNum;
 
+:local Schedule do={
+  :global RebootForUpdate do={
+    :global RandomDelay;
+    $RandomDelay 3600;
+    /system/reboot;
+  }
+  /system/scheduler/add name="_RebootForUpdate" start-time=03:00:00 interval=1d \
+      on-event=("/system/scheduler/remove \"_RebootForUpdate\"; " . \
+      ":global RebootForUpdate; \$RebootForUpdate;");
+}
+
 $ScriptLock $0;
 
 :local Update [ /system/package/update/get ];
@@ -95,14 +106,7 @@ $ScriptLock $0;
 :if ([ $ScriptFromTerminal $0 ] = true) do={
   :put "Do you want to (s)chedule reboot or (r)eboot now? [s/R]";
   :if (([ /terminal/inkey timeout=60 ] % 32) = 19) do={
-    :global RebootForUpdate do={
-      :global RandomDelay;
-      $RandomDelay 3600;
-      /system/reboot;
-    }
-    /system/scheduler/add name="_RebootForUpdate" start-time=03:00:00 interval=1d \
-        on-event=("/system/scheduler/remove \"_RebootForUpdate\"; " . \
-        ":global RebootForUpdate; \$RebootForUpdate;");
+    $Schedule;
     $LogPrintExit2 info $0 ("Scheduled reboot for update between 03:00 and 04:00.") true;
   }
 }
