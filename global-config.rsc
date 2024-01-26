@@ -135,6 +135,9 @@
 # Set to all upper-case "Yes, please!" to enable.
 :global SafeUpdateAll "no";
 
+# Defer the reboot for night on automatic (non-interactive) update
+:global PackagesUpdateDeferReboot false;
+
 # These thresholds control when to send health notification
 # on temperature and voltage.
 :global CheckHealthTemperature {

@@ -36,6 +36,7 @@
   116=("... and also please keep in mind that it takes a huge amount of time maintaining these scripts. " . [ $IfThenElse ($IDonate != true) \
         ("Following the donation hint " . [ $SymbolForNotification "arrow-down" "below" ] . "to keep me motivated is much appreciated. Thanks!") \
         ("Looks like you did donate already. " . [ $SymbolForNotification "heart" "<3" ] . "Much appreciated, thanks!") ]);
+  117="Enhanced 'packages-update' to support deferred reboot on automatically installed updates.";
 };
 
 # Migration steps to be applied on script updates

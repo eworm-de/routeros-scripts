@@ -34,6 +34,18 @@ Just install the script:
 It is automatically run by [check-routeros-update](check-routeros-update.md)
 if available.
 
+Configuration
+-------------
+
+The configuration goes to `global-config-overlay`, this is the only parameter:
+
+* `PackagesUpdateDeferReboot`: defer the reboot for night (between 3 AM
+  and 4 AM)
+
+> ℹ️ **Info**: Copy relevant configuration from
+> [`global-config`](../global-config.rsc) (the one without `-overlay`) to
+> your local `global-config-overlay` and modify it to your specific needs.
+
 Usage and invocation
 --------------------
 
