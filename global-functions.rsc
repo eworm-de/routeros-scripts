@@ -879,6 +879,10 @@
   :global EitherOr;
   :global GetRandomNumber;
 
+  :if ($Time = 0) do={
+    :return false;
+  }
+
   :delay ([ $GetRandomNumber $Time ] . [ $EitherOr $Unit "s" ]);
 }
 
