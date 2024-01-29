@@ -21,6 +21,8 @@ to manage RouterOS devices or extend their functionality.
 Requirements
 ------------
 
+### Software (RouterOS)
+
 Latest version of the scripts require recent RouterOS to function properly.
 Make sure to install latest updates before you begin. If new functionality
 or a breaking change in RouterOS `7.n` is used in my scripts I push my
