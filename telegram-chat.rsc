@@ -57,7 +57,7 @@ $WaitFullyConnected;
     } on-error={
       :if ($I < 4) do={
         $LogPrintExit2 debug $0 ("Fetch failed, " . $I . ". try.") false;
-        :delay (($I * $I) "s");
+        :delay (($I * $I) . "s");
       }
     }
   }
