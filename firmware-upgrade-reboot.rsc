@@ -3,10 +3,12 @@
 # Copyright (c) 2022-2024 Christian Hesse <mail@eworm.de>
 # https://git.eworm.de/cgit/routeros-scripts/about/COPYING.md
 #
+# requires RouterOS, version=7.12
+#
 # install firmware upgrade, and reboot
 # https://git.eworm.de/cgit/routeros-scripts/about/doc/firmware-upgrade-reboot.md
 
-:local 0 "firmware-upgrade-reboot";
+:local 0 [ :jobname ];
 :global GlobalFunctionsReady;
 :while ($GlobalFunctionsReady != true) do={ :delay 500ms; }
 

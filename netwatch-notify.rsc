@@ -3,10 +3,12 @@
 # Copyright (c) 2020-2024 Christian Hesse <mail@eworm.de>
 # https://git.eworm.de/cgit/routeros-scripts/about/COPYING.md
 #
+# requires RouterOS, version=7.12
+#
 # monitor netwatch and send notifications
 # https://git.eworm.de/cgit/routeros-scripts/about/doc/netwatch-notify.md
 
-:local 0 "netwatch-notify";
+:local 0 [ :jobname ];
 :global GlobalFunctionsReady;
 :while ($GlobalFunctionsReady != true) do={ :delay 500ms; }
 

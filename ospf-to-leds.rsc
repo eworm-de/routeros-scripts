@@ -3,10 +3,12 @@
 # Copyright (c) 2020-2024 Christian Hesse <mail@eworm.de>
 # https://git.eworm.de/cgit/routeros-scripts/about/COPYING.md
 #
+# requires RouterOS, version=7.12
+#
 # visualize ospf instance state via leds
 # https://git.eworm.de/cgit/routeros-scripts/about/doc/ospf-to-leds.md
 
-:local 0 "ospf-to-leds";
+:local 0 [ :jobname ];
 :global GlobalFunctionsReady;
 :while ($GlobalFunctionsReady != true) do={ :delay 500ms; }
 

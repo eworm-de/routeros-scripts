@@ -4,11 +4,12 @@
 # https://git.eworm.de/cgit/routeros-scripts/about/COPYING.md
 #
 # provides: backup-script, order=20
+# requires RouterOS, version=7.12
 #
 # create and email backup and config file
 # https://git.eworm.de/cgit/routeros-scripts/about/doc/backup-email.md
 
-:local 0 "backup-email";
+:local 0 [ :jobname ];
 :global GlobalFunctionsReady;
 :while ($GlobalFunctionsReady != true) do={ :delay 500ms; }
 

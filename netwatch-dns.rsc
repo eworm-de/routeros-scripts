@@ -3,10 +3,12 @@
 # Copyright (c) 2022-2024 Christian Hesse <mail@eworm.de>
 # https://git.eworm.de/cgit/routeros-scripts/about/COPYING.md
 #
+# requires RouterOS, version=7.12
+#
 # monitor and manage dns/doh with netwatch
 # https://git.eworm.de/cgit/routeros-scripts/about/doc/netwatch-dns.md
 
-:local 0 "netwatch-dns";
+:local 0 [ :jobname ];
 :global GlobalFunctionsReady;
 :while ($GlobalFunctionsReady != true) do={ :delay 500ms; }
 

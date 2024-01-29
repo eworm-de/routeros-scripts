@@ -9,7 +9,7 @@
 # global functions
 # https://git.eworm.de/cgit/routeros-scripts/about/
 
-:local 0 "global-functions";
+:local 0 [ :jobname ];
 
 # expected configuration version
 :global ExpectedConfigVersion 118;
