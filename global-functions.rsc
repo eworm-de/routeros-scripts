@@ -873,10 +873,13 @@
 
 # delay a random amount of seconds
 :set RandomDelay do={
+  :local Time [ :tonum $1 ];
+  :local Unit [ :tostr $2 ];
+
   :global EitherOr;
   :global GetRandomNumber;
 
-  :delay ([ $GetRandomNumber $1 ] . [ $EitherOr $2 "s" ]);
+  :delay ([ $GetRandomNumber $Time ] . [ $EitherOr $Unit "s" ]);
 }
 
 # check for required RouterOS version
