@@ -4,7 +4,7 @@
 # https://git.eworm.de/cgit/routeros-scripts/about/COPYING.md
 #
 # provides: lease-script, order=80
-# requires RouterOS, version=7.12beta3
+# requires RouterOS, version=7.12
 #
 # manage and clean up private WPA passphrase after hotspot login
 # https://git.eworm.de/cgit/routeros-scripts/about/doc/hotspot-to-wpa.md
