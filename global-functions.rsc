@@ -4,7 +4,7 @@
 #                         Michael Gisbers <michael@gisbers.de>
 # https://git.eworm.de/cgit/routeros-scripts/about/COPYING.md
 #
-# requires RouterOS, version=7.10beta5
+# requires RouterOS, version=7.12
 #
 # global functions
 # https://git.eworm.de/cgit/routeros-scripts/about/
@@ -878,12 +878,13 @@
 
   :global EitherOr;
   :global GetRandomNumber;
+  :global MAX;
 
   :if ($Time = 0) do={
     :return false;
   }
 
-  :delay ([ $GetRandomNumber $Time ] . [ $EitherOr $Unit "s" ]);
+  :delay ([ $MAX 10 [ $GetRandomNumber ([ :tonsec [ :totime ($Time . [ $EitherOr $Unit "s" ]) ] ] / 1000000) ] ] . "ms");
 }
 
 # check for required RouterOS version
