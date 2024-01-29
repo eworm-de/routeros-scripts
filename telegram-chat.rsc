@@ -18,6 +18,7 @@
 :global TelegramChatOffset;
 :global TelegramChatRunTime;
 :global TelegramMessageIDs;
+:global TelegramRandomDelay;
 :global TelegramTokenId;
 
 :global CertificateAvailable;
@@ -26,8 +27,11 @@
 :global GetRandom20CharAlNum;
 :global IfThenElse;
 :global LogPrintExit2;
+:global MAX;
+:global MIN;
 :global MkDir;
 :global ParseJson;
+:global RandomDelay;
 :global ScriptLock;
 :global SendTelegram2;
 :global SymbolForNotification;
@@ -42,10 +46,15 @@ $WaitFullyConnected;
 :if ([ :typeof $TelegramChatOffset ] != "array") do={
   :set TelegramChatOffset { 0; 0; 0 };
 }
+:if ([ :typeof $TelegramRandomDelay ] != "num") do={
+  :set TelegramRandomDelay 0;
+}
 
 :if ([ $CertificateAvailable "Go Daddy Secure Certificate Authority - G2" ] = false) do={
   $LogPrintExit2 warning $0 ("Downloading required certificate failed.") true;
 }
+
+$RandomDelay $TelegramRandomDelay;
 
 :local Data false;
 :for I from=1 to=4 do={
@@ -54,9 +63,11 @@ $WaitFullyConnected;
       :set Data ([ /tool/fetch check-certificate=yes-without-crl output=user \
         ("https://api.telegram.org/bot" . $TelegramTokenId . "/getUpdates?offset=" . \
         $TelegramChatOffset->0 . "&allowed_updates=%5B%22message%22%5D") as-value ]->"data");
+      :set TelegramRandomDelay [ $MAX 0 ($TelegramRandomDelay - 1) ];
     } on-error={
       :if ($I < 4) do={
         $LogPrintExit2 debug $0 ("Fetch failed, " . $I . ". try.") false;
+        :set TelegramRandomDelay [ $MIN 15 ($TelegramRandomDelay + 5) ];
         :delay (($I * $I) . "s");
       }
     }
