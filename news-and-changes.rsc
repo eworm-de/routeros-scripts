@@ -8,6 +8,8 @@
 :global RequiredRouterOS;
 :global SymbolForNotification;
 
+:local Resource [ /system/resource/get ];
+
 # News, changes and migration up to change 95:
 # https://git.eworm.de/cgit/routeros-scripts/plain/global-config.changes?h=change-95
 
@@ -37,6 +39,10 @@
         ("Following the donation hint " . [ $SymbolForNotification "arrow-down" "below" ] . "to keep me motivated is much appreciated. Thanks!") \
         ("Looks like you did donate already. " . [ $SymbolForNotification "heart" "<3" ] . "Much appreciated, thanks!") ]);
   117="Enhanced 'packages-update' to support deferred reboot on automatically installed updates.";
+  118=("RouterOS packages increase in size with each release. This becomes a problem for devices with 16MB storage and below. " . \
+        [ $IfThenElse ($Resource->"total-hdd-space" < 16000000) ("Your " . $Resource->"board-name" . " is specifically affected! ") \
+        [ $IfThenElse ($Resource->"free-hdd-space" > 4000000) ("(Your " . $Resource->"board-name" . " does not suffer this issue.) ") ] ] . \
+        "Huge configuration and lots of scripts give an extra risk. Take care!");
 };
 
 # Migration steps to be applied on script updates
