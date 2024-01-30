@@ -60,7 +60,7 @@
       /file/remove [ find where name=$CertFileName ];
 
       :if ($DecryptionFailed = true) do={
-        $LogPrintExit2 warning $0 ("Decryption failed for certificate file " . $CertFileName) false;
+        $LogPrintExit2 warning $0 ("Decryption failed for certificate file '" . $CertFileName . "'.") false;
       }
 
       :foreach CertInChain in=[ /certificate/find where name~("^" . [ $EscapeForRegEx $CertFileName ] . "_[0-9]+\$") \
@@ -70,7 +70,7 @@
 
       :set Return true;
     } on-error={
-      $LogPrintExit2 debug $0 ("Could not download certificate file " . $CertFileName) false;
+      $LogPrintExit2 debug $0 ("Could not download certificate file '" . $CertFileName . "'.") false;
     }
   }
 
@@ -137,7 +137,7 @@ $WaitFullyConnected;
     :if ([ :len $CertRenewUrl ] = 0) do={
       $LogPrintExit2 info $0 ("No CertRenewUrl given.") true;
     }
-    $LogPrintExit2 info $0 ("Attempting to renew certificate " . ($CertVal->"name") . ".") false;
+    $LogPrintExit2 info $0 ("Attempting to renew certificate '" . ($CertVal->"name") . "'.") false;
 
     :local ImportSuccess false;
     :set LastName ($CertVal->"common-name");
@@ -185,9 +185,9 @@ $WaitFullyConnected;
     $SendNotification2 ({ origin=$0; silent=true; \
       subject=([ $SymbolForNotification "lock-with-ink-pen" ] . "Certificate renewed: " . ($CertVal->"name")); \
       message=("A certificate on " . $Identity . " has been renewed.\n\n" . [ $FormatInfo $CertNew ]) });
-    $LogPrintExit2 info $0 ("The certificate " . ($CertVal->"name") . " has been renewed.") false;
+    $LogPrintExit2 info $0 ("The certificate '" . ($CertVal->"name") . "' has been renewed.") false;
   } on-error={
-    $LogPrintExit2 debug $0 ("Could not renew certificate " . ($CertVal->"name") . ".") false;
+    $LogPrintExit2 debug $0 ("Could not renew certificate '" . ($CertVal->"name") . "'.") false;
   }
 }
 
@@ -196,14 +196,14 @@ $WaitFullyConnected;
   :local CertVal [ /certificate/get $Cert ];
 
   :if ([ :len [ /certificate/scep-server/find where ca-cert=($CertVal->"ca") ] ] > 0) do={
-    $LogPrintExit2 debug $0 ("Certificate \"" . ($CertVal->"name") . "\" is handled by SCEP, skipping.") false;
+    $LogPrintExit2 debug $0 ("Certificate '" . ($CertVal->"name") . "' is handled by SCEP, skipping.") false;
   } else={
     :local State [ $IfThenElse (($CertVal->"expired") = true) "expired" "is about to expire" ];
 
     $SendNotification2 ({ origin=$0; \
       subject=([ $SymbolForNotification "warning-sign" ] . "Certificate warning: " . ($CertVal->"name")); \
       message=("A certificate on " . $Identity . " " . $State . ".\n\n" . [ $FormatInfo $Cert ]) });
-    $LogPrintExit2 info $0 ("The certificate " . ($CertVal->"name") . " " . $State . \
+    $LogPrintExit2 info $0 ("The certificate '" . ($CertVal->"name") . "' " . $State . \
         ", it is invalid after " . ($CertVal->"invalid-after") . ".") false;
   }
 }
