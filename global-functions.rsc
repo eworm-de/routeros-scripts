@@ -951,6 +951,7 @@
   :global Grep;
   :global IfThenElse;
   :global LogPrintExit2;
+  :global LogPrintOnce;
   :global ParseKeyValueStore;
   :global RequiredRouterOS;
   :global SendNotification2;
@@ -1026,7 +1027,7 @@
                 "' failed! Ignoring!") false;
             }
           } else={
-            $LogPrintExit2 warning $0 ("The script '" . $ScriptVal->"name" . "' requires RouterOS " . \
+            $LogPrintOnce warning $0 ("The script '" . $ScriptVal->"name" . "' requires RouterOS " . \
               $Required . ", which is not met by your installation. Ignoring!") false;
           }
         } else={
