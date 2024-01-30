@@ -25,6 +25,7 @@
 :global IfThenElse;
 :global LogForwardFilterLogForwarding;
 :global LogPrintExit2;
+:global MAX;
 :global ScriptLock;
 :global SendNotification2;
 :global SymbolForNotification;
@@ -91,7 +92,5 @@ $ScriptLock $0;
 
   :set LogForwardLast ($MessageVal->".id");
 } else={
-  :if ($LogForwardRateLimit > 0) do={
-    :set LogForwardRateLimit ($LogForwardRateLimit - 1);
-  }
+  :set LogForwardRateLimit [ $MAX 0 ($LogForwardRateLimit - 1) ];
 }
