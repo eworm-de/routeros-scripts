@@ -23,14 +23,19 @@
 :global PackagesUpdateDeferReboot;
 
 :local Schedule do={
+  :global LogPrintExit2;
+
   :global RebootForUpdate do={
     :global RandomDelay;
     $RandomDelay 3600;
     /system/reboot;
   }
+
   /system/scheduler/add name="_RebootForUpdate" start-time=03:00:00 interval=1d \
       on-event=("/system/scheduler/remove \"_RebootForUpdate\"; " . \
       ":global RebootForUpdate; \$RebootForUpdate;");
+  $LogPrintExit2 info $1 ("Scheduled reboot for update between 3 AM and 4 AM local time (" . \
+      [ /system/clock/get time-zone-name ] . ").") true;
 }
 
 $ScriptLock $0;
@@ -107,18 +112,14 @@ $ScriptLock $0;
   /system/package/downgrade;
 }
 
-:local Message ("Scheduled reboot for update between 3 AM and 4 AM local time (" . \
-    [ /system/clock/get time-zone-name ] . ").");
 :if ([ $ScriptFromTerminal $0 ] = true) do={
   :put "Do you want to (s)chedule reboot or (r)eboot now? [s/R]";
   :if (([ /terminal/inkey timeout=60 ] % 32) = 19) do={
-    $Schedule;
-    $LogPrintExit2 info $0 $Message true;
+    $Schedule $0;
   }
 } else={
   :if ($PackagesUpdateDeferReboot = true) do={
-    $Schedule;
-    $LogPrintExit2 info $0 $Message true;
+    $Schedule $0;
   }
 }
 
