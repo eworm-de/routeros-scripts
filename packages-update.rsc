@@ -107,16 +107,18 @@ $ScriptLock $0;
   /system/package/downgrade;
 }
 
+:local Message ("Scheduled reboot for update between 3 AM and 4 AM local time (" . \
+    [ /system/clock/get time-zone-name ] . ").");
 :if ([ $ScriptFromTerminal $0 ] = true) do={
   :put "Do you want to (s)chedule reboot or (r)eboot now? [s/R]";
   :if (([ /terminal/inkey timeout=60 ] % 32) = 19) do={
     $Schedule;
-    $LogPrintExit2 info $0 ("Scheduled reboot for update between 03:00 and 04:00.") true;
+    $LogPrintExit2 info $0 $Message true;
   }
 } else={
   :if ($PackagesUpdateDeferReboot = true) do={
     $Schedule;
-    $LogPrintExit2 info $0 ("Scheduled reboot for update between 03:00 and 04:00.") true;
+    $LogPrintExit2 info $0 $Message true;
   }
 }
 
