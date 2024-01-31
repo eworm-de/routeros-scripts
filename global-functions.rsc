@@ -27,6 +27,7 @@
 :global CharacterMultiply;
 :global CharacterReplace;
 :global CleanFilePath;
+:global CleanName;
 :global DeviceInfo;
 :global Dos2Unix;
 :global DownloadPackage;
@@ -220,6 +221,24 @@
   }
 
   :return $Path;
+}
+
+# clean name for DNS, file and more
+:set CleanName do={
+  :local Input [ :tostr $1 ];
+
+  :local Return "";
+
+  :for I from=0 to=([ :len $Input ] - 1) do={
+    :local Char [ :pick $Input $I ];
+    :if ([ :typeof [ find "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-" $Char ] ] = "nil") do={
+      :set Char "-";
+    }
+    :if ($Char != "-" || [ :pick $Return ([ :len $Return ] - 1) ] != "-") do={
+      :set Return ($Return . $Char);
+    }
+  }
+  :return $Return;
 }
 
 # get readable device info
