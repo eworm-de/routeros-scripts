@@ -713,9 +713,7 @@
 :set MkDir do={
   :local Path [ :tostr $1 ];
 
-  :global CharacterReplace;
   :global CleanFilePath;
-  :global GetRandom20CharAlNum;
   :global LogPrintExit2;
   :global WaitForFile;
 
