@@ -21,7 +21,7 @@
 :global Domain;
 :global Identity;
 
-:global CharacterReplace;
+:global CleanName;
 :global DeviceInfo;
 :global FormatLine;
 :global LogPrintExit2;
@@ -52,7 +52,7 @@ $WaitFullyConnected;
 
 # filename based on identity
 :local DirName ("tmpfs/" . $0);
-:local FileName [ $CharacterReplace ($Identity . "." . $Domain) "." "_" ];
+:local FileName [ $CleanName ($Identity . "." . $Domain) ];
 :local FilePath ($DirName . "/" . $FileName);
 :local BackupFile "none";
 :local ExportFile "none";
