@@ -546,8 +546,6 @@
 
 # check if DNS is resolving
 :set IsDNSResolving do={
-  :global CharacterReplace;
-
   :do {
     :resolve "low-ttl.eworm.de";
   } on-error={
