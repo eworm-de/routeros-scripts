@@ -16,7 +16,7 @@
 :global Domain;
 :global Identity;
 
-:global CharacterReplace;
+:global CleanName;
 :global EitherOr;
 :global IfThenElse;
 :global LogPrintExit2;
@@ -65,8 +65,8 @@ $ScriptLock $0 false 10;
 
   :if ([ :len ($LeaseVal->"active-address") ] > 0) do={
     :local Comment ($CommentPrefix . ", macaddress=" . $LeaseVal->"active-mac-address" . ", server=" . $LeaseVal->"server");
-    :local MacDash [ $CharacterReplace ($LeaseVal->"active-mac-address") ":" "-" ];
-    :local HostName [ $CharacterReplace [ $EitherOr ([ $ParseKeyValueStore ($LeaseVal->"comment") ]->"hostname") ($LeaseVal->"host-name") ] " " "" ];
+    :local MacDash [ $CleanName ($LeaseVal->"active-mac-address") ];
+    :local HostName [ $CleanName [ $EitherOr ([ $ParseKeyValueStore ($LeaseVal->"comment") ]->"hostname") ($LeaseVal->"host-name") ] ];
     :local Network [ /ip/dhcp-server/network/find where ($LeaseVal->"active-address") in address ];
     :local NetworkVal;
     :if ([ :len $Network ] > 0) do={
