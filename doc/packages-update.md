@@ -40,7 +40,10 @@ Configuration
 The configuration goes to `global-config-overlay`, this is the only parameter:
 
 * `PackagesUpdateDeferReboot`: defer the reboot for night (between 3 AM
-  and 4 AM)
+  and 5 AM)
+
+By modifying the scheduler's `start-time` you can force the reboot at
+different time.
 
 > ℹ️ **Info**: Copy relevant configuration from
 > [`global-config`](../global-config.rsc) (the one without `-overlay`) to

@@ -23,19 +23,19 @@
 :global PackagesUpdateDeferReboot;
 
 :local Schedule do={
+  :global GetRandomNumber;
   :global LogPrintExit2;
 
   :global RebootForUpdate do={
-    :global RandomDelay;
-    $RandomDelay 3600;
     /system/reboot;
   }
 
-  /system/scheduler/add name="_RebootForUpdate" start-time=03:00:00 interval=1d \
+  :local StartTime [ :tostr [ :totime (10800 + [ $GetRandomNumber 7200 ]) ] ];
+  /system/scheduler/add name="_RebootForUpdate" start-time=$StartTime interval=1d \
       on-event=("/system/scheduler/remove \"_RebootForUpdate\"; " . \
       ":global RebootForUpdate; \$RebootForUpdate;");
-  $LogPrintExit2 info $1 ("Scheduled reboot for update between 3 AM and 4 AM local time (" . \
-      [ /system/clock/get time-zone-name ] . ").") true;
+  $LogPrintExit2 info $1 ("Scheduled reboot for update at " . $StartTime . \
+      " local time (" . [ /system/clock/get time-zone-name ] . ").") true;
 }
 
 $ScriptLock $0;
