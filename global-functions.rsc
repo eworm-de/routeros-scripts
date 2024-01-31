@@ -168,11 +168,10 @@
 :set CertificateNameByCN do={
   :local CommonName [ :tostr $1 ];
 
-  :global CharacterReplace;
+  :global CleanName;
 
   :local Cert [ /certificate/find where common-name=$CommonName ];
-  /certificate/set $Cert \
-    name=[ $CharacterReplace [ $CharacterReplace [ $CharacterReplace $CommonName "'" "-" ] " " "-" ] "---" "-" ];
+  /certificate/set $Cert name=[ $CleanName $CommonName ];
 }
 
 # multiply given character(s)
