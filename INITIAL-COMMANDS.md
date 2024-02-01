@@ -37,10 +37,11 @@ Then continue setup with
 
 ## Fix existing installation
 
-The commands above allow to fix an existing installation in case it ever
-breaks. If `global-config-overlay` did exist before it is renamed with a
-date and time suffix (like `global-config-overlay-2024-01-25-09:33:12`).
-Make sure to restore the configuration overlay if required.
+The [initial commands](#initial-commands) above allow to fix an existing
+installation in case it ever breaks. If `global-config-overlay` did exist
+before it is renamed with a date and time suffix (like
+`global-config-overlay-2024-01-25-09:33:12`). Make sure to restore the
+configuration overlay if required.
 
 ---
 [⬅️ Go back to main README](README.md)  
