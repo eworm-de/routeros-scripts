@@ -28,13 +28,13 @@ $ScriptLock $0;
   $LogPrintExit2 error $0 ("Device is not running from active partition.") true;
 }
 
-:local ActiveRunningVar [ /partitions/get $ActiveRunning ];
+:local FallbackTo [ /partitions/get $ActiveRunning fallback-to ];
 
 :do {
-  /partitions/save-config-to ($ActiveRunningVar->"fallback-to");
+  /partitions/save-config-to $FallbackTo;
   $LogPrintExit2 info $0 ("Saved configuration to partition '" . \
-      ($ActiveRunningVar->"fallback-to") . "'.") false;
+      $FallbackTo . "'.") false;
 } on-error={
   $LogPrintExit2 error $0 ("Failed saving configuration to partition '" . \
-      ($ActiveRunningVar->"fallback-to") . "'!") true;
+      $FallbackTo . "'!") true;
 }
