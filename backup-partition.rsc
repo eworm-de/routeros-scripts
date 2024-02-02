@@ -31,7 +31,11 @@ $ScriptLock $0;
 :local FallbackTo [ /partitions/get $ActiveRunning fallback-to ];
 
 :do {
+  /system/scheduler/add start-time=startup \
+      name=("running-from-" . $FallbackTo) \
+      on-event=(":log warning \"Running from partition '" . $FallbackTo . "'!");
   /partitions/save-config-to $FallbackTo;
+  /system/scheduler/remove ("running-from-" . $FallbackTo);
   $LogPrintExit2 info $0 ("Saved configuration to partition '" . \
       $FallbackTo . "'.") false;
 } on-error={
