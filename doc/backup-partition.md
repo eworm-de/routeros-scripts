@@ -19,6 +19,10 @@ To make you aware of a possible issue a scheduler logging a warning is
 added in the backup partition's configuration. You may want to use
 [log-forward](log-forward.md) to be notified.
 
+> ⚠️ **Warning**: Only the configuration is saved to backup partition.
+> Every now and then you should copy your installation over for a recent
+> RouterOS version!
+
 Requirements and installation
 -----------------------------
 
