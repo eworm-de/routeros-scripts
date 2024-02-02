@@ -39,6 +39,7 @@ $ScriptLock $0;
   $LogPrintExit2 info $0 ("Saved configuration to partition '" . \
       $FallbackTo . "'.") false;
 } on-error={
+  /system/scheduler/remove [ find where name="running-from-backup-partition" ];
   $LogPrintExit2 error $0 ("Failed saving configuration to partition '" . \
       $FallbackTo . "'!") true;
 }
