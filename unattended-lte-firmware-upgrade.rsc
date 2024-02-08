@@ -24,13 +24,17 @@
         :set LTEFirmwareUpgrade;
 
         /system/scheduler/remove ($1 . "-firmware-upgrade");
-        /interface/lte/firmware-upgrade $1 upgrade=yes;
-        :log info ("LTE firmware upgrade on '" . $1 . "' finished, waiting for reset.");
-        :delay 240s;
-        :local Firmware [ /interface/lte/firmware-upgrade $1 once as-value ];
-        :if (($Firmware->"installed") != ($Firmware->"latest")) do={
-          :log warning ("LTE firmware versions still differ. Resetting again...");
-          /interface/lte/at-chat $1 input="AT+RESET";
+        :do {
+          /interface/lte/firmware-upgrade $1 upgrade=yes;
+          :log info ("LTE firmware upgrade on '" . $1 . "' finished, waiting for reset.");
+          :delay 240s;
+          :local Firmware [ /interface/lte/firmware-upgrade $1 once as-value ];
+          :if (($Firmware->"installed") != ($Firmware->"latest")) do={
+            :log warning ("LTE firmware versions still differ. Resetting again...");
+            /interface/lte/at-chat $1 input="AT+RESET";
+          }
+        } on-error={
+          :log error ("LTE firmware upgrade on '" . $1 . "' failed.");
         }
       }
 
