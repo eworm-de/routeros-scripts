@@ -12,6 +12,7 @@ This script upgrades LTE firmware on compatible devices:
 * R11e-LTE-US
 * R11e-4G
 * R11e-LTE6
+* ... and more - probably what ever Mikrotik builds into their devices
 
 A temporary scheduler is created to be independent from terminal. Thus
 starting the upgrade process over the broadband connection is supported.
