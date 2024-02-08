@@ -29,8 +29,8 @@ $ScriptLock $0;
   :global Identity;
   :global SentLteFirmwareUpgradeNotification;
 
-  :global CharacterReplace;
   :global FormatLine;
+  :global IfThenElse;
   :global LogPrintExit2;
   :global ScriptFromTerminal;
   :global SendNotification2;
@@ -84,7 +84,9 @@ $ScriptLock $0;
     subject=([ $SymbolForNotification "sparkles" ] . "LTE firmware upgrade"); \
     message=("A new firmware version " . ($Firmware->"latest") . " is available for " . \
       "LTE interface " . $IntName . " on " . $Identity . ".\n\n" . \
-      [ $FormatLine "Interface" [ $CharacterReplace ($Info->"manufacturer" . " " . $Info->"model") ("\"") "" ] ] . "\n" . \
+      [ $IfThenElse ([ :len ($Info->"manufacturer") ] > 0) ([ $FormatLine "Manufacturer" ($Info->"manufacturer") ] . "\n") ] . \
+      [ $IfThenElse ([ :len ($Info->"model") ] > 0) ([ $FormatLine "Model" ($Info->"model") ] . "\n") ] . \
+      [ $IfThenElse ([ :len ($Info->"revision") ] > 0) ([ $FormatLine "Revision" ($Info->"revision") ] . "\n") ] . \
       "Firmware version:\n" . \
       [ $FormatLine "    Installed" ($Firmware->"installed") ] . "\n" . \
       [ $FormatLine "    Available" ($Firmware->"latest") ]); silent=true });
