@@ -87,6 +87,7 @@ $ScriptLock $0;
                  ", updating.") false;
             /tool/netwatch/set host=$Resolve $Host;
             :set ($Metric->"resolve-failcnt") 0;
+            :set ($HostVal->"status") "unknown";
           }
         } on-error={
           :set ($Metric->"resolve-failcnt") ($Metric->"resolve-failcnt" + 1);
