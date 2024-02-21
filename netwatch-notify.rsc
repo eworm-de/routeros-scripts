@@ -125,7 +125,9 @@ $ScriptLock $0;
       :set ($Metric->"notified") false;
       :set ($Metric->"parent") ($HostInfo->"parent");
       :set ($Metric->"since");
-    } else={
+    }
+
+    :if ($HostVal->"status" = "down") do={
       :set ($Metric->"count-down") ($Metric->"count-down" + 1);
       :set ($Metric->"count-up") 0;
       :set ($Metric->"parent") ($HostInfo->"parent");
@@ -178,6 +180,7 @@ $ScriptLock $0;
         :set ($Metric->"notified") true;
       }
     }
+
     :set ($NetwatchNotify->$Name) {
       "count-down"=($Metric->"count-down");
       "count-up"=($Metric->"count-up");
