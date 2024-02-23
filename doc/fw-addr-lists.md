@@ -56,8 +56,12 @@ available in my repository and downloaded automatically. Import it manually
 (menu `/certificate/`) if missing.
 
 Create firewall rules to process the packets that are related to addresses
-from address-lists. This rejects the packets from and to ip addresses listed
-in address-list `block`.
+from address-lists.
+
+### IPv4 rules
+
+This rejects the packets from and to IPv4 addresses listed in
+address-list `block`.
 
     /ip/firewall/filter/add chain=input src-address-list=block action=reject reject-with=icmp-admin-prohibited;
     /ip/firewall/filter/add chain=forward src-address-list=block action=reject reject-with=icmp-admin-prohibited;
@@ -81,6 +85,33 @@ Alternatively handle the packets in firewall's raw section if you prefer:
     /ip/firewall/raw/add chain=prerouting src-address-list=block action=drop;
     /ip/firewall/raw/add chain=prerouting dst-address-list=block action=drop;
     /ip/firewall/raw/add chain=output dst-address-list=block action=drop;
+
+> ⚠️ **Warning**: Just again... The order of firewall rules is important. Make
+> sure they actually take effect as expected!
+
+### IPv6 rules
+
+These are the same rules, but for IPv6. 
+
+Reject packets in address-list `block`:
+
+    /ipv6/firewall/filter/add chain=input src-address-list=block action=reject reject-with=icmp-admin-prohibited;
+    /ipv6/firewall/filter/add chain=forward src-address-list=block action=reject reject-with=icmp-admin-prohibited;
+    /ipv6/firewall/filter/add chain=forward dst-address-list=block action=reject reject-with=icmp-admin-prohibited;
+    /ipv6/firewall/filter/add chain=output dst-address-list=block action=reject reject-with=icmp-admin-prohibited;
+
+Allow packets in address-list `allow`:
+
+    /ipv6/firewall/filter/add chain=input src-address-list=allow action=accept;
+    /ipv6/firewall/filter/add chain=forward src-address-list=allow action=accept;
+    /ipv6/firewall/filter/add chain=forward dst-address-list=allow action=accept;
+    /ipv6/firewall/filter/add chain=output dst-address-list=allow action=accept;
+
+Drop packets in firewall's raw section:
+
+    /ipv6/firewall/raw/add chain=prerouting src-address-list=block action=drop;
+    /ipv6/firewall/raw/add chain=prerouting dst-address-list=block action=drop;
+    /ipv6/firewall/raw/add chain=output dst-address-list=block action=drop;
 
 > ⚠️ **Warning**: Just again... The order of firewall rules is important. Make
 > sure they actually take effect as expected!

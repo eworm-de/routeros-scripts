@@ -12,7 +12,7 @@
 :local 0 [ :jobname ];
 
 # expected configuration version
-:global ExpectedConfigVersion 118;
+:global ExpectedConfigVersion 119;
 
 # global variables not to be changed by user
 :global GlobalFunctionsReady false;
