@@ -107,10 +107,10 @@ $WaitFullyConnected;
     }
   }
 
-  :foreach Address,Ignore in=$Addresses do={
-    $LogPrintExit2 debug $0 ("Adding for " . ($Addresses->$Address) . ": " . $Address) false;
+  :foreach Address,Timeout in=$Addresses do={
+    $LogPrintExit2 debug $0 ("Adding for " . $Timeout . ": " . $Address) false;
     :do {
-      /ip/firewall/address-list/add list=$FwListName comment=$ListComment address=$Address timeout=($Addresses->$Address);
+      /ip/firewall/address-list/add list=$FwListName comment=$ListComment address=$Address timeout=$Timeout;
       :set ($Addresses->$Address);
       :set CntAdd ($CntAdd + 1);
     } on-error={
