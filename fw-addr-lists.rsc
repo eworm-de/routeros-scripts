@@ -94,13 +94,13 @@ $WaitFullyConnected;
   :foreach Entry in=[ /ip/firewall/address-list/find where list=$FwListName comment=$ListComment ] do={
     :local Address [ /ip/firewall/address-list/get $Entry address ];
     :if ([ :typeof ($Addresses->$Address) ] = "time") do={
-      $LogPrintExit2 debug $0 ("Renewing for " . ($Addresses->$Address) . ": " . $Address) false;
+      $LogPrintExit2 debug $0 ("Renewing address for " . ($Addresses->$Address) . ": " . $Address) false;
       /ip/firewall/address-list/set $Entry timeout=($Addresses->$Address);
       :set ($Addresses->$Address);
       :set CntRenew ($CntRenew + 1);
     } else={
       :if ($Failure = false) do={
-        $LogPrintExit2 debug $0 ("Removing: " . $Address) false;
+        $LogPrintExit2 debug $0 ("Removing address: " . $Address) false;
         /ip/firewall/address-list/remove $Entry;
         :set CntRemove ($CntRemove + 1);
       }
@@ -108,7 +108,7 @@ $WaitFullyConnected;
   }
 
   :foreach Address,Timeout in=$Addresses do={
-    $LogPrintExit2 debug $0 ("Adding for " . $Timeout . ": " . $Address) false;
+    $LogPrintExit2 debug $0 ("Adding address for " . $Timeout . ": " . $Address) false;
     :do {
       /ip/firewall/address-list/add list=$FwListName comment=$ListComment address=$Address timeout=$Timeout;
       :set ($Addresses->$Address);
