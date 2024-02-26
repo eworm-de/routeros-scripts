@@ -80,14 +80,18 @@ $ScriptLock $0;
         :do {
           :local Resolve [ :resolve ($HostInfo->"resolve") ];
           :if ($Resolve != $HostVal->"host" && \
-               [ :len [ /ip/dns/cache/find where name=($HostInfo->"resolve") data=[ :tostr ($HostVal->"host") ] ] ] = 0) do={
-             $LogPrintExit2 info $0 ("Name '" . $HostInfo->"resolve" . [ $IfThenElse \
-                 ($HostInfo->"resolve" != $HostInfo->"name") ("' for " . $Type . " '" . \
-                 $HostInfo->"name") "" ] . "' resolves to different address " . $Resolve . \
-                 ", updating.") false;
-            /tool/netwatch/set host=$Resolve $Host;
-            :set ($Metric->"resolve-failcnt") 0;
-            :set ($HostVal->"status") "unknown";
+               [ :len [ /ip/dns/cache/find where name=($HostInfo->"resolve") data=[ :tostr ($HostVal->"host") ] ttl>0s ] ] = 0) do={
+            :delay 1500ms;
+            :resolve ($HostInfo->"resolve");
+            :if ([ :len [ /ip/dns/cache/find where name=($HostInfo->"resolve") data=[ :tostr ($HostVal->"host") ] ] ] = 0) do={
+              $LogPrintExit2 info $0 ("Name '" . $HostInfo->"resolve" . [ $IfThenElse \
+                  ($HostInfo->"resolve" != $HostInfo->"name") ("' for " . $Type . " '" . \
+                  $HostInfo->"name") "" ] . "' resolves to different address " . $Resolve . \
+                  ", updating.") false;
+              /tool/netwatch/set host=$Resolve $Host;
+              :set ($Metric->"resolve-failcnt") 0;
+              :set ($HostVal->"status") "unknown";
+            }
           }
         } on-error={
           :set ($Metric->"resolve-failcnt") ($Metric->"resolve-failcnt" + 1);
