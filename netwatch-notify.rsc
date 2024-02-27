@@ -79,10 +79,8 @@ $ScriptLock $0;
       :if ([ $IsDNSResolving ] = true) do={
         :do {
           :local Resolve [ :resolve ($HostInfo->"resolve") ];
-          :if ($Resolve != $HostVal->"host" && \
-               [ :len [ /ip/dns/cache/find where name=($HostInfo->"resolve") data=[ :tostr ($HostVal->"host") ] ttl>0s ] ] = 0) do={
-            :delay 1500ms;
-            :resolve ($HostInfo->"resolve");
+          :if ($Resolve != $HostVal->"host") do={
+            :delay 100ms;
             :if ([ :len [ /ip/dns/cache/find where name=($HostInfo->"resolve") data=[ :tostr ($HostVal->"host") ] ] ] = 0) do={
               $LogPrintExit2 info $0 ("Name '" . $HostInfo->"resolve" . [ $IfThenElse \
                   ($HostInfo->"resolve" != $HostInfo->"name") ("' for " . $Type . " '" . \
