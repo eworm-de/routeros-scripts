@@ -62,6 +62,15 @@
     :return true;
   }
 
+  :local Cname [ /ip/dns/cache/find where name=$Name type="CNAME" ];
+  :if ([ :len $Cname ] > 0) do={
+    :set Cname [ /ip/dns/cache/get $Cname data ];
+    :set Cname [ :pick $Cname 0 ([ :len $Cname ] - 1) ];
+    :if ([ :len [ /ip/dns/cache/find where name=$Cname data=$Expected ] ] > 0) do={
+      :return true;
+    }
+  }
+
   :return false;
 }
 
