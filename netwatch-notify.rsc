@@ -52,6 +52,19 @@
   :return ("Ran hook:\n" . $Hook);
 }
 
+:local ResolveExpected do={
+  :local Name     [ :tostr $1 ];
+  :local Expected [ :tostr $2 ];
+
+  :delay 100ms;
+
+  :if ([ :len [ /ip/dns/cache/find where name=$Name data=$Expected ] ] > 0) do={
+    :return true;
+  }
+
+  :return false;
+}
+
 $ScriptLock $0;
 
 :local ScriptFromTerminalCached [ $ScriptFromTerminal $0 ];
@@ -80,8 +93,7 @@ $ScriptLock $0;
         :do {
           :local Resolve [ :resolve ($HostInfo->"resolve") ];
           :if ($Resolve != $HostVal->"host") do={
-            :delay 100ms;
-            :if ([ :len [ /ip/dns/cache/find where name=($HostInfo->"resolve") data=[ :tostr ($HostVal->"host") ] ] ] = 0) do={
+            :if ([ $ResolveExpected ($HostInfo->"resolve") ($HostVal->"host") ] = false) do={
               $LogPrintExit2 info $0 ("Name '" . $HostInfo->"resolve" . [ $IfThenElse \
                   ($HostInfo->"resolve" != $HostInfo->"name") ("' for " . $Type . " '" . \
                   $HostInfo->"name") "" ] . "' resolves to different address " . $Resolve . \
