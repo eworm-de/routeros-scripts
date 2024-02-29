@@ -24,7 +24,7 @@
 :global WaitFullyConnected;
 
 :local FindDelim do={
-  :local ValidChars "0123456789./ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz-";
+  :local ValidChars "0123456789.:/ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz-";
   :for I from=0 to=[ :len $1 ] do={
     :if ([ :typeof [ :find $ValidChars [ :pick ($1 . " ") $I ] ] ] != "num") do={
       :return $I;
@@ -38,10 +38,11 @@ $WaitFullyConnected;
 :local ListComment ("managed by " . $0);
 
 :foreach FwListName,FwList in=$FwAddrLists do={
-  :local Addresses ({});
   :local CntAdd 0;
   :local CntRenew 0;
   :local CntRemove 0;
+  :local IPv4Addresses ({});
+  :local IPv6Addresses ({});
   :local Failure false;
 
   :foreach List in=$FwList do={
@@ -85,7 +86,11 @@ $WaitFullyConnected;
       :local Address ([ :pick $Line 0 [ $FindDelim $Line ] ] . ($List->"cidr"));
       :if ($Address ~ "^[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}(/[0-9]{1,2})?\$" || \
            $Address ~ "^[\\.a-zA-Z0-9-]+\\.[a-zA-Z]{2,}\$") do={
-        :set ($Addresses->$Address) $TimeOut;
+        :set ($IPv4Addresses->$Address) $TimeOut;
+      }
+      :if ($Address ~ "^[0-9a-zA-Z]*:[0-9a-zA-Z:\\.]+(/[0-9]{1,3})?\$" || \
+           $Address ~ "^[\\.a-zA-Z0-9-]+\\.[a-zA-Z]{2,}\$") do={
+        :set ($IPv6Addresses->$Address) $TimeOut;
       }
       :set Data [ :pick $Data ([ :len $Line ] + 1) [ :len $Data ] ];
     }
@@ -93,28 +98,55 @@ $WaitFullyConnected;
 
   :foreach Entry in=[ /ip/firewall/address-list/find where list=$FwListName comment=$ListComment ] do={
     :local Address [ /ip/firewall/address-list/get $Entry address ];
-    :if ([ :typeof ($Addresses->$Address) ] = "time") do={
-      $LogPrintExit2 debug $0 ("Renewing for " . ($Addresses->$Address) . ": " . $Address) false;
-      /ip/firewall/address-list/set $Entry timeout=($Addresses->$Address);
-      :set ($Addresses->$Address);
+    :if ([ :typeof ($IPv4Addresses->$Address) ] = "time") do={
+      $LogPrintExit2 debug $0 ("Renewing IPv4 address for " . ($IPv4Addresses->$Address) . ": " . $Address) false;
+      /ip/firewall/address-list/set $Entry timeout=($IPv4Addresses->$Address);
+      :set ($IPv4Addresses->$Address);
       :set CntRenew ($CntRenew + 1);
     } else={
       :if ($Failure = false) do={
-        $LogPrintExit2 debug $0 ("Removing: " . $Address) false;
+        $LogPrintExit2 debug $0 ("Removing IPv4 address: " . $Address) false;
         /ip/firewall/address-list/remove $Entry;
         :set CntRemove ($CntRemove + 1);
       }
     }
   }
 
-  :foreach Address,Ignore in=$Addresses do={
-    $LogPrintExit2 debug $0 ("Adding for " . ($Addresses->$Address) . ": " . $Address) false;
+  :foreach Entry in=[ /ipv6/firewall/address-list/find where list=$FwListName comment=$ListComment ] do={
+    :local Address [ /ipv6/firewall/address-list/get $Entry address ];
+    :if ([ :typeof ($IPv6Addresses->$Address) ] = "time") do={
+      $LogPrintExit2 debug $0 ("Renewing IPv6 address for " . ($IPv6Addresses->$Address) . ": " . $Address) false;
+      /ipv6/firewall/address-list/set $Entry timeout=($IPv6Addresses->$Address);
+      :set ($IPv6Addresses->$Address);
+      :set CntRenew ($CntRenew + 1);
+    } else={
+      :if ($Failure = false) do={
+        $LogPrintExit2 debug $0 ("Removing: " . $Address) false;
+        /ipv6/firewall/address-list/remove $Entry;
+        :set CntRemove ($CntRemove + 1);
+      }
+    }
+  }
+
+  :foreach Address,Timeout in=$IPv4Addresses do={
+    $LogPrintExit2 debug $0 ("Adding IPv4 address for " . $Timeout . ": " . $Address) false;
     :do {
-      /ip/firewall/address-list/add list=$FwListName comment=$ListComment address=$Address timeout=($Addresses->$Address);
-      :set ($Addresses->$Address);
+      /ip/firewall/address-list/add list=$FwListName comment=$ListComment address=$Address timeout=$Timeout;
+      :set ($IPv4Addresses->$Address);
       :set CntAdd ($CntAdd + 1);
     } on-error={
-      $LogPrintExit2 warning $0 ("Failed to add address " . $Address . " to list '" . $FwListName . "'.") false;
+      $LogPrintExit2 warning $0 ("Failed to add IPv4 address " . $Address . " to list '" . $FwListName . "'.") false;
+    }
+  }
+
+  :foreach Address,Timeout in=$IPv6Addresses do={
+    $LogPrintExit2 debug $0 ("Adding IPv6 address for " . $Timeout . ": " . $Address) false;
+    :do {
+      /ipv6/firewall/address-list/add list=$FwListName comment=$ListComment address=$Address timeout=$Timeout;
+      :set ($IPv6Addresses->$Address);
+      :set CntAdd ($CntAdd + 1);
+    } on-error={
+      $LogPrintExit2 warning $0 ("Failed to add IPv6 address " . $Address . " to list '" . $FwListName . "'.") false;
     }
   }
 

@@ -43,6 +43,7 @@
         [ $IfThenElse ($Resource->"total-hdd-space" < 16000000) ("Your " . $Resource->"board-name" . " is specifically affected! ") \
         [ $IfThenElse ($Resource->"free-hdd-space" > 4000000) ("(Your " . $Resource->"board-name" . " does not suffer this issue.) ") ] ] . \
         "Huge configuration and lots of scripts give an extra risk. Take care!");
+  119="Added support for IPv6 to script 'fw-addr-lists'.";
 };
 
 # Migration steps to be applied on script updates
