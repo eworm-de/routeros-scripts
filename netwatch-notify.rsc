@@ -52,6 +52,28 @@
   :return ("Ran hook:\n" . $Hook);
 }
 
+:local ResolveExpected do={
+  :local Name     [ :tostr $1 ];
+  :local Expected [ :tostr $2 ];
+
+  :delay 100ms;
+
+  :if ([ :len [ /ip/dns/cache/find where name=$Name data=$Expected ] ] > 0) do={
+    :return true;
+  }
+
+  :local Cname [ /ip/dns/cache/find where name=$Name type="CNAME" ];
+  :if ([ :len $Cname ] > 0) do={
+    :set Cname [ /ip/dns/cache/get $Cname data ];
+    :set Cname [ :pick $Cname 0 ([ :len $Cname ] - 1) ];
+    :if ([ :len [ /ip/dns/cache/find where name=$Cname data=$Expected ] ] > 0) do={
+      :return true;
+    }
+  }
+
+  :return false;
+}
+
 $ScriptLock $0;
 
 :local ScriptFromTerminalCached [ $ScriptFromTerminal $0 ];
@@ -80,12 +102,15 @@ $ScriptLock $0;
         :do {
           :local Resolve [ :resolve ($HostInfo->"resolve") ];
           :if ($Resolve != $HostVal->"host") do={
-             $LogPrintExit2 info $0 ("Name '" . $HostInfo->"resolve" . [ $IfThenElse \
-                 ($HostInfo->"resolve" != $HostInfo->"name") ("' for " . $Type . " '" . \
-                 $HostInfo->"name") "" ] . "' resolves to different address " . $Resolve . \
-                 ", updating.") false;
-            /tool/netwatch/set host=$Resolve $Host;
-            :set ($Metric->"resolve-failcnt") 0;
+            :if ([ $ResolveExpected ($HostInfo->"resolve") ($HostVal->"host") ] = false) do={
+              $LogPrintExit2 info $0 ("Name '" . $HostInfo->"resolve" . [ $IfThenElse \
+                  ($HostInfo->"resolve" != $HostInfo->"name") ("' for " . $Type . " '" . \
+                  $HostInfo->"name") "" ] . "' resolves to different address " . $Resolve . \
+                  ", updating.") false;
+              /tool/netwatch/set host=$Resolve $Host;
+              :set ($Metric->"resolve-failcnt") 0;
+              :set ($HostVal->"status") "unknown";
+            }
           }
         } on-error={
           :set ($Metric->"resolve-failcnt") ($Metric->"resolve-failcnt" + 1);
@@ -124,7 +149,9 @@ $ScriptLock $0;
       :set ($Metric->"notified") false;
       :set ($Metric->"parent") ($HostInfo->"parent");
       :set ($Metric->"since");
-    } else={
+    }
+
+    :if ($HostVal->"status" = "down") do={
       :set ($Metric->"count-down") ($Metric->"count-down" + 1);
       :set ($Metric->"count-up") 0;
       :set ($Metric->"parent") ($HostInfo->"parent");
@@ -177,6 +204,7 @@ $ScriptLock $0;
         :set ($Metric->"notified") true;
       }
     }
+
     :set ($NetwatchNotify->$Name) {
       "count-down"=($Metric->"count-down");
       "count-up"=($Metric->"count-up");

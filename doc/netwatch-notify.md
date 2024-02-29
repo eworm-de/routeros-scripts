@@ -83,9 +83,9 @@ with a resolvable name:
 
     /tool/netwatch/add comment="notify, name=example.com, resolve=example.com";
 
-But be warned: Dynamic updates will probably cause issues if the name has
-more than one record in dns - a high rate of configuration changes (and flash
-writes) at least.
+This supports multiple A or AAAA records for a name just fine, even a CNAME
+to those. But be warned: CNAME chains to multiple records will cause a high
+rate of configuration changes (and flash writes)!
 
 ### No notification on host down
 
