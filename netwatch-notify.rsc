@@ -60,8 +60,10 @@
 
   :local FwAddrList ($0 . "-" . [ $GetRandom20CharAlNum ]);
   /ip/firewall/address-list/add address=$Name list=$FwAddrList dynamic=yes timeout=1s;
+  /ipv6/firewall/address-list/add address=$Name list=$FwAddrList dynamic=yes timeout=1s;
   :delay 20ms;
-  :if ([ :len [ /ip/firewall/address-list/find where list=$FwAddrList address=$Expected ] ] > 0) do={
+  :if ([ :len [ /ip/firewall/address-list/find where list=$FwAddrList address=$Expected ] ] > 0 || \
+       [ :len [ /ipv6/firewall/address-list/find where list=$FwAddrList address=$Expected ] ] > 0) do={
     :return true;
   }
 
