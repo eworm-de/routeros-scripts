@@ -84,8 +84,8 @@ with a resolvable name:
     /tool/netwatch/add comment="notify, name=example.com, resolve=example.com";
 
 This supports multiple A or AAAA records for a name just fine, even a CNAME
-to those. But be warned: CNAME chains to multiple records will cause a high
-rate of configuration changes (and flash writes)!
+to those. An update happens only if no more record with the configured host
+address is found.
 
 ### No notification on host down
 

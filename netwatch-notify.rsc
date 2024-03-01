@@ -56,19 +56,13 @@
   :local Name     [ :tostr $1 ];
   :local Expected [ :tostr $2 ];
 
-  :delay 100ms;
+  :global GetRandom20CharAlNum;
 
-  :if ([ :len [ /ip/dns/cache/find where name=$Name data=$Expected ] ] > 0) do={
+  :local FwAddrList ($0 . "-" . [ $GetRandom20CharAlNum ]);
+  /ip/firewall/address-list/add address=$Name list=$FwAddrList dynamic=yes timeout=1s;
+  :delay 20ms;
+  :if ([ :len [ /ip/firewall/address-list/find where list=$FwAddrList address=$Expected ] ] > 0) do={
     :return true;
-  }
-
-  :local Cname [ /ip/dns/cache/find where name=$Name type="CNAME" ];
-  :if ([ :len $Cname ] > 0) do={
-    :set Cname [ /ip/dns/cache/get $Cname data ];
-    :set Cname [ :pick $Cname 0 ([ :len $Cname ] - 1) ];
-    :if ([ :len [ /ip/dns/cache/find where name=$Cname data=$Expected ] ] > 0) do={
-      :return true;
-    }
   }
 
   :return false;
