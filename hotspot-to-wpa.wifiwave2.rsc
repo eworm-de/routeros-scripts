@@ -52,7 +52,8 @@
       comment=("hotspot-to-wpa template " . $Hotspot) disabled ]->0) ];
 
   :if ($Template->"action" = "reject") do={
-    $LogPrintExit2 info $ScriptName ("Ignoring login for hotspot '" . $Hotspot . "'.") true;
+    $LogPrintExit2 info $ScriptName ("Ignoring login for hotspot '" . $Hotspot . "'.") false;
+    :return true;
   }
 
   # allow login page to load
