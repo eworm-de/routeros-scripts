@@ -39,7 +39,7 @@
 
   :local TypeOf [ :typeof $Input ];
   :local Return [ $IndentReturn "type" $TypeOf $Level ];
-  
+
   :if ($TypeOf = "array") do={
     :foreach Key,Value in=$Input do={
       :set $Return ($Return . "\n" . \
