@@ -22,7 +22,9 @@
   :global LogPrintExit2;
   :global ScriptLock;
 
-  $ScriptLock $ScriptName;
+  :if ([ $ScriptLock $ScriptName ] = false) do={
+    :return false;
+  }
 
   :local InstalledVersion [ /system/package/update/get installed-version ];
 

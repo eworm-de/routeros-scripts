@@ -41,7 +41,9 @@
     :error "Waiting for system to reboot.";
   }
 
-  $ScriptLock $ScriptName;
+  :if ([ $ScriptLock $ScriptName ] = false) do={
+    :return false;
+  }
   $WaitFullyConnected;
 
   :if ([ :len [ /system/scheduler/find where name="_RebootForUpdate" ] ] > 0) do={
@@ -53,7 +55,8 @@
   :local Update [ /system/package/update/get ];
 
   :if ([ $ScriptFromTerminal $ScriptName ] = true && ($Update->"installed-version") = ($Update->"latest-version")) do={
-    $LogPrintExit2 info $ScriptName ("System is already up to date.") true;
+    $LogPrintExit2 info $ScriptName ("System is already up to date.") false;
+    :return true;
   }
 
   :local NumInstalled [ $VersionToNum ($Update->"installed-version") ];
@@ -129,7 +132,8 @@
 
     :if ($SentRouterosUpdateNotification = $Update->"latest-version") do={
       $LogPrintExit2 info $ScriptName ("Already sent the RouterOS update notification for version " . \
-          $Update->"latest-version" . ".") true;
+          $Update->"latest-version" . ".") false;
+      :return true;
     }
 
     $SendNotification2 ({ origin=$ScriptName; \
@@ -143,7 +147,8 @@
   :if ($NumInstalled > $NumLatest) do={
     :if ($SentRouterosUpdateNotification = $Update->"latest-version") do={
       $LogPrintExit2 info $ScriptName ("Already sent the RouterOS downgrade notification for version " . \
-          $Update->"latest-version" . ".") true;
+          $Update->"latest-version" . ".") false;
+      :return true;
     }
 
     $SendNotification2 ({ origin=$ScriptName; \

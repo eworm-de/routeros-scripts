@@ -328,7 +328,8 @@
   }
 
   :if ([ $CertificateAvailable "R3" ] = false) do={
-    $LogPrintExit2 error $0 ("Downloading required certificate failed.") true;
+    $LogPrintExit2 error $0 ("Downloading required certificate failed.") false;
+    :return false;
   }
 
   :local Url ("https://upgrade.mikrotik.com/routeros/" . $PkgVer . "/" . $PkgFile);
@@ -1169,8 +1170,7 @@
 # lock script against multiple invocation
 :set ScriptLock do={
   :local Script   [ :tostr $1 ];
-  :local DoReturn $2;
-  :local WaitMax  ([ :tonum $3 ] * 10);
+  :local WaitMax ([ :tonum $3 ] * 10);
 
   :global GetRandom20CharAlNum;
   :global IfThenElse;
@@ -1285,13 +1285,13 @@
   :if ([ $IsFirstTicket $Script $MyTicket ] = true && [ $TicketCount $Script ] = [ $JobCount $Script ]) do={
     $RemoveTicket $Script $MyTicket;
     $CleanupTickets $Script;
-    :return false;
+    :return true;
   }
 
   $RemoveTicket $Script $MyTicket;
   $LogPrintExit2 info $0 ("Script '" . $Script . "' started more than once" . [ $IfThenElse ($WaitCount > 0) \
-    " and timed out waiting for lock" "" ] . "... Aborting.") [ $IfThenElse ($DoReturn = true) false true ];
-  :return true;
+    " and timed out waiting for lock" "" ] . "...") false;
+  :return false;
 }
 
 # send notification via NotificationFunctions - expects at least two string arguments

@@ -75,7 +75,9 @@
     :return false;
   }
 
-  $ScriptLock $ScriptName;
+  :if ([ $ScriptLock $ScriptName ] = false) do={
+    :return false;
+  }
 
   :local ScriptFromTerminalCached [ $ScriptFromTerminal $ScriptName ];
 

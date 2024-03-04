@@ -29,7 +29,9 @@
   :global SendNotification2;
   :global SymbolForNotification;
 
-  $ScriptLock $ScriptName false 10;
+  :if ([ $ScriptLock $ScriptName 10 ] = false) do={
+    :return false;
+  }
 
   :if ([ :len [ /caps-man/access-list/find where comment="--- collected above ---" disabled ] ] = 0) do={
   :if ([ :len [ /interface/wifi/access-list/find where comment="--- collected above ---" disabled ] ] = 0) do={

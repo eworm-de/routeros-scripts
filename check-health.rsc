@@ -39,7 +39,9 @@
     :return ($T->0 * 10 + $T->1);
   }
 
-  $ScriptLock $ScriptName;
+  :if ([ $ScriptLock $ScriptName ] = false) do={
+    :return false;
+  }
 
   :local Resource [ /system/resource/get ];
 
@@ -75,7 +77,8 @@
   }
 
   :if ([ :len [ /system/health/find ] ] = 0) do={
-    $LogPrintExit2 debug $ScriptName ("Your device does not provide any health values.") true;
+    $LogPrintExit2 debug $ScriptName ("Your device does not provide any health values.") false;
+    :return true;
   }
 
   :if ([ :typeof $CheckHealthLast ] != "array") do={

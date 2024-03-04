@@ -26,7 +26,9 @@
   :global ParseKeyValueStore;
   :global ScriptLock;
 
-  $ScriptLock $ScriptName false 10;
+  :if ([ $ScriptLock $ScriptName 10 ] = false) do={
+    :return false;
+  }
 
   :local Ttl 5m;
   :local CommentPrefix ("managed by " . $ScriptName);

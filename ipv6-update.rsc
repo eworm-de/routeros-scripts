@@ -19,7 +19,9 @@
   :global ParseKeyValueStore;
   :global ScriptLock;
 
-  $ScriptLock $ScriptName;
+  :if ([ $ScriptLock $ScriptName ] = false) do={
+    :return false;
+  }
 
   :if ([ :typeof $PdPrefix ] = "nothing") do={
     $LogPrintExit2 error $ScriptName ("This script is supposed to run from ipv6 dhcp-client.") true;

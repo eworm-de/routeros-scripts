@@ -18,7 +18,9 @@
   :global LogPrintExit2;
   :global ScriptLock;
 
-  $ScriptLock $ScriptName;
+  :if ([ $ScriptLock $ScriptName ] = false) do={
+    :return false;
+  }
 
   :if ([ :len [ /partitions/find ] ] < 2) do={
     $LogPrintExit2 error $ScriptName ("Device does not have a fallback partition.") true;

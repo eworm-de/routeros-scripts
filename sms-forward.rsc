@@ -27,7 +27,9 @@
   :global ValidateSyntax;
   :global WaitFullyConnected;
 
-  $ScriptLock $ScriptName;
+  :if ([ $ScriptLock $ScriptName ] = false) do={
+    :return false;
+  }
 
   :if ([ /tool/sms/get receive-enabled ] = false) do={
     $LogPrintOnce warning $ScriptName ("Receiving of SMS is not enabled.") true;
@@ -38,7 +40,8 @@
   :local Settings [ /tool/sms/get ];
 
   :if ([ /interface/lte/get ($Settings->"port") running ] != true) do={
-    $LogPrintExit2 info $ScriptName ("The LTE interface is not in running state, skipping.") true;
+    $LogPrintExit2 info $ScriptName ("The LTE interface is not in running state, skipping.") false;
+    :return true;
   }
 
   # forward SMS in a loop

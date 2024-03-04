@@ -24,7 +24,9 @@
   :global ParseKeyValueStore;
   :global ScriptLock;
 
-  $ScriptLock $ScriptName;
+  :if ([ $ScriptLock $ScriptName ] = false) do={
+    :return false;
+  }
 
   :if ([ :len $MacAddress ] = 0 || [ :len $UserName ] = 0) do={
     $LogPrintExit2 error $ScriptName ("This script is supposed to run from hotspot on login.") true;
@@ -65,7 +67,8 @@
       comment=("hotspot-to-wpa template " . $Hotspot) disabled ]->0) ];
 
   :if ($Template->"action" = "reject") do={
-    $LogPrintExit2 info $ScriptName ("Ignoring login for hotspot '" . $Hotspot . "'.") true;
+    $LogPrintExit2 info $ScriptName ("Ignoring login for hotspot '" . $Hotspot . "'.") false;
+    :return true;
   }
 
   # allow login page to load

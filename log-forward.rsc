@@ -32,7 +32,9 @@
   :global SendNotification2;
   :global SymbolForNotification;
 
-  $ScriptLock $ScriptName;
+  :if ([ $ScriptLock $ScriptName ] = false) do={
+    :return false;
+  }
 
   :if ([ :typeof $LogForwardRateLimit ] = "nothing") do={
     :set LogForwardRateLimit 0;
@@ -40,7 +42,8 @@
 
   :if ($LogForwardRateLimit > 30) do={
     :set LogForwardRateLimit ($LogForwardRateLimit - 1);
-    $LogPrintExit2 info $ScriptName ("Rate limit in action, not forwarding logs, if any!") true;
+    $LogPrintExit2 info $ScriptName ("Rate limit in action, not forwarding logs, if any!") false;
+    :return true;
   }
 
   :local Count 0;
