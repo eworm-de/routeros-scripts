@@ -39,7 +39,8 @@
         on-event=("/system/scheduler/remove \"_RebootForUpdate\"; " . \
         ":global RebootForUpdate; \$RebootForUpdate;");
     $LogPrintExit2 info $ScriptName ("Scheduled reboot for update at " . $StartTime . \
-        " local time (" . [ /system/clock/get time-zone-name ] . ").") true;
+        " local time (" . [ /system/clock/get time-zone-name ] . ").") false;
+    :return true;
   }
 
   $ScriptLock $ScriptName;
@@ -51,7 +52,8 @@
   }
 
   :if ($Update->"installed-version" = $Update->"latest-version") do={
-    $LogPrintExit2 info $ScriptName ("Version " . $Update->"latest-version" . " is already installed.") true;
+    $LogPrintExit2 info $ScriptName ("Version " . $Update->"latest-version" . " is already installed.") false;
+    :return true;
   }
 
   :local NumInstalled [ $VersionToNum ($Update->"installed-version") ];
