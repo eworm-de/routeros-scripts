@@ -24,7 +24,8 @@
 
   :local SettleTime (5m30s - [ /system/resource/get uptime ]);
   :if ($SettleTime > 0s) do={
-    $LogPrintExit2 info $ScriptName ("System just booted, giving netwatch " . $SettleTime . " to settle.") true;
+    $LogPrintExit2 info $ScriptName ("System just booted, giving netwatch " . $SettleTime . " to settle.") false;
+    :return true;
   }
 
   :local DnsServers ({});
@@ -80,7 +81,8 @@
       }
 
       :if ($DohCurrent = $HostInfo->"doh-url") do={
-        $LogPrintExit2 debug $ScriptName ("Current DoH server is still up: " . $DohCurrent) true;
+        $LogPrintExit2 debug $ScriptName ("Current DoH server is still up: " . $DohCurrent) false;
+        :return true;
       }
 
       :set ($DohServers->[ :len $DohServers ]) $HostInfo;
@@ -116,7 +118,8 @@
       :if ([ :typeof [ :find $Data "doh-check-OK" ] ] = "num") do={
         /ip/dns/set use-doh-server=($DohServer->"doh-url") verify-doh-cert=yes;
         /ip/dns/cache/flush;
-        $LogPrintExit2 info $ScriptName ("Setting DoH server: " . ($DohServer->"doh-url")) true;
+        $LogPrintExit2 info $ScriptName ("Setting DoH server: " . ($DohServer->"doh-url")) false;
+        :return true;
       } else={
         $LogPrintExit2 warning $ScriptName ("Received unexpected response from DoH server: " . \
           ($DohServer->"doh-url")) false;
