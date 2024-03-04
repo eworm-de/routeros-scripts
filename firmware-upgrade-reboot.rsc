@@ -23,10 +23,12 @@
   :local RouterBoard [ /system/routerboard/get ];
   :if ($RouterBoard->"current-firmware" = $RouterBoard->"upgrade-firmware") do={
     $LogPrintExit2 info $ScriptName ("Current and upgrade firmware match with version " . \
-      $RouterBoard->"current-firmware" . ".") true;
+      $RouterBoard->"current-firmware" . ".") false;
+    :return true;
   }
   :if ([ $VersionToNum ($RouterBoard->"current-firmware") ] > [ $VersionToNum ($RouterBoard->"upgrade-firmware") ]) do={
-    $LogPrintExit2 info $ScriptName ("Different firmware version is available, but it is a downgrade. Ignoring.") true;
+    $LogPrintExit2 info $ScriptName ("Different firmware version is available, but it is a downgrade. Ignoring.") false;
+    :return true;
   }
 
   :if ([ /system/routerboard/settings/get auto-upgrade ] = false) do={
