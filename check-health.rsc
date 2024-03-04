@@ -75,7 +75,8 @@
   }
 
   :if ([ :len [ /system/health/find ] ] = 0) do={
-    $LogPrintExit2 debug $ScriptName ("Your device does not provide any health values.") true;
+    $LogPrintExit2 debug $ScriptName ("Your device does not provide any health values.") false;
+    :return true;
   }
 
   :if ([ :typeof $CheckHealthLast ] != "array") do={
