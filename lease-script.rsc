@@ -37,7 +37,8 @@
   $ScriptLock $ScriptName false 10;
 
   :if ([ :len [ /system/script/job/find where script=$ScriptName ] ] > 1) do={
-    $LogPrintExit2 debug $ScriptName ("More invocations are waiting, exiting early.") true;
+    $LogPrintExit2 debug $ScriptName ("More invocations are waiting, exiting early.") false;
+    :return true;
   }
 
   :local RunOrder ({});
