@@ -40,7 +40,8 @@
 
   :if ($LogForwardRateLimit > 30) do={
     :set LogForwardRateLimit ($LogForwardRateLimit - 1);
-    $LogPrintExit2 info $ScriptName ("Rate limit in action, not forwarding logs, if any!") true;
+    $LogPrintExit2 info $ScriptName ("Rate limit in action, not forwarding logs, if any!") false;
+    :return true;
   }
 
   :local Count 0;
