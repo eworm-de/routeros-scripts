@@ -29,7 +29,7 @@
   :local AllDone true;
   :local QueueLen [ :len $EmailQueue ];
   :local Scheduler [ /system/scheduler/find where name="_FlushEmailQueue" ];
-  
+
   :if ([ :len $Scheduler ] > 0 && [ /system/scheduler/get $Scheduler interval ] < 1m) do={
     /system/scheduler/set interval=1m comment="Doing initial checks..." $Scheduler;
   }
