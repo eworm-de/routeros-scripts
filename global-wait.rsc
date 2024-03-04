@@ -8,6 +8,5 @@
 # wait for global-functions to finish
 # https://git.eworm.de/cgit/routeros-scripts/about/doc/global-wait.md
 
-:local 0 [ :jobname ];
 :global GlobalFunctionsReady;
 :while ($GlobalFunctionsReady != true) do={ :delay 500ms; }
