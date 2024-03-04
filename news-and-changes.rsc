@@ -44,6 +44,7 @@
         [ $IfThenElse ($Resource->"free-hdd-space" > 4000000) ("(Your " . $Resource->"board-name" . " does not suffer this issue.) ") ] ] . \
         "Huge configuration and lots of scripts give an extra risk. Take care!");
   119="Added support for IPv6 to script 'fw-addr-lists'.";
+  120="Implemented a workaround in 'backup-cloud'. Now script should no longer just crash, but send notification with error.";
 };
 
 # Migration steps to be applied on script updates
