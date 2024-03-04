@@ -9,55 +9,60 @@
 # upload backup to MikroTik cloud
 # https://git.eworm.de/cgit/routeros-scripts/about/doc/backup-cloud.md
 
-:local 0 [ :jobname ];
 :global GlobalFunctionsReady;
 :while ($GlobalFunctionsReady != true) do={ :delay 500ms; }
 
-:global BackupPassword;
-:global BackupRandomDelay;
-:global Identity;
+:local Main do={
+  :local ScriptName [ :tostr $1 ];
 
-:global DeviceInfo;
-:global FormatLine;
-:global HumanReadableNum;
-:global LogPrintExit2;
-:global RandomDelay;
-:global ScriptFromTerminal;
-:global ScriptLock;
-:global SendNotification2;
-:global SymbolForNotification;
-:global WaitFullyConnected;
+  :global BackupPassword;
+  :global BackupRandomDelay;
+  :global Identity;
 
-$ScriptLock $0;
-$WaitFullyConnected;
+  :global DeviceInfo;
+  :global FormatLine;
+  :global HumanReadableNum;
+  :global LogPrintExit2;
+  :global RandomDelay;
+  :global ScriptFromTerminal;
+  :global ScriptLock;
+  :global SendNotification2;
+  :global SymbolForNotification;
+  :global WaitFullyConnected;
 
-:if ([ $ScriptFromTerminal $0 ] = false && $BackupRandomDelay > 0) do={
-  $RandomDelay $BackupRandomDelay;
-}
+  $ScriptLock $ScriptName;
+  $WaitFullyConnected;
 
-:do {
-  # we are not interested in output, but print is
-  # required to fetch information from cloud
-  /system/backup/cloud/print as-value;
-  :if ([ :len [ /system/backup/cloud/find ] ] > 0) do={
-    /system/backup/cloud/upload-file action=create-and-upload \
-        password=$BackupPassword replace=[ get ([ find ]->0) name ];
-  } else={
-    /system/backup/cloud/upload-file action=create-and-upload \
-        password=$BackupPassword;
+  :if ([ $ScriptFromTerminal $ScriptName ] = false && $BackupRandomDelay > 0) do={
+    $RandomDelay $BackupRandomDelay;
   }
-  :local Cloud [ /system/backup/cloud/get ([ find ]->0) ];
 
-  $SendNotification2 ({ origin=$0; \
-    subject=([ $SymbolForNotification "floppy-disk,cloud" ] . "Cloud backup"); \
-    message=("Uploaded backup for " . $Identity . " to cloud.\n\n" . \
-      [ $DeviceInfo ] . "\n\n" . \
-      [ $FormatLine "Name" ($Cloud->"name") ] . "\n" . \
-      [ $FormatLine "Size" ([ $HumanReadableNum ($Cloud->"size") 1024 ] . "iB") ] . "\n" . \
-      [ $FormatLine "Download key" ($Cloud->"secret-download-key") ]); silent=true });
-} on-error={
-  $SendNotification2 ({ origin=$0; \
-    subject=([ $SymbolForNotification "floppy-disk,warning-sign" ] . "Cloud backup failed"); \
-    message=("Failed uploading backup for " . $Identity . " to cloud!\n\n" . [ $DeviceInfo ]) });
-  $LogPrintExit2 error $0 ("Failed uploading backup for " . $Identity . " to cloud!") true;
+  :do {
+    # we are not interested in output, but print is
+    # required to fetch information from cloud
+    /system/backup/cloud/print as-value;
+    :if ([ :len [ /system/backup/cloud/find ] ] > 0) do={
+      /system/backup/cloud/upload-file action=create-and-upload \
+          password=$BackupPassword replace=[ get ([ find ]->0) name ];
+    } else={
+      /system/backup/cloud/upload-file action=create-and-upload \
+          password=$BackupPassword;
+    }
+    :local Cloud [ /system/backup/cloud/get ([ find ]->0) ];
+
+    $SendNotification2 ({ origin=$ScriptName; \
+      subject=([ $SymbolForNotification "floppy-disk,cloud" ] . "Cloud backup"); \
+      message=("Uploaded backup for " . $Identity . " to cloud.\n\n" . \
+        [ $DeviceInfo ] . "\n\n" . \
+        [ $FormatLine "Name" ($Cloud->"name") ] . "\n" . \
+        [ $FormatLine "Size" ([ $HumanReadableNum ($Cloud->"size") 1024 ] . "iB") ] . "\n" . \
+        [ $FormatLine "Download key" ($Cloud->"secret-download-key") ]); silent=true });
+  } on-error={
+    $SendNotification2 ({ origin=$ScriptName; \
+      subject=([ $SymbolForNotification "floppy-disk,warning-sign" ] . "Cloud backup failed"); \
+      message=("Failed uploading backup for " . $Identity . " to cloud!\n\n" . [ $DeviceInfo ]) });
+    $LogPrintExit2 error $ScriptName ("Failed uploading backup for " . $Identity . " to cloud!") true;
+  }
 }
+
+$Main [ :jobname ];
