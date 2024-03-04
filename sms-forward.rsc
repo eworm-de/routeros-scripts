@@ -38,7 +38,8 @@
   :local Settings [ /tool/sms/get ];
 
   :if ([ /interface/lte/get ($Settings->"port") running ] != true) do={
-    $LogPrintExit2 info $ScriptName ("The LTE interface is not in running state, skipping.") true;
+    $LogPrintExit2 info $ScriptName ("The LTE interface is not in running state, skipping.") false;
+    :return true;
   }
 
   # forward SMS in a loop
