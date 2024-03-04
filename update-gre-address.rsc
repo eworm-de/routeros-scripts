@@ -9,29 +9,34 @@
 # ipsec remote peer
 # https://git.eworm.de/cgit/routeros-scripts/about/doc/update-gre-address.md
 
-:local 0 [ :jobname ];
 :global GlobalFunctionsReady;
 :while ($GlobalFunctionsReady != true) do={ :delay 500ms; }
 
-:global CharacterReplace;
-:global LogPrintExit2;
-:global ScriptLock; 
+:local Main do={
+  :local ScriptName [ :tostr $1 ];
 
-$ScriptLock $0;
+  :global CharacterReplace;
+  :global LogPrintExit2;
+  :global ScriptLock; 
 
-/interface/gre/set remote-address=0.0.0.0 disabled=yes [ find where !running !disabled ];
+  $ScriptLock $ScriptName;
 
-:foreach Peer in=[ /ip/ipsec/active-peers/find ] do={
-  :local PeerVal [ /ip/ipsec/active-peers/get $Peer ];
-  :local GreInt [ /interface/gre/find where comment=($PeerVal->"id") or comment=[ $CharacterReplace ($PeerVal->"id") "CN=" "" ] ];
-  :if ([ :len $GreInt ] > 0) do={
-    :local GreIntVal [ /interface/gre/get $GreInt ];
-    :if ([ :typeof ($PeerVal->"dynamic-address") ] = "str" && \
-         ($PeerVal->"dynamic-address" != $GreIntVal->"remote-address" || \
-          $GreIntVal->"disabled" = true)) do={
-      $LogPrintExit2 info $0 ("Updating remote address for interface " . $GreIntVal->"name" . " to " . $PeerVal->"dynamic-address") false;
-      /interface/gre/set remote-address=0.0.0.0 disabled=yes [ find where remote-address=$PeerVal->"dynamic-address" name!=$GreIntVal->"name" ];
-      /interface/gre/set $GreInt remote-address=($PeerVal->"dynamic-address") disabled=no;
+  /interface/gre/set remote-address=0.0.0.0 disabled=yes [ find where !running !disabled ];
+
+  :foreach Peer in=[ /ip/ipsec/active-peers/find ] do={
+    :local PeerVal [ /ip/ipsec/active-peers/get $Peer ];
+    :local GreInt [ /interface/gre/find where comment=($PeerVal->"id") or comment=[ $CharacterReplace ($PeerVal->"id") "CN=" "" ] ];
+    :if ([ :len $GreInt ] > 0) do={
+      :local GreIntVal [ /interface/gre/get $GreInt ];
+      :if ([ :typeof ($PeerVal->"dynamic-address") ] = "str" && \
+           ($PeerVal->"dynamic-address" != $GreIntVal->"remote-address" || \
+            $GreIntVal->"disabled" = true)) do={
+        $LogPrintExit2 info $ScriptName ("Updating remote address for interface " . $GreIntVal->"name" . " to " . $PeerVal->"dynamic-address") false;
+        /interface/gre/set remote-address=0.0.0.0 disabled=yes [ find where remote-address=$PeerVal->"dynamic-address" name!=$GreIntVal->"name" ];
+        /interface/gre/set $GreInt remote-address=($PeerVal->"dynamic-address") disabled=no;
+      }
     }
   }
 }
+
+$Main [ :jobname ];
