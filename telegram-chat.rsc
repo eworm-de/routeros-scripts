@@ -126,7 +126,9 @@
           :if ([ $ValidateSyntax ($Message->"text") ] = true) do={
             :local State "";
             :local File ("tmpfs/telegram-chat/" . [ $GetRandom20CharAlNum 6 ]);
-            $MkDir "tmpfs/telegram-chat";
+            :if ([ $MkDir "tmpfs/telegram-chat" ] = false) do={
+              $LogPrintExit2 error $ScriptName ("Failed creating directory!") true;
+            }
             $LogPrintExit2 info $ScriptName ("Running command from update " . $UpdateID . ": " . $Message->"text") false;
             :execute script=(":do {\n" . $Message->"text" . "\n} on-error={ /file/add name=\"" . $File . ".failed\" };" . \
               "/file/add name=\"" . $File . ".done\"") file=($File . "\00");
