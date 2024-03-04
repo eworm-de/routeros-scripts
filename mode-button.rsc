@@ -8,71 +8,76 @@
 # act on multiple mode and reset button presses
 # https://git.eworm.de/cgit/routeros-scripts/about/doc/mode-button.md
 
-:local 0 [ :jobname ];
 :global GlobalFunctionsReady;
 :while ($GlobalFunctionsReady != true) do={ :delay 500ms; }
 
-:global ModeButton;
+:local Main do={
+  :local ScriptName [ :tostr $1 ];
 
-:global LogPrintExit2;
+  :global ModeButton;
 
-:set ($ModeButton->"count") ($ModeButton->"count" + 1);
+  :global LogPrintExit2;
 
-:local Scheduler [ /system/scheduler/find where name="_ModeButtonScheduler" ];
+  :set ($ModeButton->"count") ($ModeButton->"count" + 1);
 
-:if ([ :len $Scheduler ] = 0) do={
-  $LogPrintExit2 info $0 ("Creating scheduler _ModeButtonScheduler, counting presses...") false;
-  :global ModeButtonScheduler do={
-    :global ModeButton;
+  :local Scheduler [ /system/scheduler/find where name="_ModeButtonScheduler" ];
 
-    :global LogPrintExit2;
-    :global ModeButtonScheduler;
-    :global ValidateSyntax;
+  :if ([ :len $Scheduler ] = 0) do={
+    $LogPrintExit2 info $ScriptName ("Creating scheduler _ModeButtonScheduler, counting presses...") false;
+    :global ModeButtonScheduler do={
+      :global ModeButton;
 
-    :local LEDInvert do={
-      :global ModeButtonLED;
+      :global LogPrintExit2;
+      :global ModeButtonScheduler;
+      :global ValidateSyntax;
 
-      :global IfThenElse;
+      :local LEDInvert do={
+        :global ModeButtonLED;
 
-      :local LED [ /system/leds/find where leds=$ModeButtonLED type~"^(on|off)\$" interface=[] ];
-      :if ([ :len $LED ] = 0) do={
-        :return false;
-      }
-      /system/leds/set type=[ $IfThenElse ([ get $LED type ] = "on") "off" "on" ] $LED;
-    }
+        :global IfThenElse;
 
-    :local Count ($ModeButton->"count");
-    :local Code ($ModeButton->[ :tostr $Count ]);
-
-    :set ($ModeButton->"count") 0;
-    :set ModeButtonScheduler;
-    /system/scheduler/remove [ find where name="_ModeButtonScheduler" ];
-
-    :if ([ :len $Code ] > 0) do={
-      :if ([ $ValidateSyntax $Code ] = true) do={
-        $LogPrintExit2 info $0 ("Acting on " . $Count . " mode-button presses: " . $Code) false;
-
-        :for I from=1 to=$Count do={
-          $LEDInvert;
-          :if ([ /system/routerboard/settings/get silent-boot ] = false) do={
-            :beep length=200ms;
-          }
-          :delay 200ms;
-          $LEDInvert;
-          :delay 200ms;
+        :local LED [ /system/leds/find where leds=$ModeButtonLED type~"^(on|off)\$" interface=[] ];
+        :if ([ :len $LED ] = 0) do={
+          :return false;
         }
-
-        [ :parse $Code ];
-      } else={
-        $LogPrintExit2 warning $0 ("The code for " . $Count . " mode-button presses failed syntax validation!") false;
+        /system/leds/set type=[ $IfThenElse ([ get $LED type ] = "on") "off" "on" ] $LED;
       }
-    } else={
-      $LogPrintExit2 info $0 ("No action defined for " . $Count . " mode-button presses.") false;
+
+      :local Count ($ModeButton->"count");
+      :local Code ($ModeButton->[ :tostr $Count ]);
+
+      :set ($ModeButton->"count") 0;
+      :set ModeButtonScheduler;
+      /system/scheduler/remove [ find where name="_ModeButtonScheduler" ];
+
+      :if ([ :len $Code ] > 0) do={
+        :if ([ $ValidateSyntax $Code ] = true) do={
+          $LogPrintExit2 info $ScriptName ("Acting on " . $Count . " mode-button presses: " . $Code) false;
+
+          :for I from=1 to=$Count do={
+            $LEDInvert;
+            :if ([ /system/routerboard/settings/get silent-boot ] = false) do={
+              :beep length=200ms;
+            }
+            :delay 200ms;
+            $LEDInvert;
+            :delay 200ms;
+          }
+
+          [ :parse $Code ];
+        } else={
+          $LogPrintExit2 warning $ScriptName ("The code for " . $Count . " mode-button presses failed syntax validation!") false;
+        }
+      } else={
+        $LogPrintExit2 info $ScriptName ("No action defined for " . $Count . " mode-button presses.") false;
+      }
     }
+    /system/scheduler/add name="_ModeButtonScheduler" \
+        on-event=":global ModeButtonScheduler; \$ModeButtonScheduler;" interval=3s;
+  } else={
+    $LogPrintExit2 debug $ScriptName ("Updating scheduler _ModeButtonScheduler...") false;
+    /system/scheduler/set $Scheduler start-time=[ /system/clock/get time ];
   }
-  /system/scheduler/add name="_ModeButtonScheduler" \
-      on-event=":global ModeButtonScheduler; \$ModeButtonScheduler;" interval=3s;
-} else={
-  $LogPrintExit2 debug $0 ("Updating scheduler _ModeButtonScheduler...") false;
-  /system/scheduler/set $Scheduler start-time=[ /system/clock/get time ];
 }
+
+$Main [ :jobname ];
