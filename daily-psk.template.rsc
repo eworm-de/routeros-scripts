@@ -63,21 +63,16 @@
 
   :foreach AccList in=[ /caps-man/access-list/find where comment~$DailyPskMatchComment ] do={
   :foreach AccList in=[ /interface/wifi/access-list/find where comment~$DailyPskMatchComment ] do={
-  :foreach AccList in=[ /interface/wifiwave2/access-list/find where comment~$DailyPskMatchComment ] do={
   :foreach AccList in=[ /interface/wireless/access-list/find where comment~$DailyPskMatchComment ] do={
     :local SsidRegExp [ /caps-man/access-list/get $AccList ssid-regexp ];
     :local SsidRegExp [ /interface/wifi/access-list/get $AccList ssid-regexp ];
-    :local SsidRegExp [ /interface/wifiwave2/access-list/get $AccList ssid-regexp ];
     :local Configuration ([ /caps-man/configuration/find where ssid~$SsidRegExp ]->0);
     :local Configuration ([ /interface/wifi/configuration/find where ssid~$SsidRegExp ]->0);
-    :local Configuration ([ /interface/wifiwave2/configuration/find where ssid~$SsidRegExp ]->0);
     :local Ssid [ /caps-man/configuration/get $Configuration ssid ];
     :local Ssid [ /interface/wifi/configuration/get $Configuration ssid ];
-    :local Ssid [ /interface/wifiwave2/configuration/get $Configuration ssid ];
     :local OldPsk [ /caps-man/access-list/get $AccList private-passphrase ];
     :local OldPsk [ /interface/wifi/access-list/get $AccList passphrase ];
-    :local OldPsk [ /interface/wifiwave2/access-list/get $AccList passphrase ];
-    # /caps-man/ /interface/wifi/ /interface/wifiwave2/ above - /interface/wireless/ below
+    # /caps-man/ /interface/wifi/ above - /interface/wireless/ below
     :local IntName [ /interface/wireless/access-list/get $AccList interface ];
     :local Ssid [ /interface/wireless/get $IntName ssid ];
     :local OldPsk [ /interface/wireless/access-list/get $AccList private-pre-shared-key ];
@@ -87,12 +82,10 @@
       $LogPrintExit2 info $ScriptName ("Updating daily PSK for " . $Ssid . " to " . $NewPsk . " (was " . $OldPsk . ")") false;
       /caps-man/access-list/set $AccList private-passphrase=$NewPsk;
       /interface/wifi/access-list/set $AccList passphrase=$NewPsk;
-      /interface/wifiwave2/access-list/set $AccList passphrase=$NewPsk;
       /interface/wireless/access-list/set $AccList private-pre-shared-key=$NewPsk;
 
       :if ([ :len [ /caps-man/actual-interface-configuration/find where configuration.ssid=$Ssid !disabled ] ] > 0) do={
       :if ([ :len [ /interface/wifi/actual-configuration/find where configuration.ssid=$Ssid ] ] > 0) do={
-      :if ([ :len [ /interface/wifiwave2/actual-configuration/find where configuration.ssid=$Ssid ] ] > 0) do={
       :if ([ :len [ /interface/wireless/find where name=$IntName !disabled ] ] = 1) do={
         :if ($Seen->$Ssid = 1) do={
           $LogPrintExit2 debug $ScriptName ("Already sent a mail for SSID " . $Ssid . ", skipping.") false;

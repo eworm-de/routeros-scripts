@@ -30,16 +30,13 @@
 
   :local RemoteCapCount [ :len [ /caps-man/remote-cap/find ] ];
   :local RemoteCapCount [ :len [ /interface/wifi/capsman/remote-cap/find ] ];
-  :local RemoteCapCount [ :len [ /interface/wifiwave2/capsman/remote-cap/find ] ];
   :if ($RemoteCapCount > 0) do={
     :local Delay (600 / $RemoteCapCount);
     :if ($Delay > 120) do={ :set Delay 120; }
     :foreach RemoteCap in=[ /caps-man/remote-cap/find where version!=$InstalledVersion ] do={
     :foreach RemoteCap in=[ /interface/wifi/capsman/remote-cap/find where version!=$InstalledVersion ] do={
-    :foreach RemoteCap in=[ /interface/wifiwave2/capsman/remote-cap/find where version!=$InstalledVersion ] do={
       :local RemoteCapVal [ /caps-man/remote-cap/get $RemoteCap ];
       :local RemoteCapVal [ /interface/wifi/capsman/remote-cap/get $RemoteCap ];
-      :local RemoteCapVal [ /interface/wifiwave2/capsman/remote-cap/get $RemoteCap ];
       :if ([ :len $RemoteCapVal ] > 1) do={
 # NOT /caps-man/ #
         :set ($RemoteCapVal->"name") ($RemoteCapVal->"common-name");
@@ -48,7 +45,6 @@
           " (" . $RemoteCapVal->"identity" . ")...") false;
         /caps-man/remote-cap/upgrade $RemoteCap;
         /interface/wifi/capsman/remote-cap/upgrade $RemoteCap;
-        /interface/wifiwave2/capsman/remote-cap/upgrade $RemoteCap;
       } else={
         $LogPrintExit2 warning $ScriptName ("Remote CAP vanished, skipping upgrade.") false;
       }

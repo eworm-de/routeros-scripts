@@ -22,18 +22,13 @@ and modify it to your needs.
 Requirements and installation
 -----------------------------
 
-Depending on whether you use `wifi` package (`/interface/wifi`), `wifiwave2`
-package (`/interface/wifiwave2`), legacy wifi with CAPsMAN (`/caps-man`)
-or local wireless interface (`/interface/wireless`) you need to install a
-different script.
+Depending on whether you use `wifi` package (`/interface/wifi`), legacy
+wifi with CAPsMAN (`/caps-man`) or local wireless interface
+(`/interface/wireless`) you need to install a different script.
 
-For `wifi` (RouterOS 7.13 and later):
+For `wifi`:
 
     $ScriptInstallUpdate collect-wireless-mac.wifi;
-
-For `wifiwave2` (up to RouterOS 7.12):
-
-    $ScriptInstallUpdate collect-wireless-mac.wifiwave2;
 
 For legacy CAPsMAN:
 

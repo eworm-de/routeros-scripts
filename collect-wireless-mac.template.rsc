@@ -35,28 +35,23 @@
 
   :if ([ :len [ /caps-man/access-list/find where comment="--- collected above ---" disabled ] ] = 0) do={
   :if ([ :len [ /interface/wifi/access-list/find where comment="--- collected above ---" disabled ] ] = 0) do={
-  :if ([ :len [ /interface/wifiwave2/access-list/find where comment="--- collected above ---" disabled ] ] = 0) do={
   :if ([ :len [ /interface/wireless/access-list/find where comment="--- collected above ---" disabled ] ] = 0) do={
     /caps-man/access-list/add comment="--- collected above ---" disabled=yes;
     /interface/wifi/access-list/add comment="--- collected above ---" disabled=yes;
-    /interface/wifiwave2/access-list/add comment="--- collected above ---" disabled=yes;
     /interface/wireless/access-list/add comment="--- collected above ---" disabled=yes;
     $LogPrintExit2 warning $ScriptName ("Added disabled access-list entry with comment '--- collected above ---'.") false;
   }
   :local PlaceBefore ([ /caps-man/access-list/find where comment="--- collected above ---" disabled ]->0);
   :local PlaceBefore ([ /interface/wifi/access-list/find where comment="--- collected above ---" disabled ]->0);
-  :local PlaceBefore ([ /interface/wifiwave2/access-list/find where comment="--- collected above ---" disabled ]->0);
   :local PlaceBefore ([ /interface/wireless/access-list/find where comment="--- collected above ---" disabled ]->0);
 
   :foreach Reg in=[ /caps-man/registration-table/find ] do={
   :foreach Reg in=[ /interface/wifi/registration-table/find ] do={
-  :foreach Reg in=[ /interface/wifiwave2/registration-table/find ] do={
   :foreach Reg in=[ /interface/wireless/registration-table/find where ap=no ] do={
     :local RegVal;
     :do {
       :set RegVal [ /caps-man/registration-table/get $Reg ];
       :set RegVal [ /interface/wifi/registration-table/get $Reg ];
-      :set RegVal [ /interface/wifiwave2/registration-table/get $Reg ];
       :set RegVal [ /interface/wireless/registration-table/get $Reg ];
     } on-error={
       $LogPrintExit2 debug $ScriptName ("Device already gone... Ignoring.") false;
@@ -65,13 +60,11 @@
     :if ([ :len ($RegVal->"mac-address") ] > 0) do={
       :local AccessList ([ /caps-man/access-list/find where mac-address=($RegVal->"mac-address") ]->0);
       :local AccessList ([ /interface/wifi/access-list/find where mac-address=($RegVal->"mac-address") ]->0);
-      :local AccessList ([ /interface/wifiwave2/access-list/find where mac-address=($RegVal->"mac-address") ]->0);
       :local AccessList ([ /interface/wireless/access-list/find where mac-address=($RegVal->"mac-address") ]->0);
       :if ([ :len $AccessList ] > 0) do={
         $LogPrintExit2 debug $ScriptName ("MAC address " . $RegVal->"mac-address" . " already known: " . \
           [ /caps-man/access-list/get $AccessList comment ]) false;
           [ /interface/wifi/access-list/get $AccessList comment ]) false;
-          [ /interface/wifiwave2/access-list/get $AccessList comment ]) false;
           [ /interface/wireless/access-list/get $AccessList comment ]) false;
       }
 
@@ -100,7 +93,6 @@
         $LogPrintExit2 info $ScriptName $Message false;
         /caps-man/access-list/add place-before=$PlaceBefore comment=$Message mac-address=($RegVal->"mac-address") disabled=yes;
         /interface/wifi/access-list/add place-before=$PlaceBefore comment=$Message mac-address=($RegVal->"mac-address") disabled=yes;
-        /interface/wifiwave2/access-list/add place-before=$PlaceBefore comment=$Message mac-address=($RegVal->"mac-address") disabled=yes;
         /interface/wireless/access-list/add place-before=$PlaceBefore comment=$Message mac-address=($RegVal->"mac-address") disabled=yes;
         $SendNotification2 ({ origin=$ScriptName; \
           subject=([ $SymbolForNotification "mobile-phone" ] . $RegVal->"mac-address" . " connected to " . $RegVal->"ssid"); \

@@ -30,12 +30,10 @@
     :local NewComment;
     :local AccessList ([ /caps-man/access-list/find where mac-address=($LeaseVal->"active-mac-address") ]->0);
     :local AccessList ([ /interface/wifi/access-list/find where mac-address=($LeaseVal->"active-mac-address") ]->0);
-    :local AccessList ([ /interface/wifiwave2/access-list/find where mac-address=($LeaseVal->"active-mac-address") ]->0);
     :local AccessList ([ /interface/wireless/access-list/find where mac-address=($LeaseVal->"active-mac-address") ]->0);
     :if ([ :len $AccessList ] > 0) do={
       :set NewComment [ /caps-man/access-list/get $AccessList comment ];
       :set NewComment [ /interface/wifi/access-list/get $AccessList comment ];
-      :set NewComment [ /interface/wifiwave2/access-list/get $AccessList comment ];
       :set NewComment [ /interface/wireless/access-list/get $AccessList comment ];
     }
     :if ([ :len $NewComment ] != 0 && $LeaseVal->"comment" != $NewComment) do={

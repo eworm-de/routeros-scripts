@@ -23,30 +23,20 @@ as that is where packages are downloaded to and where the system expects
 them.
 
 Then just install the script on CAPsMAN device.
-Depending on whether you use `wifi` package (`/interface/wifi`), `wifiwave2`
-package (`/interface/wifiwave2`) or legacy wifi with CAPsMAN (`/caps-man`)
-you need to install a different script.
+Depending on whether you use `wifi` package (`/interface/wifi`) or legacy
+wifi with CAPsMAN (`/caps-man`) you need to install a different script.
 
-For `wifi` (RouterOS 7.13 and later):
+For `wifi`:
 
     $ScriptInstallUpdate capsman-download-packages.wifi;
-
-For `wifiwave2` (up to RouterOS 7.12):
-
-    $ScriptInstallUpdate capsman-download-packages.wifiwave2;
 
 For legacy CAPsMAN:
 
     $ScriptInstallUpdate capsman-download-packages.capsman;
 
-Optionally add a scheduler to run after startup. For `wifi` (RouterOS 7.13
-and later):
+Optionally add a scheduler to run after startup. For `wifi`:
 
     /system/scheduler/add name=capsman-download-packages on-event="/system/script/run capsman-download-packages.wifi;" start-time=startup;
-
-For `wifiwave2` (up to RouterOS 7.12):
-
-    /system/scheduler/add name=capsman-download-packages on-event="/system/script/run capsman-download-packages.wifiwave2;" start-time=startup;
 
 For legacy CAPsMAN:
 
@@ -58,7 +48,6 @@ unconditionally.
 If no packages are found the script downloads a default set of packages:
 
  * `wifi`: `routeros` and `wifi-qcom` for *arm* and *arm64*, `wifi-qcom-ac` for *arm*
- * `wifiwave2`: `routeros` and `wifiwave2` for *arm* and *arm64*
  * legacy CAPsMAN: `routeros` and `wireless` for *arm* and *mipsbe*
 
 > ℹ️ **Info**: If you have packages in the directory and things go wrong for

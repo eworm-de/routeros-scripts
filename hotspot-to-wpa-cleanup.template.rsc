@@ -39,10 +39,8 @@
 
   :foreach Client in=[ /caps-man/registration-table/find where comment~"^hotspot-to-wpa:" ] do={
   :foreach Client in=[ /interface/wifi/registration-table/find where comment~"^hotspot-to-wpa:" ] do={
-  :foreach Client in=[ /interface/wifiwave2/registration-table/find where comment~"^hotspot-to-wpa:" ] do={
     :local ClientVal [ /caps-man/registration-table/get $Client ];
     :local ClientVal [ /interface/wifi/registration-table/get $Client ];
-    :local ClientVal [ /interface/wifiwave2/registration-table/get $Client ];
     :foreach Lease in=[ /ip/dhcp-server/lease/find where dynamic \
         mac-address=($ClientVal->"mac-address") ] do={
       :if (($DHCPServers->[ /ip/dhcp-server/lease/get $Lease server ]) > 0s) do={
@@ -56,18 +54,15 @@
 
   :foreach Client in=[ /caps-man/access-list/find where comment~"^hotspot-to-wpa:" \
   :foreach Client in=[ /interface/wifi/access-list/find where comment~"^hotspot-to-wpa:" \
-  :foreach Client in=[ /interface/wifiwave2/access-list/find where comment~"^hotspot-to-wpa:" \
       !(comment~[ /system/clock/get date ]) ] do={
     :local ClientVal [ /caps-man/access-list/get $Client ];
     :local ClientVal [ /interface/wifi/access-list/get $Client ];
-    :local ClientVal [ /interface/wifiwave2/access-list/get $Client ];
     :if ([ :len [ /ip/dhcp-server/lease/find where !dynamic comment~"^hotspot-to-wpa:" \
          mac-address=($ClientVal->"mac-address") ] ] = 0) do={
       $LogPrintExit2 info $ScriptName ("Client with mac address " . ($ClientVal->"mac-address") . \
         " did not connect to WPA, removing from access list.") false;
       /caps-man/access-list/remove $Client;
       /interface/wifi/access-list/remove $Client;
-      /interface/wifiwave2/access-list/remove $Client;
     }
   }
 
@@ -79,7 +74,6 @@
         " was not seen for " . ($LeaseVal->"last-seen") . ", removing.") false;
       /caps-man/access-list/remove [ find where comment~"^hotspot-to-wpa:" \
       /interface/wifi/access-list/remove [ find where comment~"^hotspot-to-wpa:" \
-      /interface/wifiwave2/access-list/remove [ find where comment~"^hotspot-to-wpa:" \
         mac-address=($LeaseVal->"mac-address") ];
       /ip/dhcp-server/lease/remove $Lease;
     }

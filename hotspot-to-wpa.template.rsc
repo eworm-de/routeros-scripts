@@ -42,28 +42,22 @@
 
   :if ([ :len [ /caps-man/access-list/find where comment="--- hotspot-to-wpa above ---" disabled ] ] = 0) do={
   :if ([ :len [ /interface/wifi/access-list/find where comment="--- hotspot-to-wpa above ---" disabled ] ] = 0) do={
-  :if ([ :len [ /interface/wifiwave2/access-list/find where comment="--- hotspot-to-wpa above ---" disabled ] ] = 0) do={
     /caps-man/access-list/add comment="--- hotspot-to-wpa above ---" disabled=yes;
     /interface/wifi/access-list/add comment="--- hotspot-to-wpa above ---" disabled=yes;
-    /interface/wifiwave2/access-list/add comment="--- hotspot-to-wpa above ---" disabled=yes;
     $LogPrintExit2 warning $ScriptName ("Added disabled access-list entry with comment '--- hotspot-to-wpa above ---'.") false;
   }
   :local PlaceBefore ([ /caps-man/access-list/find where comment="--- hotspot-to-wpa above ---" disabled ]->0);
   :local PlaceBefore ([ /interface/wifi/access-list/find where comment="--- hotspot-to-wpa above ---" disabled ]->0);
-  :local PlaceBefore ([ /interface/wifiwave2/access-list/find where comment="--- hotspot-to-wpa above ---" disabled ]->0);
 
   :if ([ :len [ /caps-man/access-list/find where \
   :if ([ :len [ /interface/wifi/access-list/find where \
-  :if ([ :len [ /interface/wifiwave2/access-list/find where \
       comment=("hotspot-to-wpa template " . $Hotspot) disabled ] ] = 0) do={
     /caps-man/access-list/add comment=("hotspot-to-wpa template " . $Hotspot) disabled=yes place-before=$PlaceBefore;
     /interface/wifi/access-list/add comment=("hotspot-to-wpa template " . $Hotspot) disabled=yes place-before=$PlaceBefore;
-    /interface/wifiwave2/access-list/add comment=("hotspot-to-wpa template " . $Hotspot) disabled=yes place-before=$PlaceBefore;
     $LogPrintExit2 warning $ScriptName ("Added template in access-list for hotspot '" . $Hotspot . "'.") false;
   }
   :local Template [ /caps-man/access-list/get ([ find where \
   :local Template [ /interface/wifi/access-list/get ([ find where \
-  :local Template [ /interface/wifiwave2/access-list/get ([ find where \
       comment=("hotspot-to-wpa template " . $Hotspot) disabled ]->0) ];
 
   :if ($Template->"action" = "reject") do={
@@ -78,16 +72,13 @@
     " (user " . $UserName . ").") false;
   /caps-man/access-list/remove [ find where mac-address=$MacAddress comment~"^hotspot-to-wpa: " ];
   /interface/wifi/access-list/remove [ find where mac-address=$MacAddress comment~"^hotspot-to-wpa: " ];
-  /interface/wifiwave2/access-list/remove [ find where mac-address=$MacAddress comment~"^hotspot-to-wpa: " ];
   /caps-man/access-list/add private-passphrase=($UserVal->"password") ssid-regexp="-wpa\$" \
   /interface/wifi/access-list/add passphrase=($UserVal->"password") ssid-regexp="-wpa\$" \
-  /interface/wifiwave2/access-list/add passphrase=($UserVal->"password") ssid-regexp="-wpa\$" \
       mac-address=$MacAddress comment=("hotspot-to-wpa: " . $UserName . ", " . $MacAddress . ", " . $Date) \
       action=reject place-before=$PlaceBefore;
 
   :local Entry [ /caps-man/access-list/find where mac-address=$MacAddress \
   :local Entry [ /interface/wifi/access-list/find where mac-address=$MacAddress \
-  :local Entry [ /interface/wifiwave2/access-list/find where mac-address=$MacAddress \
       comment=("hotspot-to-wpa: " . $UserName . ", " . $MacAddress . ", " . $Date) ];
 # NOT /caps-man/ #
   :set ($Template->"private-passphrase") ($Template->"passphrase");
@@ -97,38 +88,31 @@
     :if ($PrivatePassphrase = "ignore") do={
       /caps-man/access-list/set $Entry !private-passphrase;
       /interface/wifi/access-list/set $Entry !passphrase;
-      /interface/wifiwave2/access-list/set $Entry !passphrase;
     } else={
       /caps-man/access-list/set $Entry private-passphrase=$PrivatePassphrase;
       /interface/wifi/access-list/set $Entry passphrase=$PrivatePassphrase;
-      /interface/wifiwave2/access-list/set $Entry passphrase=$PrivatePassphrase;
     }
   }
   :local SsidRegexp [ $EitherOr ($UserInfo->"ssid-regexp") ($Template->"ssid-regexp") ];
   :if ([ :len $SsidRegexp ] > 0) do={
     /caps-man/access-list/set $Entry ssid-regexp=$SsidRegexp;
     /interface/wifi/access-list/set $Entry ssid-regexp=$SsidRegexp;
-    /interface/wifiwave2/access-list/set $Entry ssid-regexp=$SsidRegexp;
   }
   :local VlanId [ $EitherOr ($UserInfo->"vlan-id") ($Template->"vlan-id") ];
   :if ([ :len $VlanId ] > 0) do={
     /caps-man/access-list/set $Entry vlan-id=$VlanId;
     /interface/wifi/access-list/set $Entry vlan-id=$VlanId;
-    /interface/wifiwave2/access-list/set $Entry vlan-id=$VlanId;
   }
 # NOT /interface/wifi/ #
-# NOT /interface/wifiwave2/ #
   :local VlanMode [ $EitherOr ($UserInfo->"vlan-mode") ($Template->"vlan-mode") ];
   :if ([ :len $VlanMode] > 0) do={
     /caps-man/access-list/set $Entry vlan-mode=$VlanMode;
   }
-# NOT /interface/wifiwave2/ #
 # NOT /interface/wifi/ #
 
   :delay 2s;
   /caps-man/access-list/set $Entry action=accept;
   /interface/wifi/access-list/set $Entry action=accept;
-  /interface/wifiwave2/access-list/set $Entry action=accept;
 }
 
 $Main [ :jobname ] $"mac-address" $username;
