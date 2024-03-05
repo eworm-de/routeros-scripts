@@ -21,17 +21,12 @@ Requirements and installation
 -----------------------------
 
 Just install the script on CAPsMAN device.
-Depending on whether you use `wifi` package (`/interface/wifi`), `wifiwave2`
-package (`/interface/wifiwave2`) or legacy wifi with CAPsMAN (`/caps-man`)
-you need to install a different script.
+Depending on whether you use `wifi` package (`/interface/wifi`) or legacy
+wifi with CAPsMAN (`/caps-man`) you need to install a different script.
 
-For `wifi` (RouterOS 7.13 and later):
+For `wifi`:
 
     $ScriptInstallUpdate capsman-rolling-upgrade.wifi;
-
-For `wifiwave2` (up to RouterOS 7.12):
-
-    $ScriptInstallUpdate capsman-rolling-upgrade.wifiwave2;
 
 For legacy CAPsMAN:
 
