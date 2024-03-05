@@ -49,6 +49,7 @@
     # we are not interested in output, but print is
     # required to fetch information from cloud
     /system/backup/cloud/print as-value;
+    :delay 20ms;
     :if ([ :len [ /system/backup/cloud/find ] ] > 0) do={
       /system/backup/cloud/upload-file action=create-and-upload \
           password=$BackupPassword replace=[ get ([ find ]->0) name ];
