@@ -21,22 +21,16 @@ Requirements and installation
 
 Just install this script.
 
-Depending on whether you use `wifi` package (`/interface/wifi`), `wifiwave2`
-package (`/interface/wifiwave2`), legacy wifi with CAPsMAN (`/caps-man`)
-or local wireless interface (`/interface/wireless`) you need to install a
-different script and add schedulers to run the script:
+Depending on whether you use `wifi` package (`/interface/wifi`), legacy
+wifi with CAPsMAN (`/caps-man`) or local wireless interface
+(`/interface/wireless`) you need to install a different script and add
+schedulers to run the script:
 
-For `wifi` (RouterOS 7.13 and later):
+For `wifi`:
 
     $ScriptInstallUpdate daily-psk.wifi;
     /system/scheduler/add interval=1d name=daily-psk on-event="/system/script/run daily-psk.wifi;" start-time=03:00:00;
     /system/scheduler/add name=daily-psk@startup on-event="/system/script/run daily-psk.wifi;" start-time=startup;
-
-For `wifiwave2` (up to RouterOS 7.12):
-
-    $ScriptInstallUpdate daily-psk.wifiwave2;
-    /system/scheduler/add interval=1d name=daily-psk on-event="/system/script/run daily-psk.wifiwave2;" start-time=03:00:00;
-    /system/scheduler/add name=daily-psk@startup on-event="/system/script/run daily-psk.wifiwave2;" start-time=startup;
 
 For legacy CAPsMAN:
 
@@ -64,13 +58,9 @@ The configuration goes to `global-config-overlay`, these are the parameters:
 > [`global-config`](../global-config.rsc) (the one without `-overlay`) to
 > your local `global-config-overlay` and modify it to your specific needs.
 
-Then add an access list entry. For `wifi` (RouterOS 7.13 and later):
+Then add an access list entry. For `wifi`:
 
     /interface/wifi/access-list/add comment="Daily PSK" ssid-regexp="-guest\$" passphrase="ToBeChangedDaily";
-
-For `wifiwave2` (up to RouterOS 7.12):
-
-    /interface/wifiwave2/access-list/add comment="Daily PSK" ssid-regexp="-guest\$" passphrase="ToBeChangedDaily";
 
 For legacy CAPsMAN:
 
