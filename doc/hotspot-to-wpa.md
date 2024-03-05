@@ -40,15 +40,10 @@ With just `hotspot-to-wpa` installed the mac addresses will last in the
 access list forever. Install the optional script for automatic cleanup
 and add a scheduler.
 
-For `wifi` (RouterOS 7.13 and later):
+For `wifi`:
 
     $ScriptInstallUpdate hotspot-to-wpa-cleanup.wifi,lease-script; 
     /system/scheduler/add interval=1d name=hotspot-to-wpa-cleanup on-event="/system/script/run hotspot-to-wpa-cleanup.wifi;" start-time=startup;
-
-For `wifiwave2` (up to RouterOS 7.12):
-
-    $ScriptInstallUpdate hotspot-to-wpa-cleanup.wifiwave2,lease-script;
-    /system/scheduler/add interval=1d name=hotspot-to-wpa-cleanup on-event="/system/script/run hotspot-to-wpa-cleanup.wifiwave2;" start-time=startup;
 
 For legacy CAPsMAN:
 
