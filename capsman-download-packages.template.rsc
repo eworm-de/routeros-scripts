@@ -32,7 +32,6 @@
 
   :local PackagePath [ $CleanFilePath [ /caps-man/manager/get package-path ] ];
   :local PackagePath [ $CleanFilePath [ /interface/wifi/capsman/get package-path ] ];
-  :local PackagePath [ $CleanFilePath [ /interface/wifiwave2/capsman/get package-path ] ];
   :local InstalledVersion [ /system/package/update/get installed-version ];
   :local Updated false;
 
@@ -65,21 +64,14 @@
   :if ([ :len [ /file/find where type=package name~("^" . $PackagePath) ] ] = 0) do={
     $LogPrintExit2 info $ScriptName ("No packages available, downloading default set.") false;
 # NOT /interface/wifi/ #
-# NOT /interface/wifiwave2/ #
     :foreach Arch in={ "arm"; "mipsbe" } do={
       :foreach Package in={ "routeros"; "wireless" } do={
 # NOT /interface/wifi/ #
-# NOT /interface/wifiwave2/ #
 # NOT /caps-man/ #
     :foreach Arch in={ "arm"; "arm64" } do={
-# NOT /interface/wifi/ #
-      :foreach Package in={ "routeros"; "wifiwave2" } do={
-# NOT /interface/wifi/ #
-# NOT /interface/wifiwave2/ #
       :local Packages { "arm"={ "routeros"; "wifi-qcom"; "wifi-qcom-ac" };
                       "arm64"={ "routeros"; "wifi-qcom" } };
       :foreach Package in=($Packages->$Arch) do={
-# NOT /interface/wifiwave2/ #
 # NOT /caps-man/ #
         :if ([ $DownloadPackage $Package $InstalledVersion $Arch $PackagePath ] = true) do={
           :set Updated true;
@@ -95,7 +87,6 @@
     } else={
       /caps-man/remote-cap/upgrade [ find where version!=$InstalledVersion ];
       /interface/wifi/capsman/remote-cap/upgrade [ find where version!=$InstalledVersion ];
-      /interface/wifiwave2/capsman/remote-cap/upgrade [ find where version!=$InstalledVersion ];
     }
   }
 }
