@@ -34,7 +34,9 @@
   $LogPrintExit2 debug $ScriptName ("DHCP Server " . $leaseServerName . " " . [ $IfThenElse ($leaseBound = 0) \
     "de" "" ] . "assigned lease " . $leaseActIP . " to " . $leaseActMAC) false;
 
-  $ScriptLock $ScriptName false 10;
+  :if ([ $ScriptLock $ScriptName 10 ] = false) do={
+    :return false;
+  }
 
   :if ([ :len [ /system/script/job/find where script=$ScriptName ] ] > 1) do={
     $LogPrintExit2 debug $ScriptName ("More invocations are waiting, exiting early.") false;

@@ -31,7 +31,9 @@
   :global WaitForFile;
   :global WaitFullyConnected;
 
-  $ScriptLock $ScriptName;
+  :if ([ $ScriptLock $ScriptName ] = false) do={
+    :return false;
+  }
   $WaitFullyConnected;
 
   # return pseudo-random string for PSK

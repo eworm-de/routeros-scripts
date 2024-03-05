@@ -20,7 +20,9 @@
   :global MkDir;
   :global ScriptLock;
 
-  $ScriptLock $ScriptName;
+  :if ([ $ScriptLock $ScriptName ] = false) do={
+    :return false;
+  }
 
   :foreach Cert in=[ /certificate/find where issued expires-after<3w ] do={
     :local CertVal [ /certificate/get $Cert ];

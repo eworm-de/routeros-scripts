@@ -27,7 +27,9 @@
   :global ValidateSyntax;
   :global WaitFullyConnected;
 
-  $ScriptLock $ScriptName;
+  :if ([ $ScriptLock $ScriptName ] = false) do={
+    :return false;
+  }
 
   :if ([ /tool/sms/get receive-enabled ] = false) do={
     $LogPrintOnce warning $ScriptName ("Receiving of SMS is not enabled.") true;

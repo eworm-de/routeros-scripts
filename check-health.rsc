@@ -39,7 +39,9 @@
     :return ($T->0 * 10 + $T->1);
   }
 
-  $ScriptLock $ScriptName;
+  :if ([ $ScriptLock $ScriptName ] = false) do={
+    :return false;
+  }
 
   :local Resource [ /system/resource/get ];
 

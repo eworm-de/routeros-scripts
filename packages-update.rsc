@@ -43,7 +43,9 @@
     :return true;
   }
 
-  $ScriptLock $ScriptName;
+  :if ([ $ScriptLock $ScriptName ] = false) do={
+    :return false;
+  }
 
   :local Update [ /system/package/update/get ];
 

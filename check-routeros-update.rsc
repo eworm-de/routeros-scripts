@@ -41,7 +41,9 @@
     :error "Waiting for system to reboot.";
   }
 
-  $ScriptLock $ScriptName;
+  :if ([ $ScriptLock $ScriptName ] = false) do={
+    :return false;
+  }
   $WaitFullyConnected;
 
   :if ([ :len [ /system/scheduler/find where name="_RebootForUpdate" ] ] > 0) do={

@@ -34,7 +34,9 @@
     }
   }
 
-  $ScriptLock $ScriptName;
+  :if ([ $ScriptLock $ScriptName ] = false) do={
+    :return false;
+  }
   $WaitFullyConnected;
 
   :local ListComment ("managed by " . $ScriptName);

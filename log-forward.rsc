@@ -32,7 +32,9 @@
   :global SendNotification2;
   :global SymbolForNotification;
 
-  $ScriptLock $ScriptName;
+  :if ([ $ScriptLock $ScriptName ] = false) do={
+    :return false;
+  }
 
   :if ([ :typeof $LogForwardRateLimit ] = "nothing") do={
     :set LogForwardRateLimit 0;

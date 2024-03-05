@@ -20,7 +20,9 @@
   :global ParseKeyValueStore;
   :global ScriptLock;
 
-  $ScriptLock $ScriptName;
+  :if ([ $ScriptLock $ScriptName ] = false) do={
+    :return false;
+  }
 
   :local SettleTime (5m30s - [ /system/resource/get uptime ]);
   :if ($SettleTime > 0s) do={

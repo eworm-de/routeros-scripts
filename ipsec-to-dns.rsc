@@ -25,7 +25,9 @@
   :global LogPrintExit2;
   :global ScriptLock;
 
-  $ScriptLock $ScriptName;
+  :if ([ $ScriptLock $ScriptName ] = false) do={
+    :return false;
+  }
 
   :local Zone \
     ([ $IfThenElse ($PrefixInZone = true) "ipsec." ] . \

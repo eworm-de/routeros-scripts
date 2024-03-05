@@ -18,7 +18,9 @@
 
   :global ScriptLock;
 
-  $ScriptLock $ScriptName;
+  :if ([ $ScriptLock $ScriptName ] = false) do={
+    :return false;
+  }
 
   :if ([ :typeof $SentLteFirmwareUpgradeNotification ] != "array") do={
     :global SentLteFirmwareUpgradeNotification ({});

@@ -22,7 +22,9 @@
   :global ParseKeyValueStore;
   :global ScriptLock;
 
-  $ScriptLock $ScriptName false 10;
+  :if ([ $ScriptLock $ScriptName 10 ] = false) do={
+    :return false;
+  }
 
   :local DHCPServers ({});
   :foreach Server in=[ /ip/dhcp-server/find where comment~"hotspot-to-wpa" ] do={

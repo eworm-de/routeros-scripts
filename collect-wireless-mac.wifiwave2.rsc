@@ -28,7 +28,9 @@
   :global SendNotification2;
   :global SymbolForNotification;
 
-  $ScriptLock $ScriptName false 10;
+  :if ([ $ScriptLock $ScriptName 10 ] = false) do={
+    :return false;
+  }
 
   :if ([ :len [ /interface/wifiwave2/access-list/find where comment="--- collected above ---" disabled ] ] = 0) do={
     /interface/wifiwave2/access-list/add comment="--- collected above ---" disabled=yes;

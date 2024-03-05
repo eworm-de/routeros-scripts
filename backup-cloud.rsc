@@ -30,7 +30,9 @@
   :global SymbolForNotification;
   :global WaitFullyConnected;
 
-  $ScriptLock $ScriptName;
+  :if ([ $ScriptLock $ScriptName ] = false) do={
+    :return false;
+  }
   $WaitFullyConnected;
 
   :if ([ $ScriptFromTerminal $ScriptName ] = false && $BackupRandomDelay > 0) do={

@@ -18,7 +18,9 @@
   :global ParseKeyValueStore;
   :global ScriptLock;
 
-  $ScriptLock $ScriptName;
+  :if ([ $ScriptLock $ScriptName ] = false) do={
+    :return false;
+  }
 
   :foreach Instance in=[ /routing/ospf/instance/find where comment~"^ospf-to-leds," ] do={
     :local InstanceVal [ /routing/ospf/instance/get $Instance ];

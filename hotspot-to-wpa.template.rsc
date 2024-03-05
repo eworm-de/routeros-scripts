@@ -24,7 +24,9 @@
   :global ParseKeyValueStore;
   :global ScriptLock;
 
-  $ScriptLock $ScriptName;
+  :if ([ $ScriptLock $ScriptName ] = false) do={
+    :return false;
+  }
 
   :if ([ :len $MacAddress ] = 0 || [ :len $UserName ] = 0) do={
     $LogPrintExit2 error $ScriptName ("This script is supposed to run from hotspot on login.") true;

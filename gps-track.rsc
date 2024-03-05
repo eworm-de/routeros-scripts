@@ -21,7 +21,9 @@
   :global ScriptLock;
   :global WaitFullyConnected;
 
-  $ScriptLock $ScriptName;
+  :if ([ $ScriptLock $ScriptName ] = false) do={
+    :return false;
+  }
   $WaitFullyConnected;
 
   :local CoordinateFormat [ /system/gps/get coordinate-format ];

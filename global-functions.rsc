@@ -1170,8 +1170,7 @@
 # lock script against multiple invocation
 :set ScriptLock do={
   :local Script   [ :tostr $1 ];
-  :local DoReturn $2;
-  :local WaitMax  ([ :tonum $3 ] * 10);
+  :local WaitMax ([ :tonum $3 ] * 10);
 
   :global GetRandom20CharAlNum;
   :global IfThenElse;
@@ -1286,13 +1285,13 @@
   :if ([ $IsFirstTicket $Script $MyTicket ] = true && [ $TicketCount $Script ] = [ $JobCount $Script ]) do={
     $RemoveTicket $Script $MyTicket;
     $CleanupTickets $Script;
-    :return false;
+    :return true;
   }
 
   $RemoveTicket $Script $MyTicket;
   $LogPrintExit2 info $0 ("Script '" . $Script . "' started more than once" . [ $IfThenElse ($WaitCount > 0) \
-    " and timed out waiting for lock" "" ] . "... Aborting.") [ $IfThenElse ($DoReturn = true) false true ];
-  :return true;
+    " and timed out waiting for lock" "" ] . "... Aborting.") false;
+  :return false;
 }
 
 # send notification via NotificationFunctions - expects at least two string arguments

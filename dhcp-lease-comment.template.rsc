@@ -21,7 +21,9 @@
   :global LogPrintExit2;
   :global ScriptLock;
 
-  $ScriptLock $ScriptName;
+  :if ([ $ScriptLock $ScriptName ] = false) do={
+    :return false;
+  }
 
   :foreach Lease in=[ /ip/dhcp-server/lease/find where dynamic=yes status=bound ] do={
     :local LeaseVal [ /ip/dhcp-server/lease/get $Lease ];
