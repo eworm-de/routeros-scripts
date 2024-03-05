@@ -328,7 +328,8 @@
   }
 
   :if ([ $CertificateAvailable "R3" ] = false) do={
-    $LogPrintExit2 error $0 ("Downloading required certificate failed.") true;
+    $LogPrintExit2 error $0 ("Downloading required certificate failed.") false;
+    :return false;
   }
 
   :local Url ("https://upgrade.mikrotik.com/routeros/" . $PkgVer . "/" . $PkgFile);
