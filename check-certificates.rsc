@@ -98,8 +98,12 @@
       :global ParseKeyValueStore;
 
       :local CertVal [ /certificate/get $Cert ];
-      :local Return "";
 
+      :if ([ :typeof ($CertVal->"issuer") ] = "nothing") do={
+        :return "self-signed";
+      }
+
+      :local Return "";
       :for I from=0 to=5 do={
         :set Return ($Return . [ $EitherOr ([ $ParseKeyValueStore ($CertVal->"issuer") ]->"CN") \
           ([ $ParseKeyValueStore (($CertVal->"issuer")->0) ]->"CN") ]);
