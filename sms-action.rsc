@@ -11,16 +11,17 @@
 :global GlobalFunctionsReady;
 :while ($GlobalFunctionsReady != true) do={ :delay 500ms; }
 
-:local Main do={
-  :local ScriptName [ :tostr $1 ];
-  :local Action     [ :tostr $2 ];
+:do {
+  :local ScriptName [ :jobname ];
 
   :global SmsAction;
 
   :global LogPrintExit2;
   :global ValidateSyntax;
 
-  :if ([ :len $Action ] = 0) do={
+  :local Action $action;
+
+  :if ([ :typeof $Action ] = "nothing") do={
     $LogPrintExit2 error $ScriptName ("This script is supposed to run from SMS hook with action=...") true;
   }
 
@@ -32,6 +33,4 @@
   } else={
     $LogPrintExit2 warning $ScriptName ("The code for action '" . $Action . "' failed syntax validation!") false;
   }
-}
-
-$Main [ :jobname ] $action;
+} on-error={ }
