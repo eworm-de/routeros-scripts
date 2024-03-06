@@ -11,8 +11,8 @@
 :global GlobalFunctionsReady;
 :while ($GlobalFunctionsReady != true) do={ :delay 500ms; }
 
-:local Main do={
-  :local ScriptName [ :tostr $1 ];
+:do {
+  :local ScriptName [ :jobname ];
 
   :global Identity;
   :global TelegramChatActive;
@@ -44,7 +44,7 @@
   :global WaitFullyConnected;
 
   :if ([ $ScriptLock $ScriptName ] = false) do={
-    :return false;
+    :error false;
   }
 
   $WaitFullyConnected;
@@ -171,6 +171,4 @@
   }
   :set TelegramChatOffset ([ :pick $TelegramChatOffset 1 3 ], \
     [ $IfThenElse ($UpdateID >= $TelegramChatOffset->2) ($UpdateID + 1) ($TelegramChatOffset->2) ]);
-}
-
-$Main [ :jobname ];
+} on-error={ }
