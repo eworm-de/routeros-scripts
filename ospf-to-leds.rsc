@@ -11,15 +11,15 @@
 :global GlobalFunctionsReady;
 :while ($GlobalFunctionsReady != true) do={ :delay 500ms; }
 
-:local Main do={
-  :local ScriptName [ :tostr $1 ];
+:do {
+  :local ScriptName [ :jobname ];
 
   :global LogPrintExit2;
   :global ParseKeyValueStore;
   :global ScriptLock;
 
   :if ([ $ScriptLock $ScriptName ] = false) do={
-    :return false;
+    :error false;
   }
 
   :foreach Instance in=[ /routing/ospf/instance/find where comment~"^ospf-to-leds," ] do={
@@ -42,6 +42,4 @@
       /system/leds/set type=off [ find where leds=$LED ];
     }
   }
-}
-
-$Main [ :jobname ];
+} on-error={ }
