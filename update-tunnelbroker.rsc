@@ -13,8 +13,8 @@
 :global GlobalFunctionsReady;
 :while ($GlobalFunctionsReady != true) do={ :delay 500ms; }
 
-:local Main do={
-  :local ScriptName [ :tostr $1 ];
+:do {
+  :local ScriptName [ :jobname ];
 
   :global CertificateAvailable;
   :global LogPrintExit2;
@@ -22,7 +22,7 @@
   :global ScriptLock;
 
   :if ([ $ScriptLock $ScriptName ] = false) do={
-    :return false;
+    :error false;
   }
 
   :if ([ $CertificateAvailable "Starfield Secure Certificate Authority - G2" ] = false) do={
@@ -62,6 +62,4 @@
       /interface/6to4/set $Interface local-address=$PublicAddress;
     }
   }
-}
-
-$Main [ :jobname ];
+} on-error={ }
