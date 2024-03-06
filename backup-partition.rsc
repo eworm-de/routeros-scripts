@@ -12,14 +12,14 @@
 :global GlobalFunctionsReady;
 :while ($GlobalFunctionsReady != true) do={ :delay 500ms; }
 
-:local Main do={
-  :local ScriptName [ :tostr $1 ];
+:do {
+  :local ScriptName [ :jobname ];
 
   :global LogPrintExit2;
   :global ScriptLock;
 
   :if ([ $ScriptLock $ScriptName ] = false) do={
-    :return false;
+    :error false;
   }
 
   :if ([ :len [ /partitions/find ] ] < 2) do={
@@ -47,6 +47,4 @@
     $LogPrintExit2 error $ScriptName ("Failed saving configuration to partition '" . \
         $FallbackTo . "'!") true;
   }
-}
-
-$Main [ :jobname ];
+} on-error={ }
