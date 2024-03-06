@@ -14,14 +14,14 @@
 :global GlobalFunctionsReady;
 :while ($GlobalFunctionsReady != true) do={ :delay 500ms; }
 
-:local Main do={
-  :local ScriptName [ :tostr $1 ];
+:do {
+  :local ScriptName [ :jobname ];
 
   :global LogPrintExit2;
   :global ScriptLock;
 
   :if ([ $ScriptLock $ScriptName ] = false) do={
-    :return false;
+    :error false;
   }
 
   :foreach Lease in=[ /ip/dhcp-server/lease/find where dynamic=yes status=bound ] do={
@@ -36,6 +36,4 @@
       /ip/dhcp-server/lease/set comment=$NewComment $Lease;
     }
   }
-}
-
-$Main [ :jobname ];
+} on-error={ }
