@@ -11,8 +11,8 @@
 :global GlobalFunctionsReady;
 :while ($GlobalFunctionsReady != true) do={ :delay 500ms; }
 
-:local Main do={
-  :local ScriptName [ :tostr $1 ];
+:do {
+  :local ScriptName [ :jobname ];
 
   :global CertIssuedExportPass;
 
@@ -21,7 +21,7 @@
   :global ScriptLock;
 
   :if ([ $ScriptLock $ScriptName ] = false) do={
-    :return false;
+    :error false;
   }
 
   :foreach Cert in=[ /certificate/find where issued expires-after<3w ] do={
@@ -45,6 +45,4 @@
       $LogPrintExit2 info $ScriptName ("Issued a new certificate for \"" . $CertVal->"common-name" . "\".") false;
     }
   }
-}
-
-$Main [ :jobname ];
+} on-error={ }
