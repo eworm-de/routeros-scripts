@@ -12,8 +12,8 @@
 :global GlobalFunctionsReady;
 :while ($GlobalFunctionsReady != true) do={ :delay 500ms; }
 
-:local Main do={
-  :local ScriptName [ :tostr $1 ];
+:do {
+  :local ScriptName [ :jobname ];
 
   :global Identity;
   :global SmsForwardHooks;
@@ -28,7 +28,7 @@
   :global WaitFullyConnected;
 
   :if ([ $ScriptLock $ScriptName ] = false) do={
-    :return false;
+    :error false;
   }
 
   :if ([ /tool/sms/get receive-enabled ] = false) do={
@@ -41,7 +41,7 @@
 
   :if ([ /interface/lte/get ($Settings->"port") running ] != true) do={
     $LogPrintExit2 info $ScriptName ("The LTE interface is not in running state, skipping.") false;
-    :return true;
+    :error true;
   }
 
   # forward SMS in a loop
@@ -95,6 +95,4 @@
       }
     }
   }
-}
-
-$Main [ :jobname ];
+} on-error={ }

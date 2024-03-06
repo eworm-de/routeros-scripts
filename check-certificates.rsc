@@ -11,8 +11,8 @@
 :global GlobalFunctionsReady;
 :while ($GlobalFunctionsReady != true) do={ :delay 500ms; }
 
-:local Main do={
-  :local ScriptName [ :tostr $1 ];
+:do {
+  :local ScriptName [ :jobname ];
 
   :global CertRenewTime;
   :global CertRenewUrl;
@@ -132,7 +132,7 @@
   }
 
   :if ([ $ScriptLock $ScriptName ] = false) do={
-    :return false;
+    :error false;
   }
   $WaitFullyConnected;
 
@@ -216,6 +216,4 @@
           ", it is invalid after " . ($CertVal->"invalid-after") . ".") false;
     }
   }
-}
-
-$Main [ :jobname ];
+} on-error={ }

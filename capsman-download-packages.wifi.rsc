@@ -14,8 +14,8 @@
 :global GlobalFunctionsReady;
 :while ($GlobalFunctionsReady != true) do={ :delay 500ms; }
 
-:local Main do={
-  :local ScriptName [ :tostr $1 ];
+:do {
+  :local ScriptName [ :jobname ];
 
   :global CleanFilePath;
   :global DownloadPackage;
@@ -25,7 +25,7 @@
   :global WaitFullyConnected;
 
   :if ([ $ScriptLock $ScriptName ] = false) do={
-    :return false;
+    :error false;
   }
   $WaitFullyConnected;
 
@@ -80,6 +80,4 @@
       /interface/wifi/capsman/remote-cap/upgrade [ find where version!=$InstalledVersion ];
     }
   }
-}
-
-$Main [ :jobname ];
+} on-error={ }

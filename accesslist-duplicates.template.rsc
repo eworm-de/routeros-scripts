@@ -14,8 +14,8 @@
 :global GlobalFunctionsReady;
 :while ($GlobalFunctionsReady != true) do={ :delay 500ms; }
 
-:local Main do={
-  :local ScriptName [ :tostr $1 ];
+:do {
+  :local ScriptName [ :jobname ];
 
   :local Seen ({});
 
@@ -40,6 +40,4 @@
     }
     :set ($Seen->$Mac) 1;
   }
-}
-
-$Main [ :jobname ];
+} on-error={ }

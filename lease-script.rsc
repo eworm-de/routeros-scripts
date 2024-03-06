@@ -11,12 +11,8 @@
 :global GlobalFunctionsReady;
 :while ($GlobalFunctionsReady != true) do={ :delay 500ms; }
 
-:local Main do={
-  :local ScriptName      [ :tostr $1 ];
-  :local leaseActIP      [ :tostr $2 ];
-  :local leaseActMAC     [ :tostr $2 ];
-  :local leaseServerName [ :tostr $2 ];
-  :local leaseBound      [ :tostr $2 ];
+:do {
+  :local ScriptName [ :jobname ];
 
   :global Grep;
   :global IfThenElse;
@@ -35,12 +31,12 @@
     "de" "" ] . "assigned lease " . $leaseActIP . " to " . $leaseActMAC) false;
 
   :if ([ $ScriptLock $ScriptName 10 ] = false) do={
-    :return false;
+    :error false;
   }
 
   :if ([ :len [ /system/script/job/find where script=$ScriptName ] ] > 1) do={
     $LogPrintExit2 debug $ScriptName ("More invocations are waiting, exiting early.") false;
-    :return true;
+    :error true;
   }
 
   :local RunOrder ({});
@@ -59,6 +55,4 @@
       $LogPrintExit2 warning $ScriptName ("Running script '" . $Script . "' failed!") false;
     }
   }
-}
-
-$Main [ :jobname ] $leaseActIP $leaseActMAC $leaseServerName $leaseBound;
+} on-error={ }

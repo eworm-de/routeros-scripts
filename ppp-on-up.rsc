@@ -11,11 +11,12 @@
 :global GlobalFunctionsReady;
 :while ($GlobalFunctionsReady != true) do={ :delay 500ms; }
 
-:local Main do={
-  :local ScriptName [ :tostr $1 ];
-  :local Interface           $2;
+:do {
+  :local ScriptName [ :jobname ];
 
   :global LogPrintExit2;
+
+  :local Interface $interface;
 
   :if ([ :typeof $Interface ] = "nothing") do={
     $LogPrintExit2 error $ScriptName ("This script is supposed to run from ppp on-up script hook.") true;
@@ -35,6 +36,4 @@
       $LogPrintExit2 warning $ScriptName ("Running script '" . $ScriptName . "' failed!") false;
     }
   }
-}
-
-$Main [ :jobname ] $interface;
+} on-error={ }

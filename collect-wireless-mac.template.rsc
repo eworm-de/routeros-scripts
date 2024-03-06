@@ -15,8 +15,8 @@
 :global GlobalFunctionsReady;
 :while ($GlobalFunctionsReady != true) do={ :delay 500ms; }
 
-:local Main do={
-  :local ScriptName [ :tostr $1 ];
+:do {
+  :local ScriptName [ :jobname ];
 
   :global Identity;
 
@@ -30,7 +30,7 @@
   :global SymbolForNotification;
 
   :if ([ $ScriptLock $ScriptName 10 ] = false) do={
-    :return false;
+    :error false;
   }
 
   :if ([ :len [ /caps-man/access-list/find where comment="--- collected above ---" disabled ] ] = 0) do={
@@ -111,6 +111,4 @@
       $LogPrintExit2 debug $ScriptName ("No mac address available... Ignoring.") false;
     }
   }
-}
-
-$Main [ :jobname ];
+} on-error={ }

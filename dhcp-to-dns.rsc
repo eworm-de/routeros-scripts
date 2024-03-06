@@ -12,8 +12,8 @@
 :global GlobalFunctionsReady;
 :while ($GlobalFunctionsReady != true) do={ :delay 500ms; }
 
-:local Main do={
-  :local ScriptName [ :tostr $1 ];
+:do {
+  :local ScriptName [ :jobname ];
 
   :global Domain;
   :global Identity;
@@ -27,7 +27,7 @@
   :global ScriptLock;
 
   :if ([ $ScriptLock $ScriptName 10 ] = false) do={
-    :return false;
+    :error false;
   }
 
   :local Ttl 5m;
@@ -123,6 +123,4 @@
       $LogPrintExit2 debug $ScriptName ("No address available... Ignoring.") false;
     }
   }
-}
-
-$Main [ :jobname ];
+} on-error={ }

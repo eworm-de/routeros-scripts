@@ -14,21 +14,22 @@
 :global GlobalFunctionsReady;
 :while ($GlobalFunctionsReady != true) do={ :delay 500ms; }
 
-:local Main do={
-  :local ScriptName [ :tostr $1 ];
-  :local MacAddress [ :tostr $2 ];
-  :local UserName   [ :tostr $3 ];
+:do {
+  :local ScriptName [ :jobname ];
 
   :global EitherOr;
   :global LogPrintExit2;
   :global ParseKeyValueStore;
   :global ScriptLock;
 
+  :local MacAddress $"mac-address";
+  :local UserName $username;
+
   :if ([ $ScriptLock $ScriptName ] = false) do={
-    :return false;
+    :error false;
   }
 
-  :if ([ :len $MacAddress ] = 0 || [ :len $UserName ] = 0) do={
+  :if ([ :typeof $MacAddress ] = "nothing" || [ :typeof $UserName ] = "nothing") do={
     $LogPrintExit2 error $ScriptName ("This script is supposed to run from hotspot on login.") true;
   }
 
@@ -62,7 +63,7 @@
 
   :if ($Template->"action" = "reject") do={
     $LogPrintExit2 info $ScriptName ("Ignoring login for hotspot '" . $Hotspot . "'.") false;
-    :return true;
+    :error true;
   }
 
   # allow login page to load
@@ -113,6 +114,4 @@
   :delay 2s;
   /caps-man/access-list/set $Entry action=accept;
   /interface/wifi/access-list/set $Entry action=accept;
-}
-
-$Main [ :jobname ] $"mac-address" $username;
+} on-error={ }

@@ -12,15 +12,15 @@
 :global GlobalFunctionsReady;
 :while ($GlobalFunctionsReady != true) do={ :delay 500ms; }
 
-:local Main do={
-  :local ScriptName [ :tostr $1 ];
+:do {
+  :local ScriptName [ :jobname ];
 
   :global CharacterReplace;
   :global LogPrintExit2;
   :global ScriptLock; 
 
   :if ([ $ScriptLock $ScriptName ] = false) do={
-    :return false;
+    :error false;
   }
 
   /interface/gre/set remote-address=0.0.0.0 disabled=yes [ find where !running !disabled ];
@@ -39,6 +39,4 @@
       }
     }
   }
-}
-
-$Main [ :jobname ];
+} on-error={ }

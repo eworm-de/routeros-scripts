@@ -11,8 +11,8 @@
 :global GlobalFunctionsReady;
 :while ($GlobalFunctionsReady != true) do={ :delay 500ms; }
 
-:local Main do={
-  :local ScriptName [ :tostr $1 ];
+:do {
+  :local ScriptName [ :jobname ];
 
   :global Domain;
   :global HostNameInZone;
@@ -26,7 +26,7 @@
   :global ScriptLock;
 
   :if ([ $ScriptLock $ScriptName ] = false) do={
-    :return false;
+    :error false;
   }
 
   :local Zone \
@@ -76,6 +76,4 @@
       /ip/dns/static/add name=$Fqdn address=($PeerVal->"dynamic-address") ttl=$Ttl comment=$Comment place-before=$PlaceBefore;
     }
   }
-}
-
-$Main [ :jobname ];
+} on-error={ }

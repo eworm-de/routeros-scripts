@@ -11,8 +11,8 @@
 :global GlobalFunctionsReady;
 :while ($GlobalFunctionsReady != true) do={ :delay 500ms; }
 
-:local Main do={
-  :local ScriptName [ :tostr $1 ];
+:do {
+  :local ScriptName [ :jobname ];
 
   :global FetchUserAgent;
   :global FwAddrLists;
@@ -35,7 +35,7 @@
   }
 
   :if ([ $ScriptLock $ScriptName ] = false) do={
-    :return false;
+    :error false;
   }
   $WaitFullyConnected;
 
@@ -156,6 +156,4 @@
 
     $LogPrintExit2 info $ScriptName ("list: " . $FwListName . " -- added: " . $CntAdd . " - renewed: " . $CntRenew . " - removed: " . $CntRemove) false;
   }
-}
-
-$Main [ :jobname ];
+} on-error={ }

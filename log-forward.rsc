@@ -11,8 +11,8 @@
 :global GlobalFunctionsReady;
 :while ($GlobalFunctionsReady != true) do={ :delay 500ms; }
 
-:local Main do={
-  :local ScriptName [ :tostr $1 ];
+:do {
+  :local ScriptName [ :jobname ];
 
   :global Identity;
   :global LogForwardFilter;
@@ -33,7 +33,7 @@
   :global SymbolForNotification;
 
   :if ([ $ScriptLock $ScriptName ] = false) do={
-    :return false;
+    :error false;
   }
 
   :if ([ :typeof $LogForwardRateLimit ] = "nothing") do={
@@ -43,7 +43,7 @@
   :if ($LogForwardRateLimit > 30) do={
     :set LogForwardRateLimit ($LogForwardRateLimit - 1);
     $LogPrintExit2 info $ScriptName ("Rate limit in action, not forwarding logs, if any!") false;
-    :return true;
+    :error false;
   }
 
   :local Count 0;
@@ -99,6 +99,4 @@
   } else={
     :set LogForwardRateLimit [ $MAX 0 ($LogForwardRateLimit - 1) ];
   }
-}
-
-$Main [ :jobname ];
+} on-error={ }

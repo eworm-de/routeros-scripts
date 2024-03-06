@@ -11,8 +11,8 @@
 :global GlobalFunctionsReady;
 :while ($GlobalFunctionsReady != true) do={ :delay 500ms; }
 
-:local Main do={
-  :local ScriptName [ :tostr $1 ];
+:do {
+  :local ScriptName [ :jobname ];
 
   :global ModeButton;
 
@@ -78,6 +78,4 @@
     $LogPrintExit2 debug $ScriptName ("Updating scheduler _ModeButtonScheduler...") false;
     /system/scheduler/set $Scheduler start-time=[ /system/clock/get time ];
   }
-}
-
-$Main [ :jobname ];
+} on-error={ }
