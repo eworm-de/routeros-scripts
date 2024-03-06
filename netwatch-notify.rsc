@@ -11,8 +11,8 @@
 :global GlobalFunctionsReady;
 :while ($GlobalFunctionsReady != true) do={ :delay 500ms; }
 
-:local Main do={
-  :local ScriptName [ :tostr $1 ];
+:do {
+  :local ScriptName [ :jobname ];
 
   :global NetwatchNotify;
 
@@ -76,7 +76,7 @@
   }
 
   :if ([ $ScriptLock $ScriptName ] = false) do={
-    :return false;
+    :error false;
   }
 
   :local ScriptFromTerminalCached [ $ScriptFromTerminal $ScriptName ];
@@ -217,6 +217,4 @@
         "since"=($Metric->"since") };
     }
   }
-}
-
-$Main [ :jobname ];
+} on-error={ }
