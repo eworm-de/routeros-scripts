@@ -107,6 +107,14 @@ scripting capabilities. Try to print what you want to act on...
 
     /ip/address/remove [ find where interface=eth ];
 
+What does work is using the persistent ids:
+
+    /ip/address/print show-ids;
+
+The output contains an id starting with asterisk that can be used:
+
+    /ip/address/remove *E;
+
 ### Mind command runtime
 
 The command is run in background while the script waits for it - about
