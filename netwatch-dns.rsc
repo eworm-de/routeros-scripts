@@ -11,8 +11,8 @@
 :global GlobalFunctionsReady;
 :while ($GlobalFunctionsReady != true) do={ :delay 500ms; }
 
-:local Main do={
-  :local ScriptName [ :tostr $1 ];
+:do {
+  :local ScriptName [ :jobname ];
 
   :global CertificateAvailable;
   :global EitherOr;
@@ -21,13 +21,13 @@
   :global ScriptLock;
 
   :if ([ $ScriptLock $ScriptName ] = false) do={
-    :return false;
+    :error false;
   }
 
   :local SettleTime (5m30s - [ /system/resource/get uptime ]);
   :if ($SettleTime > 0s) do={
     $LogPrintExit2 info $ScriptName ("System just booted, giving netwatch " . $SettleTime . " to settle.") false;
-    :return true;
+    :error true;
   }
 
   :local DnsServers ({});
@@ -84,7 +84,7 @@
 
       :if ($DohCurrent = $HostInfo->"doh-url") do={
         $LogPrintExit2 debug $ScriptName ("Current DoH server is still up: " . $DohCurrent) false;
-        :return true;
+        :error true;
       }
 
       :set ($DohServers->[ :len $DohServers ]) $HostInfo;
@@ -121,13 +121,11 @@
         /ip/dns/set use-doh-server=($DohServer->"doh-url") verify-doh-cert=yes;
         /ip/dns/cache/flush;
         $LogPrintExit2 info $ScriptName ("Setting DoH server: " . ($DohServer->"doh-url")) false;
-        :return true;
+        :error true;
       } else={
         $LogPrintExit2 warning $ScriptName ("Received unexpected response from DoH server: " . \
           ($DohServer->"doh-url")) false;
       }
     }
   }
-}
-
-$Main [ :jobname ];
+} on-error={ }
