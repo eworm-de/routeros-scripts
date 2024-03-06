@@ -11,8 +11,8 @@
 :global GlobalFunctionsReady;
 :while ($GlobalFunctionsReady != true) do={ :delay 500ms; }
 
-:local Main do={
-  :local ScriptName [ :tostr $1 ];
+:do {
+  :local ScriptName [ :jobname ];
 
   :global CheckHealthCPUUtilization;
   :global CheckHealthCPUUtilizationNotified;
@@ -40,7 +40,7 @@
   }
 
   :if ([ $ScriptLock $ScriptName ] = false) do={
-    :return false;
+    :error false;
   }
 
   :local Resource [ /system/resource/get ];
@@ -78,7 +78,7 @@
 
   :if ([ :len [ /system/health/find ] ] = 0) do={
     $LogPrintExit2 debug $ScriptName ("Your device does not provide any health values.") false;
-    :return true;
+    :error true;
   }
 
   :if ([ :typeof $CheckHealthLast ] != "array") do={
@@ -175,6 +175,4 @@
     }
     :set ($CheckHealthLast->$Name) $Value;
   }
-}
-
-$Main [ :jobname ];
+} on-error={ }
