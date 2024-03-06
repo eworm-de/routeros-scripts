@@ -11,8 +11,8 @@
 :global GlobalFunctionsReady;
 :while ($GlobalFunctionsReady != true) do={ :delay 500ms; }
 
-:local Main do={
-  :local ScriptName [ :tostr $1 ];
+:do {
+  :local ScriptName [ :jobname ];
 
   :global DownloadPackage;
   :global Grep;
@@ -44,7 +44,7 @@
   }
 
   :if ([ $ScriptLock $ScriptName ] = false) do={
-    :return false;
+    :error false;
   }
 
   :local Update [ /system/package/update/get ];
@@ -55,7 +55,7 @@
 
   :if ($Update->"installed-version" = $Update->"latest-version") do={
     $LogPrintExit2 info $ScriptName ("Version " . $Update->"latest-version" . " is already installed.") false;
-    :return true;
+    :error true;
   }
 
   :local NumInstalled [ $VersionToNum ($Update->"installed-version") ];
@@ -134,6 +134,4 @@
   $LogPrintExit2 info $ScriptName ("Rebooting for update.") false;
   :delay 1s;
   /system/reboot;
-}
-
-$Main [ :jobname ];
+} on-error={ }
