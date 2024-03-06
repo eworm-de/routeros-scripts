@@ -11,15 +11,15 @@
 :global GlobalFunctionsReady;
 :while ($GlobalFunctionsReady != true) do={ :delay 500ms; }
 
-:local Main do={
-  :local ScriptName [ :tostr $1 ];
+:do {
+  :local ScriptName [ :jobname ];
 
   :global SentLteFirmwareUpgradeNotification;
 
   :global ScriptLock;
 
   :if ([ $ScriptLock $ScriptName ] = false) do={
-    :return false;
+    :error false;
   }
 
   :if ([ :typeof $SentLteFirmwareUpgradeNotification ] != "array") do={
@@ -100,6 +100,4 @@
   :foreach Interface in=[ /interface/lte/find ] do={
     $CheckInterface $ScriptName $Interface;
   }
-}
-
-$Main [ :jobname ];
+} on-error={ }
