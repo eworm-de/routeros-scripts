@@ -152,6 +152,7 @@
           :set ImportSuccess [ $CheckCertificatesDownloadImport $LastName ];
         }
       }
+      :if ($ImportSuccess = false) do={ :error false; }
 
       :if ([ :len ($CertVal->"fingerprint") ] > 0 && $CertVal->"fingerprint" != [ /certificate/get $Cert fingerprint ]) do={
         $LogPrintExit2 debug $ScriptName ("Certificate '" . $CertVal->"name" . "' was updated in place.") false;
