@@ -15,8 +15,8 @@
 :global GlobalFunctionsReady;
 :while ($GlobalFunctionsReady != true) do={ :delay 500ms; }
 
-:local Main do={
-  :local ScriptName [ :tostr $1 ];
+:do {
+  :local ScriptName [ :jobname ];
 
   :global DailyPskMatchComment;
   :global DailyPskQrCodeUrl;
@@ -32,7 +32,7 @@
   :global WaitFullyConnected;
 
   :if ([ $ScriptLock $ScriptName ] = false) do={
-    :return false;
+    :error false;
   }
   $WaitFullyConnected;
 
@@ -104,6 +104,4 @@
       }
     }
   }
-}
-
-$Main [ :jobname ];
+} on-error={ }
