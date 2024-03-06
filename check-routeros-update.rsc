@@ -11,8 +11,8 @@
 :global GlobalFunctionsReady;
 :while ($GlobalFunctionsReady != true) do={ :delay 500ms; }
 
-:local Main do={
-  :local ScriptName [ :tostr $1 ];
+:do {
+  :local ScriptName [ :jobname ];
 
   :global Identity;
   :global SafeUpdateAll;
@@ -42,7 +42,7 @@
   }
 
   :if ([ $ScriptLock $ScriptName ] = false) do={
-    :return false;
+    :error false;
   }
   $WaitFullyConnected;
 
@@ -56,7 +56,7 @@
 
   :if ([ $ScriptFromTerminal $ScriptName ] = true && ($Update->"installed-version") = ($Update->"latest-version")) do={
     $LogPrintExit2 info $ScriptName ("System is already up to date.") false;
-    :return true;
+    :error true;
   }
 
   :local NumInstalled [ $VersionToNum ($Update->"installed-version") ];
@@ -133,7 +133,7 @@
     :if ($SentRouterosUpdateNotification = $Update->"latest-version") do={
       $LogPrintExit2 info $ScriptName ("Already sent the RouterOS update notification for version " . \
           $Update->"latest-version" . ".") false;
-      :return true;
+      :error true;
     }
 
     $SendNotification2 ({ origin=$ScriptName; \
@@ -148,7 +148,7 @@
     :if ($SentRouterosUpdateNotification = $Update->"latest-version") do={
       $LogPrintExit2 info $ScriptName ("Already sent the RouterOS downgrade notification for version " . \
           $Update->"latest-version" . ".") false;
-      :return true;
+      :error true;
     }
 
     $SendNotification2 ({ origin=$ScriptName; \
@@ -160,6 +160,4 @@
       " is available for downgrade.") false;
     :set SentRouterosUpdateNotification ($Update->"latest-version");
   }
-}
-
-$Main [ :jobname ];
+} on-error={ }
