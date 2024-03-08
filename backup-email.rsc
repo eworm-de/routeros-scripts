@@ -22,6 +22,7 @@
   :global BackupSendGlobalConfig;
   :global Domain;
   :global Identity;
+  :global PackagesUpdateBackupFailure;
 
   :global CleanName;
   :global DeviceInfo;
@@ -46,6 +47,7 @@
   }
 
   :if ([ $ScriptLock $ScriptName ] = false) do={
+    :set PackagesUpdateBackupFailure true;
     :error false;
   }
   $WaitFullyConnected;
@@ -109,7 +111,9 @@
   :local I 0;
   :while ([ :len [ /file/find where name ~ ($FilePath . "\\.(backup|rsc)\$") ] ] > 0) do={
     :if ($I >= 120) do={
-      $LogPrintExit2 warning $ScriptName ("Files are still available, sending e-mail failed.") true;
+      $LogPrintExit2 warning $ScriptName ("Files are still available, sending e-mail failed.") false;
+      :set PackagesUpdateBackupFailure true;
+      :error false;
     }
     :delay 1s;
     :set I ($I + 1);
