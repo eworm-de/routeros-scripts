@@ -17,6 +17,7 @@
 
   :global BackupRandomDelay;
   :global Identity;
+  :global PackagesUpdateBackupFailure;
 
   :global DeviceInfo;
   :global FormatLine;
@@ -32,6 +33,7 @@
   :global WaitFullyConnected;
 
   :if ([ $ScriptLock $ScriptName ] = false) do={
+    :set PackagesUpdateBackupFailure true;
     :error false;
   }
   $WaitFullyConnected;
@@ -74,7 +76,9 @@
     $SendNotification2 ({ origin=$ScriptName; \
       subject=([ $SymbolForNotification "floppy-disk,warning-sign" ] . "Cloud backup failed"); \
       message=("Failed uploading backup for " . $Identity . " to cloud!\n\n" . [ $DeviceInfo ]) });
-    $LogPrintExit2 error $ScriptName ("Failed uploading backup for " . $Identity . " to cloud!") true;
+    $LogPrintExit2 error $ScriptName ("Failed uploading backup for " . $Identity . " to cloud!") false;
+    :set PackagesUpdateBackupFailure true;
+    :error false;
   }
   /file/remove "tmpfs/backup-cloud";
 } on-error={ }
