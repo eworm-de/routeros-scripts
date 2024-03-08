@@ -102,18 +102,18 @@
   :local CommonName [ :tostr $1 ];
 
   :global CertificateDownload;
-  :global LogPrintExit2;
+  :global LogPrint;
   :global ParseKeyValueStore;
 
   :if ([ /system/resource/get free-hdd-space ] < 8388608 && \
        [ /certificate/settings/get crl-download ] = true && \
        [ /certificate/settings/get crl-store ] = "system") do={
-    $LogPrintExit2 warning $0 ("This system has low free flash space but " . \
-      "is configured to download certificate CRLs to system!") false;
+    $LogPrint warning $0 ("This system has low free flash space but " . \
+      "is configured to download certificate CRLs to system!");
   }
 
   :if ([ :len [ /certificate/find where common-name=$CommonName ] ] = 0) do={
-    $LogPrintExit2 info $0 ("Certificate with CommonName \"" . $CommonName . "\" not available.") false;
+    $LogPrint info $0 ("Certificate with CommonName \"" . $CommonName . "\" not available.");
     :if ([ $CertificateDownload $CommonName ] = false) do={
       :return false;
     }
@@ -122,8 +122,8 @@
   :local CertVal [ /certificate/get [ find where common-name=$CommonName ] ];
   :while (($CertVal->"akid") != "" && ($CertVal->"akid") != ($CertVal->"skid")) do={
     :if ([ :len [ /certificate/find where skid=($CertVal->"akid") ] ] = 0) do={
-      $LogPrintExit2 info $0 ("Certificate chain for \"" . $CommonName . \
-        "\" is incomplete, missing \"" . ([ $ParseKeyValueStore ($CertVal->"issuer") ]->"CN") . "\".") false;
+      $LogPrint info $0 ("Certificate chain for \"" . $CommonName . \
+        "\" is incomplete, missing \"" . ([ $ParseKeyValueStore ($CertVal->"issuer") ]->"CN") . "\".");
       :if ([ $CertificateDownload $CommonName ] = false) do={
         :return false;
       }
@@ -142,12 +142,12 @@
   :global ScriptUpdatesUrlSuffix;
 
   :global CertificateNameByCN;
-  :global LogPrintExit2;
+  :global LogPrint;
   :global UrlEncode;
   :global WaitForFile;
 
-  $LogPrintExit2 info $0 ("Downloading and importing certificate with " . \
-      "CommonName \"" . $CommonName . "\".") false;
+  $LogPrint info $0 ("Downloading and importing certificate with " . \
+      "CommonName \"" . $CommonName . "\".");
   :do {
     :local LocalFileName ($CommonName . ".pem");
     :local UrlFileName ([ $UrlEncode $CommonName ] . ".pem");
@@ -163,8 +163,7 @@
       $CertificateNameByCN [ /certificate/get $Cert common-name ];
     }
   } on-error={
-    $LogPrintExit2 warning $0 ("Failed importing certificate with " . \
-        "CommonName \"" . $CommonName . "\"!") false;
+    $LogPrint warning $0 ("Failed importing certificate with CommonName \"" . $CommonName . "\"!");
     :return false;
   }
   :return true;
@@ -309,7 +308,7 @@
 
   :global CertificateAvailable;
   :global CleanFilePath;
-  :global LogPrintExit2;
+  :global LogPrint;
   :global MkDir;
   :global WaitForFile;
 
@@ -324,23 +323,23 @@
   :local PkgDest [ $CleanFilePath ($PkgDir . "/" . $PkgFile) ];
 
   :if ([ $MkDir $PkgDir ] = false) do={
-    $LogPrintExit2 warning $0 ("Failed creating directory, not downloading package.") false;
+    $LogPrint warning $0 ("Failed creating directory, not downloading package.");
     :return false;
   }
 
   :if ([ :len [ /file/find where name=$PkgDest type="package" ] ] > 0) do={
-    $LogPrintExit2 info $0 ("Package file " . $PkgName . " already exists.") false;
+    $LogPrint info $0 ("Package file " . $PkgName . " already exists.");
     :return true;
   }
 
   :if ([ $CertificateAvailable "R3" ] = false) do={
-    $LogPrintExit2 error $0 ("Downloading required certificate failed.") false;
+    $LogPrint error $0 ("Downloading required certificate failed.");
     :return false;
   }
 
   :local Url ("https://upgrade.mikrotik.com/routeros/" . $PkgVer . "/" . $PkgFile);
-  $LogPrintExit2 info $0 ("Downloading package file '" . $PkgName . "'...") false;
-  $LogPrintExit2 debug $0 ("... from url: " . $Url) false;
+  $LogPrint info $0 ("Downloading package file '" . $PkgName . "'...");
+  $LogPrint debug $0 ("... from url: " . $Url);
   :local Retry 3;
   :while ($Retry > 0) do={
     :do {
@@ -351,14 +350,14 @@
         :return true;
       }
     } on-error={
-      $LogPrintExit2 debug $0 ("Downloading package file failed.") false;
+      $LogPrint debug $0 ("Downloading package file failed.");
     }
 
     /file/remove [ find where name=$PkgDest ];
     :set Retry ($Retry - 1);
   }
 
-  $LogPrintExit2 warning $0 ("Downloading package file '" . $PkgName . "' failed.") false;
+  $LogPrint warning $0 ("Downloading package file '" . $PkgName . "' failed.");
   :return false;
 }
 
@@ -444,7 +443,7 @@
 
   :global CertificateAvailable;
   :global IsMacLocallyAdministered;
-  :global LogPrintExit2;
+  :global LogPrint;
 
   :if ([ $IsMacLocallyAdministered $Mac ] = true) do={
     :return "locally administered";
@@ -452,7 +451,8 @@
 
   :do {
     :if ([ $CertificateAvailable "GTS CA 1P5" ] = false) do={
-      $LogPrintExit2 warning $0 ("Downloading required certificate failed.") true;
+      $LogPrint warning $0 ("Downloading required certificate failed.");
+      :error false;
     }
     :local Vendor ([ /tool/fetch check-certificate=yes-without-crl \
         ("https://api.macvendors.com/" . [ :pick $Mac 0 8 ]) output=user as-value ]->"data");
@@ -461,9 +461,9 @@
     :do {
       /tool/fetch check-certificate=yes-without-crl ("https://api.macvendors.com/") \
         output=none as-value;
-      $LogPrintExit2 debug $0 ("The mac vendor is not known in database.") false;
+      $LogPrint debug $0 ("The mac vendor is not known in database.");
     } on-error={
-      $LogPrintExit2 warning $0 ("Failed getting mac vendor.") false;
+      $LogPrint warning $0 ("Failed getting mac vendor.");
     }
     :return "unknown vendor";
   }
@@ -610,7 +610,7 @@
   :global IsTimeSyncCached;
   :global IsTimeSyncResetNtp;
 
-  :global LogPrintExit2;
+  :global LogPrint;
 
   :if ($IsTimeSyncCached = true) do={
     :return true;
@@ -639,7 +639,7 @@
 
   :if ([ /system/license/get ]->"level" = "free" || \
        [ /system/resource/get ]->"board-name" = "x86") do={
-    $LogPrintExit2 debug $0 ("No ntp client configured, relying on RTC for CHR free license and x86.") false;
+    $LogPrint debug $0 ("No ntp client configured, relying on RTC for CHR free license and x86.");
     :return true;
   }
 
@@ -651,7 +651,7 @@
     :return false;
   }
 
-  $LogPrintExit2 debug $0 ("No time source configured! Returning gracefully...") false;
+  $LogPrint debug $0 ("No time source configured! Returning gracefully...");
   :return true;
 }
 
@@ -717,7 +717,7 @@
   :local Name     [ :tostr $2 ];
   :local Message  [ :tostr $3 ];
 
-  :global LogPrintExit2;
+  :global LogPrint;
 
   :global LogPrintOnceMessages;
 
@@ -730,7 +730,7 @@
   }
 
   :set ($LogPrintOnceMessages->$Message) 1;
-  $LogPrintExit2 $Severity $Name $Message false;
+  $LogPrint $Severity $Name $Message;
 }
 
 # get max value
@@ -750,24 +750,24 @@
   :local Path [ :tostr $1 ];
 
   :global CleanFilePath;
-  :global LogPrintExit2;
+  :global LogPrint;
   :global WaitForFile;
 
   :local MkTmpfs do={
-    :global LogPrintExit2;
+    :global LogPrint;
     :global WaitForFile;
 
     :if ([ :len [ /disk/find where slot=tmpfs type=tmpfs ] ] = 1) do={
       :return true;
     }
 
-    $LogPrintExit2 info $0 ("Creating disk of type tmpfs.") false;
+    $LogPrint info $0 ("Creating disk of type tmpfs.");
     /file/remove [ find where name="tmpfs" type="directory" ];
     :do {
       /disk/add slot=tmpfs type=tmpfs tmpfs-max-size=([ /system/resource/get total-memory ] / 3);
       $WaitForFile "tmpfs";
     } on-error={
-      $LogPrintExit2 warning $0 ("Creating disk of type tmpfs failed!") false;
+      $LogPrint warning $0 ("Creating disk of type tmpfs failed!");
       :return false;
     }
     :return true;
@@ -795,7 +795,7 @@
     $WaitForFile $File;
     /file/remove $File;
   } on-error={
-    $LogPrintExit2 warning $0 ("Making directory '" . $Path . "' failed!") false;
+    $LogPrint warning $0 ("Making directory '" . $Path . "' failed!");
     :return false;
   }
 
@@ -926,18 +926,18 @@
   :local Warn     [ :tostr $3 ];
 
   :global IfThenElse;
-  :global LogPrintExit2;
+  :global LogPrint;
   :global VersionToNum;
 
   :if (!($Required ~ "^\\d+\\.\\d+((alpha|beta|rc|\\.)\\d+|)\$")) do={
-    $LogPrintExit2 error $0 ("No valid RouterOS version: " . $Required) false;
+    $LogPrint error $0 ("No valid RouterOS version: " . $Required);
     :return false;
   }
 
   :if ([ $VersionToNum $Required ] > [ $VersionToNum [ /system/package/update/get installed-version ] ]) do={
     :if ($Warn = "true") do={
-      $LogPrintExit2 warning $0 ("This " . [ $IfThenElse ([ :pick $Caller 0 ] = ("\$")) "function" "script" ] . \
-        " '" . $Caller . "' (at least specific functionality) requires RouterOS " . $Required . ". Please update!") false;
+      $LogPrint warning $0 ("This " . [ $IfThenElse ([ :pick $Caller 0 ] = ("\$")) "function" "script" ] . \
+        " '" . $Caller . "' (at least specific functionality) requires RouterOS " . $Required . ". Please update!");
     }
     :return false;
   }
@@ -948,7 +948,7 @@
 :set ScriptFromTerminal do={
   :local Script [ :tostr $1 ];
 
-  :global LogPrintExit2;
+  :global LogPrint;
 
   :foreach Job in=[ /system/script/job/find where script=$Script ] do={
     :set Job [ /system/script/job/get $Job ];
@@ -956,11 +956,11 @@
       :set Job [ /system/script/job/get [ find where .id=($Job->"parent") ] ];
     }
     :if (($Job->"type") = "login") do={
-      $LogPrintExit2 debug $0 ("Script " . $Script . " started from terminal.") false;
+      $LogPrint debug $0 ("Script " . $Script . " started from terminal.");
       :return true;
     }
   }
-  $LogPrintExit2 debug $0 ("Script " . $Script . " NOT started from terminal.") false;
+  $LogPrint debug $0 ("Script " . $Script . " NOT started from terminal.");
 
   :return false;
 }
@@ -982,7 +982,7 @@
   :global EitherOr;
   :global Grep;
   :global IfThenElse;
-  :global LogPrintExit2;
+  :global LogPrint;
   :global LogPrintOnce;
   :global ParseKeyValueStore;
   :global RequiredRouterOS;
@@ -991,12 +991,12 @@
   :global ValidateSyntax;
 
   :if ([ $CertificateAvailable "E1" ] = false) do={
-    $LogPrintExit2 warning $0 ("Downloading certificate failed, trying without.") false;
+    $LogPrint warning $0 ("Downloading certificate failed, trying without.");
   }
 
   :foreach Script in=$Scripts do={
     :if ([ :len [ /system/script/find where name=$Script ] ] = 0) do={
-      $LogPrintExit2 info $0 ("Adding new script: " . $Script) false;
+      $LogPrint info $0 ("Adding new script: " . $Script);
       /system/script/add name=$Script owner=$Script source="#!rsc by RouterOS\n" comment=$NewComment;
     }
   }
@@ -1013,8 +1013,8 @@
     :foreach Scheduler in=[ /system/scheduler/find where on-event~("\\b" . $ScriptVal->"name" . "\\b") ] do={
       :local SchedulerVal [ /system/scheduler/get $Scheduler ];
       :if ($ScriptVal->"policy" != $SchedulerVal->"policy") do={
-        $LogPrintExit2 warning $0 ("Policies differ for script '" . $ScriptVal->"name" . \
-          "' and its scheduler '" . $SchedulerVal->"name" . "'!") false;
+        $LogPrint warning $0 ("Policies differ for script '" . $ScriptVal->"name" . \
+          "' and its scheduler '" . $SchedulerVal->"name" . "'!");
       }
     }
 
@@ -1023,7 +1023,7 @@
         :local BaseUrl [ $EitherOr ($ScriptInfo->"base-url") $ScriptUpdatesBaseUrl ];
         :local UrlSuffix [ $EitherOr ($ScriptInfo->"url-suffix") $ScriptUpdatesUrlSuffix ];
         :local Url ($BaseUrl . $ScriptVal->"name" . ".rsc" . $UrlSuffix);
-        $LogPrintExit2 debug $0 ("Fetching script '" . $ScriptVal->"name" . "' from url: " . $Url) false;
+        $LogPrint debug $0 ("Fetching script '" . $ScriptVal->"name" . "' from url: " . $Url);
         :local Result [ /tool/fetch check-certificate=yes-without-crl \
           http-header-field=({ $FetchUserAgent }) $Url output=user as-value ];
         :if ($Result->"status" = "finished") do={
@@ -1031,11 +1031,11 @@
         }
       } on-error={
         :if ($ScriptVal->"source" = "#!rsc by RouterOS\n") do={
-          $LogPrintExit2 warning $0 ("Failed fetching script '" . $ScriptVal->"name" . \
-            "', removing dummy. Typo on installation?") false;
+          $LogPrint warning $0 ("Failed fetching script '" . $ScriptVal->"name" . \
+            "', removing dummy. Typo on installation?");
           /system/script/remove $Script;
         } else={
-          $LogPrintExit2 warning $0 ("Failed fetching script '" . $ScriptVal->"name" . "'!") false;
+          $LogPrint warning $0 ("Failed fetching script '" . $ScriptVal->"name" . "'!");
         }
       }
     }
@@ -1046,7 +1046,7 @@
           :local Required ([ $ParseKeyValueStore [ $Grep $SourceNew ("\23 requires RouterOS, ") ] ]->"version");
           :if ([ $RequiredRouterOS $0 [ $EitherOr $Required "0.0" ] false ] = true) do={
             :if ([ $ValidateSyntax $SourceNew ] = true) do={
-              $LogPrintExit2 info $0 ("Updating script: " . $ScriptVal->"name") false;
+              $LogPrint info $0 ("Updating script: " . $ScriptVal->"name");
               /system/script/set owner=($ScriptVal->"name") source=$SourceNew $Script;
               :if ($ScriptVal->"name" = "global-config") do={
                 :set ReloadGlobalConfig true;
@@ -1055,48 +1055,48 @@
                 :set ReloadGlobalFunctions true;
               }
             } else={
-              $LogPrintExit2 warning $0 ("Syntax validation for script '" . $ScriptVal->"name" . \
-                "' failed! Ignoring!") false;
+              $LogPrint warning $0 ("Syntax validation for script '" . $ScriptVal->"name" . \
+                "' failed! Ignoring!");
             }
           } else={
             $LogPrintOnce warning $0 ("The script '" . $ScriptVal->"name" . "' requires RouterOS " . \
               $Required . ", which is not met by your installation. Ignoring!");
           }
         } else={
-          $LogPrintExit2 warning $0 ("Looks like new script '" . $ScriptVal->"name" . \
-            "' is not valid (missing shebang). Ignoring!") false;
+          $LogPrint warning $0 ("Looks like new script '" . $ScriptVal->"name" . \
+            "' is not valid (missing shebang). Ignoring!");
         }
       } else={
-        $LogPrintExit2 debug $0 ("Script '" .  $ScriptVal->"name" . "' did not change.") false;
+        $LogPrint debug $0 ("Script '" .  $ScriptVal->"name" . "' did not change.");
       }
     } else={
-      $LogPrintExit2 debug $0 ("No update for script '" . $ScriptVal->"name" . "'.") false;
+      $LogPrint debug $0 ("No update for script '" . $ScriptVal->"name" . "'.");
     }
   }
 
   :if ($ReloadGlobalFunctions = true) do={
-    $LogPrintExit2 info $0 ("Reloading global functions.") false;
+    $LogPrint info $0 ("Reloading global functions.");
     :do {
       /system/script/run global-functions;
     } on-error={
-      $LogPrintExit2 error $0 ("Reloading global functions failed!") false;
+      $LogPrint error $0 ("Reloading global functions failed!");
     }
   }
 
   :if ($ReloadGlobalConfig = true) do={
-    $LogPrintExit2 info $0 ("Reloading global configuration.") false;
+    $LogPrint info $0 ("Reloading global configuration.");
     :do {
       /system/script/run global-config;
     } on-error={
-      $LogPrintExit2 error $0 ("Reloading global configuration failed!" . \
-        " Syntax error or missing overlay?") false;
+      $LogPrint error $0 ("Reloading global configuration failed!" . \
+        " Syntax error or missing overlay?");
     }
   }
 
   :if ($ExpectedConfigVersionBefore > $ExpectedConfigVersion) do={
-    $LogPrintExit2 warning $0 ("The configuration version decreased from " . \
+    $LogPrint warning $0 ("The configuration version decreased from " . \
       $ExpectedConfigVersionBefore . " to " . $ExpectedConfigVersion . \
-      ". Installed an older version?") false;
+      ". Installed an older version?");
   }
 
   :if ($ExpectedConfigVersionBefore < $ExpectedConfigVersion) do={
@@ -1106,14 +1106,14 @@
 
     :do {
       :local Url ($ScriptUpdatesBaseUrl . "news-and-changes.rsc" . $ScriptUpdatesUrlSuffix);
-      $LogPrintExit2 debug $0 ("Fetching news, changes and migration: " . $Url) false;
+      $LogPrint debug $0 ("Fetching news, changes and migration: " . $Url);
       :local Result [ /tool/fetch check-certificate=yes-without-crl \
         http-header-field=({ $FetchUserAgent }) $Url output=user as-value ];
       :if ($Result->"status" = "finished") do={
         :set ChangeLogCode ($Result->"data");
       }
     } on-error={
-      $LogPrintExit2 warning $0 ("Failed fetching news, changes and migration!") false;
+      $LogPrint warning $0 ("Failed fetching news, changes and migration!");
     }
 
     :if ([ :len $ChangeLogCode ] > 0) do={
@@ -1121,10 +1121,10 @@
         :do {
           [ :parse $ChangeLogCode ];
         } on-error={
-          $LogPrintExit2 warning $0 ("The changelog failed to run!") false;
+          $LogPrint warning $0 ("The changelog failed to run!");
         }
       } else={
-        $LogPrintExit2 warning $0 ("The changelog failed syntax validation!") false;
+        $LogPrint warning $0 ("The changelog failed syntax validation!");
       }
     }
 
@@ -1133,14 +1133,14 @@
         :local Migration ($GlobalConfigMigration->[ :tostr $I ]);
         :if ([ :typeof $Migration ] = "str") do={
           :if ([ $ValidateSyntax $Migration ] = true) do={
-            $LogPrintExit2 info $0 ("Applying migration for change " . $I . ": " . $Migration) false;
+            $LogPrint info $0 ("Applying migration for change " . $I . ": " . $Migration);
             :do {
               [ :parse $Migration ];
             } on-error={
-              $LogPrintExit2 warning $0 ("Migration code for change " . $I . " failed to run!") false;
+              $LogPrint warning $0 ("Migration code for change " . $I . " failed to run!");
             }
           } else={
-            $LogPrintExit2 warning $0 ("Migration code for change " . $I . " failed syntax validation!") false;
+            $LogPrint warning $0 ("Migration code for change " . $I . " failed syntax validation!");
           }
         }
       }
@@ -1149,7 +1149,7 @@
     :local NotificationMessage ("The configuration version on " . $Identity . " increased " . \
        "to " . $ExpectedConfigVersion . ", current configuration may need modification. " . \
        "Please review and update global-config-overlay, then re-run global-config.");
-    $LogPrintExit2 info $0 ($NotificationMessage) false;
+    $LogPrint info $0 ($NotificationMessage);
 
     :if ([ :len $GlobalConfigChanges ] > 0) do={
       :set NotificationMessage ($NotificationMessage . "\n\nChanges:");
@@ -1157,7 +1157,7 @@
         :local Change ($GlobalConfigChanges->[ :tostr $I ]);
         :set NotificationMessage ($NotificationMessage . "\n " . \
             [ $SymbolForNotification "pushpin" "*" ] . $Change);
-        $LogPrintExit2 info $0 ("Change " . $I . ": " . $Change) false;
+        $LogPrint info $0 ("Change " . $I . ": " . $Change);
       }
     } else={
       :set NotificationMessage ($NotificationMessage . "\n\nNews and changes are not available.");
@@ -1191,7 +1191,7 @@
 
   :global GetRandom20CharAlNum;
   :global IfThenElse;
-  :global LogPrintExit2;
+  :global LogPrint;
 
   :global ScriptLockOrder;
   :if ([ :typeof $ScriptLockOrder ] = "nothing") do={
@@ -1277,15 +1277,17 @@
   }
 
   :if ([ :len [ /system/script/find where name=$Script ] ] = 0) do={
-    $LogPrintExit2 error $0 ("A script named '" . $Script . "' does not exist!") true;
+    $LogPrint error $0 ("A script named '" . $Script . "' does not exist!");
+    :error false;
   }
 
   :if ([ $JobCount $Script ] = 0) do={
-    $LogPrintExit2 error $0 ("No script '" . $Script . "' is running!") true;
+    $LogPrint error $0 ("No script '" . $Script . "' is running!");
+    :error false;
   }
 
   :if ([ $TicketCount $Script ] >= [ $JobCount $Script ]) do={
-    $LogPrintExit2 error $0 ("More tickets than running scripts '" . $Script . "', resetting!") false;
+    $LogPrint error $0 ("More tickets than running scripts '" . $Script . "', resetting!");
     :set ($ScriptLockOrder->$Script) ({});
     /system/script/job/remove [ find where script=$Script ];
   }
@@ -1306,8 +1308,8 @@
   }
 
   $RemoveTicket $Script $MyTicket;
-  $LogPrintExit2 info $0 ("Script '" . $Script . "' started more than once" . [ $IfThenElse ($WaitCount > 0) \
-    " and timed out waiting for lock" "" ] . "...") false;
+  $LogPrint info $0 ("Script '" . $Script . "' started more than once" . [ $IfThenElse ($WaitCount > 0) \
+    " and timed out waiting for lock" "" ] . "...");
   :return false;
 }
 
@@ -1542,10 +1544,10 @@
     :do {
       /system/script/run $Script;
     } on-error={
-      $LogPrintExit2 error $0 ("Module '" . $ScriptVal->"name" . "' failed to run.") false;
+      $LogPrint error $0 ("Module '" . $ScriptVal->"name" . "' failed to run.");
     }
   } else={
-    $LogPrintExit2 error $0 ("Module '" . $ScriptVal->"name" . "' failed syntax validation, skipping.") false;
+    $LogPrint error $0 ("Module '" . $ScriptVal->"name" . "' failed syntax validation, skipping.");
   }
 }
 
