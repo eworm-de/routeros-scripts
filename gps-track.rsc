@@ -17,7 +17,7 @@
   :global GpsTrackUrl;
   :global Identity;
 
-  :global LogPrintExit2;
+  :global LogPrint;
   :global ScriptLock;
   :global WaitFullyConnected;
 
@@ -38,13 +38,13 @@
           "\"lon\":\"" . ($Gps->"longitude") . "\"," . \
           "\"identity\":\"" . $Identity . "\"" . \
         "}") as-value;
-      $LogPrintExit2 debug $ScriptName ("Sending GPS data in " . $CoordinateFormat . " format: " . \
+      $LogPrint debug $ScriptName ("Sending GPS data in " . $CoordinateFormat . " format: " . \
         "lat: " . ($Gps->"latitude") . " " . \
-        "lon: " . ($Gps->"longitude")) false;
+        "lon: " . ($Gps->"longitude"));
     } on-error={
-      $LogPrintExit2 warning $ScriptName ("Failed sending GPS data!") false;
+      $LogPrint warning $ScriptName ("Failed sending GPS data!");
     }
   } else={
-    $LogPrintExit2 debug $ScriptName ("GPS data not valid.") false;
+    $LogPrint debug $ScriptName ("GPS data not valid.");
   }
 } on-error={ }
