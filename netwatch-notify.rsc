@@ -19,7 +19,7 @@
   :global EitherOr;
   :global IfThenElse;
   :global IsDNSResolving;
-  :global LogPrintExit2;
+  :global LogPrint;
   :global ParseKeyValueStore;
   :global ScriptFromTerminal;
   :global ScriptLock;
@@ -32,25 +32,22 @@
     :local State [ :tostr $3 ];
     :local Hook  [ :tostr $4 ];
 
-    :global LogPrintExit2;
+    :global LogPrint;
     :global ValidateSyntax;
 
     :if ([ $ValidateSyntax $Hook ] = true) do={
       :do {
         [ :parse $Hook ];
       } on-error={
-        $LogPrintExit2 warning $0 ("The " . $State . "-hook for " . $Type . " '" . $Name . \
-            "' failed to run.") false;
+        $LogPrint warning $0 ("The " . $State . "-hook for " . $Type . " '" . $Name . "' failed to run.");
         :return ("The hook failed to run.");
       }
     } else={
-      $LogPrintExit2 warning $0 ("The " . $State . "-hook for " . $Type . " '" . $Name . \
-          "' failed syntax validation.") false;
+      $LogPrint warning $0 ("The " . $State . "-hook for " . $Type . " '" . $Name . "' failed syntax validation.");
       :return ("The hook failed syntax validation.");
     }
 
-    $LogPrintExit2 info $0 ("Ran hook on " . $Type . " '" . $Name . "' " . $State . ": " . \
-        $Hook) false;
+    $LogPrint info $0 ("Ran hook on " . $Type . " '" . $Name . "' " . $State . ": " . $Hook);
     :return ("Ran hook:\n" . $Hook);
   }
 
@@ -106,10 +103,10 @@
             :local Resolve [ :resolve ($HostInfo->"resolve") ];
             :if ($Resolve != $HostVal->"host") do={
               :if ([ $ResolveExpected ($HostInfo->"resolve") ($HostVal->"host") ] = false) do={
-                $LogPrintExit2 info $ScriptName ("Name '" . $HostInfo->"resolve" . [ $IfThenElse \
+                $LogPrint info $ScriptName ("Name '" . $HostInfo->"resolve" . [ $IfThenElse \
                     ($HostInfo->"resolve" != $HostInfo->"name") ("' for " . $Type . " '" . \
                     $HostInfo->"name") "" ] . "' resolves to different address " . $Resolve . \
-                    ", updating.") false;
+                    ", updating.");
                 /tool/netwatch/set host=$Resolve $Host;
                 :set ($Metric->"resolve-failcnt") 0;
                 :set ($HostVal->"status") "unknown";
@@ -118,9 +115,9 @@
           } on-error={
             :set ($Metric->"resolve-failcnt") ($Metric->"resolve-failcnt" + 1);
             :if ($Metric->"resolve-failcnt" = 3) do={
-              $LogPrintExit2 warning $ScriptName ("Resolving name '" . $HostInfo->"resolve" . [ $IfThenElse \
+              $LogPrint warning $ScriptName ("Resolving name '" . $HostInfo->"resolve" . [ $IfThenElse \
                   ($HostInfo->"resolve" != $HostInfo->"name") ("' for " . $Type . " '" . \
-                  $HostInfo->"name") "" ] . "' failed.") false;
+                  $HostInfo->"name") "" ] . "' failed.");
             }
           }
         }
@@ -129,8 +126,8 @@
       :if ($HostVal->"status" = "up") do={
         :local CountDown ($Metric->"count-down");
         :if ($CountDown > 0) do={
-          $LogPrintExit2 info $ScriptName \
-              ("The " . $Type . " '" . $Name . "' (" . $HostDetails . ") is up.") false;
+          $LogPrint info $ScriptName \
+              ("The " . $Type . " '" . $Name . "' (" . $HostDetails . ") is up.");
           :set ($Metric->"count-down") 0;
         }
         :set ($Metric->"count-up") ($Metric->"count-up" + 1);
@@ -178,11 +175,11 @@
         }
         :if ($Metric->"notified" = false || $Metric->"count-down" % 120 = 0 || \
              $ScriptFromTerminalCached = true) do={
-          $LogPrintExit2 [ $IfThenElse ($HostInfo->"no-down-notification" != true) info debug ] $ScriptName \
+          $LogPrint [ $IfThenElse ($HostInfo->"no-down-notification" != true) info debug ] $ScriptName \
               ("The " . $Type . " '" . $Name . "' (" . $HostDetails . ") is down for " . \
               $Metric->"count-down" . " checks, " . [ $IfThenElse ($ParentNotified = false) [ $IfThenElse \
               ($Metric->"notified" = true) ("already notified.") ($CountDown - $Metric->"count-down" . \
-              " to go.") ] ("parent " . $Type . " " . $Parent . " is down.") ]) false;
+              " to go.") ] ("parent " . $Type . " " . $Parent . " is down.") ]);
         }
         :if ((($CountDown * 2) - ($Metric->"count-down" * 3)) / 2 = 0 && \
              [ :typeof ($HostInfo->"pre-down-hook") ] = "str") do={
