@@ -32,7 +32,8 @@
   }
 
   :if ([ /tool/sms/get receive-enabled ] = false) do={
-    $LogPrintOnce warning $ScriptName ("Receiving of SMS is not enabled.") true;
+    $LogPrintOnce warning $ScriptName ("Receiving of SMS is not enabled.");
+    :error false;
   }
 
   $WaitFullyConnected;

@@ -703,7 +703,6 @@
   :local Severity [ :tostr $1 ];
   :local Name     [ :tostr $2 ];
   :local Message  [ :tostr $3 ];
-  :local Exit     [ :tostr $4 ];
 
   :global LogPrintExit2;
 
@@ -718,7 +717,7 @@
   }
 
   :set ($LogPrintOnceMessages->$Message) 1;
-  $LogPrintExit2 $Severity $Name $Message $Exit;
+  $LogPrintExit2 $Severity $Name $Message false;
 }
 
 # get max value
@@ -1048,7 +1047,7 @@
             }
           } else={
             $LogPrintOnce warning $0 ("The script '" . $ScriptVal->"name" . "' requires RouterOS " . \
-              $Required . ", which is not met by your installation. Ignoring!") false;
+              $Required . ", which is not met by your installation. Ignoring!");
           }
         } else={
           $LogPrintExit2 warning $0 ("Looks like new script '" . $ScriptVal->"name" . \
@@ -1359,7 +1358,7 @@
   }
 
   :if ([ :len ($Symbols->$Name) ] = 0) do={
-    $LogPrintOnce warning $0 ("No symbol available for name '" . $Name . "'!") false;
+    $LogPrintOnce warning $0 ("No symbol available for name '" . $Name . "'!");
     :return "";
   }
 
@@ -1540,7 +1539,7 @@
 # Log success
 :local Resource [ /system/resource/get ];
 $LogPrintOnce info $ScriptName ("Loaded on " . $Resource->"board-name" . \
-  " with RouterOS " . $Resource->"version" . ".") false;
+  " with RouterOS " . $Resource->"version" . ".");
 
 # signal we are ready
 :set GlobalFunctionsReady true;

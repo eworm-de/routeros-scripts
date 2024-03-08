@@ -82,7 +82,7 @@
       }
 
       :if ([ :len $Data ] > 63000) do={
-        $LogPrintOnce warning $ScriptName ("The list is huge and may be truncated: " . $List->"url") false;
+        $LogPrintOnce warning $ScriptName ("The list is huge and may be truncated: " . $List->"url");
       }
 
       :while ([ :len $Data ] != 0) do={

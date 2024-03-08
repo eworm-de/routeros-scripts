@@ -61,7 +61,7 @@
     :do {
       :set LeaseVal [ /ip/dhcp-server/lease/get $Lease ];
       :if ([ :len [ /ip/dhcp-server/lease/find where active-mac-address=($LeaseVal->"active-mac-address") status=bound ] ] > 1) do={
-        $LogPrintOnce info $ScriptName ("Multiple bound leases found for mac-address " . ($LeaseVal->"active-mac-address") . "!") false;
+        $LogPrintOnce info $ScriptName ("Multiple bound leases found for mac-address " . ($LeaseVal->"active-mac-address") . "!");
       }
     } on-error={
       $LogPrintExit2 debug $ScriptName ("A lease just vanished, ignoring.") false;
@@ -117,7 +117,7 @@
       }
 
       :if ([ :len [ /ip/dns/static/find where name=$FullA (!type or type=A) ] ] > 1) do={
-        $LogPrintOnce warning $ScriptName ("The name '" . $FullA . "' appeared in more than one A record!") false;
+        $LogPrintOnce warning $ScriptName ("The name '" . $FullA . "' appeared in more than one A record!");
       }
     } else={
       $LogPrintExit2 debug $ScriptName ("No address available... Ignoring.") false;
