@@ -26,7 +26,7 @@
           :if ([ :len $DHCPClient ] != 1) do={
             $LogPrint warning $0 ([ $IfThenElse ([ :len $DHCPClient ] = 0) "Missing" "Duplicate" ] . \
                 " dhcp client configuration for interface " . $BridgePortVal->"interface" . "!");
-            :error false;
+            :return false;
           }
           :local DHCPClientDisabled [ /ip/dhcp-client/get $DHCPClient disabled ];
 
