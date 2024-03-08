@@ -18,32 +18,36 @@
 
   :global CharacterReplace;
   :global GetRandom20CharAlNum;
-  :global LogPrintExit2;
+  :global LogPrint;
   :global MkDir;
   :global WaitForFile;
 
   :if ([ :len $Key ] = 0 || [ :len $User ] = 0) do={
-    $LogPrintExit2 warning $0 ("Missing argument(s), please pass key and user!") true;
+    $LogPrint warning $0 ("Missing argument(s), please pass key and user!");
+    :error false;
   }
 
   :if ([ :len [ /user/find where name=$User ] ] = 0) do={
-    $LogPrintExit2 warning $0 ("User '" . $User . "' does not exist.") true;
+    $LogPrint warning $0 ("User '" . $User . "' does not exist.");
+    :error false;
   }
 
   :local KeyVal [ :toarray [ $CharacterReplace $Key " " "," ] ];
   :if (!($KeyVal->0 = "ssh-ed25519" || $KeyVal->0 = "ssh-rsa")) do={
-    $LogPrintExit2 warning $0 ("SSH key of type '" . $KeyVal->0 . "' is not supported.") true;
+    $LogPrint warning $0 ("SSH key of type '" . $KeyVal->0 . "' is not supported.");
+    :error false;
   }
 
   :if ([ $MkDir "tmpfs/ssh-keys-import" ] = false) do={
-    $LogPrintExit2 warning $0 ("Creating directory 'tmpfs/ssh-keys-import' failed!") true;
+    $LogPrint warning $0 ("Creating directory 'tmpfs/ssh-keys-import' failed!");
+    :error false;
   }
 
   :local FingerPrintMD5 [ :convert from=base64 transform=md5 to=hex ($KeyVal->1) ];
 
   :if ([ :len [ /user/ssh-keys/find where user=$User key-owner~("\\bmd5=" . $FingerPrintMD5 . "\\b") ] ] > 0) do={
-    $LogPrintExit2 warning $0 ("The ssh public key (MD5:" . $FingerPrintMD5 . \
-      ") is already available for user '" . $User . "'.") false;
+    $LogPrint warning $0 ("The ssh public key (MD5:" . $FingerPrintMD5 . \
+      ") is already available for user '" . $User . "'.");
     :return false;
   }
 
@@ -53,10 +57,11 @@
 
   :do {
     /user/ssh-keys/import public-key-file=$FileName user=$User;
-    $LogPrintExit2 info $0 ("Imported ssh public key (" . $KeyVal->2 . ", " . $KeyVal->0 . ", " . \
-      "MD5:" . $FingerPrintMD5 . ") for user '" . $User . "'.") false;
+    $LogPrint info $0 ("Imported ssh public key (" . $KeyVal->2 . ", " . $KeyVal->0 . ", " . \
+      "MD5:" . $FingerPrintMD5 . ") for user '" . $User . "'.");
   } on-error={
-    $LogPrintExit2 warning $0 ("Failed importing key.") true;
+    $LogPrint warning $0 ("Failed importing key.");
+    :error false;
   }
 }
 
@@ -67,17 +72,19 @@
 
   :global CharacterReplace;
   :global EitherOr;
-  :global LogPrintExit2;
+  :global LogPrint;
   :global ParseKeyValueStore;
   :global SSHKeysImport;
 
   :if ([ :len $FileName ] = 0 || [ :len $User ] = 0) do={
-    $LogPrintExit2 warning $0 ("Missing argument(s), please pass file name and user!") true;
+    $LogPrint warning $0 ("Missing argument(s), please pass file name and user!");
+    :error false;
   }
 
   :local File [ /file/find where name=$FileName ];
   :if ([ :len $File ] = 0) do={
-    $LogPrintExit2 warning $0 ("File '" . $FileName . "' does not exist.") true;
+    $LogPrint warning $0 ("File '" . $FileName . "' does not exist.");
+    :error false;
   }
   :local Keys ([ /file/get $FileName contents ] . "\n");
 
@@ -90,7 +97,7 @@
       :do {
         $SSHKeysImport $Line $User;
       } on-error={
-        $LogPrintExit2 warning $0 ("Failed importing key for user '" . $User . "'.") false;
+        $LogPrint warning $0 ("Failed importing key for user '" . $User . "'.");
       }
       :set Continue true;
     }
@@ -99,7 +106,7 @@
       :set Continue true;
     }
     :if ($Continue = false && [ :len ($KeyVal->0) ] > 0) do={
-      $LogPrintExit2 warning $0 ("SSH key of type '" . $KeyVal->0 . "' is not supported.") false;
+      $LogPrint warning $0 ("SSH key of type '" . $KeyVal->0 . "' is not supported.");
     }
   } while=([ :len $Keys ] > 0);
 }
