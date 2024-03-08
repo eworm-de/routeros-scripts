@@ -14,7 +14,7 @@
 :do {
   :local ScriptName [ :jobname ];
 
-  :global LogPrintExit2;
+  :global LogPrint;
   :global ScriptLock;
   :global VersionToNum;
 
@@ -24,18 +24,18 @@
 
   :local RouterBoard [ /system/routerboard/get ];
   :if ($RouterBoard->"current-firmware" = $RouterBoard->"upgrade-firmware") do={
-    $LogPrintExit2 info $ScriptName ("Current and upgrade firmware match with version " . \
-      $RouterBoard->"current-firmware" . ".") false;
+    $LogPrint info $ScriptName ("Current and upgrade firmware match with version " . \
+      $RouterBoard->"current-firmware" . ".");
     :error true;
   }
   :if ([ $VersionToNum ($RouterBoard->"current-firmware") ] > [ $VersionToNum ($RouterBoard->"upgrade-firmware") ]) do={
-    $LogPrintExit2 info $ScriptName ("Different firmware version is available, but it is a downgrade. Ignoring.") false;
+    $LogPrint info $ScriptName ("Different firmware version is available, but it is a downgrade. Ignoring.");
     :error true;
   }
 
   :if ([ /system/routerboard/settings/get auto-upgrade ] = false) do={
-    $LogPrintExit2 info $ScriptName ("Firmware version " . $RouterBoard->"upgrade-firmware" . \
-      " is available, upgrading.") false;
+    $LogPrint info $ScriptName ("Firmware version " . $RouterBoard->"upgrade-firmware" . \
+      " is available, upgrading.");
     /system/routerboard/upgrade;
   }
 
@@ -49,6 +49,6 @@
     :delay $Uptime;
   }
 
-  $LogPrintExit2 info $ScriptName ("Firmware upgrade successful, rebooting.") false;
+  $LogPrint info $ScriptName ("Firmware upgrade successful, rebooting.");
   /system/reboot;
 } on-error={ }
