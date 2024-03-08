@@ -16,13 +16,14 @@
 
   :global SmsAction;
 
-  :global LogPrintExit2;
+  :global LogPrint;
   :global ValidateSyntax;
 
   :local Action $action;
 
   :if ([ :typeof $Action ] = "nothing") do={
-    $LogPrintExit2 error $ScriptName ("This script is supposed to run from SMS hook with action=...") true;
+    $LogPrint error $ScriptName ("This script is supposed to run from SMS hook with action=...");
+    :error false;
   }
 
   :local Code ($SmsAction->$Action);
@@ -31,6 +32,6 @@
     :delay 1s;
     [ :parse $Code ];
   } else={
-    $LogPrintExit2 warning $ScriptName ("The code for action '" . $Action . "' failed syntax validation!") false;
+    $LogPrint warning $ScriptName ("The code for action '" . $Action . "' failed syntax validation!");
   }
 } on-error={ }
