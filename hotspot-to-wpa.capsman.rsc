@@ -17,7 +17,7 @@
   :local ScriptName [ :jobname ];
 
   :global EitherOr;
-  :global LogPrintExit2;
+  :global LogPrint;
   :global ParseKeyValueStore;
   :global ScriptLock;
 
@@ -29,7 +29,8 @@
   }
 
   :if ([ :typeof $MacAddress ] = "nothing" || [ :typeof $UserName ] = "nothing") do={
-    $LogPrintExit2 error $ScriptName ("This script is supposed to run from hotspot on login.") true;
+    $LogPrint error $ScriptName ("This script is supposed to run from hotspot on login.");
+    :error false;
   }
 
   :local Date [ /system/clock/get date ];
@@ -42,28 +43,28 @@
 
   :if ([ :len [ /caps-man/access-list/find where comment="--- hotspot-to-wpa above ---" disabled ] ] = 0) do={
     /caps-man/access-list/add comment="--- hotspot-to-wpa above ---" disabled=yes;
-    $LogPrintExit2 warning $ScriptName ("Added disabled access-list entry with comment '--- hotspot-to-wpa above ---'.") false;
+    $LogPrint warning $ScriptName ("Added disabled access-list entry with comment '--- hotspot-to-wpa above ---'.");
   }
   :local PlaceBefore ([ /caps-man/access-list/find where comment="--- hotspot-to-wpa above ---" disabled ]->0);
 
   :if ([ :len [ /caps-man/access-list/find where \
       comment=("hotspot-to-wpa template " . $Hotspot) disabled ] ] = 0) do={
     /caps-man/access-list/add comment=("hotspot-to-wpa template " . $Hotspot) disabled=yes place-before=$PlaceBefore;
-    $LogPrintExit2 warning $ScriptName ("Added template in access-list for hotspot '" . $Hotspot . "'.") false;
+    $LogPrint warning $ScriptName ("Added template in access-list for hotspot '" . $Hotspot . "'.");
   }
   :local Template [ /caps-man/access-list/get ([ find where \
       comment=("hotspot-to-wpa template " . $Hotspot) disabled ]->0) ];
 
   :if ($Template->"action" = "reject") do={
-    $LogPrintExit2 info $ScriptName ("Ignoring login for hotspot '" . $Hotspot . "'.") false;
+    $LogPrint info $ScriptName ("Ignoring login for hotspot '" . $Hotspot . "'.");
     :error true;
   }
 
   # allow login page to load
   :delay 1s;
 
-  $LogPrintExit2 info $ScriptName ("Adding/updating access-list entry for mac address " . $MacAddress . \
-    " (user " . $UserName . ").") false;
+  $LogPrint info $ScriptName ("Adding/updating access-list entry for mac address " . $MacAddress . \
+    " (user " . $UserName . ").");
   /caps-man/access-list/remove [ find where mac-address=$MacAddress comment~"^hotspot-to-wpa: " ];
   /caps-man/access-list/add private-passphrase=($UserVal->"password") ssid-regexp="-wpa\$" \
       mac-address=$MacAddress comment=("hotspot-to-wpa: " . $UserName . ", " . $MacAddress . ", " . $Date) \
