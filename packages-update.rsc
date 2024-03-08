@@ -109,7 +109,7 @@
           $LogPrintExit2 info $ScriptName ("Canceled update...") true;
         }
       } else={
-        $LogPrintExit2 info $ScriptName ("Canceled non-interactive update.") true;
+        $LogPrintExit2 warning $ScriptName ("Canceled non-interactive update.") true;
       }
     }
   }
