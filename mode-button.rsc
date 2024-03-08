@@ -16,18 +16,18 @@
 
   :global ModeButton;
 
-  :global LogPrintExit2;
+  :global LogPrint;
 
   :set ($ModeButton->"count") ($ModeButton->"count" + 1);
 
   :local Scheduler [ /system/scheduler/find where name="_ModeButtonScheduler" ];
 
   :if ([ :len $Scheduler ] = 0) do={
-    $LogPrintExit2 info $ScriptName ("Creating scheduler _ModeButtonScheduler, counting presses...") false;
+    $LogPrint info $ScriptName ("Creating scheduler _ModeButtonScheduler, counting presses...");
     :global ModeButtonScheduler do={
       :global ModeButton;
 
-      :global LogPrintExit2;
+      :global LogPrint;
       :global ModeButtonScheduler;
       :global ValidateSyntax;
 
@@ -52,7 +52,7 @@
 
       :if ([ :len $Code ] > 0) do={
         :if ([ $ValidateSyntax $Code ] = true) do={
-          $LogPrintExit2 info $ScriptName ("Acting on " . $Count . " mode-button presses: " . $Code) false;
+          $LogPrint info $ScriptName ("Acting on " . $Count . " mode-button presses: " . $Code);
 
           :for I from=1 to=$Count do={
             $LEDInvert;
@@ -66,16 +66,16 @@
 
           [ :parse $Code ];
         } else={
-          $LogPrintExit2 warning $ScriptName ("The code for " . $Count . " mode-button presses failed syntax validation!") false;
+          $LogPrint warning $ScriptName ("The code for " . $Count . " mode-button presses failed syntax validation!");
         }
       } else={
-        $LogPrintExit2 info $ScriptName ("No action defined for " . $Count . " mode-button presses.") false;
+        $LogPrint info $ScriptName ("No action defined for " . $Count . " mode-button presses.");
       }
     }
     /system/scheduler/add name="_ModeButtonScheduler" \
         on-event=":global ModeButtonScheduler; \$ModeButtonScheduler;" interval=3s;
   } else={
-    $LogPrintExit2 debug $ScriptName ("Updating scheduler _ModeButtonScheduler...") false;
+    $LogPrint debug $ScriptName ("Updating scheduler _ModeButtonScheduler...");
     /system/scheduler/set $Scheduler start-time=[ /system/clock/get time ];
   }
 } on-error={ }
