@@ -16,7 +16,7 @@
 
   :global Grep;
   :global IfThenElse;
-  :global LogPrintExit2;
+  :global LogPrint;
   :global ParseKeyValueStore;
   :global ScriptLock;
 
@@ -24,18 +24,19 @@
        [ :typeof $leaseActMAC ] = "nothing" || \
        [ :typeof $leaseServerName ] = "nothing" || \
        [ :typeof $leaseBound ] = "nothing") do={
-    $LogPrintExit2 error $ScriptName ("This script is supposed to run from ip dhcp-server.") true;
+    $LogPrint error $ScriptName ("This script is supposed to run from ip dhcp-server.");
+    :error false;
   }
 
-  $LogPrintExit2 debug $ScriptName ("DHCP Server " . $leaseServerName . " " . [ $IfThenElse ($leaseBound = 0) \
-    "de" "" ] . "assigned lease " . $leaseActIP . " to " . $leaseActMAC) false;
+  $LogPrint debug $ScriptName ("DHCP Server " . $leaseServerName . " " . [ $IfThenElse ($leaseBound = 0) \
+    "de" "" ] . "assigned lease " . $leaseActIP . " to " . $leaseActMAC);
 
   :if ([ $ScriptLock $ScriptName 10 ] = false) do={
     :error false;
   }
 
   :if ([ :len [ /system/script/job/find where script=$ScriptName ] ] > 1) do={
-    $LogPrintExit2 debug $ScriptName ("More invocations are waiting, exiting early.") false;
+    $LogPrint debug $ScriptName ("More invocations are waiting, exiting early.");
     :error true;
   }
 
@@ -49,10 +50,10 @@
 
   :foreach Order,Script in=$RunOrder do={
     :do {
-      $LogPrintExit2 debug $ScriptName ("Running script with order " . $Order . ": " . $Script) false;
+      $LogPrint debug $ScriptName ("Running script with order " . $Order . ": " . $Script);
       /system/script/run $Script;
     } on-error={
-      $LogPrintExit2 warning $ScriptName ("Running script '" . $Script . "' failed!") false;
+      $LogPrint warning $ScriptName ("Running script '" . $Script . "' failed!");
     }
   }
 } on-error={ }
