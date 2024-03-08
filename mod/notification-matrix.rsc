@@ -20,10 +20,10 @@
   :global MatrixQueue;
 
   :global IsFullyConnected;
-  :global LogPrintExit2;
+  :global LogPrint;
 
   :if ([ $IsFullyConnected ] = false) do={
-    $LogPrintExit2 debug $0 ("System is not fully connected, not flushing.") false;
+    $LogPrint debug $0 ("System is not fully connected, not flushing.");
     :return false;
   }
 
@@ -31,7 +31,7 @@
   :local QueueLen [ :len $MatrixQueue ];
 
   :if ([ :len [ /system/scheduler/find where name="_FlushMatrixQueue" ] ] > 0 && $QueueLen = 0) do={
-    $LogPrintExit2 warning $0 ("Flushing Matrix messages from scheduler, but queue is empty.") false;
+    $LogPrint warning $0 ("Flushing Matrix messages from scheduler, but queue is empty.");
   }
 
   :foreach Id,Message in=$MatrixQueue do={
@@ -45,7 +45,7 @@
            $Message->"formatted" . "\" }") as-value;
         :set ($MatrixQueue->$Id);
       } on-error={
-        $LogPrintExit2 debug $0 ("Sending queued Matrix message failed.") false;
+        $LogPrint debug $0 ("Sending queued Matrix message failed.");
         :set AllDone false;
       }
     }
@@ -72,7 +72,7 @@
   :global MatrixRoomOverride;
 
   :global EitherOr;
-  :global LogPrintExit2;
+  :global LogPrint;
   :global SymbolForNotification;
 
   :local PrepareText do={
@@ -134,7 +134,7 @@
        "\"format\": \"org.matrix.custom.html\", \"formatted_body\": \"" . \
        $Formatted . "\" }") as-value;
   } on-error={
-    $LogPrintExit2 info $0 ("Failed sending Matrix notification! Queuing...") false;
+    $LogPrint info $0 ("Failed sending Matrix notification! Queuing...");
 
     :if ([ :typeof $MatrixQueue ] = "nothing") do={
       :set MatrixQueue ({});
@@ -184,7 +184,7 @@
   :local Pass [ :tostr $2 ];
 
   :global CharacterReplace;
-  :global LogPrintExit2;
+  :global LogPrint;
   :global ParseJson;
 
   :global MatrixAccessToken;
@@ -195,9 +195,10 @@
     :local Data ([ /tool/fetch check-certificate=yes-without-crl output=user \
         ("https://" . $Domain . "/.well-known/matrix/client") as-value ]->"data");
     :set MatrixHomeServer ([ $ParseJson ([ $ParseJson [ $CharacterReplace $Data " " "" ] ]->"m.homeserver") ]->"base_url");
-    $LogPrintExit2 debug $0 ("Home server is: " . $MatrixHomeServer) false;
+    $LogPrint debug $0 ("Home server is: " . $MatrixHomeServer);
   } on-error={
-    $LogPrintExit2 error $0 ("Failed getting home server!") true;
+    $LogPrint error $0 ("Failed getting home server!");
+    :error false;
   }
 
   :if ([ :pick $MatrixHomeServer 0 8 ] = "https://") do={
@@ -209,18 +210,20 @@
         http-method=post http-data=("{\"type\":\"m.login.password\", \"user\":\"" . $User . "\", \"password\":\"" . $Pass . "\"}") \
         ("https://" . $MatrixHomeServer . "/_matrix/client/r0/login") as-value ]->"data");
     :set MatrixAccessToken ([ $ParseJson $Data ]->"access_token");
-    $LogPrintExit2 debug $0 ("Access token is: " . $MatrixAccessToken) false;
+    $LogPrint debug $0 ("Access token is: " . $MatrixAccessToken);
   } on-error={
-    $LogPrintExit2 error $0 ("Failed logging in (and getting access token)!") true;
+    $LogPrint error $0 ("Failed logging in (and getting access token)!");
+    :error false;
   }
 
   :do {
     /system/script/set global-config-overlay source=([ get global-config-overlay source ] . "\n" . \
       ":global MatrixHomeServer \"" . $MatrixHomeServer . "\";\n" . \
       ":global MatrixAccessToken \"" . $MatrixAccessToken . "\";\n");
-    $LogPrintExit2 info $0 ("Appended configuration to global-config-overlay. Now create and join a room, please!") false;
+    $LogPrint info $0 ("Appended configuration to global-config-overlay. Now create and join a room, please!");
   } on-error={
-    $LogPrintExit2 error $0 ("Failed appending configuration to global-config-overlay!") true;
+    $LogPrint error $0 ("Failed appending configuration to global-config-overlay!");
+    :error false;
   }
 }
 
@@ -228,7 +231,7 @@
 :set SetupMatrixJoinRoom do={
   :global MatrixRoom [ :tostr $1 ];
 
-  :global LogPrintExit2;
+  :global LogPrint;
   :global UrlEncode;
 
   :global MatrixAccessToken;
@@ -240,16 +243,18 @@
         http-method=post http-data="" \
         ("https://" . $MatrixHomeServer . "/_matrix/client/r0/rooms/" . [ $UrlEncode $MatrixRoom ] . \
         "/join?access_token=" . [ $UrlEncode $MatrixAccessToken ]) as-value;
-    $LogPrintExit2 debug $0 ("Joined the room.") false;
+    $LogPrint debug $0 ("Joined the room.");
   } on-error={
-    $LogPrintExit2 error $0 ("Failed joining the room!") true;
+    $LogPrint error $0 ("Failed joining the room!");
+    :error false;
   }
 
   :do {
     /system/script/set global-config-overlay source=([ get global-config-overlay source ] . "\n" . \
       ":global MatrixRoom \"" . $MatrixRoom . "\";\n");
-    $LogPrintExit2 info $0 ("Appended configuration to global-config-overlay. Please review and cleanup!") false;
+    $LogPrint info $0 ("Appended configuration to global-config-overlay. Please review and cleanup!");
   } on-error={
-    $LogPrintExit2 error $0 ("Failed appending configuration to global-config-overlay!") true;
+    $LogPrint error $0 ("Failed appending configuration to global-config-overlay!");
+    :error false;
   }
 }
