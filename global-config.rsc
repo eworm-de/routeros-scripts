@@ -250,3 +250,13 @@
 } on-error={
   :log error ("Loading configuration from overlay failed!");
 }
+
+# configuration overlay snippets
+:foreach Script in=[ /system/script/find where name ~ "^global-config-overlay.d/" ] do={
+  :do {
+    /system/script/run $Script;
+  } on-error={
+    :log error ("Loading configuration from overlay snippet " . \
+        [ /system/script/get $Script name ] . " failed!");
+  }
+}

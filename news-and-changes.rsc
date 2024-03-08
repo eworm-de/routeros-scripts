@@ -46,6 +46,7 @@
   119="Added support for IPv6 to script 'fw-addr-lists'.";
   120="Implemented a workaround in 'backup-cloud'. Now script should no longer just crash, but send notification with error.";
   121="The 'wifiwave2' scripts are finally gone. Development continues with 'wifi' in RouterOS 7.13 and later.";
+  122="The global configuration was enhanced to support loading snippets. Configuration can be split off to scripts where name starts with 'global-config-overlay.d/'.";
 };
 
 # Migration steps to be applied on script updates

@@ -139,6 +139,11 @@ Save changes and exit with `Ctrl-o`.
 
 ![screenshot: edit global-config-overlay](README.d/07-edit-global-config-overlay.avif)
 
+Additionally creating configuration snippets is supported. The script name
+of these snippets has to start with `global-config-overlay.d/` to make them
+being loaded automatically. This allows to split off parts of the
+configuration.
+
 To apply your changes run `global-config`, which will automatically load
 the overlay as well:
 
