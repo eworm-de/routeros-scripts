@@ -25,6 +25,7 @@
   :global BackupUploadUser;
   :global Domain;
   :global Identity;
+  :global PackagesUpdateBackupFailure;
 
   :global CleanName;
   :global DeviceInfo;
@@ -45,6 +46,7 @@
   }
 
   :if ([ $ScriptLock $ScriptName ] = false) do={
+    :set PackagesUpdateBackupFailure true;
     :error false;
   }
   $WaitFullyConnected;
@@ -151,6 +153,7 @@
       [ $FileInfo "Config file" $ConfigFile ]); silent=true });
 
   :if ($Failed = 1) do={
-    :error "An error occured!";
+    :set PackagesUpdateBackupFailure true;
+    :error false;
   }
 } on-error={ }
