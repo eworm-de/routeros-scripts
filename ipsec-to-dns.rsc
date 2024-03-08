@@ -22,7 +22,7 @@
   :global CharacterReplace;
   :global EscapeForRegEx;
   :global IfThenElse;
-  :global LogPrintExit2;
+  :global LogPrint;
   :global ScriptLock;
 
   :if ([ $ScriptLock $ScriptName ] = false) do={
@@ -38,7 +38,7 @@
 
   :if ([ :len [ /ip/dns/static/find where (name=$CommentString or (comment=$CommentString and name=-)) type=NXDOMAIN disabled ] ] = 0) do={
     /ip/dns/static/add name=$CommentString type=NXDOMAIN disabled=yes;
-    $LogPrintExit2 warning $ScriptName ("Added disabled static dns record with name '" . $CommentString . "'.") false;
+    $LogPrint warning $ScriptName ("Added disabled static dns record with name '" . $CommentString . "'.");
   }
   :local PlaceBefore ([ /ip/dns/static/find where (name=$CommentString or (comment=$CommentString and name=-)) type=NXDOMAIN disabled ]->0);
 
@@ -47,10 +47,10 @@
     :local PeerId [ $CharacterReplace ($DnsRecordVal->"comment") $CommentPrefix "" ];
     :if ([ :len [ /ip/ipsec/active-peers/find where id~("^(CN=)?" . [ $EscapeForRegEx $PeerId ] . "\$") \
          dynamic-address=($DnsRecordVal->"address") ] ] > 0) do={
-      $LogPrintExit2 debug $ScriptName ("Peer " . $PeerId . " (" . $DnsRecordVal->"name" . ") still exists. Not deleting DNS entry.") false;
+      $LogPrint debug $ScriptName ("Peer " . $PeerId . " (" . $DnsRecordVal->"name" . ") still exists. Not deleting DNS entry.");
     } else={
       :local Found false;
-      $LogPrintExit2 info $ScriptName ("Peer " . $PeerId . " (" . $DnsRecordVal->"name" . ") has gone, deleting DNS entry.") false;
+      $LogPrint info $ScriptName ("Peer " . $PeerId . " (" . $DnsRecordVal->"name" . ") has gone, deleting DNS entry.");
       /ip/dns/static/remove $DnsRecord;
     }
   }
@@ -66,13 +66,13 @@
     :if ([ :len $DnsRecord ] > 0) do={
       :local DnsIp [ /ip/dns/static/get $DnsRecord address ];
       :if ($DnsIp = $PeerVal->"dynamic-address") do={
-        $LogPrintExit2 debug $ScriptName ("DNS entry for " . $Fqdn . " does not need updating.") false;
+        $LogPrint debug $ScriptName ("DNS entry for " . $Fqdn . " does not need updating.");
       } else={
-        $LogPrintExit2 info $ScriptName ("Replacing DNS entry for " . $Fqdn . ", new address is " . $PeerVal->"dynamic-address" . ".") false;
+        $LogPrint info $ScriptName ("Replacing DNS entry for " . $Fqdn . ", new address is " . $PeerVal->"dynamic-address" . ".");
         /ip/dns/static/set name=$Fqdn address=($PeerVal->"dynamic-address") ttl=$Ttl comment=$Comment $DnsRecord;
       }
     } else={
-      $LogPrintExit2 info $ScriptName ("Adding new DNS entry for " . $Fqdn . ", address is " . $PeerVal->"dynamic-address" . ".") false;
+      $LogPrint info $ScriptName ("Adding new DNS entry for " . $Fqdn . ", address is " . $PeerVal->"dynamic-address" . ".");
       /ip/dns/static/add name=$Fqdn address=($PeerVal->"dynamic-address") ttl=$Ttl comment=$Comment place-before=$PlaceBefore;
     }
   }
