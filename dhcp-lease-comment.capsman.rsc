@@ -17,7 +17,7 @@
 :do {
   :local ScriptName [ :jobname ];
 
-  :global LogPrintExit2;
+  :global LogPrint;
   :global ScriptLock;
 
   :if ([ $ScriptLock $ScriptName ] = false) do={
@@ -32,7 +32,7 @@
       :set NewComment [ /caps-man/access-list/get $AccessList comment ];
     }
     :if ([ :len $NewComment ] != 0 && $LeaseVal->"comment" != $NewComment) do={
-      $LogPrintExit2 info $ScriptName ("Updating comment for DHCP lease " . $LeaseVal->"active-mac-address" . ": " . $NewComment) false;
+      $LogPrint info $ScriptName ("Updating comment for DHCP lease " . $LeaseVal->"active-mac-address" . ": " . $NewComment);
       /ip/dhcp-server/lease/set comment=$NewComment $Lease;
     }
   }

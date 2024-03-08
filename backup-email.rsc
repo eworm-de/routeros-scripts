@@ -27,7 +27,7 @@
   :global CleanName;
   :global DeviceInfo;
   :global FormatLine;
-  :global LogPrintExit2;
+  :global LogPrint;
   :global MkDir;
   :global RandomDelay;
   :global ScriptFromTerminal;
@@ -38,12 +38,14 @@
   :global WaitFullyConnected;
 
   :if ([ :typeof $SendEMail2 ] = "nothing") do={
-    $LogPrintExit2 error $ScriptName ("The module for sending notifications via e-mail is not installed.") true;
+    $LogPrint error $ScriptName ("The module for sending notifications via e-mail is not installed.");
+    :error false;
   }
 
   :if ($BackupSendBinary != true && \
        $BackupSendExport != true) do={
-    $LogPrintExit2 error $ScriptName ("Configured to send neither backup nor config export.") true;
+    $LogPrint error $ScriptName ("Configured to send neither backup nor config export.");
+    :error false;
   }
 
   :if ([ $ScriptLock $ScriptName ] = false) do={
@@ -66,7 +68,8 @@
   :local Attach ({});
 
   :if ([ $MkDir $DirName ] = false) do={
-    $LogPrintExit2 error $ScriptName ("Failed creating directory!") true;
+    $LogPrint error $ScriptName ("Failed creating directory!");
+    :error false;
   }
 
   # binary backup
@@ -111,7 +114,7 @@
   :local I 0;
   :while ([ :len [ /file/find where name ~ ($FilePath . "\\.(backup|rsc)\$") ] ] > 0) do={
     :if ($I >= 120) do={
-      $LogPrintExit2 warning $ScriptName ("Files are still available, sending e-mail failed.") false;
+      $LogPrint warning $ScriptName ("Files are still available, sending e-mail failed.");
       :set PackagesUpdateBackupFailure true;
       :error false;
     }

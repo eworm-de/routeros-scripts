@@ -30,7 +30,7 @@
   :global CleanName;
   :global DeviceInfo;
   :global IfThenElse;
-  :global LogPrintExit2;
+  :global LogPrint;
   :global MkDir;
   :global RandomDelay;
   :global ScriptFromTerminal;
@@ -42,7 +42,8 @@
 
   :if ($BackupSendBinary != true && \
        $BackupSendExport != true) do={
-    $LogPrintExit2 error $ScriptName ("Configured to send neither backup nor config export.") true;
+    $LogPrint error $ScriptName ("Configured to send neither backup nor config export.");
+    :error false;
   }
 
   :if ([ $ScriptLock $ScriptName ] = false) do={
@@ -65,7 +66,8 @@
   :local Failed 0;
 
   :if ([ $MkDir $DirName ] = false) do={
-    $LogPrintExit2 error $ScriptName ("Failed creating directory!") true;
+    $LogPrint error $ScriptName ("Failed creating directory!");
+    :error false;
   }
 
   # binary backup
@@ -79,7 +81,7 @@
       :set BackupFile [ /file/get ($FilePath . ".backup") ];
       :set ($BackupFile->"name") ($FileName . ".backup");
     } on-error={
-      $LogPrintExit2 error $ScriptName ("Uploading backup file failed!") false;
+      $LogPrint error $ScriptName ("Uploading backup file failed!");
       :set BackupFile "failed";
       :set Failed 1;
     }
@@ -98,7 +100,7 @@
       :set ExportFile [ /file/get ($FilePath . ".rsc") ];
       :set ($ExportFile->"name") ($FileName . ".rsc");
     } on-error={
-      $LogPrintExit2 error $ScriptName ("Uploading configuration export failed!") false;
+      $LogPrint error $ScriptName ("Uploading configuration export failed!");
       :set ExportFile "failed";
       :set Failed 1;
     }
@@ -119,7 +121,7 @@
       :set ConfigFile [ /file/get ($FilePath . ".conf") ];
       :set ($ConfigFile->"name") ($FileName . ".conf");
     } on-error={
-      $LogPrintExit2 error $ScriptName ("Uploading global-config-overlay failed!") false;
+      $LogPrint error $ScriptName ("Uploading global-config-overlay failed!");
       :set ConfigFile "failed";
       :set Failed 1;
     }

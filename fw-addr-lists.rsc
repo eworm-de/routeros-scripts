@@ -20,7 +20,7 @@
 
   :global CertificateAvailable;
   :global EitherOr;
-  :global LogPrintExit2;
+  :global LogPrint;
   :global LogPrintOnce;
   :global ScriptLock;
   :global WaitFullyConnected;
@@ -57,7 +57,7 @@
       :if ([ :len ($List->"cert") ] > 0) do={
         :set CheckCertificate "yes-without-crl";
         :if ([ $CertificateAvailable ($List->"cert") ] = false) do={
-          $LogPrintExit2 warning $ScriptName ("Downloading required certificate failed, trying anyway.") false;
+          $LogPrint warning $ScriptName ("Downloading required certificate failed, trying anyway.");
         }
       }
 
@@ -68,7 +68,7 @@
               http-header-field=({ $FetchUserAgent }) ($List->"url") as-value ]->"data");
           } on-error={
             :if ($I < 4) do={
-              $LogPrintExit2 debug $ScriptName ("Failed downloading, " . $I . ". try: " . $List->"url") false;
+              $LogPrint debug $ScriptName ("Failed downloading, " . $I . ". try: " . $List->"url");
               :delay (($I * $I) . "s");
             }
           }
@@ -78,7 +78,7 @@
       :if ($Data = false) do={
         :set Data "";
         :set Failure true;
-        $LogPrintExit2 warning $ScriptName ("Failed downloading list from: " . $List->"url") false;
+        $LogPrint warning $ScriptName ("Failed downloading list from: " . $List->"url");
       }
 
       :if ([ :len $Data ] > 63000) do={
@@ -103,13 +103,13 @@
     :foreach Entry in=[ /ip/firewall/address-list/find where list=$FwListName comment=$ListComment ] do={
       :local Address [ /ip/firewall/address-list/get $Entry address ];
       :if ([ :typeof ($IPv4Addresses->$Address) ] = "time") do={
-        $LogPrintExit2 debug $ScriptName ("Renewing IPv4 address for " . ($IPv4Addresses->$Address) . ": " . $Address) false;
+        $LogPrint debug $ScriptName ("Renewing IPv4 address for " . ($IPv4Addresses->$Address) . ": " . $Address);
         /ip/firewall/address-list/set $Entry timeout=($IPv4Addresses->$Address);
         :set ($IPv4Addresses->$Address);
         :set CntRenew ($CntRenew + 1);
       } else={
         :if ($Failure = false) do={
-          $LogPrintExit2 debug $ScriptName ("Removing IPv4 address: " . $Address) false;
+          $LogPrint debug $ScriptName ("Removing IPv4 address: " . $Address);
           /ip/firewall/address-list/remove $Entry;
           :set CntRemove ($CntRemove + 1);
         }
@@ -119,13 +119,13 @@
     :foreach Entry in=[ /ipv6/firewall/address-list/find where list=$FwListName comment=$ListComment ] do={
       :local Address [ /ipv6/firewall/address-list/get $Entry address ];
       :if ([ :typeof ($IPv6Addresses->$Address) ] = "time") do={
-        $LogPrintExit2 debug $ScriptName ("Renewing IPv6 address for " . ($IPv6Addresses->$Address) . ": " . $Address) false;
+        $LogPrint debug $ScriptName ("Renewing IPv6 address for " . ($IPv6Addresses->$Address) . ": " . $Address);
         /ipv6/firewall/address-list/set $Entry timeout=($IPv6Addresses->$Address);
         :set ($IPv6Addresses->$Address);
         :set CntRenew ($CntRenew + 1);
       } else={
         :if ($Failure = false) do={
-          $LogPrintExit2 debug $ScriptName ("Removing: " . $Address) false;
+          $LogPrint debug $ScriptName ("Removing: " . $Address);
           /ipv6/firewall/address-list/remove $Entry;
           :set CntRemove ($CntRemove + 1);
         }
@@ -133,27 +133,27 @@
     }
 
     :foreach Address,Timeout in=$IPv4Addresses do={
-      $LogPrintExit2 debug $ScriptName ("Adding IPv4 address for " . $Timeout . ": " . $Address) false;
+      $LogPrint debug $ScriptName ("Adding IPv4 address for " . $Timeout . ": " . $Address);
       :do {
         /ip/firewall/address-list/add list=$FwListName comment=$ListComment address=$Address timeout=$Timeout;
         :set ($IPv4Addresses->$Address);
         :set CntAdd ($CntAdd + 1);
       } on-error={
-        $LogPrintExit2 warning $ScriptName ("Failed to add IPv4 address " . $Address . " to list '" . $FwListName . "'.") false;
+        $LogPrint warning $ScriptName ("Failed to add IPv4 address " . $Address . " to list '" . $FwListName . "'.");
       }
     }
 
     :foreach Address,Timeout in=$IPv6Addresses do={
-      $LogPrintExit2 debug $ScriptName ("Adding IPv6 address for " . $Timeout . ": " . $Address) false;
+      $LogPrint debug $ScriptName ("Adding IPv6 address for " . $Timeout . ": " . $Address);
       :do {
         /ipv6/firewall/address-list/add list=$FwListName comment=$ListComment address=$Address timeout=$Timeout;
         :set ($IPv6Addresses->$Address);
         :set CntAdd ($CntAdd + 1);
       } on-error={
-        $LogPrintExit2 warning $ScriptName ("Failed to add IPv6 address " . $Address . " to list '" . $FwListName . "'.") false;
+        $LogPrint warning $ScriptName ("Failed to add IPv6 address " . $Address . " to list '" . $FwListName . "'.");
       }
     }
 
-    $LogPrintExit2 info $ScriptName ("list: " . $FwListName . " -- added: " . $CntAdd . " - renewed: " . $CntRenew . " - removed: " . $CntRemove) false;
+    $LogPrint info $ScriptName ("list: " . $FwListName . " -- added: " . $CntAdd . " - renewed: " . $CntRenew . " - removed: " . $CntRemove);
   }
 } on-error={ }

@@ -21,7 +21,7 @@
   :global CleanName;
   :global EitherOr;
   :global IfThenElse;
-  :global LogPrintExit2;
+  :global LogPrint;
   :global LogPrintOnce;
   :global ParseKeyValueStore;
   :global ScriptLock;
@@ -36,7 +36,7 @@
 
   :if ([ :len [ /ip/dns/static/find where (name=$CommentString or (comment=$CommentString and name=-)) type=NXDOMAIN disabled ] ] = 0) do={
     /ip/dns/static/add name=$CommentString type=NXDOMAIN disabled=yes;
-    $LogPrintExit2 warning $ScriptName ("Added disabled static dns record with name '" . $CommentString . "'.") false;
+    $LogPrint warning $ScriptName ("Added disabled static dns record with name '" . $CommentString . "'.");
   }
   :local PlaceBefore ([ /ip/dns/static/find where (name=$CommentString or (comment=$CommentString and name=-)) type=NXDOMAIN disabled ]->0);
 
@@ -47,10 +47,10 @@
 
     :if ([ :len [ /ip/dhcp-server/lease/find where active-mac-address=($DnsRecordInfo->"macaddress") \
          active-address=($DnsRecordVal->"address") server=($DnsRecordInfo->"server") status=bound ] ] > 0) do={
-      $LogPrintExit2 debug $ScriptName ("Lease for " . $MacInServer . " (" . $DnsRecordVal->"name" . ") still exists. Not deleting record.") false;
+      $LogPrint debug $ScriptName ("Lease for " . $MacInServer . " (" . $DnsRecordVal->"name" . ") still exists. Not deleting record.");
     } else={
       :local Found false;
-      $LogPrintExit2 info $ScriptName ("Lease expired for " . $MacInServer . ", deleting record (" . $DnsRecordVal->"name" . ").") false;
+      $LogPrint info $ScriptName ("Lease expired for " . $MacInServer . ", deleting record (" . $DnsRecordVal->"name" . ").");
       /ip/dns/static/remove $DnsRecord;
       /ip/dns/static/remove [ find where type=CNAME comment=($DnsRecordVal->"comment") ];
     }
@@ -64,7 +64,7 @@
         $LogPrintOnce info $ScriptName ("Multiple bound leases found for mac-address " . ($LeaseVal->"active-mac-address") . "!");
       }
     } on-error={
-      $LogPrintExit2 debug $ScriptName ("A lease just vanished, ignoring.") false;
+      $LogPrint debug $ScriptName ("A lease just vanished, ignoring.");
     }
 
     :if ([ :len ($LeaseVal->"active-address") ] > 0) do={
@@ -88,9 +88,9 @@
         :local DnsRecordVal [ /ip/dns/static/get $DnsRecord ];
 
         :if ($DnsRecordVal->"address" = $LeaseVal->"active-address" && $DnsRecordVal->"name" = $FullA) do={
-          $LogPrintExit2 debug $ScriptName ("The A record for " . $MacInServer . " (" . $FullA . ") does not need updating.") false;
+          $LogPrint debug $ScriptName ("The A record for " . $MacInServer . " (" . $FullA . ") does not need updating.");
         } else={
-          $LogPrintExit2 info $ScriptName ("Updating A record for " . $MacInServer . " (" . $FullA . " -> " . $LeaseVal->"active-address" . ").") false;
+          $LogPrint info $ScriptName ("Updating A record for " . $MacInServer . " (" . $FullA . " -> " . $LeaseVal->"active-address" . ").");
           /ip/dns/static/set address=($LeaseVal->"active-address") name=$FullA $DnsRecord;
         }
 
@@ -98,20 +98,20 @@
         :if ([ :len $CName ] > 0) do={
           :local CNameVal [ /ip/dns/static/get $CName ];
           :if ($CNameVal->"name" != $FullCN || $CNameVal->"cname" != $FullA) do={
-            $LogPrintExit2 info $ScriptName ("Deleting CNAME record with wrong data for " . $MacInServer . ".") false;
+            $LogPrint info $ScriptName ("Deleting CNAME record with wrong data for " . $MacInServer . ".");
             /ip/dns/static/remove $CName;
           }
         }
         :if ([ :len $HostName ] > 0 && [ :len [ /ip/dns/static/find where name=$FullCN type=CNAME ] ] = 0) do={
-          $LogPrintExit2 info $ScriptName ("Adding CNAME record for " . $MacInServer . " (" . $FullCN . " -> " . $FullA . ").") false;
+          $LogPrint info $ScriptName ("Adding CNAME record for " . $MacInServer . " (" . $FullCN . " -> " . $FullA . ").");
           /ip/dns/static/add name=$FullCN type=CNAME cname=$FullA ttl=$Ttl comment=$Comment place-before=$PlaceBefore;
         }
 
       } else={
-        $LogPrintExit2 info $ScriptName ("Adding A record for " . $MacInServer . " (" . $FullA . " -> " . $LeaseVal->"active-address" . ").") false;
+        $LogPrint info $ScriptName ("Adding A record for " . $MacInServer . " (" . $FullA . " -> " . $LeaseVal->"active-address" . ").");
         /ip/dns/static/add name=$FullA type=A address=($LeaseVal->"active-address") ttl=$Ttl comment=$Comment place-before=$PlaceBefore;
         :if ([ :len $HostName ] > 0 && [ :len [ /ip/dns/static/find where name=$FullCN type=CNAME ] ] = 0) do={
-          $LogPrintExit2 info $ScriptName ("Adding CNAME record for " . $MacInServer . " (" . $FullCN . " -> " . $FullA . ").") false;
+          $LogPrint info $ScriptName ("Adding CNAME record for " . $MacInServer . " (" . $FullCN . " -> " . $FullA . ").");
           /ip/dns/static/add name=$FullCN type=CNAME cname=$FullA ttl=$Ttl comment=$Comment place-before=$PlaceBefore;
         }
       }
@@ -120,7 +120,7 @@
         $LogPrintOnce warning $ScriptName ("The name '" . $FullA . "' appeared in more than one A record!");
       }
     } else={
-      $LogPrintExit2 debug $ScriptName ("No address available... Ignoring.") false;
+      $LogPrint debug $ScriptName ("No address available... Ignoring.");
     }
   }
 } on-error={ }

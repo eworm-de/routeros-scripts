@@ -28,7 +28,7 @@
   :global FormatLine;
   :global HumanReadableNum;
   :global IfThenElse;
-  :global LogPrintExit2;
+  :global LogPrint;
   :global ScriptLock;
   :global SendNotification2;
   :global SymbolForNotification;
@@ -77,7 +77,7 @@
   }
 
   :if ([ :len [ /system/health/find ] ] = 0) do={
-    $LogPrintExit2 debug $ScriptName ("Your device does not provide any health values.") false;
+    $LogPrint debug $ScriptName ("Your device does not provide any health values.");
     :error true;
   }
 
@@ -148,7 +148,7 @@
 
     :if ([ :typeof ($CheckHealthLast->$Name) ] != "nothing") do={
       :if ([ :typeof ($CheckHealthTemperature->$Name) ] != "num" ) do={
-        $LogPrintExit2 info $ScriptName ("No threshold given for " . $Name . ", assuming 50C.") false;
+        $LogPrint info $ScriptName ("No threshold given for " . $Name . ", assuming 50C.");
         :set ($CheckHealthTemperature->$Name) 50;
       }
       :local Validate [ /system/health/get [ find where name=$Name ] value ];

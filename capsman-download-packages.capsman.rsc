@@ -19,7 +19,7 @@
 
   :global CleanFilePath;
   :global DownloadPackage;
-  :global LogPrintExit2;
+  :global LogPrint;
   :global MkDir;
   :global ScriptLock;
   :global WaitFullyConnected;
@@ -34,16 +34,18 @@
   :local Updated false;
 
   :if ([ :len $PackagePath ] = 0) do={
-    $LogPrintExit2 warning $ScriptName ("The CAPsMAN package path is not defined, can not download packages.") true;
+    $LogPrint warning $ScriptName ("The CAPsMAN package path is not defined, can not download packages.");
+    :error false;
   }
 
   :if ([ :len [ /file/find where name=$PackagePath type="directory" ] ] = 0) do={
     :if ([ $MkDir $PackagePath ] = false) do={
-      $LogPrintExit2 warning $ScriptName ("Creating directory at CAPsMAN package path (" . \
-        $PackagePath . ") failed!") true;
+      $LogPrint warning $ScriptName ("Creating directory at CAPsMAN package path (" . \
+        $PackagePath . ") failed!");
+      :error false;
     }
-    $LogPrintExit2 info $ScriptName ("Created directory at CAPsMAN package path (" . $PackagePath . \
-      "). Please place your packages!") false;
+    $LogPrint info $ScriptName ("Created directory at CAPsMAN package path (" . $PackagePath . \
+      "). Please place your packages!");
   }
 
   :foreach Package in=[ /file/find where type=package \
@@ -60,7 +62,7 @@
   }
 
   :if ([ :len [ /file/find where type=package name~("^" . $PackagePath) ] ] = 0) do={
-    $LogPrintExit2 info $ScriptName ("No packages available, downloading default set.") false;
+    $LogPrint info $ScriptName ("No packages available, downloading default set.");
     :foreach Arch in={ "arm"; "mipsbe" } do={
       :foreach Package in={ "routeros"; "wireless" } do={
         :if ([ $DownloadPackage $Package $InstalledVersion $Arch $PackagePath ] = true) do={

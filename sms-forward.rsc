@@ -19,7 +19,7 @@
   :global SmsForwardHooks;
 
   :global IfThenElse;
-  :global LogPrintExit2;
+  :global LogPrint;
   :global LogPrintOnce;
   :global ScriptLock;
   :global SendNotification2;
@@ -41,7 +41,7 @@
   :local Settings [ /tool/sms/get ];
 
   :if ([ /interface/lte/get ($Settings->"port") running ] != true) do={
-    $LogPrintExit2 info $ScriptName ("The LTE interface is not in running state, skipping.") false;
+    $LogPrint info $ScriptName ("The LTE interface is not in running state, skipping.");
     :error true;
   }
 
@@ -56,7 +56,7 @@
 
       :if ($Phone = $Settings->"allowed-number" && \
           ($SmsVal->"message")~("^:cmd " . $Settings->"secret" . " script ")) do={
-        $LogPrintExit2 debug $ScriptName ("Removing SMS, which started a script.") false;
+        $LogPrint debug $ScriptName ("Removing SMS, which started a script.");
         /tool/sms/inbox/remove $Sms;
       } else={
         :set Messages ($Messages . "\n\nOn " . $SmsVal->"timestamp" . \
@@ -64,20 +64,16 @@
         :foreach Hook in=$SmsForwardHooks do={
           :if ($Phone~($Hook->"allowed-number") && ($SmsVal->"message")~($Hook->"match")) do={
             :if ([ $ValidateSyntax ($Hook->"command") ] = true) do={
-              $LogPrintExit2 info $ScriptName ("Running hook '" . $Hook->"match" . "': " . \
-                  $Hook->"command") false;
+              $LogPrint info $ScriptName ("Running hook '" . $Hook->"match" . "': " . $Hook->"command");
               :do {
                 :local Command [ :parse ($Hook->"command") ];
                 $Command Phone=$Phone Message=($SmsVal->"message");
-                :set Messages ($Messages . "\n\nRan hook '" . $Hook->"match" . "':\n" . \
-                    $Hook->"command");
+                :set Messages ($Messages . "\n\nRan hook '" . $Hook->"match" . "':\n" . $Hook->"command");
               } on-error={
-                $LogPrintExit2 warning $ScriptName ("The code for hook '" . $Hook->"match" . \
-                    "' failed to run!") false;
+                $LogPrint warning $ScriptName ("The code for hook '" . $Hook->"match" . "' failed to run!");
               }
             } else={
-              $LogPrintExit2 warning $ScriptName ("The code for hook '" . $Hook->"match" . \
-                  "' failed syntax validation!") false;
+              $LogPrint warning $ScriptName ("The code for hook '" . $Hook->"match" . "' failed syntax validation!");
             }
           }
         }

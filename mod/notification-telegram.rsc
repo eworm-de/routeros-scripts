@@ -18,12 +18,12 @@
   :global TelegramMessageIDs;
 
   :global IsFullyConnected;
-  :global LogPrintExit2;
+  :global LogPrint;
   :global ParseJson;
   :global UrlEncode;
 
   :if ([ $IsFullyConnected ] = false) do={
-    $LogPrintExit2 debug $0 ("System is not fully connected, not flushing.") false;
+    $LogPrint debug $0 ("System is not fully connected, not flushing.");
     :return false;
   }
 
@@ -31,7 +31,7 @@
   :local QueueLen [ :len $TelegramQueue ];
 
   :if ([ :len [ /system/scheduler/find where name="_FlushTelegramQueue" ] ] > 0 && $QueueLen = 0) do={
-    $LogPrintExit2 warning $0 ("Flushing Telegram messages from scheduler, but queue is empty.") false;
+    $LogPrint warning $0 ("Flushing Telegram messages from scheduler, but queue is empty.");
   }
 
   :foreach Id,Message in=$TelegramQueue do={
@@ -45,7 +45,7 @@
         :set ($TelegramQueue->$Id);
         :set ($TelegramMessageIDs->([ $ParseJson ([ $ParseJson $Data ]->"result") ]->"message_id")) 1;
       } on-error={
-        $LogPrintExit2 debug $0 ("Sending queued Telegram message failed.") false;
+        $LogPrint debug $0 ("Sending queued Telegram message failed.");
         :set AllDone false;
       }
     }
@@ -74,7 +74,7 @@
   :global CharacterReplace;
   :global EitherOr;
   :global IfThenElse;
-  :global LogPrintExit2;
+  :global LogPrint;
   :global ParseJson;
   :global SymbolForNotification;
   :global UrlEncode;
@@ -136,7 +136,8 @@
 
   :do {
     :if ([ $CertificateAvailable "Go Daddy Secure Certificate Authority - G2" ] = false) do={
-      $LogPrintExit2 warning $0 ("Downloading required certificate failed.") true;
+      $LogPrint warning $0 ("Downloading required certificate failed.");
+      :error false;
     }
     :local Data ([ /tool/fetch check-certificate=yes-without-crl output=user http-method=post \
       ("https://api.telegram.org/bot" . $TokenId . "/sendMessage") \
@@ -145,7 +146,7 @@
       "&parse_mode=MarkdownV2&text=" . [ $UrlEncode $Text ]) as-value ]->"data");
     :set ($TelegramMessageIDs->([ $ParseJson ([ $ParseJson $Data ]->"result") ]->"message_id")) 1;
   } on-error={
-    $LogPrintExit2 info $0 ("Failed sending telegram notification! Queuing...") false;
+    $LogPrint info $0 ("Failed sending telegram notification! Queuing...");
 
     :if ([ :typeof $TelegramQueue ] = "nothing") do={
       :set TelegramQueue ({});

@@ -18,7 +18,7 @@
   :local ScriptName [ :jobname ];
 
   :global EitherOr;
-  :global LogPrintExit2;
+  :global LogPrint;
   :global ParseKeyValueStore;
   :global ScriptLock;
 
@@ -41,8 +41,8 @@
     :foreach Lease in=[ /ip/dhcp-server/lease/find where dynamic \
         mac-address=($ClientVal->"mac-address") ] do={
       :if (($DHCPServers->[ /ip/dhcp-server/lease/get $Lease server ]) > 0s) do={
-        $LogPrintExit2 info $ScriptName ("Client with mac address " . ($ClientVal->"mac-address") . \
-          " connected to WPA, making lease static.") false;
+        $LogPrint info $ScriptName ("Client with mac address " . ($ClientVal->"mac-address") . \
+          " connected to WPA, making lease static.");
         /ip/dhcp-server/lease/make-static $Lease;
         /ip/dhcp-server/lease/set comment=($ClientVal->"comment") $Lease;
       }
@@ -54,8 +54,8 @@
     :local ClientVal [ /interface/wifi/access-list/get $Client ];
     :if ([ :len [ /ip/dhcp-server/lease/find where !dynamic comment~"^hotspot-to-wpa:" \
          mac-address=($ClientVal->"mac-address") ] ] = 0) do={
-      $LogPrintExit2 info $ScriptName ("Client with mac address " . ($ClientVal->"mac-address") . \
-        " did not connect to WPA, removing from access list.") false;
+      $LogPrint info $ScriptName ("Client with mac address " . ($ClientVal->"mac-address") . \
+        " did not connect to WPA, removing from access list.");
       /interface/wifi/access-list/remove $Client;
     }
   }
@@ -64,8 +64,8 @@
     :foreach Lease in=[ /ip/dhcp-server/lease/find where !dynamic status="waiting" \
         server=$Server last-seen>$Timeout comment~"^hotspot-to-wpa:" ] do={
       :local LeaseVal [ /ip/dhcp-server/lease/get $Lease ];
-      $LogPrintExit2 info $ScriptName ("Client with mac address " . ($LeaseVal->"mac-address") . \
-        " was not seen for " . ($LeaseVal->"last-seen") . ", removing.") false;
+      $LogPrint info $ScriptName ("Client with mac address " . ($LeaseVal->"mac-address") . \
+        " was not seen for " . ($LeaseVal->"last-seen") . ", removing.");
       /interface/wifi/access-list/remove [ find where comment~"^hotspot-to-wpa:" \
         mac-address=($LeaseVal->"mac-address") ];
       /ip/dhcp-server/lease/remove $Lease;

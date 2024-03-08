@@ -16,7 +16,7 @@
 
   :global CertIssuedExportPass;
 
-  :global LogPrintExit2;
+  :global LogPrint;
   :global MkDir;
   :global ScriptLock;
 
@@ -36,13 +36,13 @@
         /certificate/export-certificate ($CertVal->"name") type=pkcs12 \
             file-name=("cert-issued/" . $CertVal->"common-name") \
             export-passphrase=($CertIssuedExportPass->($CertVal->"common-name"));
-        $LogPrintExit2 info $ScriptName ("Issued a new certificate for \"" . $CertVal->"common-name" . \
-          "\", exported to \"cert-issued/" . $CertVal->"common-name" . ".p12\".") false;
+        $LogPrint info $ScriptName ("Issued a new certificate for \"" . $CertVal->"common-name" . \
+          "\", exported to \"cert-issued/" . $CertVal->"common-name" . ".p12\".");
       } else={
-        $LogPrintExit2 warning $ScriptName ("Failed creating directory, not exporting certificate.") false;
+        $LogPrint warning $ScriptName ("Failed creating directory, not exporting certificate.");
       }
     } else={
-      $LogPrintExit2 info $ScriptName ("Issued a new certificate for \"" . $CertVal->"common-name" . "\".") false;
+      $LogPrint info $ScriptName ("Issued a new certificate for \"" . $CertVal->"common-name" . "\".");
     }
   }
 } on-error={ }

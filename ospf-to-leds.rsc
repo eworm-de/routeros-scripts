@@ -14,7 +14,7 @@
 :do {
   :local ScriptName [ :jobname ];
 
-  :global LogPrintExit2;
+  :global LogPrint;
   :global ParseKeyValueStore;
   :global ScriptLock;
 
@@ -34,11 +34,11 @@
     }
 
     :if ($NeighborCount > 0 && $LEDType = "off") do={
-      $LogPrintExit2 info $ScriptName ("OSPF instance " . $InstanceVal->"name" . " has " . $NeighborCount . " neighbors, led on!") false;
+      $LogPrint info $ScriptName ("OSPF instance " . $InstanceVal->"name" . " has " . $NeighborCount . " neighbors, led on!");
       /system/leds/set type=on [ find where leds=$LED ];
     }
     :if ($NeighborCount = 0 && $LEDType = "on") do={
-      $LogPrintExit2 info $ScriptName ("OSPF instance " . $InstanceVal->"name" . " has no neighbors, led off!") false;
+      $LogPrint info $ScriptName ("OSPF instance " . $InstanceVal->"name" . " has no neighbors, led off!");
       /system/leds/set type=off [ find where leds=$LED ];
     }
   }

@@ -24,7 +24,7 @@
   :global EitherOr;
   :global IsDNSResolving;
   :global IsTimeSync;
-  :global LogPrintExit2;
+  :global LogPrint;
 
   :local AllDone true;
   :local QueueLen [ :len $EmailQueue ];
@@ -35,23 +35,23 @@
   }
 
   :if ([ /tool/e-mail/get last-status ] = "in-progress") do={
-    $LogPrintExit2 debug $0 ("Sending mail is currently in progress, not flushing.") false;
+    $LogPrint debug $0 ("Sending mail is currently in progress, not flushing.");
     :return false;
   }
 
   :if ([ $IsTimeSync ] = false) do={
-    $LogPrintExit2 debug $0 ("Time is not synced, not flushing.") false;
+    $LogPrint debug $0 ("Time is not synced, not flushing.");
     :return false;
   }
 
   :local EMailSettings [ /tool/e-mail/get ];
   :if ([ :typeof [ :toip ($EMailSettings->"server") ] ] != "ip" && [ $IsDNSResolving ] = false) do={
-    $LogPrintExit2 debug $0 ("Server address is a DNS name and resolving fails, not flushing.") false;
+    $LogPrint debug $0 ("Server address is a DNS name and resolving fails, not flushing.");
     :return false;
   }
 
   :if ([ :len $Scheduler ] > 0 && $QueueLen = 0) do={
-    $LogPrintExit2 warning $0 ("Flushing E-Mail messages from scheduler, but queue is empty.") false;
+    $LogPrint warning $0 ("Flushing E-Mail messages from scheduler, but queue is empty.");
   }
 
   /system/scheduler/set interval=([ $EitherOr $QueueLen 1 ] . "m") comment="Sending..." $Scheduler;
@@ -64,7 +64,7 @@
         :if ([ :len [ /file/find where name=$File ] ] = 1) do={
           :set Attach ($Attach, $File);
         } else={
-          $LogPrintExit2 warning $0 ("File '" . $File . "' does not exist, can not attach.") false;
+          $LogPrint warning $0 ("File '" . $File . "' does not exist, can not attach.");
         }
       }
       /tool/e-mail/send to=($Message->"to") cc=($Message->"cc") subject=($Message->"subject") \

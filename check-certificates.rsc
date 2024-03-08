@@ -22,7 +22,7 @@
   :global CertificateAvailable
   :global EscapeForRegEx;
   :global IfThenElse;
-  :global LogPrintExit2;
+  :global LogPrint;
   :global ParseKeyValueStore;
   :global ScriptLock;
   :global SendNotification2;
@@ -39,7 +39,7 @@
     :global CertificateNameByCN;
     :global EscapeForRegEx;
     :global FetchUserAgent;
-    :global LogPrintExit2;
+    :global LogPrint;
     :global UrlEncode;
     :global WaitForFile;
 
@@ -62,7 +62,7 @@
         /file/remove [ find where name=$CertFileName ];
 
         :if ($DecryptionFailed = true) do={
-          $LogPrintExit2 warning $0 ("Decryption failed for certificate file '" . $CertFileName . "'.") false;
+          $LogPrint warning $0 ("Decryption failed for certificate file '" . $CertFileName . "'.");
         }
 
         :foreach CertInChain in=[ /certificate/find where name~("^" . [ $EscapeForRegEx $CertFileName ] . "_[0-9]+\$") \
@@ -72,7 +72,7 @@
 
         :set Return true;
       } on-error={
-        $LogPrintExit2 debug $0 ("Could not download certificate file '" . $CertFileName . "'.") false;
+        $LogPrint debug $0 ("Could not download certificate file '" . $CertFileName . "'.");
       }
     }
 
@@ -143,9 +143,10 @@
 
     :do {
       :if ([ :len $CertRenewUrl ] = 0) do={
-        $LogPrintExit2 info $ScriptName ("No CertRenewUrl given.") true;
+        $LogPrint info $ScriptName ("No CertRenewUrl given.");
+        :error false;
       }
-      $LogPrintExit2 info $ScriptName ("Attempting to renew certificate '" . ($CertVal->"name") . "'.") false;
+      $LogPrint info $ScriptName ("Attempting to renew certificate '" . ($CertVal->"name") . "'.");
 
       :local ImportSuccess false;
       :set LastName ($CertVal->"common-name");
@@ -159,10 +160,10 @@
       :if ($ImportSuccess = false) do={ :error false; }
 
       :if ([ :len ($CertVal->"fingerprint") ] > 0 && $CertVal->"fingerprint" != [ /certificate/get $Cert fingerprint ]) do={
-        $LogPrintExit2 debug $ScriptName ("Certificate '" . $CertVal->"name" . "' was updated in place.") false;
+        $LogPrint debug $ScriptName ("Certificate '" . $CertVal->"name" . "' was updated in place.");
         :set CertVal [ /certificate/get $Cert ];
       } else={
-        $LogPrintExit2 debug $ScriptName ("Certificate '" . $CertVal->"name" . "' was not updated, but replaced.") false;
+        $LogPrint debug $ScriptName ("Certificate '" . $CertVal->"name" . "' was not updated, but replaced.");
 
         :set CertNew [ /certificate/find where name~("^" . [ $EscapeForRegEx [ $UrlEncode $LastName ] ] . "\\.(p12|pem)_[0-9]+\$") \
           (common-name=($CertVal->"common-name") or subject-alt-name~("(^|\\W)(DNS|IP):" . [ $EscapeForRegEx $LastName ] . "(\\W|\$)")) \
@@ -170,12 +171,13 @@
         :local CertNewVal [ /certificate/get $CertNew ];
 
         :if ([ $CertificateAvailable ([ $ParseKeyValueStore ($CertNewVal->"issuer") ]->"CN") ] = false) do={
-          $LogPrintExit2 warning $ScriptName ("The certificate chain is not available!") false;
+          $LogPrint warning $ScriptName ("The certificate chain is not available!");
         }
 
         :if (($CertVal->"private-key") = true && ($CertVal->"private-key") != ($CertNewVal->"private-key")) do={
           /certificate/remove $CertNew;
-          $LogPrintExit2 warning $ScriptName ("Old certificate '" . ($CertVal->"name") . "' has a private key, new certificate does not. Aborting renew.") true;
+          $LogPrint warning $ScriptName ("Old certificate '" . ($CertVal->"name") . "' has a private key, new certificate does not. Aborting renew.");
+          :error false;
         }
 
         /ip/service/set certificate=($CertNewVal->"name") [ find where certificate=($CertVal->"name") ];
@@ -194,9 +196,9 @@
       $SendNotification2 ({ origin=$ScriptName; silent=true; \
         subject=([ $SymbolForNotification "lock-with-ink-pen" ] . "Certificate renewed: " . ($CertVal->"name")); \
         message=("A certificate on " . $Identity . " has been renewed.\n\n" . [ $FormatInfo $CertNew ]) });
-      $LogPrintExit2 info $ScriptName ("The certificate '" . ($CertVal->"name") . "' has been renewed.") false;
+      $LogPrint info $ScriptName ("The certificate '" . ($CertVal->"name") . "' has been renewed.");
     } on-error={
-      $LogPrintExit2 debug $ScriptName ("Could not renew certificate '" . ($CertVal->"name") . "'.") false;
+      $LogPrint debug $ScriptName ("Could not renew certificate '" . ($CertVal->"name") . "'.");
     }
   }
 
@@ -205,15 +207,15 @@
     :local CertVal [ /certificate/get $Cert ];
 
     :if ([ :len [ /certificate/scep-server/find where ca-cert=($CertVal->"ca") ] ] > 0) do={
-      $LogPrintExit2 debug $ScriptName ("Certificate '" . ($CertVal->"name") . "' is handled by SCEP, skipping.") false;
+      $LogPrint debug $ScriptName ("Certificate '" . ($CertVal->"name") . "' is handled by SCEP, skipping.");
     } else={
       :local State [ $IfThenElse (($CertVal->"expired") = true) "expired" "is about to expire" ];
 
       $SendNotification2 ({ origin=$ScriptName; \
         subject=([ $SymbolForNotification "warning-sign" ] . "Certificate warning: " . ($CertVal->"name")); \
         message=("A certificate on " . $Identity . " " . $State . ".\n\n" . [ $FormatInfo $Cert ]) });
-      $LogPrintExit2 info $ScriptName ("The certificate '" . ($CertVal->"name") . "' " . $State . \
-          ", it is invalid after " . ($CertVal->"invalid-after") . ".") false;
+      $LogPrint info $ScriptName ("The certificate '" . ($CertVal->"name") . "' " . $State . \
+          ", it is invalid after " . ($CertVal->"invalid-after") . ".");
     }
   }
 } on-error={ }
