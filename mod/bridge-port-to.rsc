@@ -12,7 +12,7 @@
   :local BridgePortTo [ :tostr $1 ];
 
   :global IfThenElse;
-  :global LogPrintExit2;
+  :global LogPrint;
   :global ParseKeyValueStore;
 
   :local InterfaceReEnable ({});
@@ -24,21 +24,22 @@
 
         :if ($BridgeDefault = "dhcp-client") do={
           :if ([ :len $DHCPClient ] != 1) do={
-            $LogPrintExit2 warning $0 ([ $IfThenElse ([ :len $DHCPClient ] = 0) "Missing" "Duplicate" ] . \
-                " dhcp client configuration for interface " . $BridgePortVal->"interface" . "!") true;
+            $LogPrint warning $0 ([ $IfThenElse ([ :len $DHCPClient ] = 0) "Missing" "Duplicate" ] . \
+                " dhcp client configuration for interface " . $BridgePortVal->"interface" . "!");
+            :error false;
           }
           :local DHCPClientDisabled [ /ip/dhcp-client/get $DHCPClient disabled ];
 
           :if ($BridgePortVal->"disabled" = false || $DHCPClientDisabled = true) do={
-            $LogPrintExit2 info $0 ("Disabling bridge port for interface " . $BridgePortVal->"interface" . ", enabling dhcp client.") false;
+            $LogPrint info $0 ("Disabling bridge port for interface " . $BridgePortVal->"interface" . ", enabling dhcp client.");
             /interface/bridge/port/disable $BridgePort;
             :delay 200ms;
             /ip/dhcp-client/enable $DHCPClient;
           }
         } else={
           :if ($BridgePortVal->"disabled" = true || $BridgeDefault != $BridgePortVal->"bridge") do={
-            $LogPrintExit2 info $0 ("Enabling bridge port for interface " . $BridgePortVal->"interface" . ", changing to " . $BridgePortTo . \
-                " bridge " . $BridgeDefault . ", disabling dhcp client.") false;
+            $LogPrint info $0 ("Enabling bridge port for interface " . $BridgePortVal->"interface" . ", changing to " . $BridgePortTo . \
+                " bridge " . $BridgeDefault . ", disabling dhcp client.");
             :if ([ :len $DHCPClient ] = 1) do={
               /ip/dhcp-client/disable $DHCPClient;
               :delay 200ms;
@@ -50,8 +51,8 @@
             }
             /interface/bridge/port/set disabled=no bridge=$BridgeDefault $BridgePort;
           } else={
-            $LogPrintExit2 debug $0 ("Interface " . $BridgePortVal->"interface" . " already connected to " . $BridgePortTo . \
-                " bridge " . $BridgeDefault . ".") false;
+            $LogPrint debug $0 ("Interface " . $BridgePortVal->"interface" . " already connected to " . $BridgePortTo . \
+                " bridge " . $BridgeDefault . ".");
           }
         }
       }
@@ -59,7 +60,7 @@
   }
   :if ([ :len $InterfaceReEnable ] > 0) do={
     :delay 5s;
-    $LogPrintExit2 info $0 ("Re-enabling interfaces...") false;
+    $LogPrint info $0 ("Re-enabling interfaces...");
     /interface/ethernet/enable $InterfaceReEnable;
   }
 }
