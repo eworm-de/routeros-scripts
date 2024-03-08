@@ -18,10 +18,10 @@
   :global NtfyMessageIDs;
 
   :global IsFullyConnected;
-  :global LogPrintExit2;
+  :global LogPrint;
 
   :if ([ $IsFullyConnected ] = false) do={
-    $LogPrintExit2 debug $0 ("System is not fully connected, not flushing.") false;
+    $LogPrint debug $0 ("System is not fully connected, not flushing.");
     :return false;
   }
 
@@ -29,7 +29,7 @@
   :local QueueLen [ :len $NtfyQueue ];
 
   :if ([ :len [ /system/scheduler/find where name="_FlushNtfyQueue" ] ] > 0 && $QueueLen = 0) do={
-    $LogPrintExit2 warning $0 ("Flushing Ntfy messages from scheduler, but queue is empty.") false;
+    $LogPrint warning $0 ("Flushing Ntfy messages from scheduler, but queue is empty.");
   }
 
   :foreach Id,Message in=$NtfyQueue do={
@@ -39,7 +39,7 @@
           ($Message->"url") http-header-field=($Message->"headers") http-data=($Message->"text") as-value;
         :set ($NtfyQueue->$Id);
       } on-error={
-        $LogPrintExit2 debug $0 ("Sending queued Ntfy message failed.") false;
+        $LogPrint debug $0 ("Sending queued Ntfy message failed.");
         :set AllDone false;
       }
     }
@@ -66,7 +66,7 @@
   :global CertificateAvailable;
   :global EitherOr;
   :global IfThenElse;
-  :global LogPrintExit2;
+  :global LogPrint;
   :global SymbolForNotification;
   :global UrlEncode;
 
@@ -88,13 +88,14 @@
   :do {
     :if ($NtfyServer = "ntfy.sh") do={
       :if ([ $CertificateAvailable "R3" ] = false) do={
-        $LogPrintExit2 warning $0 ("Downloading required certificate failed.") true;
+        $LogPrint warning $0 ("Downloading required certificate failed.");
+        :error false;
       }
     }
     /tool/fetch check-certificate=yes-without-crl output=none http-method=post \
       $Url http-header-field=$Headers http-data=$Text as-value;
   } on-error={
-    $LogPrintExit2 info $0 ("Failed sending ntfy notification! Queuing...") false;
+    $LogPrint info $0 ("Failed sending ntfy notification! Queuing...");
 
     :if ([ :typeof $NtfyQueue ] = "nothing") do={
       :set NtfyQueue ({});
