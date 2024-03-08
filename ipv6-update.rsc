@@ -14,7 +14,7 @@
 :do {
   :local ScriptName [ :jobname ];
 
-  :global LogPrintExit2;
+  :global LogPrint;
   :global ParseKeyValueStore;
   :global ScriptLock;
 
@@ -25,19 +25,20 @@
   }
 
   :if ([ :typeof $PdPrefix ] = "nothing") do={
-    $LogPrintExit2 error $ScriptName ("This script is supposed to run from ipv6 dhcp-client.") true;
+    $LogPrint error $ScriptName ("This script is supposed to run from ipv6 dhcp-client.");
+    :error false;
   }
 
   :local Pool [ /ipv6/pool/get [ find where prefix=$PdPrefix ] name ];
   :if ([ :len [ /ipv6/firewall/address-list/find where comment=("ipv6-pool-" . $Pool) ] ] = 0) do={
     /ipv6/firewall/address-list/add list=("ipv6-pool-" . $Pool) address=:: comment=("ipv6-pool-" . $Pool);
-    $LogPrintExit2 warning $ScriptName ("Added ipv6 address list entry for ipv6-pool-" . $Pool) false;
+    $LogPrint warning $ScriptName ("Added ipv6 address list entry for ipv6-pool-" . $Pool);
   }
   :local AddrList [ /ipv6/firewall/address-list/find where comment=("ipv6-pool-" . $Pool) ];
   :local OldPrefix [ /ipv6/firewall/address-list/get ($AddrList->0) address ];
 
   :if ($OldPrefix != $PdPrefix) do={
-    $LogPrintExit2 info $ScriptName ("Updating IPv6 address list with new IPv6 prefix " . $PdPrefix) false;
+    $LogPrint info $ScriptName ("Updating IPv6 address list with new IPv6 prefix " . $PdPrefix);
     /ipv6/firewall/address-list/set address=$PdPrefix $AddrList;
 
     # give the interfaces a moment to receive their addresses
@@ -56,12 +57,12 @@
           :local Address ($ListEntryVal->"address");
           :local Address ($Prefix | ([ :toip6 [ :pick $Address 0 [ :find $Address "/128" ] ] ] & ::ffff:ffff:ffff:ffff));
 
-          $LogPrintExit2 info $ScriptName ("Updating IPv6 address list with new IPv6 host address " . $Address . \
-            " from interface " . ($Comment->"interface")) false;
+          $LogPrint info $ScriptName ("Updating IPv6 address list with new IPv6 host address " . $Address . \
+            " from interface " . ($Comment->"interface"));
           /ipv6/firewall/address-list/set address=$Address $ListEntry;
         } else={
-          $LogPrintExit2 info $ScriptName ("Updating IPv6 address list with new IPv6 prefix " . $Prefix . \
-            " from interface " . ($Comment->"interface")) false;
+          $LogPrint info $ScriptName ("Updating IPv6 address list with new IPv6 prefix " . $Prefix . \
+            " from interface " . ($Comment->"interface"));
           /ipv6/firewall/address-list/set address=$Prefix $ListEntry;
         }
       }
@@ -77,8 +78,8 @@
         :set Prefix ([ :toip6 [ :pick $Prefix 0 [ :find $Prefix "/64" ] ] ] & ffff:ffff:ffff:ffff::);
         :local Address ($Prefix | ([ :toip6 ($RecordVal->"address") ] & ::ffff:ffff:ffff:ffff));
 
-        $LogPrintExit2 info $ScriptName ("Updating DNS record for " . ($RecordVal->"name") . \
-          ($RecordVal->"regexp") . " to " . $Address) false;
+        $LogPrint info $ScriptName ("Updating DNS record for " . ($RecordVal->"name") . \
+          ($RecordVal->"regexp") . " to " . $Address);
         /ip/dns/static/set address=$Address $Record;
       }
     }
