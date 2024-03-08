@@ -12,7 +12,7 @@
 :local ScriptName [ :jobname ];
 
 # expected configuration version
-:global ExpectedConfigVersion 122;
+:global ExpectedConfigVersion 123;
 
 # global variables not to be changed by user
 :global GlobalFunctionsReady false;
@@ -53,6 +53,7 @@
 :global IsFullyConnected;
 :global IsMacLocallyAdministered;
 :global IsTimeSync;
+:global LogPrint;
 :global LogPrintExit2;
 :global LogPrintOnce;
 :global MAX;
@@ -654,12 +655,11 @@
   :return true;
 }
 
-# log and print with same text, optionally exit
-:set LogPrintExit2 do={
+# log and print with same text
+:set LogPrint do={
   :local Severity [ :tostr $1 ];
   :local Name     [ :tostr $2 ];
   :local Message  [ :tostr $3 ];
-  :local Exit     [ :tostr $4 ];
 
   :global PrintDebug;
   :global PrintDebugOverride;
@@ -692,6 +692,19 @@
   :if ($Severity != "debug" || $Debug = true) do={
     :put ([ $PrintSeverity $Severity ] . ": " . $Message);
   }
+}
+
+# log and print with same text, optionally exit
+# Deprectated! - TODO: remove later
+:set LogPrintExit2 do={
+  :local Severity [ :tostr $1 ];
+  :local Name     [ :tostr $2 ];
+  :local Message  [ :tostr $3 ];
+  :local Exit     [ :tostr $4 ];
+
+  :global LogPrint;
+
+  $LogPrint $1 $2 $3;
 
   :if ($Exit = "true") do={
     :error ("Hard error to exit.");
