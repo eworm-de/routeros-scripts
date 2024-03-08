@@ -26,7 +26,7 @@
           :if ([ :len $DHCPClient ] != 1) do={
             $LogPrint warning $0 ([ $IfThenElse ([ :len $DHCPClient ] = 0) "Missing" "Duplicate" ] . \
                 " dhcp client configuration for interface " . $BridgePortVal->"interface" . "!");
-            :error false;
+            :return false;
           }
           :local DHCPClientDisabled [ /ip/dhcp-client/get $DHCPClient disabled ];
 
@@ -43,7 +43,7 @@
               :set $Vlan ([ /interface/bridge/vlan/get [ find where comment=$Vlan ] vlan-ids ]->0);
             } on-error={
               $LogPrint warning $0 ("Could not find VLAN '" . $Vlan . "' for interface " . $BridgePortVal->"interface" . "!");
-              :error false;
+              :return false;
             }
           }
           :if ($BridgePortVal->"disabled" = true || $Vlan != $BridgePortVal->"pvid") do={
