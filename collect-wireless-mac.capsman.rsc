@@ -23,7 +23,7 @@
   :global FormatLine;
   :global FormatMultiLines;
   :global GetMacVendor;
-  :global LogPrintExit2;
+  :global LogPrint;
   :global ScriptLock;
   :global SendNotification2;
   :global SymbolForNotification;
@@ -34,7 +34,7 @@
 
   :if ([ :len [ /caps-man/access-list/find where comment="--- collected above ---" disabled ] ] = 0) do={
     /caps-man/access-list/add comment="--- collected above ---" disabled=yes;
-    $LogPrintExit2 warning $ScriptName ("Added disabled access-list entry with comment '--- collected above ---'.") false;
+    $LogPrint warning $ScriptName ("Added disabled access-list entry with comment '--- collected above ---'.");
   }
   :local PlaceBefore ([ /caps-man/access-list/find where comment="--- collected above ---" disabled ]->0);
 
@@ -43,14 +43,14 @@
     :do {
       :set RegVal [ /caps-man/registration-table/get $Reg ];
     } on-error={
-      $LogPrintExit2 debug $ScriptName ("Device already gone... Ignoring.") false;
+      $LogPrint debug $ScriptName ("Device already gone... Ignoring.");
     }
 
     :if ([ :len ($RegVal->"mac-address") ] > 0) do={
       :local AccessList ([ /caps-man/access-list/find where mac-address=($RegVal->"mac-address") ]->0);
       :if ([ :len $AccessList ] > 0) do={
-        $LogPrintExit2 debug $ScriptName ("MAC address " . $RegVal->"mac-address" . " already known: " . \
-          [ /caps-man/access-list/get $AccessList comment ]) false;
+        $LogPrint debug $ScriptName ("MAC address " . $RegVal->"mac-address" . " already known: " . \
+          [ /caps-man/access-list/get $AccessList comment ]);
       }
 
       :if ([ :len $AccessList ] = 0) do={
@@ -74,7 +74,7 @@
         :local Vendor [ $GetMacVendor ($RegVal->"mac-address") ];
         :local Message ("MAC address " . $RegVal->"mac-address" . " (" . $Vendor . ", " . $HostName . ") " . \
           "first seen on " . $DateTime . " connected to SSID " . $RegVal->"ssid" . ", interface " . $RegVal->"interface");
-        $LogPrintExit2 info $ScriptName $Message false;
+        $LogPrint info $ScriptName $Message;
         /caps-man/access-list/add place-before=$PlaceBefore comment=$Message mac-address=($RegVal->"mac-address") disabled=yes;
         $SendNotification2 ({ origin=$ScriptName; \
           subject=([ $SymbolForNotification "mobile-phone" ] . $RegVal->"mac-address" . " connected to " . $RegVal->"ssid"); \
@@ -90,7 +90,7 @@
             [ $FormatLine "Date" $DateTime ]) });
       }
     } else={
-      $LogPrintExit2 debug $ScriptName ("No mac address available... Ignoring.") false;
+      $LogPrint debug $ScriptName ("No mac address available... Ignoring.");
     }
   }
 } on-error={ }

@@ -24,7 +24,7 @@
   :global FormatLine;
   :global FormatMultiLines;
   :global GetMacVendor;
-  :global LogPrintExit2;
+  :global LogPrint;
   :global ScriptLock;
   :global SendNotification2;
   :global SymbolForNotification;
@@ -39,7 +39,7 @@
     /caps-man/access-list/add comment="--- collected above ---" disabled=yes;
     /interface/wifi/access-list/add comment="--- collected above ---" disabled=yes;
     /interface/wireless/access-list/add comment="--- collected above ---" disabled=yes;
-    $LogPrintExit2 warning $ScriptName ("Added disabled access-list entry with comment '--- collected above ---'.") false;
+    $LogPrint warning $ScriptName ("Added disabled access-list entry with comment '--- collected above ---'.");
   }
   :local PlaceBefore ([ /caps-man/access-list/find where comment="--- collected above ---" disabled ]->0);
   :local PlaceBefore ([ /interface/wifi/access-list/find where comment="--- collected above ---" disabled ]->0);
@@ -54,7 +54,7 @@
       :set RegVal [ /interface/wifi/registration-table/get $Reg ];
       :set RegVal [ /interface/wireless/registration-table/get $Reg ];
     } on-error={
-      $LogPrintExit2 debug $ScriptName ("Device already gone... Ignoring.") false;
+      $LogPrint debug $ScriptName ("Device already gone... Ignoring.");
     }
 
     :if ([ :len ($RegVal->"mac-address") ] > 0) do={
@@ -62,10 +62,10 @@
       :local AccessList ([ /interface/wifi/access-list/find where mac-address=($RegVal->"mac-address") ]->0);
       :local AccessList ([ /interface/wireless/access-list/find where mac-address=($RegVal->"mac-address") ]->0);
       :if ([ :len $AccessList ] > 0) do={
-        $LogPrintExit2 debug $ScriptName ("MAC address " . $RegVal->"mac-address" . " already known: " . \
-          [ /caps-man/access-list/get $AccessList comment ]) false;
-          [ /interface/wifi/access-list/get $AccessList comment ]) false;
-          [ /interface/wireless/access-list/get $AccessList comment ]) false;
+        $LogPrint debug $ScriptName ("MAC address " . $RegVal->"mac-address" . " already known: " . \
+          [ /caps-man/access-list/get $AccessList comment ]);
+          [ /interface/wifi/access-list/get $AccessList comment ]);
+          [ /interface/wireless/access-list/get $AccessList comment ]);
       }
 
       :if ([ :len $AccessList ] = 0) do={
@@ -90,7 +90,7 @@
         :local Vendor [ $GetMacVendor ($RegVal->"mac-address") ];
         :local Message ("MAC address " . $RegVal->"mac-address" . " (" . $Vendor . ", " . $HostName . ") " . \
           "first seen on " . $DateTime . " connected to SSID " . $RegVal->"ssid" . ", interface " . $RegVal->"interface");
-        $LogPrintExit2 info $ScriptName $Message false;
+        $LogPrint info $ScriptName $Message;
         /caps-man/access-list/add place-before=$PlaceBefore comment=$Message mac-address=($RegVal->"mac-address") disabled=yes;
         /interface/wifi/access-list/add place-before=$PlaceBefore comment=$Message mac-address=($RegVal->"mac-address") disabled=yes;
         /interface/wireless/access-list/add place-before=$PlaceBefore comment=$Message mac-address=($RegVal->"mac-address") disabled=yes;
@@ -108,7 +108,7 @@
             [ $FormatLine "Date" $DateTime ]) });
       }
     } else={
-      $LogPrintExit2 debug $ScriptName ("No mac address available... Ignoring.") false;
+      $LogPrint debug $ScriptName ("No mac address available... Ignoring.");
     }
   }
 } on-error={ }
