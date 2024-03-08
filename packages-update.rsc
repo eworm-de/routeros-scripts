@@ -16,7 +16,7 @@
 
   :global DownloadPackage;
   :global Grep;
-  :global LogPrintExit2;
+  :global LogPrint;
   :global ParseKeyValueStore;
   :global ScriptFromTerminal;
   :global ScriptLock;
@@ -29,7 +29,7 @@
     :local ScriptName [ :tostr $1 ];
 
     :global GetRandomNumber;
-    :global LogPrintExit2;
+    :global LogPrint;
 
     :global RebootForUpdate do={
       /system/reboot;
@@ -39,8 +39,8 @@
     /system/scheduler/add name="_RebootForUpdate" start-time=$StartTime interval=1d \
         on-event=("/system/scheduler/remove \"_RebootForUpdate\"; " . \
         ":global RebootForUpdate; \$RebootForUpdate;");
-    $LogPrintExit2 info $ScriptName ("Scheduled reboot for update at " . $StartTime . \
-        " local time (" . [ /system/clock/get time-zone-name ] . ").") false;
+    $LogPrint info $ScriptName ("Scheduled reboot for update at " . $StartTime . \
+        " local time (" . [ /system/clock/get time-zone-name ] . ").");
     :return true;
   }
 
@@ -51,11 +51,12 @@
   :local Update [ /system/package/update/get ];
 
   :if ([ :typeof ($Update->"latest-version") ] = "nothing") do={
-    $LogPrintExit2 warning $ScriptName ("Latest version is not known.") true;
+    $LogPrint warning $ScriptName ("Latest version is not known.");
+    :error false;
   }
 
   :if ($Update->"installed-version" = $Update->"latest-version") do={
-    $LogPrintExit2 info $ScriptName ("Version " . $Update->"latest-version" . " is already installed.") false;
+    $LogPrint info $ScriptName ("Version " . $Update->"latest-version" . " is already installed.");
     :error true;
   }
 
@@ -63,8 +64,9 @@
   :local NumLatest [ $VersionToNum ($Update->"latest-version") ];
 
   :if ($NumInstalled < 0x070d0000 && $NumLatest > 0x070d0000) do={
-    $LogPrintExit2 error $ScriptName ("Migration to wireless/wifi package in RouterOS " . \
-      ($Update->"latest-version") . " is pending. Please update manually!") true;
+    $LogPrint error $ScriptName ("Migration to wireless/wifi package in RouterOS " . \
+      ($Update->"latest-version") . " is pending. Please update manually!");
+    :error false;
   }
 
   :local DoDowngrade false;
@@ -77,14 +79,16 @@
         :put "Canceled...";
       }
     } else={
-      $LogPrintExit2 warning $ScriptName ("Not installing downgrade automatically.") true;
+      $LogPrint warning $ScriptName ("Not installing downgrade automatically.");
+      :error false;
     }
   }
 
   :foreach Package in=[ /system/package/find where !bundle ] do={
     :local PkgName [ /system/package/get $Package name ];
     :if ([ $DownloadPackage $PkgName ($Update->"latest-version") ] = false) do={
-      $LogPrintExit2 error $ScriptName ("Download for package " . $PkgName . " failed, update aborted.") true;
+      $LogPrint error $ScriptName ("Download for package " . $PkgName . " failed, update aborted.");
+      :error false;
     }
   }
 
@@ -99,29 +103,31 @@
   :foreach Order,Script in=$RunOrder do={
     :set PackagesUpdateBackupFailure false;
     :do {
-      $LogPrintExit2 info $ScriptName ("Running backup script " . $Script . " before update.") false;
+      $LogPrint info $ScriptName ("Running backup script " . $Script . " before update.");
       /system/script/run $Script;
     } on-error={
       :set PackagesUpdateBackupFailure true;
     }
 
     :if ($PackagesUpdateBackupFailure = true) do={
-      $LogPrintExit2 warning $ScriptName ("Running backup script " . $Script . " before update failed!") false;
+      $LogPrint warning $ScriptName ("Running backup script " . $Script . " before update failed!");
       :if ([ $ScriptFromTerminal $ScriptName ] = true) do={
         :put "Do you want to continue anyway? [y/N]";
         :if (([ /terminal/inkey timeout=60 ] % 32) = 25) do={
-          $LogPrintExit2 info $ScriptName ("User requested to continue anyway.") false;
+          $LogPrint info $ScriptName ("User requested to continue anyway.");
         } else={
-          $LogPrintExit2 info $ScriptName ("Canceled update...") true;
+          $LogPrint info $ScriptName ("Canceled update...");
+          :error false;
         }
       } else={
-        $LogPrintExit2 warning $ScriptName ("Canceled non-interactive update.") true;
+        $LogPrint warning $ScriptName ("Canceled non-interactive update.");
+        :error false;
       }
     }
   }
 
   :if ($DoDowngrade = true) do={
-    $LogPrintExit2 info $ScriptName ("Rebooting for downgrade.") false;
+    $LogPrint info $ScriptName ("Rebooting for downgrade.");
     :delay 1s;
     /system/package/downgrade;
   }
@@ -137,7 +143,7 @@
     }
   }
 
-  $LogPrintExit2 info $ScriptName ("Rebooting for update.") false;
+  $LogPrint info $ScriptName ("Rebooting for update.");
   :delay 1s;
   /system/reboot;
 } on-error={ }
