@@ -22,7 +22,7 @@
   :global DeviceInfo;
   :global FormatLine;
   :global HumanReadableNum;
-  :global LogPrintExit2;
+  :global LogPrint;
   :global MkDir;
   :global RandomDelay;
   :global ScriptFromTerminal;
@@ -43,7 +43,8 @@
   }
 
   :if ([ $MkDir ("tmpfs/backup-cloud") ] = false) do={
-    $LogPrintExit2 error $ScriptName ("Failed creating directory!") true;
+    $LogPrint error $ScriptName ("Failed creating directory!");
+    :error false;
   }
 
   :execute {
@@ -76,7 +77,7 @@
     $SendNotification2 ({ origin=$ScriptName; \
       subject=([ $SymbolForNotification "floppy-disk,warning-sign" ] . "Cloud backup failed"); \
       message=("Failed uploading backup for " . $Identity . " to cloud!\n\n" . [ $DeviceInfo ]) });
-    $LogPrintExit2 error $ScriptName ("Failed uploading backup for " . $Identity . " to cloud!") false;
+    $LogPrint error $ScriptName ("Failed uploading backup for " . $Identity . " to cloud!");
     :set PackagesUpdateBackupFailure true;
     :error false;
   }
