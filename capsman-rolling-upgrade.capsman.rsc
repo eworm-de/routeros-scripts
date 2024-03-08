@@ -18,7 +18,7 @@
 :do {
   :local ScriptName [ :jobname ];
 
-  :global LogPrintExit2;
+  :global LogPrint;
   :global ScriptLock;
 
   :if ([ $ScriptLock $ScriptName ] = false) do={
@@ -34,11 +34,11 @@
     :foreach RemoteCap in=[ /caps-man/remote-cap/find where version!=$InstalledVersion ] do={
       :local RemoteCapVal [ /caps-man/remote-cap/get $RemoteCap ];
       :if ([ :len $RemoteCapVal ] > 1) do={
-        $LogPrintExit2 info $ScriptName ("Starting upgrade for " . $RemoteCapVal->"name" . \
-          " (" . $RemoteCapVal->"identity" . ")...") false;
+        $LogPrint info $ScriptName ("Starting upgrade for " . $RemoteCapVal->"name" . \
+          " (" . $RemoteCapVal->"identity" . ")...");
         /caps-man/remote-cap/upgrade $RemoteCap;
       } else={
-        $LogPrintExit2 warning $ScriptName ("Remote CAP vanished, skipping upgrade.") false;
+        $LogPrint warning $ScriptName ("Remote CAP vanished, skipping upgrade.");
       }
       :delay ($Delay . "s");
     }
