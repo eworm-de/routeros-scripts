@@ -24,23 +24,23 @@
 
   :if ([ :len $Key ] = 0 || [ :len $User ] = 0) do={
     $LogPrint warning $0 ("Missing argument(s), please pass key and user!");
-    :error false;
+    :return false;
   }
 
   :if ([ :len [ /user/find where name=$User ] ] = 0) do={
     $LogPrint warning $0 ("User '" . $User . "' does not exist.");
-    :error false;
+    :return false;
   }
 
   :local KeyVal [ :toarray [ $CharacterReplace $Key " " "," ] ];
   :if (!($KeyVal->0 = "ssh-ed25519" || $KeyVal->0 = "ssh-rsa")) do={
     $LogPrint warning $0 ("SSH key of type '" . $KeyVal->0 . "' is not supported.");
-    :error false;
+    :return false;
   }
 
   :if ([ $MkDir "tmpfs/ssh-keys-import" ] = false) do={
     $LogPrint warning $0 ("Creating directory 'tmpfs/ssh-keys-import' failed!");
-    :error false;
+    :return false;
   }
 
   :local FingerPrintMD5 [ :convert from=base64 transform=md5 to=hex ($KeyVal->1) ];
@@ -61,7 +61,7 @@
       "MD5:" . $FingerPrintMD5 . ") for user '" . $User . "'.");
   } on-error={
     $LogPrint warning $0 ("Failed importing key.");
-    :error false;
+    :return false;
   }
 }
 
@@ -78,13 +78,13 @@
 
   :if ([ :len $FileName ] = 0 || [ :len $User ] = 0) do={
     $LogPrint warning $0 ("Missing argument(s), please pass file name and user!");
-    :error false;
+    :return false;
   }
 
   :local File [ /file/find where name=$FileName ];
   :if ([ :len $File ] = 0) do={
     $LogPrint warning $0 ("File '" . $FileName . "' does not exist.");
-    :error false;
+    :return false;
   }
   :local Keys ([ /file/get $FileName contents ] . "\n");
 
