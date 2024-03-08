@@ -26,7 +26,7 @@
   :global HexToNum;
   :global IfThenElse;
   :global LogForwardFilterLogForwarding;
-  :global LogPrintExit2;
+  :global LogPrint;
   :global MAX;
   :global ScriptLock;
   :global SendNotification2;
@@ -42,7 +42,7 @@
 
   :if ($LogForwardRateLimit > 30) do={
     :set LogForwardRateLimit ($LogForwardRateLimit - 1);
-    $LogPrintExit2 info $ScriptName ("Rate limit in action, not forwarding logs, if any!") false;
+    $LogPrint info $ScriptName ("Rate limit in action, not forwarding logs, if any!");
     :error false;
   }
 
