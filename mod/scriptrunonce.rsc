@@ -22,7 +22,7 @@
     :if (!($Script ~ "^(ftp|https?|sftp)://")) do={
       :if ([ :len $ScriptRunOnceBaseUrl ] = 0) do={
         $LogPrint warning $0 ("Script '" . $Script . "' is not an url and base url is not available.");
-        :error false;
+        :return false;
       }
       :set Script ($ScriptRunOnceBaseUrl . $Script . ".rsc" . $ScriptRunOnceUrlSuffix);
     }
