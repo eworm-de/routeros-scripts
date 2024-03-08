@@ -15,21 +15,28 @@
 :do {
   :local ScriptName [ :jobname ];
 
+  :global PackagesUpdateBackupFailure;
+
   :global LogPrintExit2;
   :global ScriptLock;
 
   :if ([ $ScriptLock $ScriptName ] = false) do={
+    :set PackagesUpdateBackupFailure true;
     :error false;
   }
 
   :if ([ :len [ /partitions/find ] ] < 2) do={
-    $LogPrintExit2 error $ScriptName ("Device does not have a fallback partition.") true;
+    $LogPrintExit2 error $ScriptName ("Device does not have a fallback partition.") false;
+    :set PackagesUpdateBackupFailure true;
+    :error false;
   }
 
   :local ActiveRunning [ /partitions/find where active running ];
 
   :if ([ :len $ActiveRunning ] < 1) do={
-    $LogPrintExit2 error $ScriptName ("Device is not running from active partition.") true;
+    $LogPrintExit2 error $ScriptName ("Device is not running from active partition.") false;
+    :set PackagesUpdateBackupFailure true;
+    :error false;
   }
 
   :local FallbackTo [ /partitions/get $ActiveRunning fallback-to ];
@@ -45,6 +52,8 @@
   } on-error={
     /system/scheduler/remove [ find where name="running-from-backup-partition" ];
     $LogPrintExit2 error $ScriptName ("Failed saving configuration to partition '" . \
-        $FallbackTo . "'!") true;
+        $FallbackTo . "'!") false;
+    :set PackagesUpdateBackupFailure true;
+    :error false;
   }
 } on-error={ }
