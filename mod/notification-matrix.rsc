@@ -198,7 +198,7 @@
     $LogPrint debug $0 ("Home server is: " . $MatrixHomeServer);
   } on-error={
     $LogPrint error $0 ("Failed getting home server!");
-    :error false;
+    :return false;
   }
 
   :if ([ :pick $MatrixHomeServer 0 8 ] = "https://") do={
@@ -213,7 +213,7 @@
     $LogPrint debug $0 ("Access token is: " . $MatrixAccessToken);
   } on-error={
     $LogPrint error $0 ("Failed logging in (and getting access token)!");
-    :error false;
+    :return false;
   }
 
   :do {
@@ -223,7 +223,7 @@
     $LogPrint info $0 ("Appended configuration to global-config-overlay. Now create and join a room, please!");
   } on-error={
     $LogPrint error $0 ("Failed appending configuration to global-config-overlay!");
-    :error false;
+    :return false;
   }
 }
 
@@ -246,7 +246,7 @@
     $LogPrint debug $0 ("Joined the room.");
   } on-error={
     $LogPrint error $0 ("Failed joining the room!");
-    :error false;
+    :return false;
   }
 
   :do {
@@ -255,6 +255,6 @@
     $LogPrint info $0 ("Appended configuration to global-config-overlay. Please review and cleanup!");
   } on-error={
     $LogPrint error $0 ("Failed appending configuration to global-config-overlay!");
-    :error false;
+    :return false;
   }
 }
