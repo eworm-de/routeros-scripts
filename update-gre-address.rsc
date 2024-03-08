@@ -16,7 +16,7 @@
   :local ScriptName [ :jobname ];
 
   :global CharacterReplace;
-  :global LogPrintExit2;
+  :global LogPrint;
   :global ScriptLock; 
 
   :if ([ $ScriptLock $ScriptName ] = false) do={
@@ -33,7 +33,7 @@
       :if ([ :typeof ($PeerVal->"dynamic-address") ] = "str" && \
            ($PeerVal->"dynamic-address" != $GreIntVal->"remote-address" || \
             $GreIntVal->"disabled" = true)) do={
-        $LogPrintExit2 info $ScriptName ("Updating remote address for interface " . $GreIntVal->"name" . " to " . $PeerVal->"dynamic-address") false;
+        $LogPrint info $ScriptName ("Updating remote address for interface " . $GreIntVal->"name" . " to " . $PeerVal->"dynamic-address");
         /interface/gre/set remote-address=0.0.0.0 disabled=yes [ find where remote-address=$PeerVal->"dynamic-address" name!=$GreIntVal->"name" ];
         /interface/gre/set $GreInt remote-address=($PeerVal->"dynamic-address") disabled=no;
       }
