@@ -23,6 +23,7 @@
   :global VersionToNum;
 
   :global PackagesUpdateDeferReboot;
+  :global PackagesUpdateBackupFailure;
 
   :local Schedule do={
     :local ScriptName [ :tostr $1 ];
@@ -96,10 +97,15 @@
   }
 
   :foreach Order,Script in=$RunOrder do={
+    :set PackagesUpdateBackupFailure false;
     :do {
       $LogPrintExit2 info $ScriptName ("Running backup script " . $Script . " before update.") false;
       /system/script/run $Script;
     } on-error={
+      :set PackagesUpdateBackupFailure true;
+    }
+
+    :if ($PackagesUpdateBackupFailure = true) do={
       $LogPrintExit2 warning $ScriptName ("Running backup script " . $Script . " before update failed!") false;
       :if ([ $ScriptFromTerminal $ScriptName ] = true) do={
         :put "Do you want to continue anyway? [y/N]";
