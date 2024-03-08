@@ -17,7 +17,7 @@
   :local ScriptName [ :jobname ];
 
   :global CertificateAvailable;
-  :global LogPrintExit2;
+  :global LogPrint;
   :global ParseKeyValueStore;
   :global ScriptLock;
 
@@ -26,7 +26,8 @@
   }
 
   :if ([ $CertificateAvailable "Starfield Secure Certificate Authority - G2" ] = false) do={
-    $LogPrintExit2 error $ScriptName ("Downloading required certificate failed.") true;
+    $LogPrint error $ScriptName ("Downloading required certificate failed.");
+    :error false;
   }
 
   :foreach Interface in=[ /interface/6to4/find where comment~"^tunnelbroker" !disabled ] do={
@@ -41,24 +42,25 @@
             ("https://ipv4.tunnelbroker.net/nic/update?hostname=" . $Comment->"id") \
             user=($Comment->"user") password=($Comment->"pass") output=user as-value ]->"data");
         } on-error={
-          $LogPrintExit2 debug $ScriptName ("Failed downloading, " . $I . " retries pending.") false;
+          $LogPrint debug $ScriptName ("Failed downloading, " . $I . " retries pending.");
           :delay 2s;
         }
       }
     }
 
     :if (!($Data ~ "^(good|nochg) ")) do={
-      $LogPrintExit2 error $ScriptName ("Failed sending the local address to tunnelbroker or unexpected response!") true;
+      $LogPrint error $ScriptName ("Failed sending the local address to tunnelbroker or unexpected response!");
+      :error false;
     }
 
     :local PublicAddress [ :pick $Data ([ :find $Data " " ] + 1) [ :find $Data "\n" ] ];
 
     :if ($PublicAddress != $InterfaceVal->"local-address") do={
       :if ([ :len [ /ip/address find where address~("^" . $PublicAddress . "/") ] ] < 1) do={
-        $LogPrintExit2 warning $ScriptName ("The address " . $PublicAddress . " is not configured on your device. NAT by ISP?") false;
+        $LogPrint warning $ScriptName ("The address " . $PublicAddress . " is not configured on your device. NAT by ISP?");
       }
 
-      $LogPrintExit2 info $ScriptName ("Local address changed, updating tunnel configuration with address: " . $PublicAddress) false;
+      $LogPrint info $ScriptName ("Local address changed, updating tunnel configuration with address: " . $PublicAddress);
       /interface/6to4/set $Interface local-address=$PublicAddress;
     }
   }
