@@ -23,7 +23,7 @@
   :global Identity;
 
   :global FormatLine;
-  :global LogPrintExit2;
+  :global LogPrint;
   :global ScriptLock;
   :global SendNotification2;
   :global SymbolForNotification;
@@ -79,7 +79,7 @@
     :local Skip 0;
 
     :if ($NewPsk != $OldPsk) do={
-      $LogPrintExit2 info $ScriptName ("Updating daily PSK for " . $Ssid . " to " . $NewPsk . " (was " . $OldPsk . ")") false;
+      $LogPrint info $ScriptName ("Updating daily PSK for " . $Ssid . " to " . $NewPsk . " (was " . $OldPsk . ")");
       /caps-man/access-list/set $AccList private-passphrase=$NewPsk;
       /interface/wifi/access-list/set $AccList passphrase=$NewPsk;
       /interface/wireless/access-list/set $AccList private-pre-shared-key=$NewPsk;
@@ -88,7 +88,7 @@
       :if ([ :len [ /interface/wifi/actual-configuration/find where configuration.ssid=$Ssid ] ] > 0) do={
       :if ([ :len [ /interface/wireless/find where name=$IntName !disabled ] ] = 1) do={
         :if ($Seen->$Ssid = 1) do={
-          $LogPrintExit2 debug $ScriptName ("Already sent a mail for SSID " . $Ssid . ", skipping.") false;
+          $LogPrint debug $ScriptName ("Already sent a mail for SSID " . $Ssid . ", skipping.");
         } else={
           :local Link ($DailyPskQrCodeUrl . \
               "?scale=8&level=1&ssid=" . [ $UrlEncode $Ssid ] . "&pass=" . [ $UrlEncode $NewPsk ]);
