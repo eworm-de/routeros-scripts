@@ -8,6 +8,7 @@
 # send notifications via e-mail
 # https://git.eworm.de/cgit/routeros-scripts/about/doc/mod/notification-email.md
 
+:global EMailGenerateFrom;
 :global FlushEmailQueue;
 :global LogForwardFilterLogForwarding;
 :global NotificationEMailSubject;
@@ -17,11 +18,25 @@
 :global SendEMail;
 :global SendEMail2;
 
+# generate from-property with display name
+:set EMailGenerateFrom do={
+  :global Identity;
+
+  :local From [ /tool/e-mail/get from ];
+
+  :if ($From ~ "<.*>\$") do={
+    :return $From;
+  }
+
+  :return ("\"" . $Identity . " via routeros-scripts\" <" . $From . ">");
+}
+
 # flush e-mail queue
 :set FlushEmailQueue do={
   :global EmailQueue;
 
   :global EitherOr;
+  :global EMailGenerateFrom;
   :global IsDNSResolving;
   :global IsTimeSync;
   :global LogPrint;
@@ -67,8 +82,8 @@
           $LogPrint warning $0 ("File '" . $File . "' does not exist, can not attach.");
         }
       }
-      /tool/e-mail/send to=($Message->"to") cc=($Message->"cc") subject=($Message->"subject") \
-        body=($Message->"body") file=$Attach;
+      /tool/e-mail/send from=[ $EMailGenerateFrom ] to=($Message->"to") cc=($Message->"cc") \
+        subject=($Message->"subject") body=($Message->"body") file=$Attach;
       :local Wait true;
       :do {
         :delay 1s;
