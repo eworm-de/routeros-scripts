@@ -243,20 +243,14 @@
   "cert2-cn"="4n0th3r-s3cr3t";
 };
 
-# load custom settings from overlay
+# load custom settings from overlay and snippets
 # Warning: Do *NOT* copy this code to overlay!
-:do {
-  /system/script/run global-config-overlay;
-} on-error={
-  :log error ("Loading configuration from overlay failed!");
-}
-
-# configuration overlay snippets
-:foreach Script in=[ /system/script/find where name ~ "^global-config-overlay.d/" ] do={
+:foreach Script in=([ /system/script/find where name="global-config-overlay" ], \
+                    [ /system/script/find where name~"^global-config-overlay.d/" ]) do={
   :do {
     /system/script/run $Script;
   } on-error={
-    :log error ("Loading configuration from overlay snippet " . \
+    :log error ("Loading configuration from overlay or snippet " . \
         [ /system/script/get $Script name ] . " failed!");
   }
 }
