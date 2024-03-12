@@ -22,13 +22,15 @@
 :set EMailGenerateFrom do={
   :global Identity;
 
+  :global CleanName;
+
   :local From [ /tool/e-mail/get from ];
 
   :if ($From ~ "<.*>\$") do={
     :return $From;
   }
 
-  :return ("\"" . $Identity . " via routeros-scripts\" <" . $From . ">");
+  :return ([ $CleanName $Identity ] . " via routeros-scripts <" . $From . ">");
 }
 
 # flush e-mail queue
