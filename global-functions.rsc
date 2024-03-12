@@ -16,7 +16,12 @@
 
 # global variables not to be changed by user
 :global GlobalFunctionsReady false;
-:global FetchUserAgent ("User-Agent: Mikrotik/" . [ /system/resource/get version ] . " Fetch");
+:global FetchUserAgent;
+{
+  :local Resource [ /system/resource/get ];
+  :set FetchUserAgent ("User-Agent: Mikrotik/" . $Resource->"version" . \
+    " " . $Resource->"architecture-name" . " Fetch");
+}
 :global Identity [ /system/identity/get name ];
 
 # global functions
