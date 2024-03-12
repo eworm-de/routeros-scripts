@@ -9,7 +9,7 @@
 # global functions
 # https://git.eworm.de/cgit/routeros-scripts/about/
 
-:local 0 [ :jobname ];
+:local ScriptName [ :jobname ];
 
 # expected configuration version
 :global ExpectedConfigVersion 119;
@@ -1534,7 +1534,7 @@
 
 # Log success
 :local Resource [ /system/resource/get ];
-$LogPrintOnce info $0 ("Loaded on " . $Resource->"board-name" . \
+$LogPrintOnce info $ScriptName ("Loaded on " . $Resource->"board-name" . \
   " with RouterOS " . $Resource->"version" . ".") false;
 
 # signal we are ready
