@@ -3,7 +3,7 @@
 # Copyright (c) 2020-2024 Christian Hesse <mail@eworm.de>
 # https://git.eworm.de/cgit/routeros-scripts/about/COPYING.md
 #
-# requires RouterOS, version=7.13
+# requires RouterOS, version=7.15beta4
 #
 # monitor netwatch and send notifications
 # https://git.eworm.de/cgit/routeros-scripts/about/doc/netwatch-notify.md
@@ -102,7 +102,8 @@
       :if ([ :typeof ($HostInfo->"resolve") ] = "str") do={
         :if ([ $IsDNSResolving ] = true) do={
           :do {
-            :local Resolve [ :resolve ($HostInfo->"resolve") ];
+            :local Resolve [ :resolve type=[ $IfThenElse ([ :typeof ($HostVal->"host" ] = "ip") \
+                "ipv4" "ipv6" ] ($HostInfo->"resolve") ];
             :if ($Resolve != $HostVal->"host") do={
               :if ([ $ResolveExpected $ScriptName ($HostInfo->"resolve") ($HostVal->"host") ] = false) do={
                 $LogPrint info $ScriptName ("Name '" . $HostInfo->"resolve" . [ $IfThenElse \
