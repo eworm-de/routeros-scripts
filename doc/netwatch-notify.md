@@ -111,6 +111,13 @@ included verbatim into the notification.
 
     /tool/netwatch/add comment="notify, name=example, note=Do not touch!" host=10.0.0.31;
 
+### Add a link in notification
+
+It is possible to add a link in notification, that is added below the
+formatted notification text.
+
+    /tool/netwatch/add comment="notify, name=example.com, resolve=example.com, link=https://example.com/";
+
 Tips & Tricks
 -------------
 

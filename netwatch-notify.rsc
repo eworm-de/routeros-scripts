@@ -144,7 +144,7 @@
           }
           $SendNotification2 ({ origin=[ $EitherOr ($HostInfo->"origin") $ScriptName ]; silent=($HostInfo->"silent"); \
             subject=([ $SymbolForNotification "white-heavy-check-mark" ] . "Netwatch Notify: " . $Name . " up"); \
-            message=$Message });
+            message=$Message; link=($HostInfo->"link") });
         }
         :set ($Metric->"notified") false;
         :set ($Metric->"parent") ($HostInfo->"parent");
@@ -199,7 +199,7 @@
           :if ($HostInfo->"no-down-notification" != true) do={
             $SendNotification2 ({ origin=[ $EitherOr ($HostInfo->"origin") $ScriptName ]; silent=($HostInfo->"silent"); \
               subject=([ $SymbolForNotification "cross-mark" ] . "Netwatch Notify: " . $Name . " down"); \
-              message=$Message });
+              message=$Message; link=($HostInfo->"link") });
           }
           :set ($Metric->"notified") true;
         }
