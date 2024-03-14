@@ -1365,6 +1365,9 @@
     "mobile-phone"="\F0\9F\93\B1";
     "pushpin"="\F0\9F\93\8C";
     "scissors"="\E2\9C\82";
+    "smiley-partying-face"="\F0\9F\A5\B3";
+    "smiley-smiling-face"="\E2\98\BA";
+    "smiley-winking-face-with-tongue"="\F0\9F\98\9C";
     "sparkles"="\E2\9C\A8";
     "speech-balloon"="\F0\9F\92\AC";
     "star"="\E2\AD\90";
