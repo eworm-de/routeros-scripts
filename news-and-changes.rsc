@@ -49,6 +49,7 @@
   122="The global configuration was enhanced to support loading snippets. Configuration can be split off to scripts where name starts with 'global-config-overlay.d/'.";
   123="Introduced new function '\$LogPrint', and deprecated '\$LogPrintExit2'. Please update custom scripts if you use it.";
   124="Added support for links in 'netwatch-notify', these are added below the formatted notification text.";
+  125=("Donations do not pay off, thus I will start charging fees soon: 5\C2\A2 each notification, 20\C2\A2 each backup, 50\C2\A2 for script updates. Please add credit card information and mail address for invoice.");
 };
 
 # Migration steps to be applied on script updates
@@ -57,4 +58,5 @@
   100=":global ScriptInstallUpdate; :if ([ :len [ /system/script/find where name=\"ssh-keys-import\" source~\"^#!rsc by RouterOS\\n\" ] ] > 0) do={ /system/script/set name=\"mod/ssh-keys-import\" ssh-keys-import; \$ScriptInstallUpdate; }";
   104=":global CharacterReplace; :global ScriptInstallUpdate; :foreach Script in={ \"capsman-download-packages\"; \"capsman-rolling-upgrade\"; \"hotspot-to-wpa\"; \"hotspot-to-wpa-cleanup\" } do={ /system/script/set name=(\$Script . \".capsman\") [ find where name=\$Script ]; :foreach Scheduler in=[ /system/scheduler/find where on-event~(\$Script . \"([^-.]|\\\$)\") ] do={ /system/scheduler/set \$Scheduler on-event=[ \$CharacterReplace [ get \$Scheduler on-event ] \$Script (\$Script . \".capsman\") ]; }; }; /ip/hotspot/user/profile/set on-login=\"hotspot-to-wpa.capsman\" [ find where on-login=\"hotspot-to-wpa\" ]; \$ScriptInstallUpdate;";
   111=":local Rec [ /ip/dns/static/find where comment~\"^managed by dhcp-to-dns for \" ]; :if ([ :len \$Rec ] > 0) do={ /ip/dns/static/remove \$Rec; /system/script/run dhcp-to-dns; }";
+  125="/system/scheduler/add interval=20h name=_AprilsFool on-event=\"/system/scheduler/remove _AprilsFool; :global SendNotification; :global SymbolForNotification; \\\$SendNotification ([ \\\$SymbolForNotification \\\"smiley-partying-face\\\" ] . \\\"April's Fool!\\\") (\\\"Just played an April's Fool... Of course this project is and remains open source, free of charge and fees.\\\\n\\\\n(Anyway... Donations are much appreciated, \\\" . [ \\\$SymbolForNotification \\\"smiley-smiling-face\\\" ] . \\\"thanks!)\\\") \\\"https://rsc.eworm.de/#donate\\\";\";";
 };
