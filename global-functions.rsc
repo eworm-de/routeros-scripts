@@ -703,6 +703,10 @@
   :local Exit     [ :tostr $4 ];
 
   :global LogPrint;
+  :global LogPrintOnce;
+
+  $LogPrintOnce warning $0 \
+    ("This function is deprecated and will be removed. Please make your adjustments!");
 
   $LogPrint $1 $2 $3;
 
