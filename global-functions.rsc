@@ -1171,7 +1171,7 @@
           "This project is developed in private spare time and usage is " . \
           "free of charge for you. If you like the scripts and think this is " . \
           "of value for you or your business please consider a donation.");
-        :set Link "https://git.eworm.de/cgit/routeros-scripts/about/#donate";
+        :set Link "https://rsc.eworm.de/#donate";
       }
 
       $SendNotification2 ({ origin=$0; \
