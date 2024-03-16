@@ -16,12 +16,6 @@
 
 # global variables not to be changed by user
 :global GlobalFunctionsReady false;
-:global FetchUserAgent;
-{
-  :local Resource [ /system/resource/get ];
-  :set FetchUserAgent ("User-Agent: Mikrotik/" . $Resource->"version" . \
-    " " . $Resource->"architecture-name" . " Fetch");
-}
 :global Identity [ /system/identity/get name ];
 
 # global functions
@@ -38,6 +32,7 @@
 :global DownloadPackage;
 :global EitherOr;
 :global EscapeForRegEx;
+:global FetchUserAgent;
 :global FormatLine;
 :global FormatMultiLines;
 :global GetMacVendor;
@@ -137,11 +132,11 @@
 :set CertificateDownload do={
   :local CommonName [ :tostr $1 ];
 
-  :global FetchUserAgent;
   :global ScriptUpdatesBaseUrl;
   :global ScriptUpdatesUrlSuffix;
 
   :global CertificateNameByCN;
+  :global FetchUserAgent;
   :global LogPrint;
   :global UrlEncode;
   :global WaitForFile;
@@ -151,7 +146,7 @@
   :do {
     :local LocalFileName ($CommonName . ".pem");
     :local UrlFileName ([ $UrlEncode $CommonName ] . ".pem");
-    /tool/fetch check-certificate=yes-without-crl http-header-field=({ $FetchUserAgent }) \
+    /tool/fetch check-certificate=yes-without-crl http-header-field=({ [ $FetchUserAgent $0 ] }) \
       ($ScriptUpdatesBaseUrl . "certs/" . $UrlFileName . $ScriptUpdatesUrlSuffix) \
       dst-path=$LocalFileName as-value;
     $WaitForFile $LocalFileName;
@@ -394,6 +389,16 @@
   }
 
   :return $Return;
+}
+
+# generate user agent string for fetch
+:global FetchUserAgent do={
+  :local Caller [ :tostr $1 ];
+
+  :local Resource [ /system/resource/get ];
+
+  :return ("User-Agent: Mikrotik/" . $Resource->"version" . " " . \
+    $Resource->"architecture-name" . " " . $Caller . "/Fetch (https://rsc.eworm.de/)");
 }
 
 # format a line for output
@@ -975,7 +980,6 @@
   :local NewComment [ :tostr   $2 ];
 
   :global ExpectedConfigVersion;
-  :global FetchUserAgent;
   :global Identity;
   :global IDonate;
   :global NoNewsAndChangesNotification;
@@ -984,6 +988,7 @@
 
   :global CertificateAvailable;
   :global EitherOr;
+  :global FetchUserAgent;
   :global Grep;
   :global IfThenElse;
   :global LogPrint;
@@ -1029,7 +1034,7 @@
         :local Url ($BaseUrl . $ScriptVal->"name" . ".rsc" . $UrlSuffix);
         $LogPrint debug $0 ("Fetching script '" . $ScriptVal->"name" . "' from url: " . $Url);
         :local Result [ /tool/fetch check-certificate=yes-without-crl \
-          http-header-field=({ $FetchUserAgent }) $Url output=user as-value ];
+          http-header-field=({ [ $FetchUserAgent $0 ] }) $Url output=user as-value ];
         :if ($Result->"status" = "finished") do={
           :set SourceNew ($Result->"data");
         }
@@ -1112,7 +1117,7 @@
       :local Url ($ScriptUpdatesBaseUrl . "news-and-changes.rsc" . $ScriptUpdatesUrlSuffix);
       $LogPrint debug $0 ("Fetching news, changes and migration: " . $Url);
       :local Result [ /tool/fetch check-certificate=yes-without-crl \
-        http-header-field=({ $FetchUserAgent }) $Url output=user as-value ];
+        http-header-field=({ [ $FetchUserAgent $0 ] }) $Url output=user as-value ];
       :if ($Result->"status" = "finished") do={
         :set ChangeLogCode ($Result->"data");
       }
