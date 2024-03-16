@@ -136,25 +136,24 @@
   :global ScriptUpdatesUrlSuffix;
 
   :global CertificateNameByCN;
+  :global CleanName;
   :global FetchUserAgent;
   :global LogPrint;
-  :global UrlEncode;
   :global WaitForFile;
 
   $LogPrint info $0 ("Downloading and importing certificate with " . \
       "CommonName \"" . $CommonName . "\".");
   :do {
-    :local LocalFileName ($CommonName . ".pem");
-    :local UrlFileName ([ $UrlEncode $CommonName ] . ".pem");
+    :local FileName ([ $CleanName $CommonName ] . ".pem");
     /tool/fetch check-certificate=yes-without-crl http-header-field=({ [ $FetchUserAgent $0 ] }) \
-      ($ScriptUpdatesBaseUrl . "certs/" . $UrlFileName . $ScriptUpdatesUrlSuffix) \
-      dst-path=$LocalFileName as-value;
-    $WaitForFile $LocalFileName;
-    /certificate/import file-name=$LocalFileName passphrase="" as-value;
+      ($ScriptUpdatesBaseUrl . "certs/" . $FileName . $ScriptUpdatesUrlSuffix) \
+      dst-path=$FileName as-value;
+    $WaitForFile $FileName;
+    /certificate/import file-name=$FileName passphrase="" as-value;
     :delay 1s;
-    /file/remove $LocalFileName;
+    /file/remove $FileName;
 
-    :foreach Cert in=[ /certificate/find where name~("^" . $LocalFileName . "_[0-9]+\$") ] do={
+    :foreach Cert in=[ /certificate/find where name~("^" . $FileName . "_[0-9]+\$") ] do={
       $CertificateNameByCN [ /certificate/get $Cert common-name ];
     }
   } on-error={
