@@ -24,6 +24,7 @@
 
   :global DeviceInfo;
   :global EscapeForRegEx;
+  :global FetchUserAgent;
   :global LogPrint;
   :global ScriptFromTerminal;
   :global ScriptLock;
@@ -108,7 +109,8 @@
       :do {
         :set Result [ /tool/fetch check-certificate=yes-without-crl \
             ($SafeUpdateUrl . $Update->"channel" . "?installed=" . $Update->"installed-version" . \
-            "&latest=" . $Update->"latest-version") output=user as-value ];
+            "&latest=" . $Update->"latest-version") http-header-field=({ [ $FetchUserAgent $ScriptName ] }) \
+            output=user as-value ];
       } on-error={
         $LogPrint warning $ScriptName ("Failed receiving safe version for " . $Update->"channel" . ".");
       }
