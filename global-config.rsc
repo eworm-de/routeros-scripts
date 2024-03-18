@@ -104,6 +104,10 @@
 #    { url="https://www.spamhaus.org/drop/edrop.txt";
 #      cert="Cloudflare Inc ECC CA-3" };
   };
+#  "mikrotik"={
+#    { url="https://eworm.de/ros/fw-addr-lists/mikrotik";
+#      cert="E1"; timeout=1w };
+#  };
 };
 :global FwAddrListTimeOut 1d;
 
