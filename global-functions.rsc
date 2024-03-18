@@ -50,7 +50,6 @@
 :global IsMacLocallyAdministered;
 :global IsTimeSync;
 :global LogPrint;
-:global LogPrintExit2;
 :global LogPrintOnce;
 :global MAX;
 :global MIN;
@@ -741,27 +740,6 @@
 
   :if ($Severity != "debug" || $Debug = true) do={
     :put ([ $PrintSeverity $Severity ] . ": " . $Message);
-  }
-}
-
-# log and print with same text, optionally exit
-# Deprectated! - TODO: remove later
-:set LogPrintExit2 do={
-  :local Severity [ :tostr $1 ];
-  :local Name     [ :tostr $2 ];
-  :local Message  [ :tostr $3 ];
-  :local Exit     [ :tostr $4 ];
-
-  :global LogPrint;
-  :global LogPrintOnce;
-
-  $LogPrintOnce warning $0 \
-    ("This function is deprecated and will be removed. Please make your adjustments!");
-
-  $LogPrint $1 $2 $3;
-
-  :if ($Exit = "true") do={
-    :error ("Hard error to exit.");
   }
 }
 
