@@ -87,11 +87,11 @@
 # This defines the settings for firewall address-lists (fw-addr-lists).
 :global FwAddrLists {
 #  "allow"={
-#    { url="https://eworm.de/ros/fw-addr-lists/allow";
+#    { url="https://git.eworm.de/cgit/routeros-scripts/plain/fw-addr-lists.d/allow";
 #      cert="E1"; timeout=1w };
 #  };
   "block"={
-#    { url="https://eworm.de/ros/fw-addr-lists/block";
+#    { url="https://git.eworm.de/cgit/routeros-scripts/plain/fw-addr-lists.d/block";
 #      cert="E1" };
     { url="https://feodotracker.abuse.ch/downloads/ipblocklist_recommended.txt";
       cert="GlobalSign Atlas R3 DV TLS CA 2022 Q3" };
@@ -105,7 +105,7 @@
 #      cert="Cloudflare Inc ECC CA-3" };
   };
 #  "mikrotik"={
-#    { url="https://eworm.de/ros/fw-addr-lists/mikrotik";
+#    { url="https://git.eworm.de/cgit/routeros-scripts/plain/fw-addr-lists.d/mikrotik";
 #      cert="E1"; timeout=1w };
 #  };
 };
