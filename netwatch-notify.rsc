@@ -27,10 +27,11 @@
   :global SymbolForNotification;
 
   :local NetwatchNotifyHook do={
-    :local Name  [ :tostr $1 ];
-    :local Type  [ :tostr $2 ];
-    :local State [ :tostr $3 ];
-    :local Hook  [ :tostr $4 ];
+    :local ScriptName [ :tostr $1 ];
+    :local Name       [ :tostr $2 ];
+    :local Type       [ :tostr $3 ];
+    :local State      [ :tostr $4 ];
+    :local Hook       [ :tostr $5 ];
 
     :global LogPrint;
     :global ValidateSyntax;
@@ -39,25 +40,26 @@
       :do {
         [ :parse $Hook ];
       } on-error={
-        $LogPrint warning $0 ("The " . $State . "-hook for " . $Type . " '" . $Name . "' failed to run.");
+        $LogPrint warning $ScriptName ("The " . $State . "-hook for " . $Type . " '" . $Name . "' failed to run.");
         :return ("The hook failed to run.");
       }
     } else={
-      $LogPrint warning $0 ("The " . $State . "-hook for " . $Type . " '" . $Name . "' failed syntax validation.");
+      $LogPrint warning $ScriptName ("The " . $State . "-hook for " . $Type . " '" . $Name . "' failed syntax validation.");
       :return ("The hook failed syntax validation.");
     }
 
-    $LogPrint info $0 ("Ran hook on " . $Type . " '" . $Name . "' " . $State . ": " . $Hook);
+    $LogPrint info $ScriptName ("Ran hook on " . $Type . " '" . $Name . "' " . $State . ": " . $Hook);
     :return ("Ran hook:\n" . $Hook);
   }
 
   :local ResolveExpected do={
-    :local Name     [ :tostr $1 ];
-    :local Expected [ :tostr $2 ];
+    :local ScriptName [ :tostr $1 ];
+    :local Name       [ :tostr $2 ];
+    :local Expected   [ :tostr $3 ];
 
     :global GetRandom20CharAlNum;
 
-    :local FwAddrList ($0 . "-" . [ $GetRandom20CharAlNum ]);
+    :local FwAddrList ($ScriptName . "-" . [ $GetRandom20CharAlNum ]);
     /ip/firewall/address-list/add address=$Name list=$FwAddrList dynamic=yes timeout=1s;
     :delay 20ms;
     :if ([ :len [ /ip/firewall/address-list/find where list=$FwAddrList address=$Expected ] ] > 0) do={
@@ -102,7 +104,7 @@
           :do {
             :local Resolve [ :resolve ($HostInfo->"resolve") ];
             :if ($Resolve != $HostVal->"host") do={
-              :if ([ $ResolveExpected ($HostInfo->"resolve") ($HostVal->"host") ] = false) do={
+              :if ([ $ResolveExpected $ScriptName ($HostInfo->"resolve") ($HostVal->"host") ] = false) do={
                 $LogPrint info $ScriptName ("Name '" . $HostInfo->"resolve" . [ $IfThenElse \
                     ($HostInfo->"resolve" != $HostInfo->"name") ("' for " . $Type . " '" . \
                     $HostInfo->"name") "" ] . "' resolves to different address " . $Resolve . \
@@ -139,7 +141,7 @@
             :set Message ($Message . "\n\nNote:\n" . ($HostInfo->"note"));
           }
           :if ([ :typeof ($HostInfo->"up-hook") ] = "str") do={
-            :set Message ($Message . "\n\n" . [ $NetwatchNotifyHook $Name $Type "up" \
+            :set Message ($Message . "\n\n" . [ $NetwatchNotifyHook $ScriptName $Name $Type "up" \
                 ($HostInfo->"up-hook") ]);
           }
           $SendNotification2 ({ origin=[ $EitherOr ($HostInfo->"origin") $ScriptName ]; silent=($HostInfo->"silent"); \
@@ -183,7 +185,7 @@
         }
         :if ((($CountDown * 2) - ($Metric->"count-down" * 3)) / 2 = 0 && \
              [ :typeof ($HostInfo->"pre-down-hook") ] = "str") do={
-          $NetwatchNotifyHook $Name $Type "pre-down" ($HostInfo->"pre-down-hook");
+          $NetwatchNotifyHook $ScriptName $Name $Type "pre-down" ($HostInfo->"pre-down-hook");
         }
         :if ($ParentNotified = false && $Metric->"count-down" >= $CountDown && \
              ($ParentUp = false || $ParentUp > 2) && $Metric->"notified" != true) do={
@@ -193,7 +195,7 @@
             :set Message ($Message . "\n\nNote:\n" . ($HostInfo->"note"));
           }
           :if ([ :typeof ($HostInfo->"down-hook") ] = "str") do={
-            :set Message ($Message . "\n\n" . [ $NetwatchNotifyHook $Name $Type "down" \
+            :set Message ($Message . "\n\n" . [ $NetwatchNotifyHook $ScriptName $Name $Type "down" \
                 ($HostInfo->"down-hook") ]);
           }
           :if ($HostInfo->"no-down-notification" != true) do={
