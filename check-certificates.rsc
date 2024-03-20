@@ -31,7 +31,8 @@
   :global WaitFullyConnected;
 
   :local CheckCertificatesDownloadImport do={
-    :local Name [ :tostr $1 ];
+    :local ScriptName [ :tostr $1 ];
+    :local Name       [ :tostr $2 ];
 
     :global CertRenewUrl;
     :global CertRenewPass;
@@ -48,7 +49,7 @@
     :foreach Type in={ ".pem"; ".p12" } do={
       :local CertFileName ([ $UrlEncode $Name ] . $Type);
       :do {
-        /tool/fetch check-certificate=yes-without-crl http-header-field=({ [ $FetchUserAgent $0 ] }) \
+        /tool/fetch check-certificate=yes-without-crl http-header-field=({ [ $FetchUserAgent $ScriptName ] }) \
             ($CertRenewUrl . $CertFileName) dst-path=$CertFileName as-value;
         $WaitForFile $CertFileName;
 
@@ -62,7 +63,7 @@
         /file/remove [ find where name=$CertFileName ];
 
         :if ($DecryptionFailed = true) do={
-          $LogPrint warning $0 ("Decryption failed for certificate file '" . $CertFileName . "'.");
+          $LogPrint warning $ScriptName ("Decryption failed for certificate file '" . $CertFileName . "'.");
         }
 
         :foreach CertInChain in=[ /certificate/find where name~("^" . [ $EscapeForRegEx $CertFileName ] . "_[0-9]+\$") \
@@ -72,7 +73,7 @@
 
         :set Return true;
       } on-error={
-        $LogPrint debug $0 ("Could not download certificate file '" . $CertFileName . "'.");
+        $LogPrint debug $ScriptName ("Could not download certificate file '" . $CertFileName . "'.");
       }
     }
 
@@ -150,11 +151,11 @@
 
       :local ImportSuccess false;
       :set LastName ($CertVal->"common-name");
-      :set ImportSuccess [ $CheckCertificatesDownloadImport $LastName ];
+      :set ImportSuccess [ $CheckCertificatesDownloadImport $ScriptName $LastName ];
       :foreach SAN in=($CertVal->"subject-alt-name") do={
         :if ($ImportSuccess = false) do={
           :set LastName [ :pick $SAN ([ :find $SAN ":" ] + 1) [ :len $SAN ] ];
-          :set ImportSuccess [ $CheckCertificatesDownloadImport $LastName ];
+          :set ImportSuccess [ $CheckCertificatesDownloadImport $ScriptName $LastName ];
         }
       }
       :if ($ImportSuccess = false) do={ :error false; }
