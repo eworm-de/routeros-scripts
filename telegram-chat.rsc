@@ -136,23 +136,26 @@
             :execute script=(":do {\n" . $Message->"text" . "\n} on-error={ /file/add name=\"" . $File . ".failed\" };" . \
               "/file/add name=\"" . $File . ".done\"") file=($File . "\00");
             :if ([ $WaitForFile ($File . ".done") [ $EitherOr $TelegramChatRunTime 20s ] ] = false) do={
-              :set State "The command did not finish, still running in background.\n\n";
+              :set State ([ $SymbolForNotification "warning-sign" ] . "The command did not finish, still running in background.\n\n");
             }
             :if ([ :len [ /file/find where name=($File . ".failed") ] ] > 0) do={
-              :set State "The command failed with an error!\n\n";
+              :set State ([ $SymbolForNotification "cross-mark" ] . "The command failed with an error!\n\n");
             }
             :local Content [ /file/get $File contents ];
             $SendTelegram2 ({ origin=$ScriptName; chatid=($Chat->"id"); silent=true; replyto=($Message->"message_id"); \
               subject=([ $SymbolForNotification "speech-balloon" ] . "Telegram Chat"); \
-              message=("Command:\n" . $Message->"text" . "\n\n" . $State . [ $IfThenElse ([ :len $Content ] > 0) \
-                ("Output:\n" . $Content) [ $IfThenElse ([ /file/get $File size ] > 0) \
-                ("Output exceeds file read size.") ("No output.") ] ]) });
+              message=([ $SymbolForNotification "gear" ] . "Command:\n" . $Message->"text" . "\n\n" . \
+                $State . [ $IfThenElse ([ :len $Content ] > 0) \
+                ([ $SymbolForNotification "memo" ] . "Output:\n" . $Content) [ $IfThenElse ([ /file/get $File size ] > 0) \
+                ([ $SymbolForNotification "warning-sign" ] . "Output exceeds file read size.") \
+                ([ $SymbolForNotification "memo" ] . "No output.") ] ]) });
             /file/remove "tmpfs/telegram-chat";
           } else={
             $LogPrint info $ScriptName ("The command from update " . $UpdateID . " failed syntax validation!");
             $SendTelegram2 ({ origin=$ScriptName; chatid=($Chat->"id"); silent=false; replyto=($Message->"message_id"); \
               subject=([ $SymbolForNotification "speech-balloon" ] . "Telegram Chat"); \
-              message=("Command:\n" . $Message->"text" . "\n\nThe command failed syntax validation!") });
+              message=([ $SymbolForNotification "gear" ] . "Command:\n" . $Message->"text" . "\n\n" . \
+                [ $SymbolForNotification "cross-mark" ] . "The command failed syntax validation!") });
           }
         }
       } else={

@@ -1361,6 +1361,7 @@
     "earth"="\F0\9F\8C\8D";
     "fire"="\F0\9F\94\A5";
     "floppy-disk"="\F0\9F\92\BE";
+    "gear"="\E2\9A\99";
     "heart"="\E2\99\A5";
     "high-voltage-sign"="\E2\9A\A1";
     "incoming-envelope"="\F0\9F\93\A8";
