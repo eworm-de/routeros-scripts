@@ -111,7 +111,7 @@
           $LogPrint info $ScriptName ("Sending notice for update " . $UpdateID . ".");
           $SendTelegram2 ({ origin=$ScriptName; chatid=($Chat->"id"); silent=true; replyto=($Message->"message_id"); \
             subject=([ $SymbolForNotification "speech-balloon" ] . "Telegram Chat"); \
-            message=("Online, awaiting your commands!") });
+            message=("Online" . [ $IfThenElse $TelegramChatActive " (and active!)" ] . ", awaiting your commands!") });
           :set Done true;
         }
         :if ($Done = false && [ :pick ($Message->"text") 0 1 ] = "!") do={
