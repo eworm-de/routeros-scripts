@@ -734,11 +734,12 @@
   }
 
   :if ($LogPrintOnceMessages->$Message = 1) do={
-    :return true;
+    :return false;
   }
 
   :set ($LogPrintOnceMessages->$Message) 1;
   $LogPrint $Severity $Name $Message;
+  :return true;
 }
 
 # get max value
