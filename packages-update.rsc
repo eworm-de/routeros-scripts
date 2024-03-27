@@ -130,10 +130,12 @@
     :put "Do you want to (s)chedule reboot or (r)eboot now? [s/R]";
     :if (([ /terminal/inkey timeout=60 ] % 32) = 19) do={
       $Schedule $ScriptName;
+      :error true;
     }
   } else={
     :if ($PackagesUpdateDeferReboot = true) do={
       $Schedule $ScriptName;
+      :error true;
     }
   }
 
