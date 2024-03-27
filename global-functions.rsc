@@ -391,7 +391,7 @@
 }
 
 # generate user agent string for fetch
-:global FetchUserAgent do={
+:set FetchUserAgent do={
   :local Caller [ :tostr $1 ];
 
   :local Resource [ /system/resource/get ];
