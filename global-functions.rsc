@@ -392,14 +392,18 @@
 
 # fetch huge data to file, read in chunks
 :set FetchHuge do={
-  :local ScriptName [ :tostr $1 ];
-  :local Url        [ :tostr $2 ];
+  :local ScriptName [ :tostr  $1 ];
+  :local Url        [ :tostr  $2 ];
+  :local CheckCert  [ :tobool $3 ];
 
   :global FetchUserAgentStr;
   :global GetRandom20CharAlNum;
+  :global IfThenElse;
   :global LogPrint;
   :global MkDir;
   :global WaitForFile;
+
+  :set CheckCert [ $IfThenElse ($CheckCert = false) "no" "yes-without-crl" ];
 
   :if ([ $MkDir "tmpfs/" . $ScriptName ] = false) do={
     $LogPrint error $0 ("Failed creating directory!");
@@ -409,7 +413,7 @@
   :local FileName ("tmpfs/" . $ScriptName . "/" . $0 . "-" . [ $GetRandom20CharAlNum ]);
 
   :do {
-    /tool/fetch check-certificate=yes-without-crl $Url dst-path=$FileName \
+    /tool/fetch check-certificate=$CheckCert $Url dst-path=$FileName \
       http-header-field=({ [ $FetchUserAgentStr $ScriptName ] }) as-value;
   } on-error={
     $LogPrint debug $0 ("Failed downloading from: " . $Url);
