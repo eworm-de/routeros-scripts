@@ -395,6 +395,7 @@
   :local ScriptName [ :tostr $1 ];
   :local Url        [ :tostr $2 ];
 
+  :global FetchUserAgentStr;
   :global GetRandom20CharAlNum;
   :global LogPrint;
   :global MkDir;
@@ -408,7 +409,8 @@
   :local FileName ("tmpfs/" . $ScriptName . "/" . $0 . "-" . [ $GetRandom20CharAlNum ]);
 
   :do {
-    /tool/fetch check-certificate=yes-without-crl $Url dst-path=$FileName as-value;
+    /tool/fetch check-certificate=yes-without-crl $Url dst-path=$FileName \
+      http-header-field=({ [ $FetchUserAgentStr $ScriptName ] }) as-value;
   } on-error={
     $LogPrint debug $0 ("Failed downloading from: " . $Url);
     :return false;
