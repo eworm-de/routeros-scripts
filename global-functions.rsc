@@ -528,7 +528,7 @@
 }
 
 # return human readable number
-:global HumanReadableNum do={
+:set HumanReadableNum do={
   :local Input [ :tonum $1 ];
   :local Base  [ :tonum $2 ];
 
