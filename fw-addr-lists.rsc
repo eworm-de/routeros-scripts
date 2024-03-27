@@ -3,7 +3,7 @@
 # Copyright (c) 2023-2024 Christian Hesse <mail@eworm.de>
 # https://git.eworm.de/cgit/routeros-scripts/about/COPYING.md
 #
-# requires RouterOS, version=7.12
+# requires RouterOS, version=7.13
 #
 # download, import and update firewall address-lists
 # https://git.eworm.de/cgit/routeros-scripts/about/doc/fw-addr-lists.md
@@ -19,6 +19,7 @@
 
   :global CertificateAvailable;
   :global EitherOr;
+  :global FetchHuge;
   :global FetchUserAgent;
   :global LogPrint;
   :global LogPrintOnce;
@@ -50,12 +51,12 @@
     :local Failure false;
 
     :foreach List in=$FwList do={
-      :local CheckCertificate "no";
+      :local CheckCertificate false;
       :local Data false;
       :local TimeOut [ $EitherOr [ :totime ($List->"timeout") ] $FwAddrListTimeOut ];
 
       :if ([ :len ($List->"cert") ] > 0) do={
-        :set CheckCertificate "yes-without-crl";
+        :set CheckCertificate true;
         :if ([ $CertificateAvailable ($List->"cert") ] = false) do={
           $LogPrint warning $ScriptName ("Downloading required certificate failed, trying anyway.");
         }
@@ -63,10 +64,8 @@
 
       :for I from=1 to=5 do={
         :if ($Data = false) do={
-          :do {
-            :set Data ([ /tool/fetch check-certificate=$CheckCertificate output=user \
-              http-header-field=({ [ $FetchUserAgent $ScriptName ] }) ($List->"url") as-value ]->"data");
-          } on-error={
+          :set Data [ $FetchHuge $ScriptName ($List->"url") $CheckCertificate ];
+          :if ($Data = false) do={
             :if ($I < 5) do={
               $LogPrint debug $ScriptName ("Failed downloading, " . $I . ". try: " . $List->"url");
               :delay (($I * $I) . "s");
@@ -79,10 +78,6 @@
         :set Data "";
         :set Failure true;
         $LogPrint warning $ScriptName ("Failed downloading list from: " . $List->"url");
-      }
-
-      :if ([ :len $Data ] > 63000) do={
-        $LogPrintOnce warning $ScriptName ("The list is huge and may be truncated: " . $List->"url");
       }
 
       :while ([ :len $Data ] != 0) do={
