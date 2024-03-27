@@ -397,6 +397,7 @@
   :local Url        [ :tostr  $2 ];
   :local CheckCert  [ :tobool $3 ];
 
+  :global FetchUserAgent;
   :global GetRandom20CharAlNum;
   :global IfThenElse;
   :global LogPrint;
@@ -413,7 +414,8 @@
   :local FileName ("tmpfs/" . $ScriptName . "/" . $0 . [ $GetRandom20CharAlNum ]);
 
   :do {
-    /tool/fetch check-certificate=$CheckCert $Url dst=$FileName as-value;
+    /tool/fetch check-certificate=$CheckCert $Url dst=$FileName \
+      http-header-field=({ [ $FetchUserAgent $ScriptName ] }) as-value;
   } on-error={
     $LogPrint warning $ScriptName ("Failed downloading from: " . $Url);
     :return false;
