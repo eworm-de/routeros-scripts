@@ -737,6 +737,11 @@
     :return false;
   }
 
+  :if ([ :len [ /log/find where message=($Name . ": " . $Message) ] ] > 0) do={
+    $LogPrint warning $0 \
+      ("The message is already in log, scripting subsystem may have crashed before!");
+  }
+
   :set ($LogPrintOnceMessages->$Message) 1;
   $LogPrint $Severity $Name $Message;
   :return true;
