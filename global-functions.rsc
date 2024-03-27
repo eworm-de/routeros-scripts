@@ -4,7 +4,7 @@
 #                         Michael Gisbers <michael@gisbers.de>
 # https://git.eworm.de/cgit/routeros-scripts/about/COPYING.md
 #
-# requires RouterOS, version=7.12
+# requires RouterOS, version=7.13
 #
 # global functions
 # https://git.eworm.de/cgit/routeros-scripts/about/
@@ -32,6 +32,7 @@
 :global DownloadPackage;
 :global EitherOr;
 :global EscapeForRegEx;
+:global FetchHuge;
 :global FetchUserAgent;
 :global FormatLine;
 :global FormatMultiLines;
@@ -387,6 +388,42 @@
     :set Return ($Return . $Char);
   }
 
+  :return $Return;
+}
+
+# fetch huge data to file, read in chunks
+:set FetchHuge do={
+  :local ScriptName [ :tostr $1 ];
+  :local Url        [ :tostr $2 ];
+
+  :global GetRandom20CharAlNum;
+  :global LogPrint;
+  :global MkDir;
+  :global WaitForFile;
+
+  :if ([ $MkDir "tmpfs/" . $ScriptName ] = false) do={
+    $LogPrint error $ScriptName ("Failed creating directory!");
+    :return false;
+  }
+
+  :local FileName ("tmpfs/" . $ScriptName . "/" . $0 . [ $GetRandom20CharAlNum ]);
+
+  :do {
+    /tool/fetch check-certificate=yes-without-crl $Url dst=$FileName as-value;
+  } on-error={
+    $LogPrint warning $ScriptName ("Failed downloading from: " . $Url);
+    :return false;
+  }
+  $WaitForFile $FileName;
+
+  :local FileSize [ /file/get $FileName size ];
+  :local Return "";
+  :local VarSize 0;
+  :while ($VarSize < $FileSize) do={
+    :set Return ($Return . ([ /file/read offset=$VarSize chunk-size=32768 file=$FileName as-value ]->"data"));
+    :set VarSize [ :len $Return ];
+  }
+  /file/remove $FileName;
   :return $Return;
 }
 
