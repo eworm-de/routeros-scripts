@@ -79,7 +79,7 @@
 :global WaitTimeSync;
 
 # align string to the right
-:global AlignRight do={
+:set AlignRight do={
   :local Input [ :tostr $1 ];
   :local Len   [ :tonum $2 ];
 
