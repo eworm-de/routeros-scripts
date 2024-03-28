@@ -3,7 +3,7 @@
 # Copyright (c) 2023-2024 Christian Hesse <mail@eworm.de>
 # https://git.eworm.de/cgit/routeros-scripts/about/COPYING.md
 #
-# requires RouterOS, version=7.12
+# requires RouterOS, version=7.13
 #
 # use Telegram to chat with your Router and send commands
 # https://git.eworm.de/cgit/routeros-scripts/about/doc/telegram-chat.md
@@ -141,14 +141,13 @@
             :if ([ :len [ /file/find where name=($File . ".failed") ] ] > 0) do={
               :set State ([ $SymbolForNotification "cross-mark" ] . "The command failed with an error!\n\n");
             }
-            :local Content [ /file/get $File contents ];
+            :local Content ([ /file/read chunk-size=32768 file=$File as-value ]->"data");
             $SendTelegram2 ({ origin=$ScriptName; chatid=($Chat->"id"); silent=true; replyto=($Message->"message_id"); \
               subject=([ $SymbolForNotification "speech-balloon" ] . "Telegram Chat"); \
               message=([ $SymbolForNotification "gear" ] . "Command:\n" . $Message->"text" . "\n\n" . \
                 $State . [ $IfThenElse ([ :len $Content ] > 0) \
-                ([ $SymbolForNotification "memo" ] . "Output:\n" . $Content) [ $IfThenElse ([ /file/get $File size ] > 0) \
-                ([ $SymbolForNotification "warning-sign" ] . "Output exceeds file read size.") \
-                ([ $SymbolForNotification "memo" ] . "No output.") ] ]) });
+                ([ $SymbolForNotification "memo" ] . "Output:\n" . $Content) \
+                ([ $SymbolForNotification "memo" ] . "No output.") ]) });
             /file/remove "tmpfs/telegram-chat";
           } else={
             $LogPrint info $ScriptName ("The command from update " . $UpdateID . " failed syntax validation!");
