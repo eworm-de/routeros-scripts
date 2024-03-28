@@ -50,6 +50,7 @@
   123="Introduced new function '\$LogPrint', and deprecated '\$LogPrintExit2'. Please update custom scripts if you use it.";
   124="Added support for links in 'netwatch-notify', these are added below the formatted notification text.";
   125=("April's Fool! " . [ $SymbolForNotification "smiley-partying-face" ] . "Well, you missed it... - no charge nor fees. (Anyway... Donations are much appreciated, " . [ $SymbolForNotification "smiley-smiling-face" ] . "thanks!)");
+  126="Made 'telegram-chat' capable of handling large command output. Telegram messages still limit the size, so it is truncated now.";
 };
 
 # Migration steps to be applied on script updates
