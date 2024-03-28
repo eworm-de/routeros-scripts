@@ -3,6 +3,8 @@
 # Copyright (c) 2013-2024 Christian Hesse <mail@eworm.de>
 # https://git.eworm.de/cgit/routeros-scripts/about/COPYING.md
 #
+# requires RouterOS, version=7.13
+#
 # send notifications via Telegram
 # https://git.eworm.de/cgit/routeros-scripts/about/doc/mod/notification-telegram.md
 
@@ -19,7 +21,6 @@
 
   :global IsFullyConnected;
   :global LogPrint;
-  :global ParseJson;
   :global UrlEncode;
 
   :if ([ $IsFullyConnected ] = false) do={
@@ -43,7 +44,7 @@
           "&reply_to_message_id=" . ($Message->"replyto") . "&disable_web_page_preview=true" . \
           "&parse_mode=MarkdownV2&text=" . [ $UrlEncode ($Message->"text") ]) as-value ]->"data");
         :set ($TelegramQueue->$Id);
-        :set ($TelegramMessageIDs->([ $ParseJson ([ $ParseJson $Data ]->"result") ]->"message_id")) 1;
+        :set ($TelegramMessageIDs->[ :tostr ([ :deserialize from=json value=$Data ]->"result"->"message_id") ]) 1;
       } on-error={
         $LogPrint debug $0 ("Sending queued Telegram message failed.");
         :set AllDone false;
@@ -75,7 +76,6 @@
   :global EitherOr;
   :global IfThenElse;
   :global LogPrint;
-  :global ParseJson;
   :global SymbolForNotification;
   :global UrlEncode;
 
@@ -144,7 +144,7 @@
       http-data=("chat_id=" . $ChatId . "&disable_notification=" . ($Notification->"silent") . \
       "&reply_to_message_id=" . ($Notification->"replyto") . "&disable_web_page_preview=true" . \
       "&parse_mode=MarkdownV2&text=" . [ $UrlEncode $Text ]) as-value ]->"data");
-    :set ($TelegramMessageIDs->([ $ParseJson ([ $ParseJson $Data ]->"result") ]->"message_id")) 1;
+    :set ($TelegramMessageIDs->[ :tostr ([ :deserialize from=json value=$Data ]->"result"->"message_id") ]) 1;
   } on-error={
     $LogPrint info $0 ("Failed sending telegram notification! Queuing...");
 
