@@ -19,7 +19,7 @@
 
   :global CertificateAvailable;
   :global EitherOr;
-  :global FetchUserAgent;
+  :global FetchUserAgentStr;
   :global LogPrint;
   :global LogPrintOnce;
   :global ScriptLock;
@@ -65,7 +65,7 @@
         :if ($Data = false) do={
           :do {
             :set Data ([ /tool/fetch check-certificate=$CheckCertificate output=user \
-              http-header-field=({ [ $FetchUserAgent $ScriptName ] }) ($List->"url") as-value ]->"data");
+              http-header-field=({ [ $FetchUserAgentStr $ScriptName ] }) ($List->"url") as-value ]->"data");
           } on-error={
             :if ($I < 5) do={
               $LogPrint debug $ScriptName ("Failed downloading, " . $I . ". try: " . $List->"url");

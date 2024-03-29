@@ -39,7 +39,7 @@
 
     :global CertificateNameByCN;
     :global EscapeForRegEx;
-    :global FetchUserAgent;
+    :global FetchUserAgentStr;
     :global LogPrint;
     :global UrlEncode;
     :global WaitForFile;
@@ -49,7 +49,7 @@
     :foreach Type in={ ".pem"; ".p12" } do={
       :local CertFileName ([ $UrlEncode $Name ] . $Type);
       :do {
-        /tool/fetch check-certificate=yes-without-crl http-header-field=({ [ $FetchUserAgent $ScriptName ] }) \
+        /tool/fetch check-certificate=yes-without-crl http-header-field=({ [ $FetchUserAgentStr $ScriptName ] }) \
             ($CertRenewUrl . $CertFileName) dst-path=$CertFileName as-value;
         $WaitForFile $CertFileName;
 

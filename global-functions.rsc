@@ -32,7 +32,7 @@
 :global DownloadPackage;
 :global EitherOr;
 :global EscapeForRegEx;
-:global FetchUserAgent;
+:global FetchUserAgentStr;
 :global FormatLine;
 :global FormatMultiLines;
 :global GetMacVendor;
@@ -137,7 +137,7 @@
 
   :global CertificateNameByCN;
   :global CleanName;
-  :global FetchUserAgent;
+  :global FetchUserAgentStr;
   :global LogPrint;
   :global WaitForFile;
 
@@ -145,7 +145,7 @@
       "CommonName \"" . $CommonName . "\".");
   :do {
     :local FileName ([ $CleanName $CommonName ] . ".pem");
-    /tool/fetch check-certificate=yes-without-crl http-header-field=({ [ $FetchUserAgent $0 ] }) \
+    /tool/fetch check-certificate=yes-without-crl http-header-field=({ [ $FetchUserAgentStr $0 ] }) \
       ($ScriptUpdatesBaseUrl . "certs/" . $FileName . $ScriptUpdatesUrlSuffix) \
       dst-path=$FileName as-value;
     $WaitForFile $FileName;
@@ -391,7 +391,7 @@
 }
 
 # generate user agent string for fetch
-:set FetchUserAgent do={
+:set FetchUserAgentStr do={
   :local Caller [ :tostr $1 ];
 
   :local Resource [ /system/resource/get ];
@@ -993,7 +993,7 @@
 
   :global CertificateAvailable;
   :global EitherOr;
-  :global FetchUserAgent;
+  :global FetchUserAgentStr;
   :global Grep;
   :global IfThenElse;
   :global LogPrint;
@@ -1039,7 +1039,7 @@
         :local Url ($BaseUrl . $ScriptVal->"name" . ".rsc" . $UrlSuffix);
         $LogPrint debug $0 ("Fetching script '" . $ScriptVal->"name" . "' from url: " . $Url);
         :local Result [ /tool/fetch check-certificate=yes-without-crl \
-          http-header-field=({ [ $FetchUserAgent $0 ] }) $Url output=user as-value ];
+          http-header-field=({ [ $FetchUserAgentStr $0 ] }) $Url output=user as-value ];
         :if ($Result->"status" = "finished") do={
           :set SourceNew ($Result->"data");
         }
@@ -1122,7 +1122,7 @@
       :local Url ($ScriptUpdatesBaseUrl . "news-and-changes.rsc" . $ScriptUpdatesUrlSuffix);
       $LogPrint debug $0 ("Fetching news, changes and migration: " . $Url);
       :local Result [ /tool/fetch check-certificate=yes-without-crl \
-        http-header-field=({ [ $FetchUserAgent $0 ] }) $Url output=user as-value ];
+        http-header-field=({ [ $FetchUserAgentStr $0 ] }) $Url output=user as-value ];
       :if ($Result->"status" = "finished") do={
         :set ChangeLogCode ($Result->"data");
       }
