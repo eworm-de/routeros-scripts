@@ -49,6 +49,7 @@
   122="The global configuration was enhanced to support loading snippets. Configuration can be split off to scripts where name starts with 'global-config-overlay.d/'.";
   123="Introduced new function '\$LogPrint', and deprecated '\$LogPrintExit2'. Please update custom scripts if you use it.";
   124="Added support for links in 'netwatch-notify', these are added below the formatted notification text.";
+  125=("April's Fool! " . [ $SymbolForNotification "smiley-partying-face" ] . "Well, you missed it... - no charge nor fees. (Anyway... Donations are much appreciated, " . [ $SymbolForNotification "smiley-smiling-face" ] . "thanks!)");
 };
 
 # Migration steps to be applied on script updates
