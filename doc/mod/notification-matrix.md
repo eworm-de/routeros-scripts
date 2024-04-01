@@ -70,6 +70,9 @@ and write first part of the configuration:
 
 ![authenticate](notification-matrix.d/01-authenticate.avif)
 
+The configuration is written to a new configuration snippet
+`global-config-overlay.d/mod/notification-matrix`.
+
 #### Join Room
 
 Every Matix chat is a room, so we have to create one. Do that with your
@@ -87,8 +90,8 @@ the invite.
 
 ![join room](notification-matrix.d/02-join-room.avif)
 
-The settings have been appended to `global-config-overlay`. You may want to
-edit to move it to an appropriate place.
+The configuration is appended to the configuration snippet
+`global-config-overlay.d/mod/notification-matrix`.
 
 Usage and invocation
 --------------------

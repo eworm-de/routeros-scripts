@@ -217,12 +217,14 @@
   }
 
   :do {
-    /system/script/set global-config-overlay source=([ get global-config-overlay source ] . "\n" . \
+    /system/script/remove [ find where name="global-config-overlay.d/mod/notification-matrix" ];
+    /system/script/add name="global-config-overlay.d/mod/notification-matrix" source=( \
+      "# configuration snippet: mod/notification-matrix\n\n" . \
       ":global MatrixHomeServer \"" . $MatrixHomeServer . "\";\n" . \
       ":global MatrixAccessToken \"" . $MatrixAccessToken . "\";\n");
-    $LogPrint info $0 ("Appended configuration to global-config-overlay. Now create and join a room, please!");
+    $LogPrint info $0 ("Added configuration snippet. Now create and join a room, please!");
   } on-error={
-    $LogPrint error $0 ("Failed appending configuration to global-config-overlay!");
+    $LogPrint error $0 ("Failed adding configuration snippet!");
     :return false;
   }
 }
@@ -250,11 +252,12 @@
   }
 
   :do {
-    /system/script/set global-config-overlay source=([ get global-config-overlay source ] . "\n" . \
+    :local Snippet [ /system/script/find where name="global-config-overlay.d/mod/notification-matrix" ];
+    /system/script/set $Snippet source=([ get $Snippet source ] . \
       ":global MatrixRoom \"" . $MatrixRoom . "\";\n");
-    $LogPrint info $0 ("Appended configuration to global-config-overlay. Please review and cleanup!");
+    $LogPrint info $0 ("Appended configuration to configuration snippet. Please review!");
   } on-error={
-    $LogPrint error $0 ("Failed appending configuration to global-config-overlay!");
+    $LogPrint error $0 ("Failed appending configuration to snippet!");
     :return false;
   }
 }
