@@ -4,6 +4,8 @@
 #                         Christian Hesse <mail@eworm.de>
 # https://git.eworm.de/cgit/routeros-scripts/about/COPYING.md
 #
+# requires RouterOS, version=7.13
+#
 # send notifications via Matrix
 # https://git.eworm.de/cgit/routeros-scripts/about/doc/mod/notification-matrix.md
 
@@ -183,9 +185,7 @@
   :local User [ :tostr $1 ];
   :local Pass [ :tostr $2 ];
 
-  :global CharacterReplace;
   :global LogPrint;
-  :global ParseJson;
 
   :global MatrixAccessToken;
   :global MatrixHomeServer;
@@ -194,7 +194,7 @@
   :do {
     :local Data ([ /tool/fetch check-certificate=yes-without-crl output=user \
         ("https://" . $Domain . "/.well-known/matrix/client") as-value ]->"data");
-    :set MatrixHomeServer ([ $ParseJson ([ $ParseJson [ $CharacterReplace $Data " " "" ] ]->"m.homeserver") ]->"base_url");
+    :set MatrixHomeServer ([ :deserialize from=json value=$Data ]->"m.homeserver"->"base_url");
     $LogPrint debug $0 ("Home server is: " . $MatrixHomeServer);
   } on-error={
     $LogPrint error $0 ("Failed getting home server!");
@@ -209,7 +209,7 @@
     :local Data ([ /tool/fetch check-certificate=yes-without-crl output=user \
         http-method=post http-data=("{\"type\":\"m.login.password\", \"user\":\"" . $User . "\", \"password\":\"" . $Pass . "\"}") \
         ("https://" . $MatrixHomeServer . "/_matrix/client/r0/login") as-value ]->"data");
-    :set MatrixAccessToken ([ $ParseJson $Data ]->"access_token");
+    :set MatrixAccessToken ([ :deserialize from=json value=$Data ]->"access_token");
     $LogPrint debug $0 ("Access token is: " . $MatrixAccessToken);
   } on-error={
     $LogPrint error $0 ("Failed logging in (and getting access token)!");

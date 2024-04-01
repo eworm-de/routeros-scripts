@@ -34,7 +34,6 @@
   :global MAX;
   :global MIN;
   :global MkDir;
-  :global ParseJson;
   :global RandomDelay;
   :global ScriptLock;
   :global SendTelegram2;
@@ -86,18 +85,18 @@
     :error false;
   }
 
+  :local JSON [ :deserialize from=json value=$Data ];
   :local UpdateID 0;
   :local Uptime [ /system/resource/get uptime ];
-  :foreach UpdateArray in=([ $ParseJson $Data ]->"result") do={
-    :local Update [ $ParseJson $UpdateArray ];
+  :foreach Update in=($JSON->"result") do={
     :set UpdateID ($Update->"update_id");
-    :local Message [ $ParseJson ($Update->"message") ];
+    :local Message ($Update->"message");
     :local IsReply [ :len ($Message->"reply_to_message") ];
-    :local IsMyReply ($TelegramMessageIDs->([ $ParseJson ($Message->"reply_to_message") ]->"message_id"));
+    :local IsMyReply ($TelegramMessageIDs->[ :tostr ($Message->"reply_to_message"->"message_id") ]);
     :if (($IsMyReply = 1 || $TelegramChatOffset->0 > 0 || $Uptime > 5m) && $UpdateID >= $TelegramChatOffset->2) do={
       :local Trusted false;
-      :local Chat [ $ParseJson ($Message->"chat") ];
-      :local From [ $ParseJson ($Message->"from") ];
+      :local Chat ($Message->"chat");
+      :local From ($Message->"from");
 
       :foreach IdsTrusted in=($TelegramChatId, $TelegramChatIdsTrusted) do={
         :if ($From->"id" = $IdsTrusted || $From->"username" = $IdsTrusted) do={

@@ -56,7 +56,6 @@
 :global MkDir;
 :global NotificationFunctions;
 :global ParseDate;
-:global ParseJson;
 :global ParseKeyValueStore;
 :global PrettyPrint;
 :global RandomDelay;
@@ -828,66 +827,6 @@
   :return ({ "year"=[ :tonum [ :pick $Date 0 4 ] ];
             "month"=[ :tonum [ :pick $Date 5 7 ] ];
               "day"=[ :tonum [ :pick $Date 8 10 ] ] });
-}
-
-# parse JSON into array
-# Warning: This is not a complete parser!
-:set ParseJson do={
-  :local Input [ :tostr $1 ];
-
-  :local InLen;
-  :local Return ({});
-  :local Skip 0;
-
-  :if ([ :pick $Input 0 ] = "{") do={
-    :set Input [ :pick $Input 1 ([ :len $Input ] - 1) ];
-  }
-  :set Input [ :toarray $Input ];
-  :set InLen [ :len $Input ];
-
-  :for I from=0 to=$InLen do={
-    :if ($Skip > 0 || $Input->$I = "\n" || $Input->$I = "\r\n") do={
-      :if ($Skip > 0) do={
-        :set $Skip ($Skip - 1);
-      }
-    } else={
-      :local Done false;
-      :local Key ($Input->$I);
-      :local Val1 ($Input->($I + 1));
-      :local Val2 ($Input->($I + 2));
-      :if ($Val1 = ":") do={
-        :set Skip 2;
-        :set ($Return->$Key) $Val2;
-        :set Done true;
-      }
-      :if ($Done = false && $Val1 = ":[") do={
-        :local Last false;
-        :set Skip 1;
-        :set ($Return->$Key) ({});
-        :do {
-          :set Skip ($Skip + 1);
-          :local ValX ($Input->($I + $Skip));
-          :if ([ :pick $ValX ([ :len $ValX ] - 1) ] = "]") do={
-            :set Last true;
-            :set ValX [ :pick $ValX 0 ([ :len $ValX ] - 1) ];
-          }
-          :set ($Return->$Key) (($Return->$Key), $ValX);
-        } while=($Last = false && $I + $Skip < $InLen);
-        :set Done true;
-      }
-      :if ($Done = false && $Val1 = ":[]") do={
-        :set Skip 1;
-        :set ($Return->$Key) ({});
-        :set Done true;
-      }
-      :if ($Done = false) do={
-        :set Skip 1;
-        :set ($Return->$Key) [ :pick $Val1 1 [ :len $Val1 ] ];
-      }
-    }
-  }
-
-  :return $Return;
 }
 
 # parse key value store
