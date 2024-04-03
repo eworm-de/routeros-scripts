@@ -396,6 +396,7 @@
   :local Url        [ :tostr  $2 ];
   :local CheckCert  [ :tobool $3 ];
 
+  :global CleanName;
   :global FetchUserAgentStr;
   :global GetRandom20CharAlNum;
   :global IfThenElse;
@@ -405,13 +406,13 @@
 
   :set CheckCert [ $IfThenElse ($CheckCert = false) "no" "yes-without-crl" ];
 
-  :if ([ $MkDir "tmpfs/" . $ScriptName ] = false) do={
+  :local FileName ("tmpfs/" . [ $CleanName $ScriptName ]);
+  :if ([ $MkDir $FileName ] = false) do={
     $LogPrint error $0 ("Failed creating directory!");
     :return false;
   }
 
-  :local FileName ("tmpfs/" . $ScriptName . "/" . $0 . "-" . [ $GetRandom20CharAlNum ]);
-
+  :set FileName ($FileName . "/" . [ $CleanName $0 ] . "-" . [ $GetRandom20CharAlNum ]);
   :do {
     /tool/fetch check-certificate=$CheckCert $Url dst-path=$FileName \
       http-header-field=({ [ $FetchUserAgentStr $ScriptName ] }) as-value;
