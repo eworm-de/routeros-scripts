@@ -188,10 +188,10 @@ Scheduler and events
 
 Most scripts are designed to run regularly from
 [scheduler](https://wiki.mikrotik.com/wiki/Manual:System/Scheduler). We just
-added `check-routeros-update`, so let's run it every hour to make sure not to
+added `check-routeros-update`, so let's run it daily to make sure not to
 miss an update.
 
-    /system/scheduler/add name="check-routeros-update" interval=1h on-event="/system/script/run check-routeros-update;";
+    /system/scheduler/add name="check-routeros-update" interval=1d start-time=startup on-event="/system/script/run check-routeros-update;";
 
 ![screenshot: schedule script](README.d/11-schedule-script.avif)
 
