@@ -417,6 +417,9 @@
     /tool/fetch check-certificate=$CheckCert $Url dst-path=$FileName \
       http-header-field=({ [ $FetchUserAgentStr $ScriptName ] }) as-value;
   } on-error={
+    :if ([ $WaitForFile $FileName 500ms ] = true) do={
+      /file/remove $FileName;
+    }
     $LogPrint debug $0 ("Failed downloading from: " . $Url);
     :return false;
   }
