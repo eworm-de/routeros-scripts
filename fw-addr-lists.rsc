@@ -20,6 +20,7 @@
   :global CertificateAvailable;
   :global EitherOr;
   :global FetchHuge;
+  :global HumanReadableNum;
   :global LogPrint;
   :global LogPrintOnce;
   :global ScriptLock;
@@ -77,6 +78,8 @@
         :set Data "";
         :set Failure true;
         $LogPrint warning $ScriptName ("Failed downloading list from: " . $List->"url");
+      } else={
+        $LogPrint debug $ScriptName ("Downloaded " . [ $HumanReadableNum [ :len $Data ] 1024 ] . "B from: " . $List->"url");
       }
 
       :while ([ :len $Data ] != 0) do={
