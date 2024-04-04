@@ -33,6 +33,7 @@ Add yourself to the list,
 * Andrea Ruffini Perico
 * Andrew Cox
 * Christoph Boss (@Kampfwurst)
+* Daniel Ziegenberg (@ziegenberg)
 * Devin Dean (@dd2594gh)
 * Evaldo Gardenal
 * Giorgio Bikos
