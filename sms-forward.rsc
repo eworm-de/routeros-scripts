@@ -4,7 +4,7 @@
 #                         Anatoly Bubenkov <bubenkoff@gmail.com>
 # https://git.eworm.de/cgit/routeros-scripts/about/COPYING.md
 #
-# requires RouterOS, version=7.12
+# requires RouterOS, version=7.13
 #
 # forward SMS to e-mail
 # https://git.eworm.de/cgit/routeros-scripts/about/doc/sms-forward.md

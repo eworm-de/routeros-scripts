@@ -3,7 +3,7 @@
 # Copyright (c) 2013-2024 Christian Hesse <mail@eworm.de>
 # https://git.eworm.de/cgit/routeros-scripts/about/COPYING.md
 #
-# requires RouterOS, version=7.12
+# requires RouterOS, version=7.13
 #
 # update firewall and dns settings on IPv6 prefix change
 # https://git.eworm.de/cgit/routeros-scripts/about/doc/ipv6-update.md

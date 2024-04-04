@@ -3,7 +3,7 @@
 # Copyright (c) 2018-2024 Christian Hesse <mail@eworm.de>
 # https://git.eworm.de/cgit/routeros-scripts/about/COPYING.md
 #
-# requires RouterOS, version=7.12
+# requires RouterOS, version=7.13
 #
 # run action on received SMS
 # https://git.eworm.de/cgit/routeros-scripts/about/doc/sms-action.md

@@ -5,7 +5,7 @@
 # https://git.eworm.de/cgit/routeros-scripts/about/COPYING.md
 #
 # provides: ppp-on-up
-# requires RouterOS, version=7.12
+# requires RouterOS, version=7.13
 #
 # update local address of tunnelbroker interface
 # https://git.eworm.de/cgit/routeros-scripts/about/doc/update-tunnelbroker.md

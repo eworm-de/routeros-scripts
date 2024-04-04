@@ -3,6 +3,8 @@
 # Copyright (c) 2013-2024 Christian Hesse <mail@eworm.de>
 # https://git.eworm.de/cgit/routeros-scripts/about/COPYING.md
 #
+# requires RouterOS, version=7.13
+#
 # reset bridge ports to default bridge
 # https://git.eworm.de/cgit/routeros-scripts/about/doc/mod/bridge-port-to.md
 

@@ -4,7 +4,7 @@
 # https://git.eworm.de/cgit/routeros-scripts/about/COPYING.md
 #
 # provides: backup-script, order=70
-# requires RouterOS, version=7.12
+# requires RouterOS, version=7.13
 #
 # save configuration to fallback partition
 # https://git.eworm.de/cgit/routeros-scripts/about/doc/backup-partition.md

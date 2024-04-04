@@ -4,7 +4,7 @@
 #                         Michael Gisbers <michael@gisbers.de>
 # https://git.eworm.de/cgit/routeros-scripts/about/COPYING.md
 #
-# requires RouterOS, version=7.12
+# requires RouterOS, version=7.13
 #
 # update daily PSK (pre shared key)
 # https://git.eworm.de/cgit/routeros-scripts/about/doc/daily-psk.md

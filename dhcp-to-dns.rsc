@@ -4,7 +4,7 @@
 # https://git.eworm.de/cgit/routeros-scripts/about/COPYING.md
 #
 # provides: lease-script, order=20
-# requires RouterOS, version=7.12
+# requires RouterOS, version=7.13
 #
 # check DHCP leases and add/remove/update DNS entries
 # https://git.eworm.de/cgit/routeros-scripts/about/doc/dhcp-to-dns.md
