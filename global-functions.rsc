@@ -4,7 +4,7 @@
 #                         Michael Gisbers <michael@gisbers.de>
 # https://git.eworm.de/cgit/routeros-scripts/about/COPYING.md
 #
-# requires RouterOS, version=7.12
+# requires RouterOS, version=7.13
 #
 # global functions
 # https://git.eworm.de/cgit/routeros-scripts/about/
@@ -32,6 +32,7 @@
 :global DownloadPackage;
 :global EitherOr;
 :global EscapeForRegEx;
+:global FetchHuge;
 :global FetchUserAgentStr;
 :global FormatLine;
 :global FormatMultiLines;
@@ -386,6 +387,52 @@
     :set Return ($Return . $Char);
   }
 
+  :return $Return;
+}
+
+# fetch huge data to file, read in chunks
+:set FetchHuge do={
+  :local ScriptName [ :tostr  $1 ];
+  :local Url        [ :tostr  $2 ];
+  :local CheckCert  [ :tobool $3 ];
+
+  :global CleanName;
+  :global FetchUserAgentStr;
+  :global GetRandom20CharAlNum;
+  :global IfThenElse;
+  :global LogPrint;
+  :global MkDir;
+  :global WaitForFile;
+
+  :set CheckCert [ $IfThenElse ($CheckCert = false) "no" "yes-without-crl" ];
+
+  :local FileName ("tmpfs/" . [ $CleanName $ScriptName ]);
+  :if ([ $MkDir $FileName ] = false) do={
+    $LogPrint error $0 ("Failed creating directory!");
+    :return false;
+  }
+
+  :set FileName ($FileName . "/" . [ $CleanName $0 ] . "-" . [ $GetRandom20CharAlNum ]);
+  :do {
+    /tool/fetch check-certificate=$CheckCert $Url dst-path=$FileName \
+      http-header-field=({ [ $FetchUserAgentStr $ScriptName ] }) as-value;
+  } on-error={
+    :if ([ $WaitForFile $FileName 500ms ] = true) do={
+      /file/remove $FileName;
+    }
+    $LogPrint debug $0 ("Failed downloading from: " . $Url);
+    :return false;
+  }
+  $WaitForFile $FileName;
+
+  :local FileSize [ /file/get $FileName size ];
+  :local Return "";
+  :local VarSize 0;
+  :while ($VarSize < $FileSize) do={
+    :set Return ($Return . ([ /file/read offset=$VarSize chunk-size=32768 file=$FileName as-value ]->"data"));
+    :set VarSize [ :len $Return ];
+  }
+  /file/remove $FileName;
   :return $Return;
 }
 
