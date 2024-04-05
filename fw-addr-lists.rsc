@@ -108,7 +108,8 @@
       }
     }
 
-    :foreach Entry in=[ /ip/firewall/address-list/find where list=$FwListName comment=$ListComment ] do={
+    :foreach Entry in=[ /ip/firewall/address-list/find where \
+        list=$FwListName comment=$ListComment ] do={
       :local Address [ /ip/firewall/address-list/get $Entry address ];
       :if ([ :typeof ($IPv4Addresses->$Address) ] = "time") do={
         $LogPrint debug $ScriptName ("Renewing IPv4 address in list '" . $FwListName . \
@@ -126,7 +127,8 @@
       }
     }
 
-    :foreach Entry in=[ /ipv6/firewall/address-list/find where list=$FwListName comment=$ListComment ] do={
+    :foreach Entry in=[ /ipv6/firewall/address-list/find where \
+        list=$FwListName comment=$ListComment ] do={
       :local Address [ /ipv6/firewall/address-list/get $Entry address ];
       :if ([ :typeof ($IPv6Addresses->$Address) ] = "time") do={
         $LogPrint debug $ScriptName ("Renewing IPv6 address in list '" . $FwListName . \
@@ -148,7 +150,8 @@
       $LogPrint debug $ScriptName ("Adding IPv4 address to list '" . $FwListName . \
           "' with " . $Timeout . ": " . $Address);
       :do {
-        /ip/firewall/address-list/add list=$FwListName comment=$ListComment address=$Address timeout=$Timeout;
+        /ip/firewall/address-list/add list=$FwListName comment=$ListComment \
+            address=$Address timeout=$Timeout;
         :set ($IPv4Addresses->$Address);
         :set CntAdd ($CntAdd + 1);
       } on-error={
@@ -161,7 +164,8 @@
       $LogPrint debug $ScriptName ("Adding IPv6 address to list '" . $FwListName . \
           "' with " . $Timeout . ": " . $Address);
       :do {
-        /ipv6/firewall/address-list/add list=$FwListName comment=$ListComment address=$Address timeout=$Timeout;
+        /ipv6/firewall/address-list/add list=$FwListName comment=$ListComment \
+            address=$Address timeout=$Timeout;
         :set ($IPv6Addresses->$Address);
         :set CntAdd ($CntAdd + 1);
       } on-error={
