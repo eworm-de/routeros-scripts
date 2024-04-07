@@ -171,6 +171,7 @@
     }
 
     $LogPrint info $ScriptName ("list: " . $FwListName . \
+        " (" . [ $HumanReadableNum ($CntAdd + $CntRenew) 1000 ] . ")" . \
         " -- added: " . [ $HumanReadableNum $CntAdd 1000 ] . \
         " - renewed: " . [ $HumanReadableNum $CntRenew 1000 ] . \
         " - removed: " . [ $HumanReadableNum $CntRemove 1000 ]);
