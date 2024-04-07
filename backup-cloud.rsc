@@ -71,7 +71,7 @@
       message=("Uploaded backup for " . $Identity . " to cloud.\n\n" . \
         [ $DeviceInfo ] . "\n\n" . \
         [ $FormatLine "Name" ($Cloud->"name") ] . "\n" . \
-        [ $FormatLine "Size" ([ $HumanReadableNum ($Cloud->"size") 1024 ] . "iB") ] . "\n" . \
+        [ $FormatLine "Size" ([ $HumanReadableNum ($Cloud->"size") 1024 ] . "B") ] . "\n" . \
         [ $FormatLine "Download key" ($Cloud->"secret-download-key") ]); silent=true });
   } else={
     $SendNotification2 ({ origin=$ScriptName; \

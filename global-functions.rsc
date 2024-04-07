@@ -578,11 +578,13 @@
   :local Base  [ :tonum $2 ];
 
   :global EitherOr;
+  :global IfThenElse;
 
   :local Prefix "kMGTPE";
   :local Pow 1;
 
   :set Base [ $EitherOr $Base 1024 ];
+  :local Bin [ $IfThenElse ($Base = 1024) "i" "" ];
 
   :if ($Input < $Base) do={
     :return $Input;
@@ -595,9 +597,11 @@
       :local Tmp1 ($Input * 100 / $Pow);
       :local Tmp2 ($Tmp1 / 100);
       :if ($Tmp2 >= 100) do={
-        :return ($Tmp2 . $Prefix);
+        :return ($Tmp2 . $Prefix . $Bin);
       }
-      :return ($Tmp2 . "." . [ :pick $Tmp1 [ :len $Tmp2 ] ([ :len $Tmp1 ] - [ :len $Tmp2 ] + 1) ] . $Prefix);
+      :return ($Tmp2 . "." . \
+          [ :pick $Tmp1 [ :len $Tmp2 ] ([ :len $Tmp1 ] - [ :len $Tmp2 ] + 1) ] . \
+          $Prefix . $Bin);
     }
   }
 }

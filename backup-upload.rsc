@@ -140,7 +140,7 @@
     :return \
       [ $IfThenElse ([ :typeof $File ] = "array") \
         ($Name . ":\n" . [ $FormatLine "    name" ($File->"name") ] . "\n" . \
-          [ $FormatLine "    size" ([ $HumanReadableNum ($File->"size") 1024 ] . "iB") ]) \
+          [ $FormatLine "    size" ([ $HumanReadableNum ($File->"size") 1024 ] . "B") ]) \
         [ $FormatLine $Name $File ] ];
   }
 

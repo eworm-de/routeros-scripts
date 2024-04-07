@@ -64,9 +64,9 @@
     $SendNotification2 ({ origin=$ScriptName; \
       subject=([ $SymbolForNotification "card-file-box,chart-increasing" ] . "Health warning: RAM utilization"); \
       message=("The RAM utilization on " . $Identity . " is at " . $CheckHealthRAMUtilization . "%!\n\n" . \
-      [ $FormatLine "total" ([ $HumanReadableNum ($Resource->"total-memory") 1024 ] . "iB") 8 ] . "\n" . \
-      [ $FormatLine "used" ([ $HumanReadableNum ($Resource->"total-memory" - $Resource->"free-memory") 1024 ] . "iB") 8 ] . "\n" . \
-      [ $FormatLine "free" ([ $HumanReadableNum ($Resource->"free-memory") 1024 ] . "iB") 8 ]) });
+      [ $FormatLine "total" ([ $HumanReadableNum ($Resource->"total-memory") 1024 ] . "B") 8 ] . "\n" . \
+      [ $FormatLine "used" ([ $HumanReadableNum ($Resource->"total-memory" - $Resource->"free-memory") 1024 ] . "B") 8 ] . "\n" . \
+      [ $FormatLine "free" ([ $HumanReadableNum ($Resource->"free-memory") 1024 ] . "B") 8 ]) });
     :set CheckHealthRAMUtilizationNotified true;
   }
   :if ($CheckHealthRAMUtilization < 70 && $CheckHealthRAMUtilizationNotified = true) do={
