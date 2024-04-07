@@ -170,7 +170,9 @@
       }
     }
 
-    $LogPrint info $ScriptName ("list: " . $FwListName . " -- added: " . $CntAdd . \
-        " - renewed: " . $CntRenew . " - removed: " . $CntRemove);
+    $LogPrint info $ScriptName ("list: " . $FwListName . \
+        " -- added: " . [ $HumanReadableNum $CntAdd 1000 ] . \
+        " - renewed: " . [ $HumanReadableNum $CntRenew 1000 ] . \
+        " - removed: " . [ $HumanReadableNum $CntRemove 1000 ]);
   }
 } on-error={ }
