@@ -227,7 +227,7 @@
 :set SendEMail do={
   :global SendEMail2;
 
-  $SendEMail2 ({ subject=$1; message=$2; link=$3 });
+  $SendEMail2 ({ origin=$0; subject=$1; message=$2; link=$3 });
 }
 
 # send notification via e-mail - expects one array argument
