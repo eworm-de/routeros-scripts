@@ -72,6 +72,7 @@
 
   :global CertificateAvailable;
   :global EitherOr;
+  :global FetchUserAgentStr;
   :global IfThenElse;
   :global LogPrint;
   :global SymbolForNotification;
@@ -87,7 +88,8 @@
   }
 
   :local Url ("https://" . $NtfyServer . "/" . [ $UrlEncode $NtfyTopic ]);
-  :local Headers ({ ("Priority: " . [ $IfThenElse ($Notification->"silent") "low" "default" ]); \
+  :local Headers ({ [ $FetchUserAgentStr ($Notification->"origin") ]; \
+    ("Priority: " . [ $IfThenElse ($Notification->"silent") "low" "default" ]); \
     ("Title: " . "[" . $IdentityExtra . $Identity . "] " . ($Notification->"subject")) });
   :local Text (($Notification->"message") . "\n");
   :if ([ :len ($Notification->"link") ] > 0) do={
