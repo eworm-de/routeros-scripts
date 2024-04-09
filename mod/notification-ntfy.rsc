@@ -125,7 +125,7 @@
 :set SendNtfy do={
   :global SendNtfy2;
 
-  $SendNtfy2 ({ subject=$1; message=$2; link=$3; silent=$4 });
+  $SendNtfy2 ({ origin=$0; subject=$1; message=$2; link=$3; silent=$4 });
 }
 
 # send notification via ntfy - expects one array argument
