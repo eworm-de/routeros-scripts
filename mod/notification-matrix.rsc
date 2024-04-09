@@ -168,7 +168,7 @@
 :set SendMatrix do={
   :global SendMatrix2;
 
-  $SendMatrix2 ({ subject=$1; message=$2; link=$3 });
+  $SendMatrix2 ({ origin=$0; subject=$1; message=$2; link=$3 });
 }
 
 # send notification via Matrix - expects one array argument
