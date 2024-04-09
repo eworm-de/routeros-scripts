@@ -38,7 +38,8 @@
     :if ([ :typeof $Message ] = "array" ) do={
       :do {
         /tool/fetch check-certificate=yes-without-crl output=none http-method=post \
-          ($Message->"url") http-header-field=($Message->"headers") http-data=($Message->"text") as-value;
+          http-header-field=($Message->"headers") http-data=($Message->"text") \
+          ($Message->"url") user=($Message->"user") password=($Message->"pass") as-value;
         :set ($NtfyQueue->$Id);
       } on-error={
         $LogPrint debug $0 ("Sending queued Ntfy message failed.");
@@ -62,6 +63,10 @@
   :global NtfyQueue;
   :global NtfyServer;
   :global NtfyServerOverride;
+  :global NtfyServerPass;
+  :global NtfyServerPassOverride;
+  :global NtfyServerUser;
+  :global NtfyServerUserOverride;
   :global NtfyTopic;
   :global NtfyTopicOverride;
 
@@ -73,6 +78,8 @@
   :global UrlEncode;
 
   :local Server [ $EitherOr ($NtfyServerOverride->($Notification->"origin")) $NtfyServer ];
+  :local User [ $EitherOr ($NtfyServerUserOverride->($Notification->"origin")) $NtfyServerUser ];
+  :local Pass [ $EitherOr ($NtfyServerPassOverride->($Notification->"origin")) $NtfyServerPass ];
   :local Topic [ $EitherOr ($NtfyTopicOverride->($Notification->"origin")) $NtfyTopic ];
 
   :if ([ :len $Topic ] = 0) do={
@@ -95,7 +102,7 @@
       }
     }
     /tool/fetch check-certificate=yes-without-crl output=none http-method=post \
-      $Url http-header-field=$Headers http-data=$Text as-value;
+      http-header-field=$Headers http-data=$Text $Url user=$User password=$Pass as-value;
   } on-error={
     $LogPrint info $0 ("Failed sending ntfy notification! Queuing...");
 
@@ -105,7 +112,8 @@
     :set Text ($Text . "\n" . [ $SymbolForNotification "alarm-clock" ] . \
       "This message was queued since " . [ /system/clock/get date ] . " " . \
       [ /system/clock/get time ] . " and may be obsolete.");
-    :set ($NtfyQueue->[ :len $NtfyQueue ]) { url=$Url; headers=$Headers; text=$Text };
+    :set ($NtfyQueue->[ :len $NtfyQueue ]) \
+      { url=$Url; user=$User; pass=$Pass; headers=$Headers; text=$Text };
     :if ([ :len [ /system/scheduler/find where name="_FlushNtfyQueue" ] ] = 0) do={
       /system/scheduler/add name="_FlushNtfyQueue" interval=1m start-time=startup \
         on-event=(":global FlushNtfyQueue; \$FlushNtfyQueue;");

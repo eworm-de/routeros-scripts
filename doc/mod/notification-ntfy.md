@@ -47,6 +47,11 @@ Then reload the configuration.
 > [`global-config`](../../global-config.rsc) (the one without `-overlay`) to
 > your local `global-config-overlay` and modify it to your specific needs.
 
+Using a paid account or running a server on-premises allows to add additional
+basic authentication. Configure `NtfyServerUser` and `NtfyServerPass` for this.
+Even authentication via access token is possible, adding it as password with
+a blank username.
+
 Usage and invocation
 --------------------
 

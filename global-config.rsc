@@ -56,6 +56,8 @@
 # install the module:
 # $ScriptInstallUpdate mod/notification-ntfy
 :global NtfyServer "ntfy.sh";
+:global NtfyServerUser [];
+:global NtfyServerPass [];
 :global NtfyTopic "";
 
 # It is possible to override e-mail, Telegram, Matrix and Ntfy setting
