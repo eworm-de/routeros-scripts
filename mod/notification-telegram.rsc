@@ -175,7 +175,7 @@
 :set SendTelegram do={
   :global SendTelegram2;
 
-  $SendTelegram2 ({ subject=$1; message=$2; link=$3; silent=$4 });
+  $SendTelegram2 ({ origin=$0; subject=$1; message=$2; link=$3; silent=$4 });
 }
 
 # send notification via telegram - expects one array argument
