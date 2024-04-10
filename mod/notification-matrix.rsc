@@ -39,7 +39,8 @@
   :foreach Id,Message in=$MatrixQueue do={
     :if ([ :typeof $Message ] = "array" ) do={
       :do {
-        /tool/fetch check-certificate=yes-without-crl output=none http-method=post \
+        /tool/fetch check-certificate=yes-without-crl output=none \
+          http-header-field=($Message->"headers") http-method=post \
           ("https://" . $Message->"homeserver" . "/_matrix/client/r0/rooms/" . $Message->"room" . \
            "/send/m.room.message?access_token=" . $Message->"accesstoken") \
           http-data=("{ \"msgtype\": \"m.text\", \"body\": \"" . $Message->"plain" . "\"," . \
@@ -74,6 +75,7 @@
   :global MatrixRoomOverride;
 
   :global EitherOr;
+  :global FetchUserAgentStr;
   :global LogPrint;
   :global SymbolForNotification;
 
@@ -115,6 +117,7 @@
     :return false;
   }
 
+  :local Headers ({ [ $FetchUserAgentStr ($Notification->"origin") ] });
   :local Plain [ $PrepareText ("## [" . $IdentityExtra . $Identity . "] " . \
     ($Notification->"subject") . "\n```\n" . ($Notification->"message") . "\n```") "plain" ];
   :local Formatted ("<h2>" . [ $PrepareText ("[" . $IdentityExtra . $Identity . "] " . \
@@ -129,7 +132,8 @@
   }
 
   :do {
-    /tool/fetch check-certificate=yes-without-crl output=none http-method=post \
+    /tool/fetch check-certificate=yes-without-crl output=none \
+      http-header-field=$Headers http-method=post \
       ("https://" . $HomeServer . "/_matrix/client/r0/rooms/" . $Room . \
        "/send/m.room.message?access_token=" . $AccessToken) \
       http-data=("{ \"msgtype\": \"m.text\", \"body\": \"" . $Plain . "\"," . \
@@ -146,9 +150,9 @@
       " " . [ /system/clock/get time ] . " and may be obsolete.");
     :set Plain ($Plain . "\\n" . $Text);
     :set Formatted ($Formatted . "<br/>" . $Text);
-    :set ($MatrixQueue->[ :len $MatrixQueue ]) { room=$Room; \
-      accesstoken=$AccessToken; homeserver=$HomeServer; \
-      plain=$Plain; formatted=$Formatted };
+    :set ($MatrixQueue->[ :len $MatrixQueue ]) { headers=$Headers; \
+        accesstoken=$AccessToken; homeserver=$HomeServer; room=$Room; \
+        plain=$Plain; formatted=$Formatted };
     :if ([ :len [ /system/scheduler/find where name="_FlushMatrixQueue" ] ] = 0) do={
       /system/scheduler/add name="_FlushMatrixQueue" interval=1m start-time=startup \
         on-event=(":global FlushMatrixQueue; \$FlushMatrixQueue;");
@@ -185,6 +189,7 @@
   :local User [ :tostr $1 ];
   :local Pass [ :tostr $2 ];
 
+  :global FetchUserAgentStr;
   :global LogPrint;
 
   :global MatrixAccessToken;
@@ -193,6 +198,7 @@
   :local Domain [ :pick $User ([ :find $User ":" ] + 1) [ :len $User] ];
   :do {
     :local Data ([ /tool/fetch check-certificate=yes-without-crl output=user \
+        http-header-field=({ [ $FetchUserAgentStr $0 ] }) \
         ("https://" . $Domain . "/.well-known/matrix/client") as-value ]->"data");
     :set MatrixHomeServer ([ :deserialize from=json value=$Data ]->"m.homeserver"->"base_url");
     $LogPrint debug $0 ("Home server is: " . $MatrixHomeServer);
@@ -207,7 +213,8 @@
 
   :do {
     :local Data ([ /tool/fetch check-certificate=yes-without-crl output=user \
-        http-method=post http-data=("{\"type\":\"m.login.password\", \"user\":\"" . $User . "\", \"password\":\"" . $Pass . "\"}") \
+        http-header-field=({ [ $FetchUserAgentStr $0 ] }) http-method=post \
+        http-data=("{\"type\":\"m.login.password\", \"user\":\"" . $User . "\", \"password\":\"" . $Pass . "\"}") \
         ("https://" . $MatrixHomeServer . "/_matrix/client/r0/login") as-value ]->"data");
     :set MatrixAccessToken ([ :deserialize from=json value=$Data ]->"access_token");
     $LogPrint debug $0 ("Access token is: " . $MatrixAccessToken);
@@ -233,6 +240,7 @@
 :set SetupMatrixJoinRoom do={
   :global MatrixRoom [ :tostr $1 ];
 
+  :global FetchUserAgentStr;
   :global LogPrint;
   :global UrlEncode;
 
@@ -242,7 +250,7 @@
 
   :do {
     /tool/fetch check-certificate=yes-without-crl output=none \
-        http-method=post http-data="" \
+        http-header-field=({ [ $FetchUserAgentStr $0 ] }) http-method=post http-data="" \
         ("https://" . $MatrixHomeServer . "/_matrix/client/r0/rooms/" . [ $UrlEncode $MatrixRoom ] . \
         "/join?access_token=" . [ $UrlEncode $MatrixAccessToken ]) as-value;
     $LogPrint debug $0 ("Joined the room.");
