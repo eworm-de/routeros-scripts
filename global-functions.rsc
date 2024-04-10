@@ -1299,7 +1299,7 @@
 :set SendNotification do={
   :global SendNotification2;
 
-  $SendNotification2 ({ subject=$1; message=$2; link=$3; silent=$4 });
+  $SendNotification2 ({ origin=$0; subject=$1; message=$2; link=$3; silent=$4 });
 }
 
 # send notification via NotificationFunctions - expects one array argument
