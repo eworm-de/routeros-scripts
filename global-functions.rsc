@@ -1290,8 +1290,8 @@
   }
 
   $RemoveTicket $Script $MyTicket;
-  $LogPrint info $0 ("Script '" . $Script . "' started more than once" . [ $IfThenElse ($WaitCount > 0) \
-    " and timed out waiting for lock" "" ] . "...");
+  $LogPrint debug $0 ("Script '" . $Script . "' started more than once" . \
+    [ $IfThenElse ($WaitCount > 0) " and timed out waiting for lock" "" ] . "...");
   :return false;
 }
 
