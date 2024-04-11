@@ -1278,12 +1278,15 @@
   $AddTicket $Script $MyTicket;
 
   :local WaitCount 0;
-  :while ($WaitMax > $WaitCount && ([ $IsFirstTicket $Script $MyTicket ] = false || [ $TicketCount $Script ] < [ $JobCount $Script ])) do={
+  :while ($WaitMax > $WaitCount && \
+      ([ $IsFirstTicket $Script $MyTicket ] = false || \
+      [ $TicketCount $Script ] < [ $JobCount $Script ])) do={
     :set WaitCount ($WaitCount + 1);
     :delay 100ms;
   }
 
-  :if ([ $IsFirstTicket $Script $MyTicket ] = true && [ $TicketCount $Script ] = [ $JobCount $Script ]) do={
+  :if ([ $IsFirstTicket $Script $MyTicket ] = true && \
+      [ $TicketCount $Script ] = [ $JobCount $Script ]) do={
     $RemoveTicket $Script $MyTicket;
     $CleanupTickets $Script;
     :return true;
