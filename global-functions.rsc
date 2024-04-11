@@ -931,6 +931,11 @@
   :local Script [ :tostr $1 ];
 
   :global LogPrint;
+  :global ScriptLock;
+
+  :if ([ $ScriptLock $Script ] = false) do={
+    :return false;
+  }
 
   :foreach Job in=[ /system/script/job/find where script=$Script ] do={
     :set Job [ /system/script/job/get $Job ];
@@ -942,8 +947,8 @@
       :return true;
     }
   }
-  $LogPrint debug $0 ("Script " . $Script . " NOT started from terminal.");
 
+  $LogPrint debug $0 ("Script " . $Script . " NOT started from terminal.");
   :return false;
 }
 
