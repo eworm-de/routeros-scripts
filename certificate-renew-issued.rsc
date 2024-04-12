@@ -36,13 +36,13 @@
         /certificate/export-certificate ($CertVal->"name") type=pkcs12 \
             file-name=("cert-issued/" . $CertVal->"common-name") \
             export-passphrase=($CertIssuedExportPass->($CertVal->"common-name"));
-        $LogPrint info $ScriptName ("Issued a new certificate for \"" . $CertVal->"common-name" . \
-          "\", exported to \"cert-issued/" . $CertVal->"common-name" . ".p12\".");
+        $LogPrint info $ScriptName ("Issued a new certificate for '" . $CertVal->"common-name" . \
+          "', exported to 'cert-issued/" . $CertVal->"common-name" . ".p12'.");
       } else={
         $LogPrint warning $ScriptName ("Failed creating directory, not exporting certificate.");
       }
     } else={
-      $LogPrint info $ScriptName ("Issued a new certificate for \"" . $CertVal->"common-name" . "\".");
+      $LogPrint info $ScriptName ("Issued a new certificate for '" . $CertVal->"common-name" . "'.");
     }
   }
 } on-error={ }
