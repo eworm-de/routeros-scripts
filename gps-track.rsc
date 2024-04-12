@@ -17,6 +17,7 @@
   :global GpsTrackUrl;
   :global Identity;
 
+  :global FetchUserAgentStr;
   :global LogPrint;
   :global ScriptLock;
   :global WaitFullyConnected;
@@ -31,10 +32,10 @@
 
   :if ($Gps->"valid" = true) do={
     :do {
-      /tool/fetch check-certificate=yes-without-crl $GpsTrackUrl output=none \
-        http-method=post http-header-field=({ "Content-Type: application/json" }) \
+      /tool/fetch check-certificate=yes-without-crl output=none http-method=post \
+        http-header-field=({ [ $FetchUserAgentStr $ScriptName ]; "Content-Type: application/json" }) \
         http-data=[ :serialize to=json { "identity"=$Identity; \
-        "lat"=($Gps->"latitude"); "lon"=($Gps->"longitude") } ] as-value;
+        "lat"=($Gps->"latitude"); "lon"=($Gps->"longitude") } ] $GpsTrackUrl as-value;
       $LogPrint debug $ScriptName ("Sending GPS data in " . $CoordinateFormat . " format: " . \
         "lat: " . ($Gps->"latitude") . " " . \
         "lon: " . ($Gps->"longitude"));
