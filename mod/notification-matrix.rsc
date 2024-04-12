@@ -40,12 +40,11 @@
     :if ([ :typeof $Message ] = "array" ) do={
       :do {
         /tool/fetch check-certificate=yes-without-crl output=none \
-          http-header-field=($Message->"headers") http-method=post \
-          ("https://" . $Message->"homeserver" . "/_matrix/client/r0/rooms/" . $Message->"room" . \
-           "/send/m.room.message?access_token=" . $Message->"accesstoken") \
-          http-data=("{ \"msgtype\": \"m.text\", \"body\": \"" . $Message->"plain" . "\"," . \
-           "\"format\": \"org.matrix.custom.html\", \"formatted_body\": \"" . \
-           $Message->"formatted" . "\" }") as-value;
+            http-header-field=($Message->"headers") http-method=post \
+            http-data=[ :serialize to=json { "msgtype"="m.text"; "body"=($Message->"plain");
+            "format"="org.matrix.custom.html"; "formatted_body"=($Message->"formatted") } ] \
+            ("https://" . $Message->"homeserver" . "/_matrix/client/r0/rooms/" . $Message->"room" . \
+            "/send/m.room.message?access_token=" . $Message->"accesstoken") as-value;
         :set ($MatrixQueue->$Id);
       } on-error={
         $LogPrint debug $0 ("Sending queued Matrix message failed.");
@@ -133,12 +132,11 @@
 
   :do {
     /tool/fetch check-certificate=yes-without-crl output=none \
-      http-header-field=$Headers http-method=post \
-      ("https://" . $HomeServer . "/_matrix/client/r0/rooms/" . $Room . \
-       "/send/m.room.message?access_token=" . $AccessToken) \
-      http-data=("{ \"msgtype\": \"m.text\", \"body\": \"" . $Plain . "\"," . \
-       "\"format\": \"org.matrix.custom.html\", \"formatted_body\": \"" . \
-       $Formatted . "\" }") as-value;
+        http-header-field=$Headers http-method=post \
+        http-data=[ :serialize to=json { "msgtype"="m.text"; "body"=$Plain;
+        "format"="org.matrix.custom.html"; "formatted_body"=$Formatted } ] \
+        ("https://" . $HomeServer . "/_matrix/client/r0/rooms/" . $Room . \
+        "/send/m.room.message?access_token=" . $AccessToken) as-value;
   } on-error={
     $LogPrint info $0 ("Failed sending Matrix notification! Queuing...");
 
@@ -214,7 +212,7 @@
   :do {
     :local Data ([ /tool/fetch check-certificate=yes-without-crl output=user \
         http-header-field=({ [ $FetchUserAgentStr $0 ] }) http-method=post \
-        http-data=("{\"type\":\"m.login.password\", \"user\":\"" . $User . "\", \"password\":\"" . $Pass . "\"}") \
+        http-data=[ :serialize to=json { "type"="m.login.password"; "user"=$User; "password"=$Pass } ] \
         ("https://" . $MatrixHomeServer . "/_matrix/client/r0/login") as-value ]->"data");
     :set MatrixAccessToken ([ :deserialize from=json value=$Data ]->"access_token");
     $LogPrint debug $0 ("Access token is: " . $MatrixAccessToken);
