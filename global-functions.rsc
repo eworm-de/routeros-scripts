@@ -141,7 +141,7 @@
   :global WaitForFile;
 
   $LogPrint info $0 ("Downloading and importing certificate with " . \
-      "CommonName \"" . $CommonName . "\".");
+      "CommonName '" . $CommonName . "'.");
   :do {
     :local FileName ([ $CleanName $CommonName ] . ".pem");
     /tool/fetch check-certificate=yes-without-crl http-header-field=({ [ $FetchUserAgentStr $0 ] }) \
@@ -156,7 +156,7 @@
       $CertificateNameByCN [ /certificate/get $Cert common-name ];
     }
   } on-error={
-    $LogPrint warning $0 ("Failed importing certificate with CommonName \"" . $CommonName . "\"!");
+    $LogPrint warning $0 ("Failed importing certificate with CommonName '" . $CommonName . "'!");
     :return false;
   }
   :return true;
