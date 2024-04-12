@@ -33,11 +33,8 @@
     :do {
       /tool/fetch check-certificate=yes-without-crl $GpsTrackUrl output=none \
         http-method=post http-header-field=({ "Content-Type: application/json" }) \
-        http-data=("{" . \
-          "\"lat\":\"" . ($Gps->"latitude") . "\"," . \
-          "\"lon\":\"" . ($Gps->"longitude") . "\"," . \
-          "\"identity\":\"" . $Identity . "\"" . \
-        "}") as-value;
+        http-data=[ :serialize to=json { "identity"=$Identity; \
+        "lat"=($Gps->"latitude"); "lon"=($Gps->"longitude") } ] as-value;
       $LogPrint debug $ScriptName ("Sending GPS data in " . $CoordinateFormat . " format: " . \
         "lat: " . ($Gps->"latitude") . " " . \
         "lon: " . ($Gps->"longitude"));
