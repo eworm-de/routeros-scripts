@@ -117,7 +117,7 @@
     ($Notification->"subject")) ] . "</h2>" . "<pre><code>" . \
     [ $PrepareText ($Notification->"message") ] . "</code></pre>");
   :if ([ :len ($Notification->"link") ] > 0) do={
-    :set Plain ($Plain . "\\n" . [ $SymbolForNotification "link" ] . \
+    :set Plain ($Plain . "\n" . [ $SymbolForNotification "link" ] . \
       "[" . $Notification->"link" . "](" . $Notification->"link" . ")");
     :set Formatted ($Formatted . "<br/>" . [ $SymbolForNotification "link" ] . \
       "<a href=\"" . [ $PrepareText ($Notification->"link") ] . "\">" . \
@@ -140,7 +140,7 @@
     :local Text ([ $SymbolForNotification "alarm-clock" ] . \
       "This message was queued since " . [ /system/clock/get date ] . \
       " " . [ /system/clock/get time ] . " and may be obsolete.");
-    :set Plain ($Plain . "\\n" . $Text);
+    :set Plain ($Plain . "\n" . $Text);
     :set Formatted ($Formatted . "<br/>" . $Text);
     :set ($MatrixQueue->[ :len $MatrixQueue ]) { headers=$Headers; \
         accesstoken=$AccessToken; homeserver=$HomeServer; room=$Room; \
