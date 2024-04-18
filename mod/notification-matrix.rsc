@@ -86,21 +86,15 @@
     }
 
     :local Return "";
-    :local Chars {
-      "plain"={ "\\"; "\""; "\n" };
-      "format"={ "\\"; "\""; "\n"; "&"; "<"; ">" };
-    }
-    :local Subs {
-      "plain"={ "\\\\"; "\\\""; "\\n" };
-      "format"={ "\\\\"; "&quot;"; "<br/>"; "&amp;"; "&lt;"; "&gt;" };
-    }
+    :local Chars { "\""; "\n"; "&"; "<"; ">" };
+    :local Subs { "&quot;"; "<br/>"; "&amp;"; "&lt;"; "&gt;" };
 
     :for I from=0 to=([ :len $Input ] - 1) do={
       :local Char [ :pick $Input $I ];
-      :local Replace [ :find ($Chars->$2) $Char ];
+      :local Replace [ :find $Chars $Char ];
 
       :if ([ :typeof $Replace ] = "num") do={
-        :set Char ($Subs->$2->$Replace);
+        :set Char ($Subs->$Replace);
       }
       :set Return ($Return . $Char);
     }
@@ -117,17 +111,17 @@
   }
 
   :local Headers ({ [ $FetchUserAgentStr ($Notification->"origin") ] });
-  :local Plain [ $PrepareText ("## [" . $IdentityExtra . $Identity . "] " . \
-    ($Notification->"subject") . "\n```\n" . ($Notification->"message") . "\n```") "plain" ];
+  :local Plain ("## [" . $IdentityExtra . $Identity . "] " . \
+    ($Notification->"subject") . "\n```\n" . ($Notification->"message") . "\n```");
   :local Formatted ("<h2>" . [ $PrepareText ("[" . $IdentityExtra . $Identity . "] " . \
-    ($Notification->"subject")) "format" ] . "</h2>" . "<pre><code>" . \
-    [ $PrepareText ($Notification->"message") "format" ] . "</code></pre>");
+    ($Notification->"subject")) ] . "</h2>" . "<pre><code>" . \
+    [ $PrepareText ($Notification->"message") ] . "</code></pre>");
   :if ([ :len ($Notification->"link") ] > 0) do={
     :set Plain ($Plain . "\\n" . [ $SymbolForNotification "link" ] . \
-      [ $PrepareText ("[" . $Notification->"link" . "](" . $Notification->"link" . ")") "plain" ]);
+      "[" . $Notification->"link" . "](" . $Notification->"link" . ")");
     :set Formatted ($Formatted . "<br/>" . [ $SymbolForNotification "link" ] . \
-      "<a href=\\\"" . [ $PrepareText ($Notification->"link") "format" ] . "\\\">" . \
-      [ $PrepareText ($Notification->"link") "format" ] . "</a>");
+      "<a href=\"" . [ $PrepareText ($Notification->"link") ] . "\">" . \
+      [ $PrepareText ($Notification->"link") ] . "</a>");
   }
 
   :do {
