@@ -23,7 +23,7 @@ Run the complete base installation:
       :if ([ :len [ /certificate/find where fingerprint="46494e30379059df18be52124305e606fc59070e5b21076ce113954b60517cda" or fingerprint="69729b8e15a86efc177a57afb7171dfc64add28c2fca8cf1507e34453ccb1470" ] ] != 2) do={
         :error "Something is wrong with your certificates!";
       };
-      /file/remove "letsencrypt-E1.pem";
+      /file/remove [ find where name="letsencrypt-E1.pem" ];
       :delay 1s;
       /system/script/set name=("global-config-overlay-" . [ /system/clock/get date ] . "-" . [ /system/clock/get time ]) [ find where name="global-config-overlay" ];
       :foreach Script in={ "global-config"; "global-config-overlay"; "global-functions" } do={
