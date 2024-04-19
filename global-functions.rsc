@@ -58,6 +58,7 @@
 :global ParseDate;
 :global ParseKeyValueStore;
 :global PrettyPrint;
+:global ProtocolStrip;
 :global RandomDelay;
 :global RequiredRouterOS;
 :global ScriptFromTerminal;
@@ -883,6 +884,17 @@
   :global Unix2Dos;
 
   :put [ $Unix2Dos $Input ];
+}
+
+# strip protocol from from url string
+:set ProtocolStrip do={
+  :local Input [ :tostr $1 ];
+
+  :local Pos [ :find $Input "://" ];
+  :if ([ :typeof $Pos ] = "nil") do={
+    :return $Input;
+  }
+  :return [ :pick $Input ($Pos + 3) [ :len $Input ] ];
 }
 
 # delay a random amount of seconds
