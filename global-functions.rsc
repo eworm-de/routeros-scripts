@@ -151,7 +151,7 @@
     $WaitForFile $FileName;
     /certificate/import file-name=$FileName passphrase="" as-value;
     :delay 1s;
-    /file/remove $FileName;
+    /file/remove [ find where name=$FileName ];
 
     :foreach Cert in=[ /certificate/find where name~("^" . $FileName . "_[0-9]+\$") ] do={
       $CertificateNameByCN [ /certificate/get $Cert common-name ];
