@@ -95,7 +95,7 @@ fingerprint. Make sure exactly these two certificates ("*E1*" and
 
     /certificate/set name="E1" [ find where common-name="E1" ];
     /certificate/set name="ISRG-Root-X2" [ find where common-name="ISRG Root X2" ];
-    /certificate/print proplist=name where fingerprint="46494e30379059df18be52124305e606fc59070e5b21076ce113954b60517cda" or fingerprint="69729b8e15a86efc177a57afb7171dfc64add28c2fca8cf1507e34453ccb1470";
+    /certificate/print proplist=name,fingerprint where fingerprint="46494e30379059df18be52124305e606fc59070e5b21076ce113954b60517cda" or fingerprint="69729b8e15a86efc177a57afb7171dfc64add28c2fca8cf1507e34453ccb1470";
     /file/remove [ find where name="letsencrypt-E1.pem" ];
 
 ![screenshot: check certs](README.d/03-check-certs.avif)
