@@ -76,6 +76,7 @@
   :global EitherOr;
   :global IfThenElse;
   :global LogPrint;
+  :global ProtocolStrip;
   :global SymbolForNotification;
   :global UrlEncode;
 
@@ -117,7 +118,7 @@
     ($Notification->"subject")) "plain" ] . "__*\n\n");
   :local LenSubject [ :len $Text ];
   :local LenMessage [ :len ($Notification->"message") ];
-  :local LenLink [ :len ($Notification->"link") ];
+  :local LenLink ([ :len ($Notification->"link") ] * 2);
   :local LenSum ($LenSubject + $LenMessage + $LenLink);
   :if ($LenSum > 3968) do={
     :set Text ($Text . [ $EscapeMD ([ :pick ($Notification->"message") 0 (3840 - $LenSubject - $LenLink) ] . "...") "body" ]);
@@ -126,7 +127,9 @@
     :set Text ($Text . [ $EscapeMD ($Notification->"message") "body" ]);
   }
   :if ($LenLink > 0) do={
-    :set Text ($Text . "\n" . [ $SymbolForNotification "link" ] . [ $EscapeMD ($Notification->"link") "plain" ]);
+    :set Text ($Text . "\n" . [ $SymbolForNotification "link" ] . \
+      "[" . [ $EscapeMD [ $ProtocolStrip ($Notification->"link") ] "plain" ] . "]" . \
+      "(" . [ $EscapeMD ($Notification->"link") "plain" ] . ")");
   }
   :if ($Truncated = true) do={
     :set Text ($Text . "\n" . [ $SymbolForNotification "scissors" ] . \
