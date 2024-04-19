@@ -76,6 +76,7 @@
   :global EitherOr;
   :global FetchUserAgentStr;
   :global LogPrint;
+  :global ProtocolStrip;
   :global SymbolForNotification;
 
   :local PrepareText do={
@@ -117,11 +118,12 @@
     ($Notification->"subject")) ] . "</h2>" . "<pre><code>" . \
     [ $PrepareText ($Notification->"message") ] . "</code></pre>");
   :if ([ :len ($Notification->"link") ] > 0) do={
+    :local Label [ $ProtocolStrip ($Notification->"link") ];
     :set Plain ($Plain . "\n" . [ $SymbolForNotification "link" ] . \
-      "[" . $Notification->"link" . "](" . $Notification->"link" . ")");
+      "[" . $Label . "](" . $Notification->"link" . ")");
     :set Formatted ($Formatted . "<br/>" . [ $SymbolForNotification "link" ] . \
       "<a href=\"" . [ $PrepareText ($Notification->"link") ] . "\">" . \
-      [ $PrepareText ($Notification->"link") ] . "</a>");
+      [ $PrepareText $Label ] . "</a>");
   }
 
   :do {
