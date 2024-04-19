@@ -116,7 +116,7 @@
             }
           } on-error={
             :set ($Metric->"resolve-failcnt") ($Metric->"resolve-failcnt" + 1);
-            :if ($Metric->"resolve-failcnt" = 3) do={
+            :if ($Metric->"resolve-failcnt" = 3 && $HostInfo->"no-resolve-fail" != true) do={
               $LogPrint warning $ScriptName ("Resolving name '" . $HostInfo->"resolve" . [ $IfThenElse \
                   ($HostInfo->"resolve" != $HostInfo->"name") ("' for " . $Type . " '" . \
                   $HostInfo->"name") "" ] . "' failed.");

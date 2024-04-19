@@ -104,6 +104,15 @@ powered off, but accessibility is of interest.
 
 Go and get your coffee ☕️ before sending the print job.
 
+### No log on failed resolve
+
+A message is writting to log after three failed attemts to resolve a host.
+However this can cause some noise for hosts that are expected to have
+failures, for example when the name is dynamically added by
+[`dhcp-to-dns`](dhcp-to-dns.md). This can be suppressed:
+
+    /tool/netwatch/add comment="notify, name=client, resolve=client.dhcp.example.com, no-resolve-fail" host=10.0.0.0;
+
 ### Add a note in notification
 
 For some extra information it is possible to add a text note. This is
