@@ -158,4 +158,5 @@
     :set PackagesUpdateBackupFailure true;
     :error false;
   }
+  /file/remove $DirName;
 } on-error={ }
