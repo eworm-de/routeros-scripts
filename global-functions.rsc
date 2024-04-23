@@ -406,13 +406,13 @@
 
   :set CheckCert [ $IfThenElse ($CheckCert = false) "no" "yes-without-crl" ];
 
-  :local FileName ("tmpfs/" . [ $CleanName $ScriptName ]);
-  :if ([ $MkDir $FileName ] = false) do={
+  :local DirName ("tmpfs/" . [ $CleanName $ScriptName ]);
+  :if ([ $MkDir $DirName ] = false) do={
     $LogPrint error $0 ("Failed creating directory!");
     :return false;
   }
 
-  :set FileName ($FileName . "/" . [ $CleanName $0 ] . "-" . [ $GetRandom20CharAlNum ]);
+  :local FileName ($DirName . "/" . [ $CleanName $0 ] . "-" . [ $GetRandom20CharAlNum ]);
   :do {
     /tool/fetch check-certificate=$CheckCert $Url dst-path=$FileName \
       http-header-field=({ [ $FetchUserAgentStr $ScriptName ] }) as-value;
@@ -421,6 +421,7 @@
       /file/remove $FileName;
     }
     $LogPrint debug $0 ("Failed downloading from: " . $Url);
+    /file/remove $DirName;
     :return false;
   }
   $WaitForFile $FileName;
@@ -432,7 +433,7 @@
     :set Return ($Return . ([ /file/read offset=$VarSize chunk-size=32768 file=$FileName as-value ]->"data"));
     :set VarSize [ :len $Return ];
   }
-  /file/remove $FileName;
+  /file/remove $DirName;
   :return $Return;
 }
 
