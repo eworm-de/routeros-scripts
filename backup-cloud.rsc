@@ -49,13 +49,11 @@
 
   :execute {
     :global BackupPassword;
-    # we are not interested in output, but print is
-    # required to fetch information from cloud
-    /system/backup/cloud/print as-value;
-    :delay 20ms;
-    :if ([ :len [ /system/backup/cloud/find ] ] > 0) do={
+
+    :local Backup ([ /system/backup/cloud/find ]->0);
+    :if ([ :typeof $Backup ] = "id") do={
       /system/backup/cloud/upload-file action=create-and-upload \
-          password=$BackupPassword replace=[ get ([ find ]->0) name ];
+          password=$BackupPassword replace=$Backup;
     } else={
       /system/backup/cloud/upload-file action=create-and-upload \
           password=$BackupPassword;
