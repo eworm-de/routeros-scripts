@@ -90,11 +90,10 @@ a sensitive property, the passphrase.
 
 For basic verification we rename the certificate and print it by
 fingerprint. Make sure exactly this one certificate ("*ISRG-Root-X2*")
-is shown. Also remove the left over file.
+is shown.
 
     /certificate/set name="ISRG-Root-X2" [ find where common-name="ISRG Root X2" ];
     /certificate/print proplist=name,fingerprint where fingerprint="69729b8e15a86efc177a57afb7171dfc64add28c2fca8cf1507e34453ccb1470";
-    /file/remove [ find where name="ISRG-Root-X2.pem" ];
 
 ![screenshot: check certs](README.d/03-check-certs.avif)
 
