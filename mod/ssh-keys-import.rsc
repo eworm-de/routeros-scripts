@@ -59,8 +59,10 @@
     /user/ssh-keys/import public-key-file=$FileName user=$User;
     $LogPrint info $0 ("Imported ssh public key (" . $KeyVal->2 . ", " . $KeyVal->0 . ", " . \
       "MD5:" . $FingerPrintMD5 . ") for user '" . $User . "'.");
+    /file/remove "tmpfs/ssh-keys-import";
   } on-error={
     $LogPrint warning $0 ("Failed importing key.");
+    /file/remove "tmpfs/ssh-keys-import";
     :return false;
   }
 }
