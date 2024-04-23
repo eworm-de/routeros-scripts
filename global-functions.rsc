@@ -230,11 +230,19 @@
   :for I from=0 to=([ :len $Input ] - 1) do={
     :local Char [ :pick $Input $I ];
     :if ([ :typeof [ find "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-" $Char ] ] = "nil") do={
-      :set Char "-";
+      :do {
+        :if ([ :len $Return ] = 0) do={
+          :error true;
+        }
+        :if ([ :pick $Return ([ :len $Return ] - 1) ] = "-") do={
+          :error true;
+        }
+        :set Char "-";
+      } on-error={
+        :set Char "";
+      }
     }
-    :if ($Char != "-" || [ :pick $Return ([ :len $Return ] - 1) ] != "-") do={
-      :set Return ($Return . $Char);
-    }
+    :set Return ($Return . $Char);
   }
   :return $Return;
 }
