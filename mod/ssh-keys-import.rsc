@@ -38,16 +38,16 @@
     :return false;
   }
 
-  :if ([ $MkDir "tmpfs/ssh-keys-import" ] = false) do={
-    $LogPrint warning $0 ("Creating directory 'tmpfs/ssh-keys-import' failed!");
-    :return false;
-  }
-
   :local FingerPrintMD5 [ :convert from=base64 transform=md5 to=hex ($KeyVal->1) ];
 
   :if ([ :len [ /user/ssh-keys/find where user=$User key-owner~("\\bmd5=" . $FingerPrintMD5 . "\\b") ] ] > 0) do={
     $LogPrint warning $0 ("The ssh public key (MD5:" . $FingerPrintMD5 . \
       ") is already available for user '" . $User . "'.");
+    :return false;
+  }
+
+  :if ([ $MkDir "tmpfs/ssh-keys-import" ] = false) do={
+    $LogPrint warning $0 ("Creating directory 'tmpfs/ssh-keys-import' failed!");
     :return false;
   }
 
