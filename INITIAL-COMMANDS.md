@@ -23,7 +23,6 @@ Run the complete base installation:
       :if ([ :len [ /certificate/find where fingerprint="69729b8e15a86efc177a57afb7171dfc64add28c2fca8cf1507e34453ccb1470" ] ] != 1) do={
         :error "Something is wrong with your certificates!";
       };
-      /file/remove [ find where name="ISRG-Root-X2.pem" ];
       :delay 1s;
       /system/script/set name=("global-config-overlay-" . [ /system/clock/get date ] . "-" . [ /system/clock/get time ]) [ find where name="global-config-overlay" ];
       :foreach Script in={ "global-config"; "global-config-overlay"; "global-functions" } do={
