@@ -79,7 +79,6 @@
       message=("Failed uploading backup for " . $Identity . " to cloud!\n\n" . [ $DeviceInfo ]) });
     $LogPrint error $ScriptName ("Failed uploading backup for " . $Identity . " to cloud!");
     :set PackagesUpdateBackupFailure true;
-    :error false;
   }
   /file/remove "tmpfs/backup-cloud";
 } on-error={ }
