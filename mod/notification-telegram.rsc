@@ -149,7 +149,7 @@
       "&parse_mode=MarkdownV2&text=" . [ $UrlEncode $Text ]) as-value ]->"data");
     :set ($TelegramMessageIDs->[ :tostr ([ :deserialize from=json value=$Data ]->"result"->"message_id") ]) 1;
   } on-error={
-    $LogPrint info $0 ("Failed sending telegram notification! Queuing...");
+    $LogPrint info $0 ("Failed sending Telegram notification! Queuing...");
 
     :if ([ :typeof $TelegramQueue ] = "nothing") do={
       :set TelegramQueue ({});
