@@ -160,8 +160,8 @@
       :set TelegramQueue ({});
     }
     :set Text ($Text . "\n" . [ $SymbolForNotification "alarm-clock" ] . \
-      [ $EscapeMD ("This message was queued since " . [ /system/clock/get date ] . \
-      " " . [ /system/clock/get time ] . " and may be obsolete.") "plain" ]);
+      [ $EscapeMD ("This message was queued since _" . [ /system/clock/get date ] . \
+      " " . [ /system/clock/get time ] . "_ and may be obsolete.") "plain" "_" ]);
     :set ($TelegramQueue->[ :len $TelegramQueue ]) { chatid=$ChatId; tokenid=$TokenId;
       text=$Text; silent=($Notification->"silent"); replyto=($Notification->"replyto") };
     :if ([ :len [ /system/scheduler/find where name="_FlushTelegramQueue" ] ] = 0) do={
