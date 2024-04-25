@@ -139,11 +139,12 @@
     :if ([ :typeof $MatrixQueue ] = "nothing") do={
       :set MatrixQueue ({});
     }
-    :local Text ([ $SymbolForNotification "alarm-clock" ] . \
-      "This message was queued since " . [ /system/clock/get date ] . \
-      " " . [ /system/clock/get time ] . " and may be obsolete.");
-    :set Plain ($Plain . "\n" . $Text);
-    :set Formatted ($Formatted . "<br/>" . $Text);
+    :local Symbol [ $SymbolForNotification "alarm-clock" ];
+    :local DateTime ([ /system/clock/get date ] . " " . [ /system/clock/get time ]);
+    :set Plain ($Plain . "\n" . $Symbol . "This message was queued since *" . \
+        $DateTime . "* and may be obsolete.");
+    :set Formatted ($Formatted . "<br/>" . $Symbol . "This message was queued since <em>" . \
+        $DateTime . "</em> and may be obsolete.");
     :set ($MatrixQueue->[ :len $MatrixQueue ]) { headers=$Headers; \
         accesstoken=$AccessToken; homeserver=$HomeServer; room=$Room; \
         plain=$Plain; formatted=$Formatted };
