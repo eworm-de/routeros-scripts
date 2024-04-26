@@ -81,7 +81,7 @@
   }
 
   :if ($Data = false) do={
-    $LogPrint warning $ScriptName ("Failed getting updates from Telegram.");
+    $LogPrint warning $ScriptName ("Failed getting updates.");
     :error false;
   }
 
