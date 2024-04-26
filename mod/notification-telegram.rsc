@@ -83,6 +83,7 @@
   :local EscapeMD do={
     :local Text [ :tostr $1 ];
     :local Mode [ :tostr $2 ];
+    :local Excl [ :tostr $3 ];
 
     :global CharacterReplace;
     :global IfThenElse;
@@ -93,7 +94,9 @@
                 "#"; "+"; "-"; "="; "|"; "{"; "}"; "."; "!" };
     }
     :foreach Char in=($Chars->$Mode) do={
-      :set Text [ $CharacterReplace $Text $Char ("\\" . $Char) ];
+      :if ([ :typeof [ :find $Excl $Char ] ] = "nil") do={
+        :set Text [ $CharacterReplace $Text $Char ("\\" . $Char) ];
+      }
     }
 
     :if ($Mode = "body") do={
