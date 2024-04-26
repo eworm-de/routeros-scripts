@@ -81,24 +81,26 @@
   :global UrlEncode;
 
   :local EscapeMD do={
+    :local Text [ :tostr $1 ];
+    :local Mode [ :tostr $2 ];
+
     :global CharacterReplace;
     :global IfThenElse;
 
-    :local Return $1;
     :local Chars {
-      "body"={ "\\"; "`" };
+       "body"={ "\\"; "`" };
       "plain"={ "_"; "*"; "["; "]"; "("; ")"; "~"; "`"; ">";
                 "#"; "+"; "-"; "="; "|"; "{"; "}"; "."; "!" };
     }
-    :foreach Char in=($Chars->$2) do={
-      :set Return [ $CharacterReplace $Return $Char ("\\" . $Char) ];
+    :foreach Char in=($Chars->$Mode) do={
+      :set Text [ $CharacterReplace $Text $Char ("\\" . $Char) ];
     }
 
-    :if ($2 = "body") do={
-      :return ("```\n" . $Return . "\n```");
+    :if ($Mode = "body") do={
+      :return ("```\n" . $Text . "\n```");
     }
 
-    :return $Return;
+    :return $Text;
   }
 
   :local ChatId [ $EitherOr ($Notification->"chatid") \
