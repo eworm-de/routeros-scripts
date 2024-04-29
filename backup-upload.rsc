@@ -156,7 +156,6 @@
 
   :if ($Failed = 1) do={
     :set PackagesUpdateBackupFailure true;
-    :error false;
   }
   /file/remove $DirName;
 } on-error={ }
