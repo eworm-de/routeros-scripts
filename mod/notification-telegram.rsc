@@ -138,8 +138,8 @@
   }
   :if ($Truncated = true) do={
     :set Text ($Text . "\n" . [ $SymbolForNotification "scissors" ] . \
-      [ $EscapeMD ("The message was too long and has been truncated, cut off " . \
-      (($LenSum - [ :len $Text ]) * 100 / $LenSum) . "%!") "plain" ]);
+      [ $EscapeMD ("The message was too long and has been truncated, cut off _" . \
+      (($LenSum - [ :len $Text ]) * 100 / $LenSum) . "%_!") "plain" "_" ]);
   }
 
   :do {
