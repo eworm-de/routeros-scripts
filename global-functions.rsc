@@ -1520,10 +1520,10 @@
 
   :set FileName [ $CleanFilePath $FileName ];
   :local I 1;
-  :local Delay ([ :totime [ $EitherOr $WaitTime 2s ] ] / 20);
+  :local Delay ([ :totime [ $EitherOr $WaitTime 2s ] ] / 10);
 
   :while ([ :len [ /file/find where name=$FileName ] ] = 0) do={
-    :if ($I >= 20) do={
+    :if ($I >= 10) do={
       :return false;
     }
     :delay $Delay;
