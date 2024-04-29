@@ -47,19 +47,23 @@
     :error false;
   }
 
-  :execute {
-    :global BackupPassword;
+  :local I 5;
+  :do {
+    :execute {
+      :global BackupPassword;
 
-    :local Backup ([ /system/backup/cloud/find ]->0);
-    :if ([ :typeof $Backup ] = "id") do={
-      /system/backup/cloud/upload-file action=create-and-upload \
-          password=$BackupPassword replace=$Backup;
-    } else={
-      /system/backup/cloud/upload-file action=create-and-upload \
-          password=$BackupPassword;
-    }
-    /file/add name="tmpfs/backup-cloud/done";
-  } as-string;
+      :local Backup ([ /system/backup/cloud/find ]->0);
+      :if ([ :typeof $Backup ] = "id") do={
+        /system/backup/cloud/upload-file action=create-and-upload \
+            password=$BackupPassword replace=$Backup;
+      } else={
+        /system/backup/cloud/upload-file action=create-and-upload \
+            password=$BackupPassword;
+      }
+      /file/add name="tmpfs/backup-cloud/done";
+    } as-string;
+    :set I ($I - 1);
+  } while=([ $WaitForFile "tmpfs/backup-cloud/done" 200ms ] = false && $I > 0);
 
   :if ([ $WaitForFile "tmpfs/backup-cloud/done" ] = true) do={
     :local Cloud [ /system/backup/cloud/get ([ find ]->0) ];
