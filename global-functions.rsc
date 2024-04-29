@@ -1517,10 +1517,11 @@
 
   :global CleanFilePath;
   :global EitherOr;
+  :global MAX;
 
   :set FileName [ $CleanFilePath $FileName ];
   :local I 1;
-  :local Delay ([ :totime [ $EitherOr $WaitTime 2s ] ] / 10);
+  :local Delay ([ :totime [ $MAX [ $EitherOr $WaitTime 2s ] 100ms ] ] / 10);
 
   :while ([ :len [ /file/find where name=$FileName ] ] = 0) do={
     :if ($I >= 10) do={
