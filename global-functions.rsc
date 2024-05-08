@@ -693,6 +693,7 @@
       :return false;
     }
 
+    $LogPrintOnce warning $0 ("The ntp client is configured, but did not sync.");
     :set IsTimeSyncResetNtp $Uptime;
     /system/ntp/client/set enabled=no;
     :delay 20ms;
