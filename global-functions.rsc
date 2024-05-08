@@ -673,7 +673,7 @@
   :global IsTimeSyncCached;
   :global IsTimeSyncResetNtp;
 
-  :global LogPrint;
+  :global LogPrintOnce;
 
   :if ($IsTimeSyncCached = true) do={
     :return true;
@@ -702,7 +702,7 @@
 
   :if ([ /system/license/get ]->"level" = "free" || \
        [ /system/resource/get ]->"board-name" = "x86") do={
-    $LogPrint debug $0 ("No ntp client configured, relying on RTC for CHR free license and x86.");
+    $LogPrintOnce debug $0 ("No ntp client configured, relying on RTC for CHR free license and x86.");
     :return true;
   }
 
@@ -714,7 +714,7 @@
     :return false;
   }
 
-  $LogPrint debug $0 ("No time source configured! Returning gracefully...");
+  $LogPrintOnce debug $0 ("No time source configured! Returning gracefully...");
   :return true;
 }
 
