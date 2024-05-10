@@ -52,6 +52,7 @@
   125=("April's Fool! " . [ $SymbolForNotification "smiley-partying-face" ] . "Well, you missed it... - no charge nor fees. (Anyway... Donations are much appreciated, " . [ $SymbolForNotification "smiley-smiling-face" ] . "thanks!)");
   126="Made 'telegram-chat' capable of handling large command output. Telegram messages still limit the size, so it is truncated now.";
   127="Added support for authentication to Ntfy notification module.";
+  128="Added another list from blocklist.de to default configuration for 'fw-addr-lists'.";
 };
 
 # Migration steps to be applied on script updates
