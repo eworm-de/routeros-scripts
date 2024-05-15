@@ -69,7 +69,7 @@
     :local Skip 0;
 
     :if ($NewPsk != $OldPsk) do={
-      $LogPrint info $ScriptName ("Updating daily PSK for " . $Ssid . " to " . $NewPsk . " (was " . $OldPsk . ")");
+      $LogPrint info $ScriptName ("Updating daily PSK for '" . $Ssid . "' to '" . $NewPsk . "' (was '" . $OldPsk . "')");
       /interface/wifi/access-list/set $AccList passphrase=$NewPsk;
 
       :if ([ $RequiredRouterOS $ScriptName "7.15beta8" false ] = false || [ :len [ /interface/wifi/find where configuration.ssid=$Ssid !disabled ] ] > 0) do={

@@ -80,7 +80,7 @@
     :local Skip 0;
 
     :if ($NewPsk != $OldPsk) do={
-      $LogPrint info $ScriptName ("Updating daily PSK for " . $Ssid . " to " . $NewPsk . " (was " . $OldPsk . ")");
+      $LogPrint info $ScriptName ("Updating daily PSK for '" . $Ssid . "' to '" . $NewPsk . "' (was '" . $OldPsk . "')");
       /caps-man/access-list/set $AccList private-passphrase=$NewPsk;
       /interface/wifi/access-list/set $AccList passphrase=$NewPsk;
       /interface/wireless/access-list/set $AccList private-pre-shared-key=$NewPsk;

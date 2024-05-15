@@ -69,7 +69,7 @@
     :local Skip 0;
 
     :if ($NewPsk != $OldPsk) do={
-      $LogPrint info $ScriptName ("Updating daily PSK for " . $Ssid . " to " . $NewPsk . " (was " . $OldPsk . ")");
+      $LogPrint info $ScriptName ("Updating daily PSK for '" . $Ssid . "' to '" . $NewPsk . "' (was '" . $OldPsk . "')");
       /caps-man/access-list/set $AccList private-passphrase=$NewPsk;
 
       :if ([ :len [ /caps-man/actual-interface-configuration/find where configuration.ssid=$Ssid !disabled ] ] > 0) do={
