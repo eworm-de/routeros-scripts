@@ -96,9 +96,9 @@
           $SendNotification2 ({ origin=$ScriptName; \
             subject=([ $SymbolForNotification "calendar" ] . "daily PSK " . $Ssid); \
             message=("This is the daily PSK on " . $Identity . ":\n\n" . \
-              [ $FormatLine "SSID" $Ssid ] . "\n" . \
-              [ $FormatLine "PSK" $NewPsk ] . "\n" . \
-              [ $FormatLine "Date" $Date ] . "\n\n" . \
+              [ $FormatLine "SSID" $Ssid 8 ] . "\n" . \
+              [ $FormatLine "PSK" $NewPsk 8 ] . "\n" . \
+              [ $FormatLine "Date" $Date 8 ] . "\n\n" . \
               "A client device specific rule must not exist!"); link=$Link });
           :set ($Seen->$Ssid) 1;
         }
