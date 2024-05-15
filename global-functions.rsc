@@ -685,10 +685,10 @@
       :return true;
     }
 
-    :if ([ :typeof $IsTimeSyncResetNtp ] = "nothing") do={
-      :set IsTimeSyncResetNtp 0s;
-    }
     :local Uptime [ /system/resource/get uptime ];
+    :if ([ :typeof $IsTimeSyncResetNtp ] = "nothing") do={
+      :set IsTimeSyncResetNtp $Uptime;
+    }
     :if ($Uptime - $IsTimeSyncResetNtp < 3m) do={
       :return false;
     }
