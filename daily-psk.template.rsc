@@ -24,6 +24,7 @@
 
   :global FormatLine;
   :global LogPrint;
+  :global RequiredRouterOS;
   :global ScriptLock;
   :global SendNotification2;
   :global SymbolForNotification;
@@ -85,7 +86,7 @@
       /interface/wireless/access-list/set $AccList private-pre-shared-key=$NewPsk;
 
       :if ([ :len [ /caps-man/actual-interface-configuration/find where configuration.ssid=$Ssid !disabled ] ] > 0) do={
-      :if ([ :len [ /interface/wifi/actual-configuration/find where configuration.ssid=$Ssid ] ] > 0) do={
+      :if ([ $RequiredRouterOS $ScriptName "7.15beta8" false ] = false || [ :len [ /interface/wifi/find where configuration.ssid=$Ssid !disabled ] ] > 0) do={
       :if ([ :len [ /interface/wireless/find where name=$IntName !disabled ] ] = 1) do={
         :if ($Seen->$Ssid = 1) do={
           $LogPrint debug $ScriptName ("Already sent a mail for SSID " . $Ssid . ", skipping.");
