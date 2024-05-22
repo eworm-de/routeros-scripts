@@ -21,6 +21,22 @@
   :global ScriptFromTerminal;
   :global ScriptLock;
 
+  :local CopyTo do={
+    :local ScriptName [ :tostr $1 ];
+    :local FallbackTo [ :tostr $2 ];
+
+    :global LogPrint;
+
+    :do {
+      /partitions/copy-to $FallbackTo;
+      $LogPrint info $ScriptName ("Copied RouterOS to partition '" . $FallbackTo . "'.");
+      :return true;
+    } on-error={
+      $LogPrint error $ScriptName ("Failed copying RouterOS to partition '" . $FallbackTo . "'!");
+      :return false;
+    }
+  }
+
   :if ([ $ScriptLock $ScriptName ] = false) do={
     :set PackagesUpdateBackupFailure true;
     :error false;
@@ -46,11 +62,7 @@
     :if ([ $ScriptFromTerminal $ScriptName ] = true) do={
       :put ("The partitions have different RouterOS versions. Copy over to '" . $FallbackTo . "'? [y/N]");
       :if (([ /terminal/inkey timeout=60 ] % 32) = 25) do={
-        :do {
-          /partitions/copy-to $FallbackTo;
-          $LogPrint info $ScriptName ("Copied RouterOS to partition '" . $FallbackTo . "'.");
-        } on-error={
-          $LogPrint error $ScriptName ("Failed copying RouterOS to partition '" . $FallbackTo . "'!");
+        :if ([ $CopyTo $ScriptName $FallbackTo ] = false) do={
           :set PackagesUpdateBackupFailure true;
           :error false;
         }
