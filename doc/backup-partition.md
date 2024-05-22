@@ -18,6 +18,7 @@ Description
 
 This script saves the current configuration to fallback
 [partition](https://wiki.mikrotik.com/wiki/Manual:Partitions).
+It can also copy-over the RouterOS installation when run interactively.
 
 For this to work you need a device with sufficient flash storage that is
 properly partitioned.
@@ -26,9 +27,10 @@ To make you aware of a possible issue a scheduler logging a warning is
 added in the backup partition's configuration. You may want to use
 [log-forward](log-forward.md) to be notified.
 
-> ⚠️ **Warning**: Only the configuration is saved to backup partition.
-> Every now and then you should copy your installation over for a recent
-> RouterOS version!
+> ⚠️ **Warning**: By default only the configuration is saved to backup
+> partition. Every now and then you should copy your installation over
+> for a recent RouterOS version! For that run the script from terminal
+> manually.
 
 Requirements and installation
 -----------------------------
@@ -43,6 +45,9 @@ Usage and invocation
 Just run the script:
 
     /system/script/run backup-partition;
+
+When run interactively from terminal it supports to copy-over the RouterOS
+installation when versions differ.
 
 Creating a scheduler may be an option:
 

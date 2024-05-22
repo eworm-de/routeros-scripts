@@ -18,6 +18,7 @@
   :global PackagesUpdateBackupFailure;
 
   :global LogPrint;
+  :global ScriptFromTerminal;
   :global ScriptLock;
 
   :if ([ $ScriptLock $ScriptName ] = false) do={
@@ -40,6 +41,22 @@
   }
 
   :local FallbackTo [ /partitions/get $ActiveRunning fallback-to ];
+
+  :if ([ /partitions/get $ActiveRunning version ] != [ /partitions/get $FallbackTo version]) do={
+    :if ([ $ScriptFromTerminal $ScriptName ] = true) do={
+      :put ("The partitions have different RouterOS versions. Copy over to '" . $FallbackTo . "'? [y/N]");
+      :if (([ /terminal/inkey timeout=60 ] % 32) = 25) do={
+        :do {
+          /partitions/copy-to $FallbackTo;
+          $LogPrint info $ScriptName ("Copied RouterOS to partition '" . $FallbackTo . "'.");
+        } on-error={
+          $LogPrint error $ScriptName ("Failed copying RouterOS to partition '" . $FallbackTo . "'!");
+          :set PackagesUpdateBackupFailure true;
+          :error false;
+        }
+      }
+    }
+  }
 
   :do {
     /system/scheduler/add start-time=startup name="running-from-backup-partition" \
