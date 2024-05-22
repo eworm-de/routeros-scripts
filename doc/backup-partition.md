@@ -18,7 +18,8 @@ Description
 
 This script saves the current configuration to fallback
 [partition](https://wiki.mikrotik.com/wiki/Manual:Partitions).
-It can also copy-over the RouterOS installation when run interactively.
+It can also copy-over the RouterOS installation when run interactively
+or just before a feature update.
 
 For this to work you need a device with sufficient flash storage that is
 properly partitioned.
@@ -29,8 +30,7 @@ added in the backup partition's configuration. You may want to use
 
 > ⚠️ **Warning**: By default only the configuration is saved to backup
 > partition. Every now and then you should copy your installation over
-> for a recent RouterOS version! For that run the script from terminal
-> manually.
+> for a recent RouterOS version! See below for options.
 
 Requirements and installation
 -----------------------------
@@ -38,6 +38,18 @@ Requirements and installation
 Just install the script:
 
     $ScriptInstallUpdate backup-partition;
+
+Configuration
+-------------
+
+The configuration goes to `global-config-overlay`, the only parameter is:
+
+* `BackupPartitionCopyBeforeFeatureUpdate`: copy-over the RouterOS
+  installation when a feature update is pending
+
+> ℹ️ **Info**: Copy relevant configuration from
+> [`global-config`](../global-config.rsc) (the one without `-overlay`) to
+> your local `global-config-overlay` and modify it to your specific needs.
 
 Usage and invocation
 --------------------

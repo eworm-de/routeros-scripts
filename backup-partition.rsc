@@ -15,11 +15,13 @@
 :do {
   :local ScriptName [ :jobname ];
 
+  :global BackupPartitionCopyBeforeFeatureUpdate;
   :global PackagesUpdateBackupFailure;
 
   :global LogPrint;
   :global ScriptFromTerminal;
   :global ScriptLock;
+  :global VersionToNum;
 
   :local CopyTo do={
     :local ScriptName [ :tostr $1 ];
@@ -62,6 +64,17 @@
     :if ([ $ScriptFromTerminal $ScriptName ] = true) do={
       :put ("The partitions have different RouterOS versions. Copy over to '" . $FallbackTo . "'? [y/N]");
       :if (([ /terminal/inkey timeout=60 ] % 32) = 25) do={
+        :if ([ $CopyTo $ScriptName $FallbackTo ] = false) do={
+          :set PackagesUpdateBackupFailure true;
+          :error false;
+        }
+      }
+    } else={
+      :local Update [ /system/package/update/get ];
+      :local NumInstalled [ $VersionToNum ($Update->"installed-version") ];
+      :local NumLatest [ $VersionToNum ($Update->"latest-version") ];
+      :if ($BackupPartitionCopyBeforeFeatureUpdate = true && $NumLatest > 0 && \
+           ($NumInstalled & 0xffff0000) != ($NumLatest & 0xffff0000)) do={
         :if ([ $CopyTo $ScriptName $FallbackTo ] = false) do={
           :set PackagesUpdateBackupFailure true;
           :error false;
