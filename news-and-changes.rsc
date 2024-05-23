@@ -53,6 +53,7 @@
   126="Made 'telegram-chat' capable of handling large command output. Telegram messages still limit the size, so it is truncated now.";
   127="Added support for authentication to Ntfy notification module.";
   128="Added another list from blocklist.de to default configuration for 'fw-addr-lists'.";
+  129="Extended 'backup-partition' to support RouterOS copy-over - interactively or before feature update.";
 };
 
 # Migration steps to be applied on script updates
