@@ -85,6 +85,8 @@
 :global BackupUploadUrl "sftp://example.com/backup/";
 :global BackupUploadUser "mikrotik";
 :global BackupUploadPass "v3ry-s3cr3t";
+# Copy the RouterOS installation to backup partition before feature update.
+:global BackupPartitionCopyBeforeFeatureUpdate false;
 
 # This defines the settings for firewall address-lists (fw-addr-lists).
 :global FwAddrLists {

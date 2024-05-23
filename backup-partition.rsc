@@ -15,10 +15,29 @@
 :do {
   :local ScriptName [ :jobname ];
 
+  :global BackupPartitionCopyBeforeFeatureUpdate;
   :global PackagesUpdateBackupFailure;
 
   :global LogPrint;
+  :global ScriptFromTerminal;
   :global ScriptLock;
+  :global VersionToNum;
+
+  :local CopyTo do={
+    :local ScriptName [ :tostr $1 ];
+    :local FallbackTo [ :tostr $2 ];
+
+    :global LogPrint;
+
+    :do {
+      /partitions/copy-to $FallbackTo;
+      $LogPrint info $ScriptName ("Copied RouterOS to partition '" . $FallbackTo . "'.");
+      :return true;
+    } on-error={
+      $LogPrint error $ScriptName ("Failed copying RouterOS to partition '" . $FallbackTo . "'!");
+      :return false;
+    }
+  }
 
   :if ([ $ScriptLock $ScriptName ] = false) do={
     :set PackagesUpdateBackupFailure true;
@@ -40,6 +59,29 @@
   }
 
   :local FallbackTo [ /partitions/get $ActiveRunning fallback-to ];
+
+  :if ([ /partitions/get $ActiveRunning version ] != [ /partitions/get $FallbackTo version]) do={
+    :if ([ $ScriptFromTerminal $ScriptName ] = true) do={
+      :put ("The partitions have different RouterOS versions. Copy over to '" . $FallbackTo . "'? [y/N]");
+      :if (([ /terminal/inkey timeout=60 ] % 32) = 25) do={
+        :if ([ $CopyTo $ScriptName $FallbackTo ] = false) do={
+          :set PackagesUpdateBackupFailure true;
+          :error false;
+        }
+      }
+    } else={
+      :local Update [ /system/package/update/get ];
+      :local NumInstalled [ $VersionToNum ($Update->"installed-version") ];
+      :local NumLatest [ $VersionToNum ($Update->"latest-version") ];
+      :if ($BackupPartitionCopyBeforeFeatureUpdate = true && $NumLatest > 0 && \
+           ($NumInstalled & 0xffff0000) != ($NumLatest & 0xffff0000)) do={
+        :if ([ $CopyTo $ScriptName $FallbackTo ] = false) do={
+          :set PackagesUpdateBackupFailure true;
+          :error false;
+        }
+      }
+    }
+  }
 
   :do {
     /system/scheduler/add start-time=startup name="running-from-backup-partition" \
