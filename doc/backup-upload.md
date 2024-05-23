@@ -85,7 +85,7 @@ See also
 
 * [Upload backup to Mikrotik cloud](backup-cloud.md)
 * [Send backup via e-mail](backup-email.md)
-* [Save configuration to fallback partition](doc/backup-partition.md)
+* [Save configuration to fallback partition](backup-partition.md)
 
 ---
 [⬅️ Go back to main README](../README.md)  
