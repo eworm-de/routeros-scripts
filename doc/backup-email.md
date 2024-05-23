@@ -59,7 +59,7 @@ See also
 --------
 
 * [Upload backup to Mikrotik cloud](backup-cloud.md)
-* [Save configuration to fallback partition](doc/backup-partition.md)
+* [Save configuration to fallback partition](backup-partition.md)
 * [Send notifications via e-mail](mod/notification-email.md)
 * [Upload backup to server](backup-upload.md)
 
