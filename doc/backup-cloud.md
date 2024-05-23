@@ -68,7 +68,7 @@ See also
 --------
 
 * [Send backup via e-mail](backup-email.md)
-* [Save configuration to fallback partition](doc/backup-partition.md)
+* [Save configuration to fallback partition](backup-partition.md)
 * [Upload backup to server](backup-upload.md)
 
 ---
