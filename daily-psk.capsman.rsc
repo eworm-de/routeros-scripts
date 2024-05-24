@@ -23,7 +23,6 @@
 
   :global FormatLine;
   :global LogPrint;
-  :global RequiredRouterOS;
   :global ScriptLock;
   :global SendNotification2;
   :global SymbolForNotification;

@@ -23,7 +23,6 @@
 
   :global FormatLine;
   :global LogPrint;
-  :global RequiredRouterOS;
   :global ScriptLock;
   :global SendNotification2;
   :global SymbolForNotification;
@@ -72,7 +71,7 @@
       $LogPrint info $ScriptName ("Updating daily PSK for '" . $Ssid . "' to '" . $NewPsk . "' (was '" . $OldPsk . "')");
       /interface/wifi/access-list/set $AccList passphrase=$NewPsk;
 
-      :if ([ $RequiredRouterOS $ScriptName "7.15beta8" false ] = false || [ :len [ /interface/wifi/find where configuration.ssid=$Ssid !disabled ] ] > 0) do={
+      :if ([ :len [ /interface/wifi/find where configuration.ssid=$Ssid !disabled ] ] > 0) do={
         :if ($Seen->$Ssid = 1) do={
           $LogPrint debug $ScriptName ("Already sent a mail for SSID " . $Ssid . ", skipping.");
         } else={
