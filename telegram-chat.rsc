@@ -97,6 +97,7 @@
       :local Trusted false;
       :local Chat ($Message->"chat");
       :local From ($Message->"from");
+      :local Command [ :tostr ($Message->"text") ];
 
       :foreach IdsTrusted in=($TelegramChatId, $TelegramChatIdsTrusted) do={
         :if ($From->"id" = $IdsTrusted || $From->"username" = $IdsTrusted) do={
@@ -106,15 +107,15 @@
 
       :if ($Trusted = true) do={
         :local Done false;
-        :if ($Message->"text" = "?") do={
+        :if ($Command = "?") do={
           $LogPrint info $ScriptName ("Sending notice for update " . $UpdateID . ".");
           $SendTelegram2 ({ origin=$ScriptName; chatid=($Chat->"id"); silent=true; replyto=($Message->"message_id"); \
             subject=([ $SymbolForNotification "speech-balloon" ] . "Telegram Chat"); \
             message=("Online" . [ $IfThenElse $TelegramChatActive " (and active!)" ] . ", awaiting your commands!") });
           :set Done true;
         }
-        :if ($Done = false && [ :pick ($Message->"text") 0 1 ] = "!") do={
-          :if ($Message->"text" ~ ("^! *(" . [ $EscapeForRegEx $Identity ] . "|@" . $TelegramChatGroups . ")\$")) do={
+        :if ($Done = false && [ :pick ($Command) 0 1 ] = "!") do={
+          :if ($Command ~ ("^! *(" . [ $EscapeForRegEx $Identity ] . "|@" . $TelegramChatGroups . ")\$")) do={
             :set TelegramChatActive true;
           } else={
             :set TelegramChatActive false;
@@ -123,16 +124,16 @@
             " from update " . $UpdateID . "!");
           :set Done true;
         }
-        :if ($Done = false && ($IsMyReply = 1 || ($IsReply = 0 && $TelegramChatActive = true)) && [ :len ($Message->"text") ] > 0) do={
-          :if ([ $ValidateSyntax ($Message->"text") ] = true) do={
+        :if ($Done = false && ($IsMyReply = 1 || ($IsReply = 0 && $TelegramChatActive = true)) && [ :len ($Command) ] > 0) do={
+          :if ([ $ValidateSyntax ($Command) ] = true) do={
             :local State "";
             :local File ("tmpfs/telegram-chat/" . [ $GetRandom20CharAlNum 6 ]);
             :if ([ $MkDir "tmpfs/telegram-chat" ] = false) do={
               $LogPrint error $ScriptName ("Failed creating directory!");
               :error false;
             }
-            $LogPrint info $ScriptName ("Running command from update " . $UpdateID . ": " . $Message->"text");
-            :execute script=(":do {\n" . $Message->"text" . "\n} on-error={ /file/add name=\"" . $File . ".failed\" };" . \
+            $LogPrint info $ScriptName ("Running command from update " . $UpdateID . ": " . $Command);
+            :execute script=(":do {\n" . $Command . "\n} on-error={ /file/add name=\"" . $File . ".failed\" };" . \
               "/file/add name=\"" . $File . ".done\"") file=($File . "\00");
             :if ([ $WaitForFile ($File . ".done") [ $EitherOr $TelegramChatRunTime 20s ] ] = false) do={
               :set State ([ $SymbolForNotification "warning-sign" ] . "The command did not finish, still running in background.\n\n");
@@ -143,7 +144,7 @@
             :local Content ([ /file/read chunk-size=32768 file=$File as-value ]->"data");
             $SendTelegram2 ({ origin=$ScriptName; chatid=($Chat->"id"); silent=true; replyto=($Message->"message_id"); \
               subject=([ $SymbolForNotification "speech-balloon" ] . "Telegram Chat"); \
-              message=([ $SymbolForNotification "gear" ] . "Command:\n" . $Message->"text" . "\n\n" . \
+              message=([ $SymbolForNotification "gear" ] . "Command:\n" . $Command . "\n\n" . \
                 $State . [ $IfThenElse ([ :len $Content ] > 0) \
                 ([ $SymbolForNotification "memo" ] . "Output:\n" . $Content) \
                 ([ $SymbolForNotification "memo" ] . "No output.") ]) });
@@ -152,7 +153,7 @@
             $LogPrint info $ScriptName ("The command from update " . $UpdateID . " failed syntax validation!");
             $SendTelegram2 ({ origin=$ScriptName; chatid=($Chat->"id"); silent=false; replyto=($Message->"message_id"); \
               subject=([ $SymbolForNotification "speech-balloon" ] . "Telegram Chat"); \
-              message=([ $SymbolForNotification "gear" ] . "Command:\n" . $Message->"text" . "\n\n" . \
+              message=([ $SymbolForNotification "gear" ] . "Command:\n" . $Command . "\n\n" . \
                 [ $SymbolForNotification "cross-mark" ] . "The command failed syntax validation!") });
           }
         }
@@ -160,7 +161,7 @@
         :local MessageText ("Received a message from untrusted contact " . \
           [ $IfThenElse ([ :len ($From->"username") ] = 0) "without username" ("'" . $From->"username" . "'") ] . \
           " (ID " . $From->"id" . ") in update " . $UpdateID . "!");
-        :if ($Message->"text" ~ ("^! *" . [ $EscapeForRegEx $Identity ] . "\$")) do={
+        :if ($Command ~ ("^! *" . [ $EscapeForRegEx $Identity ] . "\$")) do={
           $LogPrint warning $ScriptName $MessageText;
           $SendTelegram2 ({ origin=$ScriptName; chatid=($Chat->"id"); silent=false; replyto=($Message->"message_id"); \
             subject=([ $SymbolForNotification "speech-balloon" ] . "Telegram Chat"); \
