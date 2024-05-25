@@ -114,7 +114,7 @@
             message=("Online" . [ $IfThenElse $TelegramChatActive " (and active!)" ] . ", awaiting your commands!") });
           :set Done true;
         }
-        :if ($Done = false && [ :pick ($Command) 0 1 ] = "!") do={
+        :if ($Done = false && [ :pick $Command 0 1 ] = "!") do={
           :if ($Command ~ ("^! *(" . [ $EscapeForRegEx $Identity ] . "|@" . $TelegramChatGroups . ")\$")) do={
             :set TelegramChatActive true;
           } else={
@@ -124,8 +124,8 @@
             " from update " . $UpdateID . "!");
           :set Done true;
         }
-        :if ($Done = false && ($IsMyReply = 1 || ($IsReply = 0 && $TelegramChatActive = true)) && [ :len ($Command) ] > 0) do={
-          :if ([ $ValidateSyntax ($Command) ] = true) do={
+        :if ($Done = false && ($IsMyReply = 1 || ($IsReply = 0 && $TelegramChatActive = true)) && [ :len $Command ] > 0) do={
+          :if ([ $ValidateSyntax $Command ] = true) do={
             :local State "";
             :local File ("tmpfs/telegram-chat/" . [ $GetRandom20CharAlNum 6 ]);
             :if ([ $MkDir "tmpfs/telegram-chat" ] = false) do={
