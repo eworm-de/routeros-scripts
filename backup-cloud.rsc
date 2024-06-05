@@ -66,6 +66,10 @@
   } while=([ $WaitForFile "tmpfs/backup-cloud/done" 200ms ] = false && $I > 0);
 
   :if ([ $WaitForFile "tmpfs/backup-cloud/done" ] = true) do={
+    :if ($I < 4) do={
+      :log warning ($ScriptName . ": Retry successful, please discard previous connection errors.");
+    }
+                
     :local Cloud [ /system/backup/cloud/get ([ find ]->0) ];
 
     $SendNotification2 ({ origin=$ScriptName; \
