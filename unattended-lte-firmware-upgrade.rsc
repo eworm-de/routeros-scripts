@@ -10,7 +10,7 @@
   :local Firmware;
   :local IntName [ /interface/lte/get $Interface name ];
   :do {
-    :set Firmware [ /interface/lte/firmware-upgrade $Interface once as-value ];
+    :set Firmware [ /interface/lte/firmware-upgrade $Interface as-value ];
   } on-error={
     :log debug ("Could not get latest LTE firmware version for interface " . $IntName . ".");
   }
