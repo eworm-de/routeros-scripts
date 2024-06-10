@@ -69,7 +69,7 @@
     :if ($I < 4) do={
       :log warning ($ScriptName . ": Retry successful, please discard previous connection errors.");
     }
-                
+
     :local Cloud [ /system/backup/cloud/get ([ find ]->0) ];
 
     $SendNotification2 ({ origin=$ScriptName; \
