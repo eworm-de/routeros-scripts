@@ -44,7 +44,7 @@
     :local Firmware;
     :local Info;
     :do {
-      :set Firmware [ /interface/lte/firmware-upgrade $Interface once as-value ];
+      :set Firmware [ /interface/lte/firmware-upgrade $Interface as-value ];
       :set Info [ /interface/lte/monitor $Interface once as-value ];
     } on-error={
       $LogPrint debug $ScriptName ("Could not get latest LTE firmware version for interface " . \
