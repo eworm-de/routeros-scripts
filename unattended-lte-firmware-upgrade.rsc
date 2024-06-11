@@ -29,7 +29,8 @@
           :log info ("LTE firmware upgrade on '" . $1 . "' finished, waiting for reset.");
           :delay 240s;
           :local Firmware [ /interface/lte/firmware-upgrade $1 as-value ];
-          :if (($Firmware->"installed") != ($Firmware->"latest")) do={
+          :if ([ :len ($Firmware->"latest") ] > 0 && \
+               ($Firmware->"installed") != ($Firmware->"latest")) do={
             :log warning ("LTE firmware versions still differ. Upgrade failed anyway?");
           }
         } on-error={
