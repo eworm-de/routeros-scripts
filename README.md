@@ -251,6 +251,7 @@ Available scripts
 * [Install LTE firmware upgrade](doc/unattended-lte-firmware-upgrade.md)
 * [Update GRE configuration with dynamic addresses](doc/update-gre-address.md)
 * [Update tunnelbroker configuration](doc/update-tunnelbroker.md)
+* [Configure SSTP VPN with one command](doc/vpn-sstp-configurator.md)
 
 Available modules
 -----------------
