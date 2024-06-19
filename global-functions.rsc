@@ -999,7 +999,7 @@
   :global SymbolForNotification;
   :global ValidateSyntax;
 
-  :if ([ $CertificateAvailable "E1" ] = false) do={
+  :if ([ $CertificateAvailable "E5" ] = false) do={
     $LogPrint warning $0 ("Downloading certificate failed, trying without.");
   }
 

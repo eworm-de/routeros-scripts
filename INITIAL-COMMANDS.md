@@ -17,13 +17,13 @@ Initial commands
 Run the complete base installation:
 
     {
-      /tool/fetch "https://git.eworm.de/cgit/routeros-scripts/plain/certs/E1.pem" dst-path="letsencrypt-E1.pem" as-value;
+      /tool/fetch "https://git.eworm.de/cgit/routeros-scripts/plain/certs/E5.pem" dst-path="letsencrypt-E5.pem" as-value;
       :delay 1s;
-      /certificate/import file-name=letsencrypt-E1.pem passphrase="";
-      :if ([ :len [ /certificate/find where fingerprint="46494e30379059df18be52124305e606fc59070e5b21076ce113954b60517cda" or fingerprint="69729b8e15a86efc177a57afb7171dfc64add28c2fca8cf1507e34453ccb1470" ] ] != 2) do={
+      /certificate/import file-name=letsencrypt-E5.pem passphrase="";
+      :if ([ :len [ /certificate/find where fingerprint="e788d14b0436b5120bbee3f15c15badf08c1407fe72568a4f16f9151c380e1e3" or fingerprint="69729b8e15a86efc177a57afb7171dfc64add28c2fca8cf1507e34453ccb1470" ] ] != 2) do={
         :error "Something is wrong with your certificates!";
       };
-      /file/remove [ find where name="letsencrypt-E1.pem" ];
+      /file/remove [ find where name="letsencrypt-E5.pem" ];
       :delay 1s;
       /system/script/set name=("global-config-overlay-" . [ /system/clock/get date ] . "-" . [ /system/clock/get time ]) [ find where name="global-config-overlay" ];
       :foreach Script in={ "global-config"; "global-config-overlay"; "global-functions" } do={
@@ -34,7 +34,7 @@ Run the complete base installation:
       /system/scheduler/remove [ find where name="global-scripts" ];
       /system/scheduler/add name="global-scripts" start-time=startup on-event="/system/script { run global-config; run global-functions; }";
       :global CertificateNameByCN;
-      $CertificateNameByCN "E1";
+      $CertificateNameByCN "E5";
       $CertificateNameByCN "ISRG Root X2";
     };
 
