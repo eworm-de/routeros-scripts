@@ -12,7 +12,7 @@
 :local ScriptName [ :jobname ];
 
 # expected configuration version
-:global ExpectedConfigVersion 130;
+:global ExpectedConfigVersion 131;
 
 # global variables not to be changed by user
 :global GlobalFunctionsReady false;
@@ -135,6 +135,7 @@
   :global ScriptUpdatesBaseUrl;
   :global ScriptUpdatesUrlSuffix;
 
+  :global CertificateAvailable;
   :global CertificateNameByCN;
   :global CleanName;
   :global FetchUserAgentStr;
@@ -143,22 +144,40 @@
 
   $LogPrint info $0 ("Downloading and importing certificate with " . \
       "CommonName '" . $CommonName . "'.");
+  :local FileName ([ $CleanName $CommonName ] . ".pem");
   :do {
-    :local FileName ([ $CleanName $CommonName ] . ".pem");
     /tool/fetch check-certificate=yes-without-crl http-header-field=({ [ $FetchUserAgentStr $0 ] }) \
       ($ScriptUpdatesBaseUrl . "certs/" . $FileName . $ScriptUpdatesUrlSuffix) \
       dst-path=$FileName as-value;
     $WaitForFile $FileName;
-    /certificate/import file-name=$FileName passphrase="" as-value;
-    :delay 1s;
-    /file/remove [ find where name=$FileName ];
-
-    :foreach Cert in=[ /certificate/find where name~("^" . $FileName . "_[0-9]+\$") ] do={
-      $CertificateNameByCN [ /certificate/get $Cert common-name ];
-    }
   } on-error={
-    $LogPrint warning $0 ("Failed importing certificate with CommonName '" . $CommonName . "'!");
-    :return false;
+    $LogPrint warning $0 ("Failed downloading certificate with CommonName '" . $CommonName . \
+      "' from repository! Trying fallback to mkcert.org...");
+    :do {
+      :if ([ $CertificateAvailable "ISRG Root X1" ] = false) do={
+        $LogPrint error $0 ("Downloading required certificate failed.");
+        :return false;
+      }
+      /tool/fetch check-certificate=yes-without-crl http-header-field=({ [ $FetchUserAgentStr $0 ] }) \
+        "https://mkcert.org/generate/" http-data=[ :serialize to=json ({ $CommonName }) ] \
+        dst-path=$FileName as-value;
+      $WaitForFile $FileName;
+      :if ([ /file/get $FileName size ] = 0) do={
+        /file/remove $FileName;
+        :error false;
+      }
+    } on-error={
+      $LogPrint warning $0 ("Failed downloading certificate with CommonName '" . $CommonName . "'!");
+      :return false;
+    }
+  }
+
+  /certificate/import file-name=$FileName passphrase="" as-value;
+  :delay 1s;
+  /file/remove [ find where name=$FileName ];
+
+  :foreach Cert in=[ /certificate/find where name~("^" . $FileName . "_[0-9]+\$") ] do={
+    $CertificateNameByCN [ /certificate/get $Cert common-name ];
   }
   :return true;
 }
