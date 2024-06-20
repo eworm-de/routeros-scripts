@@ -98,9 +98,9 @@
 #    { url="https://git.eworm.de/cgit/routeros-scripts/plain/fw-addr-lists.d/block";
 #      cert="ISRG Root X2" };
     { url="https://feodotracker.abuse.ch/downloads/ipblocklist_recommended.txt";
-      cert="GlobalSign Atlas R3 DV TLS CA 2022 Q3" };
+      cert="GlobalSign" };
     { url="https://sslbl.abuse.ch/blacklist/sslipblacklist.txt";
-      cert="GlobalSign Atlas R3 DV TLS CA 2022 Q3" };
+      cert="GlobalSign" };
     { url="https://www.dshield.org/block.txt"; cidr="/24";
       cert="ISRG Root X1" };
     { url="https://lists.blocklist.de/lists/strongips.txt";
