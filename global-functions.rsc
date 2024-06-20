@@ -334,7 +334,7 @@
     :return true;
   }
 
-  :if ([ $CertificateAvailable "R3" ] = false) do={
+  :if ([ $CertificateAvailable "ISRG Root X1" ] = false) do={
     $LogPrint error $0 ("Downloading required certificate failed.");
     :return false;
   }

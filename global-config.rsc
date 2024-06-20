@@ -102,7 +102,7 @@
     { url="https://sslbl.abuse.ch/blacklist/sslipblacklist.txt";
       cert="GlobalSign Atlas R3 DV TLS CA 2022 Q3" };
     { url="https://www.dshield.org/block.txt"; cidr="/24";
-      cert="R3" };
+      cert="ISRG Root X1" };
     { url="https://lists.blocklist.de/lists/strongips.txt";
       cert="Certum Domain Validation CA SHA2" };
 #    { url="https://www.spamhaus.org/drop/drop.txt";
