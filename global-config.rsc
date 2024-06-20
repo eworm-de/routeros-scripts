@@ -92,11 +92,11 @@
 :global FwAddrLists {
 #  "allow"={
 #    { url="https://git.eworm.de/cgit/routeros-scripts/plain/fw-addr-lists.d/allow";
-#      cert="E5"; timeout=1w };
+#      cert="ISRG Root X2"; timeout=1w };
 #  };
   "block"={
 #    { url="https://git.eworm.de/cgit/routeros-scripts/plain/fw-addr-lists.d/block";
-#      cert="E5" };
+#      cert="ISRG Root X2" };
     { url="https://feodotracker.abuse.ch/downloads/ipblocklist_recommended.txt";
       cert="GlobalSign Atlas R3 DV TLS CA 2022 Q3" };
     { url="https://sslbl.abuse.ch/blacklist/sslipblacklist.txt";
@@ -112,7 +112,7 @@
   };
 #  "mikrotik"={
 #    { url="https://git.eworm.de/cgit/routeros-scripts/plain/fw-addr-lists.d/mikrotik";
-#      cert="E5"; timeout=1w };
+#      cert="ISRG Root X2"; timeout=1w };
 #  };
 };
 :global FwAddrListTimeOut 1d;

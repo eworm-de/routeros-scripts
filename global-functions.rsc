@@ -999,7 +999,7 @@
   :global SymbolForNotification;
   :global ValidateSyntax;
 
-  :if ([ $CertificateAvailable "E5" ] = false) do={
+  :if ([ $CertificateAvailable "ISRG Root X2" ] = false) do={
     $LogPrint warning $0 ("Downloading certificate failed, trying without.");
   }
 
