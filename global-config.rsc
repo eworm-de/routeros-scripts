@@ -104,7 +104,7 @@
     { url="https://www.dshield.org/block.txt"; cidr="/24";
       cert="ISRG Root X1" };
     { url="https://lists.blocklist.de/lists/strongips.txt";
-      cert="Certum Domain Validation CA SHA2" };
+      cert="Certum Trusted Network CA" };
 #    { url="https://www.spamhaus.org/drop/drop.txt";
 #      cert="Cloudflare Inc ECC CA-3" };
 #    { url="https://www.spamhaus.org/drop/edrop.txt";
