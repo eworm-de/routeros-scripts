@@ -46,9 +46,6 @@ The Matrix server is connected via encrypted https, and certificate
 verification is applied. So make sure you have the certificate chain for
 your server in device's certificate store.
 
-> ℹ️ **Info**: The *matrix.org* server uses a Cloudflare certificate. You can
-> install that with: `$CertificateAvailable "Cloudflare Inc ECC CA-3"`
-
 ### From other device
 
 If you have setup your Matrix *notification account* before just reuse that.
