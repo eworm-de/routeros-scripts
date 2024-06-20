@@ -143,7 +143,7 @@
   }
 
   :do {
-    :if ([ $CertificateAvailable "Go Daddy Secure Certificate Authority - G2" ] = false) do={
+    :if ([ $CertificateAvailable "Go Daddy Root Certificate Authority - G2" ] = false) do={
       $LogPrint warning $0 ("Downloading required certificate failed.");
       :error false;
     }

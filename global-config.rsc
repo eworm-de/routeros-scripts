@@ -92,27 +92,27 @@
 :global FwAddrLists {
 #  "allow"={
 #    { url="https://git.eworm.de/cgit/routeros-scripts/plain/fw-addr-lists.d/allow";
-#      cert="E5"; timeout=1w };
+#      cert="ISRG Root X2"; timeout=1w };
 #  };
   "block"={
 #    { url="https://git.eworm.de/cgit/routeros-scripts/plain/fw-addr-lists.d/block";
-#      cert="E5" };
+#      cert="ISRG Root X2" };
     { url="https://feodotracker.abuse.ch/downloads/ipblocklist_recommended.txt";
-      cert="GlobalSign Atlas R3 DV TLS CA 2022 Q3" };
+      cert="GlobalSign" };
     { url="https://sslbl.abuse.ch/blacklist/sslipblacklist.txt";
-      cert="GlobalSign Atlas R3 DV TLS CA 2022 Q3" };
+      cert="GlobalSign" };
     { url="https://www.dshield.org/block.txt"; cidr="/24";
-      cert="R3" };
+      cert="ISRG Root X1" };
     { url="https://lists.blocklist.de/lists/strongips.txt";
-      cert="Certum Domain Validation CA SHA2" };
+      cert="Certum Trusted Network CA" };
 #    { url="https://www.spamhaus.org/drop/drop.txt";
-#      cert="Cloudflare Inc ECC CA-3" };
+#      cert="Baltimore CyberTrust Root" };
 #    { url="https://www.spamhaus.org/drop/edrop.txt";
-#      cert="Cloudflare Inc ECC CA-3" };
+#      cert="Baltimore CyberTrust Root" };
   };
 #  "mikrotik"={
 #    { url="https://git.eworm.de/cgit/routeros-scripts/plain/fw-addr-lists.d/mikrotik";
-#      cert="E5"; timeout=1w };
+#      cert="ISRG Root X2"; timeout=1w };
 #  };
 };
 :global FwAddrListTimeOut 1d;

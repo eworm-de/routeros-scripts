@@ -12,7 +12,7 @@
 :local ScriptName [ :jobname ];
 
 # expected configuration version
-:global ExpectedConfigVersion 129;
+:global ExpectedConfigVersion 130;
 
 # global variables not to be changed by user
 :global GlobalFunctionsReady false;
@@ -334,7 +334,7 @@
     :return true;
   }
 
-  :if ([ $CertificateAvailable "R3" ] = false) do={
+  :if ([ $CertificateAvailable "ISRG Root X1" ] = false) do={
     $LogPrint error $0 ("Downloading required certificate failed.");
     :return false;
   }
@@ -509,7 +509,7 @@
   }
 
   :do {
-    :if ([ $CertificateAvailable "GTS CA 1P5" ] = false) do={
+    :if ([ $CertificateAvailable "GTS Root R1" ] = false) do={
       $LogPrint warning $0 ("Downloading required certificate failed.");
       :error false;
     }
@@ -999,7 +999,7 @@
   :global SymbolForNotification;
   :global ValidateSyntax;
 
-  :if ([ $CertificateAvailable "E5" ] = false) do={
+  :if ([ $CertificateAvailable "ISRG Root X2" ] = false) do={
     $LogPrint warning $0 ("Downloading certificate failed, trying without.");
   }
 

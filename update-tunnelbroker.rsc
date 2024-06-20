@@ -25,7 +25,7 @@
     :error false;
   }
 
-  :if ([ $CertificateAvailable "Starfield Secure Certificate Authority - G2" ] = false) do={
+  :if ([ $CertificateAvailable "Starfield Root Certificate Authority - G2" ] = false) do={
     $LogPrint error $ScriptName ("Downloading required certificate failed.");
     :error false;
   }

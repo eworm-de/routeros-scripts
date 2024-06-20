@@ -54,6 +54,7 @@
   127="Added support for authentication to Ntfy notification module.";
   128="Added another list from blocklist.de to default configuration for 'fw-addr-lists'.";
   129="Extended 'backup-partition' to support RouterOS copy-over - interactively or before feature update.";
+  130="Dropped intermediate certificates, depending on just root certificates now.";
 };
 
 # Migration steps to be applied on script updates

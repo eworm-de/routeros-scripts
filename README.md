@@ -69,34 +69,32 @@ download the certificates. If you intend to download the scripts from a
 different location (for example from github.com) install the corresponding
 certificate chain.
 
-    /tool/fetch "https://git.eworm.de/cgit/routeros-scripts/plain/certs/E5.pem" dst-path="letsencrypt-E5.pem";
+    /tool/fetch "https://git.eworm.de/cgit/routeros-scripts/plain/certs/ISRG-Root-X2.pem" dst-path="ISRG-Root-X2.pem";
 
 ![screenshot: download certs](README.d/01-download-certs.avif)
 
 Note that the commands above do *not* verify server certificate, so if you
 want to be safe download with your workstations's browser and transfer the
-files to your MikroTik device.
+file to your MikroTik device.
 
 * [ISRG Root X2](https://letsencrypt.org/certs/isrg-root-x2.pem)
-* Let's Encrypt [E5](https://letsencrypt.org/certs/2024/e5.pem)
 
-Then we import the certificates.
+Then we import the certificate.
 
-    /certificate/import file-name=letsencrypt-E5.pem passphrase="";
+    /certificate/import file-name=ISRG-Root-X2.pem passphrase="";
 
 Do not worry that the command is not shown - that happens because it contains
 a sensitive property, the passphrase.
 
 ![screenshot: import certs](README.d/02-import-certs.avif)
 
-For basic verification we rename the certificates and print them by
-fingerprint. Make sure exactly these two certificates ("*E5*" and
-"*ISRG-Root-X2*") are shown. Also remove the left over file.
+For basic verification we rename the certificate and print it by
+fingerprint. Make sure exactly this one certificate ("*ISRG-Root-X2*")
+is shown. Also remove the left over file.
 
-    /certificate/set name="E5" [ find where common-name="E5" ];
     /certificate/set name="ISRG-Root-X2" [ find where common-name="ISRG Root X2" ];
-    /certificate/print proplist=name,fingerprint where fingerprint="e788d14b0436b5120bbee3f15c15badf08c1407fe72568a4f16f9151c380e1e3" or fingerprint="69729b8e15a86efc177a57afb7171dfc64add28c2fca8cf1507e34453ccb1470";
-    /file/remove [ find where name="letsencrypt-E5.pem" ];
+    /certificate/print proplist=name,fingerprint where fingerprint="69729b8e15a86efc177a57afb7171dfc64add28c2fca8cf1507e34453ccb1470";
+    /file/remove [ find where name="ISRG-Root-X2.pem" ];
 
 ![screenshot: check certs](README.d/03-check-certs.avif)
 
