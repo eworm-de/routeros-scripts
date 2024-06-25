@@ -139,7 +139,6 @@
 
   :foreach Cert in=[ /certificate/find where !revoked !ca !scep-url expires-after<$CertRenewTime ] do={
     :local CertVal [ /certificate/get $Cert ];
-    :local CertNew;
     :local LastName;
 
     :do {
@@ -166,7 +165,7 @@
       } else={
         $LogPrint debug $ScriptName ("Certificate '" . $CertVal->"name" . "' was not updated, but replaced.");
 
-        :set CertNew [ /certificate/find where name~("^" . [ $EscapeForRegEx [ $UrlEncode $LastName ] ] . "\\.(p12|pem)_[0-9]+\$") \
+        :local CertNew [ /certificate/find where name~("^" . [ $EscapeForRegEx [ $UrlEncode $LastName ] ] . "\\.(p12|pem)_[0-9]+\$") \
           (common-name=($CertVal->"common-name") or subject-alt-name~("(^|\\W)(DNS|IP):" . [ $EscapeForRegEx $LastName ] . "(\\W|\$)")) \
           fingerprint!=[ :tostr ($CertVal->"fingerprint") ] expires-after>$CertRenewTime ];
         :local CertNewVal [ /certificate/get $CertNew ];
@@ -190,13 +189,13 @@
 
         /certificate/remove $Cert;
         /certificate/set $CertNew name=($CertVal->"name");
-        :set CertNewVal;
+        :set Cert $CertNew;
         :set CertVal [ /certificate/get $CertNew ];
       }
 
       $SendNotification2 ({ origin=$ScriptName; silent=true; \
         subject=([ $SymbolForNotification "lock-with-ink-pen" ] . "Certificate renewed: " . ($CertVal->"name")); \
-        message=("A certificate on " . $Identity . " has been renewed.\n\n" . [ $FormatInfo $CertNew ]) });
+        message=("A certificate on " . $Identity . " has been renewed.\n\n" . [ $FormatInfo $Cert ]) });
       $LogPrint info $ScriptName ("The certificate '" . ($CertVal->"name") . "' has been renewed.");
     } on-error={
       $LogPrint debug $ScriptName ("Could not renew certificate '" . ($CertVal->"name") . "'.");
