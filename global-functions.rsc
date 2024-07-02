@@ -528,7 +528,7 @@
   }
 
   :do {
-    :if ([ $CertificateAvailable "GTS Root R1" ] = false) do={
+    :if ([ $CertificateAvailable "GTS Root R4" ] = false) do={
       $LogPrint warning $0 ("Downloading required certificate failed.");
       :error false;
     }
