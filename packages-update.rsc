@@ -60,32 +60,6 @@
     :error true;
   }
 
-  :local NumInstalled [ $VersionToNum ($Update->"installed-version") ];
-  :local NumLatest [ $VersionToNum ($Update->"latest-version") ];
-
-  :local DoDowngrade false;
-  :if ($NumInstalled > $NumLatest) do={
-    :if ([ $ScriptFromTerminal $ScriptName ] = true) do={
-      :put "Latest version is older than installed one. Want to downgrade? [y/N]";
-      :if (([ /terminal/inkey timeout=60 ] % 32) = 25) do={
-        :set DoDowngrade true;
-      } else={
-        :put "Canceled...";
-      }
-    } else={
-      $LogPrint warning $ScriptName ("Not installing downgrade automatically.");
-      :error false;
-    }
-  }
-
-  :foreach Package in=[ /system/package/find where !bundle ] do={
-    :local PkgName [ /system/package/get $Package name ];
-    :if ([ $DownloadPackage $PkgName ($Update->"latest-version") ] = false) do={
-      $LogPrint error $ScriptName ("Download for package " . $PkgName . " failed, update aborted.");
-      :error false;
-    }
-  }
-
   :local RunOrder ({});
   :foreach Script in=[ /system/script/find where source~("\n# provides: backup-script\\b") ] do={
     :local ScriptVal [ /system/script/get $Script ];
@@ -117,6 +91,32 @@
         $LogPrint warning $ScriptName ("Canceled non-interactive update.");
         :error false;
       }
+    }
+  }
+
+  :local NumInstalled [ $VersionToNum ($Update->"installed-version") ];
+  :local NumLatest [ $VersionToNum ($Update->"latest-version") ];
+
+  :local DoDowngrade false;
+  :if ($NumInstalled > $NumLatest) do={
+    :if ([ $ScriptFromTerminal $ScriptName ] = true) do={
+      :put "Latest version is older than installed one. Want to downgrade? [y/N]";
+      :if (([ /terminal/inkey timeout=60 ] % 32) = 25) do={
+        :set DoDowngrade true;
+      } else={
+        :put "Canceled...";
+      }
+    } else={
+      $LogPrint warning $ScriptName ("Not installing downgrade automatically.");
+      :error false;
+    }
+  }
+
+  :foreach Package in=[ /system/package/find where !bundle ] do={
+    :local PkgName [ /system/package/get $Package name ];
+    :if ([ $DownloadPackage $PkgName ($Update->"latest-version") ] = false) do={
+      $LogPrint error $ScriptName ("Download for package " . $PkgName . " failed, update aborted.");
+      :error false;
     }
   }
 
