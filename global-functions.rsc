@@ -829,7 +829,12 @@
     :global LogPrint;
     :global WaitForFile;
 
-    :if ([ :len [ /disk/find where slot=tmpfs type=tmpfs ] ] = 1) do={
+    :local TmpFs [ /disk/find where slot=tmpfs type=tmpfs ];
+    :if ([ :len $TmpFs ] = 1) do={
+      :if ([ /disk/get $TmpFs disabled ] = true) do={
+        $LogPrint info $0 ("The tmpfs is disabled, enabling.");
+        /disk/enable $TmpFs;
+      }
       :return true;
     }
 
