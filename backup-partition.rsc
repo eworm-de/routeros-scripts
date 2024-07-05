@@ -58,13 +58,13 @@
     :error false;
   }
 
-  :local FallbackTo [ /partitions/get $ActiveRunning fallback-to ];
+  :local FallbackToName [ /partitions/get $ActiveRunning fallback-to ];
 
-  :if ([ /partitions/get $ActiveRunning version ] != [ /partitions/get $FallbackTo version]) do={
+  :if ([ /partitions/get $ActiveRunning version ] != [ /partitions/get $FallbackToName version]) do={
     :if ([ $ScriptFromTerminal $ScriptName ] = true) do={
-      :put ("The partitions have different RouterOS versions. Copy over to '" . $FallbackTo . "'? [y/N]");
+      :put ("The partitions have different RouterOS versions. Copy over to '" . $FallbackToName . "'? [y/N]");
       :if (([ /terminal/inkey timeout=60 ] % 32) = 25) do={
-        :if ([ $CopyTo $ScriptName $FallbackTo ] = false) do={
+        :if ([ $CopyTo $ScriptName $FallbackToName ] = false) do={
           :set PackagesUpdateBackupFailure true;
           :error false;
         }
@@ -75,7 +75,7 @@
       :local NumLatest [ $VersionToNum ($Update->"latest-version") ];
       :if ($BackupPartitionCopyBeforeFeatureUpdate = true && $NumLatest > 0 && \
            ($NumInstalled & 0xffff0000) != ($NumLatest & 0xffff0000)) do={
-        :if ([ $CopyTo $ScriptName $FallbackTo ] = false) do={
+        :if ([ $CopyTo $ScriptName $FallbackToName ] = false) do={
           :set PackagesUpdateBackupFailure true;
           :error false;
         }
@@ -87,12 +87,12 @@
     /system/scheduler/add start-time=startup name="running-from-backup-partition" \
         on-event=(":log warning (\"Running from partition '\" . " . \
         "[ /partitions/get [ find where running ] name ] . \"'!\")");
-    /partitions/save-config-to $FallbackTo;
+    /partitions/save-config-to $FallbackToName;
     /system/scheduler/remove "running-from-backup-partition";
-    $LogPrint info $ScriptName ("Saved configuration to partition '" . $FallbackTo . "'.");
+    $LogPrint info $ScriptName ("Saved configuration to partition '" . $FallbackToName . "'.");
   } on-error={
     /system/scheduler/remove [ find where name="running-from-backup-partition" ];
-    $LogPrint error $ScriptName ("Failed saving configuration to partition '" . $FallbackTo . "'!");
+    $LogPrint error $ScriptName ("Failed saving configuration to partition '" . $FallbackToName . "'!");
     :set PackagesUpdateBackupFailure true;
     :error false;
   }
