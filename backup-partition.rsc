@@ -24,17 +24,18 @@
   :global VersionToNum;
 
   :local CopyTo do={
-    :local ScriptName [ :tostr $1 ];
-    :local FallbackTo [ :tostr $2 ];
+    :local ScriptName     [ :tostr $1 ];
+    :local FallbackTo     [ :toid  $2 ];
+    :local FallbackToName [ :tostr $3 ];
 
     :global LogPrint;
 
     :do {
       /partitions/copy-to $FallbackTo;
-      $LogPrint info $ScriptName ("Copied RouterOS to partition '" . $FallbackTo . "'.");
+      $LogPrint info $ScriptName ("Copied RouterOS to partition '" . $FallbackToName . "'.");
       :return true;
     } on-error={
-      $LogPrint error $ScriptName ("Failed copying RouterOS to partition '" . $FallbackTo . "'!");
+      $LogPrint error $ScriptName ("Failed copying RouterOS to partition '" . $FallbackToName . "'!");
       :return false;
     }
   }
@@ -59,12 +60,19 @@
   }
 
   :local FallbackToName [ /partitions/get $ActiveRunning fallback-to ];
+  :local FallbackTo [ /partition/find where name=$FallbackToName ];
 
-  :if ([ /partitions/get $ActiveRunning version ] != [ /partitions/get $FallbackToName version]) do={
+  :if ([ :len $FallbackTo ] < 1) do={
+    $LogPrint error $ScriptName ("There is no partition with name '" . $FallbackToName . "'.");
+    :set PackagesUpdateBackupFailure true;
+    :error false;
+  }
+
+  :if ([ /partitions/get $ActiveRunning version ] != [ /partitions/get $FallbackTo version]) do={
     :if ([ $ScriptFromTerminal $ScriptName ] = true) do={
       :put ("The partitions have different RouterOS versions. Copy over to '" . $FallbackToName . "'? [y/N]");
       :if (([ /terminal/inkey timeout=60 ] % 32) = 25) do={
-        :if ([ $CopyTo $ScriptName $FallbackToName ] = false) do={
+        :if ([ $CopyTo $ScriptName $FallbackTo $FallbackToName ] = false) do={
           :set PackagesUpdateBackupFailure true;
           :error false;
         }
@@ -75,7 +83,7 @@
       :local NumLatest [ $VersionToNum ($Update->"latest-version") ];
       :if ($BackupPartitionCopyBeforeFeatureUpdate = true && $NumLatest > 0 && \
            ($NumInstalled & 0xffff0000) != ($NumLatest & 0xffff0000)) do={
-        :if ([ $CopyTo $ScriptName $FallbackToName ] = false) do={
+        :if ([ $CopyTo $ScriptName $FallbackTo $FallbackToName ] = false) do={
           :set PackagesUpdateBackupFailure true;
           :error false;
         }
@@ -87,7 +95,7 @@
     /system/scheduler/add start-time=startup name="running-from-backup-partition" \
         on-event=(":log warning (\"Running from partition '\" . " . \
         "[ /partitions/get [ find where running ] name ] . \"'!\")");
-    /partitions/save-config-to $FallbackToName;
+    /partitions/save-config-to $FallbackTo;
     /system/scheduler/remove "running-from-backup-partition";
     $LogPrint info $ScriptName ("Saved configuration to partition '" . $FallbackToName . "'.");
   } on-error={
