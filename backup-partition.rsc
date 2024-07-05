@@ -60,10 +60,10 @@
   }
 
   :local FallbackToName [ /partitions/get $ActiveRunning fallback-to ];
-  :local FallbackTo [ /partition/find where name=$FallbackToName ];
+  :local FallbackTo [ /partition/find where name=$FallbackToName !active ];
 
   :if ([ :len $FallbackTo ] < 1) do={
-    $LogPrint error $ScriptName ("There is no partition with name '" . $FallbackToName . "'.");
+    $LogPrint error $ScriptName ("There is no inactive partition named '" . $FallbackToName . "'.");
     :set PackagesUpdateBackupFailure true;
     :error false;
   }
