@@ -47,6 +47,7 @@ Add yourself to the list,
 * Marek Čábák
 * Oleksandr Yukhymchuk
 * Peter Holtkamp
+* Peter Ponzel
 * Reiner Vehrenkamp
 * Richard Österreicher
 * Simon Hitzemann
