@@ -4,7 +4,7 @@
 #                         Michael Gisbers <michael@gisbers.de>
 # https://git.eworm.de/cgit/routeros-scripts/about/COPYING.md
 #
-# provides: capsman-rolling-upgrade
+# provides: capsman-rolling-upgrade%TEMPL%
 # requires RouterOS, version=7.13
 #
 # upgrade CAPs one after another

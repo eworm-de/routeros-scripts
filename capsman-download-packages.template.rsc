@@ -83,7 +83,7 @@
   }
 
   :if ($Updated = true) do={
-    :local Script ([ /system/script/find where source~"\n# provides: capsman-rolling-upgrade\n" ]->0);
+    :local Script ([ /system/script/find where source~"\n# provides: capsman-rolling-upgrade%TEMPL%\n" ]->0);
     :if ([ :len $Script ] > 0) do={
       /system/script/run $Script;
     } else={
