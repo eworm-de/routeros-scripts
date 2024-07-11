@@ -313,11 +313,7 @@
 
 # convert line endings, DOS -> UNIX
 :set Dos2Unix do={
-  :local Input [ :tostr $1 ];
-
-  :global CharacterReplace;
-
-  :return [ $CharacterReplace $Input ("\r\n") ("\n") ];
+  :return [ :tolf [ :tostr $1 ] ];
 }
 
 # download package from upgrade server
