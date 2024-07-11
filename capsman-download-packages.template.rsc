@@ -83,9 +83,11 @@
   }
 
   :if ($Updated = true) do={
-    :local Script ([ /system/script/find where source~"\n# provides: capsman-rolling-upgrade%TEMPL%\n" ]->0);
-    :if ([ :len $Script ] > 0) do={
-      /system/script/run $Script;
+    :local Scripts [ /system/script/find where source~"\n# provides: capsman-rolling-upgrade%TEMPL%\n" ];
+    :if ([ :len $Scripts ] > 0) do={
+      :foreach Script in=$Scripts do={
+        /system/script/run $Script;
+      }
     } else={
       /caps-man/remote-cap/upgrade [ find where version!=$InstalledVersion ];
       /interface/wifi/capsman/remote-cap/upgrade [ find where version!=$InstalledVersion ];
