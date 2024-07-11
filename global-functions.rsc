@@ -1433,12 +1433,7 @@
 
 # convert line endings, UNIX -> DOS
 :set Unix2Dos do={
-  :local Input [ :tostr $1 ];
-
-  :global CharacterReplace;
-
-  :return [ $CharacterReplace [ $CharacterReplace $Input \
-    ("\n") ("\r\n") ] ("\r\r\n") ("\r\n") ];
+  :return [ :tocrlf [ :tostr $1 ] ];
 }
 
 # url encoding
