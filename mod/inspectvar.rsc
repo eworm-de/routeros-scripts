@@ -3,7 +3,7 @@
 # Copyright (c) 2020-2024 Christian Hesse <mail@eworm.de>
 # https://git.eworm.de/cgit/routeros-scripts/about/COPYING.md
 #
-# requires RouterOS, version=7.13
+# requires RouterOS, version=7.14
 #
 # inspect variables
 # https://git.eworm.de/cgit/routeros-scripts/about/doc/mod/inspectvar.md
@@ -14,9 +14,8 @@
 # inspect variable and print on terminal
 :set InspectVar do={
   :global InspectVarReturn;
-  :global PrettyPrint;
 
-  $PrettyPrint [ $InspectVarReturn $1 ];
+  :put [ :tocrlf [ $InspectVarReturn $1 ] ];
 }
 
 # inspect variable and return formatted string
