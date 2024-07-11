@@ -909,11 +909,7 @@
 
 # print lines with trailing carriage return
 :set PrettyPrint do={
-  :local Input [ :tostr $1 ];
-
-  :global Unix2Dos;
-
-  :put [ $Unix2Dos $Input ];
+  :put [ :tocrlf [ :tostr $1 ] ];
 }
 
 # strip protocol from from url string
