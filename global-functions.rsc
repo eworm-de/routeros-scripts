@@ -1008,6 +1008,7 @@
   :global IDonate;
   :global NoNewsAndChangesNotification;
   :global ScriptUpdatesBaseUrl;
+  :global ScriptUpdatesCRLF;
   :global ScriptUpdatesUrlSuffix;
 
   :global CertificateAvailable;
@@ -1081,7 +1082,8 @@
           :if ([ $RequiredRouterOS $0 [ $EitherOr $Required "0.0" ] false ] = true) do={
             :if ([ $ValidateSyntax $SourceNew ] = true) do={
               $LogPrint info $0 ("Updating script: " . $ScriptVal->"name");
-              /system/script/set owner=($ScriptVal->"name") source=$SourceNew $Script;
+              /system/script/set owner=($ScriptVal->"name") \
+                  source=[ $IfThenElse ($ScriptUpdatesCRLF = true) $SourceCRLF $SourceNew ] $Script;
               :if ($ScriptVal->"name" = "global-config") do={
                 :set ReloadGlobalConfig true;
               }
