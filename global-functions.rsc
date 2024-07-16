@@ -1074,7 +1074,8 @@
     }
 
     :if ([ :len $SourceNew ] > 0) do={
-      :if ($SourceNew != $ScriptVal->"source") do={
+      :local SourceCRLF [ :tocrlf $SourceNew ];
+      :if ($SourceNew != $ScriptVal->"source" && $SourceCRLF != $ScriptVal->"source") do={
         :if ([ :pick $SourceNew 0 18 ] = "#!rsc by RouterOS\n") do={
           :local Required ([ $ParseKeyValueStore [ $Grep $SourceNew ("\23 requires RouterOS, ") ] ]->"version");
           :if ([ $RequiredRouterOS $0 [ $EitherOr $Required "0.0" ] false ] = true) do={
