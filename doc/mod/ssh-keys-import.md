@@ -34,12 +34,8 @@ Usage and invocation
 Call the function `$SSHKeysImport` with key and user as parameter to
 import that key:
 
-    $SSHKeysImport "ssh-rsa AAAAB3Nza...QYZk8= user" admin;
-
-Starting with RouterOS *7.12beta1* support for keys of type `ed25519` has
-been added:
-
     $SSHKeysImport "ssh-ed25519 AAAAC3Nza...ZVugJT user" admin;
+    $SSHKeysImport "ssh-rsa AAAAB3Nza...QYZk8= user" admin;
 
 The third part of the key (`user` in this example) is inherited as
 `key-owner` in RouterOS. Also the `MD5` fingerprint is recorded, this helps
