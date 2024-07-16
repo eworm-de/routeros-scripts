@@ -4,7 +4,7 @@
 #                         Michael Gisbers <michael@gisbers.de>
 # https://git.eworm.de/cgit/routeros-scripts/about/COPYING.md
 #
-# requires RouterOS, version=7.13
+# requires RouterOS, version=7.14
 #
 # global functions
 # https://git.eworm.de/cgit/routeros-scripts/about/
@@ -313,11 +313,7 @@
 
 # convert line endings, DOS -> UNIX
 :set Dos2Unix do={
-  :local Input [ :tostr $1 ];
-
-  :global CharacterReplace;
-
-  :return [ $CharacterReplace $Input ("\r\n") ("\n") ];
+  :return [ :tolf [ :tostr $1 ] ];
 }
 
 # download package from upgrade server
@@ -913,11 +909,7 @@
 
 # print lines with trailing carriage return
 :set PrettyPrint do={
-  :local Input [ :tostr $1 ];
-
-  :global Unix2Dos;
-
-  :put [ $Unix2Dos $Input ];
+  :put [ :tocrlf [ :tostr $1 ] ];
 }
 
 # strip protocol from from url string
@@ -1008,6 +1000,7 @@
   :global IDonate;
   :global NoNewsAndChangesNotification;
   :global ScriptUpdatesBaseUrl;
+  :global ScriptUpdatesCRLF;
   :global ScriptUpdatesUrlSuffix;
 
   :global CertificateAvailable;
@@ -1060,7 +1053,7 @@
         :local Result [ /tool/fetch check-certificate=yes-without-crl \
           http-header-field=({ [ $FetchUserAgentStr $0 ] }) $Url output=user as-value ];
         :if ($Result->"status" = "finished") do={
-          :set SourceNew ($Result->"data");
+          :set SourceNew [ :tolf ($Result->"data") ];
         }
       } on-error={
         :if ($ScriptVal->"source" = "#!rsc by RouterOS\n") do={
@@ -1074,13 +1067,15 @@
     }
 
     :if ([ :len $SourceNew ] > 0) do={
-      :if ($SourceNew != $ScriptVal->"source") do={
+      :local SourceCRLF [ :tocrlf $SourceNew ];
+      :if ($SourceNew != $ScriptVal->"source" && $SourceCRLF != $ScriptVal->"source") do={
         :if ([ :pick $SourceNew 0 18 ] = "#!rsc by RouterOS\n") do={
           :local Required ([ $ParseKeyValueStore [ $Grep $SourceNew ("\23 requires RouterOS, ") ] ]->"version");
           :if ([ $RequiredRouterOS $0 [ $EitherOr $Required "0.0" ] false ] = true) do={
             :if ([ $ValidateSyntax $SourceNew ] = true) do={
               $LogPrint info $0 ("Updating script: " . $ScriptVal->"name");
-              /system/script/set owner=($ScriptVal->"name") source=$SourceNew $Script;
+              /system/script/set owner=($ScriptVal->"name") \
+                  source=[ $IfThenElse ($ScriptUpdatesCRLF = true) $SourceCRLF $SourceNew ] $Script;
               :if ($ScriptVal->"name" = "global-config") do={
                 :set ReloadGlobalConfig true;
               }
@@ -1438,12 +1433,7 @@
 
 # convert line endings, UNIX -> DOS
 :set Unix2Dos do={
-  :local Input [ :tostr $1 ];
-
-  :global CharacterReplace;
-
-  :return [ $CharacterReplace [ $CharacterReplace $Input \
-    ("\n") ("\r\n") ] ("\r\r\n") ("\r\n") ];
+  :return [ :tocrlf [ :tostr $1 ] ];
 }
 
 # url encoding

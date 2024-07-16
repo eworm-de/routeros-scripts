@@ -3,7 +3,7 @@
 # Copyright (c) 2020-2024 Christian Hesse <mail@eworm.de>
 # https://git.eworm.de/cgit/routeros-scripts/about/COPYING.md
 #
-# requires RouterOS, version=7.13
+# requires RouterOS, version=7.14
 #
 # ip address calculation
 # https://git.eworm.de/cgit/routeros-scripts/about/doc/mod/ipcalc.md
@@ -17,17 +17,16 @@
 
   :global FormatLine;
   :global IPCalcReturn;
-  :global PrettyPrint;
 
   :local Values [ $IPCalcReturn $1 ];
 
-  $PrettyPrint ( \
+  :put [ :tocrlf ( \
     [ $FormatLine "Address" ($Values->"address") ] . "\n" . \
     [ $FormatLine "Netmask" ($Values->"netmask") ] . "\n" . \
     [ $FormatLine "Network" ($Values->"network") ] . "\n" . \
     [ $FormatLine "HostMin" ($Values->"hostmin") ] . "\n" . \
     [ $FormatLine "HostMax" ($Values->"hostmax") ] . "\n" . \
-    [ $FormatLine "Broadcast" ($Values->"broadcast") ]);
+    [ $FormatLine "Broadcast" ($Values->"broadcast") ]) ];
 }
 
 # calculate and return netmask, network, min host, max host and broadcast

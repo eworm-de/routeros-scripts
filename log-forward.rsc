@@ -3,7 +3,7 @@
 # Copyright (c) 2020-2024 Christian Hesse <mail@eworm.de>
 # https://git.eworm.de/cgit/routeros-scripts/about/COPYING.md
 #
-# requires RouterOS, version=7.13
+# requires RouterOS, version=7.14
 #
 # forward log messages via notification
 # https://git.eworm.de/cgit/routeros-scripts/about/doc/log-forward.md

@@ -4,7 +4,7 @@
 # https://git.eworm.de/cgit/routeros-scripts/about/COPYING.md
 #
 # provides: lease-script, order=60
-# requires RouterOS, version=7.13
+# requires RouterOS, version=7.14
 #
 # update dhcp-server lease comment with infos from access-list
 # https://git.eworm.de/cgit/routeros-scripts/about/doc/dhcp-lease-comment.md

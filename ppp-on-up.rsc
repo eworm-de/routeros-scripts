@@ -3,7 +3,7 @@
 # Copyright (c) 2013-2024 Christian Hesse <mail@eworm.de>
 # https://git.eworm.de/cgit/routeros-scripts/about/COPYING.md
 #
-# requires RouterOS, version=7.13
+# requires RouterOS, version=7.14
 #
 # run scripts on ppp up
 # https://git.eworm.de/cgit/routeros-scripts/about/doc/ppp-on-up.md
@@ -28,7 +28,7 @@
 
   /ipv6/dhcp-client/release [ find where interface=$IntName !disabled ];
 
-  :foreach Script in=[ /system/script/find where source~("\n# provides: ppp-on-up\n") ] do={
+  :foreach Script in=[ /system/script/find where source~("\n# provides: ppp-on-up\r?\n") ] do={
     :local ScriptName [ /system/script/get $Script name ];
     :do {
       $LogPrint debug $ScriptName ("Running script: " . $ScriptName);

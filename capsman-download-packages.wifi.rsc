@@ -4,7 +4,7 @@
 #                         Michael Gisbers <michael@gisbers.de>
 # https://git.eworm.de/cgit/routeros-scripts/about/COPYING.md
 #
-# requires RouterOS, version=7.13
+# requires RouterOS, version=7.14
 #
 # download and cleanup packages for CAP installation from CAPsMAN
 # https://git.eworm.de/cgit/routeros-scripts/about/doc/capsman-download-packages.md
@@ -75,7 +75,7 @@
   }
 
   :if ($Updated = true) do={
-    :local Scripts [ /system/script/find where source~"\n# provides: capsman-rolling-upgrade.wifi\n" ];
+    :local Scripts [ /system/script/find where source~"\n# provides: capsman-rolling-upgrade.wifi\r?\n" ];
     :if ([ :len $Scripts ] > 0) do={
       :foreach Script in=$Scripts do={
         /system/script/run $Script;

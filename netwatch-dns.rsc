@@ -3,7 +3,7 @@
 # Copyright (c) 2022-2024 Christian Hesse <mail@eworm.de>
 # https://git.eworm.de/cgit/routeros-scripts/about/COPYING.md
 #
-# requires RouterOS, version=7.13
+# requires RouterOS, version=7.14
 #
 # monitor and manage dns/doh with netwatch
 # https://git.eworm.de/cgit/routeros-scripts/about/doc/netwatch-dns.md
