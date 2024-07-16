@@ -4,7 +4,7 @@
 # https://git.eworm.de/cgit/routeros-scripts/about/COPYING.md
 #
 # provides: backup-script, order=40
-# requires RouterOS, version=7.13
+# requires RouterOS, version=7.14
 #
 # upload backup to MikroTik cloud
 # https://git.eworm.de/cgit/routeros-scripts/about/doc/backup-cloud.md

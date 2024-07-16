@@ -3,7 +3,7 @@
 # Copyright (c) 2023-2024 Christian Hesse <mail@eworm.de>
 # https://git.eworm.de/cgit/routeros-scripts/about/COPYING.md
 #
-# requires RouterOS, version=7.13
+# requires RouterOS, version=7.14
 #
 # use Telegram to chat with your Router and send commands
 # https://git.eworm.de/cgit/routeros-scripts/about/doc/telegram-chat.md
