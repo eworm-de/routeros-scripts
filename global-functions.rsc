@@ -4,7 +4,7 @@
 #                         Michael Gisbers <michael@gisbers.de>
 # https://git.eworm.de/cgit/routeros-scripts/about/COPYING.md
 #
-# requires RouterOS, version=7.13
+# requires RouterOS, version=7.14
 #
 # global functions
 # https://git.eworm.de/cgit/routeros-scripts/about/
@@ -1060,7 +1060,7 @@
         :local Result [ /tool/fetch check-certificate=yes-without-crl \
           http-header-field=({ [ $FetchUserAgentStr $0 ] }) $Url output=user as-value ];
         :if ($Result->"status" = "finished") do={
-          :set SourceNew ($Result->"data");
+          :set SourceNew [ :tolf ($Result->"data") ];
         }
       } on-error={
         :if ($ScriptVal->"source" = "#!rsc by RouterOS\n") do={
