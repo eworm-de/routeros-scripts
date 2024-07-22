@@ -382,15 +382,13 @@
 :set EitherOr do={
   :global IfThenElse;
 
-  :if ([ :typeof $1 ] = "bool") do={
-    :return $1;
-  }
   :if ([ :typeof $1 ] = "num") do={
     :return [ $IfThenElse ($1 != 0) $1 $2 ];
   }
   :if ([ :typeof $1 ] = "time") do={
     :return [ $IfThenElse ($1 > 0s) $1 $2 ];
   }
+  # this works for boolean values, literal ones with parentheses
   :return [ $IfThenElse ([ :len [ :tostr $1 ] ] > 0) $1 $2 ];
 }
 
