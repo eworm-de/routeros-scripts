@@ -382,6 +382,9 @@
 :set EitherOr do={
   :global IfThenElse;
 
+  :if ([ :typeof $1 ] = "bool") do={
+    :return $1;
+  }
   :if ([ :typeof $1 ] = "num") do={
     :return [ $IfThenElse ($1 != 0) $1 $2 ];
   }
