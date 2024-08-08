@@ -4,7 +4,7 @@
 # https://git.eworm.de/cgit/routeros-scripts/about/COPYING.md
 #
 # provides: lease-script, order=20
-# requires RouterOS, version=7.14
+# requires RouterOS, version=7.16
 #
 # check DHCP leases and add/remove/update DNS entries
 # https://git.eworm.de/cgit/routeros-scripts/about/doc/dhcp-to-dns.md
@@ -40,7 +40,7 @@
   }
   :local PlaceBefore ([ /ip/dns/static/find where (name=$CommentString or (comment=$CommentString and name=-)) type=NXDOMAIN disabled ]->0);
 
-  :foreach DnsRecord in=[ /ip/dns/static/find where comment~("^" . $CommentPrefix . "\\b") (!type or type=A) ] do={
+  :foreach DnsRecord in=[ /ip/dns/static/find where comment~("^" . $CommentPrefix . "\\b") type=A ] do={
     :local DnsRecordVal [ /ip/dns/static/get $DnsRecord ];
     :local DnsRecordInfo [ $ParseKeyValueStore ($DnsRecordVal->"comment") ];
     :local MacInServer ($DnsRecordInfo->"macaddress" . " in " . $DnsRecordInfo->"server");
@@ -83,7 +83,7 @@
       :local FullCN ($HostName . "." . $NetDomain);
       :local MacInServer ($LeaseVal->"active-mac-address" . " in " . $LeaseVal->"server");
 
-      :local DnsRecord [ /ip/dns/static/find where comment=$Comment (!type or type=A) ];
+      :local DnsRecord [ /ip/dns/static/find where comment=$Comment type=A ];
       :if ([ :len $DnsRecord ] > 0) do={
         :local DnsRecordVal [ /ip/dns/static/get $DnsRecord ];
 
@@ -116,7 +116,7 @@
         }
       }
 
-      :if ([ :len [ /ip/dns/static/find where name=$FullA (!type or type=A) ] ] > 1) do={
+      :if ([ :len [ /ip/dns/static/find where name=$FullA type=A ] ] > 1) do={
         $LogPrintOnce warning $ScriptName ("The name '" . $FullA . "' appeared in more than one A record!");
       }
     } else={
