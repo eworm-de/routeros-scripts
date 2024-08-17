@@ -16,6 +16,8 @@
 
   :global CertificateAvailable;
   :global EitherOr;
+  :global IsDNSResolving;
+  :global IsTimeSync;
   :global LogPrint;
   :global ParseKeyValueStore;
   :global ScriptLock;
@@ -66,6 +68,12 @@
 
   :local DohCurrent [ /ip/dns/get use-doh-server ];
   :local DohServers ({});
+
+  :if ([ :len $DohCurrent ] > 0 && [ $IsDNSResolving ] = false && [ $IsTimeSync ] = false) do={
+    $LogPrint info $ScriptName ("Time is not sync, disabling DoH: " . $DohCurrent);
+    /ip/dns/set use-doh-server="";
+    :set DohCurrent "";
+  }
 
   :foreach Host in=[ /tool/netwatch/find where comment~"\\bdoh\\b" status="up" ] do={
     :local HostVal [ /tool/netwatch/get $Host ];
