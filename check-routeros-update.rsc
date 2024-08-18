@@ -125,6 +125,15 @@
     }
 
     :if ([ $ScriptFromTerminal $ScriptName ] = true) do={
+      :if (($Update->"channel") = "testing" && ($NumInstalled & 0xffff0000) < ($NumLatest & 0xffff0000)) do={
+        :put ("This is a feature update in testing channel. Switch to channel 'stable'? [y/N]");
+        :if (([ /terminal/inkey timeout=60 ] % 32) = 25) do={
+          /system/package/update/set channel=stable;
+          $LogPrint info $ScriptName ("Switched to channel 'stable', please re-run!");
+          :error true;
+        }
+      }
+
       :put ("Do you want to install RouterOS version " . $Update->"latest-version" . "? [y/N]");
       :if (([ /terminal/inkey timeout=60 ] % 32) = 25) do={
         $DoUpdate;
