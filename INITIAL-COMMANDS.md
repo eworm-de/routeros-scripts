@@ -10,13 +10,13 @@ Initial commands
 Run the complete base installation:
 
     {
-      / tool fetch "https://git.eworm.de/cgit/routeros-scripts/plain/certs/R3.pem" dst-path="letsencrypt-R3.pem" as-value;
+      / tool fetch "https://git.eworm.de/cgit/routeros-scripts/plain/certs/ISRG-Root-X2.pem" dst-path="isrg-root-x2.pem" as-value;
       :delay 1s;
-      / certificate import file-name=letsencrypt-R3.pem passphrase="";
-      :if ([ :len [ / certificate find where fingerprint="67add1166b020ae61b8f5fc96813c04c2aa589960796865572a3c7e737613dfd" or fingerprint="96bcec06264976f37460779acf28c5a7cfe8a3c0aae11a8ffcee05c0bddf08c6" ] ] != 2) do={
+      / certificate import file-name=isrg-root-x2.pem passphrase="";
+      :if ([ :len [ / certificate find where fingerprint="69729b8e15a86efc177a57afb7171dfc64add28c2fca8cf1507e34453ccb1470" ] ] != 1) do={
         :error "Something is wrong with your certificates!";
       };
-      / file remove "letsencrypt-R3.pem";
+      / file remove "isrg-root-x2.pem";
       :delay 1s;
       :foreach Script in={ "global-config"; "global-config-overlay"; "global-functions" } do={
         / system script add name=$Script source=([ / tool fetch check-certificate=yes-without-crl ("https://git.eworm.de/cgit/routeros-scripts/plain/" . $Script . "\?h=routeros-v6") output=user as-value]->"data");
@@ -24,8 +24,7 @@ Run the complete base installation:
       / system script { run global-config; run global-functions; };
       / system scheduler add name="global-scripts" start-time=startup on-event="/ system script { run global-config; run global-functions; }";
       :global CertificateNameByCN;
-      $CertificateNameByCN "R3";
-      $CertificateNameByCN "ISRG Root X1";
+      $CertificateNameByCN "ISRG Root X2";
     }
 
 Optional to update the scripts automatically:

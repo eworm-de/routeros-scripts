@@ -34,7 +34,7 @@
   :if ($PublicAddress != $InterfaceVal->"local-address") do={
     :local Comment [ $ParseKeyValueStore ($InterfaceVal->"comment") ];
 
-    :if ([ $CertificateAvailable "Starfield Secure Certificate Authority - G2" ] = false) do={
+    :if ([ $CertificateAvailable "Starfield Root Certificate Authority - G2" ] = false) do={
       $LogPrintExit2 error $0 ("Downloading required certificate failed.") true;
     }
     $LogPrintExit2 info $0 ("Local address changed, sending UPDATE to tunnelbroker! New address: " . $PublicAddress) false;

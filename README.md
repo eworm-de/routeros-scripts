@@ -53,7 +53,7 @@ download the certificates. If you intend to download the scripts from a
 different location (for example from github.com) install the corresponding
 certificate chain.
 
-    / tool fetch "https://git.eworm.de/cgit/routeros-scripts/plain/certs/R3.pem" dst-path="letsencrypt-R3.pem";
+    / tool fetch "https://git.eworm.de/cgit/routeros-scripts/plain/certs/ISRG-Root-X2.pem" dst-path="isrg-root-x2.pem";
 
 ![screenshot: download certs](README.d/01-download-certs.avif)
 
@@ -61,21 +61,19 @@ Note that the commands above do *not* verify server certificate, so if you
 want to be safe download with your workstations's browser and transfer the
 files to your MikroTik device.
 
-* [ISRG Root X1](https://letsencrypt.org/certs/isrgrootx1.pem)
-* Let's Encrypt [R3](https://letsencrypt.org/certs/lets-encrypt-r3.pem)
+* [ISRG Root X2](https://letsencrypt.org/certs/isrg-root-x2.pem)
 
 Then we import the certificates.
 
-    / certificate import file-name=letsencrypt-R3.pem passphrase="";
+    / certificate import file-name=isrg-root-x2.pem passphrase="";
 
 ![screenshot: import certs](README.d/02-import-certs.avif)
 
-For basic verification we rename the certificates and print their count. Make
-sure the certificate count is **two**.
+For basic verification we rename the certificate and print the count. Make
+sure the certificate count is **one**.
 
-    / certificate set name="R3" [ find where fingerprint="67add1166b020ae61b8f5fc96813c04c2aa589960796865572a3c7e737613dfd" ];
-    / certificate set name="ISRG-Root-X1" [ find where fingerprint="96bcec06264976f37460779acf28c5a7cfe8a3c0aae11a8ffcee05c0bddf08c6" ];
-    / certificate print count-only where fingerprint="67add1166b020ae61b8f5fc96813c04c2aa589960796865572a3c7e737613dfd" or fingerprint="96bcec06264976f37460779acf28c5a7cfe8a3c0aae11a8ffcee05c0bddf08c6";
+    / certificate set name="ISRG-Root-X2" [ find where common-name="ISRG Root X2" ];
+    / certificate print count-only where fingerprint="69729b8e15a86efc177a57afb7171dfc64add28c2fca8cf1507e34453ccb1470";
 
 ![screenshot: check certs](README.d/03-check-certs.avif)
 
