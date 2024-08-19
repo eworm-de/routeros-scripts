@@ -305,7 +305,7 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 Upstream
 --------
 
-![upstream](README.d/upstream.png)
+[![upstream](README.d/upstream.png)](https://rsc.eworm.de/)
 
 URL:
 [GitHub.com](https://github.com/eworm-de/routeros-scripts#routeros-scripts)
