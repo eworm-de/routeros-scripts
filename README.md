@@ -69,7 +69,7 @@ download the certificates. If you intend to download the scripts from a
 different location (for example from github.com) install the corresponding
 certificate chain.
 
-    /tool/fetch "https://git.eworm.de/cgit/routeros-scripts/plain/certs/ISRG-Root-X2.pem" dst-path="ISRG-Root-X2.pem";
+    /tool/fetch "https://git.eworm.de/cgit/routeros-scripts/plain/certs/ISRG-Root-X2.pem" dst-path="isrg-root-x2.pem";
 
 ![screenshot: download certs](README.d/01-download-certs.avif)
 
@@ -81,7 +81,7 @@ file to your MikroTik device.
 
 Then we import the certificate.
 
-    /certificate/import file-name=ISRG-Root-X2.pem passphrase="";
+    /certificate/import file-name=isrg-root-x2.pem passphrase="";
 
 Do not worry that the command is not shown - that happens because it contains
 a sensitive property, the passphrase.
