@@ -63,7 +63,7 @@ Importing a certificate automatically is possible, at least if available in
 the repository (see `certs` sub directory).
 
     /tool/netwatch/add comment="doh, doh-cert=DigiCert Global Root G2" host=1.1.1.1;
-    /tool/netwatch/add comment="doh, doh-cert=DigiCert Global Root CA" host=9.9.9.9;
+    /tool/netwatch/add comment="doh, doh-cert=DigiCert Global Root G3" host=9.9.9.9;
     /tool/netwatch/add comment="doh, doh-cert=GTS Root R1" host=8.8.8.8;
 
 Sometimes using just one specific (possibly internal) DNS server may be
