@@ -106,9 +106,9 @@
     { url="https://lists.blocklist.de/lists/strongips.txt";
       cert="Certum Trusted Network CA" };
 #    { url="https://www.spamhaus.org/drop/drop.txt";
-#      cert="Baltimore CyberTrust Root" };
+#      cert="GTS Root R4" };
 #    { url="https://www.spamhaus.org/drop/edrop.txt";
-#      cert="Baltimore CyberTrust Root" };
+#      cert="GTS Root R4" };
   };
 #  "mikrotik"={
 #    { url="https://git.eworm.de/cgit/routeros-scripts/plain/fw-addr-lists.d/mikrotik";
