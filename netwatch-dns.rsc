@@ -3,7 +3,7 @@
 # Copyright (c) 2022-2024 Christian Hesse <mail@eworm.de>
 # https://git.eworm.de/cgit/routeros-scripts/about/COPYING.md
 #
-# requires RouterOS, version=7.14
+# requires RouterOS, version=7.16
 #
 # monitor and manage dns/doh with netwatch
 # https://git.eworm.de/cgit/routeros-scripts/about/doc/netwatch-dns.md
@@ -80,7 +80,7 @@
     :local HostVal [ /tool/netwatch/get $Host ];
     :local HostInfo [ $ParseKeyValueStore ($HostVal->"comment") ];
     :local HostName [ /ip/dns/static/find where name address=($HostVal->"host") \
-        (!type or type="A" or type="AAAA") !disabled !dynamic ];
+        (type="A" or type="AAAA") !disabled !dynamic ];
     :if ([ :len $HostName ] > 0) do={
       :set HostName [ /ip/dns/static/get ($HostName->0) name ];
     }
