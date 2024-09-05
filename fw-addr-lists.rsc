@@ -88,7 +88,12 @@
 
       :while ([ :len $Data ] != 0) do={
         :local Line [ :pick $Data 0 [ :find $Data "\n" ] ];
-        :local Address ([ :pick $Line 0 [ $FindDelim $Line ] ] . ($List->"cidr"));
+        :local Address;
+        :if ([ :pick $Line 0 1 ] = "{") do={
+          :set Address [ :tostr ([ :deserialize from=json $Line ]->"cidr") ];
+        } else={
+          :set Address ([ :pick $Line 0 [ $FindDelim $Line ] ] . ($List->"cidr"));
+        }
         :do {
           :if ($Address ~ "^[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}(/[0-9]{1,2})?\$") do={
             :set ($IPv4Addresses->$Address) $TimeOut;
