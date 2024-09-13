@@ -1485,7 +1485,7 @@
   :global CharacterReplace;
 
   :set Input [ $CharacterReplace $Input "." "," ];
-  :foreach I in={ "alpha"; "beta"; "rc" } do={
+  :foreach I in={ "zero"; "alpha"; "beta"; "rc" } do={
     :set Input [ $CharacterReplace $Input $I ("," . $I . ",") ];
   }
 
@@ -1496,6 +1496,7 @@
         :set Return ($Return + 0xff00);
         :set Multi ($Multi / 0x100);
       } else={
+        :if ($Value = "zero") do={ }
         :if ($Value = "alpha") do={ :set Return ($Return + 0x3f00); }
         :if ($Value = "beta") do={ :set Return ($Return + 0x5f00); }
         :if ($Value = "rc") do={ :set Return ($Return + 0x7f00); }
