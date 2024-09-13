@@ -62,6 +62,9 @@
 
   :local NumInstalled [ $VersionToNum ($Update->"installed-version") ];
   :local NumLatest [ $VersionToNum ($Update->"latest-version") ];
+  :local BitMask [ $VersionToNum "255.255zero0" ];
+  :local NumInstalledFeature ($NumInstalled & $BitMask);
+  :local NumLatestFeature ($NumLatest & $BitMask);
   :local Link ("https://mikrotik.com/download/changelogs/" . $Update->"channel" . "-release-tree");
 
   :if ($NumLatest < 117505792) do={
@@ -80,7 +83,7 @@
       $DoUpdate;
     }
 
-    :if ($SafeUpdatePatch = true && ($NumInstalled & 0xffff0000) = ($NumLatest & 0xffff0000)) do={
+    :if ($SafeUpdatePatch = true && $NumInstalledFeature = $NumLatestFeature) do={
       $LogPrint info $ScriptName ("Version " . $Update->"latest-version" . " is a patch release, updating...");
       $SendNotification2 ({ origin=$ScriptName; \
         subject=([ $SymbolForNotification "sparkles" ] . "RouterOS update: " . $Update->"latest-version"); \
@@ -125,7 +128,7 @@
     }
 
     :if ([ $ScriptFromTerminal $ScriptName ] = true) do={
-      :if (($Update->"channel") = "testing" && ($NumInstalled & 0xffff0000) < ($NumLatest & 0xffff0000)) do={
+      :if (($Update->"channel") = "testing" && $NumInstalledFeature < $NumLatestFeature) do={
         :put ("This is a feature update in testing channel. Switch to channel 'stable'? [y/N]");
         :if (([ /terminal/inkey timeout=60 ] % 32) = 25) do={
           /system/package/update/set channel=stable;
