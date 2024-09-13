@@ -81,8 +81,9 @@
       :local Update [ /system/package/update/get ];
       :local NumInstalled [ $VersionToNum ($Update->"installed-version") ];
       :local NumLatest [ $VersionToNum ($Update->"latest-version") ];
+      :local BitMask [ $VersionToNum "255.255zero0" ];
       :if ($BackupPartitionCopyBeforeFeatureUpdate = true && $NumLatest > 0 && \
-           ($NumInstalled & 0xffff0000) != ($NumLatest & 0xffff0000)) do={
+           ($NumInstalled & $BitMask) != ($NumLatest & $BitMask)) do={
         :if ([ $CopyTo $ScriptName $FallbackTo $FallbackToName ] = false) do={
           :set PackagesUpdateBackupFailure true;
           :error false;
