@@ -50,7 +50,7 @@
   }
 
   :foreach Client in=[ /caps-man/access-list/find where comment~"^hotspot-to-wpa:" \
-      !(comment~[ /system/clock/get date ]) ] do={
+      !(comment~[ /system/clock/get date ]) mac-address ] do={
     :local ClientVal [ /caps-man/access-list/get $Client ];
     :if ([ :len [ /ip/dhcp-server/lease/find where !dynamic comment~"^hotspot-to-wpa:" \
          mac-address=($ClientVal->"mac-address") ] ] = 0) do={
