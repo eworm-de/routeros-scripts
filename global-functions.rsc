@@ -176,6 +176,12 @@
   :delay 1s;
   /file/remove [ find where name=$FileName ];
 
+  :if ([ :len [ /certificate/find where common-name=$CommonName ] ] = 0) do={
+    /certificate/remove [ find where name~("^" . $FileName . "_[0-9]+\$") ];
+    $LogPrint warning $0 ("Certificate with CommonName '" . $CommonName . "' still unavailable!");
+    :return false;
+  }
+
   :foreach Cert in=[ /certificate/find where name~("^" . $FileName . "_[0-9]+\$") ] do={
     $CertificateNameByCN [ /certificate/get $Cert common-name ];
   }
