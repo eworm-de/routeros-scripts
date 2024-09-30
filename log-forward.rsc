@@ -94,9 +94,10 @@
         [ $IfThenElse ($Duplicates = true) (" Multi-repeated messages have been skipped.") ] . \
         [ $IfThenElse ($LogForwardRateLimit > 30) ("\nRate limit in action, delaying forwarding.") ] . \
         "\n" . $Messages) });
-
-    :set LogForwardLast ($MessageVal->".id");
   } else={
     :set LogForwardRateLimit [ $MAX 0 ($LogForwardRateLimit - 1) ];
   }
+
+  :local LogAll [ /log/find ];
+  :set LogForwardLast ($LogAll->([ :len $LogAll ] - 1) );
 } on-error={ }
