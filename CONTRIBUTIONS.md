@@ -20,6 +20,7 @@ for details!
 * [Anatoly Bubenkov](mailto:bubenkoff@gmail.com) (@bubenkoff)
 * [Ben Harris](mailto:mail@bharr.is) (@bharrisau)
 * [Daniel Ziegenberg](mailto:daniel@ziegenberg.at) (@ziegenberg)
+* [Ignacio Serrano](mailto:ignic@ignic.com) (@ignic)
 * [Michael Gisbers](mailto:michael@gisbers.de) (@mgisbers)
 * @netravnen
 * [netztrip](mailto:dave-tvg@netztrip.de) (@netztrip)
