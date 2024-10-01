@@ -87,7 +87,7 @@
     :return false;
   }
 
-  :local Url ("https://" . $NtfyServer . "/" . [ $UrlEncode $NtfyTopic ]);
+  :local Url ("https://" . $Server . "/" . [ $UrlEncode $Topic ]);
   :local Headers ({ [ $FetchUserAgentStr ($Notification->"origin") ]; \
     ("Priority: " . [ $IfThenElse ($Notification->"silent") "low" "default" ]); \
     ("Title: " . "[" . $IdentityExtra . $Identity . "] " . ($Notification->"subject")) });
@@ -97,7 +97,7 @@
   }
 
   :do {
-    :if ($NtfyServer = "ntfy.sh") do={
+    :if ($Server = "ntfy.sh") do={
       :if ([ $CertificateAvailable "ISRG Root X1" ] = false) do={
         $LogPrint warning $0 ("Downloading required certificate failed.");
         :error false;
