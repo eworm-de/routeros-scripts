@@ -38,6 +38,7 @@ Add yourself to the list,
 * Daniel Ziegenberg (@ziegenberg)
 * Devin Dean (@dd2594gh)
 * Evaldo Gardenal
+* Florian Estraviz
 * Giorgio Bikos
 * Harold Schoemaker
 * Hugo BV
