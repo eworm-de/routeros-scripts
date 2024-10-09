@@ -19,6 +19,7 @@
   :global PackagesUpdateBackupFailure;
 
   :global LogPrint;
+  :global LogPrintOnce;
   :global RequiredRouterOS;
   :global ScriptFromTerminal;
   :global ScriptLock;
@@ -62,7 +63,7 @@
 
   :if ([ $RequiredRouterOS $ScriptName "7.17beta2" false ] = true && \
        ([ /system/device-mode/get ]->"partitions") != true) do={
-    $LogPrint warning $ScriptName \
+    $LogPrintOnce warning $ScriptName \
         ("The device mode has locked switching partitions! You will need physical access!");
   }
 
