@@ -90,9 +90,14 @@ with a resolvable name:
 
     /tool/netwatch/add comment="notify, name=example.com, resolve=example.com" host=0.0;
 
-This supports multiple A or AAAA records for a name just fine, even a CNAME
+This supports multiple A records for a name just fine, even a CNAME
 to those. An update happens only if no more record with the configured host
 address is found.
+
+The address family is preserved, so if you want AAAA records (for IPv6)
+use this:
+
+    /tool/netwatch/add comment="notify, name=example.com, resolve=example.com" host=::;
 
 ### No notification on host down
 
