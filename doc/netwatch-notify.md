@@ -88,7 +88,7 @@ threshould by one.
 The host address can be updated dynamically. Give extra parameter `resolve`
 with a resolvable name:
 
-    /tool/netwatch/add comment="notify, name=example.com, resolve=example.com";
+    /tool/netwatch/add comment="notify, name=example.com, resolve=example.com" host=0.0;
 
 This supports multiple A or AAAA records for a name just fine, even a CNAME
 to those. An update happens only if no more record with the configured host
@@ -125,7 +125,7 @@ included verbatim into the notification.
 It is possible to add a link in notification, that is added below the
 formatted notification text.
 
-    /tool/netwatch/add comment="notify, name=example.com, resolve=example.com, link=https://example.com/";
+    /tool/netwatch/add comment="notify, name=example.com, resolve=example.com, link=https://example.com/" host=0.0;
 
 Tips & Tricks
 -------------
