@@ -66,9 +66,9 @@ notification is sent.
 Getting the escaping right may be troublesome. Please consider adding a
 script in `/system/script`, then running that from hook.
 
-### Count threshould
+### Count threshold
 
-The count threshould (default is 5 checks) is configurable as well:
+The count threshold (default is 5 checks) is configurable as well:
 
     /tool/netwatch/add comment="notify, name=example.com, count=10" host=104.18.144.11;
 
@@ -81,7 +81,7 @@ suppress notification if the parent host is down:
     /tool/netwatch/add comment="notify, name=example.com, parent=gateway" host=93.184.216.34;
 
 Note that every configured parent in a chain increases the check count
-threshould by one.
+threshold by one.
 
 ### Update from DNS
 
