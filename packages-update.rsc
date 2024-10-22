@@ -18,7 +18,6 @@
   :global Grep;
   :global LogPrint;
   :global ParseKeyValueStore;
-  :global RequiredRouterOS;
   :global ScriptFromTerminal;
   :global ScriptLock;
   :global VersionToNum;
@@ -100,8 +99,7 @@
 
   :local DoDowngrade false;
   :if ($NumInstalled > $NumLatest) do={
-    :if ([ $RequiredRouterOS $ScriptName "7.17beta2" false ] = true && \
-         ([ /system/device-mode/get ]->"downgrade") != true) do={
+    :if (([ /system/device-mode/get ]->"downgrade") = false) do={
       $LogPrint error $ScriptName \
           ("The device mode has locked downgrades! You will need physical access!");
       :error false;
