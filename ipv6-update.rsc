@@ -19,8 +19,14 @@
   :global ScriptLock;
 
   :local PdPrefix $"pd-prefix";
+  :local NaAddress $"na-address";
 
   :if ([ $ScriptLock $ScriptName ] = false) do={
+    :error false;
+  }
+
+  :if ([ :typeof $NaAddress ] = "ip6") do={
+    $LogPrint info $ScriptName ("An address (" . $NaAddress . ") was aquired, not a prefix. Ignoring.");
     :error false;
   }
 
