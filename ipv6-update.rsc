@@ -37,8 +37,8 @@
 
   :local Pool [ /ipv6/pool/get [ find where prefix=$PdPrefix ] name ];
   :if ([ :len [ /ipv6/firewall/address-list/find where comment=("ipv6-pool-" . $Pool) ] ] = 0) do={
-    /ipv6/firewall/address-list/add list=("ipv6-pool-" . $Pool) address=:: comment=("ipv6-pool-" . $Pool);
-    $LogPrint warning $ScriptName ("Added ipv6 address list entry for ipv6-pool-" . $Pool);
+    /ipv6/firewall/address-list/add list=("ipv6-pool-" . $Pool) address=:: comment=("ipv6-pool-" . $Pool) dynamic=yes;
+    $LogPrint warning $ScriptName ("Added dynamic ipv6 address list entry for ipv6-pool-" . $Pool);
   }
   :local AddrList [ /ipv6/firewall/address-list/find where comment=("ipv6-pool-" . $Pool) ];
   :local OldPrefix [ /ipv6/firewall/address-list/get ($AddrList->0) address ];

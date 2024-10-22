@@ -51,7 +51,8 @@ firewall rules, comment has to be "`ipv6-pool-`" and actual pool name:
     /ipv6/firewall/address-list/add address=2003:cf:2f0f:de00::/56 comment=ipv6-pool-isp list=extern;
 
 As this entry is mandatory it is created automatically if it does not exist,
-with the comment also set for list.
+with the comment also set for list. It is dynamic then, so remove it before
+creating a static one with the command above.
 
 Address list entries for specific interfaces can be updated as well. The
 interface needs to get its address from pool `isp` and the address list entry
