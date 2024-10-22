@@ -45,13 +45,17 @@ Installing [ppp-on-up](ppp-on-up.md) may solve this.
 Configuration
 -------------
 
-An address list entry is updated with current prefix and can be used in
-firewall rules, comment has to be "`ipv6-pool-`" and actual pool name:
+As an address-list entry is mandatory a dynamic one is created automatically.
+It is updated with current prefix and can be used in firewall rules.
+
+Alternatively a static address-list entry can be used, where comment has to
+be "`ipv6-pool-`" and actual pool name. Use what ever list is desired, and
+create it with:
 
     /ipv6/firewall/address-list/add address=2003:cf:2f0f:de00::/56 comment=ipv6-pool-isp list=extern;
 
-As this entry is mandatory it is created automatically if it does not exist,
-with the comment also set for list.
+If the dynamic entry exists already you need to remove it before creating
+the static one..
 
 Address list entries for specific interfaces can be updated as well. The
 interface needs to get its address from pool `isp` and the address list entry
