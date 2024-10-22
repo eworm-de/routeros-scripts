@@ -19,8 +19,6 @@
   :global PackagesUpdateBackupFailure;
 
   :global LogPrint;
-  :global LogPrintOnce;
-  :global RequiredRouterOS;
   :global ScriptFromTerminal;
   :global ScriptLock;
   :global VersionToNum;
@@ -59,12 +57,6 @@
     $LogPrint error $ScriptName ("Device is not running from active partition.");
     :set PackagesUpdateBackupFailure true;
     :error false;
-  }
-
-  :if ([ $RequiredRouterOS $ScriptName "7.17beta2" false ] = true && \
-       ([ /system/device-mode/get ]->"partitions") != true) do={
-    $LogPrintOnce warning $ScriptName \
-        ("The device mode has locked switching partitions! You will need physical access!");
   }
 
   :local FallbackToName [ /partitions/get $ActiveRunning fallback-to ];
