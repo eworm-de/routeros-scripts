@@ -18,9 +18,15 @@
   :global ParseKeyValueStore;
   :global ScriptLock;
 
+  :local NaAddress $"na-address";
   :local PdPrefix $"pd-prefix";
 
   :if ([ $ScriptLock $ScriptName ] = false) do={
+    :error false;
+  }
+
+  :if ([ :typeof $NaAddress ] = "str") do={
+    $LogPrint info $ScriptName ("An address (" . $NaAddress . ") was acquired, not a prefix. Ignoring.");
     :error false;
   }
 
