@@ -16,6 +16,7 @@ DOMAINS = \
 	ipv4.tunnelbroker.net/Starfield-Root-Certificate-Authority-G2 \
 	ipv6.showipv6.de/ISRG-Root-X1 \
 	lists.blocklist.de/Certum-Trusted-Network-CA \
+	matrix.org/GTS-Root-R4 \
 	mkcert.org/ISRG-Root-X1 \
 	ntfy.sh/ISRG-Root-X1 \
 	sslbl.abuse.ch/GlobalSign \
