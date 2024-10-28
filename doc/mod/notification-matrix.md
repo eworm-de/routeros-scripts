@@ -46,6 +46,13 @@ The Matrix server is connected via encrypted https, and certificate
 verification is applied. So make sure you have the certificate chain for
 your server in device's certificate store.
 
+The example below is for `matrix.org`, which uses a trust chain from *Google
+Trust Services*. Run this to import the required certificate:
+
+    $CertificateAvailable "GTS Root R4";
+
+Replace the CA certificate name with what ever is needed for your server.
+
 ### From other device
 
 If you have setup your Matrix *notification account* before just reuse that.
