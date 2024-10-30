@@ -107,6 +107,11 @@
       "is configured to download certificate CRLs to system!");
   }
 
+  :if ([ :len $CommonName ] = 0) do={
+    $LogPrint warning $0 ("No CommonName given!");
+    :return false;
+  }
+
   :if ([ :len [ /certificate/find where common-name=$CommonName ] ] = 0) do={
     $LogPrint info $0 ("Certificate with CommonName '" . $CommonName . "' not available.");
     :if ([ $CertificateDownload $CommonName ] = false) do={
