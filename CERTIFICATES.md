@@ -72,6 +72,7 @@ and nothing is actually imported.
 See also
 --------
 
+* [Download, import and update firewall address-lists](doc/fw-addr-lists.md)
 * [Send notifications via Matrix](doc/mod/notification-matrix.md)
 * [Send notifications via Ntfy](doc/mod/notification-ntfy.md)
 

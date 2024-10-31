@@ -62,9 +62,8 @@ The configuration goes to `global-config-overlay`, these are the parameters:
 > your local `global-config-overlay` and modify it to your specific needs.
 
 Naming a certificate for a list makes the script verify the server
-certificate, so you should add that if possible. Some certificates are
-available in my repository and downloaded automatically. Import it manually
-(menu `/certificate/`) if missing.
+certificate, so you should add that if possible. You may want to find the
+[certificate name from browser](../CERTIFICATES.md).
 
 Create firewall rules to process the packets that are related to addresses
 from address-lists.
@@ -126,6 +125,11 @@ Drop packets in firewall's raw section:
 
 > ⚠️ **Warning**: Just again... The order of firewall rules is important. Make
 > sure they actually take effect as expected!
+
+See also
+--------
+
+* [Certificate name from browser](../CERTIFICATES.md)
 
 ---
 [⬅️ Go back to main README](../README.md)  
