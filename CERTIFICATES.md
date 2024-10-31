@@ -73,6 +73,7 @@ See also
 --------
 
 * [Send notifications via Matrix](doc/mod/notification-matrix.md)
+* [Send notifications via Ntfy](doc/mod/notification-ntfy.md)
 
 ---
 [⬅️ Go back to main README](README.md)  

@@ -52,6 +52,10 @@ basic authentication. Configure `NtfyServerUser` and `NtfyServerPass` for this.
 Even authentication via access token is possible, adding it as password with
 a blank username.
 
+For a custom service installing an additional certificate may be required.
+You may want to install that certificate manually, after finding the
+[certificate name from browser](../../CERTIFICATES.md).
+
 Usage and invocation
 --------------------
 
@@ -82,6 +86,7 @@ function available:
 See also
 --------
 
+* [Certificate name from browser](../../CERTIFICATES.md)
 * [Send notifications via e-mail](notification-email.md)
 * [Send notifications via Matrix](notification-matrix.md)
 * [Send notifications via Telegram](notification-telegram.md)
