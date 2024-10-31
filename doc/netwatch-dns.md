@@ -59,8 +59,8 @@ resolves to the same address.
 Be aware that you have to keep the ip address in sync with real world
 manually!
 
-Importing a certificate automatically is possible, at least if available in
-the repository (see `certs` sub directory).
+Importing a certificate automatically is possible. You may want to find the
+[certificate name from browser](../CERTIFICATES.md).
 
     /tool/netwatch/add comment="doh, doh-cert=DigiCert Global Root G2" host=1.1.1.1;
     /tool/netwatch/add comment="doh, doh-cert=DigiCert Global Root G3" host=9.9.9.9;
@@ -87,6 +87,7 @@ Also this allows to update host address, see option `resolve`.
 See also
 --------
 
+* [Certificate name from browser](../CERTIFICATES.md)
 * [Notify on host up and down](netwatch-notify.md)
 
 ---
