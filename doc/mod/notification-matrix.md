@@ -52,6 +52,8 @@ Trust Services*. Run this to import the required certificate:
     $CertificateAvailable "GTS Root R4";
 
 Replace the CA certificate name with what ever is needed for your server.
+You may want to find the
+[certificate name from browser](../../CERTIFICATES.md).
 
 ### From other device
 
@@ -127,6 +129,7 @@ function available:
 See also
 --------
 
+* [Certificate name from browser](../../CERTIFICATES.md)
 * [Send notifications via e-mail](notification-email.md)
 * [Send notifications via Ntfy](notification-ntfy.md)
 * [Send notifications via Telegram](notification-telegram.md)

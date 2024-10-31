@@ -69,6 +69,11 @@ is no output. Otherwise the certificate is downloaded and imported.
 If importing a certificate with that exact name fails a warning is given
 and nothing is actually imported.
 
+See also
+--------
+
+* [Send notifications via Matrix](doc/mod/notification-matrix.md)
+
 ---
 [⬅️ Go back to main README](README.md)  
 [⬆️ Go back to top](#top)
