@@ -65,7 +65,7 @@
 
       :for I from=1 to=5 do={
         :if ($Data = false) do={
-          :set Data [ $FetchHuge $ScriptName ($List->"url") $CheckCertificate ];
+          :set Data [ :tolf [ $FetchHuge $ScriptName ($List->"url") $CheckCertificate ] ];
           :if ($Data = false) do={
             :if ($I < 5) do={
               $LogPrint debug $ScriptName ("Failed downloading for list '" . $FwListName . \
@@ -86,8 +86,8 @@
             "B for list '" . $FwListName . "' from: " . $List->"url");
       }
 
-      :while ([ :len $Data ] != 0) do={
-        :local Line [ :pick $Data 0 [ :find $Data "\n" ] ];
+      :foreach Line in=[ :deserialize $Data delimiter="\n" from=dsv options=dsv.plain ] do={
+        :set Line ($Line->0);
         :local Address;
         :if ([ :pick $Line 0 1 ] = "{") do={
           :set Address [ :tostr ([ :deserialize from=json $Line ]->"cidr") ];
@@ -109,7 +109,6 @@
             :error true;
           }
         } on-error={ }
-        :set Data [ :pick $Data ([ :len $Line ] + 1) [ :len $Data ] ];
       }
     }
 
