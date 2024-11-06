@@ -88,12 +88,11 @@
     $LogPrint warning $0 ("File '" . $FileName . "' does not exist.");
     :return false;
   }
-  :local Keys ([ /file/get $FileName contents ] . "\n");
+  :local Keys [ :tolf [ /file/get $FileName contents ] ];
 
-  :do {
+  :foreach Line in=[ :deserialize $Keys delimiter="\n" from=dsv options=dsv.plain ] do={
+    :set Line ($Line->0);
     :local Continue false;
-    :local Line [ :pick $Keys 0 [ :find $Keys "\n" ] ];
-    :set Keys [ :pick $Keys ([ :find $Keys "\n" ] + 1) [ :len $Keys ] ];
     :local KeyVal [ :toarray [ $CharacterReplace $Line " " "," ] ];
     :if ($KeyVal->0 = "ssh-ed25519" || $KeyVal->0 = "ssh-rsa") do={
       :do {
@@ -110,5 +109,5 @@
     :if ($Continue = false && [ :len ($KeyVal->0) ] > 0) do={
       $LogPrint warning $0 ("SSH key of type '" . $KeyVal->0 . "' is not supported.");
     }
-  } while=([ :len $Keys ] > 0);
+  }
 }
