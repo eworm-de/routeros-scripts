@@ -16,7 +16,6 @@
   :local Key  [ :tostr $1 ];
   :local User [ :tostr $2 ];
 
-  :global CharacterReplace;
   :global GetRandom20CharAlNum;
   :global LogPrint;
   :global MkDir;
@@ -32,7 +31,7 @@
     :return false;
   }
 
-  :local KeyVal [ :toarray [ $CharacterReplace $Key " " "," ] ];
+  :local KeyVal ([ :deserialize $Key delimiter=" " from=dsv options=dsv.plain ]->0);
   :if (!($KeyVal->0 = "ssh-ed25519" || $KeyVal->0 = "ssh-rsa")) do={
     $LogPrint warning $0 ("SSH key of type '" . $KeyVal->0 . "' is not supported.");
     :return false;
