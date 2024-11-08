@@ -72,7 +72,6 @@
   :local FileName [ :tostr $1 ];
   :local User     [ :tostr $2 ];
 
-  :global CharacterReplace;
   :global EitherOr;
   :global LogPrint;
   :global ParseKeyValueStore;
@@ -90,20 +89,18 @@
   }
   :local Keys [ :tolf [ /file/get $FileName contents ] ];
 
-  :foreach Line in=[ :deserialize $Keys delimiter="\n" from=dsv options=dsv.plain ] do={
-    :set Line ($Line->0);
+  :foreach KeyVal in=[ :deserialize $Keys delimiter=" " from=dsv options=dsv.plain ] do={
     :local Continue false;
-    :local KeyVal [ :toarray [ $CharacterReplace $Line " " "," ] ];
     :if ($KeyVal->0 = "ssh-ed25519" || $KeyVal->0 = "ssh-rsa") do={
       :do {
-        $SSHKeysImport $Line $User;
+        $SSHKeysImport ($KeyVal->0 . " " . $KeyVal->1 . " " . $KeyVal->2) $User;
       } on-error={
         $LogPrint warning $0 ("Failed importing key for user '" . $User . "'.");
       }
       :set Continue true;
     }
     :if ($Continue = false && $KeyVal->0 = "#") do={
-      :set User [ $EitherOr ([ $ParseKeyValueStore [ :pick $Line 2 [ :len $Line ] ] ]->"user") $User ];
+      :set User [ $EitherOr ([ $ParseKeyValueStore ($KeyVal->1) ]->"user") $User ];
       :set Continue true;
     }
     :if ($Continue = false && [ :len ($KeyVal->0) ] > 0) do={
