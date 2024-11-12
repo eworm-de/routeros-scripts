@@ -73,7 +73,7 @@
   :local Link ("https://mikrotik.com/download/changelogs/" . $Update->"channel" . "-release-tree");
 
   :if ($NumLatest < [ $VersionToNum "7.0" ]) do={
-    $LogPrint info $ScriptName ("The version '" . ($Update->"latest-version") . "' is not a valid version.");
+    $LogPrint warning $ScriptName ("The version '" . ($Update->"latest-version") . "' is not a valid version.");
     :error false;
   }
 
