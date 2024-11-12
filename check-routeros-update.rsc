@@ -55,8 +55,10 @@
   /system/package/update/check-for-updates without-paging as-value;
   :local Update [ /system/package/update/get ];
 
-  :if ([ $ScriptFromTerminal $ScriptName ] = true && ($Update->"installed-version") = ($Update->"latest-version")) do={
-    $LogPrint info $ScriptName ("System is already up to date.");
+  :if (($Update->"installed-version") = ($Update->"latest-version")) do={
+    :if ([ $ScriptFromTerminal $ScriptName ] = true) do={
+      $LogPrint info $ScriptName ("System is already up to date.");
+    }
     :error true;
   }
 
