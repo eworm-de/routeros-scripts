@@ -60,6 +60,11 @@
     :error true;
   }
 
+  :if ([ :len ($Update->"latest-version") ] = 0) do={
+    $LogPrint info $ScriptName ("Received an empty version string from server.");
+    :error false;
+  }
+
   :local NumInstalled [ $VersionToNum ($Update->"installed-version") ];
   :local NumLatest [ $VersionToNum ($Update->"latest-version") ];
   :local BitMask [ $VersionToNum "255.255zero0" ];
