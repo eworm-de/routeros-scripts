@@ -62,7 +62,8 @@
 
   :foreach Server,Timeout in=$DHCPServers do={
     :foreach Lease in=[ /ip/dhcp-server/lease/find where !dynamic status="waiting" \
-        server=$Server last-seen>$Timeout comment~"^hotspot-to-wpa:" ] do={
+        server=$Server last-seen>($Timeout + [ /system/clock/get time ]) \
+        comment~"^hotspot-to-wpa:" ] do={
       :local LeaseVal [ /ip/dhcp-server/lease/get $Lease ];
       $LogPrint info $ScriptName ("Client with mac address " . ($LeaseVal->"mac-address") . \
         " was not seen for " . $Timeout . ", removing.");
