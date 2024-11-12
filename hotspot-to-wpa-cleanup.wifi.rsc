@@ -65,7 +65,7 @@
         server=$Server last-seen>$Timeout comment~"^hotspot-to-wpa:" ] do={
       :local LeaseVal [ /ip/dhcp-server/lease/get $Lease ];
       $LogPrint info $ScriptName ("Client with mac address " . ($LeaseVal->"mac-address") . \
-        " was not seen for " . ($LeaseVal->"last-seen") . ", removing.");
+        " was not seen for " . $Timeout . ", removing.");
       /interface/wifi/access-list/remove [ find where comment~"^hotspot-to-wpa:" \
         mac-address=($LeaseVal->"mac-address") ];
       /ip/dhcp-server/lease/remove $Lease;
