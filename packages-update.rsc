@@ -99,12 +99,6 @@
 
   :local DoDowngrade false;
   :if ($NumInstalled > $NumLatest) do={
-    :if (([ /system/device-mode/get ]->"downgrade") = false) do={
-      $LogPrint error $ScriptName \
-          ("The device mode has locked downgrades! You will need physical access!");
-      :error false;
-    }
-
     :if ([ $ScriptFromTerminal $ScriptName ] = true) do={
       :put "Latest version is older than installed one. Want to downgrade? [y/N]";
       :if (([ /terminal/inkey timeout=60 ] % 32) = 25) do={
