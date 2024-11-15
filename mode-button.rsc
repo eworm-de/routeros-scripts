@@ -64,7 +64,11 @@
             :delay 200ms;
           }
 
-          [ :parse $Code ];
+          :do {
+            [ :parse $Code ];
+          } on-error={
+            $LogPrint warning $0 ("The code for " . $Count . " mode-button presses failed with runtime error!");
+          }
         } else={
           $LogPrint warning $0 ("The code for " . $Count . " mode-button presses failed syntax validation!");
         }
