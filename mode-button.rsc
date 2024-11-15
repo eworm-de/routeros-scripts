@@ -36,7 +36,8 @@
 
         :global IfThenElse;
 
-        :local LED [ /system/leds/find where leds=$ModeButtonLED type~"^(on|off)\$" interface=[] ];
+        :local LED [ /system/leds/find where leds=$ModeButtonLED \
+            !disabled type~"^(on|off)\$" interface=[] ];
         :if ([ :len $LED ] = 0) do={
           :return false;
         }
