@@ -52,7 +52,7 @@
 
       :if ([ :len $Code ] > 0) do={
         :if ([ $ValidateSyntax $Code ] = true) do={
-          $LogPrint info $ScriptName ("Acting on " . $Count . " mode-button presses: " . $Code);
+          $LogPrint info $0 ("Acting on " . $Count . " mode-button presses: " . $Code);
 
           :for I from=1 to=$Count do={
             $LEDInvert;
@@ -66,10 +66,10 @@
 
           [ :parse $Code ];
         } else={
-          $LogPrint warning $ScriptName ("The code for " . $Count . " mode-button presses failed syntax validation!");
+          $LogPrint warning $0 ("The code for " . $Count . " mode-button presses failed syntax validation!");
         }
       } else={
-        $LogPrint info $ScriptName ("No action defined for " . $Count . " mode-button presses.");
+        $LogPrint info $0 ("No action defined for " . $Count . " mode-button presses.");
       }
     }
     /system/scheduler/add name="_ModeButtonScheduler" \
