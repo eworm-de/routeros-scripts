@@ -22,7 +22,7 @@ DOMAINS = \
 	sslbl.abuse.ch/GlobalSign \
 	upgrade.mikrotik.com/ISRG-Root-X1 \
 	www.dshield.org/ISRG-Root-X1 \
-	www.spamhaus.org/ISRG-Root-X1
+	www.spamhaus.org/GTS-Root-R4
 
 .PHONY: $(DOMAINS)
 
