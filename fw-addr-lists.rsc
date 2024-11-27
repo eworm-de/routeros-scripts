@@ -3,7 +3,7 @@
 # Copyright (c) 2023-2024 Christian Hesse <mail@eworm.de>
 # https://git.eworm.de/cgit/routeros-scripts/about/COPYING.md
 #
-# requires RouterOS, version=7.14
+# requires RouterOS, version=7.16
 #
 # download, import and update firewall address-lists
 # https://git.eworm.de/cgit/routeros-scripts/about/doc/fw-addr-lists.md
