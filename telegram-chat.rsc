@@ -11,6 +11,7 @@
 :global GlobalFunctionsReady;
 :while ($GlobalFunctionsReady != true) do={ :delay 500ms; }
 
+:local ExitOK false;
 :do {
   :local ScriptName [ :jobname ];
 
@@ -43,6 +44,7 @@
   :global WaitFullyConnected;
 
   :if ([ $ScriptLock $ScriptName ] = false) do={
+    :set ExitOK true;
     :error false;
   }
 
@@ -57,6 +59,7 @@
 
   :if ([ $CertificateAvailable "Go Daddy Root Certificate Authority - G2" ] = false) do={
     $LogPrint warning $ScriptName ("Downloading required certificate failed.");
+    :set ExitOK true;
     :error false;
   }
 
@@ -82,6 +85,7 @@
 
   :if ($Data = false) do={
     $LogPrint warning $ScriptName ("Failed getting updates.");
+    :set ExitOK true;
     :error false;
   }
 
@@ -130,6 +134,7 @@
             :local File ("tmpfs/telegram-chat/" . [ $GetRandom20CharAlNum 6 ]);
             :if ([ $MkDir "tmpfs/telegram-chat" ] = false) do={
               $LogPrint error $ScriptName ("Failed creating directory!");
+              :set ExitOK true;
               :error false;
             }
             $LogPrint info $ScriptName ("Running command from update " . $UpdateID . ": " . $Command);
@@ -176,4 +181,6 @@
   }
   :set TelegramChatOffset ([ :pick $TelegramChatOffset 1 3 ], \
     [ $IfThenElse ($UpdateID >= $TelegramChatOffset->2) ($UpdateID + 1) ($TelegramChatOffset->2) ]);
-} on-error={ }
+} on-error={
+  :global ExitError; $ExitError $ExitOK [ :jobname ];
+}
