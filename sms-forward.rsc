@@ -12,6 +12,7 @@
 :global GlobalFunctionsReady;
 :while ($GlobalFunctionsReady != true) do={ :delay 500ms; }
 
+:local ExitOK false;
 :do {
   :local ScriptName [ :jobname ];
 
@@ -28,11 +29,13 @@
   :global WaitFullyConnected;
 
   :if ([ $ScriptLock $ScriptName ] = false) do={
+    :set ExitOK true;
     :error false;
   }
 
   :if ([ /tool/sms/get receive-enabled ] = false) do={
     $LogPrintOnce warning $ScriptName ("Receiving of SMS is not enabled.");
+    :set ExitOK true;
     :error false;
   }
 
@@ -42,6 +45,7 @@
 
   :if ([ /interface/lte/get ($Settings->"port") running ] != true) do={
     $LogPrint info $ScriptName ("The LTE interface is not in running state, skipping.");
+    :set ExitOK true;
     :error true;
   }
 
@@ -92,4 +96,6 @@
       }
     }
   }
-} on-error={ }
+} on-error={
+  :global ExitError; $ExitError $ExitOK [ :jobname ];
+}
