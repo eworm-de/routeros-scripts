@@ -13,6 +13,7 @@
 :global GlobalFunctionsReady;
 :while ($GlobalFunctionsReady != true) do={ :delay 500ms; }
 
+:local ExitOK false;
 :do {
   :local ScriptName [ :jobname ];
 
@@ -22,11 +23,13 @@
   :global ScriptLock;
 
   :if ([ $ScriptLock $ScriptName ] = false) do={
+    :set ExitOK true;
     :error false;
   }
 
   :if ([ $CertificateAvailable "Starfield Root Certificate Authority - G2" ] = false) do={
     $LogPrint error $ScriptName ("Downloading required certificate failed.");
+    :set ExitOK true;
     :error false;
   }
 
@@ -50,6 +53,7 @@
 
     :if (!($Data ~ "^(good|nochg) ")) do={
       $LogPrint error $ScriptName ("Failed sending the local address to tunnelbroker or unexpected response!");
+      :set ExitOK true;
       :error false;
     }
 
@@ -64,4 +68,6 @@
       /interface/6to4/set $Interface local-address=$PublicAddress;
     }
   }
-} on-error={ }
+} on-error={
+  :global ExitError; $ExitError $ExitOK [ :jobname ];
+}
