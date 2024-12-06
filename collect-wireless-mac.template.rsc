@@ -15,6 +15,7 @@
 :global GlobalFunctionsReady;
 :while ($GlobalFunctionsReady != true) do={ :delay 500ms; }
 
+:local ExitOK false;
 :do {
   :local ScriptName [ :jobname ];
 
@@ -30,6 +31,7 @@
   :global SymbolForNotification;
 
   :if ([ $ScriptLock $ScriptName 10 ] = false) do={
+    :set ExitOK true;
     :error false;
   }
 
@@ -111,4 +113,6 @@
       $LogPrint debug $ScriptName ("No mac address available... Ignoring.");
     }
   }
-} on-error={ }
+} on-error={
+  :global ExitError; $ExitError $ExitOK [ :jobname ];
+}
