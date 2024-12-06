@@ -32,6 +32,7 @@
 :global DownloadPackage;
 :global EitherOr;
 :global EscapeForRegEx;
+:global ExitError;
 :global FetchHuge;
 :global FetchUserAgentStr;
 :global FormatLine;
@@ -423,6 +424,18 @@
   }
 
   :return $Return;
+}
+
+# simple macro to print error message on unintentional error
+:set ExitError do={
+  :local ExitOK     [ :tostr $1 ];
+  :local ScriptName [ :tostr $2 ];
+
+  :global LogPrint; 
+
+  :if ($ExitOK = "false") do={
+    $LogPrint error $ScriptName ("Script exited with error.");
+  }
 }
 
 # fetch huge data to file, read in chunks
