@@ -12,6 +12,7 @@
 :global GlobalFunctionsReady;
 :while ($GlobalFunctionsReady != true) do={ :delay 500ms; }
 
+:local ExitOK false;
 :do {
   :local ScriptName [ :jobname ];
 
@@ -39,17 +40,20 @@
 
   :if ([ :typeof $SendEMail2 ] = "nothing") do={
     $LogPrint error $ScriptName ("The module for sending notifications via e-mail is not installed.");
+    :set ExitOK true;
     :error false;
   }
 
   :if ($BackupSendBinary != true && \
        $BackupSendExport != true) do={
     $LogPrint error $ScriptName ("Configured to send neither backup nor config export.");
+    :set ExitOK true;
     :error false;
   }
 
   :if ([ $ScriptLock $ScriptName ] = false) do={
     :set PackagesUpdateBackupFailure true;
+    :set ExitOK true;
     :error false;
   }
   $WaitFullyConnected;
@@ -69,6 +73,7 @@
 
   :if ([ $MkDir $DirName ] = false) do={
     $LogPrint error $ScriptName ("Failed creating directory!");
+    :set ExitOK true;
     :error false;
   }
 
@@ -116,9 +121,12 @@
     :if ($I >= 120) do={
       $LogPrint warning $ScriptName ("Files are still available, sending e-mail failed.");
       :set PackagesUpdateBackupFailure true;
+      :set ExitOK true;
       :error false;
     }
     :delay 1s;
     :set I ($I + 1);
   }
-} on-error={ }
+} on-error={
+  :global ExitError; $ExitError $ExitOK [ :jobname ];
+}
