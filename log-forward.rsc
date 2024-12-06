@@ -11,6 +11,7 @@
 :global GlobalFunctionsReady;
 :while ($GlobalFunctionsReady != true) do={ :delay 500ms; }
 
+:local ExitOK false;
 :do {
   :local ScriptName [ :jobname ];
 
@@ -33,6 +34,7 @@
   :global SymbolForNotification;
 
   :if ([ $ScriptLock $ScriptName ] = false) do={
+    :set ExitOK true;
     :error false;
   }
 
@@ -43,6 +45,7 @@
   :if ($LogForwardRateLimit > 30) do={
     :set LogForwardRateLimit ($LogForwardRateLimit - 1);
     $LogPrint info $ScriptName ("Rate limit in action, not forwarding logs, if any!");
+    :set ExitOK true;
     :error false;
   }
 
@@ -100,4 +103,6 @@
 
   :local LogAll [ /log/find ];
   :set LogForwardLast ($LogAll->([ :len $LogAll ] - 1) );
-} on-error={ }
+} on-error={
+  :global ExitError; $ExitError $ExitOK [ :jobname ];
+}

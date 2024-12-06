@@ -14,6 +14,7 @@
 :global GlobalFunctionsReady;
 :while ($GlobalFunctionsReady != true) do={ :delay 500ms; }
 
+:local ExitOK false;
 :do {
   :local ScriptName [ :jobname ];
 
@@ -40,4 +41,6 @@
     }
     :set ($Seen->$Mac) 1;
   }
-} on-error={ }
+} on-error={
+  :global ExitError; $ExitError $ExitOK [ :jobname ];
+}

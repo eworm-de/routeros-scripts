@@ -13,6 +13,7 @@
 :global GlobalFunctionsReady;
 :while ($GlobalFunctionsReady != true) do={ :delay 500ms; }
 
+:local ExitOK false;
 :do {
   :local ScriptName [ :jobname ];
 
@@ -25,11 +26,13 @@
   :local UserName $username;
 
   :if ([ $ScriptLock $ScriptName ] = false) do={
+    :set ExitOK true;
     :error false;
   }
 
   :if ([ :typeof $MacAddress ] = "nothing" || [ :typeof $UserName ] = "nothing") do={
     $LogPrint error $ScriptName ("This script is supposed to run from hotspot on login.");
+    :set ExitOK true;
     :error false;
   }
 
@@ -57,6 +60,7 @@
 
   :if ($Template->"action" = "reject") do={
     $LogPrint info $ScriptName ("Ignoring login for hotspot '" . $Hotspot . "'.");
+    :set ExitOK true;
     :error true;
   }
 
@@ -95,4 +99,6 @@
 
   :delay 2s;
   /caps-man/access-list/set $Entry action=accept;
-} on-error={ }
+} on-error={
+  :global ExitError; $ExitError $ExitOK [ :jobname ];
+}

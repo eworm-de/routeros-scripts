@@ -12,6 +12,7 @@
 :global GlobalFunctionsReady;
 :while ($GlobalFunctionsReady != true) do={ :delay 500ms; }
 
+:local ExitOK false;
 :do {
   :local ScriptName [ :jobname ];
 
@@ -42,12 +43,14 @@
 
   :if ([ $ScriptLock $ScriptName ] = false) do={
     :set PackagesUpdateBackupFailure true;
+    :set ExitOK true;
     :error false;
   }
 
   :if ([ :len [ /partitions/find ] ] < 2) do={
     $LogPrint error $ScriptName ("Device does not have a fallback partition.");
     :set PackagesUpdateBackupFailure true;
+    :set ExitOK true;
     :error false;
   }
 
@@ -56,6 +59,7 @@
   :if ([ :len $ActiveRunning ] < 1) do={
     $LogPrint error $ScriptName ("Device is not running from active partition.");
     :set PackagesUpdateBackupFailure true;
+    :set ExitOK true;
     :error false;
   }
 
@@ -65,6 +69,7 @@
   :if ([ :len $FallbackTo ] < 1) do={
     $LogPrint error $ScriptName ("There is no inactive partition named '" . $FallbackToName . "'.");
     :set PackagesUpdateBackupFailure true;
+    :set ExitOK true;
     :error false;
   }
 
@@ -74,6 +79,7 @@
       :if (([ /terminal/inkey timeout=60 ] % 32) = 25) do={
         :if ([ $CopyTo $ScriptName $FallbackTo $FallbackToName ] = false) do={
           :set PackagesUpdateBackupFailure true;
+          :set ExitOK true;
           :error false;
         }
       }
@@ -86,6 +92,7 @@
            ($NumInstalled & $BitMask) != ($NumLatest & $BitMask)) do={
         :if ([ $CopyTo $ScriptName $FallbackTo $FallbackToName ] = false) do={
           :set PackagesUpdateBackupFailure true;
+          :set ExitOK true;
           :error false;
         }
       }
@@ -103,6 +110,9 @@
     /system/scheduler/remove [ find where name="running-from-backup-partition" ];
     $LogPrint error $ScriptName ("Failed saving configuration to partition '" . $FallbackToName . "'!");
     :set PackagesUpdateBackupFailure true;
+    :set ExitOK true;
     :error false;
   }
-} on-error={ }
+} on-error={
+  :global ExitError; $ExitError $ExitOK [ :jobname ];
+}
