@@ -12,6 +12,7 @@
 :global GlobalFunctionsReady;
 :while ($GlobalFunctionsReady != true) do={ :delay 500ms; }
 
+:local ExitOK false;
 :do {
   :local ScriptName [ :jobname ];
 
@@ -43,11 +44,13 @@
   :if ($BackupSendBinary != true && \
        $BackupSendExport != true) do={
     $LogPrint error $ScriptName ("Configured to send neither backup nor config export.");
+    :set ExitOK true;
     :error false;
   }
 
   :if ([ $ScriptLock $ScriptName ] = false) do={
     :set PackagesUpdateBackupFailure true;
+    :set ExitOK true;
     :error false;
   }
   $WaitFullyConnected;
@@ -67,6 +70,7 @@
 
   :if ([ $MkDir $DirName ] = false) do={
     $LogPrint error $ScriptName ("Failed creating directory!");
+    :set ExitOK true;
     :error false;
   }
 
@@ -158,4 +162,6 @@
     :set PackagesUpdateBackupFailure true;
   }
   /file/remove $DirName;
-} on-error={ }
+} on-error={
+  :global ExitError; $ExitError $ExitOK [ :jobname ];
+}
