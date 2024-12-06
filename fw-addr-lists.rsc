@@ -11,6 +11,7 @@
 :global GlobalFunctionsReady;
 :while ($GlobalFunctionsReady != true) do={ :delay 500ms; }
 
+:local ExitOK false;
 :do {
   :local ScriptName [ :jobname ];
 
@@ -36,6 +37,7 @@
   }
 
   :if ([ $ScriptLock $ScriptName ] = false) do={
+    :set ExitOK true;
     :error false;
   }
   $WaitFullyConnected;
@@ -184,4 +186,6 @@
         " - renewed: " . [ $HumanReadableNum $CntRenew 1000 ] . \
         " - removed: " . [ $HumanReadableNum $CntRemove 1000 ]);
   }
-} on-error={ }
+} on-error={
+  :global ExitError; $ExitError $ExitOK [ :jobname ];
+}
