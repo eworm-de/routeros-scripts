@@ -15,6 +15,7 @@
 :global GlobalFunctionsReady;
 :while ($GlobalFunctionsReady != true) do={ :delay 500ms; }
 
+:local ExitOK false;
 :do {
   :local ScriptName [ :jobname ];
 
@@ -24,6 +25,7 @@
   :global ScriptLock;
 
   :if ([ $ScriptLock $ScriptName 10 ] = false) do={
+    :set ExitOK true;
     :error false;
   }
 
@@ -79,4 +81,6 @@
       /ip/dhcp-server/lease/remove $Lease;
     }
   }
-} on-error={ }
+} on-error={
+  :global ExitError; $ExitError $ExitOK [ :jobname ];
+}
