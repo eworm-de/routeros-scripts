@@ -11,6 +11,7 @@
 :global GlobalFunctionsReady;
 :while ($GlobalFunctionsReady != true) do={ :delay 500ms; }
 
+:local ExitOK false;
 :do {
   :local ScriptName [ :jobname ];
 
@@ -22,16 +23,19 @@
   :local PdPrefix $"pd-prefix";
 
   :if ([ $ScriptLock $ScriptName ] = false) do={
+    :set ExitOK true;
     :error false;
   }
 
   :if ([ :typeof $NaAddress ] = "str") do={
     $LogPrint info $ScriptName ("An address (" . $NaAddress . ") was acquired, not a prefix. Ignoring.");
+    :set ExitOK true;
     :error false;
   }
 
   :if ([ :typeof $PdPrefix ] = "nothing") do={
     $LogPrint error $ScriptName ("This script is supposed to run from ipv6 dhcp-client.");
+    :set ExitOK true;
     :error false;
   }
 
@@ -90,4 +94,6 @@
       }
     }
   }
-} on-error={ }
+} on-error={
+  :global ExitError; $ExitError $ExitOK [ :jobname ];
+}

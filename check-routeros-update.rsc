@@ -11,6 +11,7 @@
 :global GlobalFunctionsReady;
 :while ($GlobalFunctionsReady != true) do={ :delay 500ms; }
 
+:local ExitOK false;
 :do {
   :local ScriptName [ :jobname ];
 
@@ -34,20 +35,24 @@
   :global WaitFullyConnected;
 
   :local DoUpdate do={
+    :global LogPrint;
+
     :if ([ :len [ /system/script/find where name="packages-update" ] ] > 0) do={
       /system/script/run packages-update;
     } else={
       /system/package/update/install without-paging;
     }
-    :error "Waiting for system to reboot.";
+    $LogPrint info $0 ("Waiting for system to reboot.");
   }
 
   :if ([ $ScriptLock $ScriptName ] = false) do={
+    :set ExitOK true;
     :error false;
   }
   $WaitFullyConnected;
 
   :if ([ :len [ /system/scheduler/find where name="_RebootForUpdate" ] ] > 0) do={
+    :set ExitOK true;
     :error "A reboot for update is already scheduled.";
   }
 
@@ -59,11 +64,13 @@
     :if ([ $ScriptFromTerminal $ScriptName ] = true) do={
       $LogPrint info $ScriptName ("System is already up to date.");
     }
+    :set ExitOK true;
     :error true;
   }
 
   :if ([ :len ($Update->"latest-version") ] = 0) do={
     $LogPrint info $ScriptName ("Received an empty version string from server.");
+    :set ExitOK true;
     :error false;
   }
 
@@ -76,6 +83,7 @@
 
   :if ($NumLatest < [ $VersionToNum "7.0" ]) do={
     $LogPrint warning $ScriptName ("The version '" . ($Update->"latest-version") . "' is not a valid version.");
+    :set ExitOK true;
     :error false;
   }
 
@@ -88,6 +96,8 @@
         message=("Installing ALL versions automatically, including " . $Update->"latest-version" . \
           "... Updating on " . $Identity . "..."); link=$Link; silent=true });
       $DoUpdate;
+      :set ExitOK true;
+      :error true;
     }
 
     :if ($SafeUpdatePatch = true && $NumInstalledFeature = $NumLatestFeature) do={
@@ -97,6 +107,8 @@
         message=("Version " . $Update->"latest-version" . " is a patch update for " . $Update->"channel" . \
           ", updating on " . $Identity . "..."); link=$Link; silent=true });
       $DoUpdate;
+      :set ExitOK true;
+      :error true;
     }
 
     :if ($SafeUpdateNeighbor = true) do={
@@ -111,6 +123,8 @@
           message=("Seen a neighbor (" . $Neighbor . ") running version " . $Update->"latest-version" . \
             " from " . $Update->"channel" . ", updating on " . $Identity . "..."); link=$Link; silent=true });
         $DoUpdate;
+        :set ExitOK true;
+        :error true;
       }
     }
 
@@ -131,6 +145,8 @@
           message=("Version " . $Update->"latest-version" . " is considered safe for " . $Update->"channel" . \
             ", updating on " . $Identity . "..."); link=$Link; silent=true });
         $DoUpdate;
+        :set ExitOK true;
+        :error true;
       }
     }
 
@@ -140,6 +156,7 @@
         :if (([ /terminal/inkey timeout=60 ] % 32) = 25) do={
           /system/package/update/set channel=stable;
           $LogPrint info $ScriptName ("Switched to channel 'stable', please re-run!");
+          :set ExitOK true;
           :error true;
         }
       }
@@ -147,6 +164,8 @@
       :put ("Do you want to install RouterOS version " . $Update->"latest-version" . "? [y/N]");
       :if (([ /terminal/inkey timeout=60 ] % 32) = 25) do={
         $DoUpdate;
+        :set ExitOK true;
+        :error true;
       } else={
         :put "Canceled...";
       }
@@ -155,6 +174,7 @@
     :if ($SentRouterosUpdateNotification = $Update->"latest-version") do={
       $LogPrint info $ScriptName ("Already sent the RouterOS update notification for version " . \
           $Update->"latest-version" . ".");
+      :set ExitOK true;
       :error true;
     }
 
@@ -170,6 +190,7 @@
     :if ($SentRouterosUpdateNotification = $Update->"latest-version") do={
       $LogPrint info $ScriptName ("Already sent the RouterOS downgrade notification for version " . \
           $Update->"latest-version" . ".");
+      :set ExitOK true;
       :error true;
     }
 
@@ -182,4 +203,6 @@
       " is available for downgrade.");
     :set SentRouterosUpdateNotification ($Update->"latest-version");
   }
-} on-error={ }
+} on-error={
+  :global ExitError; $ExitError $ExitOK [ :jobname ];
+}

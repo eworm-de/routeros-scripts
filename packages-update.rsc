@@ -11,6 +11,7 @@
 :global GlobalFunctionsReady;
 :while ($GlobalFunctionsReady != true) do={ :delay 500ms; }
 
+:local ExitOK false;
 :do {
   :local ScriptName [ :jobname ];
 
@@ -45,6 +46,7 @@
   }
 
   :if ([ $ScriptLock $ScriptName ] = false) do={
+    :set ExitOK true;
     :error false;
   }
 
@@ -52,11 +54,13 @@
 
   :if ([ :typeof ($Update->"latest-version") ] = "nothing") do={
     $LogPrint warning $ScriptName ("Latest version is not known.");
+    :set ExitOK true;
     :error false;
   }
 
   :if ($Update->"installed-version" = $Update->"latest-version") do={
     $LogPrint info $ScriptName ("Version " . $Update->"latest-version" . " is already installed.");
+    :set ExitOK true;
     :error true;
   }
 
@@ -85,10 +89,12 @@
           $LogPrint info $ScriptName ("User requested to continue anyway.");
         } else={
           $LogPrint info $ScriptName ("Canceled update...");
+          :set ExitOK true;
           :error false;
         }
       } else={
         $LogPrint warning $ScriptName ("Canceled non-interactive update.");
+        :set ExitOK true;
         :error false;
       }
     }
@@ -108,6 +114,7 @@
       }
     } else={
       $LogPrint warning $ScriptName ("Not installing downgrade automatically.");
+      :set ExitOK true;
       :error false;
     }
   }
@@ -116,6 +123,7 @@
     :local PkgName [ /system/package/get $Package name ];
     :if ([ $DownloadPackage $PkgName ($Update->"latest-version") ] = false) do={
       $LogPrint error $ScriptName ("Download for package " . $PkgName . " failed, update aborted.");
+      :set ExitOK true;
       :error false;
     }
   }
@@ -130,11 +138,13 @@
     :put "Do you want to (s)chedule reboot or (r)eboot now? [s/R]";
     :if (([ /terminal/inkey timeout=60 ] % 32) = 19) do={
       $Schedule $ScriptName;
+      :set ExitOK true;
       :error true;
     }
   } else={
     :if ($PackagesUpdateDeferReboot = true) do={
       $Schedule $ScriptName;
+      :set ExitOK true;
       :error true;
     }
   }
@@ -142,4 +152,6 @@
   $LogPrint info $ScriptName ("Rebooting for update.");
   :delay 1s;
   /system/reboot;
-} on-error={ }
+} on-error={
+  :global ExitError; $ExitError $ExitOK [ :jobname ];
+}

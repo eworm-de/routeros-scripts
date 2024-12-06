@@ -11,6 +11,7 @@
 :global GlobalFunctionsReady;
 :while ($GlobalFunctionsReady != true) do={ :delay 500ms; }
 
+:local ExitOK false;
 :do {
   :local ScriptName [ :jobname ];
 
@@ -19,6 +20,7 @@
   :global VersionToNum;
 
   :if ([ $ScriptLock $ScriptName ] = false) do={
+    :set ExitOK true;
     :error false;
   }
 
@@ -26,10 +28,12 @@
   :if ($RouterBoard->"current-firmware" = $RouterBoard->"upgrade-firmware") do={
     $LogPrint info $ScriptName ("Current and upgrade firmware match with version " . \
       $RouterBoard->"current-firmware" . ".");
+    :set ExitOK true;
     :error true;
   }
   :if ([ $VersionToNum ($RouterBoard->"current-firmware") ] > [ $VersionToNum ($RouterBoard->"upgrade-firmware") ]) do={
     $LogPrint info $ScriptName ("Different firmware version is available, but it is a downgrade. Ignoring.");
+    :set ExitOK true;
     :error true;
   }
 
@@ -51,4 +55,6 @@
 
   $LogPrint info $ScriptName ("Firmware upgrade successful, rebooting.");
   /system/reboot;
-} on-error={ }
+} on-error={
+  :global ExitError; $ExitError $ExitOK [ :jobname ];
+}

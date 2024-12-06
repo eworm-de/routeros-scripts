@@ -15,6 +15,7 @@
 :global GlobalFunctionsReady;
 :while ($GlobalFunctionsReady != true) do={ :delay 500ms; }
 
+:local ExitOK false;
 :do {
   :local ScriptName [ :jobname ];
 
@@ -26,6 +27,7 @@
   :global WaitFullyConnected;
 
   :if ([ $ScriptLock $ScriptName ] = false) do={
+    :set ExitOK true;
     :error false;
   }
   $WaitFullyConnected;
@@ -37,6 +39,7 @@
 
   :if ([ :len $PackagePath ] = 0) do={
     $LogPrint warning $ScriptName ("The CAPsMAN package path is not defined, can not download packages.");
+    :set ExitOK true;
     :error false;
   }
 
@@ -44,6 +47,7 @@
     :if ([ $MkDir $PackagePath ] = false) do={
       $LogPrint warning $ScriptName ("Creating directory at CAPsMAN package path (" . \
         $PackagePath . ") failed!");
+      :set ExitOK true;
       :error false;
     }
     $LogPrint info $ScriptName ("Created directory at CAPsMAN package path (" . $PackagePath . \
@@ -93,4 +97,6 @@
       /interface/wifi/capsman/remote-cap/upgrade [ find where version!=$InstalledVersion ];
     }
   }
-} on-error={ }
+} on-error={
+  :global ExitError; $ExitError $ExitOK [ :jobname ];
+}

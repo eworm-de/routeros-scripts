@@ -11,6 +11,7 @@
 :global GlobalFunctionsReady;
 :while ($GlobalFunctionsReady != true) do={ :delay 500ms; }
 
+:local ExitOK false;
 :do {
   :local ScriptName [ :jobname ];
 
@@ -83,4 +84,6 @@
     $LogPrint debug $ScriptName ("Updating scheduler _ModeButtonScheduler...");
     /system/scheduler/set $Scheduler start-time=[ /system/clock/get time ];
   }
-} on-error={ }
+} on-error={
+  :global ExitError; $ExitError $ExitOK [ :jobname ];
+}
