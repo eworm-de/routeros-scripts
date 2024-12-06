@@ -11,6 +11,7 @@
 :global GlobalFunctionsReady;
 :while ($GlobalFunctionsReady != true) do={ :delay 500ms; }
 
+:local ExitOK false;
 :do {
   :local ScriptName [ :jobname ];
 
@@ -25,6 +26,7 @@
        [ :typeof $leaseServerName ] = "nothing" || \
        [ :typeof $leaseBound ] = "nothing") do={
     $LogPrint error $ScriptName ("This script is supposed to run from ip dhcp-server.");
+    :set ExitOK true;
     :error false;
   }
 
@@ -32,11 +34,13 @@
     "de" "" ] . "assigned lease " . $leaseActIP . " to " . $leaseActMAC);
 
   :if ([ $ScriptLock $ScriptName 10 ] = false) do={
+    :set ExitOK true;
     :error false;
   }
 
   :if ([ :len [ /system/script/job/find where script=$ScriptName ] ] > 1) do={
     $LogPrint debug $ScriptName ("More invocations are waiting, exiting early.");
+    :set ExitOK true;
     :error true;
   }
 
@@ -56,4 +60,6 @@
       $LogPrint warning $ScriptName ("Running script '" . $Script . "' failed!");
     }
   }
-} on-error={ }
+} on-error={
+  :global ExitError; $ExitError $ExitOK [ :jobname ];
+}
