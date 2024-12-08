@@ -26,6 +26,8 @@
   :if ([ :len $Scheduler ] = 0) do={
     $LogPrint info $ScriptName ("Creating scheduler _ModeButtonScheduler, counting presses...");
     :global ModeButtonScheduler do={
+      :local FuncName $0;
+
       :global ModeButton;
 
       :global LogPrint;
@@ -54,7 +56,7 @@
 
       :if ([ :len $Code ] > 0) do={
         :if ([ $ValidateSyntax $Code ] = true) do={
-          $LogPrint info $0 ("Acting on " . $Count . " mode-button presses: " . $Code);
+          $LogPrint info $FuncName ("Acting on " . $Count . " mode-button presses: " . $Code);
 
           :for I from=1 to=$Count do={
             $LEDInvert;
@@ -69,13 +71,15 @@
           :do {
             [ :parse $Code ];
           } on-error={
-            $LogPrint warning $0 ("The code for " . $Count . " mode-button presses failed with runtime error!");
+            $LogPrint warning $FuncName \
+                ("The code for " . $Count . " mode-button presses failed with runtime error!");
           }
         } else={
-          $LogPrint warning $0 ("The code for " . $Count . " mode-button presses failed syntax validation!");
+          $LogPrint warning $FuncName \
+              ("The code for " . $Count . " mode-button presses failed syntax validation!");
         }
       } else={
-        $LogPrint info $0 ("No action defined for " . $Count . " mode-button presses.");
+        $LogPrint info $FuncName ("No action defined for " . $Count . " mode-button presses.");
       }
     }
     /system/scheduler/add name="_ModeButtonScheduler" \
