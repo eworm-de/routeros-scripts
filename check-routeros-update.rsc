@@ -35,6 +35,8 @@
   :global WaitFullyConnected;
 
   :local DoUpdate do={
+    :local ScriptName [ :tostr $1 ];
+
     :global LogPrint;
 
     :if ([ :len [ /system/script/find where name="packages-update" ] ] > 0) do={
@@ -42,7 +44,7 @@
     } else={
       /system/package/update/install without-paging;
     }
-    $LogPrint info $0 ("Waiting for system to reboot.");
+    $LogPrint info $ScriptName ("Waiting for system to reboot.");
   }
 
   :if ([ $ScriptLock $ScriptName ] = false) do={
@@ -95,7 +97,7 @@
         subject=([ $SymbolForNotification "sparkles" ] . "RouterOS update: " . $Update->"latest-version"); \
         message=("Installing ALL versions automatically, including " . $Update->"latest-version" . \
           "... Updating on " . $Identity . "..."); link=$Link; silent=true });
-      $DoUpdate;
+      $DoUpdate $ScriptName;
       :set ExitOK true;
       :error true;
     }
@@ -106,7 +108,7 @@
         subject=([ $SymbolForNotification "sparkles" ] . "RouterOS update: " . $Update->"latest-version"); \
         message=("Version " . $Update->"latest-version" . " is a patch update for " . $Update->"channel" . \
           ", updating on " . $Identity . "..."); link=$Link; silent=true });
-      $DoUpdate;
+      $DoUpdate $ScriptName;
       :set ExitOK true;
       :error true;
     }
@@ -122,7 +124,7 @@
           subject=([ $SymbolForNotification "sparkles" ] . "RouterOS update: " . $Update->"latest-version"); \
           message=("Seen a neighbor (" . $Neighbor . ") running version " . $Update->"latest-version" . \
             " from " . $Update->"channel" . ", updating on " . $Identity . "..."); link=$Link; silent=true });
-        $DoUpdate;
+        $DoUpdate $ScriptName;
         :set ExitOK true;
         :error true;
       }
@@ -144,7 +146,7 @@
           subject=([ $SymbolForNotification "sparkles" ] . "RouterOS update: " . $Update->"latest-version"); \
           message=("Version " . $Update->"latest-version" . " is considered safe for " . $Update->"channel" . \
             ", updating on " . $Identity . "..."); link=$Link; silent=true });
-        $DoUpdate;
+        $DoUpdate $ScriptName;
         :set ExitOK true;
         :error true;
       }
@@ -163,7 +165,7 @@
 
       :put ("Do you want to install RouterOS version " . $Update->"latest-version" . "? [y/N]");
       :if (([ /terminal/inkey timeout=60 ] % 32) = 25) do={
-        $DoUpdate;
+        $DoUpdate $ScriptName;
         :set ExitOK true;
         :error true;
       } else={
