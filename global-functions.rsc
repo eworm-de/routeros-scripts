@@ -434,7 +434,7 @@
   :global LogPrint; 
 
   :if ($ExitOK = "false") do={
-    $LogPrint error $ScriptName ("Script exited with error.");
+    $LogPrint error $ScriptName ("Script '" . $ScriptName . "' exited with error.");
   }
 }
 
