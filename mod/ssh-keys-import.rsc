@@ -12,7 +12,7 @@
 :global SSHKeysImportFile;
 
 # import single key passed as string
-:set SSHKeysImport do={
+:set SSHKeysImport do={ :do {
   :local Key  [ :tostr $1 ];
   :local User [ :tostr $2 ];
 
@@ -64,7 +64,9 @@
     /file/remove "tmpfs/ssh-keys-import";
     :return false;
   }
-}
+} on-error={
+  :global ExitError; $ExitError false $0;
+} }
 
 # import keys from a file
 :set SSHKeysImportFile do={
