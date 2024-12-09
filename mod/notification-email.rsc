@@ -34,7 +34,7 @@
 }
 
 # flush e-mail queue
-:set FlushEmailQueue do={
+:set FlushEmailQueue do={ :do {
   :global EmailQueue;
 
   :global EitherOr;
@@ -113,7 +113,9 @@
   } else={
     /system/scheduler/set interval=1m comment="Waiting for retry..." $Scheduler;
   }
-}
+} on-error={
+  :global ExitError; $ExitError false $0;
+} }
 
 # generate filter for log-forward
 :set LogForwardFilterLogForwarding do={
