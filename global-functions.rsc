@@ -427,9 +427,9 @@
 
 # fetch huge data to file, read in chunks
 :set FetchHuge do={
-  :local ScriptName [ :tostr  $1 ];
-  :local Url        [ :tostr  $2 ];
-  :local CheckCert  [ :tobool $3 ];
+  :local ScriptName [ :tostr $1 ];
+  :local Url        [ :tostr $2 ];
+  :local CheckCert  [ :tostr $3 ];
 
   :global CleanName;
   :global FetchUserAgentStr;
@@ -439,7 +439,7 @@
   :global MkDir;
   :global WaitForFile;
 
-  :set CheckCert [ $IfThenElse ($CheckCert = false) "no" "yes-without-crl" ];
+  :set CheckCert [ $IfThenElse ($CheckCert = "false") "no" "yes-without-crl" ];
 
   :local DirName ("tmpfs/" . [ $CleanName $ScriptName ]);
   :if ([ $MkDir $DirName ] = false) do={
