@@ -1374,11 +1374,13 @@
 }
 
 # send notification via NotificationFunctions - expects at least two string arguments
-:set SendNotification do={
+:set SendNotification do={ :do {
   :global SendNotification2;
 
   $SendNotification2 ({ origin=$0; subject=$1; message=$2; link=$3; silent=$4 });
-}
+} on-error={
+  :global ExitError; $ExitError false $0;
+} }
 
 # send notification via NotificationFunctions - expects one array argument
 :set SendNotification2 do={
