@@ -15,7 +15,7 @@
 :global SendNtfy2;
 
 # flush ntfy queue
-:set FlushNtfyQueue do={
+:set FlushNtfyQueue do={ :do {
   :global NtfyQueue;
   :global NtfyMessageIDs;
 
@@ -52,7 +52,9 @@
     /system/scheduler/remove [ find where name="_FlushNtfyQueue" ];
     :set NtfyQueue;
   }
-}
+} on-error={
+  :global ExitError; $ExitError false $0;
+} }
 
 # send notification via ntfy - expects one array argument
 :set ($NotificationFunctions->"ntfy") do={
