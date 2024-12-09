@@ -428,13 +428,15 @@
 
 # simple macro to print error message on unintentional error
 :set ExitError do={
-  :local ExitOK     [ :tostr $1 ];
-  :local ScriptName [ :tostr $2 ];
+  :local ExitOK [ :tostr $1 ];
+  :local Name   [ :tostr $2 ];
 
+  :global IfThenElse;
   :global LogPrint; 
 
   :if ($ExitOK = "false") do={
-    $LogPrint error $ScriptName ("Script '" . $ScriptName . "' exited with error.");
+    $LogPrint error $Name ([ $IfThenElse ([ :pick $Name 0 1 ] = "\$") \
+        "Function" "Script" ] . " '" . $Name . "' exited with error.");
   }
 }
 
