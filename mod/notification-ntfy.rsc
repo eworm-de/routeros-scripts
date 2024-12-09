@@ -134,11 +134,13 @@
 }
 
 # send notification via ntfy - expects at least two string arguments
-:set SendNtfy do={
+:set SendNtfy do={ :do {
   :global SendNtfy2;
 
   $SendNtfy2 ({ origin=$0; subject=$1; message=$2; link=$3; silent=$4 });
-}
+} on-error={
+  :global ExitError; $ExitError false $0;
+} }
 
 # send notification via ntfy - expects one array argument
 :set SendNtfy2 do={
