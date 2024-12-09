@@ -15,7 +15,7 @@
 :global SendTelegram2;
 
 # flush telegram queue
-:set FlushTelegramQueue do={
+:set FlushTelegramQueue do={ :do {
   :global TelegramQueue;
   :global TelegramMessageIDs;
 
@@ -56,7 +56,9 @@
     /system/scheduler/remove [ find where name="_FlushTelegramQueue" ];
     :set TelegramQueue;
   }
-}
+} on-error={
+  :global ExitError; $ExitError false $0;
+} }
 
 # send notification via telegram - expects one array argument
 :set ($NotificationFunctions->"telegram") do={
@@ -180,11 +182,13 @@
 }
 
 # send notification via telegram - expects at least two string arguments
-:set SendTelegram do={
+:set SendTelegram do={ :do {
   :global SendTelegram2;
 
   $SendTelegram2 ({ origin=$0; subject=$1; message=$2; link=$3; silent=$4 });
-}
+} on-error={
+  :global ExitError; $ExitError false $0;
+} }
 
 # send notification via telegram - expects one array argument
 :set SendTelegram2 do={

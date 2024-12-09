@@ -10,7 +10,7 @@
 
 :global BridgePortTo;
 
-:set BridgePortTo do={
+:set BridgePortTo do={ :do {
   :local BridgePortTo [ :tostr $1 ];
 
   :global IfThenElse;
@@ -65,4 +65,6 @@
     $LogPrint info $0 ("Re-enabling interfaces...");
     /interface/ethernet/enable $InterfaceReEnable;
   }
-}
+} on-error={
+  :global ExitError; $ExitError false $0;
+} }

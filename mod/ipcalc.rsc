@@ -12,7 +12,7 @@
 :global IPCalcReturn;
 
 # print netmask, network, min host, max host and broadcast
-:set IPCalc do={
+:set IPCalc do={ :do {
   :local Input [ :tostr $1 ];
 
   :global FormatLine;
@@ -27,7 +27,9 @@
     [ $FormatLine "HostMin" ($Values->"hostmin") ] . "\n" . \
     [ $FormatLine "HostMax" ($Values->"hostmax") ] . "\n" . \
     [ $FormatLine "Broadcast" ($Values->"broadcast") ]) ];
-}
+} on-error={
+  :global ExitError; $ExitError false $0;
+} }
 
 # calculate and return netmask, network, min host, max host and broadcast
 :set IPCalcReturn do={

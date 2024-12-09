@@ -34,7 +34,7 @@
 }
 
 # flush e-mail queue
-:set FlushEmailQueue do={
+:set FlushEmailQueue do={ :do {
   :global EmailQueue;
 
   :global EitherOr;
@@ -113,7 +113,9 @@
   } else={
     /system/scheduler/set interval=1m comment="Waiting for retry..." $Scheduler;
   }
-}
+} on-error={
+  :global ExitError; $ExitError false $0;
+} }
 
 # generate filter for log-forward
 :set LogForwardFilterLogForwarding do={
@@ -224,11 +226,13 @@
 }
 
 # send notification via e-mail - expects at least two string arguments
-:set SendEMail do={
+:set SendEMail do={ :do {
   :global SendEMail2;
 
   $SendEMail2 ({ origin=$0; subject=$1; message=$2; link=$3 });
-}
+} on-error={
+  :global ExitError; $ExitError false $0;
+} }
 
 # send notification via e-mail - expects one array argument
 :set SendEMail2 do={

@@ -428,13 +428,15 @@
 
 # simple macro to print error message on unintentional error
 :set ExitError do={
-  :local ExitOK     [ :tostr $1 ];
-  :local ScriptName [ :tostr $2 ];
+  :local ExitOK [ :tostr $1 ];
+  :local Name   [ :tostr $2 ];
 
+  :global IfThenElse;
   :global LogPrint; 
 
   :if ($ExitOK = "false") do={
-    $LogPrint error $ScriptName ("Script '" . $ScriptName . "' exited with error.");
+    $LogPrint error $Name ([ $IfThenElse ([ :pick $Name 0 1 ] = "\$") \
+        "Function" "Script" ] . " '" . $Name . "' exited with error.");
   }
 }
 
@@ -1016,7 +1018,7 @@
 }
 
 # install new scripts, update existing scripts
-:set ScriptInstallUpdate do={
+:set ScriptInstallUpdate do={ :do {
   :local Scripts    [ :toarray $1 ];
   :local NewComment [ :tostr   $2 ];
 
@@ -1235,7 +1237,9 @@
     :set GlobalConfigChanges;
     :set GlobalConfigMigration;
   }
-}
+} on-error={
+  :global ExitError; $ExitError false $0;
+} }
 
 # lock script against multiple invocation
 :set ScriptLock do={
@@ -1370,11 +1374,13 @@
 }
 
 # send notification via NotificationFunctions - expects at least two string arguments
-:set SendNotification do={
+:set SendNotification do={ :do {
   :global SendNotification2;
 
   $SendNotification2 ({ origin=$0; subject=$1; message=$2; link=$3; silent=$4 });
-}
+} on-error={
+  :global ExitError; $ExitError false $0;
+} }
 
 # send notification via NotificationFunctions - expects one array argument
 :set SendNotification2 do={

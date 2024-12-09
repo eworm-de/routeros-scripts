@@ -25,7 +25,7 @@
 
   :if ([ :len $Scheduler ] = 0) do={
     $LogPrint info $ScriptName ("Creating scheduler _ModeButtonScheduler, counting presses...");
-    :global ModeButtonScheduler do={
+    :global ModeButtonScheduler do={ :do {
       :local FuncName $0;
 
       :global ModeButton;
@@ -81,7 +81,9 @@
       } else={
         $LogPrint info $FuncName ("No action defined for " . $Count . " mode-button presses.");
       }
-    }
+    } on-error={
+      :global ExitError; $ExitError false $0;
+    } }
     /system/scheduler/add name="_ModeButtonScheduler" \
         on-event=":global ModeButtonScheduler; \$ModeButtonScheduler;" interval=3s;
   } else={
