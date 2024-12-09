@@ -1018,7 +1018,7 @@
 }
 
 # install new scripts, update existing scripts
-:set ScriptInstallUpdate do={
+:set ScriptInstallUpdate do={ :do {
   :local Scripts    [ :toarray $1 ];
   :local NewComment [ :tostr   $2 ];
 
@@ -1237,7 +1237,9 @@
     :set GlobalConfigChanges;
     :set GlobalConfigMigration;
   }
-}
+} on-error={
+  :global ExitError; $ExitError false $0;
+} }
 
 # lock script against multiple invocation
 :set ScriptLock do={
