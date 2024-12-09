@@ -166,11 +166,13 @@
 }
 
 # send notification via Matrix - expects at least two string arguments
-:set SendMatrix do={
+:set SendMatrix do={ :do {
   :global SendMatrix2;
 
   $SendMatrix2 ({ origin=$0; subject=$1; message=$2; link=$3 });
-}
+} on-error={
+  :global ExitError; $ExitError false $0;
+} }
 
 # send notification via Matrix - expects one array argument
 :set SendMatrix2 do={
