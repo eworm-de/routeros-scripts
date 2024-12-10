@@ -71,7 +71,7 @@
     $LogPrint warning $0 ("Flushing E-Mail messages from scheduler, but queue is empty.");
   }
 
-  /system/scheduler/set interval=([ $EitherOr $QueueLen 1 ] . "m") comment="Sending..." $Scheduler;
+  /system/scheduler/set interval=($QueueLen . "m") comment="Sending..." $Scheduler;
 
   :foreach Id,Message in=$EmailQueue do={
     :if ([ :typeof $Message ] = "array" ) do={
