@@ -46,8 +46,9 @@
   :local AllDone true;
   :local QueueLen [ :len $EmailQueue ];
   :local Scheduler [ /system/scheduler/find where name="_FlushEmailQueue" ];
+  :local SchedVal [ /system/scheduler/get $Scheduler ];
 
-  :if ([ :len $Scheduler ] > 0 && [ /system/scheduler/get $Scheduler interval ] < 1m) do={
+  :if ([ :len $Scheduler ] > 0 && ($SchedVal->"interval") < 1m) do={
     /system/scheduler/set interval=1m comment="Doing initial checks..." $Scheduler;
   }
 
@@ -111,7 +112,8 @@
     /system/scheduler/remove $Scheduler;
     :set EmailQueue;
   } else={
-    /system/scheduler/set interval=1m comment="Waiting for retry..." $Scheduler;
+    /system/scheduler/set interval=(($SchedVal->"run-count") . "m") \
+        comment="Waiting for retry..." $Scheduler;
   }
 } on-error={
   :global ExitError; $ExitError false $0;
