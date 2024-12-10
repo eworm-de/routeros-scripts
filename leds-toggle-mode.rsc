@@ -6,8 +6,4 @@
 # toggle LEDs mode
 # https://git.eworm.de/cgit/routeros-scripts/about/doc/leds-mode.md
 
-:if ([ /system/leds/settings/get all-leds-off ] = "never") do={
-  /system/leds/settings/set all-leds-off=immediate;
-} else={
-  /system/leds/settings/set all-leds-off=never;
-}
+/system/leds/settings/set all-leds-off=(({ "never"="immediate"; "immediate"="never" })->[ get all-leds-off ]);
