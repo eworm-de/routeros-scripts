@@ -186,7 +186,7 @@
 
 # Run different commands with multiple mode-button presses.
 :global ModeButton {
-  1="/system/script/run leds-toggle-mode;";
+  1="/system/leds/settings/set all-leds-off=(({ \"never\"=\"immediate\"; \"immediate\"=\"never\" })->[ get all-leds-off ]);";
   2=":global Identity; :global SendNotification; :global SymbolForNotification; \$SendNotification ([ \$SymbolForNotification \"earth\" ] . \"Hello...\") (\"Hello world, \" . \$Identity . \" calling!\");";
   3="/system/shutdown;";
   4="/system/reboot;";
