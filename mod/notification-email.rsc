@@ -47,6 +47,12 @@
   :local QueueLen [ :len $EmailQueue ];
   :local Scheduler [ /system/scheduler/find where name="_FlushEmailQueue" ];
 
+  :if ([ :len $Scheduler ] > 0 && $QueueLen = 0) do={
+    $LogPrint warning $0 ("Flushing E-Mail messages from scheduler, but queue is empty.");
+    /system/scheduler/remove $Scheduler;
+    :return false;
+  }
+
   :if ([ :len $Scheduler ] < 0) do={
     /system/scheduler/add name="_FlushEmailQueue" interval=1m start-time=startup \
         comment="Doing initial checks..." on-event=(":global FlushEmailQueue; \$FlushEmailQueue;");
@@ -72,10 +78,6 @@
   :if ([ :typeof [ :toip ($EMailSettings->"server") ] ] != "ip" && [ $IsDNSResolving ] = false) do={
     $LogPrint debug $0 ("Server address is a DNS name and resolving fails, not flushing.");
     :return false;
-  }
-
-  :if ([ :len $Scheduler ] > 0 && $QueueLen = 0) do={
-    $LogPrint warning $0 ("Flushing E-Mail messages from scheduler, but queue is empty.");
   }
 
   /system/scheduler/set interval=($QueueLen . "m") comment="Sending..." $Scheduler;
