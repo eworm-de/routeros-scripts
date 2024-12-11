@@ -53,6 +53,10 @@
     :return false;
   }
 
+  :if ($QueueLen = 0) do={
+    :return true;
+  }
+
   :if ([ :len $Scheduler ] < 0) do={
     /system/scheduler/add name="_FlushEmailQueue" interval=1m start-time=startup \
         comment="Doing initial checks..." on-event=(":global FlushEmailQueue; \$FlushEmailQueue;");
