@@ -114,6 +114,12 @@
     :return true;
   }
 
+  :if ([ :len [ /system/scheduler/find where name="_FlushEmailQueue" ] ] = 0 && \
+       [ :typeof $EmailQueue ] = "nothing") do={
+    $LogPrint info $0 ("Queue was purged? Exiting.");
+    :return false;
+  }
+
   /system/scheduler/set interval=(($SchedVal->"run-count") . "m") \
       comment="Waiting for retry..." $Scheduler;
 } on-error={
