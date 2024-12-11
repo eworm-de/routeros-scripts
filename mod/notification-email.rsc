@@ -46,9 +46,15 @@
   :local AllDone true;
   :local QueueLen [ :len $EmailQueue ];
   :local Scheduler [ /system/scheduler/find where name="_FlushEmailQueue" ];
-  :local SchedVal [ /system/scheduler/get $Scheduler ];
 
-  :if ([ :len $Scheduler ] > 0 && ($SchedVal->"interval") < 1m) do={
+  :if ([ :len $Scheduler ] < 0) do={
+    /system/scheduler/add name="_FlushEmailQueue" interval=1m start-time=startup \
+        comment="Doing initial checks..." on-event=(":global FlushEmailQueue; \$FlushEmailQueue;");
+    :set Scheduler [ /system/scheduler/find where name="_FlushEmailQueue" ];
+  }
+
+  :local SchedVal [ /system/scheduler/get $Scheduler ];
+  :if (($SchedVal->"interval") < 1m) do={
     /system/scheduler/set interval=1m comment="Doing initial checks..." $Scheduler;
   }
 
