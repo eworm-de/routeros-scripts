@@ -111,10 +111,11 @@
   :if ($AllDone = true && $QueueLen = [ :len $EmailQueue ]) do={
     /system/scheduler/remove $Scheduler;
     :set EmailQueue;
-  } else={
-    /system/scheduler/set interval=(($SchedVal->"run-count") . "m") \
-        comment="Waiting for retry..." $Scheduler;
+    :return true;
   }
+
+  /system/scheduler/set interval=(($SchedVal->"run-count") . "m") \
+      comment="Waiting for retry..." $Scheduler;
 } on-error={
   :global ExitError; $ExitError false $0;
 } }
