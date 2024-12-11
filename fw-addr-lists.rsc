@@ -92,7 +92,9 @@
         :set Line ($Line->0);
         :local Address;
         :if ([ :pick $Line 0 1 ] = "{") do={
-          :set Address [ :tostr ([ :deserialize from=json $Line ]->"cidr") ];
+          :do {
+            :set Address [ :tostr ([ :deserialize from=json $Line ]->"cidr") ];
+          } on-error={ }
         } else={
           :set Address ([ :pick $Line 0 [ $FindDelim $Line ] ] . ($List->"cidr"));
         }
