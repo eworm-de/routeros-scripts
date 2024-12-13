@@ -39,7 +39,7 @@
       :do {
         /tool/fetch check-certificate=yes-without-crl output=none http-method=post \
           http-header-field=($Message->"headers") http-data=($Message->"text") \
-          ($Message->"url") user=($Message->"user") password=($Message->"pass") as-value;
+          ($Message->"url") as-value;
         :set ($NtfyQueue->$Id);
       } on-error={
         $LogPrint debug $0 ("Sending queued Ntfy message failed.");
@@ -96,6 +96,9 @@
   :local Headers ({ [ $FetchUserAgentStr ($Notification->"origin") ]; \
     ("Priority: " . [ $IfThenElse ($Notification->"silent") "low" "default" ]); \
     ("Title: " . "[" . $IdentityExtra . $Identity . "] " . ($Notification->"subject")) });
+  :if ([ :len $User ] > 0 || [ :len $Pass ] > 0) do={
+    :set Headers ($Headers, ("Authorization: Basic " . [ :convert to=base64 ($User . ":" . $Pass) ]));
+  }
   :if ([ :len $Token ] > 0) do={
     :set Headers ($Headers, ("Authorization: Bearer " . $Token));
   }
@@ -112,7 +115,7 @@
       }
     }
     /tool/fetch check-certificate=yes-without-crl output=none http-method=post \
-      http-header-field=$Headers http-data=$Text $Url user=$User password=$Pass as-value;
+      http-header-field=$Headers http-data=$Text $Url as-value;
   } on-error={
     $LogPrint info $0 ("Failed sending ntfy notification! Queuing...");
 
@@ -123,7 +126,7 @@
       "This message was queued since " . [ /system/clock/get date ] . " " . \
       [ /system/clock/get time ] . " and may be obsolete.");
     :set ($NtfyQueue->[ :len $NtfyQueue ]) \
-      { url=$Url; user=$User; pass=$Pass; headers=$Headers; text=$Text };
+      { url=$Url; headers=$Headers; text=$Text };
     :if ([ :len [ /system/scheduler/find where name="_FlushNtfyQueue" ] ] = 0) do={
       /system/scheduler/add name="_FlushNtfyQueue" interval=1m start-time=startup \
         on-event=(":global FlushNtfyQueue; \$FlushNtfyQueue;");
