@@ -67,6 +67,8 @@
   :global NtfyServerOverride;
   :global NtfyServerPass;
   :global NtfyServerPassOverride;
+  :global NtfyServerToken;
+  :global NtfyServerTokenOverride;
   :global NtfyServerUser;
   :global NtfyServerUserOverride;
   :global NtfyTopic;
@@ -83,6 +85,7 @@
   :local Server [ $EitherOr ($NtfyServerOverride->($Notification->"origin")) $NtfyServer ];
   :local User [ $EitherOr ($NtfyServerUserOverride->($Notification->"origin")) $NtfyServerUser ];
   :local Pass [ $EitherOr ($NtfyServerPassOverride->($Notification->"origin")) $NtfyServerPass ];
+  :local Token [ $EitherOr ($NtfyServerTokenOverride->($Notification->"origin")) $NtfyServerToken ];
   :local Topic [ $EitherOr ($NtfyTopicOverride->($Notification->"origin")) $NtfyTopic ];
 
   :if ([ :len $Topic ] = 0) do={
@@ -93,6 +96,9 @@
   :local Headers ({ [ $FetchUserAgentStr ($Notification->"origin") ]; \
     ("Priority: " . [ $IfThenElse ($Notification->"silent") "low" "default" ]); \
     ("Title: " . "[" . $IdentityExtra . $Identity . "] " . ($Notification->"subject")) });
+  :if ([ :len $Token ] > 0) do={
+    :set Headers ($Headers, ("Authorization: Bearer " . $Token));
+  }
   :local Text (($Notification->"message") . "\n");
   :if ([ :len ($Notification->"link") ] > 0) do={
     :set Text ($Text . "\n" . [ $SymbolForNotification "link" ] . ($Notification->"link"));

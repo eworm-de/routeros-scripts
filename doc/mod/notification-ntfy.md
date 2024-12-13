@@ -52,6 +52,8 @@ basic authentication. Configure `NtfyServerUser` and `NtfyServerPass` for this.
 Even authentication via access token is possible, adding it as password with
 a blank username.
 
+Also available is `NtfyServerToken` to add a bearer token for authentication.
+
 For a custom service installing an additional certificate may be required.
 You may want to install that certificate manually, after finding the
 [certificate name from browser](../../CERTIFICATES.md).
