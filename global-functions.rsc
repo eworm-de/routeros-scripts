@@ -309,16 +309,19 @@
       ([ $FormatLine "Location" ($Snmp->"location") ] . "\n") ] . \
     [ $IfThenElse ([ :len ($Snmp->"contact") ] > 0) \
       ([ $FormatLine "Contact" ($Snmp->"contact") ] . "\n") ] . \
-    [ $FormatLine "Board name" ($Resource->"board-name") ] . "\n" . \
-    [ $FormatLine "Architecture" ($Resource->"architecture-name") ] . "\n" . \
+    "Hardware:\n" . \
+    [ $FormatLine "    Board" ($Resource->"board-name") ] . "\n" . \
+    [ $FormatLine "    Arch" ($Resource->"architecture-name") ] . "\n" . \
     [ $IfThenElse ($RouterBoard->"routerboard" = true) \
-      ([ $FormatLine "Model" ($RouterBoard->"model") ] . \
+      ([ $FormatLine "    Model" ($RouterBoard->"model") ] . \
        [ $IfThenElse ([ :len ($RouterBoard->"revision") ] > 0) \
            (" " . $RouterBoard->"revision") ] . "\n" . \
-       [ $FormatLine "Serial number" ($RouterBoard->"serial-number") ] . "\n") ] . \
-    [ $IfThenElse ([ :len ($License->"level") ] > 0) \
-      ([ $FormatLine "License" ($License->"level") ] . "\n") ] . \
+       [ $FormatLine "    Serial" ($RouterBoard->"serial-number") ] . "\n") ] . \
+    [ $IfThenElse ([ :len ($License->"nlevel") ] > 0) \
+      ([ $FormatLine "    License" ("level " . ($License->"nlevel")) ] . "\n") ] . \
     "RouterOS:\n" . \
+    [ $IfThenElse ([ :len ($License->"level") ] > 0) \
+      ([ $FormatLine "    License" ("level " . ($License->"level")) ] . "\n") ] . \
     [ $FormatLine "    Channel" ($Update->"channel") ] . "\n" . \
     [ $FormatLine "    Installed" ($Update->"installed-version") ] . "\n" . \
     [ $IfThenElse ([ :typeof ($Update->"latest-version") ] != "nothing" && \
