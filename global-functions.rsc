@@ -919,6 +919,13 @@
 # parse key value store
 :set ParseKeyValueStore do={
   :local Source $1;
+
+  :if ([ :pick $Source 0 1 ] = "{") do={
+    :do {
+      :return [ :deserialize from=json $Source ];
+    } on-error={ }
+  }
+
   :if ([ :typeof $Source ] != "array") do={
     :set Source [ :tostr $1 ];
   }
