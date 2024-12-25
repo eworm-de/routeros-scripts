@@ -925,8 +925,9 @@
   :local Result ({});
   :foreach KeyValue in=[ :toarray $Source ] do={
     :if ([ :find $KeyValue "=" ]) do={
-      :set ($Result->[ :pick $KeyValue 0 [ :find $KeyValue "=" ] ]) \
-        [ :pick $KeyValue ([ :find $KeyValue "=" ] + 1) [ :len $KeyValue ] ];
+      :local Key [ :pick $KeyValue 0 [ :find $KeyValue "=" ] ];
+      :local Value [ :pick $KeyValue ([ :find $KeyValue "=" ] + 1) [ :len $KeyValue ] ];
+      :set ($Result->$Key) $Value;
     } else={
       :set ($Result->$KeyValue) true;
     }
