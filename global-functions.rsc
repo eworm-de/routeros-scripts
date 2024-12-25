@@ -927,6 +927,8 @@
     :if ([ :find $KeyValue "=" ]) do={
       :local Key [ :pick $KeyValue 0 [ :find $KeyValue "=" ] ];
       :local Value [ :pick $KeyValue ([ :find $KeyValue "=" ] + 1) [ :len $KeyValue ] ];
+      :if ($Value="true") do={ :set Value true; }
+      :if ($Value="false") do={ :set Value false; }
       :set ($Result->$Key) $Value;
     } else={
       :set ($Result->$KeyValue) true;
