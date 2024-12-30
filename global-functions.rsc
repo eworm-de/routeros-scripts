@@ -479,9 +479,13 @@
   :local FileSize [ /file/get $FileName size ];
   :local Return "";
   :local VarSize 0;
-  :while ($VarSize < $FileSize) do={
+  :while ($VarSize != $FileSize) do={
     :set Return ($Return . ([ /file/read offset=$VarSize chunk-size=32768 file=$FileName as-value ]->"data"));
+    :set FileSize [ /file/get $FileName size ];
     :set VarSize [ :len $Return ];
+    :if ($VarSize > $FileSize) do={
+      :delay 100ms;
+    }
   }
   /file/remove $DirName;
   :return $Return;
