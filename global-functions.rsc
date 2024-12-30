@@ -1591,16 +1591,6 @@
     :delay $Delay;
     :set I ($I + 1);
   }
-
-  :local File [ /file/find where name=$FileName ];
-  :local SizeA 0;
-  :local SizeB 1;
-  :while ($SizeA < $SizeB) do={
-    :set SizeA $SizeB;
-    :delay $Delay;
-    :set SizeB [ /file/get $File size ];
-  }
-
   :return true;
 }
 
