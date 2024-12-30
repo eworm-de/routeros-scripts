@@ -107,9 +107,9 @@
     { url="https://lists.blocklist.de/lists/strongips.txt";
       cert="Certum Trusted Network CA" };
 #    { url="https://www.spamhaus.org/drop/drop_v4.json";
-#      cert="GTS Root R4" };
+#      cert="ISRG Root X1" };
 #    { url="https://www.spamhaus.org/drop/drop_v6.json";
-#      cert="GTS Root R4" };
+#      cert="ISRG Root X1" };
   };
 #  "mikrotik"={
 #    { url="https://git.eworm.de/cgit/routeros-scripts/plain/fw-addr-lists.d/mikrotik";
