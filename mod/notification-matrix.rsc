@@ -1,6 +1,6 @@
 #!rsc by RouterOS
 # RouterOS script: mod/notification-matrix
-# Copyright (c) 2013-2024 Michael Gisbers <michael@gisbers.de>
+# Copyright (c) 2013-2025 Michael Gisbers <michael@gisbers.de>
 #                         Christian Hesse <mail@eworm.de>
 # https://git.eworm.de/cgit/routeros-scripts/about/COPYING.md
 #

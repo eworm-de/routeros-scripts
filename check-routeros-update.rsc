@@ -1,6 +1,6 @@
 #!rsc by RouterOS
 # RouterOS script: check-routeros-update
-# Copyright (c) 2013-2024 Christian Hesse <mail@eworm.de>
+# Copyright (c) 2013-2025 Christian Hesse <mail@eworm.de>
 # https://git.eworm.de/cgit/routeros-scripts/about/COPYING.md
 #
 # requires RouterOS, version=7.14
