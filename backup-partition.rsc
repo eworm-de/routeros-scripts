@@ -47,6 +47,13 @@
     :error false;
   }
 
+  :if ([ :len [ /system/scheduler/find where name="running-from-backup-partition" ] ] > 0) do={
+    $LogPrint warning $ScriptName ("Running from backup partition, refusing to act.");
+    :set PackagesUpdateBackupFailure true;
+    :set ExitOK true;
+    :error false;
+  }
+
   :if ([ :len [ /partitions/find ] ] < 2) do={
     $LogPrint error $ScriptName ("Device does not have a fallback partition.");
     :set PackagesUpdateBackupFailure true;
