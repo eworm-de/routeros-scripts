@@ -50,6 +50,12 @@
     :error false;
   }
 
+  :if ([ :len [ /system/scheduler/find where name="running-from-backup-partition" ] ] > 0) do={
+    $LogPrint warning $ScriptName ("Running from backup partition, refusing to act.");
+    :set ExitOK true;
+    :error false;
+  }
+
   :local Update [ /system/package/update/get ];
 
   :if ([ :typeof ($Update->"latest-version") ] = "nothing") do={
