@@ -51,6 +51,13 @@
     :set ExitOK true;
     :error false;
   }
+
+  :if ([ :len [ /system/scheduler/find where name="running-from-backup-partition" ] ] > 0) do={
+    $LogPrint warning $ScriptName ("Running from backup partition, refusing to act.");
+    :set ExitOK true;
+    :error false;
+  }
+
   $WaitFullyConnected;
 
   :if ([ :len [ /system/scheduler/find where name="_RebootForUpdate" ] ] > 0) do={
