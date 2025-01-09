@@ -28,7 +28,7 @@
   :local IntName [ /interface/get $Interface name ];
   $LogPrint info $ScriptName ("PPP interface " . $IntName . " is up.");
 
-  /ipv6/dhcp-client/release [ find where interface=$IntName !disabled ];
+  /ipv6/dhcp-client/release [ find where interface=$IntName !disabled bound ];
 
   :foreach Script in=[ /system/script/find where source~("\n# provides: ppp-on-up\r?\n") ] do={
     :local ScriptName [ /system/script/get $Script name ];
