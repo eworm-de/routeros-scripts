@@ -856,6 +856,7 @@
 
   :global CleanFilePath;
   :global LogPrint;
+  :global RmFile;
   :global WaitForFile;
 
   :local MkTmpfs do={
@@ -903,7 +904,7 @@
     :local File ($Path . "/file");
     /file/add name=$File;
     $WaitForFile $File;
-    /file/remove $File;
+    $RmFile $File;
   } on-error={
     $LogPrint warning $0 ("Making directory '" . $Path . "' failed!");
     :return false;
