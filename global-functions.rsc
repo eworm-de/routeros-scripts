@@ -149,6 +149,7 @@
   :global CleanName;
   :global FetchUserAgentStr;
   :global LogPrint;
+  :global RmFile;
   :global WaitForFile;
 
   $LogPrint info $0 ("Downloading and importing certificate with " . \
@@ -172,7 +173,7 @@
         dst-path=$FileName as-value;
       $WaitForFile $FileName;
       :if ([ /file/get $FileName size ] = 0) do={
-        /file/remove $FileName;
+        $RmFile $FileName;
         :error false;
       }
     } on-error={
@@ -183,7 +184,7 @@
 
   /certificate/import file-name=$FileName passphrase="" as-value;
   :delay 1s;
-  /file/remove [ find where name=$FileName ];
+  $RmFile $FileName;
 
   :if ([ :len [ /certificate/find where common-name=$CommonName ] ] = 0) do={
     /certificate/remove [ find where name~("^" . $FileName . "_[0-9]+\$") ];
