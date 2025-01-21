@@ -343,6 +343,7 @@
   :global CleanFilePath;
   :global LogPrint;
   :global MkDir;
+  :global RmFile;
   :global WaitForFile;
 
   :if ([ :len $PkgName ] = 0) do={ :return false; }
@@ -386,7 +387,7 @@
       $LogPrint debug $0 ("Downloading package file failed.");
     }
 
-    /file/remove [ find where name=$PkgDest ];
+    $RmFile $PkgDest;
     :set Retry ($Retry - 1);
   }
 
