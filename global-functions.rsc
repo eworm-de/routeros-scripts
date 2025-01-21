@@ -63,6 +63,7 @@
 :global ProtocolStrip;
 :global RandomDelay;
 :global RequiredRouterOS;
+:global RmFile;
 :global ScriptFromTerminal;
 :global ScriptInstallUpdate;
 :global ScriptLock;
@@ -999,6 +1000,26 @@
       $LogPrint warning $0 ("This " . [ $IfThenElse ([ :pick $Caller 0 ] = ("\$")) "function" "script" ] . \
         " '" . $Caller . "' (at least specific functionality) requires RouterOS " . $Required . ". Please update!");
     }
+    :return false;
+  }
+  :return true;
+}
+
+# remove file
+:set RmFile do={
+  :local FileName [ :tostr $1 ];
+
+  :global LogPrint;
+
+  :local File [ /file/find where name=$FileName type=file ];
+  :if ([ :len $File ] = 0) do={
+    :return true;
+  }
+
+  :do {
+    /file/remove $File;
+  } on-error={
+    $LogPrint error $0 ("Removing file '" . $FileName . "' (" . $File . ") failed.");
     :return false;
   }
   :return true;
