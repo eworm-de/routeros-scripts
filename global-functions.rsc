@@ -63,6 +63,7 @@
 :global ProtocolStrip;
 :global RandomDelay;
 :global RequiredRouterOS;
+:global RmDir;
 :global RmFile;
 :global ScriptFromTerminal;
 :global ScriptInstallUpdate;
@@ -1000,6 +1001,26 @@
       $LogPrint warning $0 ("This " . [ $IfThenElse ([ :pick $Caller 0 ] = ("\$")) "function" "script" ] . \
         " '" . $Caller . "' (at least specific functionality) requires RouterOS " . $Required . ". Please update!");
     }
+    :return false;
+  }
+  :return true;
+}
+
+# remove directory
+:set RmDir do={
+  :local DirName [ :tostr $1 ];
+
+  :global LogPrint;
+
+  :local Dir [ /file/find where name=$DirName type=directory ];
+  :if ([ :len $Dir ] = 0) do={
+    :return true;
+  }
+
+  :do {
+    /file/remove $Dir;
+  } on-error={
+    $LogPrint error $0 ("Removing directory '" . $DirName . "' (" . $Dir . ") failed.");
     :return false;
   }
   :return true;
