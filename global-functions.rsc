@@ -456,6 +456,7 @@
   :global IfThenElse;
   :global LogPrint;
   :global MkDir;
+  :global RmFile;
   :global WaitForFile;
 
   :set CheckCert [ $IfThenElse ($CheckCert = "false") "no" "yes-without-crl" ];
@@ -472,7 +473,7 @@
       http-header-field=({ [ $FetchUserAgentStr $ScriptName ] }) as-value;
   } on-error={
     :if ([ $WaitForFile $FileName 500ms ] = true) do={
-      /file/remove $FileName;
+      $RmFile $FileName;
     }
     $LogPrint debug $0 ("Failed downloading from: " . $Url);
     /file/remove $DirName;
