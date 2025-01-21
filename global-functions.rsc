@@ -456,6 +456,7 @@
   :global IfThenElse;
   :global LogPrint;
   :global MkDir;
+  :global RmDir;
   :global RmFile;
   :global WaitForFile;
 
@@ -476,7 +477,7 @@
       $RmFile $FileName;
     }
     $LogPrint debug $0 ("Failed downloading from: " . $Url);
-    /file/remove $DirName;
+    $RmDir $DirName;
     :return false;
   }
   $WaitForFile $FileName;
@@ -492,7 +493,7 @@
       :delay 100ms;
     }
   }
-  /file/remove $DirName;
+  $RmDir $DirName;
   :return $Return;
 }
 
