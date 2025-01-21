@@ -1032,8 +1032,11 @@
 
   :global LogPrint;
 
+  $LogPrint debug $0 ("Removing file: ". $FileName);
+
   :local File [ /file/find where name=$FileName type=file ];
   :if ([ :len $File ] = 0) do={
+    $LogPrint debug $0 ("... which does not exist.");
     :return true;
   }
 
