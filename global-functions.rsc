@@ -1013,8 +1013,11 @@
 
   :global LogPrint;
 
+  $LogPrint debug $0 ("Removing directory: ". $DirName);
+
   :local Dir [ /file/find where name=$DirName type=directory ];
   :if ([ :len $Dir ] = 0) do={
+    $LogPrint debug $0 ("... which does not exist.");
     :return true;
   }
 
