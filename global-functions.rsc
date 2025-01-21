@@ -857,6 +857,7 @@
 
   :global CleanFilePath;
   :global LogPrint;
+  :global RmDir;
   :global WaitForFile;
 
   :local MkTmpfs do={
@@ -873,7 +874,7 @@
     }
 
     $LogPrint info $0 ("Creating disk of type tmpfs.");
-    /file/remove [ find where name="tmpfs" type="directory" ];
+    $RmDir "tmpfs";
     :do {
       /disk/add slot=tmpfs type=tmpfs tmpfs-max-size=([ /system/resource/get total-memory ] / 3);
       $WaitForFile "tmpfs";
