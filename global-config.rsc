@@ -92,11 +92,11 @@
 # This defines the settings for firewall address-lists (fw-addr-lists).
 :global FwAddrLists {
 #  "allow"={
-#    { url="https://git.eworm.de/cgit/routeros-scripts/plain/fw-addr-lists.d/allow";
+#    { url="https://rsc.eworm.de/main/fw-addr-lists.d/allow";
 #      cert="ISRG Root X2"; timeout=1w };
 #  };
   "block"={
-#    { url="https://git.eworm.de/cgit/routeros-scripts/plain/fw-addr-lists.d/block";
+#    { url="https://rsc.eworm.de/main/fw-addr-lists.d/block";
 #      cert="ISRG Root X2" };
     { url="https://feodotracker.abuse.ch/downloads/ipblocklist_recommended.txt";
       cert="GlobalSign" };
@@ -112,7 +112,7 @@
 #      cert="GTS Root R4" };
   };
 #  "mikrotik"={
-#    { url="https://git.eworm.de/cgit/routeros-scripts/plain/fw-addr-lists.d/mikrotik";
+#    { url="https://rsc.eworm.de/main/fw-addr-lists.d/mikrotik";
 #      cert="ISRG Root X2"; timeout=1w };
 #  };
 };
