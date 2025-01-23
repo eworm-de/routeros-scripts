@@ -217,14 +217,16 @@
 :global GpsTrackUrl "https://example.com/index.php";
 
 # This is the base url to fetch scripts from.
-:global ScriptUpdatesBaseUrl "https://git.eworm.de/cgit/routeros-scripts/plain/";
+:global ScriptUpdatesBaseUrl "https://rsc.eworm.de/main/";
 # alternative urls - main: stable code - next: currently in development
+#:global ScriptUpdatesBaseUrl "https://rsc.eworm.de/next/";
+#:global ScriptUpdatesBaseUrl "https://git.eworm.de/cgit/routeros-scripts/plain/";
 #:global ScriptUpdatesBaseUrl "https://raw.githubusercontent.com/eworm-de/routeros-scripts/main/";
 #:global ScriptUpdatesBaseUrl "https://raw.githubusercontent.com/eworm-de/routeros-scripts/next/";
 #:global ScriptUpdatesBaseUrl "https://gitlab.com/eworm-de/routeros-scripts/raw/main/";
 #:global ScriptUpdatesBaseUrl "https://gitlab.com/eworm-de/routeros-scripts/raw/next/";
 :global ScriptUpdatesUrlSuffix "";
-# use next branch with default url (git.eworm.de)
+# use next branch with my git url (git.eworm.de)
 #:global ScriptUpdatesUrlSuffix "?h=next";
 
 # Use this for defaults with $ScriptRunOnce
