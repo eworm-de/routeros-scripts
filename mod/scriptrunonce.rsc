@@ -1,12 +1,12 @@
 #!rsc by RouterOS
 # RouterOS script: mod/scriptrunonece
 # Copyright (c) 2020-2025 Christian Hesse <mail@eworm.de>
-# https://git.eworm.de/cgit/routeros-scripts/about/COPYING.md
+# https://rsc.eworm.de/COPYING.md
 #
 # requires RouterOS, version=7.14
 #
 # download script and run it once
-# https://git.eworm.de/cgit/routeros-scripts/about/doc/mod/scriptrunonce.md
+# https://rsc.eworm.de/doc/mod/scriptrunonce.md
 
 :global ScriptRunOnce;
 
