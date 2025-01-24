@@ -1,12 +1,12 @@
 #!rsc by RouterOS
 # RouterOS script: telegram-chat
 # Copyright (c) 2023-2025 Christian Hesse <mail@eworm.de>
-# https://git.eworm.de/cgit/routeros-scripts/about/COPYING.md
+# https://rsc.eworm.de/COPYING.md
 #
 # requires RouterOS, version=7.15
 #
 # use Telegram to chat with your Router and send commands
-# https://git.eworm.de/cgit/routeros-scripts/about/doc/telegram-chat.md
+# https://rsc.eworm.de/doc/telegram-chat.md
 
 :global GlobalFunctionsReady;
 :while ($GlobalFunctionsReady != true) do={ :delay 500ms; }
