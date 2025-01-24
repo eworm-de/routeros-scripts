@@ -1,13 +1,13 @@
 #!rsc by RouterOS
 # RouterOS script: backup-partition
 # Copyright (c) 2022-2025 Christian Hesse <mail@eworm.de>
-# https://git.eworm.de/cgit/routeros-scripts/about/COPYING.md
+# https://rsc.eworm.de/COPYING.md
 #
 # provides: backup-script, order=70
 # requires RouterOS, version=7.14
 #
 # save configuration to fallback partition
-# https://git.eworm.de/cgit/routeros-scripts/about/doc/backup-partition.md
+# https://rsc.eworm.de/doc/backup-partition.md
 
 :global GlobalFunctionsReady;
 :while ($GlobalFunctionsReady != true) do={ :delay 500ms; }
