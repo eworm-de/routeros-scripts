@@ -2,13 +2,13 @@
 # RouterOS script: capsman-rolling-upgrade%TEMPL%
 # Copyright (c) 2018-2025 Christian Hesse <mail@eworm.de>
 #                         Michael Gisbers <michael@gisbers.de>
-# https://git.eworm.de/cgit/routeros-scripts/about/COPYING.md
+# https://rsc.eworm.de/COPYING.md
 #
 # provides: capsman-rolling-upgrade%TEMPL%
 # requires RouterOS, version=7.14
 #
 # upgrade CAPs one after another
-# https://git.eworm.de/cgit/routeros-scripts/about/doc/capsman-rolling-upgrade.md
+# https://rsc.eworm.de/doc/capsman-rolling-upgrade.md
 #
 # !! This is just a template to generate the real script!
 # !! Pattern '%TEMPL%' is replaced, paths are filtered.
