@@ -1,10 +1,10 @@
 #!rsc by RouterOS
 # RouterOS script: super-mario-theme
 # Copyright (c) 2013-2025 Christian Hesse <mail@eworm.de>
-# https://git.eworm.de/cgit/routeros-scripts/about/COPYING.md
+# https://rsc.eworm.de/COPYING.md
 #
 # play Super Mario theme
-# https://git.eworm.de/cgit/routeros-scripts/about/doc/super-mario-theme.md
+# https://rsc.eworm.de/doc/super-mario-theme.md
 
 :local Beeps {
   {  660; 100 }; 150; {  660; 100 }; 300; {  660; 100 }; 300;
