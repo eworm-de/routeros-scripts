@@ -1,12 +1,12 @@
 #!rsc by RouterOS
 # RouterOS script: fw-addr-lists
 # Copyright (c) 2023-2025 Christian Hesse <mail@eworm.de>
-# https://git.eworm.de/cgit/routeros-scripts/about/COPYING.md
+# https://rsc.eworm.de/COPYING.md
 #
 # requires RouterOS, version=7.16
 #
 # download, import and update firewall address-lists
-# https://git.eworm.de/cgit/routeros-scripts/about/doc/fw-addr-lists.md
+# https://rsc.eworm.de/doc/fw-addr-lists.md
 
 :global GlobalFunctionsReady;
 :while ($GlobalFunctionsReady != true) do={ :delay 500ms; }
