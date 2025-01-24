@@ -1,12 +1,12 @@
 #!rsc by RouterOS
 # RouterOS script: hotspot-to-wpa%TEMPL%
 # Copyright (c) 2019-2025 Christian Hesse <mail@eworm.de>
-# https://git.eworm.de/cgit/routeros-scripts/about/COPYING.md
+# https://rsc.eworm.de/COPYING.md
 #
 # requires RouterOS, version=7.14
 #
 # add private WPA passphrase after hotspot login
-# https://git.eworm.de/cgit/routeros-scripts/about/doc/hotspot-to-wpa.md
+# https://rsc.eworm.de/doc/hotspot-to-wpa.md
 #
 # !! This is just a template to generate the real script!
 # !! Pattern '%TEMPL%' is replaced, paths are filtered.
