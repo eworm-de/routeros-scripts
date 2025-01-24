@@ -1,12 +1,12 @@
 #!rsc by RouterOS
 # RouterOS script: ipsec-to-dns
 # Copyright (c) 2021-2025 Christian Hesse <mail@eworm.de>
-# https://git.eworm.de/cgit/routeros-scripts/about/COPYING.md
+# https://rsc.eworm.de/COPYING.md
 #
 # requires RouterOS, version=7.14
 #
 # and add/remove/update DNS entries from IPSec mode-config
-# https://git.eworm.de/cgit/routeros-scripts/about/doc/ipsec-to-dns.md
+# https://rsc.eworm.de/doc/ipsec-to-dns.md
 
 :global GlobalFunctionsReady;
 :while ($GlobalFunctionsReady != true) do={ :delay 500ms; }
