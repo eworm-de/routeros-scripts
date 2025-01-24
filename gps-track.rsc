@@ -1,12 +1,12 @@
 #!rsc by RouterOS
 # RouterOS script: gps-track
 # Copyright (c) 2018-2025 Christian Hesse <mail@eworm.de>
-# https://git.eworm.de/cgit/routeros-scripts/about/COPYING.md
+# https://rsc.eworm.de/COPYING.md
 #
 # requires RouterOS, version=7.14
 #
 # track gps data by sending json data to http server
-# https://git.eworm.de/cgit/routeros-scripts/about/doc/gps-track.md
+# https://rsc.eworm.de/doc/gps-track.md
 
 :global GlobalFunctionsReady;
 :while ($GlobalFunctionsReady != true) do={ :delay 500ms; }
