@@ -1,13 +1,13 @@
 #!rsc by RouterOS
 # RouterOS script: dhcp-lease-comment%TEMPL%
 # Copyright (c) 2013-2025 Christian Hesse <mail@eworm.de>
-# https://git.eworm.de/cgit/routeros-scripts/about/COPYING.md
+# https://rsc.eworm.de/COPYING.md
 #
 # provides: lease-script, order=60
 # requires RouterOS, version=7.14
 #
 # update dhcp-server lease comment with infos from access-list
-# https://git.eworm.de/cgit/routeros-scripts/about/doc/dhcp-lease-comment.md
+# https://rsc.eworm.de/doc/dhcp-lease-comment.md
 #
 # !! This is just a template to generate the real script!
 # !! Pattern '%TEMPL%' is replaced, paths are filtered.
