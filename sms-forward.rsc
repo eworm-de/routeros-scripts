@@ -2,12 +2,12 @@
 # RouterOS script: sms-forward
 # Copyright (c) 2013-2025 Christian Hesse <mail@eworm.de>
 #                         Anatoly Bubenkov <bubenkoff@gmail.com>
-# https://git.eworm.de/cgit/routeros-scripts/about/COPYING.md
+# https://rsc.eworm.de/COPYING.md
 #
 # requires RouterOS, version=7.14
 #
 # forward SMS to e-mail
-# https://git.eworm.de/cgit/routeros-scripts/about/doc/sms-forward.md
+# https://rsc.eworm.de/doc/sms-forward.md
 
 :global GlobalFunctionsReady;
 :while ($GlobalFunctionsReady != true) do={ :delay 500ms; }
