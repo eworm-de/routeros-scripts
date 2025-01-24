@@ -1,6 +1,6 @@
 # News, changes and migration by RouterOS Scripts
 # Copyright (c) 2019-2025 Christian Hesse <mail@eworm.de>
-# https://git.eworm.de/cgit/routeros-scripts/about/COPYING.md
+# https://rsc.eworm.de/COPYING.md
 
 :global IDonate;
 
