@@ -1,12 +1,12 @@
 #!rsc by RouterOS
 # RouterOS script: mod/bridge-port-vlan
 # Copyright (c) 2013-2025 Christian Hesse <mail@eworm.de>
-# https://git.eworm.de/cgit/routeros-scripts/about/COPYING.md
+# https://rsc.eworm.de/COPYING.md
 #
 # requires RouterOS, version=7.14
 #
 # manage VLANs on bridge ports
-# https://git.eworm.de/cgit/routeros-scripts/about/doc/mod/bridge-port-vlan.md
+# https://rsc.eworm.de/doc/mod/bridge-port-vlan.md
 
 :global BridgePortVlan;
 
