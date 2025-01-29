@@ -4,6 +4,7 @@
 # https://rsc.eworm.de/COPYING.md
 #
 # requires RouterOS, version=7.14
+# requires device-mode, fetch
 #
 # download script and run it once
 # https://rsc.eworm.de/doc/mod/scriptrunonce.md
