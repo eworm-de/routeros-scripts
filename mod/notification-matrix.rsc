@@ -5,6 +5,7 @@
 # https://rsc.eworm.de/COPYING.md
 #
 # requires RouterOS, version=7.14
+# requires device-mode, fetch, scheduler
 #
 # send notifications via Matrix
 # https://rsc.eworm.de/doc/mod/notification-matrix.md
