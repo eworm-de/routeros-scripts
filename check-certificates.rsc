@@ -4,6 +4,7 @@
 # https://rsc.eworm.de/COPYING.md
 #
 # requires RouterOS, version=7.14
+# requires device-mode, fetch
 #
 # check for certificate validity
 # https://rsc.eworm.de/doc/check-certificates.md
