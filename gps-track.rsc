@@ -4,6 +4,7 @@
 # https://rsc.eworm.de/COPYING.md
 #
 # requires RouterOS, version=7.14
+# requires device-mode, fetch
 #
 # track gps data by sending json data to http server
 # https://rsc.eworm.de/doc/gps-track.md
