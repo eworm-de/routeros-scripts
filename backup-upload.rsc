@@ -5,6 +5,7 @@
 #
 # provides: backup-script, order=50
 # requires RouterOS, version=7.14
+# requires device-mode, fetch
 #
 # create and upload backup and config file
 # https://rsc.eworm.de/doc/backup-upload.md
