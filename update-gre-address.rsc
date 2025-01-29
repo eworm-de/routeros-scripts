@@ -1,13 +1,13 @@
 #!rsc by RouterOS
 # RouterOS script: update-gre-address
 # Copyright (c) 2013-2025 Christian Hesse <mail@eworm.de>
-# https://git.eworm.de/cgit/routeros-scripts/about/COPYING.md
+# https://rsc.eworm.de/COPYING.md
 #
 # requires RouterOS, version=7.14
 #
 # update gre interface remote address with dynamic address from
 # ipsec remote peer
-# https://git.eworm.de/cgit/routeros-scripts/about/doc/update-gre-address.md
+# https://rsc.eworm.de/doc/update-gre-address.md
 
 :global GlobalFunctionsReady;
 :while ($GlobalFunctionsReady != true) do={ :delay 500ms; }

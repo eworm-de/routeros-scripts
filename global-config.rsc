@@ -1,10 +1,10 @@
 #!rsc by RouterOS
 # RouterOS script: global-config
 # Copyright (c) 2013-2025 Christian Hesse <mail@eworm.de>
-# https://git.eworm.de/cgit/routeros-scripts/about/COPYING.md
+# https://rsc.eworm.de/COPYING.md
 #
 # global configuration
-# https://git.eworm.de/cgit/routeros-scripts/about/
+# https://rsc.eworm.de/
 
 # Set this to 'true' to disable news and change notifications.
 :global NoNewsAndChangesNotification false;
@@ -238,7 +238,7 @@
 # This project is developed in private spare time and usage is free of charge
 # for you. If you like the scripts and think this is of value for you or your
 # business please consider a donation:
-# https://git.eworm.de/cgit/routeros-scripts/about/#donate
+# https://rsc.eworm.de/#donate
 # Enable this to silence donation hint.
 :global IDonate false;
 

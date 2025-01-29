@@ -1,12 +1,12 @@
 #!rsc by RouterOS
 # RouterOS script: mod/notification-email
 # Copyright (c) 2013-2025 Christian Hesse <mail@eworm.de>
-# https://git.eworm.de/cgit/routeros-scripts/about/COPYING.md
+# https://rsc.eworm.de/COPYING.md
 #
 # requires RouterOS, version=7.14
 #
 # send notifications via e-mail
-# https://git.eworm.de/cgit/routeros-scripts/about/doc/mod/notification-email.md
+# https://rsc.eworm.de/doc/mod/notification-email.md
 
 :global EMailGenerateFrom;
 :global FlushEmailQueue;

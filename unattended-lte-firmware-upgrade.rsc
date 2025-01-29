@@ -1,12 +1,12 @@
 #!rsc by RouterOS
 # RouterOS script: unattended-lte-firmware-upgrade
 # Copyright (c) 2018-2025 Christian Hesse <mail@eworm.de>
-# https://git.eworm.de/cgit/routeros-scripts/about/COPYING.md
+# https://rsc.eworm.de/COPYING.md
 #
 # requires RouterOS, version=7.14
 #
 # schedule unattended lte firmware upgrade
-# https://git.eworm.de/cgit/routeros-scripts/about/doc/unattended-lte-firmware-upgrade.md
+# https://rsc.eworm.de/doc/unattended-lte-firmware-upgrade.md
 
 :foreach Interface in=[ /interface/lte/find where running ] do={
   :local Firmware;

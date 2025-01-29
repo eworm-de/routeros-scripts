@@ -2,12 +2,12 @@
 # RouterOS script: daily-psk%TEMPL%
 # Copyright (c) 2013-2025 Christian Hesse <mail@eworm.de>
 #                         Michael Gisbers <michael@gisbers.de>
-# https://git.eworm.de/cgit/routeros-scripts/about/COPYING.md
+# https://rsc.eworm.de/COPYING.md
 #
 # requires RouterOS, version=7.15
 #
 # update daily PSK (pre shared key)
-# https://git.eworm.de/cgit/routeros-scripts/about/doc/daily-psk.md
+# https://rsc.eworm.de/doc/daily-psk.md
 #
 # !! This is just a template to generate the real script!
 # !! Pattern '%TEMPL%' is replaced, paths are filtered.

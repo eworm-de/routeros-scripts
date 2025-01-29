@@ -1,12 +1,12 @@
 #!rsc by RouterOS
 # RouterOS script: check-certificates
 # Copyright (c) 2013-2025 Christian Hesse <mail@eworm.de>
-# https://git.eworm.de/cgit/routeros-scripts/about/COPYING.md
+# https://rsc.eworm.de/COPYING.md
 #
 # requires RouterOS, version=7.14
 #
 # check for certificate validity
-# https://git.eworm.de/cgit/routeros-scripts/about/doc/check-certificates.md
+# https://rsc.eworm.de/doc/check-certificates.md
 
 :global GlobalFunctionsReady;
 :while ($GlobalFunctionsReady != true) do={ :delay 500ms; }

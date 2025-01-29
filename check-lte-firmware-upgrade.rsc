@@ -1,12 +1,12 @@
 #!rsc by RouterOS
 # RouterOS script: check-lte-firmware-upgrade
 # Copyright (c) 2018-2025 Christian Hesse <mail@eworm.de>
-# https://git.eworm.de/cgit/routeros-scripts/about/COPYING.md
+# https://rsc.eworm.de/COPYING.md
 #
 # requires RouterOS, version=7.14
 #
 # check for LTE firmware upgrade, send notification
-# https://git.eworm.de/cgit/routeros-scripts/about/doc/check-lte-firmware-upgrade.md
+# https://rsc.eworm.de/doc/check-lte-firmware-upgrade.md
 
 :global GlobalFunctionsReady;
 :while ($GlobalFunctionsReady != true) do={ :delay 500ms; }

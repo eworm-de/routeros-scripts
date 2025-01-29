@@ -1,10 +1,10 @@
 #!rsc by RouterOS
 # RouterOS script: ip-addr-bridge
 # Copyright (c) 2018-2025 Christian Hesse <mail@eworm.de>
-# https://git.eworm.de/cgit/routeros-scripts/about/COPYING.md
+# https://rsc.eworm.de/COPYING.md
 #
 # enable or disable ip addresses based on bridge port state
-# https://git.eworm.de/cgit/routeros-scripts/about/doc/ip-addr-bridge.md
+# https://rsc.eworm.de/doc/ip-addr-bridge.md
 
 :foreach Bridge in=[ /interface/bridge/find ] do={
   :local BrName [ /interface/bridge/get $Bridge name ];

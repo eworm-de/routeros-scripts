@@ -1,12 +1,12 @@
 #!rsc by RouterOS
 # RouterOS script: lease-script
 # Copyright (c) 2013-2025 Christian Hesse <mail@eworm.de>
-# https://git.eworm.de/cgit/routeros-scripts/about/COPYING.md
+# https://rsc.eworm.de/COPYING.md
 #
 # requires RouterOS, version=7.14
 #
 # run scripts on DHCP lease
-# https://git.eworm.de/cgit/routeros-scripts/about/doc/lease-script.md
+# https://rsc.eworm.de/doc/lease-script.md
 
 :global GlobalFunctionsReady;
 :while ($GlobalFunctionsReady != true) do={ :delay 500ms; }

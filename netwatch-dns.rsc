@@ -1,12 +1,12 @@
 #!rsc by RouterOS
 # RouterOS script: netwatch-dns
 # Copyright (c) 2022-2025 Christian Hesse <mail@eworm.de>
-# https://git.eworm.de/cgit/routeros-scripts/about/COPYING.md
+# https://rsc.eworm.de/COPYING.md
 #
 # requires RouterOS, version=7.16
 #
 # monitor and manage dns/doh with netwatch
-# https://git.eworm.de/cgit/routeros-scripts/about/doc/netwatch-dns.md
+# https://rsc.eworm.de/doc/netwatch-dns.md
 
 :global GlobalFunctionsReady;
 :while ($GlobalFunctionsReady != true) do={ :delay 500ms; }

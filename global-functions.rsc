@@ -2,12 +2,12 @@
 # RouterOS script: global-functions
 # Copyright (c) 2013-2025 Christian Hesse <mail@eworm.de>
 #                         Michael Gisbers <michael@gisbers.de>
-# https://git.eworm.de/cgit/routeros-scripts/about/COPYING.md
+# https://rsc.eworm.de/COPYING.md
 #
 # requires RouterOS, version=7.14
 #
 # global functions
-# https://git.eworm.de/cgit/routeros-scripts/about/
+# https://rsc.eworm.de/
 
 :local ScriptName [ :jobname ];
 

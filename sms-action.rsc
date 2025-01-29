@@ -1,12 +1,12 @@
 #!rsc by RouterOS
 # RouterOS script: sms-action
 # Copyright (c) 2018-2025 Christian Hesse <mail@eworm.de>
-# https://git.eworm.de/cgit/routeros-scripts/about/COPYING.md
+# https://rsc.eworm.de/COPYING.md
 #
 # requires RouterOS, version=7.14
 #
 # run action on received SMS
-# https://git.eworm.de/cgit/routeros-scripts/about/doc/sms-action.md
+# https://rsc.eworm.de/doc/sms-action.md
 
 :global GlobalFunctionsReady;
 :while ($GlobalFunctionsReady != true) do={ :delay 500ms; }

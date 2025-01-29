@@ -1,12 +1,12 @@
 #!rsc by RouterOS
 # RouterOS script: mod/ipcalc
 # Copyright (c) 2020-2025 Christian Hesse <mail@eworm.de>
-# https://git.eworm.de/cgit/routeros-scripts/about/COPYING.md
+# https://rsc.eworm.de/COPYING.md
 #
 # requires RouterOS, version=7.14
 #
 # ip address calculation
-# https://git.eworm.de/cgit/routeros-scripts/about/doc/mod/ipcalc.md
+# https://rsc.eworm.de/doc/mod/ipcalc.md
 
 :global IPCalc;
 :global IPCalcReturn;
