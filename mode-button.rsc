@@ -4,6 +4,7 @@
 # https://rsc.eworm.de/COPYING.md
 #
 # requires RouterOS, version=7.14
+# requires device-mode, scheduler
 #
 # act on multiple mode and reset button presses
 # https://rsc.eworm.de/doc/mode-button.md
