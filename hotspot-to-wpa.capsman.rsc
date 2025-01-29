@@ -4,6 +4,7 @@
 # https://rsc.eworm.de/COPYING.md
 #
 # requires RouterOS, version=7.14
+# requires device-mode, hotspot
 #
 # add private WPA passphrase after hotspot login
 # https://rsc.eworm.de/doc/hotspot-to-wpa.md
