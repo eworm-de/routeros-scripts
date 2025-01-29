@@ -4,6 +4,7 @@
 # https://rsc.eworm.de/COPYING.md
 #
 # requires RouterOS, version=7.14
+# requires device-mode, scheduler
 #
 # schedule unattended lte firmware upgrade
 # https://rsc.eworm.de/doc/unattended-lte-firmware-upgrade.md
