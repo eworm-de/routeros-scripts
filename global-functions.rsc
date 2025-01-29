@@ -1109,52 +1109,59 @@
       }
     }
 
-    :if ([ :len $SourceNew ] > 0) do={
-      :local SourceCRLF [ :tocrlf $SourceNew ];
-      :if ($SourceNew != $ScriptVal->"source" && $SourceCRLF != $ScriptVal->"source") do={
-        :if ([ :pick $SourceNew 0 18 ] = "#!rsc by RouterOS\n") do={
-          :local Required ([ $ParseKeyValueStore [ $Grep $SourceNew ("\23 requires RouterOS, ") ] ]->"version");
-          :if ([ $RequiredRouterOS $0 [ $EitherOr $Required "0.0" ] false ] = true) do={
-            :local RequiredDM [ $ParseKeyValueStore [ $Grep $SourceNew ("\23 requires device-mode, ") ] ];
-            :local MissingDM ({});
-            :foreach Feature,Value in=$RequiredDM do={
-              :if ([ :typeof ($DeviceMode->$Feature) ] = "bool" && ($DeviceMode->$Feature) = false) do={
-                :set MissingDM ($MissingDM, $Feature);
-              }
-            }
-            :if ([ :len $MissingDM ] = 0) do={
-              :if ([ $ValidateSyntax $SourceNew ] = true) do={
-                $LogPrint info $0 ("Updating script: " . $ScriptVal->"name");
-                /system/script/set owner=($ScriptVal->"name") \
-                    source=[ $IfThenElse ($ScriptUpdatesCRLF = true) $SourceCRLF $SourceNew ] $Script;
-                :if ($ScriptVal->"name" = "global-config") do={
-                  :set ReloadGlobalConfig true;
-                }
-                :if ($ScriptVal->"name" = "global-functions" || $ScriptVal->"name" ~ ("^mod/.")) do={
-                  :set ReloadGlobalFunctions true;
-                }
-              } else={
-                $LogPrint warning $0 ("Syntax validation for script '" . $ScriptVal->"name" . \
-                  "' failed! Ignoring!");
-              }
-            } else={
-              $LogPrintOnce warning $0 ("The script '" . $ScriptVal->"name" . "' requires disabled " . \
-                "device-mode features (" . [ :tostr $MissingDM ] . "). Ignoring!");
-            }
-          } else={
-            $LogPrintOnce warning $0 ("The script '" . $ScriptVal->"name" . "' requires RouterOS " . \
-              $Required . ", which is not met by your installation. Ignoring!");
-          }
-        } else={
-          $LogPrint warning $0 ("Looks like new script '" . $ScriptVal->"name" . \
-            "' is not valid (missing shebang). Ignoring!");
-        }
-      } else={
-        $LogPrint debug $0 ("Script '" .  $ScriptVal->"name" . "' did not change.");
+    :do {
+      :if ([ :len $SourceNew ] = 0) do={
+        $LogPrint debug $0 ("No update for script '" . $ScriptVal->"name" . "'.");
+        :error false;
       }
-    } else={
-      $LogPrint debug $0 ("No update for script '" . $ScriptVal->"name" . "'.");
-    }
+
+      :local SourceCRLF [ :tocrlf $SourceNew ];
+      :if ($SourceNew = $ScriptVal->"source" || $SourceCRLF = $ScriptVal->"source") do={
+        $LogPrint debug $0 ("Script '" .  $ScriptVal->"name" . "' did not change.");
+        :error false;
+      }
+
+      :if ([ :pick $SourceNew 0 18 ] != "#!rsc by RouterOS\n") do={
+        $LogPrint warning $0 ("Looks like new script '" . $ScriptVal->"name" . \
+            "' is not valid (missing shebang). Ignoring!");
+        :error false;
+      }
+
+      :local RequiredROS ([ $ParseKeyValueStore [ $Grep $SourceNew ("\23 requires RouterOS, ") ] ]->"version");
+      :if ([ $RequiredRouterOS $0 [ $EitherOr $RequiredROS "0.0" ] false ] = false) do={
+        $LogPrintOnce warning $0 ("The script '" . $ScriptVal->"name" . "' requires RouterOS " . \
+            $RequiredROS . ", which is not met by your installation. Ignoring!");
+        :error false;
+      }
+
+      :local RequiredDM [ $ParseKeyValueStore [ $Grep $SourceNew ("\23 requires device-mode, ") ] ];
+      :local MissingDM ({});
+      :foreach Feature,Value in=$RequiredDM do={
+        :if ([ :typeof ($DeviceMode->$Feature) ] = "bool" && ($DeviceMode->$Feature) = false) do={
+          :set MissingDM ($MissingDM, $Feature);
+        }
+      }
+      :if ([ :len $MissingDM ] > 0) do={
+        $LogPrintOnce warning $0 ("The script '" . $ScriptVal->"name" . "' requires disabled " . \
+            "device-mode features (" . [ :tostr $MissingDM ] . "). Ignoring!");
+        :error false;
+      }
+
+      :if ([ $ValidateSyntax $SourceNew ] = false) do={
+        $LogPrint warning $0 ("Syntax validation for script '" . $ScriptVal->"name" . "' failed! Ignoring!");
+        :error false;
+      }
+
+      $LogPrint info $0 ("Updating script: " . $ScriptVal->"name");
+      /system/script/set owner=($ScriptVal->"name") \
+          source=[ $IfThenElse ($ScriptUpdatesCRLF = true) $SourceCRLF $SourceNew ] $Script;
+      :if ($ScriptVal->"name" = "global-config") do={
+        :set ReloadGlobalConfig true;
+      }
+      :if ($ScriptVal->"name" = "global-functions" || $ScriptVal->"name" ~ ("^mod/.")) do={
+        :set ReloadGlobalFunctions true;
+      }
+    } on-error={ }
   }
 
   :if ($ReloadGlobalFunctions = true) do={
