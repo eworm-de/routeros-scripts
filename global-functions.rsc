@@ -1221,18 +1221,24 @@
     :if ([ :len $GlobalConfigMigration ] > 0) do={
       :for I from=($ExpectedConfigVersionBefore + 1) to=$ExpectedConfigVersion do={
         :local Migration ($GlobalConfigMigration->[ :tostr $I ]);
-        :if ([ :typeof $Migration ] = "str") do={
-          :if ([ $ValidateSyntax $Migration ] = true) do={
-            $LogPrint info $0 ("Applying migration for change " . $I . ": " . $Migration);
-            :do {
-              [ :parse $Migration ];
-            } on-error={
-              $LogPrint warning $0 ("Migration code for change " . $I . " failed to run!");
-            }
-          } else={
-            $LogPrint warning $0 ("Migration code for change " . $I . " failed syntax validation!");
+        :do {
+          :if ([ :typeof $Migration ] != "str") do={
+            $LogPrint debug $0 ("Migration code for change " . $I . " is not available.");
+            :error false;
           }
-        }
+
+          :if ([ $ValidateSyntax $Migration ] = false) do={
+            $LogPrint warning $0 ("Migration code for change " . $I . " failed syntax validation!");
+            :error false;
+          }
+
+          $LogPrint info $0 ("Applying migration for change " . $I . ": " . $Migration);
+          :do {
+            [ :parse $Migration ];
+          } on-error={
+            $LogPrint warning $0 ("Migration code for change " . $I . " failed to run!");
+          }
+        } on-error={ }
       }
     }
 
