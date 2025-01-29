@@ -4,6 +4,7 @@
 # https://rsc.eworm.de/COPYING.md
 #
 # requires RouterOS, version=7.14
+# requires device-mode, ipsec
 #
 # and add/remove/update DNS entries from IPSec mode-config
 # https://rsc.eworm.de/doc/ipsec-to-dns.md
