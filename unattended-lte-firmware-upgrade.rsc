@@ -3,6 +3,8 @@
 # Copyright (c) 2018-2025 Christian Hesse <mail@eworm.de>
 # https://git.eworm.de/cgit/routeros-scripts/about/COPYING.md
 #
+# requires RouterOS, version=7.14
+#
 # schedule unattended lte firmware upgrade
 # https://git.eworm.de/cgit/routeros-scripts/about/doc/unattended-lte-firmware-upgrade.md
 
