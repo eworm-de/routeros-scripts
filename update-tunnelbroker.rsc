@@ -6,6 +6,7 @@
 #
 # provides: ppp-on-up
 # requires RouterOS, version=7.14
+# requires device-mode, fetch
 #
 # update local address of tunnelbroker interface
 # https://rsc.eworm.de/doc/update-tunnelbroker.md

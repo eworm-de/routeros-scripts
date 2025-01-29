@@ -4,6 +4,7 @@
 # https://rsc.eworm.de/COPYING.md
 #
 # requires RouterOS, version=7.15
+# requires device-mode, fetch
 #
 # use Telegram to chat with your Router and send commands
 # https://rsc.eworm.de/doc/telegram-chat.md

@@ -4,6 +4,7 @@
 # https://rsc.eworm.de/COPYING.md
 #
 # requires RouterOS, version=7.14
+# requires device-mode, scheduler
 #
 # download packages and reboot for installation
 # https://rsc.eworm.de/doc/packages-update.md

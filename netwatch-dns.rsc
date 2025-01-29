@@ -4,6 +4,7 @@
 # https://rsc.eworm.de/COPYING.md
 #
 # requires RouterOS, version=7.16
+# requires device-mode, fetch
 #
 # monitor and manage dns/doh with netwatch
 # https://rsc.eworm.de/doc/netwatch-dns.md

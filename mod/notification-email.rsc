@@ -4,6 +4,7 @@
 # https://rsc.eworm.de/COPYING.md
 #
 # requires RouterOS, version=7.14
+# requires device-mode, email, scheduler
 #
 # send notifications via e-mail
 # https://rsc.eworm.de/doc/mod/notification-email.md

@@ -5,6 +5,7 @@
 #
 # provides: backup-script, order=70
 # requires RouterOS, version=7.14
+# requires device-mode, scheduler
 #
 # save configuration to fallback partition
 # https://rsc.eworm.de/doc/backup-partition.md
