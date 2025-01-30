@@ -12,9 +12,9 @@ DOMAINS = \
 	dns.quad9.net/DigiCert-Global-Root-G3 \
 	feodotracker.abuse.ch/GlobalSign \
 	git.eworm.de/ISRG-Root-X2 \
+	github.com/USERTrust-ECC-Certification-Authority \
 	ipv4.showipv6.de/ISRG-Root-X1 \
 	ipv4.tunnelbroker.net/Starfield-Root-Certificate-Authority-G2 \
-	ipv6.showipv6.de/ISRG-Root-X1 \
 	lists.blocklist.de/Certum-Trusted-Network-CA \
 	matrix.org/GTS-Root-R4 \
 	mkcert.org/ISRG-Root-X1 \
@@ -24,9 +24,12 @@ DOMAINS = \
 	www.dshield.org/ISRG-Root-X1 \
 	www.spamhaus.org/GTS-Root-R4
 
-.PHONY: $(DOMAINS)
+DOMAINSIPV6 = \
+	ipv6.showipv6.de/ISRG-Root-X1
 
-all: $(DOMAINS)
+.PHONY: $(DOMAINS) $(DOMAINSIPV6)
 
-$(DOMAINS):
+all: $(DOMAINS) $(DOMAINSIPV6)
+
+$(DOMAINS) $(DOMAINSIPV6) :
 	curl --output /dev/null --silent --connect-timeout 5 --cacert $(notdir $@).pem https://$(dir $@)
