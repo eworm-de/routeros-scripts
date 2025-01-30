@@ -42,11 +42,19 @@ DOMAINS_IPV6 = \
 all: $(DOMAINS_DUAL) $(DOMAINS_IPV4) $(DOMAINS_IPV6)
 
 $(DOMAINS_DUAL):
+ifndef NOIPV4
 	$(CURL) -4 --cacert $(notdir $@).pem https://$(dir $@)
+endif
+ifndef NOIPV6
 	$(CURL) -6 --cacert $(notdir $@).pem https://$(dir $@)
+endif
 
 $(DOMAINS_IPV4):
+ifndef NOIPV4
 	$(CURL) -4 --cacert $(notdir $@).pem https://$(dir $@)
+endif
 
 $(DOMAINS_IPV6):
+ifndef NOIPV6
 	$(CURL) -6 --cacert $(notdir $@).pem https://$(dir $@)
+endif
