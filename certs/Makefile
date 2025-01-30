@@ -29,4 +29,4 @@ DOMAINS = \
 all: $(DOMAINS)
 
 $(DOMAINS):
-	curl --output /dev/null --silent --connect-timeout 5 --cacert $(notdir $@).pem https://$(dir $@)
+	curl --output /dev/null --silent --connect-timeout 5 --capath /dev/null --cacert $(notdir $@).pem https://$(dir $@)
