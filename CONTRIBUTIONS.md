@@ -22,6 +22,7 @@ for details!
 * [Daniel Ziegenberg](mailto:daniel@ziegenberg.at) (@ziegenberg)
 * [Ignacio Serrano](mailto:ignic@ignic.com) (@ignic)
 * [Michael Gisbers](mailto:michael@gisbers.de) (@mgisbers)
+* [Miquel Bonastre](mailto:mbonastre@yahoo.com) (@mbonastre)
 * @netravnen
 * [netztrip](mailto:dave-tvg@netztrip.de) (@netztrip)
 * [Stefan Müller](mailto:stefan.mueller.83@gmail.com) (@PackElend)
