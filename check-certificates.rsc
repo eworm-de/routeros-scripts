@@ -68,8 +68,10 @@
           $LogPrint warning $ScriptName ("Decryption failed for certificate file '" . $CertFileName . "'.");
         }
 
-        :foreach CertInChain in=[ /certificate/find where name~("^" . [ $EscapeForRegEx $CertFileName ] . "_[0-9]+\$") \
-            common-name!=$Name !(subject-alt-name~("(^|\\W)(DNS|IP):" . [ $EscapeForRegEx $Name ] . "(\\W|\$)")) !(common-name=[]) ] do={
+        :foreach CertInChain in=[ /certificate/find where common-name!=$Name !private-key \
+            name~("^" . [ $EscapeForRegEx $CertFileName ] . "_[0-9]+\$") \
+            !(subject-alt-name~("(^|\\W)(DNS|IP):" . [ $EscapeForRegEx $Name ] . "(\\W|\$)")) \
+            !(common-name=[]) ] do={
           $CertificateNameByCN [ /certificate/get $CertInChain common-name ];
         }
 
