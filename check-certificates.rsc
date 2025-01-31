@@ -34,7 +34,8 @@
 
   :local CheckCertificatesDownloadImport do={
     :local ScriptName [ :tostr $1 ];
-    :local Name       [ :tostr $2 ];
+    :local CertName   [ :tostr $2 ];
+    :local FetchName  [ :tostr $3 ];
 
     :global CertRenewUrl;
     :global CertRenewPass;
@@ -49,7 +50,7 @@
     :local Return false;
 
     :foreach Type in={ ".pem"; ".p12" } do={
-      :local CertFileName ([ $UrlEncode $Name ] . $Type);
+      :local CertFileName ([ $UrlEncode $FetchName ] . $Type);
       :do {
         /tool/fetch check-certificate=yes-without-crl http-header-field=({ [ $FetchUserAgentStr $ScriptName ] }) \
             ($CertRenewUrl . $CertFileName) dst-path=$CertFileName as-value;
@@ -68,9 +69,9 @@
           $LogPrint warning $ScriptName ("Decryption failed for certificate file '" . $CertFileName . "'.");
         }
 
-        :foreach CertInChain in=[ /certificate/find where common-name!=$Name !private-key \
+        :foreach CertInChain in=[ /certificate/find where common-name!=$CertName !private-key \
             name~("^" . [ $EscapeForRegEx $CertFileName ] . "_[0-9]+\$") \
-            !(subject-alt-name~("(^|\\W)(DNS|IP):" . [ $EscapeForRegEx $Name ] . "(\\W|\$)")) \
+            !(subject-alt-name~("(^|\\W)(DNS|IP):" . [ $EscapeForRegEx $CertName ] . "(\\W|\$)")) \
             !(common-name=[]) ] do={
           $CertificateNameByCN [ /certificate/get $CertInChain common-name ];
         }
@@ -145,6 +146,7 @@
   :foreach Cert in=[ /certificate/find where !revoked !ca !scep-url expires-after<$CertRenewTime ] do={
     :local CertVal [ /certificate/get $Cert ];
     :local LastName;
+    :local FetchName;
 
     :do {
       :if ([ :len $CertRenewUrl ] = 0) do={
@@ -155,14 +157,16 @@
 
       :local ImportSuccess false;
       :set LastName ($CertVal->"common-name");
-      :set ImportSuccess [ $CheckCertificatesDownloadImport $ScriptName $LastName ];
+      :set FetchName $LastName;
+      :set ImportSuccess [ $CheckCertificatesDownloadImport $ScriptName $LastName $FetchName ];
       :foreach SAN in=($CertVal->"subject-alt-name") do={
         :if ($ImportSuccess = false) do={
           :set LastName [ :pick $SAN ([ :find $SAN ":" ] + 1) [ :len $SAN ] ];
-          :set ImportSuccess [ $CheckCertificatesDownloadImport $ScriptName $LastName ];
+          :set FetchName $LastName;
+          :set ImportSuccess [ $CheckCertificatesDownloadImport $ScriptName $LastName $FetchName ];
           :if ($ImportSuccess = false && [ :pick $LastName 0 ] = "*") do={
-            :set LastName ("star." . [ :pick $LastName 2 [ :len $LastName ] ]);
-            :set ImportSuccess [ $CheckCertificatesDownloadImport $ScriptName $LastName ];
+            :set FetchName ("star." . [ :pick $LastName 2 [ :len $LastName ] ]);
+            :set ImportSuccess [ $CheckCertificatesDownloadImport $ScriptName $LastName $FetchName ];
           }
         }
       }
@@ -174,7 +178,7 @@
       } else={
         $LogPrint debug $ScriptName ("Certificate '" . $CertVal->"name" . "' was not updated, but replaced.");
 
-        :local CertNew [ /certificate/find where name~("^" . [ $EscapeForRegEx [ $UrlEncode $LastName ] ] . "\\.(p12|pem)_[0-9]+\$") \
+        :local CertNew [ /certificate/find where name~("^" . [ $EscapeForRegEx [ $UrlEncode $FetchName ] ] . "\\.(p12|pem)_[0-9]+\$") \
           (common-name=($CertVal->"common-name") or subject-alt-name~("(^|\\W)(DNS|IP):" . [ $EscapeForRegEx $LastName ] . "(\\W|\$)")) \
           fingerprint!=[ :tostr ($CertVal->"fingerprint") ] expires-after>$CertRenewTime ];
         :local CertNewVal [ /certificate/get $CertNew ];
