@@ -158,6 +158,10 @@
         :if ($ImportSuccess = false) do={
           :set LastName [ :pick $SAN ([ :find $SAN ":" ] + 1) [ :len $SAN ] ];
           :set ImportSuccess [ $CheckCertificatesDownloadImport $ScriptName $LastName ];
+          :if ($ImportSuccess = false && [ :pick $LastName 0 ] = "*") do={
+            :set LastName ("star." . [ :pick $LastName 2 [ :len $LastName ] ]);
+            :set ImportSuccess [ $CheckCertificatesDownloadImport $ScriptName $LastName ];
+          }
         }
       }
       :if ($ImportSuccess = false) do={ :error false; }
