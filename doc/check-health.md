@@ -26,13 +26,15 @@ health related events:
 * power supply failed or recovered
 * temperature is above or below threshold
 
-Note that bad initial state will not trigger an event.
-
 Monitoring CPU and RAM utilization (available processing and memory
 resources) works on all devices. Other than that only sensors available
 in hardware can be checked. See what your hardware supports:
 
     /system/health/print;
+
+> ⚠️ **Warning**: Note that bad initial state will not trigger an event! For
+> example rebooting a device that is already too hot will not trigger an
+> alert on high temperature.
 
 ### Sample notifications
 
