@@ -164,7 +164,7 @@
           :set LastName [ :pick $SAN ([ :find $SAN ":" ] + 1) [ :len $SAN ] ];
           :set FetchName $LastName;
           :set ImportSuccess [ $CheckCertificatesDownloadImport $ScriptName $LastName $FetchName ];
-          :if ($ImportSuccess = false && [ :pick $LastName 0 ] = "*") do={
+          :if ($ImportSuccess = false && [ :pick $LastName 0 2 ] = "*.") do={
             :set FetchName ("star." . [ :pick $LastName 2 [ :len $LastName ] ]);
             :set ImportSuccess [ $CheckCertificatesDownloadImport $ScriptName $LastName $FetchName ];
           }
