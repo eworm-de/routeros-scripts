@@ -91,7 +91,6 @@
     :set CheckHealthTemperatureNotified ({});
   }
 
-
   :foreach Voltage in=[ /system/health/find where type="V" ] do={
     :local Name  [ /system/health/get $Voltage name  ];
     :local Value [ /system/health/get $Voltage value ];
