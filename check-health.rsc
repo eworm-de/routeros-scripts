@@ -107,16 +107,16 @@
           message=("The " . $Name . " on " . $Identity . " jumped more than " . $CheckHealthVoltagePercent . "%.\n\n" . \
             [ $FormatLine "old value" ($CheckHealthLast->$Name . " V") 12 ] . "\n" . \
             [ $FormatLine "new value" ($Value . " V") 12 ]) });
-      } else={ 
-        :if ($NumCurr <= $CheckHealthVoltageLow && $NumLast > $CheckHealthVoltageLow) do={ 
-          $SendNotification2 ({ origin=$ScriptName; \ 
-            subject=([ $SymbolForNotification "high-voltage-sign,chart-decreasing" ] . "Health warning: Low " . $Name); \ 
-            message=("The " . $Name . " on " . $Identity . " dropped to " . $Value . " V below hard limit.") }); 
-        } 
-        :if ($NumCurr > $CheckHealthVoltageLow && $NumLast <= $CheckHealthVoltageLow) do={ 
-          $SendNotification2 ({ origin=$ScriptName; \ 
-            subject=([ $SymbolForNotification "high-voltage-sign,chart-increasing" ] . "Health recovery: Low " . $Name); \ 
-            message=("The " . $Name . " on " . $Identity . " recovered to " . $Value . " V above hard limit.") }); 
+      } else={
+        :if ($NumCurr <= $CheckHealthVoltageLow && $NumLast > $CheckHealthVoltageLow) do={
+          $SendNotification2 ({ origin=$ScriptName; \
+            subject=([ $SymbolForNotification "high-voltage-sign,chart-decreasing" ] . "Health warning: Low " . $Name); \
+            message=("The " . $Name . " on " . $Identity . " dropped to " . $Value . " V below hard limit.") });
+        }
+        :if ($NumCurr > $CheckHealthVoltageLow && $NumLast <= $CheckHealthVoltageLow) do={
+          $SendNotification2 ({ origin=$ScriptName; \
+            subject=([ $SymbolForNotification "high-voltage-sign,chart-increasing" ] . "Health recovery: Low " . $Name); \
+            message=("The " . $Name . " on " . $Identity . " recovered to " . $Value . " V above hard limit.") });
         }
       }
     }
