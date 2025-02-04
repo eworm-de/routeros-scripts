@@ -17,20 +17,20 @@ Description
 -----------
 
 This script is run from scheduler periodically, sending notification on
-health related events:
+health related events. Monitoring CPU and RAM utilization (available
+processing and memory resources) works on all devices:
 
 * high CPU utilization
 * high RAM utilization (low available RAM)
+
+With additional plugins functionality can be extended, depending on
+sensors available in hardware:
+
 * voltage jumps up or down more than configured threshold
 * voltage drops below hard lower limit
+* fan failed or recovered
 * power supply failed or recovered
 * temperature is above or below threshold
-
-Monitoring CPU and RAM utilization (available processing and memory
-resources) works on all devices. Other than that only sensors available
-in hardware can be checked. See what your hardware supports:
-
-    /system/health/print;
 
 > ⚠️ **Warning**: Note that bad initial state will not trigger an event! For
 > example rebooting a device that is already too hot will not trigger an
@@ -59,8 +59,8 @@ in hardware can be checked. See what your hardware supports:
 
 #### PSU state
 
-![check-health notification psu fail](check-health.d/notification-08-psu-fail.avif)  
-![check-health notification psu ok](check-health.d/notification-09-psu-ok.avif)
+![check-health notification state fail](check-health.d/notification-08-state-fail.avif)  
+![check-health notification state ok](check-health.d/notification-09-state-ok.avif)
 
 Requirements and installation
 -----------------------------
@@ -73,6 +73,30 @@ Just install the script and create a scheduler:
 > ℹ️ **Info**: Running lots of scripts simultaneously can tamper the
 > precision of cpu utilization, escpecially on devices with limited
 > resources. Thus an unusual interval is used here.
+
+### Plugins
+
+Additional plugins are available for sensors available in hardware. First
+check what your hardware supports:
+
+    /system/health/print;
+
+Then install the plugin for *fan* and *power supply unit* *state*:
+
+    $ScriptInstallUpdate check-health,check-health.d/state;
+
+... or *temperature*:
+
+    $ScriptInstallUpdate check-health,check-health.d/temperature;
+
+... or *voltage*:
+
+    $ScriptInstallUpdate check-health,check-health.d/voltage;
+
+You can also combine the commands and install all or a subset of plugins
+in one go:
+
+    $ScriptInstallUpdate check-health,check-health.d/state,check-health.d/temperature,check-health.d/voltage;
 
 Configuration
 -------------

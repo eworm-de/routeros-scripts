@@ -19,11 +19,6 @@
   :global CheckHealthCPUUtilizationNotified;
   :global CheckHealthLast;
   :global CheckHealthRAMUtilizationNotified;
-  :global CheckHealthTemperature;
-  :global CheckHealthTemperatureDeviation;
-  :global CheckHealthTemperatureNotified;
-  :global CheckHealthVoltageLow;
-  :global CheckHealthVoltagePercent;
   :global Identity;
 
   :global FormatLine;
@@ -33,6 +28,7 @@
   :global ScriptLock;
   :global SendNotification2;
   :global SymbolForNotification;
+  :global ValidateSyntax;
 
   :local TempToNum do={
     :global CharacterReplace;
@@ -78,105 +74,37 @@
     :set CheckHealthRAMUtilizationNotified false;
   }
 
-  :if ([ :len [ /system/health/find ] ] = 0) do={
-    $LogPrint debug $ScriptName ("Your device does not provide any health values.");
+  :local Plugins [ /system/script/find where name~"^check-health.d/." ];
+  :if ([ :len $Plugins ] = 0) do={
+    $LogPrint debug $ScriptName ("No plugins installed.");
     :set ExitOK true;
     :error true;
   }
 
+  :global CheckHealthPlugins ({});
   :if ([ :typeof $CheckHealthLast ] != "array") do={
     :set CheckHealthLast ({});
   }
-  :if ([ :typeof $CheckHealthTemperatureNotified ] != "array") do={
-    :set CheckHealthTemperatureNotified ({});
-  }
 
-  :foreach Voltage in=[ /system/health/find where type="V" ] do={
-    :local Name  [ /system/health/get $Voltage name  ];
-    :local Value [ /system/health/get $Voltage value ];
-
-    :if ([ :typeof ($CheckHealthLast->$Name) ] != "nothing") do={
-      :local NumCurr [ $TempToNum $Value ];
-      :local NumLast [ $TempToNum ($CheckHealthLast->$Name) ];
-
-      :if ($NumLast * (100 + $CheckHealthVoltagePercent) < $NumCurr * 100 || \
-           $NumLast * 100 > $NumCurr * (100 + $CheckHealthVoltagePercent)) do={
-        $SendNotification2 ({ origin=$ScriptName; \
-          subject=([ $SymbolForNotification ("high-voltage-sign,chart-" . [ $IfThenElse ($NumLast < \
-            $NumCurr) "in" "de" ] . "creasing") ] . "Health warning: " . $Name); \
-          message=("The " . $Name . " on " . $Identity . " jumped more than " . $CheckHealthVoltagePercent . "%.\n\n" . \
-            [ $FormatLine "old value" ($CheckHealthLast->$Name . " V") 12 ] . "\n" . \
-            [ $FormatLine "new value" ($Value . " V") 12 ]) });
-      } else={
-        :if ($NumCurr <= $CheckHealthVoltageLow && $NumLast > $CheckHealthVoltageLow) do={
-          $SendNotification2 ({ origin=$ScriptName; \
-            subject=([ $SymbolForNotification "high-voltage-sign,chart-decreasing" ] . "Health warning: Low " . $Name); \
-            message=("The " . $Name . " on " . $Identity . " dropped to " . $Value . " V below hard limit.") });
-        }
-        :if ($NumCurr > $CheckHealthVoltageLow && $NumLast <= $CheckHealthVoltageLow) do={
-          $SendNotification2 ({ origin=$ScriptName; \
-            subject=([ $SymbolForNotification "high-voltage-sign,chart-increasing" ] . "Health recovery: Low " . $Name); \
-            message=("The " . $Name . " on " . $Identity . " recovered to " . $Value . " V above hard limit.") });
-        }
+  :foreach Plugin in=$Plugins do={
+    :local PluginVal [ /system/script/get $Plugin ];
+    :if ([ $ValidateSyntax ($PluginVal->"source") ] = true) do={
+      :do {
+        /system/script/run $Plugin;
+      } on-error={
+        $LogPrint error $ScriptName ("Plugin '" . $ScriptVal->"name" . "' failed to run.");
       }
+    } else={
+      $LogPrint error $ScriptName ("Plugin '" . $ScriptVal->"name" . "' failed syntax validation, skipping.");
     }
-    :set ($CheckHealthLast->$Name) $Value;
   }
 
-  :foreach PSU in=[ /system/health/find where name~"^psu.*-state\$" ] do={
-    :local Name  [ /system/health/get $PSU name  ];
-    :local Value [ /system/health/get $PSU value ];
-
-    :if ([ :typeof ($CheckHealthLast->$Name) ] != "nothing") do={
-      :if ($CheckHealthLast->$Name = "ok" && \
-           $Value != "ok") do={
-        $SendNotification2 ({ origin=$ScriptName; \
-          subject=([ $SymbolForNotification "cross-mark" ] . "Health warning: " . $Name); \
-          message=("The power supply unit '" . $Name . "' on " . $Identity . " failed!") });
-      }
-      :if ($CheckHealthLast->$Name != "ok" && \
-           $Value = "ok") do={
-        $SendNotification2 ({ origin=$ScriptName; \
-          subject=([ $SymbolForNotification "white-heavy-check-mark" ] . "Health recovery: " . $Name); \
-          message=("The power supply unit '" . $Name . "' on " . $Identity . " recovered!") });
-      }
-    }
-    :set ($CheckHealthLast->$Name) $Value;
+  :foreach PluginName,Discard in=$CheckHealthPlugins do={
+    ($CheckHealthPlugins->$PluginName) \
+         ("\$CheckHealthPlugins->\"" . $PluginName . "\"");
   }
 
-  :foreach Temperature in=[ /system/health/find where type="C" ] do={
-    :local Name  [ /system/health/get $Temperature name  ];
-    :local Value [ /system/health/get $Temperature value ];
-
-    :if ([ :typeof ($CheckHealthLast->$Name) ] != "nothing") do={
-      :if ([ :typeof ($CheckHealthTemperature->$Name) ] != "num" ) do={
-        $LogPrint info $ScriptName ("No threshold given for " . $Name . ", assuming 50C.");
-        :set ($CheckHealthTemperature->$Name) 50;
-      }
-      :local Validate [ /system/health/get [ find where name=$Name ] value ];
-      :while ($Value != $Validate) do={
-        :set Value $Validate;
-        :set Validate [ /system/health/get [ find where name=$Name ] value ];
-      }
-      :if ($Value > $CheckHealthTemperature->$Name && \
-           $CheckHealthTemperatureNotified->$Name != true) do={
-        $SendNotification2 ({ origin=$ScriptName; \
-          subject=([ $SymbolForNotification "fire" ] . "Health warning: " . $Name); \
-          message=("The " . $Name . " on " . $Identity . " is above threshold: " . \
-            $Value . "\C2\B0" . "C") });
-        :set ($CheckHealthTemperatureNotified->$Name) true;
-      }
-      :if ($Value <= ($CheckHealthTemperature->$Name - $CheckHealthTemperatureDeviation) && \
-           $CheckHealthTemperatureNotified->$Name = true) do={
-        $SendNotification2 ({ origin=$ScriptName; \
-          subject=([ $SymbolForNotification "white-heavy-check-mark" ] . "Health recovery: " . $Name); \
-          message=("The " . $Name . " on " . $Identity . " dropped below threshold: " .  \
-            $Value . "\C2\B0" . "C") });
-        :set ($CheckHealthTemperatureNotified->$Name) false;
-      }
-    }
-    :set ($CheckHealthLast->$Name) $Value;
-  }
+  :set CheckHealthPlugins;
 } on-error={
   :global ExitError; $ExitError $ExitOK [ :jobname ];
 }

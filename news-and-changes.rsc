@@ -56,6 +56,7 @@
   129="Extended 'backup-partition' to support RouterOS copy-over - interactively or before feature update.";
   130="Dropped intermediate certificates, depending on just root certificates now.";
   131="Enhanced certificate download to fallback to mkcert.org, so all (commonly trusted) root certificates are available now.";
+  132="Split off plugins from 'check-health', so the script works on all devices to monitor CPU and RAM. The supported plugins for sensors in hardware are installed automatically.";
 };
 
 # Migration steps to be applied on script updates
@@ -64,4 +65,5 @@
   100=":global ScriptInstallUpdate; :if ([ :len [ /system/script/find where name=\"ssh-keys-import\" source~\"^#!rsc by RouterOS\\r?\\n\" ] ] > 0) do={ /system/script/set name=\"mod/ssh-keys-import\" ssh-keys-import; \$ScriptInstallUpdate; }";
   104=":global CharacterReplace; :global ScriptInstallUpdate; :foreach Script in={ \"capsman-download-packages\"; \"capsman-rolling-upgrade\"; \"hotspot-to-wpa\"; \"hotspot-to-wpa-cleanup\" } do={ /system/script/set name=(\$Script . \".capsman\") [ find where name=\$Script ]; :foreach Scheduler in=[ /system/scheduler/find where on-event~(\$Script . \"([^-.]|\\\$)\") ] do={ /system/scheduler/set \$Scheduler on-event=[ \$CharacterReplace [ get \$Scheduler on-event ] \$Script (\$Script . \".capsman\") ]; }; }; /ip/hotspot/user/profile/set on-login=\"hotspot-to-wpa.capsman\" [ find where on-login=\"hotspot-to-wpa\" ]; \$ScriptInstallUpdate;";
   111=":local Rec [ /ip/dns/static/find where comment~\"^managed by dhcp-to-dns for \" ]; :if ([ :len \$Rec ] > 0) do={ /ip/dns/static/remove \$Rec; /system/script/run dhcp-to-dns; }";
+  132=":if ([ :len [ /system/script/find where name=\"check-health\" ] ] > 0) do={ :local Code \":local Install \\\"check-health\\\"; :if ([ :len [ /system/health/find where type=\\\"\\\" name~\\\"-state\\\\\\\$\\\" ] ] > 0) do={ :set Install (\\\$Install . \\\",check-health.d/state\\\"); }; :if ([ :len [ /system/health/find where type=\\\"C\\\" ] ] > 0) do={ :set Install (\\\$Install . \\\",check-health.d/temperature\\\"); }; :if ([ :len [ /system/health/find where type=\\\"V\\\" ] ] > 0) do={ :set Install (\\\$Install . \\\",check-health.d/voltage\\\"); }; :global ScriptInstallUpdate; \\\$ScriptInstallUpdate \\\$Install;\"; :global ValidateSyntax; :if ([ \$ValidateSyntax \$Code ] = true) do={ :do { [ :parse \$Code ]; } on-error={ }; }; }";
 };
