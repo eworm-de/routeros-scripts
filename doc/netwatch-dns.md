@@ -53,8 +53,8 @@ Note that using a name in DoH url may introduce a chicken-and-egg issue!
 Adding a static DNS record has the same result for the url, but always
 resolves to the same address.
 
-    /ip/dns/static/add name="dns.nextdns.io" address=199.247.16.158;
-    /tool/netwatch/add comment="doh" host=199.247.16.158;
+    /ip/dns/static/add name="cloudflare-dns.com" address=1.1.1.1;
+    /tool/netwatch/add comment="doh" host=1.1.1.1;
 
 Be aware that you have to keep the ip address in sync with real world
 manually!
