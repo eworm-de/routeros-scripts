@@ -10,7 +10,7 @@ DOMAINS_DUAL = \
 	api.macvendors.com/GTS-Root-R4 \
 	api.telegram.org/Go-Daddy-Root-Certificate-Authority-G2 \
 	cloudflare-dns.com/DigiCert-Global-Root-G2 \
-	dns.google/GTS-Root-R1 \
+	dns.google/GTS-Root-R4 \
 	dns.quad9.net/DigiCert-Global-Root-G3 \
 	git.eworm.de/ISRG-Root-X2 \
 	lists.blocklist.de/Certum-Trusted-Network-CA \
