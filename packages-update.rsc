@@ -16,6 +16,9 @@
 :do {
   :local ScriptName [ :jobname ];
 
+  :global PackagesUpdateDeferReboot;
+  :global PackagesUpdateBackupFailure;
+
   :global DownloadPackage;
   :global Grep;
   :global LogPrint;
@@ -23,9 +26,6 @@
   :global ScriptFromTerminal;
   :global ScriptLock;
   :global VersionToNum;
-
-  :global PackagesUpdateDeferReboot;
-  :global PackagesUpdateBackupFailure;
 
   :local Schedule do={
     :local ScriptName [ :tostr $1 ];
