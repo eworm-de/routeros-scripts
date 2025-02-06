@@ -16,6 +16,7 @@
 :do {
   :local ScriptName [ :jobname ];
 
+  :global BackupRandomDelay;
   :global PackagesUpdateDeferReboot;
   :global PackagesUpdateBackupFailure;
 
@@ -79,7 +80,9 @@
     :set ($RunOrder->($Store->"order" . "-" . $ScriptVal->"name")) ($ScriptVal->"name");
   }
 
+  :local BackupRandomDelayBefore $BackupRandomDelay;
   :foreach Order,Script in=$RunOrder do={
+    :set BackupRandomDelay 0;
     :set PackagesUpdateBackupFailure false;
     :do {
       $LogPrint info $ScriptName ("Running backup script " . $Script . " before update.");
@@ -87,6 +90,7 @@
     } on-error={
       :set PackagesUpdateBackupFailure true;
     }
+    :set BackupRandomDelay $BackupRandomDelayBefore;
 
     :if ($PackagesUpdateBackupFailure = true) do={
       $LogPrint warning $ScriptName ("Running backup script " . $Script . " before update failed!");
