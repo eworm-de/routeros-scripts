@@ -35,6 +35,7 @@
   :global LogPrint;
   :global MkDir;
   :global RandomDelay;
+  :global RmDir;
   :global ScriptFromTerminal;
   :global ScriptLock;
   :global SendNotification2;
@@ -170,7 +171,7 @@
   :if ($Failed = 1) do={
     :set PackagesUpdateBackupFailure true;
   }
-  /file/remove $DirName;
+  $RmDir $DirName;
 } on-error={
   :global ExitError; $ExitError $ExitOK [ :jobname ];
 }
