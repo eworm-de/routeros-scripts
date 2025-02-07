@@ -23,6 +23,7 @@
   :global DownloadPackage;
   :global LogPrint;
   :global MkDir;
+  :global RmFile;
   :global ScriptLock;
   :global WaitFullyConnected;
 
@@ -63,7 +64,7 @@
     :if ([ $DownloadPackage ($File->"package-name") $InstalledVersion \
          ($File->"package-architecture") $PackagePath ] = true) do={
       :set Updated true;
-      /file/remove $Package;
+      $RmFile $Package;
     }
   }
 
