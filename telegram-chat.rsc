@@ -37,6 +37,7 @@
   :global MIN;
   :global MkDir;
   :global RandomDelay;
+  :global RmDir;
   :global ScriptLock;
   :global SendTelegram2;
   :global SymbolForNotification;
@@ -154,7 +155,7 @@
                 $State . [ $IfThenElse ([ :len $Content ] > 0) \
                 ([ $SymbolForNotification "memo" ] . "Output:\n" . $Content) \
                 ([ $SymbolForNotification "memo" ] . "No output.") ]) });
-            /file/remove "tmpfs/telegram-chat";
+            $RmDir "tmpfs/telegram-chat";
           } else={
             $LogPrint info $ScriptName ("The command from update " . $UpdateID . " failed syntax validation!");
             $SendTelegram2 ({ origin=$ScriptName; chatid=($Chat->"id"); silent=false; replyto=($Message->"message_id"); \
