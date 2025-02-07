@@ -3,7 +3,7 @@
 # Copyright (c) 2013-2025 Christian Hesse <mail@eworm.de>
 # https://rsc.eworm.de/COPYING.md
 #
-# requires RouterOS, version=7.14
+# requires RouterOS, version=7.15
 #
 # update firewall and dns settings on IPv6 prefix change
 # https://rsc.eworm.de/doc/ipv6-update.md

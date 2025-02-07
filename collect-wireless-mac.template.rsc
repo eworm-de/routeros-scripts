@@ -4,7 +4,7 @@
 # https://rsc.eworm.de/COPYING.md
 #
 # provides: lease-script, order=40
-# requires RouterOS, version=7.14
+# requires RouterOS, version=7.15
 #
 # collect wireless mac adresses in access list
 # https://rsc.eworm.de/doc/collect-wireless-mac.md

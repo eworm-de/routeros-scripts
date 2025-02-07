@@ -3,7 +3,7 @@
 # Copyright (c) 2020-2025 Christian Hesse <mail@eworm.de>
 # https://rsc.eworm.de/COPYING.md
 #
-# requires RouterOS, version=7.14
+# requires RouterOS, version=7.15
 #
 # visualize ospf instance state via leds
 # https://rsc.eworm.de/doc/ospf-to-leds.md

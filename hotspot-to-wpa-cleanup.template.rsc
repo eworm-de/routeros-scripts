@@ -4,7 +4,7 @@
 # https://rsc.eworm.de/COPYING.md
 #
 # provides: lease-script, order=80
-# requires RouterOS, version=7.14
+# requires RouterOS, version=7.15
 # requires device-mode, hotspot
 #
 # manage and clean up private WPA passphrase after hotspot login

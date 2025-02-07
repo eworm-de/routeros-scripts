@@ -3,7 +3,7 @@
 # Copyright (c) 2013-2025 Christian Hesse <mail@eworm.de>
 # https://rsc.eworm.de/COPYING.md
 #
-# requires RouterOS, version=7.14
+# requires RouterOS, version=7.15
 #
 # manage VLANs on bridge ports
 # https://rsc.eworm.de/doc/mod/bridge-port-vlan.md

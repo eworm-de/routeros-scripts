@@ -5,7 +5,7 @@
 # https://rsc.eworm.de/COPYING.md
 #
 # provides: ppp-on-up
-# requires RouterOS, version=7.14
+# requires RouterOS, version=7.15
 # requires device-mode, fetch
 #
 # update local address of tunnelbroker interface

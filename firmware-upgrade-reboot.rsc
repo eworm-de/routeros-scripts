@@ -3,7 +3,7 @@
 # Copyright (c) 2022-2025 Christian Hesse <mail@eworm.de>
 # https://rsc.eworm.de/COPYING.md
 #
-# requires RouterOS, version=7.14
+# requires RouterOS, version=7.15
 #
 # install firmware upgrade, and reboot
 # https://rsc.eworm.de/doc/firmware-upgrade-reboot.md

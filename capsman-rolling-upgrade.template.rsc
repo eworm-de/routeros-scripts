@@ -5,7 +5,7 @@
 # https://rsc.eworm.de/COPYING.md
 #
 # provides: capsman-rolling-upgrade%TEMPL%
-# requires RouterOS, version=7.14
+# requires RouterOS, version=7.15
 #
 # upgrade CAPs one after another
 # https://rsc.eworm.de/doc/capsman-rolling-upgrade.md
