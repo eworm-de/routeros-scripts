@@ -4,7 +4,7 @@
 #                         Michael Gisbers <michael@gisbers.de>
 # https://rsc.eworm.de/COPYING.md
 #
-# requires RouterOS, version=7.14
+# requires RouterOS, version=7.15
 # requires device-mode, fetch, scheduler
 #
 # global functions
@@ -895,10 +895,8 @@
   }
 
   :do {
-    :local File ($Path . "/file");
-    /file/add name=$File;
-    $WaitForFile $File;
-    /file/remove $File;
+    /file/add type="directory" name=$Path;
+    $WaitForFile $Path;
   } on-error={
     $LogPrint warning $0 ("Making directory '" . $Path . "' failed!");
     :return false;
