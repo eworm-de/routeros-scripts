@@ -130,7 +130,7 @@
     }
   }
 
-  :foreach Package in=[ /system/package/find where !bundle ] do={
+  :foreach Package in=[ /system/package/find where !bundle !available ] do={
     :local PkgName [ /system/package/get $Package name ];
     :if ([ $DownloadPackage $PkgName ($Update->"latest-version") ] = false) do={
       $LogPrint error $ScriptName ("Download for package " . $PkgName . " failed, update aborted.");
