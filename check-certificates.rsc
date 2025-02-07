@@ -44,6 +44,7 @@
     :global EscapeForRegEx;
     :global FetchUserAgentStr;
     :global LogPrint;
+    :global RmFile;
     :global UrlEncode;
     :global WaitForFile;
 
@@ -63,7 +64,7 @@
             :set DecryptionFailed false;
           }
         }
-        /file/remove [ find where name=$CertFileName ];
+        $RmFile $CertFileName;
 
         :if ($DecryptionFailed = true) do={
           $LogPrint warning $ScriptName ("Decryption failed for certificate file '" . $CertFileName . "'.");

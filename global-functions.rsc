@@ -63,6 +63,8 @@
 :global ProtocolStrip;
 :global RandomDelay;
 :global RequiredRouterOS;
+:global RmDir;
+:global RmFile;
 :global ScriptFromTerminal;
 :global ScriptInstallUpdate;
 :global ScriptLock;
@@ -147,6 +149,7 @@
   :global CleanName;
   :global FetchUserAgentStr;
   :global LogPrint;
+  :global RmFile;
   :global WaitForFile;
 
   $LogPrint info $0 ("Downloading and importing certificate with " . \
@@ -170,7 +173,7 @@
         dst-path=$FileName as-value;
       $WaitForFile $FileName;
       :if ([ /file/get $FileName size ] = 0) do={
-        /file/remove $FileName;
+        $RmFile $FileName;
         :error false;
       }
     } on-error={
@@ -181,7 +184,7 @@
 
   /certificate/import file-name=$FileName passphrase="" as-value;
   :delay 1s;
-  /file/remove [ find where name=$FileName ];
+  $RmFile $FileName;
 
   :if ([ :len [ /certificate/find where common-name=$CommonName ] ] = 0) do={
     /certificate/remove [ find where name~("^" . $FileName . "_[0-9]+\$") ];
@@ -340,6 +343,7 @@
   :global CleanFilePath;
   :global LogPrint;
   :global MkDir;
+  :global RmFile;
   :global WaitForFile;
 
   :if ([ :len $PkgName ] = 0) do={ :return false; }
@@ -383,7 +387,7 @@
       $LogPrint debug $0 ("Downloading package file failed.");
     }
 
-    /file/remove [ find where name=$PkgDest ];
+    $RmFile $PkgDest;
     :set Retry ($Retry - 1);
   }
 
@@ -453,6 +457,8 @@
   :global IfThenElse;
   :global LogPrint;
   :global MkDir;
+  :global RmDir;
+  :global RmFile;
   :global WaitForFile;
 
   :set CheckCert [ $IfThenElse ($CheckCert = "false") "no" "yes-without-crl" ];
@@ -469,10 +475,10 @@
       http-header-field=({ [ $FetchUserAgentStr $ScriptName ] }) as-value;
   } on-error={
     :if ([ $WaitForFile $FileName 500ms ] = true) do={
-      /file/remove $FileName;
+      $RmFile $FileName;
     }
     $LogPrint debug $0 ("Failed downloading from: " . $Url);
-    /file/remove $DirName;
+    $RmDir $DirName;
     :return false;
   }
   $WaitForFile $FileName;
@@ -488,7 +494,7 @@
       :delay 100ms;
     }
   }
-  /file/remove $DirName;
+  $RmDir $DirName;
   :return $Return;
 }
 
@@ -851,6 +857,7 @@
 
   :global CleanFilePath;
   :global LogPrint;
+  :global RmDir;
   :global WaitForFile;
 
   :local MkTmpfs do={
@@ -867,7 +874,7 @@
     }
 
     $LogPrint info $0 ("Creating disk of type tmpfs.");
-    /file/remove [ find where name="tmpfs" type="directory" ];
+    $RmDir "tmpfs";
     :do {
       /disk/add slot=tmpfs type=tmpfs tmpfs-max-size=([ /system/resource/get total-memory ] / 3);
       $WaitForFile "tmpfs";
@@ -999,6 +1006,62 @@
       $LogPrint warning $0 ("This " . [ $IfThenElse ([ :pick $Caller 0 ] = ("\$")) "function" "script" ] . \
         " '" . $Caller . "' (at least specific functionality) requires RouterOS " . $Required . ". Please update!");
     }
+    :return false;
+  }
+  :return true;
+}
+
+# remove directory
+:set RmDir do={
+  :local DirName [ :tostr $1 ];
+
+  :global LogPrint;
+
+  $LogPrint debug $0 ("Removing directory: ". $DirName);
+
+  :if ([ :len [ /file/find where name=$DirName type!=directory ] ] > 0) do={
+    $LogPrint error $0 ("Directory '" . $DirName . "' is not a directory.");
+    :return false;
+  }
+
+  :local Dir [ /file/find where name=$DirName type=directory ];
+  :if ([ :len $Dir ] = 0) do={
+    $LogPrint debug $0 ("... which does not exist.");
+    :return true;
+  }
+
+  :do {
+    /file/remove $Dir;
+  } on-error={
+    $LogPrint error $0 ("Removing directory '" . $DirName . "' (" . $Dir . ") failed.");
+    :return false;
+  }
+  :return true;
+}
+
+# remove file
+:set RmFile do={
+  :local FileName [ :tostr $1 ];
+
+  :global LogPrint;
+
+  $LogPrint debug $0 ("Removing file: ". $FileName);
+
+  :if ([ :len [ /file/find where name=$FileName type!=file ] ] > 0) do={
+    $LogPrint error $0 ("File '" . $FileName . "' is not a file.");
+    :return false;
+  }
+
+  :local File [ /file/find where name=$FileName type=file ];
+  :if ([ :len $File ] = 0) do={
+    $LogPrint debug $0 ("... which does not exist.");
+    :return true;
+  }
+
+  :do {
+    /file/remove $File;
+  } on-error={
+    $LogPrint error $0 ("Removing file '" . $FileName . "' (" . $File . ") failed.");
     :return false;
   }
   :return true;

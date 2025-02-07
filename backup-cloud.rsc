@@ -26,6 +26,7 @@
   :global LogPrint;
   :global MkDir;
   :global RandomDelay;
+  :global RmDir;
   :global ScriptFromTerminal;
   :global ScriptLock;
   :global SendNotification2;
@@ -97,7 +98,7 @@
     $LogPrint error $ScriptName ("Failed uploading backup for " . $Identity . " to cloud!");
     :set PackagesUpdateBackupFailure true;
   }
-  /file/remove "tmpfs/backup-cloud";
+  $RmDir "tmpfs/backup-cloud";
 } on-error={
   :global ExitError; $ExitError $ExitOK [ :jobname ];
 }
