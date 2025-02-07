@@ -36,6 +36,7 @@
   :global MkDir;
   :global RandomDelay;
   :global RmDir;
+  :global RmFile;
   :global ScriptFromTerminal;
   :global ScriptLock;
   :global SendNotification2;
@@ -100,7 +101,7 @@
       :set Failed 1;
     }
 
-    /file/remove ($FilePath . ".backup");
+    $RmFile ($FilePath . ".backup");
   }
 
   # create configuration export
@@ -119,7 +120,7 @@
       :set Failed 1;
     }
 
-    /file/remove ($FilePath . ".rsc");
+    $RmFile ($FilePath . ".rsc");
   }
 
   # global-config-overlay
@@ -140,7 +141,7 @@
       :set Failed 1;
     }
 
-    /file/remove ($FilePath . ".conf");
+    $RmFile ($FilePath . ".conf");
   }
 
   :local FileInfo do={
