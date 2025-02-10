@@ -1014,6 +1014,11 @@
 
   $LogPrint debug $0 ("Removing directory: ". $DirName);
 
+  :if ([ :len [ /file/find where name=$DirName type!=directory ] ] > 0) do={
+    $LogPrint error $0 ("Directory '" . $DirName . "' is not a directory.");
+    :return false;
+  }
+
   :local Dir [ /file/find where name=$DirName type=directory ];
   :if ([ :len $Dir ] = 0) do={
     $LogPrint debug $0 ("... which does not exist.");
