@@ -119,17 +119,17 @@
 :global FwAddrListTimeOut 1d;
 
 # This defines what log messages to filter or include by topic or message
-# text. Regular expressions are supported. Do *NOT* set an empty string,
-# that will filter or include everything!
+# text. Regular expressions are supported. An empty string has a special
+# meaning not to filter or include anything.
 # These are filters, so excluding messages from forwarding.
 :global LogForwardFilter "(debug|info|packet|raw)";
-:global LogForwardFilterMessage [];
+:global LogForwardFilterMessage "";
 #:global LogForwardFilterMessage "message text";
 #:global LogForwardFilterMessage "(message text|another text|...)";
 # ... and another setting with reverse logic. This includes messages even
 # if filtered above.
-:global LogForwardInclude [];
-:global LogForwardIncludeMessage [];
+:global LogForwardInclude "";
+:global LogForwardIncludeMessage "";
 #:global LogForwardInclude "account";
 #:global LogForwardIncludeMessage "message text";
 

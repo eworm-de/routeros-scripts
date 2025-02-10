@@ -57,6 +57,11 @@
   :local MessageVal;
   :local MessageDups ({});
 
+  :set LogForwardFilter [ $EitherOr $LogForwardFilter [] ];
+  :set LogForwardFilterMessage [ $EitherOr $LogForwardFilterMessage [] ];
+  :set LogForwardInclude [ $EitherOr $LogForwardInclude [] ];
+  :set LogForwardIncludeMessage [ $EitherOr $LogForwardIncludeMessage [] ];
+
   :local LogForwardFilterLogForwardingCached [ $EitherOr [ $LogForwardFilterLogForwarding ] ("\$^") ];
   :foreach Message in=[ /log/find where (!(message="") and \
       !(message~$LogForwardFilterLogForwardingCached) and \
