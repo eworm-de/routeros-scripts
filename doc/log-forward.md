@@ -53,6 +53,12 @@ Just install the script:
 Configuration
 -------------
 
+The default configuration should provide reasonable presets, filtering
+*info*, and effectively forwarding *warning* and *error*.
+
+> 💡️ **Hint**: Please try with defaults first, especially if you are not
+> familiar with regular expressions!
+
 The configuration goes to `global-config-overlay`, these are the parameters:
 
 * `LogForwardFilter`: define topics *not* to be forwarded
