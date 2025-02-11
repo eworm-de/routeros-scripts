@@ -891,7 +891,10 @@
     :return true;
   }
 
+  $LogPrint debug $0 ("Making directory: " . $Path);
+
   :if ([ :len [ /file/find where name=$Path type="directory" ] ] = 1) do={
+    $LogPrint debug $0 ("... which already exists.");
     :return true;
   }
 
