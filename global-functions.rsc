@@ -1669,6 +1669,7 @@
 
   :global CleanFilePath;
   :global EitherOr;
+  :global LogPrintOnce;
   :global MAX;
 
   :set FileName [ $CleanFilePath $FileName ];
@@ -1682,7 +1683,20 @@
     :delay $Delay;
     :set I ($I + 1);
   }
-  :return true;
+
+  :while ([ :len [ /file/find where name=$FileName ] ] > 0) do={
+    :do {
+      /file/get $FileName;
+      :return true;
+    } on-error={
+      $LogPrintOnce warning $0 \
+          ("Hit the infamous file handling breakage (SUP-179200) introduced with RouterOS 7.18beta2...");
+    }
+    :delay $Delay;
+    :set Delay ($Delay * 3 / 2);
+  }
+
+  :return false;
 }
 
 # wait to be fully connected (default route is reachable, time is sync, DNS resolves)
