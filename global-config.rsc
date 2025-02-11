@@ -98,10 +98,6 @@
   "block"={
 #    { url="https://rsc.eworm.de/main/fw-addr-lists.d/block";
 #      cert="ISRG Root X2" };
-    { url="https://feodotracker.abuse.ch/downloads/ipblocklist_recommended.txt";
-      cert="GlobalSign" };
-    { url="https://sslbl.abuse.ch/blacklist/sslipblacklist.txt";
-      cert="GlobalSign" };
     { url="https://www.dshield.org/block.txt"; cidr="/24";
       cert="ISRG Root X1" };
     { url="https://lists.blocklist.de/lists/strongips.txt";

@@ -19,9 +19,9 @@ Description
 This script downloads, imports and updates firewall address-lists. Its main
 purpose is to block attacking ip addresses, spam hosts, command-and-control
 servers and similar malicious entities. The default configuration contains
-lists from [abuse.ch](https://abuse.ch/), [dshield.org](https://dshield.org/)
-and [blocklist.de](https://www.blocklist.de/), and
-lists from [spamhaus.org](https://spamhaus.org/) are prepared.
+lists from [dshield.org](https://dshield.org/) and
+[blocklist.de](https://www.blocklist.de/), and lists from
+[spamhaus.org](https://spamhaus.org/) are prepared.
 
 The address-lists are updated in place, so after initial import you will not
 see situation when the lists are not populated.

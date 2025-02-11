@@ -23,12 +23,10 @@ DOMAINS_IPV4 = \
 	8.8.8.8/GTS-Root-R1 \
 	9.9.9.9/DigiCert-Global-Root-G3 \
 	api.mullvad.net/ISRG-Root-X1 \
-	feodotracker.abuse.ch/GlobalSign \
 	ipv4.showipv6.de/ISRG-Root-X1 \
 	ipv4.tunnelbroker.net/Starfield-Root-Certificate-Authority-G2 \
 	mkcert.org/ISRG-Root-X1 \
 	ntfy.sh/ISRG-Root-X1 \
-	sslbl.abuse.ch/GlobalSign \
 	www.dshield.org/ISRG-Root-X1 \
 	www.spamhaus.org/GTS-Root-R4
 DOMAINS_IPV6 = \
