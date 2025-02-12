@@ -90,6 +90,7 @@
 :global BackupPartitionCopyBeforeFeatureUpdate false;
 
 # This defines the settings for firewall address-lists (fw-addr-lists).
+# Warning: Mind your device's resources - memory and processing!
 :global FwAddrLists {
 #  "allow"={
 #    { url="https://rsc.eworm.de/main/fw-addr-lists.d/allow";
@@ -98,6 +99,9 @@
   "block"={
 #    { url="https://rsc.eworm.de/main/fw-addr-lists.d/block";
 #      cert="ISRG Root X2" };
+    { url="https://raw.githubusercontent.com/stamparm/ipsum/refs/heads/master/levels/4.txt";
+#     # higher level (decrease the numerical value) for more addresses, and vice versa
+      cert="DigiCert Global Root G2" };
     { url="https://www.dshield.org/block.txt"; cidr="/24";
       cert="ISRG Root X1" };
     { url="https://lists.blocklist.de/lists/strongips.txt";

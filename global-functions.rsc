@@ -13,7 +13,7 @@
 :local ScriptName [ :jobname ];
 
 # expected configuration version
-:global ExpectedConfigVersion 132;
+:global ExpectedConfigVersion 133;
 
 # global variables not to be changed by user
 :global GlobalFunctionsReady false;

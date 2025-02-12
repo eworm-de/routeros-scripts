@@ -57,6 +57,7 @@
   130="Dropped intermediate certificates, depending on just root certificates now.";
   131="Enhanced certificate download to fallback to mkcert.org, so all (commonly trusted) root certificates are available now.";
   132="Split off plugins from 'check-health', so the script works on all devices to monitor CPU and RAM. The supported plugins for sensors in hardware are installed automatically.";
+  133="Updated the default configuration for 'fw-addr-lists', deprecated lists were removed, a collective list was added.";
 };
 
 # Migration steps to be applied on script updates
