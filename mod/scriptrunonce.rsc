@@ -46,7 +46,10 @@
       [ :parse $Source ];
     } on-error={
       $LogPrint warning $0 ("The script '" . $Script . "' failed to run!");
+      :return false;
     }
+
+    :return true;
   }
 } on-error={
   :global ExitError; $ExitError false $0;
