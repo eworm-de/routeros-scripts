@@ -4,7 +4,6 @@
 # https://rsc.eworm.de/COPYING.md
 #
 # requires RouterOS, version=7.15
-# requires device-mode, fetch
 #
 # download script and run it once
 # https://rsc.eworm.de/doc/mod/scriptrunonce.md
@@ -18,6 +17,7 @@
   :global ScriptRunOnceBaseUrl;
   :global ScriptRunOnceUrlSuffix;
 
+  :global FetchHuge;
   :global LogPrint;
   :global ValidateSyntax;
 
@@ -30,11 +30,10 @@
       :set Script ($ScriptRunOnceBaseUrl . $Script . ".rsc" . $ScriptRunOnceUrlSuffix);
     }
 
-    :local Source;
-    :do {    
-      :set Source ([ /tool/fetch check-certificate=yes-without-crl $Script output=user as-value ]->"data");
-    } on-error={
+    :local Source [ $FetchHuge $0 $Script true ];
+    :if ($Source = false) do={
       $LogPrint warning $0 ("Failed fetching script '" . $Script . "'!");
+      :return false;
     }
 
     :if ([ :len $Source ] > 0) do={
