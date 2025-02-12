@@ -36,17 +36,16 @@
       :return false;
     }
 
-    :if ([ :len $Source ] > 0) do={
-      :if ([ $ValidateSyntax $Source ] = true) do={
-        :do {
-          $LogPrint info $0 ("Running script '" . $Script . "' now.");
-          [ :parse $Source ];
-        } on-error={
-          $LogPrint warning $0 ("The script '" . $Script . "' failed to run!");
-        }
-      } else={
-        $LogPrint warning $0 ("The script '" . $Script . "' failed syntax validation!");
-      }
+    :if ([ $ValidateSyntax $Source ] = false) do={
+      $LogPrint warning $0 ("The script '" . $Script . "' failed syntax validation!");
+      :return false;
+    }
+
+    :do {
+      $LogPrint info $0 ("Running script '" . $Script . "' now.");
+      [ :parse $Source ];
+    } on-error={
+      $LogPrint warning $0 ("The script '" . $Script . "' failed to run!");
     }
   }
 } on-error={
