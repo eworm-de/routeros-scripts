@@ -1105,6 +1105,7 @@
   :local Scripts    [ :toarray $1 ];
   :local NewComment [ :tostr   $2 ];
 
+  :global CommitId;
   :global ExpectedConfigVersion;
   :global Identity;
   :global IDonate;
@@ -1137,6 +1138,7 @@
     }
   }
 
+  :local CommitIdBefore $CommitId;
   :local ExpectedConfigVersionBefore $ExpectedConfigVersion;
   :local ReloadGlobalFunctions false;
   :local ReloadGlobalConfig false;
@@ -1249,6 +1251,10 @@
       $LogPrint error $0 ("Reloading global configuration failed!" . \
         " Syntax error or missing overlay?");
     }
+  }
+
+  :if ($CommitId != "unknown" && $CommitIdBefore != $CommitId) do={
+    $LogPrint info $0 ("Updated to commit id: " . [ :pick $CommitId 0 8 ]);
   }
 
   :if ($ExpectedConfigVersionBefore > $ExpectedConfigVersion) do={
