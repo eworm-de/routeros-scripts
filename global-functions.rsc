@@ -12,8 +12,9 @@
 
 :local ScriptName [ :jobname ];
 
-# expected configuration version
+# Git commit id & info, expected configuration version
 :global CommitId "unknown";
+:global CommitInfo "unknown";
 :global ExpectedConfigVersion 133;
 
 # global variables not to be changed by user
@@ -286,6 +287,7 @@
 # get readable device info
 :set DeviceInfo do={
   :global CommitId;
+  :global CommitInfo;
   :global ExpectedConfigVersion;
   :global Identity;
 
@@ -327,7 +329,7 @@
       ([ $FormatLine "    Firmware" ($RouterBoard->"current-firmware") ] . "\n") ] . \
     "RouterOS-Scripts:\n" . \
     [ $IfThenElse ($CommitId != "unknown") \
-      ([ $FormatLine "    Commit" [ :pick $CommitId 0 8 ] ] . "\n") ] . \
+      ([ $FormatLine "    Commit" ($CommitInfo . "/" . [ :pick $CommitId 0 8 ]) ] . "\n") ] . \
     [ $FormatLine "    Version" $ExpectedConfigVersion ]);
 }
 
