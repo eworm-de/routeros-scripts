@@ -1108,6 +1108,7 @@
   :local NewComment [ :tostr   $2 ];
 
   :global CommitId;
+  :global CommitInfo;
   :global ExpectedConfigVersion;
   :global Identity;
   :global IDonate;
@@ -1256,7 +1257,7 @@
   }
 
   :if ($CommitId != "unknown" && $CommitIdBefore != $CommitId) do={
-    $LogPrint info $0 ("Updated to commit id: " . [ :pick $CommitId 0 8 ]);
+    $LogPrint info $0 ("Updated to commit: " . $CommitInfo . "/" . [ :pick $CommitId 0 8 ]);
   }
 
   :if ($ExpectedConfigVersionBefore > $ExpectedConfigVersion) do={
