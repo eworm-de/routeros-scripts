@@ -1682,7 +1682,6 @@
 
   :global CleanFilePath;
   :global EitherOr;
-  :global LogPrintOnce;
   :global MAX;
 
   :set FileName [ $CleanFilePath $FileName ];
@@ -1701,10 +1700,7 @@
     :do {
       /file/get $FileName;
       :return true;
-    } on-error={
-      $LogPrintOnce warning $0 \
-          ("Hit the infamous file handling breakage (SUP-179200) introduced with RouterOS 7.18beta2...");
-    }
+    } on-error={ }
     :delay $Delay;
     :set Delay ($Delay * 3 / 2);
   }
