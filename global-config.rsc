@@ -33,6 +33,8 @@
 :global TelegramChatId "";
 #:global TelegramTokenId "123456:ABCDEF-GHI";
 #:global TelegramChatId "12345678";
+# Use this to send notifications to a specific topic in group.
+:global TelegramThreadId "";
 # Using telegram-chat you have to define trusted chat ids (not group ids!)
 # or user names. Groups allow to chat with devices simultaneously.
 #:global TelegramChatIdsTrusted {

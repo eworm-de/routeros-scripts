@@ -68,6 +68,8 @@
   :global TelegramChatIdOverride;
   :global TelegramMessageIDs;
   :global TelegramQueue;
+  :global TelegramThreadId;
+  :global TelegramThreadIdOverride;
   :global TelegramTokenId;
   :global TelegramTokenIdOverride;
 
@@ -108,6 +110,8 @@
 
   :local ChatId [ $EitherOr ($Notification->"chatid") \
     [ $EitherOr ($TelegramChatIdOverride->($Notification->"origin")) $TelegramChatId ] ];
+  :local ThreadId [ $EitherOr ($Notification->"threadid") \
+    [ $EitherOr ($TelegramThreadIdOverride->($Notification->"origin")) $TelegramThreadId ] ];
   :local TokenId [ $EitherOr ($TelegramTokenIdOverride->($Notification->"origin")) $TelegramTokenId ];
 
   :if ([ :len $TokenId ] = 0 || [ :len $ChatId ] = 0) do={
@@ -143,8 +147,8 @@
   }
 
   :local HTTPData ("chat_id=" . $ChatId . "&disable_notification=" . ($Notification->"silent") . \
-      "&reply_to_message_id=" . ($Notification->"replyto") . "&disable_web_page_preview=true" . \
-      "&parse_mode=MarkdownV2");
+      "&reply_to_message_id=" . ($Notification->"replyto") . "&message_thread_id=" . $ThreadId . \
+       "&disable_web_page_preview=true&parse_mode=MarkdownV2");
   :do {
     :if ([ $CertificateAvailable "Go Daddy Root Certificate Authority - G2" ] = false) do={
       $LogPrint warning $0 ("Downloading required certificate failed.");
