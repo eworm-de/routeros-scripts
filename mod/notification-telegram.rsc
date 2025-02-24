@@ -22,7 +22,6 @@
 
   :global IsFullyConnected;
   :global LogPrint;
-  :global UrlEncode;
 
   :if ([ $IsFullyConnected ] = false) do={
     $LogPrint debug $0 ("System is not fully connected, not flushing.");
@@ -41,9 +40,7 @@
       :do {
         :local Data ([ /tool/fetch check-certificate=yes-without-crl output=user http-method=post \
           ("https://api.telegram.org/bot" . ($Message->"tokenid") . "/sendMessage") \
-          http-data=("chat_id=" . ($Message->"chatid") . "&disable_notification=" . ($Message->"silent") . \
-          "&reply_to_message_id=" . ($Message->"replyto") . "&disable_web_page_preview=true" . \
-          "&parse_mode=MarkdownV2&text=" . [ $UrlEncode ($Message->"text") ]) as-value ]->"data");
+          http-data=($Message->"http-data") as-value ]->"data");
         :set ($TelegramQueue->$Id);
         :set ($TelegramMessageIDs->[ :tostr ([ :deserialize from=json value=$Data ]->"result"->"message_id") ]) 1;
       } on-error={
@@ -145,6 +142,9 @@
       (($LenSum - [ :len $Text ]) * 100 / $LenSum) . "%_!") "plain" "_" ]);
   }
 
+  :local HTTPData ("chat_id=" . $ChatId . "&disable_notification=" . ($Notification->"silent") . \
+      "&reply_to_message_id=" . ($Notification->"replyto") . "&disable_web_page_preview=true" . \
+      "&parse_mode=MarkdownV2");
   :do {
     :if ([ $CertificateAvailable "Go Daddy Root Certificate Authority - G2" ] = false) do={
       $LogPrint warning $0 ("Downloading required certificate failed.");
@@ -152,9 +152,7 @@
     }
     :local Data ([ /tool/fetch check-certificate=yes-without-crl output=user http-method=post \
       ("https://api.telegram.org/bot" . $TokenId . "/sendMessage") \
-      http-data=("chat_id=" . $ChatId . "&disable_notification=" . ($Notification->"silent") . \
-      "&reply_to_message_id=" . ($Notification->"replyto") . "&disable_web_page_preview=true" . \
-      "&parse_mode=MarkdownV2&text=" . [ $UrlEncode $Text ]) as-value ]->"data");
+      http-data=($HTTPData . "&text=" . [ $UrlEncode $Text ]) as-value ]->"data");
     :set ($TelegramMessageIDs->[ :tostr ([ :deserialize from=json value=$Data ]->"result"->"message_id") ]) 1;
   } on-error={
     $LogPrint info $0 ("Failed sending Telegram notification! Queuing...");
@@ -165,8 +163,8 @@
     :set Text ($Text . "\n" . [ $SymbolForNotification "alarm-clock" ] . \
       [ $EscapeMD ("This message was queued since _" . [ /system/clock/get date ] . \
       " " . [ /system/clock/get time ] . "_ and may be obsolete.") "plain" "_" ]);
-    :set ($TelegramQueue->[ :len $TelegramQueue ]) { chatid=$ChatId; tokenid=$TokenId;
-      text=$Text; silent=($Notification->"silent"); replyto=($Notification->"replyto") };
+    :set ($TelegramQueue->[ :len $TelegramQueue ]) { tokenid=$TokenId;
+      http-data=($HTTPData . "&text=" . [ $UrlEncode $Text ]) };
     :if ([ :len [ /system/scheduler/find where name="_FlushTelegramQueue" ] ] = 0) do={
       /system/scheduler/add name="_FlushTelegramQueue" interval=1m start-time=startup \
         on-event=(":global FlushTelegramQueue; \$FlushTelegramQueue;");
