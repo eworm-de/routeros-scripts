@@ -15,7 +15,7 @@
 # Git commit id & info, expected configuration version
 :global CommitId "unknown";
 :global CommitInfo "unknown";
-:global ExpectedConfigVersion 133;
+:global ExpectedConfigVersion 134;
 
 # global variables not to be changed by user
 :global GlobalFunctionsReady false;
