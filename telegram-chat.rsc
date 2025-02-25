@@ -97,7 +97,7 @@
   :foreach Update in=($JSON->"result") do={
     :set UpdateID ($Update->"update_id");
     :local Message ($Update->"message");
-    :local IsReply [ :len ($Message->"reply_to_message") ];
+    :local IsReply ([ :typeof ($Message->"reply_to_message") ] = "string");
     :local IsMyReply ($TelegramMessageIDs->[ :tostr ($Message->"reply_to_message"->"message_id") ]);
     :if (($IsMyReply = 1 || $TelegramChatOffset->0 > 0 || $Uptime > 5m) && $UpdateID >= $TelegramChatOffset->2) do={
       :local Trusted false;
@@ -130,7 +130,8 @@
             " from update " . $UpdateID . "!");
           :set Done true;
         }
-        :if ($Done = false && ($IsMyReply = 1 || ($IsReply = 0 && $TelegramChatActive = true)) && [ :len $Command ] > 0) do={
+        :if ($Done = false && ($IsMyReply = 1 || ($IsReply = false && \
+             $TelegramChatActive = true)) && [ :len $Command ] > 0) do={
           :if ([ $ValidateSyntax $Command ] = true) do={
             :local State "";
             :local File ("tmpfs/telegram-chat/" . [ $GetRandom20CharAlNum 6 ]);
