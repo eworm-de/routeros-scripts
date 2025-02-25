@@ -38,14 +38,21 @@ create your own bot:
 
 ![create new bot](notification-telegram.d/newbot.avif)
 
-Now open a chat with your bot and start it by clicking the `START` button.
+Set that token from *BotFather* (use your own!) to `TelegramTokenId`, for
+now just temporarily:
 
-Open just another chat with [GetIDs Bot](https://t.me/getidsbot), again start
-with the `START` button. It will send you some information, including the
-`id`, just below `You`.
+    :set TelegramTokenId "5214364459:AAHLwf1o7ybbKDo6pY24Kd2bZ5rjCakDXTc";
+
+Now open a chat with your bot and start it by clicking the `START` button,
+then send your first message. Any text will do. On your device run
+`$GetTelegramChatId` to retrieve the chat id:
+
+    $GetTelegramChatId;
+
+![get chat id](notification-telegram.d/getchatid.avif)
 
 Finally edit `global-config-overlay`, add `TelegramTokenId` with the token
-from *BotFather* and `TelegramChatId` with your id from *GetIDs Bot*. Then
+from *BotFather* and `TelegramChatId` with your retrieved chat id. Then
 reload the configuration.
 
 > ℹ️ **Info**: Copy relevant configuration from
@@ -54,9 +61,10 @@ reload the configuration.
 
 ### Notifications to a group
 
-Sending notifications to a group is possible as well. Add your bot and the
-*GetIDs Bot* to a group, then use the group's id (which starts with a dash)
-for `TelegramChatId`. Then remove *GetIDs Bot* from group.
+Sending notifications to a group is possible as well. Add your bot to a group
+and make it an admin (required for read access!) and send a message and run
+`$GetTelegramChatId` again. Then use that chat id (which starts with a dash)
+for `TelegramChatId`.
 
 Groups can enable the `Topics` feature. Use `TelegramThreadId` to send to a
 specific topic in a group.

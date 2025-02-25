@@ -10,6 +10,7 @@
 # https://rsc.eworm.de/doc/mod/notification-telegram.md
 
 :global FlushTelegramQueue;
+:global GetTelegramChatId;
 :global NotificationFunctions;
 :global PurgeTelegramQueue;
 :global SendTelegram;
@@ -57,6 +58,39 @@
 } on-error={
   :global ExitError; $ExitError false $0;
 } }
+
+# get the chat id
+:set GetTelegramChatId do={ :do {
+  :global TelegramTokenId;
+
+  :global CertificateAvailable;
+  :global LogPrint;
+
+  :if ([ $CertificateAvailable "Go Daddy Root Certificate Authority - G2" ] = false) do={
+    $LogPrint warning $0 ("Downloading required certificate failed.");
+    :return false;
+  }
+
+  :local Data;
+  :do {
+    :set Data ([ /tool/fetch check-certificate=yes-without-crl output=user \
+       ("https://api.telegram.org/bot" . $TelegramTokenId . "/getUpdates?offset=0" . \
+       "&allowed_updates=%5B%22message%22%5D") as-value ]->"data");
+  } on-error={
+    $LogPrint warning $0 ("Fetching data failed!");
+    :return false;
+  }
+
+  :local JSON [ :deserialize from=json value=$Data ];
+  :foreach Update in=($JSON->"result") do={
+    $LogPrint info $0 ("The chat id is: " . ($Update->"message"->"chat"->"id"));
+    :return true;
+  }
+
+  $LogPrint info $0 ("No message received.");
+} on-error={ 
+  :global ExitError; $ExitError false $0;
+} } 
 
 # send notification via telegram - expects one array argument
 :set ($NotificationFunctions->"telegram") do={

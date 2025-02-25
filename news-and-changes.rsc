@@ -59,6 +59,7 @@
   132="Split off plugins from 'check-health', so the script works on all devices to monitor CPU and RAM. The supported plugins for sensors in hardware are installed automatically.";
   133="Updated the default configuration for 'fw-addr-lists', deprecated lists were removed, a collective list was added.";
   134="Enhanced 'mod/notification-telegram' and 'telegram-chat' to support topics in groups.";
+  135="Introduced helper function '\$GetTelegramChatId' for 'mod/notification-telegram' which helps retrieve information.";
 };
 
 # Migration steps to be applied on script updates
