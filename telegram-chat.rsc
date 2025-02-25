@@ -119,7 +119,8 @@
           $SendTelegram2 ({ origin=$ScriptName; chatid=($Chat->"id"); silent=true; \
             replyto=($Message->"message_id"); threadid=$ThreadId; \
             subject=([ $SymbolForNotification "speech-balloon" ] . "Telegram Chat"); \
-            message=("Online" . [ $IfThenElse $TelegramChatActive " (and active!)" ] . ", awaiting your commands!") });
+            message=([ $IfThenElse ([ :len ($From->"first_name") ] > 0) ("Hello " . ($From->"first_name") . "!\n\n") ] . \
+              "Online" . [ $IfThenElse $TelegramChatActive " (and active!)" ] . ", awaiting your commands!") });
           :set Done true;
         }
         :if ($Done = false && [ :pick $Command 0 1 ] = "!") do={
