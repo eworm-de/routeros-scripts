@@ -58,6 +58,9 @@ Sending notifications to a group is possible as well. Add your bot and the
 *GetIDs Bot* to a group, then use the group's id (which starts with a dash)
 for `TelegramChatId`. Then remove *GetIDs Bot* from group.
 
+Groups can enable the `Topics` feature. Use `TelegramThreadId` to send to a
+specific topic in a group.
+
 Usage and invocation
 --------------------
 
