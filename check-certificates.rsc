@@ -48,8 +48,6 @@
     :global UrlEncode;
     :global WaitForFile;
 
-    :local Return false;
-
     :foreach Type in={ "pem"; "p12" } do={
       :local CertFileName ([ $UrlEncode $FetchName ] . "." . $Type);
       $LogPrint debug $ScriptName ("Trying type '" . $Type . "' for '" . $CertName . \
@@ -84,13 +82,13 @@
           $CertificateNameByCN [ /certificate/get $CertInChain common-name ];
         }
 
-        :set Return true;
+        :return true;
       } on-error={
         $LogPrint debug $ScriptName ("Could not download certificate file '" . $CertFileName . "'.");
       }
     }
 
-    :return $Return;
+    :return false;
   }
 
   :local FormatInfo do={
