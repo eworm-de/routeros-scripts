@@ -52,6 +52,9 @@
 
     :foreach Type in={ "pem"; "p12" } do={
       :local CertFileName ([ $UrlEncode $FetchName ] . "." . $Type);
+      $LogPrint debug $ScriptName ("Trying type '" . $Type . "' for '" . $CertName . \
+          "' (file '" . $CertFileName . "')...");
+
       :do {
         /tool/fetch check-certificate=yes-without-crl http-header-field=({ [ $FetchUserAgentStr $ScriptName ] }) \
             ($CertRenewUrl . $CertFileName) dst-path=$CertFileName as-value;
