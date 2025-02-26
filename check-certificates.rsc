@@ -59,10 +59,12 @@
 
         :local DecryptionFailed true;
         :foreach PassPhrase in=$CertRenewPass do={
-          :local Result [ /certificate/import file-name=$CertFileName passphrase=$PassPhrase as-value ];
-          :if ($Result->"decryption-failures" = 0) do={
-            :set DecryptionFailed false;
-          }
+          :do {
+            :local Result [ /certificate/import file-name=$CertFileName passphrase=$PassPhrase as-value ];
+            :if ($Result->"decryption-failures" = 0) do={
+              :set DecryptionFailed false;
+            }
+          } on-error={ }
         }
         $RmFile $CertFileName;
 
