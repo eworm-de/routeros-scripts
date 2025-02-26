@@ -91,6 +91,9 @@
 
   :local Message ($JSON->"result"->($Count - 1)->"message");
   $LogPrint info $0 ("The chat id is: " . ($Message->"chat"->"id"));
+  :if (($Message->"is_topic_message") = true) do={
+    $LogPrint info $0 ("The thread id is: " . ($Message->"message_thread_id"));
+  }
 } on-error={ 
   :global ExitError; $ExitError false $0;
 } } 
