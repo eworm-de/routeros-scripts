@@ -82,12 +82,15 @@
   }
 
   :local JSON [ :deserialize from=json value=$Data ];
-  :foreach Update in=($JSON->"result") do={
-    $LogPrint info $0 ("The chat id is: " . ($Update->"message"->"chat"->"id"));
-    :return true;
+  :local Count [ :len ($JSON->"result") ];
+
+  :if ($Count = 0) do={
+    $LogPrint info $0 ("No message received.");
+    :return false;
   }
 
-  $LogPrint info $0 ("No message received.");
+  :local Message ($JSON->"result"->($Count - 1)->"message");
+  $LogPrint info $0 ("The chat id is: " . ($Message->"chat"->"id"));
 } on-error={ 
   :global ExitError; $ExitError false $0;
 } } 
