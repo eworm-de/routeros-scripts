@@ -48,7 +48,7 @@
     :global UrlEncode;
     :global WaitForFile;
 
-    :foreach Type in={ "pem"; "p12" } do={
+    :foreach Type in={ "p12"; "pem" } do={
       :local CertFileName ([ $UrlEncode $FetchName ] . "." . $Type);
       $LogPrint debug $ScriptName ("Trying type '" . $Type . "' for '" . $CertName . \
           "' (file '" . $CertFileName . "')...");
