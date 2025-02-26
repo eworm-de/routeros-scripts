@@ -58,10 +58,12 @@
         $WaitForFile $CertFileName;
 
         :local DecryptionFailed true;
-        :foreach PassPhrase in=$CertRenewPass do={
+        :foreach I,PassPhrase in=$CertRenewPass do={
           :do {
+            $LogPrint debug $ScriptName ("Trying " . $I . ". passphrase... ");
             :local Result [ /certificate/import file-name=$CertFileName passphrase=$PassPhrase as-value ];
             :if ($Result->"decryption-failures" = 0) do={
+              $LogPrint debug $ScriptName ("Success!");
               :set DecryptionFailed false;
             }
           } on-error={ }
