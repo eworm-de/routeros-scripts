@@ -48,21 +48,26 @@
     :global UrlEncode;
     :global WaitForFile;
 
-    :local Return false;
+    :foreach Type in={ "p12"; "pem" } do={
+      :local CertFileName ([ $UrlEncode $FetchName ] . "." . $Type);
+      $LogPrint debug $ScriptName ("Trying type '" . $Type . "' for '" . $CertName . \
+          "' (file '" . $CertFileName . "')...");
 
-    :foreach Type in={ ".pem"; ".p12" } do={
-      :local CertFileName ([ $UrlEncode $FetchName ] . $Type);
       :do {
         /tool/fetch check-certificate=yes-without-crl http-header-field=({ [ $FetchUserAgentStr $ScriptName ] }) \
             ($CertRenewUrl . $CertFileName) dst-path=$CertFileName as-value;
         $WaitForFile $CertFileName;
 
         :local DecryptionFailed true;
-        :foreach PassPhrase in=$CertRenewPass do={
-          :local Result [ /certificate/import file-name=$CertFileName passphrase=$PassPhrase as-value ];
-          :if ($Result->"decryption-failures" = 0) do={
-            :set DecryptionFailed false;
-          }
+        :foreach I,PassPhrase in=$CertRenewPass do={
+          :do {
+            $LogPrint debug $ScriptName ("Trying " . $I . ". passphrase... ");
+            :local Result [ /certificate/import file-name=$CertFileName passphrase=$PassPhrase as-value ];
+            :if ($Result->"decryption-failures" = 0) do={
+              $LogPrint debug $ScriptName ("Success!");
+              :set DecryptionFailed false;
+            }
+          } on-error={ }
         }
         $RmFile $CertFileName;
 
@@ -77,13 +82,13 @@
           $CertificateNameByCN [ /certificate/get $CertInChain common-name ];
         }
 
-        :set Return true;
+        :return true;
       } on-error={
         $LogPrint debug $ScriptName ("Could not download certificate file '" . $CertFileName . "'.");
       }
     }
 
-    :return $Return;
+    :return false;
   }
 
   :local FormatInfo do={
