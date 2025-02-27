@@ -19,7 +19,7 @@ Run the complete base installation:
     {
       /tool/fetch "https://git.eworm.de/cgit/routeros-scripts/plain/certs/ISRG-Root-X2.pem" dst-path="isrg-root-x2.pem" as-value;
       :delay 1s;
-      /certificate/import file-name=isrg-root-x2.pem passphrase="";
+      /certificate/import file-name="isrg-root-x2.pem" passphrase="";
       :if ([ :len [ /certificate/find where fingerprint="69729b8e15a86efc177a57afb7171dfc64add28c2fca8cf1507e34453ccb1470" ] ] != 1) do={
         :error "Something is wrong with your certificates!";
       };
