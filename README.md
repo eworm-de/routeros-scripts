@@ -87,7 +87,7 @@ file to your MikroTik device.
 
 Then we import the certificate.
 
-    /certificate/import file-name=isrg-root-x2.pem passphrase="";
+    /certificate/import file-name="isrg-root-x2.pem" passphrase="";
 
 Do not worry that the command is not shown - that happens because it contains
 a sensitive property, the passphrase.
