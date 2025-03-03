@@ -20,7 +20,9 @@
   :global ScriptLock;
 
   :local NaAddress $"na-address";
+  :local NaValid $"na-valid";
   :local PdPrefix $"pd-prefix";
+  :local PdValid $"pd-valid";
 
   :if ([ $ScriptLock $ScriptName ] = false) do={
     :set ExitOK true;
@@ -35,6 +37,12 @@
 
   :if ([ :typeof $PdPrefix ] = "nothing") do={
     $LogPrint error $ScriptName ("This script is supposed to run from ipv6 dhcp-client.");
+    :set ExitOK true;
+    :error false;
+  }
+
+  :if ($PdValid != 1) do={
+    $LogPrint info $ScriptName ("The prefix " . $PdPrefix . " is no longer valid. Ignoring.");
     :set ExitOK true;
     :error false;
   }
