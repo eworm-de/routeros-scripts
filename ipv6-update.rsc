@@ -35,7 +35,7 @@
     :error false;
   }
 
-  :if ([ :typeof $PdPrefix ] = "nothing") do={
+  :if ([ :typeof $PdPrefix ] = "nothing" || [ :typeof $PdValid ] = "nothing") do={
     $LogPrint error $ScriptName ("This script is supposed to run from ipv6 dhcp-client.");
     :set ExitOK true;
     :error false;
