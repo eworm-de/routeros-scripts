@@ -1163,7 +1163,12 @@
       }
     }
 
-    :if (!($ScriptInfo->"ignore" = true)) do={
+    :do {
+      :if ($ScriptInfo->"ignore" = true) do={
+        $LogPrint debug $0 ("Ignoring script '" . $ScriptVal->"name" . "', as requested.");
+        :error true;
+      }
+
       :do {
         :local BaseUrl [ $EitherOr ($ScriptInfo->"base-url") $ScriptUpdatesBaseUrl ];
         :local UrlSuffix [ $EitherOr ($ScriptInfo->"url-suffix") $ScriptUpdatesUrlSuffix ];
@@ -1182,10 +1187,9 @@
         } else={
           $LogPrint warning $0 ("Failed fetching script '" . $ScriptVal->"name" . "'!");
         }
+        :error false;
       }
-    }
 
-    :do {
       :if ([ :len $SourceNew ] = 0) do={
         $LogPrint debug $0 ("No update for script '" . $ScriptVal->"name" . "'.");
         :error false;
