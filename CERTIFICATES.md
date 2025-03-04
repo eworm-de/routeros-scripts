@@ -74,6 +74,7 @@ See also
 
 * [Download, import and update firewall address-lists](doc/fw-addr-lists.md)
 * [Manage DNS and DoH servers from netwatch](doc/netwatch-dns.md)
+* [Send notifications via Gotify](doc/mod/notification-gotify.md)
 * [Send notifications via Matrix](doc/mod/notification-matrix.md)
 * [Send notifications via Ntfy](doc/mod/notification-ntfy.md)
 

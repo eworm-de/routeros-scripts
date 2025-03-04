@@ -41,6 +41,7 @@ Configuration
 No extra configuration is required for this script, but notification
 settings are required for
 [e-mail](mod/notification-email.md),
+[gotify](mod/notification-gotify.md),
 [matrix](mod/notification-matrix.md),
 [ntfy](mod/notification-ntfy.md) and/or
 [telegram](mod/notification-telegram.md).

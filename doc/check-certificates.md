@@ -51,6 +51,7 @@ subject alternative name (aka *Subject Alt Name* or *SAN*) can be used.
 
 Also notification settings are required for
 [e-mail](mod/notification-email.md),
+[gotify](mod/notification-gotify.md),
 [matrix](mod/notification-matrix.md),
 [ntfy](mod/notification-ntfy.md) and/or
 [telegram](mod/notification-telegram.md).

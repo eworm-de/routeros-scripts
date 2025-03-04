@@ -22,15 +22,15 @@ server (see `/system/logging`). This has some limitation, however:
 * does not work early after boot if network connectivity is not
   yet established, or breaks intermittently
 * lots of messages generate a flood of mails
-* Matrix, Ntfy and Telegram are not supported
+* Gotify, Matrix, Ntfy and Telegram are not supported
 
 The script works around the limitations, for example it does:
 
 * read from `/log`, including messages from early boot
 * skip multi-repeated messages
 * rate-limit itself to mitigate flooding
-* forward via notification (which includes *e-mail*, *Matrix*, *Ntfy* and
-  *Telegram* when installed and configured, see below)
+* forward via notification (which includes *e-mail*, *Gotify*, *Matrix*,
+  *Ntfy* and *Telegram* when installed and configured, see below)
 
 It is intended to be run periodically from scheduler, then collects new
 log messages and forwards them via notification.
@@ -80,6 +80,7 @@ To forward **all** (ignoring severity) log messages with topics `account`
 
 Also notification settings are required for
 [e-mail](mod/notification-email.md),
+[gotify](mod/notification-gotify.md),
 [matrix](mod/notification-matrix.md),
 [ntfy](mod/notification-ntfy.md) and/or
 [telegram](mod/notification-telegram.md).

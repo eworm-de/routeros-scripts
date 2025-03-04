@@ -63,6 +63,12 @@
 :global NtfyServerToken "";
 :global NtfyTopic "";
 
+# You can send Gotify notifications. Configure these settings and
+# install the module:
+# $ScriptInstallUpdate mod/notification-gotify
+:global GotifyServer "";
+:global GotifyToken "";
+
 # It is possible to override e-mail, Telegram, Matrix and Ntfy setting
 # for every script. This is done in arrays, where 'Override' is appended
 # to the variable name, like this:

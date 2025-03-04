@@ -61,6 +61,7 @@
   134="Enhanced 'mod/notification-telegram' and 'telegram-chat' to support topics in groups.";
   135="Introduced helper function '\$GetTelegramChatId' for 'mod/notification-telegram' which helps retrieve information.";
   136="Introduced script 'check-perpetual-license' to check for license state on CHR.";
+  137="Added support to send notifications via Gotify (gotify.net).";
 };
 
 # Migration steps to be applied on script updates

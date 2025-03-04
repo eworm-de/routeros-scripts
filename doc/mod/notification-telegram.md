@@ -115,6 +115,7 @@ See also
 
 * [Chat with your router and send commands via Telegram bot](../telegram-chat.md)
 * [Send notifications via e-mail](notification-email.md)
+* [Send notifications via Gotify](notification-gotify.md)
 * [Send notifications via Matrix](notification-matrix.md)
 * [Send notifications via Ntfy](notification-ntfy.md)
 
