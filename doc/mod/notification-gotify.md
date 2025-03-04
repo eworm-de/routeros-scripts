@@ -1,5 +1,5 @@
-Send notifications via Telegram
-===============================
+Send notifications via Gotify
+===========================
 
 [![GitHub stars](https://img.shields.io/github/stars/eworm-de/routeros-scripts?logo=GitHub&style=flat&color=red)](https://github.com/eworm-de/routeros-scripts/stargazers)
 [![GitHub forks](https://img.shields.io/github/forks/eworm-de/routeros-scripts?logo=GitHub&style=flat&color=green)](https://github.com/eworm-de/routeros-scripts/network)
@@ -17,7 +17,7 @@ Description
 -----------
 
 This module adds support for sending notifications via
-[Telegram](https://telegram.org/) via bot api. A queue is used to make sure
+[Gotify](https://gotify.net/). A queue is used to make sure
 notifications are not lost on failure but sent later.
 
 Requirements and installation
@@ -25,60 +25,40 @@ Requirements and installation
 
 Just install the module:
 
-    $ScriptInstallUpdate mod/notification-telegram;
+    $ScriptInstallUpdate mod/notification-gotify;
 
-Also install Telegram on at least one of your mobile and/or desktop devices
-and create an account.
+Also deploy the [Gotify server](https://github.com/gotify/server) and optionally install a Gotify client on your mobile device.
 
 Configuration
 -------------
 
-Open Telegram, then start a chat with [BotFather](https://t.me/BotFather) and
-create your own bot:
+Follow the [installation instructions](https://gotify.net/docs/install) and the [First Login setup](https://gotify.net/docs/first-login). Once you have a user and account you can start creating apps. Each app is an independent notification feed for a device or application.
 
-![create new bot](notification-telegram.d/newbot.avif)
+![Create new app](notification-gotify.d/appsetup.avif)
+ 
+On creation apps are assigned a Token for authentification and you can also assign a default priority for each app.
 
-Set that token from *BotFather* (use your own!) to `TelegramTokenId`, for
-now just temporarily:
-
-    :set TelegramTokenId "5214364459:AAHLwf1o7ybbKDo6pY24Kd2bZ5rjCakDXTc";
-
-Now open a chat with your bot and start it by clicking the `START` button,
-then send your first message. Any text will do. On your device run
-`$GetTelegramChatId` to retrieve the chat id:
-
-    $GetTelegramChatId;
-
-![get chat id](notification-telegram.d/getchatid.avif)
-
-Finally edit `global-config-overlay`, add `TelegramTokenId` with the token
-from *BotFather* and `TelegramChatId` with your retrieved chat id. Then
-reload the configuration.
+Edit `global-config-overlay`, add `GotifyServer` with your server address and `GotifyToken` with the token from your configured app on the Gotify server.
+Then reload the configuration.
 
 > ℹ️ **Info**: Copy relevant configuration from
 > [`global-config`](../../global-config.rsc) (the one without `-overlay`) to
 > your local `global-config-overlay` and modify it to your specific needs.
 
-### Notifications to a group
-
-Sending notifications to a group is possible as well. Add your bot to a group
-and make it an admin (required for read access!) and send a message and run
-`$GetTelegramChatId` again. Then use that chat id (which starts with a dash)
-for `TelegramChatId`.
-
-Groups can enable the `Topics` feature. Use `TelegramThreadId` to send to a
-specific topic in a group.
+For a custom service installing an additional certificate may be required.
+You may want to install that certificate manually, after finding the
+[certificate name from browser](../../CERTIFICATES.md).
 
 Usage and invocation
 --------------------
 
 There's nothing special to do. Every script or function sending a notification
-will now send it to your Telegram account.
+will now send it to your Gotify application feed.
 
 But of course you can use the function to send notifications directly. Give
 it a try:
 
-    $SendTelegram "Subject..." "Body...";
+    $SendGotify "Subject..." "Body...";
 
 Alternatively this sends a notification with all available and configured
 methods:
@@ -88,36 +68,22 @@ methods:
 To use the functions in your own scripts you have to declare them first.
 Place this before you call them:
 
-    :global SendTelegram;
+    :global SendGotify;
     :global SendNotification;
 
 In case there is a situation when the queue needs to be purged there is a
 function available:
 
-    $PurgeTelegramQueue;
-
-Tips & Tricks
--------------
-
-### Set a profile photo
-
-You can use a profile photo for your bot to make it recognizable. Open the
-chat with [BotFather](https://t.me/BotFather) and set it there.
-
-![set profile photo](notification-telegram.d/setuserpic.avif)
-
-Have a look at my
-[RouterOS-Scripts Logo Color Changer](https://git.eworm.de/cgit/routeros-scripts/plain/contrib/logo-color.html)
-to create a colored version of this scripts' logo.
+    $PurgeGotifyQueue;
 
 See also
 --------
 
-* [Chat with your router and send commands via Telegram bot](../telegram-chat.md)
+* [Certificate name from browser](../../CERTIFICATES.md)
 * [Send notifications via e-mail](notification-email.md)
-* [Send notifications via Gotify](notification-gotify.md)
 * [Send notifications via Matrix](notification-matrix.md)
 * [Send notifications via Ntfy](notification-ntfy.md)
+* [Send notifications via Telegram](notification-telegram.md)
 
 ---
 [⬅️ Go back to main README](../../README.md)  
