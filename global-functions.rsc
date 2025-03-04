@@ -1150,6 +1150,14 @@
   :local ReloadGlobalConfig false;
   :local DeviceMode [ /system/device-mode/get ];
 
+  :local CheckSums ({});
+  :do {
+    :local Url ($ScriptUpdatesBaseUrl . "checksums.json" . $ScriptUpdatesUrlSuffix);
+    $LogPrint debug $0 ("Fetching checksums from url: " . $Url);
+    :set CheckSums [ :deserialize from=json ([ /tool/fetch check-certificate=yes-without-crl \
+      http-header-field=({ [ $FetchUserAgentStr $0 ] }) $Url output=user as-value ]->"data") ];
+  } on-error={ }
+
   :foreach Script in=[ /system/script/find where source~"^#!rsc by RouterOS\r?\n" ] do={
     :local ScriptVal [ /system/script/get $Script ];
     :local ScriptInfo [ $ParseKeyValueStore ($ScriptVal->"comment") ];
@@ -1166,6 +1174,11 @@
     :do {
       :if ($ScriptInfo->"ignore" = true) do={
         $LogPrint debug $0 ("Ignoring script '" . $ScriptVal->"name" . "', as requested.");
+        :error true;
+      }
+
+      :if ([ :convert transform=md5 to=hex ($ScriptVal->"source") ] = ($CheckSums->($ScriptVal->"name"))) do={
+        $LogPrint debug $0 ("Checksum for script '" . $ScriptVal->"name" . "' matches, ignoring.");
         :error true;
       }
 
