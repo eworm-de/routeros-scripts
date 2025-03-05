@@ -1178,7 +1178,8 @@
       }
 
       :local CheckSum ($CheckSums->($ScriptVal->"name"));
-      :if ([ :convert transform=md5 to=hex [ :tolf ($ScriptVal->"source") ] ] = $CheckSum) do={
+      :if ([ :len ($ScriptInfo->"base-url") ] = 0 && [ :len ($ScriptInfo->"url-suffix") ] = 0 && \
+           [ :convert transform=md5 to=hex [ :tolf ($ScriptVal->"source") ] ] = $CheckSum) do={
         $LogPrint debug $0 ("Checksum for script '" . $ScriptVal->"name" . "' matches, ignoring.");
         :error true;
       }
