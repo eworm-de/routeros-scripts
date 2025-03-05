@@ -1150,6 +1150,14 @@
   :local ReloadGlobalConfig false;
   :local DeviceMode [ /system/device-mode/get ];
 
+  :local CheckSums ({});
+  :do {
+    :local Url ($ScriptUpdatesBaseUrl . "checksums.json" . $ScriptUpdatesUrlSuffix);
+    $LogPrint debug $0 ("Fetching checksums from url: " . $Url);
+    :set CheckSums [ :deserialize from=json ([ /tool/fetch check-certificate=yes-without-crl \
+      http-header-field=({ [ $FetchUserAgentStr $0 ] }) $Url output=user as-value ]->"data") ];
+  } on-error={ }
+
   :foreach Script in=[ /system/script/find where source~"^#!rsc by RouterOS\r?\n" ] do={
     :local ScriptVal [ /system/script/get $Script ];
     :local ScriptInfo [ $ParseKeyValueStore ($ScriptVal->"comment") ];
@@ -1163,7 +1171,19 @@
       }
     }
 
-    :if (!($ScriptInfo->"ignore" = true)) do={
+    :do {
+      :if ($ScriptInfo->"ignore" = true) do={
+        $LogPrint debug $0 ("Ignoring script '" . $ScriptVal->"name" . "', as requested.");
+        :error true;
+      }
+
+      :local CheckSum ($CheckSums->($ScriptVal->"name"));
+      :if ([ :len ($ScriptInfo->"base-url") ] = 0 && [ :len ($ScriptInfo->"url-suffix") ] = 0 && \
+           [ :convert transform=md5 to=hex [ :tolf ($ScriptVal->"source") ] ] = $CheckSum) do={
+        $LogPrint debug $0 ("Checksum for script '" . $ScriptVal->"name" . "' matches, ignoring.");
+        :error true;
+      }
+
       :do {
         :local BaseUrl [ $EitherOr ($ScriptInfo->"base-url") $ScriptUpdatesBaseUrl ];
         :local UrlSuffix [ $EitherOr ($ScriptInfo->"url-suffix") $ScriptUpdatesUrlSuffix ];
@@ -1182,10 +1202,9 @@
         } else={
           $LogPrint warning $0 ("Failed fetching script '" . $ScriptVal->"name" . "'!");
         }
+        :error false;
       }
-    }
 
-    :do {
       :if ([ :len $SourceNew ] = 0) do={
         $LogPrint debug $0 ("No update for script '" . $ScriptVal->"name" . "'.");
         :error false;
