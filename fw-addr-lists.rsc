@@ -163,7 +163,6 @@
       :do {
         /ip/firewall/address-list/add list=$FwListName comment=$ListComment \
             address=$Address timeout=$Timeout;
-        :set ($IPv4Addresses->$Address);
         :set CntAdd ($CntAdd + 1);
       } on-error={
         $LogPrint warning $ScriptName ("Failed to add IPv4 address to list '" . $FwListName . \
@@ -177,7 +176,6 @@
       :do {
         /ipv6/firewall/address-list/add list=$FwListName comment=$ListComment \
             address=$Address timeout=$Timeout;
-        :set ($IPv6Addresses->$Address);
         :set CntAdd ($CntAdd + 1);
       } on-error={
         $LogPrint warning $ScriptName ("Failed to add IPv6 address to list '" . $FwListName . \
