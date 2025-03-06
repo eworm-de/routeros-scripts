@@ -120,10 +120,11 @@
     :foreach Entry in=[ /ip/firewall/address-list/find where \
         list=$FwListName comment=$ListComment ] do={
       :local Address [ /ip/firewall/address-list/get $Entry address ];
-      :if ([ :typeof ($IPv4Addresses->$Address) ] = "time") do={
+      :local TimeOut ($IPv4Addresses->$Address);
+      :if ([ :typeof $TimeOut ] = "time") do={
         $LogPrintVerbose debug $ScriptName ("Renewing IPv4 address in list '" . $FwListName . \
-            "' with " . ($IPv4Addresses->$Address) . ": " . $Address);
-        /ip/firewall/address-list/set $Entry timeout=($IPv4Addresses->$Address);
+            "' with " . $TimeOut . ": " . $Address);
+        /ip/firewall/address-list/set $Entry timeout=$TimeOut;
         :set ($IPv4Addresses->$Address);
         :set CntRenew ($CntRenew + 1);
       } else={
@@ -139,10 +140,11 @@
     :foreach Entry in=[ /ipv6/firewall/address-list/find where \
         list=$FwListName comment=$ListComment ] do={
       :local Address [ /ipv6/firewall/address-list/get $Entry address ];
-      :if ([ :typeof ($IPv6Addresses->$Address) ] = "time") do={
+      :local TimeOut ($IPv6Addresses->$Address);
+      :if ([ :typeof $TimeOut ] = "time") do={
         $LogPrintVerbose debug $ScriptName ("Renewing IPv6 address in list '" . $FwListName . \
-            "' with " . ($IPv6Addresses->$Address) . ": " . $Address);
-        /ipv6/firewall/address-list/set $Entry timeout=($IPv6Addresses->$Address);
+            "' with " . $TimeOut . ": " . $Address);
+        /ipv6/firewall/address-list/set $Entry timeout=$TimeOut;
         :set ($IPv6Addresses->$Address);
         :set CntRenew ($CntRenew + 1);
       } else={
