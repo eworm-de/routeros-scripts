@@ -55,6 +55,7 @@
 :global IsTimeSync;
 :global LogPrint;
 :global LogPrintOnce;
+:global LogPrintVerbose;
 :global MAX;
 :global MIN;
 :global MkDir;
@@ -847,6 +848,8 @@
   $LogPrint $Severity $Name $Message;
   :return true;
 }
+
+# The function $LogPrintVerbose is declared, but has no code, intentionally.
 
 # get max value
 :set MAX do={
