@@ -850,6 +850,7 @@
 }
 
 # The function $LogPrintVerbose is declared, but has no code, intentionally.
+# https://rsc.eworm.de/DEBUG.md#verbose-output
 
 # get max value
 :set MAX do={

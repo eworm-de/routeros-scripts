@@ -44,6 +44,20 @@ instead.
 
 Disable or remote that setting to restore regular logging.
 
+## Verbose output
+
+Specific scripts can generate huge amount of output. These do use a function
+`$LogPrintVerbose`, which is declared, but has no code, intentionally.
+
+If you *really* want that output set the function to be the same as
+`$LogPrint`:
+
+    :set LogPrintVerbose $LogPrint;
+
+To revert that change just run:
+
+    :set LogPrintVerbose;
+
 ---
 [⬅️ Go back to main README](README.md)  
 [⬆️ Go back to top](#top)
