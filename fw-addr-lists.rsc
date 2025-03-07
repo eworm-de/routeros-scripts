@@ -100,7 +100,7 @@
           :set Address ([ :pick $Line 0 [ $FindDelim $Line ] ] . ($List->"cidr"));
         }
         :do {
-          :local Branch [ :pick $Address 0 1 ];
+          :local Branch [ :pick $Address 0 2 ];
           :if ($Address ~ "^[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}(/[0-9]{1,2})?\$") do={
             :if ($Address ~ "/32\$") do={
               :set Address [ :pick $Address 0 ([ :len $Address ] - 3) ];
@@ -127,7 +127,7 @@
     :foreach Entry in=[ /ip/firewall/address-list/find where \
         list=$FwListName comment=$ListComment ] do={
       :local Address [ /ip/firewall/address-list/get $Entry address ];
-      :local Branch [ :pick $Address 0 1 ];
+      :local Branch [ :pick $Address 0 2 ];
       :local TimeOut ($IPv4Addresses->$Branch->$Address);
       :if ([ :typeof $TimeOut ] = "time") do={
         $LogPrintVerbose debug $ScriptName ("Renewing IPv4 address in list '" . $FwListName . \
@@ -148,7 +148,7 @@
     :foreach Entry in=[ /ipv6/firewall/address-list/find where \
         list=$FwListName comment=$ListComment ] do={
       :local Address [ /ipv6/firewall/address-list/get $Entry address ];
-      :local Branch [ :pick $Address 0 1 ];
+      :local Branch [ :pick $Address 0 2 ];
       :local TimeOut ($IPv6Addresses->$Branch->$Address);
       :if ([ :typeof $TimeOut ] = "time") do={
         $LogPrintVerbose debug $ScriptName ("Renewing IPv6 address in list '" . $FwListName . \
