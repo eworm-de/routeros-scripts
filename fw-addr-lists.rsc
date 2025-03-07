@@ -101,10 +101,16 @@
         }
         :do {
           :if ($Address ~ "^[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}(/[0-9]{1,2})?\$") do={
+            :if ($Address ~ "/32\$") do={
+              :set Address [ :pick $Address 0 ([ :len $Address ] - 3) ];
+            }
             :set ($IPv4Addresses->$Address) $TimeOut;
             :error true;
           }
           :if ($Address ~ "^[0-9a-zA-Z]*:[0-9a-zA-Z:\\.]+(/[0-9]{1,3})?\$") do={
+            :if ($Address ~ "/128\$") do={
+              :set Address [ :pick $Address 0 ([ :len $Address ] - 4) ];
+            }
             :set ($IPv6Addresses->$Address) $TimeOut;
             :error true;
           }
