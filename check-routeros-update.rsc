@@ -66,6 +66,27 @@
     :error "A reboot for update is already scheduled.";
   }
 
+  :local License [ /system/license/get ];
+  :if ([ :typeof ($License->"deadline-at") ] = "str") do={
+    :if ([ :len ($License->"next-renewal-at") ] = 0 && ($License->"limited-upgrades") = true) do={
+      $LogPrint warning $ScriptName ("Your license expired on " . ($License->"deadline-at") . "!");
+      $SendNotification2 ({ origin=$ScriptName; \
+        subject=([ $SymbolForNotification "warning-sign" ] . "License expired!"); \
+        message=("Your license expired on " . ($License->"deadline-at") . \
+          ", can no longer update RouterOS on " . $Identity . "...") });
+      :set ExitOK true;
+      :error false;
+    }
+
+    :if ([ :totime ($License->"next-renewal-at") ] + 1w < [ :timestamp ]) do={
+      $LogPrint warning $ScriptName ("Your license will expire on " . ($License->"deadline-at") . "!");
+      $SendNotification2 ({ origin=$ScriptName; \
+        subject=([ $SymbolForNotification "warning-sign" ] . "License about to expire!"); \
+        message=("Your license failed to renew and is about to expire on " . \
+          ($License->"deadline-at") . " on " . $Identity . "...") });
+    }
+  }
+
   $LogPrint debug $ScriptName ("Checking for updates...");
   /system/package/update/check-for-updates without-paging as-value;
   :local Update [ /system/package/update/get ];
