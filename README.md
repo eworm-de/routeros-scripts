@@ -263,6 +263,7 @@ Available modules
 * [Inspect variables](doc/mod/inspectvar.md)
 * [IP address calculation](doc/mod/ipcalc.md)
 * [Send notifications via e-mail](doc/mod/notification-email.md)
+* [Send notifications via Gotify](doc/mod/notification-gotify.md)
 * [Send notifications via Matrix](doc/mod/notification-matrix.md)
 * [Send notifications via Ntfy](doc/mod/notification-ntfy.md)
 * [Send notifications via Telegram](doc/mod/notification-telegram.md)
