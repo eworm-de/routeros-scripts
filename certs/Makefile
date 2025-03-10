@@ -15,7 +15,7 @@ DOMAINS_DUAL = \
 	git.eworm.de/ISRG-Root-X2 \
 	lists.blocklist.de/Certum-Trusted-Network-CA \
 	matrix.org/GTS-Root-R4 \
-	raw.githubusercontent.com/DigiCert-Global-Root-G2 \
+	raw.githubusercontent.com/USERTrust-RSA-Certification-Authority \
 	rsc.eworm.de/ISRG-Root-X2 \
 	upgrade.mikrotik.com/ISRG-Root-X1
 DOMAINS_IPV4 = \

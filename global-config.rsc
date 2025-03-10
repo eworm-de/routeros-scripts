@@ -103,7 +103,7 @@
 #      cert="ISRG Root X2" };
     { url="https://raw.githubusercontent.com/stamparm/ipsum/refs/heads/master/levels/4.txt";
 #     # higher level (decrease the numerical value) for more addresses, and vice versa
-      cert="DigiCert Global Root G2" };
+      cert="USERTrust RSA Certification Authority" };
     { url="https://www.dshield.org/block.txt"; cidr="/24";
       cert="ISRG Root X1" };
     { url="https://lists.blocklist.de/lists/strongips.txt";
