@@ -61,12 +61,12 @@
     :global GetRandom20CharAlNum;
 
     :local FwAddrList ($ScriptName . "-" . [ $GetRandom20CharAlNum ]);
-    /ip/firewall/address-list/add address=$Name list=$FwAddrList dynamic=yes timeout=2s;
+    /ip/firewall/address-list/add address=$Name list=$FwAddrList dynamic=yes timeout=10s;
     :delay 20ms;
     :if ([ :len [ /ip/firewall/address-list/find where list=$FwAddrList address=$Expected ] ] > 0) do={
       :return true;
     }
-    /ipv6/firewall/address-list/add address=$Name list=$FwAddrList dynamic=yes timeout=2s;
+    /ipv6/firewall/address-list/add address=$Name list=$FwAddrList dynamic=yes timeout=10s;
     :delay 20ms;
     :if ([ :len [ /ipv6/firewall/address-list/find where list=$FwAddrList address=$Expected ] ] > 0) do={
       :return true;
