@@ -90,6 +90,7 @@ See also
 
 * [Certificate name from browser](../../CERTIFICATES.md)
 * [Send notifications via e-mail](notification-email.md)
+* [Send notifications via Gotify](notification-gotify.md)
 * [Send notifications via Matrix](notification-matrix.md)
 * [Send notifications via Telegram](notification-telegram.md)
 
