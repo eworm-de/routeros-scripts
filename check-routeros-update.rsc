@@ -78,7 +78,7 @@
       :error false;
     }
 
-    :if ([ :totime ($License->"next-renewal-at") ] + 1w < [ :timestamp ]) do={
+    :if ([ :totime ($License->"deadline-at") ] - 3w < [ :timestamp ]) do={
       $LogPrint warning $ScriptName ("Your license will expire on " . ($License->"deadline-at") . "!");
       $SendNotification2 ({ origin=$ScriptName; \
         subject=([ $SymbolForNotification "warning-sign" ] . "License about to expire!"); \
