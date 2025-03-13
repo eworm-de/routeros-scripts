@@ -62,7 +62,7 @@
     :if ([ $DownloadPackage ($File->"package-name") $InstalledVersion \
          ($File->"package-architecture") $PackagePath ] = true) do={
       :set Updated true;
-      $RmFile $Package;
+      $RmFile ($File->"name");
     }
   }
 
