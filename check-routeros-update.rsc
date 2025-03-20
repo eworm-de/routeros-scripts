@@ -22,6 +22,7 @@
   :global SafeUpdateNeighborIdentity;
   :global SafeUpdatePatch;
   :global SafeUpdateUrl;
+  :global SentCertificateNotification;
   :global SentRouterosUpdateNotification;
 
   :global DeviceInfo;
@@ -70,20 +71,26 @@
   :if ([ :typeof ($License->"deadline-at") ] = "str") do={
     :if ([ :len ($License->"next-renewal-at") ] = 0 && ($License->"limited-upgrades") = true) do={
       $LogPrint warning $ScriptName ("Your license expired on " . ($License->"deadline-at") . "!");
-      $SendNotification2 ({ origin=$ScriptName; \
-        subject=([ $SymbolForNotification "warning-sign" ] . "License expired!"); \
-        message=("Your license expired on " . ($License->"deadline-at") . \
-          ", can no longer update RouterOS on " . $Identity . "...") });
+      :if ($SentCertificateNotification != "expired") do={
+        $SendNotification2 ({ origin=$ScriptName; \
+          subject=([ $SymbolForNotification "warning-sign" ] . "License expired!"); \
+          message=("Your license expired on " . ($License->"deadline-at") . \
+            ", can no longer update RouterOS on " . $Identity . "...") });
+        :set SentCertificateNotification "expired";
+      }
       :set ExitOK true;
       :error false;
     }
 
     :if ([ :totime ($License->"deadline-at") ] - 3w < [ :timestamp ]) do={
       $LogPrint warning $ScriptName ("Your license will expire on " . ($License->"deadline-at") . "!");
-      $SendNotification2 ({ origin=$ScriptName; \
-        subject=([ $SymbolForNotification "warning-sign" ] . "License about to expire!"); \
-        message=("Your license failed to renew and is about to expire on " . \
-          ($License->"deadline-at") . " on " . $Identity . "...") });
+      :if ($SentCertificateNotification != "warning") do={
+        $SendNotification2 ({ origin=$ScriptName; \
+          subject=([ $SymbolForNotification "warning-sign" ] . "License about to expire!"); \
+          message=("Your license failed to renew and is about to expire on " . \
+            ($License->"deadline-at") . " on " . $Identity . "...") });
+        :set SentCertificateNotification "warning";
+      }
     }
   }
 
