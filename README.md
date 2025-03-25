@@ -225,6 +225,7 @@ Available scripts
 * [Renew certificates and notify on expiration](doc/check-certificates.md)
 * [Notify about health state](doc/check-health.md)
 * [Notify on LTE firmware upgrade](doc/check-lte-firmware-upgrade.md)
+* [Check perpetual license on CHR](doc/check-perpetual-license.md)
 * [Notify on RouterOS update](doc/check-routeros-update.md)
 * [Collect MAC addresses in wireless access list](doc/collect-wireless-mac.md)
 * [Use wireless network with daily psk](doc/daily-psk.md)

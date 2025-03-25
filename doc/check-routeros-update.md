@@ -99,6 +99,7 @@ startup is perfectly valid:
 See also
 --------
 
+* [Check perpetual license on CHR](check-perpetual-license.md)
 * [Automatically upgrade firmware and reboot](firmware-upgrade-reboot.md)
 * [Manage system update](packages-update.md)
 
