@@ -21,6 +21,7 @@ Run the complete base installation:
       :local CertFileName "ISRG-Root-X2.pem";
       :local CertFingerprint "69729b8e15a86efc177a57afb7171dfc64add28c2fca8cf1507e34453ccb1470";
 
+      :put "Importing certificate...";
       /tool/fetch ($BaseUrl . "certs/" . $CertFileName) dst-path=$CertFileName as-value;
       :delay 1s;
       /certificate/import file-name=$CertFileName passphrase="";
@@ -28,14 +29,19 @@ Run the complete base installation:
         :error "Something is wrong with your certificates!";
       };
       :delay 1s;
+      :put "Renaming global-config-overlay, if exists...";
       /system/script/set name=("global-config-overlay-" . [ /system/clock/get date ] . "-" . [ /system/clock/get time ]) [ find where name="global-config-overlay" ];
       :foreach Script in={ "global-config"; "global-config-overlay"; "global-functions" } do={
+        :put "Installing $Script...";
         /system/script/remove [ find where name=$Script ];
         /system/script/add name=$Script owner=$Script source=([ /tool/fetch check-certificate=yes-without-crl ($BaseUrl . $Script . ".rsc") output=user as-value]->"data");
       };
+      :put "Loading configuration and functions...";
       /system/script { run global-config; run global-functions; };
+      :put "Scheduling to load configuration and functions...";
       /system/scheduler/remove [ find where name="global-scripts" ];
       /system/scheduler/add name="global-scripts" start-time=startup on-event="/system/script { run global-config; run global-functions; }";
+      :put "Renaming certificate by its common-name...";
       :global CertificateNameByCN;
       $CertificateNameByCN $CertFingerprint;
     };
