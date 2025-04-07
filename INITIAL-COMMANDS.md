@@ -17,23 +17,35 @@ Initial commands
 Run the complete base installation:
 
     {
-      /tool/fetch "https://git.eworm.de/cgit/routeros-scripts/plain/certs/ISRG-Root-X2.pem" dst-path="isrg-root-x2.pem" as-value;
+      :local localScriptUpdatesBaseUrl "https://git.eworm.de/cgit/routeros-scripts/plain/";
+      :local localBaseUrlCert "ISRG-Root-X2.pem";
+      :local localCertName "ISRG Root X2";
+      :local localCertFilename "isrg-root-x2.pem";
+      :local localCertFingerprint "69729b8e15a86efc177a57afb7171dfc64add28c2fca8cf1507e34453ccb1470";
+      /tool/fetch ( $localScriptUpdatesBaseUrl . "certs/" . $localBaseUrlCert ) dst-path=$localCertFilename as-value;
       :delay 1s;
-      /certificate/import file-name="isrg-root-x2.pem" passphrase="";
-      :if ([ :len [ /certificate/find where fingerprint="69729b8e15a86efc177a57afb7171dfc64add28c2fca8cf1507e34453ccb1470" ] ] != 1) do={
+      /certificate/import file-name=$localCertFilename passphrase="";
+      :if ([ :len [ /certificate/find where fingerprint=$localCertFingerprint ] ] != 1) do={
         :error "Something is wrong with your certificates!";
+      } else={
+        :put "Certificate validated with fingerprint";
       };
       :delay 1s;
+      :put "Backup global-config-overlay...";
       /system/script/set name=("global-config-overlay-" . [ /system/clock/get date ] . "-" . [ /system/clock/get time ]) [ find where name="global-config-overlay" ];
       :foreach Script in={ "global-config"; "global-config-overlay"; "global-functions" } do={
+        :put "Install $Script ...";
         /system/script/remove [ find where name=$Script ];
-        /system/script/add name=$Script owner=$Script source=([ /tool/fetch check-certificate=yes-without-crl ("https://git.eworm.de/cgit/routeros-scripts/plain/" . $Script . ".rsc") output=user as-value]->"data");
+        /system/script/add name=$Script owner=$Script source=([ /tool/fetch check-certificate=yes-without-crl ($localScriptUpdatesBaseUrl . $Script . ".rsc") output=user as-value]->"data");
       };
+      :put "Run new scripts ...";
       /system/script { run global-config; run global-functions; };
       /system/scheduler/remove [ find where name="global-scripts" ];
+      :put "Schedule run scripts on startup";
       /system/scheduler/add name="global-scripts" start-time=startup on-event="/system/script { run global-config; run global-functions; }";
+      :put "Rename certificate by its common-name ..."
       :global CertificateNameByCN;
-      $CertificateNameByCN "ISRG Root X2";
+      $CertificateNameByCN $localCertName;
     };
 
 Then continue setup with
