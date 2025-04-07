@@ -207,7 +207,7 @@
 
   :global CleanName;
 
-  :local Cert [ /certificate/find where (common-name=$Match or fingerprint=$Match or name=$Match) ];
+  :local Cert ([ /certificate/find where (common-name=$Match or fingerprint=$Match or name=$Match) ]->0);
   :local CommonName [ /certificate/get $Cert common-name ];
   /certificate/set $Cert name=[ $CleanName $CommonName ];
 }
