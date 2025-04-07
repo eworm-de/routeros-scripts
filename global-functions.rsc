@@ -167,8 +167,8 @@
     $LogPrint warning $0 ("Failed downloading certificate with CommonName '" . $CommonName . \
       "' from repository! Trying fallback to mkcert.org...");
     :do {
-      :if ([ $CertificateAvailable "ISRG Root X1" ] = false) do={
-        $LogPrint error $0 ("Downloading required certificate failed.");
+      :if ([ :len [ /certificate/find where common-name="ISRG Root X1" ] ] = 0) do={
+        $LogPrint error $0 ("Required certificate is not available.");
         :return false;
       }
       /tool/fetch check-certificate=yes-without-crl http-header-field=({ [ $FetchUserAgentStr $0 ] }) \
