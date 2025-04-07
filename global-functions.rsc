@@ -203,11 +203,12 @@
 
 # name a certificate by its common-name
 :set CertificateNameByCN do={
-  :local CommonName [ :tostr $1 ];
+  :local Match [ :tostr $1 ];
 
   :global CleanName;
 
-  :local Cert [ /certificate/find where common-name=$CommonName ];
+  :local Cert [ /certificate/find where (common-name=$Match or fingerprint=$Match or name=$Match) ];
+  :local CommonName [ /certificate/get $Cert common-name ];
   /certificate/set $Cert name=[ $CleanName $CommonName ];
 }
 
