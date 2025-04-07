@@ -1388,7 +1388,7 @@
 # lock script against multiple invocation
 :set ScriptLock do={
   :local Script   [ :tostr $1 ];
-  :local WaitMax ([ :tonum $3 ] * 10);
+  :local WaitMax ([ :tonum $2 ] * 10);
 
   :global GetRandom20CharAlNum;
   :global IfThenElse;
