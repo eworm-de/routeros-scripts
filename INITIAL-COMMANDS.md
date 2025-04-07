@@ -17,23 +17,27 @@ Initial commands
 Run the complete base installation:
 
     {
-      /tool/fetch "https://git.eworm.de/cgit/routeros-scripts/plain/certs/ISRG-Root-X2.pem" dst-path="isrg-root-x2.pem" as-value;
+      :local BaseUrl "https://git.eworm.de/cgit/routeros-scripts/plain/";
+      :local CertFileName "ISRG-Root-X2.pem";
+      :local CertFingerprint "69729b8e15a86efc177a57afb7171dfc64add28c2fca8cf1507e34453ccb1470";
+
+      /tool/fetch ($BaseUrl . "certs/" . $CertFileName) dst-path=$CertFileName as-value;
       :delay 1s;
-      /certificate/import file-name="isrg-root-x2.pem" passphrase="";
-      :if ([ :len [ /certificate/find where fingerprint="69729b8e15a86efc177a57afb7171dfc64add28c2fca8cf1507e34453ccb1470" ] ] != 1) do={
+      /certificate/import file-name=$CertFileName passphrase="";
+      :if ([ :len [ /certificate/find where fingerprint=$CertFingerprint ] ] != 1) do={
         :error "Something is wrong with your certificates!";
       };
       :delay 1s;
       /system/script/set name=("global-config-overlay-" . [ /system/clock/get date ] . "-" . [ /system/clock/get time ]) [ find where name="global-config-overlay" ];
       :foreach Script in={ "global-config"; "global-config-overlay"; "global-functions" } do={
         /system/script/remove [ find where name=$Script ];
-        /system/script/add name=$Script owner=$Script source=([ /tool/fetch check-certificate=yes-without-crl ("https://git.eworm.de/cgit/routeros-scripts/plain/" . $Script . ".rsc") output=user as-value]->"data");
+        /system/script/add name=$Script owner=$Script source=([ /tool/fetch check-certificate=yes-without-crl ($BaseUrl . $Script . ".rsc") output=user as-value]->"data");
       };
       /system/script { run global-config; run global-functions; };
       /system/scheduler/remove [ find where name="global-scripts" ];
       /system/scheduler/add name="global-scripts" start-time=startup on-event="/system/script { run global-config; run global-functions; }";
       :global CertificateNameByCN;
-      $CertificateNameByCN "ISRG Root X2";
+      $CertificateNameByCN $CertFingerprint;
     };
 
 Then continue setup with
