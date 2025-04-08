@@ -1387,8 +1387,8 @@
 
 # lock script against multiple invocation
 :set ScriptLock do={
-  :local Script   [ :tostr $1 ];
-  :local WaitMax ([ :tonum $2 ] * 10);
+  :local Script  [ :tostr  $1 ];
+  :local WaitMax [ :totime $2 ];
 
   :global GetRandom20CharAlNum;
   :global IfThenElse;
@@ -1477,6 +1477,10 @@
     :set ($ScriptLockOrder->$Script) ({});
   }
 
+  :if ([ :typeof $WaitMax ] = "nil" ) do={
+    :set WaitMax 0s;
+  }
+
   :if ([ :len [ /system/script/find where name=$Script ] ] = 0) do={
     $LogPrint error $0 ("A script named '" . $Script . "' does not exist!");
     :error false;
@@ -1496,12 +1500,13 @@
   :local MyTicket [ $GetRandom20CharAlNum 6 ];
   $AddTicket $Script $MyTicket;
 
-  :local WaitCount 0;
-  :while ($WaitMax > $WaitCount && \
+  :local WaitInterval ($WaitMax / 20);
+  :local WaitTime $WaitMax;
+  :while ($WaitTime > 0 && \
       ([ $IsFirstTicket $Script $MyTicket ] = false || \
       [ $TicketCount $Script ] < [ $JobCount $Script ])) do={
-    :set WaitCount ($WaitCount + 1);
-    :delay 100ms;
+    :set WaitTime ($WaitTime - $WaitInterval);
+    :delay $WaitInterval;
   }
 
   :if ([ $IsFirstTicket $Script $MyTicket ] = true && \
@@ -1513,7 +1518,7 @@
 
   $RemoveTicket $Script $MyTicket;
   $LogPrint debug $0 ("Script '" . $Script . "' started more than once" . \
-    [ $IfThenElse ($WaitCount > 0) " and timed out waiting for lock" "" ] . "...");
+    [ $IfThenElse ($WaitTime < $WaitMax) " and timed out waiting for lock" "" ] . "...");
   :return false;
 }
 
