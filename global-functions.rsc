@@ -208,8 +208,12 @@
   :global CleanName;
 
   :local Cert ([ /certificate/find where (common-name=$Match or fingerprint=$Match or name=$Match) ]->0);
+  :if ([ :len $Cert ] = 0) do={
+    :return false;
+  }
   :local CommonName [ /certificate/get $Cert common-name ];
   /certificate/set $Cert name=[ $CleanName $CommonName ];
+  :return true;
 }
 
 # multiply given character(s)
