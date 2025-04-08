@@ -21,6 +21,7 @@ for details!
 * [Ben Harris](mailto:mail@bharr.is) (@bharrisau)
 * [Daniel Ziegenberg](mailto:daniel@ziegenberg.at) (@ziegenberg)
 * [Ignacio Serrano](mailto:ignic@ignic.com) (@ignic)
+* [Ilya Kulakov](mailto:kulakov.ilya@gmail.com) (@Kentzo)
 * [Michael Gisbers](mailto:michael@gisbers.de) (@mgisbers)
 * [Miquel Bonastre](mailto:mbonastre@yahoo.com) (@mbonastre)
 * @netravnen
