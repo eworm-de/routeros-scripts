@@ -206,9 +206,11 @@
   :local Match [ :tostr $1 ];
 
   :global CleanName;
+  :global LogPrint;
 
   :local Cert ([ /certificate/find where (common-name=$Match or fingerprint=$Match or name=$Match) ]->0);
   :if ([ :len $Cert ] = 0) do={
+    $LogPrint warning $0 ("No matching certificate found.");
     :return false;
   }
   :local CommonName [ /certificate/get $Cert common-name ];
