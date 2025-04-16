@@ -1130,6 +1130,7 @@
   :global ScriptUpdatesBaseUrl;
   :global ScriptUpdatesCRLF;
   :global ScriptUpdatesUrlSuffix;
+  :global ScriptUpdatesCertCN;
 
   :global CertificateAvailable;
   :global EitherOr;
@@ -1144,7 +1145,7 @@
   :global SymbolForNotification;
   :global ValidateSyntax;
 
-  :if ([ $CertificateAvailable "ISRG Root X2" ] = false) do={
+  :if ([ $CertificateAvailable $ScriptUpdatesCertCN ] = false) do={
     $LogPrint warning $0 ("Downloading certificate failed, trying without.");
   }
 

@@ -220,11 +220,13 @@
 
 # This is the base url to fetch scripts from.
 :global ScriptUpdatesBaseUrl "https://rsc.eworm.de/main/";
+:global ScriptUpdatesCertCN  "ISRG Root X2";
 # alternative urls - main: stable code - next: currently in development
 #:global ScriptUpdatesBaseUrl "https://rsc.eworm.de/next/";
 #:global ScriptUpdatesBaseUrl "https://git.eworm.de/cgit/routeros-scripts/plain/";
 #:global ScriptUpdatesBaseUrl "https://raw.githubusercontent.com/eworm-de/routeros-scripts/main/";
 #:global ScriptUpdatesBaseUrl "https://raw.githubusercontent.com/eworm-de/routeros-scripts/next/";
+#:global ScriptUpdatesCertCN  "USERTrust RSA Certification Authority";
 #:global ScriptUpdatesBaseUrl "https://gitlab.com/eworm-de/routeros-scripts/raw/main/";
 #:global ScriptUpdatesBaseUrl "https://gitlab.com/eworm-de/routeros-scripts/raw/next/";
 :global ScriptUpdatesUrlSuffix "";
