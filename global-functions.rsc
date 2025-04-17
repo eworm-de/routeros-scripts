@@ -1195,6 +1195,12 @@
         :error true;
       }
 
+      :if ([ :len ($ScriptInfo->"certificate") ] > 0) do={
+        :if ([ $CertificateAvailable ($ScriptInfo->"certificate") ] = false) do={
+          $LogPrint warning $0 ("Downloading certificate failed, trying without.");
+        }
+      }
+
       :do {
         :local BaseUrl [ $EitherOr ($ScriptInfo->"base-url") $ScriptUpdatesBaseUrl ];
         :local UrlSuffix [ $EitherOr ($ScriptInfo->"url-suffix") $ScriptUpdatesUrlSuffix ];
