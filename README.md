@@ -122,6 +122,9 @@ And finally load configuration and functions and add the scheduler.
 
 ![screenshot: run and schedule scripts](README.d/05-run-and-schedule-scripts.avif)
 
+> 💡️ **Hint**: You see complaints regarding syntax errors? Most likely the
+> RouterOS on your device is too old. Check for updates!
+
 ### Scheduled automatic updates
 
 The last step is optional: Add this scheduler **only** if you want the
