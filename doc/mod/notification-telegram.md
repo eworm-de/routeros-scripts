@@ -17,7 +17,7 @@ Description
 -----------
 
 This module adds support for sending notifications via
-[Telegram](https://telegram.org/) via bot api. A queue is used to make sure
+[Telegram ↗️](https://telegram.org/) via bot api. A queue is used to make sure
 notifications are not lost on failure but sent later.
 
 Requirements and installation
@@ -33,7 +33,7 @@ and create an account.
 Configuration
 -------------
 
-Open Telegram, then start a chat with [BotFather](https://t.me/BotFather) and
+Open Telegram, then start a chat with [BotFather ↗️](https://t.me/BotFather) and
 create your own bot:
 
 ![create new bot](notification-telegram.d/newbot.avif)
@@ -102,7 +102,7 @@ Tips & Tricks
 ### Set a profile photo
 
 You can use a profile photo for your bot to make it recognizable. Open the
-chat with [BotFather](https://t.me/BotFather) and set it there.
+chat with [BotFather ↗️](https://t.me/BotFather) and set it there.
 
 ![set profile photo](notification-telegram.d/setuserpic.avif)
 
