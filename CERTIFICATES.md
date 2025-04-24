@@ -21,7 +21,7 @@ first step of [installation](README.md#the-long-way-in-detail) is importing
 the certificate.
 
 The scripts can install additional certificates when required. This happens
-from this repository if available, or from [mkcert.org](https://mkcert.org)
+from this repository if available, or from [mkcert.org ↗️](https://mkcert.org)
 as a fallback.
 
 Get the certificate's CommonName
@@ -29,7 +29,7 @@ Get the certificate's CommonName
 
 But how to determine what certificate may be required? Often easiest way
 is to use a desktop browser to get that information. This demonstration uses
-[Mozilla Firefox](https://www.mozilla.org/firefox/).
+[Mozilla Firefox ↗️](https://www.mozilla.org/firefox/).
 
 Let's assume we want to make sure the certificate for
 [git.eworm.de](https://git.eworm.de/) is available. Open that page in the
