@@ -17,7 +17,7 @@ Description
 -----------
 
 This module adds support for sending notifications via
-[Matrix](https://matrix.org/) via client server api. A queue is used to
+[Matrix ↗️](https://matrix.org/) via client server api. A queue is used to
 make sure notifications are not lost on failure but sent later.
 
 Requirements and installation
