@@ -13,7 +13,7 @@ Installing from branches
 > ⚠️ **Warning**: Living on the edge? Great, read on!
 > If not: Please use the `main` branch and leave this page!
 
-These scripts are developed in a [git](https://git-scm.com/) repository.
+These scripts are developed in a [git ↗️](https://git-scm.com/) repository.
 Development and experimental branches are used to provide early access
 for specific changes. You can install scripts from these branches
 for testing.
