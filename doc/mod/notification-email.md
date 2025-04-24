@@ -32,7 +32,7 @@ Configuration
 -------------
 
 Set up your device's
-[e-mail settings](https://wiki.mikrotik.com/wiki/Manual:Tools/email).
+[e-mail settings ↗️](https://wiki.mikrotik.com/wiki/Manual:Tools/email).
 Also make sure the device has correct time configured, best is to set up
 the ntp client.
 
