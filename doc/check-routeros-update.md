@@ -30,8 +30,8 @@ automatically is supported.
 > ⚠️ **Warning**: Installing updates is important from a security point
 > of view. At the same time it can be source of serve breakage. So test
 > versions in lab and read
-> [changelog](https://mikrotik.com/download/changelogs/) and
-> [forum](https://forum.mikrotik.com/viewforum.php?f=21) before deploying
+> [changelog ↗️](https://mikrotik.com/download/changelogs/) and
+> [forum ↗️](https://forum.mikrotik.com/viewforum.php?f=21) before deploying
 > to your production environment! Automatic updates should be handled
 > with care!
 
