@@ -10,9 +10,9 @@ RouterOS Scripts
 
 ![RouterOS Scripts Logo](logo.svg)
 
-[RouterOS](https://mikrotik.com/software) is the operating system developed
-by [MikroTik](https://mikrotik.com/aboutus) for networking tasks. This
-repository holds a number of [scripts](https://wiki.mikrotik.com/wiki/Manual:Scripting)
+[RouterOS ↗️](https://mikrotik.com/software) is the operating system developed
+by [MikroTik ↗️](https://mikrotik.com/aboutus) for networking tasks. This
+repository holds a number of [scripts ↗️](https://wiki.mikrotik.com/wiki/Manual:Scripting)
 to manage RouterOS devices or extend their functionality.
 
 *Use at your own risk*, pay attention to
@@ -35,7 +35,7 @@ Specific scripts may require even newer RouterOS version.
 > running RouterOS v6 switch to `routeros-v6` branch!
 
 Starting with RouterOS 7.17 the
-[device-mode](https://help.mikrotik.com/docs/spaces/ROS/pages/93749258/Device-mode)
+[device-mode ↗️](https://help.mikrotik.com/docs/spaces/ROS/pages/93749258/Device-mode)
 has been extended to give more fine-grained control over what features are
 available. You need to enable `scheduler` and `fetch` at least, specific
 scripts may require additional features.
@@ -61,9 +61,9 @@ First time users should take the long way below.
 ### Live presentation
 
 Want to see it in action? I've had a presentation [Repository based
-RouterOS script distribution](https://www.youtube.com/watch?v=B9neG3oAhcY)
+RouterOS script distribution ↗️](https://www.youtube.com/watch?v=B9neG3oAhcY)
 including demonstation recorded live at [MUM Europe
-2019](https://mum.mikrotik.com/2019/EU/) in Vienna.
+2019 ↗️](https://mum.mikrotik.com/2019/EU/) in Vienna.
 
 > ⚠️ **Warning**: Some details changed. So see the presentation, then follow
 > the steps below for up-to-date commands.
@@ -83,7 +83,7 @@ Note that the commands above do *not* verify server certificate, so if you
 want to be safe download with your workstations's browser and transfer the
 file to your MikroTik device.
 
-* [ISRG Root X2](https://letsencrypt.org/certs/isrg-root-x2.pem)
+* [ISRG Root X2 ↗️](https://letsencrypt.org/certs/isrg-root-x2.pem)
 
 Then we import the certificate.
 
@@ -194,7 +194,7 @@ Scheduler and events
 --------------------
 
 Most scripts are designed to run regularly from
-[scheduler](https://wiki.mikrotik.com/wiki/Manual:System/Scheduler). We just
+[scheduler ↗️](https://wiki.mikrotik.com/wiki/Manual:System/Scheduler). We just
 added `check-routeros-update`, so let's run it daily to make sure not to
 miss an update.
 
@@ -328,7 +328,7 @@ Possibly a scheduler and other configuration has to be removed as well.
 Contact
 -------
 
-We have a Telegram Group [RouterOS-Scripts](https://t.me/routeros_scripts)!
+We have a Telegram Group [RouterOS-Scripts ↗️](https://t.me/routeros_scripts)!
 
 [![RouterOS Scripts Telegram Group](README.d/telegram-group.avif)](https://t.me/routeros_scripts)
 
@@ -352,7 +352,7 @@ at github.
 This project is developed in private spare time and usage is free of charge
 for you. If you like the scripts and think this is of value for you or your
 business please consider to
-[donate with PayPal](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=A4ZXBD6YS2W8J).
+[donate with PayPal ↗️](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=A4ZXBD6YS2W8J).
 
 [![donate with PayPal](https://img.shields.io/badge/Like_it%3F-Donate!-orange?logo=githubsponsors&logoColor=orange&style=for-the-badge)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=A4ZXBD6YS2W8J)
 
