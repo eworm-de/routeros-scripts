@@ -22,6 +22,7 @@ for details!
 * [Daniel Ziegenberg](mailto:daniel@ziegenberg.at) (@ziegenberg)
 * [Ignacio Serrano](mailto:ignic@ignic.com) (@ignic)
 * [Ilya Kulakov](mailto:kulakov.ilya@gmail.com) (@Kentzo)
+* [Leonardo David Monteiro](mailto:leo@cub3.xyz) (@leosfsm)
 * [Michael Gisbers](mailto:michael@gisbers.de) (@mgisbers)
 * [Miquel Bonastre](mailto:mbonastre@yahoo.com) (@mbonastre)
 * @netravnen
