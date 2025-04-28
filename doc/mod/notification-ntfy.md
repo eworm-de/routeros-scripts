@@ -17,7 +17,7 @@ Description
 -----------
 
 This module adds support for sending notifications via
-[Ntfy](https://ntfy.sh/). A queue is used to make sure
+[Ntfy ↗️](https://ntfy.sh/). A queue is used to make sure
 notifications are not lost on failure but sent later.
 
 Requirements and installation
@@ -28,7 +28,7 @@ Just install the module:
     $ScriptInstallUpdate mod/notification-ntfy;
 
 Also install the Ntfy app on your mobile device or use the
-[web app](https://ntfy.sh/app) in a browser of your choice.
+[web app ↗️](https://ntfy.sh/app) in a browser of your choice.
 
 Configuration
 -------------

@@ -17,7 +17,7 @@ Description
 -----------
 
 This script saves the current configuration to fallback
-[partition](https://wiki.mikrotik.com/wiki/Manual:Partitions).
+[partition ↗️](https://wiki.mikrotik.com/wiki/Manual:Partitions).
 It can also copy-over the RouterOS installation when run interactively
 or just before a feature update.
 

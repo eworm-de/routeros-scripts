@@ -72,7 +72,7 @@ The configuration goes to `global-config-overlay`, these are the parameters:
 > your local `global-config-overlay` and modify it to your specific needs.
 
 These patterns are matched as
-[regular expressions](https://wiki.mikrotik.com/wiki/Manual:Regular_Expressions).
+[regular expressions ↗️](https://wiki.mikrotik.com/wiki/Manual:Regular_Expressions).
 To forward **all** (ignoring severity) log messages with topics `account`
 (which includes user logins) and `dhcp` you need something like:
 

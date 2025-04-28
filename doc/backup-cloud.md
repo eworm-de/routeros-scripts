@@ -17,7 +17,7 @@ Description
 -----------
 
 This script uploads
-[binary backup to Mikrotik cloud](https://wiki.mikrotik.com/wiki/Manual:IP/Cloud#Backup).
+[binary backup to Mikrotik cloud ↗️](https://wiki.mikrotik.com/wiki/Manual:IP/Cloud#Backup).
 
 > ⚠️ **Warning**: The used command can hit errors that a script can with
 > workaround only. A notification *should* be sent anyway. But it can result
