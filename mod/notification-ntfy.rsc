@@ -18,7 +18,6 @@
 # flush ntfy queue
 :set FlushNtfyQueue do={ :do {
   :global NtfyQueue;
-  :global NtfyMessageIDs;
 
   :global IsFullyConnected;
   :global LogPrint;
