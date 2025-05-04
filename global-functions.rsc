@@ -1169,10 +1169,23 @@
       http-header-field=({ [ $FetchUserAgentStr $0 ] }) $Url output=user as-value ]->"data") ];
   } on-error={ }
 
+  :local RequiredPolicies {"read";"write";"policy";"test"};
+
   :foreach Script in=[ /system/script/find where source~"^#!rsc by RouterOS\r?\n" ] do={
     :local ScriptVal [ /system/script/get $Script ];
     :local ScriptInfo [ $ParseKeyValueStore ($ScriptVal->"comment") ];
     :local SourceNew;
+
+    :local MissingPolicies "";
+    :foreach Policy in=$RequiredPolicies do={
+      :if ([:find ($ScriptVal->"policy") $Policy -1] < 0) do={
+        :set MissingPolicies ($MissingPolicies . $Policy . ", ")
+      }
+    }
+    :if ([:len $MissingPolicies]) do={
+      :set MissingPolicies [:pick $MissingPolicies 0 ([:len $MissingPolicies] - 2)]
+      $LogPrint warning $0 ("Script '" . $ScriptVal->"name" . "' is missing policies ". $MissingPolicies "!")
+    }
 
     :foreach Scheduler in=[ /system/scheduler/find where on-event~("\\b" . $ScriptVal->"name" . "\\b") ] do={
       :local SchedulerVal [ /system/scheduler/get $Scheduler ];
