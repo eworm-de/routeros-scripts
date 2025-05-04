@@ -1175,6 +1175,18 @@
     :local SourceNew;
 
     :foreach Scheduler in=[ /system/scheduler/find where on-event~("\\b" . $ScriptVal->"name" . "\\b") ] do={
+      :local MissingPolicies ""
+      :foreach Policy in=({"read";"write";"policy";"test"}) do={
+        :if ([:find ($ScriptVal->"policy") $Policy -1] < 0) do={
+          :set MissingPolicies ($MissingPolicies . $Policy . ", ")
+        }
+      }
+      :if ([:len $MissingPolicies]) do={
+        :set MissingPolicies [:pick $MissingPolicies 0 ([:len $MissingPolicies] - 2)]
+        $LogPrint warning $0 ("Script '" . $ScriptVal->"name" . "' is missing policies " . \
+          $MissingPolicies . "to be run by a scheduler!")
+      }
+
       :local SchedulerVal [ /system/scheduler/get $Scheduler ];
       :if ($ScriptVal->"policy" != $SchedulerVal->"policy") do={
         $LogPrint warning $0 ("Policies differ for script '" . $ScriptVal->"name" . \
