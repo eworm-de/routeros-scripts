@@ -1126,6 +1126,8 @@
   :global CommitId;
   :global CommitInfo;
   :global ExpectedConfigVersion;
+  :global GlobalConfigReady;
+  :global GlobalFunctionsReady;
   :global Identity;
   :global IDonate;
   :global NoNewsAndChangesNotification;
@@ -1159,8 +1161,7 @@
 
   :local CommitIdBefore $CommitId;
   :local ExpectedConfigVersionBefore $ExpectedConfigVersion;
-  :local ReloadGlobalFunctions false;
-  :local ReloadGlobalConfig false;
+  :local ReloadGlobal false;
   :local DeviceMode [ /system/device-mode/get ];
 
   :local CheckSums ({});
@@ -1269,31 +1270,25 @@
       $LogPrint info $0 ("Updating script: " . $ScriptVal->"name");
       /system/script/set owner=($ScriptVal->"name") \
           source=[ $IfThenElse ($ScriptUpdatesCRLF = true) $SourceCRLF $SourceNew ] $Script;
-      :if ($ScriptVal->"name" = "global-config") do={
-        :set ReloadGlobalConfig true;
-      }
-      :if ($ScriptVal->"name" = "global-functions" || $ScriptVal->"name" ~ ("^mod/.")) do={
-        :set ReloadGlobalFunctions true;
+      :if ($ScriptVal->"name" = "global-config" || \
+           $ScriptVal->"name" = "global-functions" || \
+           $ScriptVal->"name" ~ ("^mod/.")) do={
+        :set ReloadGlobal true;
       }
     } on-error={ }
   }
 
-  :if ($ReloadGlobalFunctions = true) do={
-    $LogPrint info $0 ("Reloading global functions.");
-    :do {
-      /system/script/run global-functions;
-    } on-error={
-      $LogPrint error $0 ("Reloading global functions failed!");
-    }
-  }
+  :if ($ReloadGlobal = true) do={
+    $LogPrint info $0 ("Reloading global configuration and functions.");
+    :set GlobalConfigReady false;
+    :set GlobalFunctionsReady false;
+    :delay 1s;
 
-  :if ($ReloadGlobalConfig = true) do={
-    $LogPrint info $0 ("Reloading global configuration.");
-    :do {
+    :onerror Err {
       /system/script/run global-config;
-    } on-error={
-      $LogPrint error $0 ("Reloading global configuration failed!" . \
-        " Syntax error or missing overlay?");
+      /system/script/run global-functions;
+    } do={
+      $LogPrint error $0 ("Reloading global configuration and functions failed! " . $Err);
     }
   }
 
