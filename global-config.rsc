@@ -8,6 +8,9 @@
 
 # Warning: Do *NOT* copy this line to overlay!
 :global GlobalConfigReady false;
+#   ||   ... but
+#  \||/   start
+#   \/    here!
 
 # Set this to 'true' to disable news and change notifications.
 :global NoNewsAndChangesNotification false;
