@@ -17,7 +17,7 @@
 :global SendGotify2;
 
 # flush Gotify queue
-:set FlushGotifyQueue do={ :do {
+:set FlushGotifyQueue do={ :onerror Err {
   :global GotifyQueue;
 
   :global IsFullyConnected;
@@ -53,8 +53,8 @@
     /system/scheduler/remove [ find where name="_FlushGotifyQueue" ];
     :set GotifyQueue;
   }
-} on-error={
-  :global ExitError; $ExitError false $0;
+} do={
+  :global ExitError; $ExitError false $0 $Err;
 } }
 
 # send notification via Gotify - expects one array argument
@@ -121,12 +121,12 @@
 }
 
 # send notification via Gotify - expects at least two string arguments
-:set SendGotify do={ :do {
+:set SendGotify do={ :onerror Err {
   :global SendGotify2;
 
   $SendGotify2 ({ origin=$0; subject=$1; message=$2; link=$3; silent=$4 });
-} on-error={
-  :global ExitError; $ExitError false $0;
+} do={
+  :global ExitError; $ExitError false $0 $Err;
 } }
 
 # send notification via Gotify - expects one array argument
