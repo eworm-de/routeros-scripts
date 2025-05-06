@@ -1119,7 +1119,7 @@
 }
 
 # install new scripts, update existing scripts
-:set ScriptInstallUpdate do={ :do {
+:set ScriptInstallUpdate do={ :onerror Err {
   :local Scripts    [ :toarray $1 ];
   :local NewComment [ :tostr   $2 ];
 
@@ -1396,8 +1396,8 @@
     :set GlobalConfigChanges;
     :set GlobalConfigMigration;
   }
-} on-error={
-  :global ExitError; $ExitError false $0;
+} do={
+  :global ExitError; $ExitError false $0 $Err;
 } }
 
 # lock script against multiple invocation
@@ -1538,12 +1538,12 @@
 }
 
 # send notification via NotificationFunctions - expects at least two string arguments
-:set SendNotification do={ :do {
+:set SendNotification do={ :onerror Err {
   :global SendNotification2;
 
   $SendNotification2 ({ origin=$0; subject=$1; message=$2; link=$3; silent=$4 });
-} on-error={
-  :global ExitError; $ExitError false $0;
+} do={
+  :global ExitError; $ExitError false $0 $Err;
 } }
 
 # send notification via NotificationFunctions - expects one array argument

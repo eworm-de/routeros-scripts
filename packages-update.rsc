@@ -13,7 +13,7 @@
 :while ($GlobalFunctionsReady != true) do={ :delay 500ms; }
 
 :local ExitOK false;
-:do {
+:onerror Err {
   :local ScriptName [ :jobname ];
 
   :global BackupRandomDelay;
@@ -163,6 +163,6 @@
   $LogPrint info $ScriptName ("Rebooting for update.");
   :delay 1s;
   /system/reboot;
-} on-error={
-  :global ExitError; $ExitError $ExitOK [ :jobname ];
+} do={
+  :global ExitError; $ExitError $ExitOK [ :jobname ] $Err;
 }

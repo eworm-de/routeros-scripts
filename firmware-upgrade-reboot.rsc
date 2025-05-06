@@ -12,7 +12,7 @@
 :while ($GlobalFunctionsReady != true) do={ :delay 500ms; }
 
 :local ExitOK false;
-:do {
+:onerror Err {
   :local ScriptName [ :jobname ];
 
   :global LogPrint;
@@ -55,6 +55,6 @@
 
   $LogPrint info $ScriptName ("Firmware upgrade successful, rebooting.");
   /system/reboot;
-} on-error={
-  :global ExitError; $ExitError $ExitOK [ :jobname ];
+} do={
+  :global ExitError; $ExitError $ExitOK [ :jobname ] $Err;
 }

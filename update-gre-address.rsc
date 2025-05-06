@@ -13,7 +13,7 @@
 :while ($GlobalFunctionsReady != true) do={ :delay 500ms; }
 
 :local ExitOK false;
-:do {
+:onerror Err {
   :local ScriptName [ :jobname ];
 
   :global CharacterReplace;
@@ -41,6 +41,6 @@
       }
     }
   }
-} on-error={
-  :global ExitError; $ExitError $ExitOK [ :jobname ];
+} do={
+  :global ExitError; $ExitError $ExitOK [ :jobname ] $Err;
 }

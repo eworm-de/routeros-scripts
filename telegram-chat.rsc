@@ -13,7 +13,7 @@
 :while ($GlobalFunctionsReady != true) do={ :delay 500ms; }
 
 :local ExitOK false;
-:do {
+:onerror Err {
   :local ScriptName [ :jobname ];
 
   :global Identity;
@@ -190,6 +190,6 @@
   }
   :set TelegramChatOffset ([ :pick $TelegramChatOffset 1 3 ], \
     [ $IfThenElse ($UpdateID >= $TelegramChatOffset->2) ($UpdateID + 1) ($TelegramChatOffset->2) ]);
-} on-error={
-  :global ExitError; $ExitError $ExitOK [ :jobname ];
+} do={
+  :global ExitError; $ExitError $ExitOK [ :jobname ] $Err;
 }

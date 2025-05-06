@@ -12,7 +12,7 @@
 :while ($GlobalFunctionsReady != true) do={ :delay 500ms; }
 
 :local ExitOK false;
-:do {
+:onerror Err {
   :local ScriptName [ :jobname ];
 
   :global SmsAction;
@@ -36,6 +36,6 @@
   } else={
     $LogPrint warning $ScriptName ("The code for action '" . $Action . "' failed syntax validation!");
   }
-} on-error={
-  :global ExitError; $ExitError $ExitOK [ :jobname ];
+} do={
+  :global ExitError; $ExitError $ExitOK [ :jobname ] $Err;
 }

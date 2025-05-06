@@ -12,12 +12,12 @@
 :global InspectVarReturn;
 
 # inspect variable and print on terminal
-:set InspectVar do={ :do {
+:set InspectVar do={ :onerror Err {
   :global InspectVarReturn;
 
   :put [ :tocrlf [ $InspectVarReturn $1 ] ];
-} on-error={
-  :global ExitError; $ExitError false $0;
+} do={
+  :global ExitError; $ExitError false $0 $Err;
 } }
 
 # inspect variable and return formatted string

@@ -16,7 +16,7 @@
 :while ($GlobalFunctionsReady != true) do={ :delay 500ms; }
 
 :local ExitOK false;
-:do {
+:onerror Err {
   :local ScriptName [ :jobname ];
 
   :global CleanFilePath;
@@ -98,6 +98,6 @@
       /interface/wifi/capsman/remote-cap/upgrade [ find where version!=$InstalledVersion ];
     }
   }
-} on-error={
-  :global ExitError; $ExitError $ExitOK [ :jobname ];
+} do={
+  :global ExitError; $ExitError $ExitOK [ :jobname ] $Err;
 }
