@@ -8,11 +8,11 @@
 # download, import and update firewall address-lists
 # https://rsc.eworm.de/doc/fw-addr-lists.md
 
-:global GlobalFunctionsReady;
-:while ($GlobalFunctionsReady != true) do={ :delay 500ms; }
-
 :local ExitOK false;
 :onerror Err {
+  :global GlobalFunctionsReady;
+  :retry { :if ($GlobalFunctionsReady != true) \
+      do={ :error ("Global functions not ready."); }; } delay=500ms max=50;
   :local ScriptName [ :jobname ];
 
   :global FwAddrLists;
