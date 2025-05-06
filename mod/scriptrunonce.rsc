@@ -11,7 +11,7 @@
 :global ScriptRunOnce;
 
 # fetch and run script(s) once
-:set ScriptRunOnce do={ :do {
+:set ScriptRunOnce do={ :onerror Err {
   :local Scripts [ :toarray $1 ];
 
   :global ScriptRunOnceBaseUrl;
@@ -51,6 +51,6 @@
 
     :return true;
   }
-} on-error={
-  :global ExitError; $ExitError false $0;
+} do={
+  :global ExitError; $ExitError false $0 $Err;
 } }
