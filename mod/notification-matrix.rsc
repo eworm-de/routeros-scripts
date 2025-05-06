@@ -19,7 +19,7 @@
 :global SetupMatrixJoinRoom;
 
 # flush Matrix queue
-:set FlushMatrixQueue do={ :do {
+:set FlushMatrixQueue do={ :onerror Err {
   :global MatrixQueue;
 
   :global IsFullyConnected;
@@ -58,8 +58,8 @@
     /system/scheduler/remove [ find where name="_FlushMatrixQueue" ];
     :set MatrixQueue;
   }
-} on-error={
-  :global ExitError; $ExitError false $0;
+} do={
+  :global ExitError; $ExitError false $0 $Err;
 } }
 
 # send notification via Matrix - expects one array argument
@@ -167,12 +167,12 @@
 }
 
 # send notification via Matrix - expects at least two string arguments
-:set SendMatrix do={ :do {
+:set SendMatrix do={ :onerror Err {
   :global SendMatrix2;
 
   $SendMatrix2 ({ origin=$0; subject=$1; message=$2; link=$3 });
-} on-error={
-  :global ExitError; $ExitError false $0;
+} do={
+  :global ExitError; $ExitError false $0 $Err;
 } }
 
 # send notification via Matrix - expects one array argument
