@@ -272,7 +272,9 @@
 };
 
 # load custom settings from overlay and snippets
-# Warning: Do *NOT* copy this code to overlay!
+#    /\    Warning: Do *NOT*
+#   /\7\    copy this code
+#  /_()_\     to overlay!
 :foreach Script in=([ /system/script/find where name="global-config-overlay" ], \
                     [ /system/script/find where name~"^global-config-overlay.d/" ]) do={
   :do {
