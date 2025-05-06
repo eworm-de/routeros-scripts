@@ -62,8 +62,9 @@
   $WaitFullyConnected;
 
   :if ([ :len [ /system/scheduler/find where name="_RebootForUpdate" ] ] > 0) do={
+    $LogPrint info $ScriptName ("A reboot for update is already scheduled.");
     :set ExitOK true;
-    :error "A reboot for update is already scheduled.";
+    :error false;
   }
 
   $LogPrint debug $ScriptName ("Checking for updates...");
