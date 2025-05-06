@@ -8,5 +8,6 @@
 # wait for global-functions to finish
 # https://rsc.eworm.de/doc/global-wait.md
 
+:global GlobalConfigReady;
 :global GlobalFunctionsReady;
-:while ($GlobalFunctionsReady != true) do={ :delay 500ms; }
+:while ($GlobalConfigReady != true || $GlobalFunctionsReady != true) do={ :delay 500ms; }

@@ -6,6 +6,9 @@
 # global configuration
 # https://rsc.eworm.de/
 
+# Warning: Do *NOT* copy this line to overlay!
+:global GlobalConfigReady false;
+
 # Set this to 'true' to disable news and change notifications.
 :global NoNewsAndChangesNotification false;
 
@@ -275,3 +278,6 @@
         [ /system/script/get $Script name ] . " failed!");
   }
 }
+
+# signal we are ready
+:set GlobalConfigReady true;
