@@ -270,8 +270,11 @@
   "cert2-cn"="4n0th3r-s3cr3t";
 };
 
+#    /\       Warning: Do *NOT* copy
+#   /\7\    the code below to overlay!
+#  /_()_\      Things *will* break!
+#
 # load custom settings from overlay and snippets
-# Warning: Do *NOT* copy this code to overlay!
 :foreach Script in=([ /system/script/find where name="global-config-overlay" ], \
                     [ /system/script/find where name~"^global-config-overlay.d/" ]) do={
   :do {
