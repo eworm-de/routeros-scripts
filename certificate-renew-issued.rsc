@@ -12,7 +12,7 @@
 :while ($GlobalFunctionsReady != true) do={ :delay 500ms; }
 
 :local ExitOK false;
-:do {
+:onerror Err {
   :local ScriptName [ :jobname ];
 
   :global CertIssuedExportPass;
@@ -47,6 +47,6 @@
       $LogPrint info $ScriptName ("Issued a new certificate for '" . $CertVal->"common-name" . "'.");
     }
   }
-} on-error={
-  :global ExitError; $ExitError $ExitOK [ :jobname ];
+} do={
+  :global ExitError; $ExitError $ExitOK [ :jobname ] $Err;
 }
