@@ -9,11 +9,11 @@
 # create and email backup and config file
 # https://rsc.eworm.de/doc/backup-email.md
 
-:global GlobalFunctionsReady;
-:while ($GlobalFunctionsReady != true) do={ :delay 500ms; }
-
 :local ExitOK false;
 :onerror Err {
+  :global GlobalFunctionsReady;
+  :retry { :if ($GlobalFunctionsReady != true) \
+      do={ :error ("Global functions not ready."); }; } delay=500ms max=50;
   :local ScriptName [ :jobname ];
 
   :global BackupPassword;
