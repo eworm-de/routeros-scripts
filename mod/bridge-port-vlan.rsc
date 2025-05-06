@@ -10,7 +10,7 @@
 
 :global BridgePortVlan;
 
-:global BridgePortVlan do={ :do {
+:global BridgePortVlan do={ :onerror Err {
   :local ConfigTo [ :tostr $1 ];
 
   :global IfThenElse;
@@ -74,6 +74,6 @@
     $LogPrint info $0 ("Re-enabling interfaces...");
     /interface/ethernet/enable $InterfaceReEnable;
   }
-} on-error={
-  :global ExitError; $ExitError false $0;
+} do={
+  :global ExitError; $ExitError false $0 $Err;
 } }
