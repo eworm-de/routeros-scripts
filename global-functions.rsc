@@ -452,13 +452,15 @@
 :set ExitError do={
   :local ExitOK [ :tostr $1 ];
   :local Name   [ :tostr $2 ];
+  :local Error  [ :tostr $3 ];
 
   :global IfThenElse;
   :global LogPrint; 
 
   :if ($ExitOK = "false") do={
     $LogPrint error $Name ([ $IfThenElse ([ :pick $Name 0 1 ] = "\$") \
-        "Function" "Script" ] . " '" . $Name . "' exited with error.");
+        "Function" "Script" ] . " '" . $Name . "' exited with error" . \
+        [ $IfThenElse (!($Error ~ "^(|true|false)\$")) (": " . $Error) "." ]);
   }
 }
 
