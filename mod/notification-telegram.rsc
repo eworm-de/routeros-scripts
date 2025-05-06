@@ -17,7 +17,7 @@
 :global SendTelegram2;
 
 # flush telegram queue
-:set FlushTelegramQueue do={ :do {
+:set FlushTelegramQueue do={ :onerror Err {
   :global TelegramQueue;
   :global TelegramMessageIDs;
 
@@ -55,12 +55,12 @@
     /system/scheduler/remove [ find where name="_FlushTelegramQueue" ];
     :set TelegramQueue;
   }
-} on-error={
-  :global ExitError; $ExitError false $0;
+} do={
+  :global ExitError; $ExitError false $0 $Err;
 } }
 
 # get the chat id
-:set GetTelegramChatId do={ :do {
+:set GetTelegramChatId do={ :onerror Err {
   :global TelegramTokenId;
 
   :global CertificateAvailable;
@@ -94,8 +94,8 @@
   :if (($Message->"is_topic_message") = true) do={
     $LogPrint info $0 ("The thread id is: " . ($Message->"message_thread_id"));
   }
-} on-error={ 
-  :global ExitError; $ExitError false $0;
+} do={
+  :global ExitError; $ExitError false $0 $Err;
 } } 
 
 # send notification via telegram - expects one array argument
@@ -226,12 +226,12 @@
 }
 
 # send notification via telegram - expects at least two string arguments
-:set SendTelegram do={ :do {
+:set SendTelegram do={ :onerror Err {
   :global SendTelegram2;
 
   $SendTelegram2 ({ origin=$0; subject=$1; message=$2; link=$3; silent=$4 });
-} on-error={
-  :global ExitError; $ExitError false $0;
+} do={
+  :global ExitError; $ExitError false $0 $Err;
 } }
 
 # send notification via telegram - expects one array argument
