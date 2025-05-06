@@ -15,9 +15,9 @@
 
 :local ExitOK false;
 :onerror Err {
-  :global GlobalFunctionsReady;
-  :retry { :if ($GlobalFunctionsReady != true) \
-      do={ :error ("Global functions not ready."); }; } delay=500ms max=50;
+  :global GlobalConfigReady; :global GlobalFunctionsReady;
+  :retry { :if ($GlobalConfigReady != true || $GlobalFunctionsReady != true) \
+      do={ :error ("Global config and/or functions not ready."); }; } delay=500ms max=50;
   :local ScriptName [ :jobname ];
 
   :global LogPrint;
