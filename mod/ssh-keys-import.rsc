@@ -12,7 +12,7 @@
 :global SSHKeysImportFile;
 
 # import single key passed as string
-:set SSHKeysImport do={ :do {
+:set SSHKeysImport do={ :onerror Err {
   :local Key  [ :tostr $1 ];
   :local User [ :tostr $2 ];
 
@@ -65,12 +65,12 @@
     $RmDir "tmpfs/ssh-keys-import";
     :return false;
   }
-} on-error={
-  :global ExitError; $ExitError false $0;
+} do={
+  :global ExitError; $ExitError false $0 $Err;
 } }
 
 # import keys from a file
-:set SSHKeysImportFile do={ :do {
+:set SSHKeysImportFile do={ :onerror Err {
   :local FileName [ :tostr $1 ];
   :local User     [ :tostr $2 ];
 
@@ -109,6 +109,6 @@
       $LogPrint warning $0 ("SSH key of type '" . $KeyVal->0 . "' is not supported.");
     }
   }
-} on-error={
-  :global ExitError; $ExitError false $0;
+} do={
+  :global ExitError; $ExitError false $0 $Err;
 } }
