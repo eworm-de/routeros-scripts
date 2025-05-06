@@ -13,7 +13,7 @@
 :while ($GlobalFunctionsReady != true) do={ :delay 500ms; }
 
 :local ExitOK false;
-:do {
+:onerror Err {
   :local ScriptName [ :jobname ];
 
   :global ModeButton;
@@ -26,7 +26,7 @@
 
   :if ([ :len $Scheduler ] = 0) do={
     $LogPrint info $ScriptName ("Creating scheduler _ModeButtonScheduler, counting presses...");
-    :global ModeButtonScheduler do={ :do {
+    :global ModeButtonScheduler do={ :onerror Err {
       :local FuncName $0;
 
       :global ModeButton;
@@ -82,8 +82,8 @@
       } else={
         $LogPrint info $FuncName ("No action defined for " . $Count . " mode-button presses.");
       }
-    } on-error={
-      :global ExitError; $ExitError false $0;
+    } do={
+      :global ExitError; $ExitError false $0 $Err;
     } }
     /system/scheduler/add name="_ModeButtonScheduler" \
         on-event=":global ModeButtonScheduler; \$ModeButtonScheduler;" interval=3s;
@@ -91,6 +91,6 @@
     $LogPrint debug $ScriptName ("Updating scheduler _ModeButtonScheduler...");
     /system/scheduler/set $Scheduler start-time=[ /system/clock/get time ];
   }
-} on-error={
-  :global ExitError; $ExitError $ExitOK [ :jobname ];
+} do={
+  :global ExitError; $ExitError $ExitOK [ :jobname ] $Err;
 }
