@@ -34,7 +34,7 @@
   :local Gps [ /system/gps/monitor once as-value ];
 
   :if ($Gps->"valid" = true) do={
-    :do {
+    :onerror Err {
       /tool/fetch check-certificate=yes-without-crl output=none http-method=post \
         http-header-field=({ [ $FetchUserAgentStr $ScriptName ]; "Content-Type: application/json" }) \
         http-data=[ :serialize to=json { "identity"=$Identity; \
@@ -42,8 +42,8 @@
       $LogPrint debug $ScriptName ("Sending GPS data in " . $CoordinateFormat . " format: " . \
         "lat: " . ($Gps->"latitude") . " " . \
         "lon: " . ($Gps->"longitude"));
-    } on-error={
-      $LogPrint warning $ScriptName ("Failed sending GPS data!");
+    } do={
+      $LogPrint warning $ScriptName ("Failed sending GPS data: " . $Err);
     }
   } else={
     $LogPrint debug $ScriptName ("GPS data not valid.");

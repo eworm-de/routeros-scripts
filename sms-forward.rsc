@@ -74,12 +74,12 @@
           :if ($Phone~($Hook->"allowed-number") && ($SmsVal->"message")~($Hook->"match")) do={
             :if ([ $ValidateSyntax ($Hook->"command") ] = true) do={
               $LogPrint info $ScriptName ("Running hook '" . $Hook->"match" . "': " . $Hook->"command");
-              :do {
+              :onerror Err {
                 :local Command [ :parse ($Hook->"command") ];
                 $Command Phone=$Phone Message=($SmsVal->"message");
                 :set Messages ($Messages . "\n\nRan hook '" . $Hook->"match" . "':\n" . $Hook->"command");
-              } on-error={
-                $LogPrint warning $ScriptName ("The code for hook '" . $Hook->"match" . "' failed to run!");
+              } do={
+                $LogPrint warning $ScriptName ("The code for hook '" . $Hook->"match" . "' failed to run: " . $Err);
               }
             } else={
               $LogPrint warning $ScriptName ("The code for hook '" . $Hook->"match" . "' failed syntax validation!");

@@ -38,10 +38,10 @@
     :global ValidateSyntax;
 
     :if ([ $ValidateSyntax $Hook ] = true) do={
-      :do {
+      onerror Err {
         [ :parse $Hook ];
-      } on-error={
-        $LogPrint warning $ScriptName ("The " . $State . "-hook for " . $Type . " '" . $Name . "' failed to run.");
+      } do={
+        $LogPrint warning $ScriptName ("The " . $State . "-hook for " . $Type . " '" . $Name . "' failed to run: " . $Err);
         :return ("The hook failed to run.");
       }
     } else={
@@ -107,7 +107,7 @@
 
       :if ([ :typeof ($HostInfo->"resolve") ] = "str") do={
         :if ([ $IsDNSResolving ] = true) do={
-          :do {
+          :onerror Err {
             :local Resolve [ :resolve type=[ $IfThenElse ([ :typeof ($HostVal->"host") ] = "ip") \
                 "ipv4" "ipv6" ] ($HostInfo->"resolve") ];
             :if ($Resolve != $HostVal->"host") do={
@@ -121,13 +121,13 @@
                 :set ($HostVal->"status") "unknown";
               }
             }
-          } on-error={
+          } do={
             :set ($Metric->"resolve-failcnt") ($Metric->"resolve-failcnt" + 1);
             :if ($Metric->"resolve-failcnt" = 3) do={
               $LogPrint [ $IfThenElse ($HostInfo->"no-resolve-fail" != true) warning debug ] \
                   $ScriptName ("Resolving name '" . $HostInfo->"resolve" . [ $IfThenElse \
                   ($HostInfo->"resolve" != $HostInfo->"name") ("' for " . $Type . " '" . \
-                  $HostInfo->"name") "" ] . "' failed.");
+                  $HostInfo->"name") "" ] . "' failed: " . $Err);
             }
           }
         }

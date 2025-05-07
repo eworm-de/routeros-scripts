@@ -37,13 +37,13 @@
 
   :foreach Id,Message in=$GotifyQueue do={
     :if ([ :typeof $Message ] = "array" ) do={
-      :do {
+      :onerror Err {
         /tool/fetch check-certificate=yes-without-crl output=none http-method=post \
           http-header-field=($Message->"headers") http-data=[ :serialize to=json ($Message->"message") ] \
           ($Message->"url") as-value;
         :set ($GotifyQueue->$Id);
-      } on-error={
-        $LogPrint debug $0 ("Sending queued Gotify message failed.");
+      } do={
+        $LogPrint debug $0 ("Sending queued Gotify message failed: " . $Err);
         :set AllDone false;
       }
     }
@@ -91,11 +91,11 @@
       ("\n" . [ $SymbolForNotification "link" ] . ($Notification->"link")) ]); \
     "priority"=[ :tonum [ $IfThenElse ($Notification->"silent") 2 5 ] ] });
 
-  :do {
+  :onerror Err {
     /tool/fetch check-certificate=yes-without-crl output=none http-method=post \
       http-header-field=$Headers http-data=[ :serialize to=json $Message ] $Url as-value;
-  } on-error={
-    $LogPrint info $0 ("Failed sending Gotify notification! Queuing...");
+  } do={
+    $LogPrint info $0 ("Failed sending Gotify notification: " . $Err . " - Queuing...");
 
     :if ([ :typeof $GotifyQueue ] = "nothing") do={
       :set GotifyQueue ({});
