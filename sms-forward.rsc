@@ -62,6 +62,7 @@
           ($SmsVal->"message")~("^:cmd " . $Settings->"secret" . " script ")) do={
         $LogPrint debug $ScriptName ("Removing SMS, which started a script.");
         /tool/sms/inbox/remove $Sms;
+        :delay 50ms;
       } else={
         :set Messages ($Messages . "\n\nOn " . $SmsVal->"timestamp" . \
             " type " . $SmsVal->"type" . ":\n" . $SmsVal->"message");
@@ -93,6 +94,7 @@
           " by " . $Identity . " from " . $Phone . ":" . $Messages) });
       :foreach Sms in=$Delete do={
         /tool/sms/inbox/remove $Sms;
+        :delay 50ms;
       }
     }
   }
