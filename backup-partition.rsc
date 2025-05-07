@@ -32,14 +32,15 @@
 
     :global LogPrint;
 
-    :do {
+    :onerror Err {
       /partitions/copy-to $FallbackTo;
       $LogPrint info $ScriptName ("Copied RouterOS to partition '" . $FallbackToName . "'.");
-      :return true;
-    } on-error={
-      $LogPrint error $ScriptName ("Failed copying RouterOS to partition '" . $FallbackToName . "'!");
+    } do={
+      $LogPrint error $ScriptName ("Failed copying RouterOS to partition '" . \
+          $FallbackToName . "': " . $Err);
       :return false;
     }
+    :return true;
   }
 
   :if ([ $ScriptLock $ScriptName ] = false) do={
@@ -107,16 +108,17 @@
     }
   }
 
-  :do {
+  :onerror Err {
     /system/scheduler/add start-time=startup name="running-from-backup-partition" \
         on-event=(":log warning (\"Running from partition '\" . " . \
         "[ /partitions/get [ find where running ] name ] . \"'!\")");
     /partitions/save-config-to $FallbackTo;
     /system/scheduler/remove "running-from-backup-partition";
     $LogPrint info $ScriptName ("Saved configuration to partition '" . $FallbackToName . "'.");
-  } on-error={
+  } do={
     /system/scheduler/remove [ find where name="running-from-backup-partition" ];
-    $LogPrint error $ScriptName ("Failed saving configuration to partition '" . $FallbackToName . "'!");
+    $LogPrint error $ScriptName ("Failed saving configuration to partition '" . \
+        $FallbackToName . "': " . $Err);
     :set PackagesUpdateBackupFailure true;
     :set ExitOK true;
     :error false;

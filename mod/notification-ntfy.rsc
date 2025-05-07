@@ -36,13 +36,13 @@
 
   :foreach Id,Message in=$NtfyQueue do={
     :if ([ :typeof $Message ] = "array" ) do={
-      :do {
+      :onerror Err {
         /tool/fetch check-certificate=yes-without-crl output=none http-method=post \
           http-header-field=($Message->"headers") http-data=($Message->"text") \
           ($Message->"url") as-value;
         :set ($NtfyQueue->$Id);
-      } on-error={
-        $LogPrint debug $0 ("Sending queued Ntfy message failed.");
+      } do={
+        $LogPrint debug $0 ("Sending queued Ntfy message failed: " . $Err);
         :set AllDone false;
       }
     }
@@ -107,7 +107,7 @@
     :set Text ($Text . "\n" . [ $SymbolForNotification "link" ] . ($Notification->"link"));
   }
 
-  :do {
+  :onerror Err {
     :if ($Server = "ntfy.sh") do={
       :if ([ $CertificateAvailable "ISRG Root X1" ] = false) do={
         $LogPrint warning $0 ("Downloading required certificate failed.");
@@ -116,8 +116,8 @@
     }
     /tool/fetch check-certificate=yes-without-crl output=none http-method=post \
       http-header-field=$Headers http-data=$Text $Url as-value;
-  } on-error={
-    $LogPrint info $0 ("Failed sending ntfy notification! Queuing...");
+  } do={
+    $LogPrint info $0 ("Failed sending ntfy notification: " . $Err . " - Queuing...");
 
     :if ([ :typeof $NtfyQueue ] = "nothing") do={
       :set NtfyQueue ({});
