@@ -61,8 +61,12 @@
       :if ($Phone = $Settings->"allowed-number" && \
           ($SmsVal->"message")~("^:cmd " . $Settings->"secret" . " script ")) do={
         $LogPrint debug $ScriptName ("Removing SMS, which started a script.");
-        /tool/sms/inbox/remove $Sms;
-        :delay 50ms;
+        :onerror Err {
+          /tool/sms/inbox/remove $Sms;
+          :delay 50ms;
+        } do={
+          $LogPrint warning $ScriptName ("Failed to remove message: " . $Err);
+        }
       } else={
         :set Messages ($Messages . "\n\nOn " . $SmsVal->"timestamp" . \
             " type " . $SmsVal->"type" . ":\n" . $SmsVal->"message");
@@ -93,8 +97,12 @@
         message=("Received " . [ $IfThenElse ($Count = 1) "this message" ("these " . $Count . " messages") ] . \
           " by " . $Identity . " from " . $Phone . ":" . $Messages) });
       :foreach Sms in=$Delete do={
-        /tool/sms/inbox/remove $Sms;
-        :delay 50ms;
+        :onerror Err {
+          /tool/sms/inbox/remove $Sms;
+          :delay 50ms;
+        } do={
+          $LogPrint warning $ScriptName ("Failed to remove message: " . $Err);
+        }
       }
     }
   }
