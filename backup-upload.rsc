@@ -90,13 +90,13 @@
     /system/backup/save encryption=aes-sha256 name=$FilePath password=$BackupPassword;
     $WaitForFile ($FilePath . ".backup");
 
-    :do {
+    :onerror Err {
       /tool/fetch upload=yes url=($BackupUploadUrl . "/" . $FileName . ".backup") \
           user=$BackupUploadUser password=$BackupUploadPass src-path=($FilePath . ".backup");
       :set BackupFile [ /file/get ($FilePath . ".backup") ];
       :set ($BackupFile->"name") ($FileName . ".backup");
-    } on-error={
-      $LogPrint error $ScriptName ("Uploading backup file failed!");
+    } do={
+      $LogPrint error $ScriptName ("Uploading backup file failed: " . $Err);
       :set BackupFile "failed";
       :set Failed 1;
     }
@@ -109,13 +109,13 @@
     /export terse show-sensitive file=$FilePath;
     $WaitForFile ($FilePath . ".rsc");
 
-    :do {
+    :onerror Err {
       /tool/fetch upload=yes url=($BackupUploadUrl . "/" . $FileName . ".rsc") \
           user=$BackupUploadUser password=$BackupUploadPass src-path=($FilePath . ".rsc");
       :set ExportFile [ /file/get ($FilePath . ".rsc") ];
       :set ($ExportFile->"name") ($FileName . ".rsc");
-    } on-error={
-      $LogPrint error $ScriptName ("Uploading configuration export failed!");
+    } do={
+      $LogPrint error $ScriptName ("Uploading configuration export failed: " . $Err);
       :set ExportFile "failed";
       :set Failed 1;
     }
@@ -130,13 +130,13 @@
         file=($FilePath . ".conf\00");
     $WaitForFile ($FilePath . ".conf");
 
-    :do {
+    :onerror Err {
       /tool/fetch upload=yes url=($BackupUploadUrl . "/" . $FileName . ".conf") \
           user=$BackupUploadUser password=$BackupUploadPass src-path=($FilePath . ".conf");
       :set ConfigFile [ /file/get ($FilePath . ".conf") ];
       :set ($ConfigFile->"name") ($FileName . ".conf");
-    } on-error={
-      $LogPrint error $ScriptName ("Uploading global-config-overlay failed!");
+    } do={
+      $LogPrint error $ScriptName ("Uploading global-config-overlay failed: " . $Err);
       :set ConfigFile "failed";
       :set Failed 1;
     }
