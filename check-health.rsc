@@ -89,10 +89,10 @@
   :foreach Plugin in=$Plugins do={
     :local PluginVal [ /system/script/get $Plugin ];
     :if ([ $ValidateSyntax ($PluginVal->"source") ] = true) do={
-      :do {
+      :onerror Err {
         /system/script/run $Plugin;
-      } on-error={
-        $LogPrint error $ScriptName ("Plugin '" . $ScriptVal->"name" . "' failed to run.");
+      } do={
+        $LogPrint error $ScriptName ("Plugin '" . $ScriptVal->"name" . "' failed to run: " . $Err);
       }
     } else={
       $LogPrint error $ScriptName ("Plugin '" . $ScriptVal->"name" . "' failed syntax validation, skipping.");

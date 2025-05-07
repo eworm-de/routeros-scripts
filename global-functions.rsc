@@ -393,15 +393,15 @@
   $LogPrint debug $0 ("... from url: " . $Url);
   :local Retry 3;
   :while ($Retry > 0) do={
-    :do {
+    :onerror Err {
       /tool/fetch check-certificate=yes-without-crl $Url dst-path=$PkgDest;
       $WaitForFile $PkgDest;
 
       :if ([ /file/get [ find where name=$PkgDest ] type ] = "package") do={
         :return true;
       }
-    } on-error={
-      $LogPrint debug $0 ("Downloading package file failed.");
+    } do={
+      $LogPrint debug $0 ("Downloading package file failed: " . $Err);
     }
 
     $RmFile $PkgDest;
@@ -489,14 +489,14 @@
   }
 
   :local FileName ($DirName . "/" . [ $CleanName $0 ] . "-" . [ $GetRandom20CharAlNum ]);
-  :do {
+  :onerror Err {
     /tool/fetch check-certificate=$CheckCert $Url dst-path=$FileName \
       http-header-field=({ [ $FetchUserAgentStr $ScriptName ] }) as-value;
-  } on-error={
+  } do={
     :if ([ $WaitForFile $FileName 500ms ] = true) do={
       $RmFile $FileName;
     }
-    $LogPrint debug $0 ("Failed downloading from: " . $Url);
+    $LogPrint debug $0 ("Failed downloading from " . $Url . " - " . $Err);
     $RmDir $DirName;
     :return false;
   }
@@ -589,12 +589,12 @@
         ("https://api.macvendors.com/" . [ :pick $Mac 0 8 ]) output=user as-value ]->"data");
     :return $Vendor;
   } on-error={
-    :do {
+    :onerror Err {
       /tool/fetch check-certificate=yes-without-crl ("https://api.macvendors.com/") \
         output=none as-value;
       $LogPrint debug $0 ("The mac vendor is not known in database.");
-    } on-error={
-      $LogPrint warning $0 ("Failed getting mac vendor.");
+    } do={
+      $LogPrint warning $0 ("Failed getting mac vendor: " . $Err);
     }
     :return "unknown vendor";
   }
@@ -897,11 +897,11 @@
 
     $LogPrint info $0 ("Creating disk of type tmpfs.");
     $RmDir "tmpfs";
-    :do {
+    :onerror Err {
       /disk/add slot=tmpfs type=tmpfs tmpfs-max-size=([ /system/resource/get total-memory ] / 3);
       $WaitForFile "tmpfs";
-    } on-error={
-      $LogPrint warning $0 ("Creating disk of type tmpfs failed!");
+    } do={
+      $LogPrint warning $0 ("Creating disk of type tmpfs failed: " . $Err);
       :return false;
     }
     :return true;
@@ -926,11 +926,11 @@
     }
   }
 
-  :do {
+  :onerror Err {
     /file/add type="directory" name=$Path;
     $WaitForFile $Path;
-  } on-error={
-    $LogPrint warning $0 ("Making directory '" . $Path . "' failed!");
+  } do={
+    $LogPrint warning $0 ("Making directory '" . $Path . "' failed: " . $Err);
     :return false;
   }
 
@@ -1055,10 +1055,10 @@
     :return true;
   }
 
-  :do {
+  :onerror Err {
     /file/remove $Dir;
-  } on-error={
-    $LogPrint error $0 ("Removing directory '" . $DirName . "' (" . $Dir . ") failed.");
+  } do={
+    $LogPrint error $0 ("Removing directory '" . $DirName . "' (" . $Dir . ") failed: " . $Err);
     :return false;
   }
   :return true;
@@ -1083,10 +1083,10 @@
     :return true;
   }
 
-  :do {
+  :onerror Err {
     /file/remove $File;
-  } on-error={
-    $LogPrint error $0 ("Removing file '" . $FileName . "' (" . $File . ") failed.");
+  } do={
+    $LogPrint error $0 ("Removing file '" . $FileName . "' (" . $File . ") failed: " . $Err);
     :return false;
   }
   :return true;
@@ -1204,7 +1204,7 @@
         }
       }
 
-      :do {
+      :onerror Err {
         :local BaseUrl [ $EitherOr ($ScriptInfo->"base-url") $ScriptUpdatesBaseUrl ];
         :local UrlSuffix [ $EitherOr ($ScriptInfo->"url-suffix") $ScriptUpdatesUrlSuffix ];
         :local Url ($BaseUrl . $ScriptVal->"name" . ".rsc" . $UrlSuffix);
@@ -1214,13 +1214,11 @@
         :if ($Result->"status" = "finished") do={
           :set SourceNew [ :tolf ($Result->"data") ];
         }
-      } on-error={
+      } do={
+        $LogPrint warning $0 ("Failed fetching script '" . $ScriptVal->"name" . . "': " . $Err);
         :if ($ScriptVal->"source" = "#!rsc by RouterOS\n") do={
-          $LogPrint warning $0 ("Failed fetching script '" . $ScriptVal->"name" . \
-            "', removing dummy. Typo on installation?");
+          $LogPrint warning $0 ("Removing dummy. Typo on installation?");
           /system/script/remove $Script;
-        } else={
-          $LogPrint warning $0 ("Failed fetching script '" . $ScriptVal->"name" . "'!");
         }
         :error false;
       }
@@ -1307,7 +1305,7 @@
     :global GlobalConfigMigration;
     :local ChangeLogCode;
 
-    :do {
+    :onerror Err {
       :local Url ($ScriptUpdatesBaseUrl . "news-and-changes.rsc" . $ScriptUpdatesUrlSuffix);
       $LogPrint debug $0 ("Fetching news, changes and migration: " . $Url);
       :local Result [ /tool/fetch check-certificate=yes-without-crl \
@@ -1315,16 +1313,16 @@
       :if ($Result->"status" = "finished") do={
         :set ChangeLogCode ($Result->"data");
       }
-    } on-error={
-      $LogPrint warning $0 ("Failed fetching news, changes and migration!");
+    } do={
+      $LogPrint warning $0 ("Failed fetching news, changes and migration: " . $Err);
     }
 
     :if ([ :len $ChangeLogCode ] > 0) do={
       :if ([ $ValidateSyntax $ChangeLogCode ] = true) do={
-        :do {
+        :onerror Err {
           [ :parse $ChangeLogCode ];
-        } on-error={
-          $LogPrint warning $0 ("The changelog failed to run!");
+        } do={
+          $LogPrint warning $0 ("The changelog failed to run: " . $Err);
         }
       } else={
         $LogPrint warning $0 ("The changelog failed syntax validation!");
@@ -1346,10 +1344,10 @@
           }
 
           $LogPrint info $0 ("Applying migration for change " . $I . ": " . $Migration);
-          :do {
+          :onerror Err {
             [ :parse $Migration ];
-          } on-error={
-            $LogPrint warning $0 ("Migration code for change " . $I . " failed to run!");
+          } do={
+            $LogPrint warning $0 ("Migration code for change " . $I . " failed to run: " . $Err);
           }
         } on-error={ }
       }
@@ -1657,9 +1655,12 @@
 :set ValidateSyntax do={
   :local Code [ :tostr $1 ];
 
-  :do {
+  :global LogPrint;
+
+  :onerror Err {
     [ :parse (":local Validate do={\n" . $Code . "\n}") ];
-  } on-error={
+  } do={
+    $LogPrint debug $0 ("Valdation failed: " . $Err);
     :return false;
   }
   :return true;
@@ -1773,10 +1774,10 @@
 :foreach Script in=[ /system/script/find where name ~ "^mod/." ] do={
   :local ScriptVal [ /system/script/get $Script ];
   :if ([ $ValidateSyntax ($ScriptVal->"source") ] = true) do={
-    :do {
+    :onerror Err {
       /system/script/run $Script;
-    } on-error={
-      $LogPrint error $0 ("Module '" . $ScriptVal->"name" . "' failed to run.");
+    } do={
+      $LogPrint error $0 ("Module '" . $ScriptVal->"name" . "' failed to run: " . $Err);
     }
   } else={
     $LogPrint error $0 ("Module '" . $ScriptVal->"name" . "' failed syntax validation, skipping.");
