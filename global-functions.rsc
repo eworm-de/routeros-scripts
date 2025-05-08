@@ -1771,10 +1771,10 @@
 :foreach Script in=[ /system/script/find where name ~ "^mod/." ] do={
   :local ScriptVal [ /system/script/get $Script ];
   :if ([ $ValidateSyntax ($ScriptVal->"source") ] = true) do={
-    :do {
+    :onerror Err {
       /system/script/run $Script;
-    } on-error={
-      $LogPrint error $0 ("Module '" . $ScriptVal->"name" . "' failed to run.");
+    } do={
+      $LogPrint error $0 ("Module '" . $ScriptVal->"name" . "' failed to run: " . $Err);
     }
   } else={
     $LogPrint error $0 ("Module '" . $ScriptVal->"name" . "' failed syntax validation, skipping.");
