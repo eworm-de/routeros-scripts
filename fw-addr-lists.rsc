@@ -135,15 +135,15 @@
       :local Branch [ $GetBranch $Address ];
       :local TimeOut ($IPv4Addresses->$Branch->$Address);
       :if ([ :typeof $TimeOut ] = "time") do={
-        $LogPrintVerbose debug $ScriptName ("Renewing IPv4 address in list '" . $FwListName . \
-            "' with " . $TimeOut . ": " . $Address);
+        $LogPrintVerbose debug $ScriptName ("Renewing IPv4 address " . $Address . \
+            " in list '" . $FwListName . "' with " . $TimeOut . ".");
         /ip/firewall/address-list/set $Entry timeout=$TimeOut;
         :set ($IPv4Addresses->$Branch->$Address);
         :set CntRenew ($CntRenew + 1);
       } else={
         :if ($Failure = false) do={
-          $LogPrintVerbose debug $ScriptName ("Removing IPv4 address from list '" . $FwListName . \
-              "': " . $Address);
+          $LogPrintVerbose debug $ScriptName ("Removing IPv4 address " . $Address . \
+              " from list '" . $FwListName . ".");
           /ip/firewall/address-list/remove $Entry;
           :set CntRemove ($CntRemove + 1);
         }
@@ -156,15 +156,15 @@
       :local Branch [ $GetBranch $Address ];
       :local TimeOut ($IPv6Addresses->$Branch->$Address);
       :if ([ :typeof $TimeOut ] = "time") do={
-        $LogPrintVerbose debug $ScriptName ("Renewing IPv6 address in list '" . $FwListName . \
-            "' with " . $TimeOut . ": " . $Address);
+        $LogPrintVerbose debug $ScriptName ("Renewing IPv6 address " . $Address . \
+            " in list '" . $FwListName . "' with " . $TimeOut . ".");
         /ipv6/firewall/address-list/set $Entry timeout=$TimeOut;
         :set ($IPv6Addresses->$Branch->$Address);
         :set CntRenew ($CntRenew + 1);
       } else={
         :if ($Failure = false) do={
-          $LogPrintVerbose debug $ScriptName ("Removing IPv6 address from list '" . $FwListName . \
-              "': " . $Address);
+          $LogPrintVerbose debug $ScriptName ("Removing IPv6 address " . $Address . \
+              " from list '" . $FwListName .".");
           /ipv6/firewall/address-list/remove $Entry;
           :set CntRemove ($CntRemove + 1);
         }
@@ -174,8 +174,8 @@
     :foreach BranchName,Branch in=$IPv4Addresses do={
       $LogPrintVerbose debug $ScriptName ("Handling branch: " . $BranchName);
       :foreach Address,Timeout in=$Branch do={
-        $LogPrintVerbose debug $ScriptName ("Adding IPv4 address to list '" . $FwListName . \
-            "' with " . $Timeout . ": " . $Address);
+        $LogPrintVerbose debug $ScriptName ("Adding IPv4 address " . $Address . \
+            " to list '" . $FwListName . "' with " . $Timeout . ".");
         :onerror Err {
           /ip/firewall/address-list/add list=$FwListName comment=$ListComment \
               address=$Address timeout=$Timeout;
@@ -190,8 +190,8 @@
     :foreach BranchName,Branch in=$IPv6Addresses do={
       $LogPrintVerbose debug $ScriptName ("Handling branch: " . $BranchName);
       :foreach Address,Timeout in=$Branch do={
-        $LogPrintVerbose debug $ScriptName ("Adding IPv6 address to list '" . $FwListName . \
-            "' with " . $Timeout . ": " . $Address);
+        $LogPrintVerbose debug $ScriptName ("Adding IPv6 address " . $Address . \
+            " to list '" . $FwListName . "' with " . $Timeout . ".");
         :onerror Err {
           /ipv6/firewall/address-list/add list=$FwListName comment=$ListComment \
               address=$Address timeout=$Timeout;
