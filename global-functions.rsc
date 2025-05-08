@@ -894,11 +894,11 @@
 
     $LogPrint info $0 ("Creating disk of type tmpfs.");
     $RmDir "tmpfs";
-    :do {
+    :onerror Err {
       /disk/add slot=tmpfs type=tmpfs tmpfs-max-size=([ /system/resource/get total-memory ] / 3);
       $WaitForFile "tmpfs";
-    } on-error={
-      $LogPrint warning $0 ("Creating disk of type tmpfs failed!");
+    } do={
+      $LogPrint warning $0 ("Creating disk of type tmpfs failed: " . $Err);
       :return false;
     }
     :return true;
@@ -923,11 +923,11 @@
     }
   }
 
-  :do {
+  :onerror Err {
     /file/add type="directory" name=$Path;
     $WaitForFile $Path;
-  } on-error={
-    $LogPrint warning $0 ("Making directory '" . $Path . "' failed!");
+  } do={
+    $LogPrint warning $0 ("Making directory '" . $Path . "' failed: " . $Err);
     :return false;
   }
 
