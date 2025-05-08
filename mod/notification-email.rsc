@@ -202,7 +202,8 @@
   }
   :local Signature [ $EitherOr [ $NotificationEMailSignature ] [ /system/note/get note ] ];
   :set Body ($Body . "\n" . \
-      [ $IfThenElse ([ :len ($Notification->"link") ] > 0) ("\n" . ($Notification->"link")) ] . \
+      [ $IfThenElse ([ :len ($Notification->"link") ] > 0) \
+          ("\n" . [ $SymbolForNotification "link" ] . ($Notification->"link")) ] . \
       [ $IfThenElse ($Truncated = true) ("\n" . [ $SymbolForNotification "scissors" ] . \
           "The message was too long and has been truncated!") ] . \
       [ $IfThenElse ([ :len $Signature ] > 0) ("\n-- \n" . $Signature) "" ]);
