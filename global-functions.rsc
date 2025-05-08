@@ -586,12 +586,12 @@
         ("https://api.macvendors.com/" . [ :pick $Mac 0 8 ]) output=user as-value ]->"data");
     :return $Vendor;
   } on-error={
-    :do {
+    :onerror Err {
       /tool/fetch check-certificate=yes-without-crl ("https://api.macvendors.com/") \
         output=none as-value;
       $LogPrint debug $0 ("The mac vendor is not known in database.");
-    } on-error={
-      $LogPrint warning $0 ("Failed getting mac vendor.");
+    } do={
+      $LogPrint warning $0 ("Failed getting mac vendor: " . $Err);
     }
     :return "unknown vendor";
   }
