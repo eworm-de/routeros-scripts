@@ -1655,9 +1655,12 @@
 :set ValidateSyntax do={
   :local Code [ :tostr $1 ];
 
+  :global LogPrint;
+
   :onerror Err {
     [ :parse (":local Validate do={\n" . $Code . "\n}") ];
   } do={
+    $LogPrint debug $0 ("Valdation failed: " . $Err);
     :return false;
   }
   :return true;
