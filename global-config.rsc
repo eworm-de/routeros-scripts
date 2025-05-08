@@ -277,11 +277,11 @@
 #  /_()_\     to overlay!
 :foreach Script in=([ /system/script/find where name="global-config-overlay" ], \
                     [ /system/script/find where name~"^global-config-overlay.d/" ]) do={
-  :do {
+  :onerror Err {
     /system/script/run $Script;
-  } on-error={
+  } do={
     :log error ("Loading configuration from overlay or snippet " . \
-        [ /system/script/get $Script name ] . " failed!");
+        [ /system/script/get $Script name ] . " failed: " . $Err);
   }
 }
 
