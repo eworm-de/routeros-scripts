@@ -1652,9 +1652,9 @@
 :set ValidateSyntax do={
   :local Code [ :tostr $1 ];
 
-  :do {
+  :onerror Err {
     [ :parse (":local Validate do={\n" . $Code . "\n}") ];
-  } on-error={
+  } do={
     :return false;
   }
   :return true;
