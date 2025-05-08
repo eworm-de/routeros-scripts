@@ -486,14 +486,14 @@
   }
 
   :local FileName ($DirName . "/" . [ $CleanName $0 ] . "-" . [ $GetRandom20CharAlNum ]);
-  :do {
+  :onerror Err {
     /tool/fetch check-certificate=$CheckCert $Url dst-path=$FileName \
       http-header-field=({ [ $FetchUserAgentStr $ScriptName ] }) as-value;
-  } on-error={
+  } do={
     :if ([ $WaitForFile $FileName 500ms ] = true) do={
       $RmFile $FileName;
     }
-    $LogPrint debug $0 ("Failed downloading from: " . $Url);
+    $LogPrint debug $0 ("Failed downloading from " . $Url . " - " . $Err);
     $RmDir $DirName;
     :return false;
   }
