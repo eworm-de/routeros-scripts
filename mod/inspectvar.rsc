@@ -33,11 +33,9 @@
     :local Value  [ :tostr $2 ];
     :local Level  [ :tonum $3 ];
 
-    :local Indent "";
-    :for I from=1 to=$Level step=1 do={
-      :set Indent ($Indent . "  ");
-    }
-    :return ($Indent . "-" . $Prefix . "-> " . $Value);
+    :global CharacterMultiply;
+
+    :return ([ $CharacterMultiply " " $Level ] . "-" . $Prefix . "-> " . $Value);
   }
 
   :local TypeOf [ :typeof $Input ];
