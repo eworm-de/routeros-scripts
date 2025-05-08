@@ -1055,10 +1055,10 @@
     :return true;
   }
 
-  :do {
+  :onerror Err {
     /file/remove $Dir;
-  } on-error={
-    $LogPrint error $0 ("Removing directory '" . $DirName . "' (" . $Dir . ") failed.");
+  } do={
+    $LogPrint error $0 ("Removing directory '" . $DirName . "' (" . $Dir . ") failed: " . $Err);
     :return false;
   }
   :return true;
