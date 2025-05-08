@@ -141,13 +141,13 @@
 
     :if ([ :len $SafeUpdateUrl ] > 0) do={
       :local Result;
-      :do {
+      :onerror Err {
         :set Result [ /tool/fetch check-certificate=yes-without-crl \
             ($SafeUpdateUrl . $Update->"channel" . "?installed=" . $Update->"installed-version" . \
             "&latest=" . $Update->"latest-version") http-header-field=({ [ $FetchUserAgentStr $ScriptName ] }) \
             output=user as-value ];
-      } on-error={
-        $LogPrint warning $ScriptName ("Failed receiving safe version for " . $Update->"channel" . ".");
+      } do={
+        $LogPrint warning $ScriptName ("Failed receiving safe version for " . $Update->"channel" . ": " . $Err);
       }
       :if ($Result->"status" = "finished" && $Result->"data" = $Update->"latest-version") do={
         $LogPrint info $ScriptName ("Version " . $Update->"latest-version" . " is considered safe, updating...");
