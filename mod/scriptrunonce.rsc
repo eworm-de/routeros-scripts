@@ -41,11 +41,11 @@
       :return false;
     }
 
-    :do {
+    :onerror Err {
       $LogPrint info $0 ("Running script '" . $Script . "' now.");
       [ :parse $Source ];
-    } on-error={
-      $LogPrint warning $0 ("The script '" . $Script . "' failed to run!");
+    } do={
+      $LogPrint warning $0 ("The script '" . $Script . "' failed to run: " . $Err);
       :return false;
     }
 
