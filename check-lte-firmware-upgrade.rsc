@@ -45,12 +45,12 @@
     :local IntName [ /interface/lte/get $Interface name ];
     :local Firmware;
     :local Info;
-    :do {
+    :onerror Err {
       :set Firmware [ /interface/lte/firmware-upgrade $Interface as-value ];
       :set Info [ /interface/lte/monitor $Interface once as-value ];
-    } on-error={
+    } do={
       $LogPrint debug $ScriptName ("Could not get latest LTE firmware version for interface " . \
-        $IntName . ".");
+        $IntName . ": " . $Err);
       :return false;
     }
 
