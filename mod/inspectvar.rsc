@@ -53,7 +53,12 @@
     :if ($TypeOf = "str") do={
       :set $Return ($Return . "\n" . \
          [ $IndentReturn "len" $Len $Level ]);
-      :set Input [ $CharacterReplace [ $CharacterReplace $Input ("\r") "" ] ("\n") " " ];
+      :if ([ :typeof [ :find $Input ("\r") ] ] = "num") do={
+        :set Input [ $CharacterReplace $Input ("\r") "" ];
+      }
+      :if ([ :typeof [ :find $Input ("\n") ] ] = "num") do={
+        :set Input [ $CharacterReplace $Input ("\n") " " ];
+      }
     }
     :if ($TypeOf != "nothing") do={
       :set $Return ($Return . "\n" . \
