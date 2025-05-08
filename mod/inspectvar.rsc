@@ -25,6 +25,7 @@
   :local Input $1;
   :local Level (0 + [ :tonum $2 ]);
 
+  :global CharacterReplace;
   :global IfThenElse;
   :global InspectVarReturn;
 
@@ -52,6 +53,7 @@
     :if ($TypeOf = "str") do={
       :set $Return ($Return . "\n" . \
          [ $IndentReturn "len" $Len $Level ]);
+      :set Input [ $CharacterReplace [ $CharacterReplace $Input ("\r") "" ] ("\n") " " ];
     }
     :if ($TypeOf != "nothing") do={
       :set $Return ($Return . "\n" . \
