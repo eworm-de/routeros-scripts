@@ -55,13 +55,13 @@
   /file/add name=$FileName contents=($Key . ", md5=" . $FingerPrintMD5);
   $WaitForFile $FileName;
 
-  :do {
+  :onerror Err {
     /user/ssh-keys/import public-key-file=$FileName user=$User;
     $LogPrint info $0 ("Imported ssh public key (" . $KeyVal->2 . ", " . $KeyVal->0 . ", " . \
       "MD5:" . $FingerPrintMD5 . ") for user '" . $User . "'.");
     $RmDir "tmpfs/ssh-keys-import";
-  } on-error={
-    $LogPrint warning $0 ("Failed importing key.");
+  } do={
+    $LogPrint warning $0 ("Failed importing key: " . $Err);
     $RmDir "tmpfs/ssh-keys-import";
     :return false;
   }
