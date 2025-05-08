@@ -69,11 +69,11 @@
             :delay 200ms;
           }
 
-          :do {
+          :onerror Err {
             [ :parse $Code ];
-          } on-error={
+          } do={
             $LogPrint warning $FuncName \
-                ("The code for " . $Count . " mode-button presses failed with runtime error!");
+                ("The code for " . $Count . " mode-button presses failed with runtime error: " . $Err);
           }
         } else={
           $LogPrint warning $FuncName \
