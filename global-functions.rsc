@@ -1080,10 +1080,10 @@
     :return true;
   }
 
-  :do {
+  :onerror Err {
     /file/remove $File;
-  } on-error={
-    $LogPrint error $0 ("Removing file '" . $FileName . "' (" . $File . ") failed.");
+  } do={
+    $LogPrint error $0 ("Removing file '" . $FileName . "' (" . $File . ") failed: " . $Err);
     :return false;
   }
   :return true;
