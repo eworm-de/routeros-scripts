@@ -39,6 +39,7 @@
   }
 
   :local TypeOf [ :typeof $Input ];
+  :local Len    [ :len $Input ];
   :local Return [ $IndentReturn "type" $TypeOf $Level ];
 
   :if ($TypeOf = "array") do={
@@ -48,6 +49,10 @@
         [ $InspectVarReturn $Value ($Level + 2) ]);
     }
   } else={
+    :if ($TypeOf = "str") do={
+      :set $Return ($Return . "\n" . \
+         [ $IndentReturn "len" $Len $Level ]);
+    }
     :if ($TypeOf != "nothing") do={
       :set $Return ($Return . "\n" . \
         [ $IndentReturn "value" [ $IfThenElse ([ :len $Input ] > 80) \
