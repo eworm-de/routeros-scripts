@@ -53,11 +53,11 @@
   }
 
   :foreach Order,Script in=$RunOrder do={
-    :do {
+    :onerror Err {
       $LogPrint debug $ScriptName ("Running script with order " . $Order . ": " . $Script);
       /system/script/run $Script;
-    } on-error={
-      $LogPrint warning $ScriptName ("Running script '" . $Script . "' failed!");
+    } do={
+      $LogPrint warning $ScriptName ("Running script '" . $Script . "' failed: " . $Err);
     }
   }
 } do={
