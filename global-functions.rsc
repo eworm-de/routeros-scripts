@@ -1201,7 +1201,7 @@
         }
       }
 
-      :do {
+      :onerror Err {
         :local BaseUrl [ $EitherOr ($ScriptInfo->"base-url") $ScriptUpdatesBaseUrl ];
         :local UrlSuffix [ $EitherOr ($ScriptInfo->"url-suffix") $ScriptUpdatesUrlSuffix ];
         :local Url ($BaseUrl . $ScriptVal->"name" . ".rsc" . $UrlSuffix);
@@ -1211,13 +1211,11 @@
         :if ($Result->"status" = "finished") do={
           :set SourceNew [ :tolf ($Result->"data") ];
         }
-      } on-error={
+      } do={
+        $LogPrint warning $0 ("Failed fetching script '" . $ScriptVal->"name" . . "': " . $Err);
         :if ($ScriptVal->"source" = "#!rsc by RouterOS\n") do={
-          $LogPrint warning $0 ("Failed fetching script '" . $ScriptVal->"name" . \
-            "', removing dummy. Typo on installation?");
+          $LogPrint warning $0 ("Removing dummy. Typo on installation?");
           /system/script/remove $Script;
-        } else={
-          $LogPrint warning $0 ("Failed fetching script '" . $ScriptVal->"name" . "'!");
         }
         :error false;
       }
@@ -1304,7 +1302,7 @@
     :global GlobalConfigMigration;
     :local ChangeLogCode;
 
-    :do {
+    :onerror Err {
       :local Url ($ScriptUpdatesBaseUrl . "news-and-changes.rsc" . $ScriptUpdatesUrlSuffix);
       $LogPrint debug $0 ("Fetching news, changes and migration: " . $Url);
       :local Result [ /tool/fetch check-certificate=yes-without-crl \
@@ -1312,16 +1310,16 @@
       :if ($Result->"status" = "finished") do={
         :set ChangeLogCode ($Result->"data");
       }
-    } on-error={
-      $LogPrint warning $0 ("Failed fetching news, changes and migration!");
+    } do={
+      $LogPrint warning $0 ("Failed fetching news, changes and migration: " . $Err);
     }
 
     :if ([ :len $ChangeLogCode ] > 0) do={
       :if ([ $ValidateSyntax $ChangeLogCode ] = true) do={
-        :do {
+        :onerror Err {
           [ :parse $ChangeLogCode ];
-        } on-error={
-          $LogPrint warning $0 ("The changelog failed to run!");
+        } do={
+          $LogPrint warning $0 ("The changelog failed to run: " . $Err);
         }
       } else={
         $LogPrint warning $0 ("The changelog failed syntax validation!");
@@ -1343,10 +1341,10 @@
           }
 
           $LogPrint info $0 ("Applying migration for change " . $I . ": " . $Migration);
-          :do {
+          :onerror Err {
             [ :parse $Migration ];
-          } on-error={
-            $LogPrint warning $0 ("Migration code for change " . $I . " failed to run!");
+          } do={
+            $LogPrint warning $0 ("Migration code for change " . $I . " failed to run: " . $Err);
           }
         } on-error={ }
       }
