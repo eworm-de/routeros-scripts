@@ -181,6 +181,7 @@
   :global IfThenElse;
   :global NotificationEMailSignature;
   :global NotificationEMailSubject;
+  :global SymbolForNotification;
 
   :local To [ $EitherOr ($EmailGeneralToOverride->($Notification->"origin")) $EmailGeneralTo ];
   :local Cc [ $EitherOr ($EmailGeneralCcOverride->($Notification->"origin")) $EmailGeneralCc ];
@@ -193,13 +194,22 @@
   :if ([ :typeof $EmailQueue ] = "nothing") do={
       :set EmailQueue ({});
   }
+  :local Truncated false;
+  :local Body ($Notification->"message");
+  :if ([ :len $Body ] > 62000) do={
+    :set Body ([ :pick $Body 0 62000 ] . "...");
+    :set Truncated true;
+  }
   :local Signature [ $EitherOr [ $NotificationEMailSignature ] [ /system/note/get note ] ];
+  :set Body ($Body . "\n" . \
+      [ $IfThenElse ([ :len ($Notification->"link") ] > 0) ("\n" . ($Notification->"link")) ] . \
+      [ $IfThenElse ($Truncated = true) ("\n" . [ $SymbolForNotification "scissors" ] . \
+          "The message was too long and has been truncated!") ] . \
+      [ $IfThenElse ([ :len $Signature ] > 0) ("\n-- \n" . $Signature) "" ]);
   :set ($EmailQueue->[ :len $EmailQueue ]) {
     to=$To; cc=$Cc;
     subject=[ $NotificationEMailSubject ($Notification->"subject") ];
-    body=(($Notification->"message") . \
-      [ $IfThenElse ([ :len ($Notification->"link") ] > 0) ("\n\n" . ($Notification->"link")) "" ] . \
-      [ $IfThenElse ([ :len $Signature ] > 0) ("\n-- \n" . $Signature) "" ]); \
+    body=$Body; \
     attach=($Notification->"attach"); remove-attach=($Notification->"remove-attach") };
   :if ([ :len [ /system/scheduler/find where name="_FlushEmailQueue" ] ] = 0) do={
     /system/scheduler/add name="_FlushEmailQueue" interval=1s start-time=startup \
