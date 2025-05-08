@@ -89,35 +89,40 @@
 
   :foreach Id,Message in=$EmailQueue do={
     :if ([ :typeof $Message ] = "array" ) do={
-      :local Attach ({});
       :while ([ /tool/e-mail/get last-status ] = "in-progress") do={ :delay 1s; }
-      :foreach File in=[ :toarray [ $EitherOr ($Message->"attach") "" ] ] do={
-        :if ([ :len [ /file/find where name=$File ] ] = 1) do={
-          :set Attach ($Attach, $File);
-        } else={
-          $LogPrint warning $0 ("File '" . $File . "' does not exist, can not attach.");
-        }
-      }
-      /tool/e-mail/send from=[ $EMailGenerateFrom ] to=($Message->"to") cc=($Message->"cc") \
-        subject=($Message->"subject") body=($Message->"body") file=$Attach;
-      :local Wait true;
-      :do {
-        :delay 1s;
-        :local Status [ /tool/e-mail/get last-status ];
-        :if ($Status = "succeeded") do={
-          :set ($EmailQueue->$Id);
-          :set Wait false;
-          :if (($Message->"remove-attach") = true) do={
-            :foreach File in=$Attach do={
-              /file/remove $File;
-            }
+      :onerror Err {
+        :local Attach ({});
+        :foreach File in=[ :toarray [ $EitherOr ($Message->"attach") "" ] ] do={
+          :if ([ :len [ /file/find where name=$File ] ] = 1) do={
+            :set Attach ($Attach, $File);
+          } else={
+            $LogPrint warning $0 ("File '" . $File . "' does not exist, can not attach.");
           }
         }
-        :if ($Status = "failed") do={
-          :set AllDone false;
-          :set Wait false;
-        }
-      } while=($Wait = true);
+        /tool/e-mail/send from=[ $EMailGenerateFrom ] to=($Message->"to") cc=($Message->"cc") \
+          subject=($Message->"subject") body=($Message->"body") file=$Attach;
+        :local Wait true;
+        :do {
+          :delay 1s;
+          :local Status [ /tool/e-mail/get last-status ];
+          :if ($Status = "succeeded") do={
+            :set ($EmailQueue->$Id);
+            :set Wait false;
+            :if (($Message->"remove-attach") = true) do={
+              :foreach File in=$Attach do={
+                /file/remove $File;
+              }
+            }
+          }
+          :if ($Status = "failed") do={
+            :set AllDone false;
+            :set Wait false;
+          }
+        } while=($Wait = true);
+      } do={
+        $LogPrint warning $0 ("Sending queued mail failed: " . $Err);
+        :set AllDone false;
+      }
     }
   }
 
