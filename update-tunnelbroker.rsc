@@ -41,12 +41,12 @@
 
     :for I from=2 to=0 do={
       :if ($Data = false) do={
-        :do {
+        :onerror Err {
           :set Data ([ /tool/fetch check-certificate=yes-without-crl \
             ("https://ipv4.tunnelbroker.net/nic/update?hostname=" . $Comment->"id") \
             user=($Comment->"user") password=($Comment->"pass") output=user as-value ]->"data");
-        } on-error={
-          $LogPrint debug $ScriptName ("Failed downloading, " . $I . " retries pending.");
+        } do={
+          $LogPrint debug $ScriptName ("Failed downloading: " . $Err . " - " . $I . " retries pending.");
           :delay 2s;
         }
       }
