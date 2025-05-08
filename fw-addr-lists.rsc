@@ -176,13 +176,13 @@
       :foreach Address,Timeout in=$Branch do={
         $LogPrintVerbose debug $ScriptName ("Adding IPv4 address to list '" . $FwListName . \
             "' with " . $Timeout . ": " . $Address);
-        :do {
+        :onerror Err {
           /ip/firewall/address-list/add list=$FwListName comment=$ListComment \
               address=$Address timeout=$Timeout;
           :set CntAdd ($CntAdd + 1);
-        } on-error={
-          $LogPrint warning $ScriptName ("Failed to add IPv4 address to list '" . $FwListName . \
-              "': " . $Address);
+        } do={
+          $LogPrint warning $ScriptName ("Failed to add IPv4 address " . $Address . \
+              " to list '" . $FwListName . "': " . $Err);
         }
       }
     }
@@ -192,13 +192,13 @@
       :foreach Address,Timeout in=$Branch do={
         $LogPrintVerbose debug $ScriptName ("Adding IPv6 address to list '" . $FwListName . \
             "' with " . $Timeout . ": " . $Address);
-        :do {
+        :onerror Err {
           /ipv6/firewall/address-list/add list=$FwListName comment=$ListComment \
               address=$Address timeout=$Timeout;
           :set CntAdd ($CntAdd + 1);
-        } on-error={
-          $LogPrint warning $ScriptName ("Failed to add IPv6 address to list '" . $FwListName . \
-              "': " . $Address);
+        } do={
+          $LogPrint warning $ScriptName ("Failed to add IPv6 address " . $Address . \
+              " to list '" . $FwListName . "': " . $Err);
         }
       }
     }
