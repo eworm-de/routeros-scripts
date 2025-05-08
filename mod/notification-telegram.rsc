@@ -38,14 +38,14 @@
 
   :foreach Id,Message in=$TelegramQueue do={
     :if ([ :typeof $Message ] = "array" ) do={
-      :do {
+      :onerror Err {
         :local Data ([ /tool/fetch check-certificate=yes-without-crl output=user http-method=post \
           ("https://api.telegram.org/bot" . ($Message->"tokenid") . "/sendMessage") \
           http-data=($Message->"http-data") as-value ]->"data");
         :set ($TelegramQueue->$Id);
         :set ($TelegramMessageIDs->[ :tostr ([ :deserialize from=json value=$Data ]->"result"->"message_id") ]) 1;
-      } on-error={
-        $LogPrint debug $0 ("Sending queued Telegram message failed.");
+      } do={
+        $LogPrint debug $0 ("Sending queued Telegram message failed: " . $Err);
         :set AllDone false;
       }
     }
@@ -72,12 +72,12 @@
   }
 
   :local Data;
-  :do {
+  :onerror Err {
     :set Data ([ /tool/fetch check-certificate=yes-without-crl output=user \
        ("https://api.telegram.org/bot" . $TelegramTokenId . "/getUpdates?offset=0" . \
        "&allowed_updates=%5B%22message%22%5D") as-value ]->"data");
-  } on-error={
-    $LogPrint warning $0 ("Fetching data failed!");
+  } do={
+    $LogPrint warning $0 ("Fetching data failed: " . $Err);
     :return false;
   }
 
@@ -190,7 +190,7 @@
   :local HTTPData ("chat_id=" . $ChatId . "&disable_notification=" . ($Notification->"silent") . \
       "&reply_to_message_id=" . ($Notification->"replyto") . "&message_thread_id=" . $ThreadId . \
        "&disable_web_page_preview=true&parse_mode=MarkdownV2");
-  :do {
+  :onerror Err {
     :if ([ $CertificateAvailable "Go Daddy Root Certificate Authority - G2" ] = false) do={
       $LogPrint warning $0 ("Downloading required certificate failed.");
       :error false;
@@ -199,8 +199,8 @@
       ("https://api.telegram.org/bot" . $TokenId . "/sendMessage") \
       http-data=($HTTPData . "&text=" . [ $UrlEncode $Text ]) as-value ]->"data");
     :set ($TelegramMessageIDs->[ :tostr ([ :deserialize from=json value=$Data ]->"result"->"message_id") ]) 1;
-  } on-error={
-    $LogPrint info $0 ("Failed sending Telegram notification! Queuing...");
+  } do={
+    $LogPrint info $0 ("Failed sending Telegram notification: " . $Err . " - Queuing...");
 
     :if ([ :typeof $TelegramQueue ] = "nothing") do={
       :set TelegramQueue ({});
