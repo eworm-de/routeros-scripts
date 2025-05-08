@@ -39,7 +39,7 @@
 
   :foreach Id,Message in=$MatrixQueue do={
     :if ([ :typeof $Message ] = "array" ) do={
-      :do {
+      :onerror Err {
         /tool/fetch check-certificate=yes-without-crl output=none \
             http-header-field=($Message->"headers") http-method=post \
             http-data=[ :serialize to=json { "msgtype"="m.text"; "body"=($Message->"plain");
@@ -47,8 +47,8 @@
             ("https://" . $Message->"homeserver" . "/_matrix/client/r0/rooms/" . $Message->"room" . \
             "/send/m.room.message?access_token=" . $Message->"accesstoken") as-value;
         :set ($MatrixQueue->$Id);
-      } on-error={
-        $LogPrint debug $0 ("Sending queued Matrix message failed.");
+      } do={
+        $LogPrint debug $0 ("Sending queued Matrix message failed: " . $Err);
         :set AllDone false;
       }
     }
@@ -129,15 +129,15 @@
       [ $PrepareText $Label ] . "</a>");
   }
 
-  :do {
+  :onerror Err {
     /tool/fetch check-certificate=yes-without-crl output=none \
         http-header-field=$Headers http-method=post \
         http-data=[ :serialize to=json { "msgtype"="m.text"; "body"=$Plain;
         "format"="org.matrix.custom.html"; "formatted_body"=$Formatted } ] \
         ("https://" . $HomeServer . "/_matrix/client/r0/rooms/" . $Room . \
         "/send/m.room.message?access_token=" . $AccessToken) as-value;
-  } on-error={
-    $LogPrint info $0 ("Failed sending Matrix notification! Queuing...");
+  } do={
+    $LogPrint info $0 ("Failed sending Matrix notification: " . $Err . " - Queuing...");
 
     :if ([ :typeof $MatrixQueue ] = "nothing") do={
       :set MatrixQueue ({});
@@ -196,14 +196,14 @@
   :global MatrixHomeServer;
 
   :local Domain [ :pick $User ([ :find $User ":" ] + 1) [ :len $User] ];
-  :do {
+  :onerror Err {
     :local Data ([ /tool/fetch check-certificate=yes-without-crl output=user \
         http-header-field=({ [ $FetchUserAgentStr $0 ] }) \
         ("https://" . $Domain . "/.well-known/matrix/client") as-value ]->"data");
     :set MatrixHomeServer ([ :deserialize from=json value=$Data ]->"m.homeserver"->"base_url");
     $LogPrint debug $0 ("Home server is: " . $MatrixHomeServer);
-  } on-error={
-    $LogPrint error $0 ("Failed getting home server!");
+  } do={
+    $LogPrint error $0 ("Failed getting home server: " . $Err);
     :return false;
   }
 
@@ -211,27 +211,27 @@
     :set MatrixHomeServer [ :pick $MatrixHomeServer 8 [ :len $MatrixHomeServer ] ];
   }
 
-  :do {
+  :onerror Err {
     :local Data ([ /tool/fetch check-certificate=yes-without-crl output=user \
         http-header-field=({ [ $FetchUserAgentStr $0 ] }) http-method=post \
         http-data=[ :serialize to=json { "type"="m.login.password"; "user"=$User; "password"=$Pass } ] \
         ("https://" . $MatrixHomeServer . "/_matrix/client/r0/login") as-value ]->"data");
     :set MatrixAccessToken ([ :deserialize from=json value=$Data ]->"access_token");
     $LogPrint debug $0 ("Access token is: " . $MatrixAccessToken);
-  } on-error={
-    $LogPrint error $0 ("Failed logging in (and getting access token)!");
+  } do={
+    $LogPrint error $0 ("Failed logging in (and getting access token): " . $Err);
     :return false;
   }
 
-  :do {
+  :onerror Err {
     /system/script/remove [ find where name="global-config-overlay.d/mod/notification-matrix" ];
     /system/script/add name="global-config-overlay.d/mod/notification-matrix" source=( \
       "# configuration snippet: mod/notification-matrix\n\n" . \
       ":global MatrixHomeServer \"" . $MatrixHomeServer . "\";\n" . \
       ":global MatrixAccessToken \"" . $MatrixAccessToken . "\";\n");
     $LogPrint info $0 ("Added configuration snippet. Now create and join a room, please!");
-  } on-error={
-    $LogPrint error $0 ("Failed adding configuration snippet!");
+  } do={
+    $LogPrint error $0 ("Failed adding configuration snippet: " . $Err);
     :return false;
   }
 }
@@ -248,24 +248,24 @@
   :global MatrixHomeServer;
   :global MatrixRoom;
 
-  :do {
+  :onerror Err {
     /tool/fetch check-certificate=yes-without-crl output=none \
         http-header-field=({ [ $FetchUserAgentStr $0 ] }) http-method=post http-data="" \
         ("https://" . $MatrixHomeServer . "/_matrix/client/r0/rooms/" . [ $UrlEncode $MatrixRoom ] . \
         "/join?access_token=" . [ $UrlEncode $MatrixAccessToken ]) as-value;
     $LogPrint debug $0 ("Joined the room.");
-  } on-error={
-    $LogPrint error $0 ("Failed joining the room!");
+  } do={
+    $LogPrint error $0 ("Failed joining the room: " . $Err);
     :return false;
   }
 
-  :do {
+  :onerror Err {
     :local Snippet [ /system/script/find where name="global-config-overlay.d/mod/notification-matrix" ];
     /system/script/set $Snippet source=([ get $Snippet source ] . \
       ":global MatrixRoom \"" . $MatrixRoom . "\";\n");
     $LogPrint info $0 ("Appended configuration to configuration snippet. Please review!");
-  } on-error={
-    $LogPrint error $0 ("Failed appending configuration to snippet!");
+  } do={
+    $LogPrint error $0 ("Failed appending configuration to snippet: " . $Err);
     :return false;
   }
 }
