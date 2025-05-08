@@ -12,10 +12,10 @@
 :foreach Interface in=[ /interface/lte/find where running ] do={
   :local Firmware;
   :local IntName [ /interface/lte/get $Interface name ];
-  :do {
+  :onerror Err {
     :set Firmware [ /interface/lte/firmware-upgrade $Interface as-value ];
-  } on-error={
-    :log debug ("Could not get latest LTE firmware version for interface " . $IntName . ".");
+  } do={
+    :log debug ("Could not get latest LTE firmware version for interface " . $IntName . ": " . $Err);
   }
 
   :if ([ :typeof $Firmware ] = "array") do={
@@ -27,7 +27,7 @@
         :set LTEFirmwareUpgrade;
 
         /system/scheduler/remove ($1 . "-firmware-upgrade");
-        :do {
+        :onerror Err {
           /interface/lte/firmware-upgrade $1 upgrade=yes;
           :log info ("LTE firmware upgrade on '" . $1 . "' finished, waiting for reset.");
           :delay 240s;
@@ -36,8 +36,8 @@
                ($Firmware->"installed") != ($Firmware->"latest")) do={
             :log warning ("LTE firmware versions still differ. Upgrade failed anyway?");
           }
-        } on-error={
-          :log error ("LTE firmware upgrade on '" . $1 . "' failed.");
+        } do={
+          :log error ("LTE firmware upgrade on '" . $1 . "' failed: " . $Err);
         }
       }
 
