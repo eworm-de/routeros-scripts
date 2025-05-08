@@ -393,15 +393,15 @@
   $LogPrint debug $0 ("... from url: " . $Url);
   :local Retry 3;
   :while ($Retry > 0) do={
-    :do {
+    :onerror Err {
       /tool/fetch check-certificate=yes-without-crl $Url dst-path=$PkgDest;
       $WaitForFile $PkgDest;
 
       :if ([ /file/get [ find where name=$PkgDest ] type ] = "package") do={
         :return true;
       }
-    } on-error={
-      $LogPrint debug $0 ("Downloading package file failed.");
+    } do={
+      $LogPrint debug $0 ("Downloading package file failed: " . $Err);
     }
 
     $RmFile $PkgDest;
