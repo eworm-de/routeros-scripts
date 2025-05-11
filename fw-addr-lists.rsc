@@ -114,8 +114,8 @@
             :error true;
           }
           :if ($Address ~ "^[0-9a-zA-Z]*:[0-9a-zA-Z:\\.]+(/[0-9]{1,3})?\$") do={
-            :if ($Address ~ "/128\$") do={
-              :set Address [ :pick $Address 0 ([ :len $Address ] - 4) ];
+            :if ([ :typeof [ :find $Address "/" ] ] = "nil") do={
+              :set Address ($Address . "/128");
             }
             :set ($IPv6Addresses->$Branch->$Address) $TimeOut;
             :error true;
