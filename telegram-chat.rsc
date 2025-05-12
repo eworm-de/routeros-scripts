@@ -107,7 +107,9 @@
       :local ThreadId [ $IfThenElse ($Message->"is_topic_message") ($Message->"message_thread_id") "" ];
 
       :foreach IdsTrusted in=($TelegramChatId, $TelegramChatIdsTrusted) do={
-        :if ($From->"id" = $IdsTrusted || $From->"username" = $IdsTrusted) do={
+        :if ($From->"id" = $IdsTrusted || \
+             $From->"username" = $IdsTrusted || \
+             $Chat->"id" = $IdsTrusted) do={
           :set Trusted true;
         }
       }
