@@ -189,7 +189,7 @@
 
   :local HTTPData ("chat_id=" . $ChatId . "&disable_notification=" . ($Notification->"silent") . \
       "&reply_to_message_id=" . ($Notification->"replyto") . "&message_thread_id=" . $ThreadId . \
-       "&disable_web_page_preview=true&parse_mode=MarkdownV2");
+      "&disable_web_page_preview=true&parse_mode=MarkdownV2");
   :onerror Err {
     :if ([ $CertificateAvailable "Go Daddy Root Certificate Authority - G2" ] = false) do={
       $LogPrint warning $0 ("Downloading required certificate failed.");
