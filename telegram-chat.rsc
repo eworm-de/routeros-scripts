@@ -33,6 +33,7 @@
   :global GetRandom20CharAlNum;
   :global IfThenElse;
   :global LogPrint;
+  :global LogPrintVerbose;
   :global MAX;
   :global MIN;
   :global MkDir;
@@ -96,6 +97,8 @@
   :local Uptime [ /system/resource/get uptime ];
   :foreach Update in=($JSON->"result") do={
     :set UpdateID ($Update->"update_id");
+    $LogPrintVerbose debug $ScriptName ("Update " . $UpdateID . ": " . [ :serialize to=json $Update ]);
+
     :local Message ($Update->"message");
     :local IsReply ([ :typeof ($Message->"reply_to_message") ] = "string");
     :local IsMyReply ($TelegramMessageIDs->[ :tostr ($Message->"reply_to_message"->"message_id") ]);
