@@ -42,7 +42,7 @@ Other actions (`disk`, `email`, `remote` or `support`) can be used as
 well. I do not recommend using `echo` - use [debug output](#debug-output)
 instead.
 
-Disable or remote that setting to restore regular logging.
+Disable or remove that setting to restore regular logging.
 
 ## Verbose output
 
