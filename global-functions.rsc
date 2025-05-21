@@ -391,25 +391,22 @@
   :local Url ("https://upgrade.mikrotik.com/routeros/" . $PkgVer . "/" . $PkgFile);
   $LogPrint info $0 ("Downloading package file '" . $PkgName . "'...");
   $LogPrint debug $0 ("... from url: " . $Url);
-  :local Retry 3;
-  :while ($Retry > 0) do={
-    :do {
-      /tool/fetch check-certificate=yes-without-crl $Url dst-path=$PkgDest;
-      $WaitForFile $PkgDest;
 
-      :if ([ /file/get [ find where name=$PkgDest ] type ] = "package") do={
-        :return true;
-      }
-    } on-error={
-      $LogPrint debug $0 ("Downloading package file failed.");
-    }
-
-    $RmFile $PkgDest;
-    :set Retry ($Retry - 1);
+  :do {
+    /tool/fetch check-certificate=yes-without-crl $Url dst-path=$PkgDest;
+    $WaitForFile $PkgDest;
+  } on-error={
+    $LogPrint warning $0 ("Downloading package file '" . $PkgName . "' failed.");
+    :return false;
   }
 
-  $LogPrint warning $0 ("Downloading package file '" . $PkgName . "' failed.");
-  :return false;
+  :if ([ /file/get [ find where name=$PkgDest ] type ] != "package") do={
+    $LogPrint warning $0 ("Downloaded file is not a package, removing.");
+    $RmFile $PkgDest;
+    :return false;
+  }
+
+  :return true;
 }
 
 # return either first (if "true") or second
