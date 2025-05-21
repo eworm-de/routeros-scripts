@@ -392,11 +392,11 @@
   $LogPrint info $0 ("Downloading package file '" . $PkgName . "'...");
   $LogPrint debug $0 ("... from url: " . $Url);
 
-  :do {
+  :onerror Err {
     /tool/fetch check-certificate=yes-without-crl $Url dst-path=$PkgDest;
     $WaitForFile $PkgDest;
-  } on-error={
-    $LogPrint warning $0 ("Downloading package file '" . $PkgName . "' failed.");
+  } do={
+    $LogPrint warning $0 ("Downloading package file '" . $PkgName . "' failed: " . $Err);
     :return false;
   }
 
