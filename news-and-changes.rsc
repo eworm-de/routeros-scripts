@@ -62,6 +62,7 @@
   135="Introduced helper function '\$GetTelegramChatId' for 'mod/notification-telegram' which helps retrieve information.";
   136="Introduced script 'check-perpetual-license' to check for license state on CHR.";
   137="Added support to send notifications via Gotify (gotify.net).";
+  138="RouterOS 7.19 is suffering an issue with certificate store. Fixing trust state for all certificates...";
 };
 
 # Migration steps to be applied on script updates
@@ -71,4 +72,5 @@
   104=":global CharacterReplace; :global ScriptInstallUpdate; :foreach Script in={ \"capsman-download-packages\"; \"capsman-rolling-upgrade\"; \"hotspot-to-wpa\"; \"hotspot-to-wpa-cleanup\" } do={ /system/script/set name=(\$Script . \".capsman\") [ find where name=\$Script ]; :foreach Scheduler in=[ /system/scheduler/find where on-event~(\$Script . \"([^-.]|\\\$)\") ] do={ /system/scheduler/set \$Scheduler on-event=[ \$CharacterReplace [ get \$Scheduler on-event ] \$Script (\$Script . \".capsman\") ]; }; }; /ip/hotspot/user/profile/set on-login=\"hotspot-to-wpa.capsman\" [ find where on-login=\"hotspot-to-wpa\" ]; \$ScriptInstallUpdate;";
   111=":local Rec [ /ip/dns/static/find where comment~\"^managed by dhcp-to-dns for \" ]; :if ([ :len \$Rec ] > 0) do={ /ip/dns/static/remove \$Rec; /system/script/run dhcp-to-dns; }";
   132=":if ([ :len [ /system/script/find where name=\"check-health\" ] ] > 0) do={ :local Code \":local Install \\\"check-health\\\"; :if ([ :len [ /system/health/find where type=\\\"\\\" name~\\\"-state\\\\\\\$\\\" ] ] > 0) do={ :set Install (\\\$Install . \\\",check-health.d/state\\\"); }; :if ([ :len [ /system/health/find where type=\\\"C\\\" ] ] > 0) do={ :set Install (\\\$Install . \\\",check-health.d/temperature\\\"); }; :if ([ :len [ /system/health/find where type=\\\"V\\\" ] ] > 0) do={ :set Install (\\\$Install . \\\",check-health.d/voltage\\\"); }; :global ScriptInstallUpdate; \\\$ScriptInstallUpdate \\\$Install;\"; :global ValidateSyntax; :if ([ \$ValidateSyntax \$Code ] = true) do={ :do { [ :parse \$Code ]; } on-error={ }; }; }";
+  138="/certificate/set trusted=yes [ find where trusted=yes ];";
 };
