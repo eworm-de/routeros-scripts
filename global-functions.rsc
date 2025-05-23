@@ -1212,7 +1212,7 @@
           :set SourceNew [ :tolf ($Result->"data") ];
         }
       } do={
-        $LogPrint warning $0 ("Failed fetching script '" . $ScriptVal->"name" . . "': " . $Err);
+        $LogPrint warning $0 ("Failed fetching script '" . $ScriptVal->"name" . "': " . $Err);
         :if ($ScriptVal->"source" = "#!rsc by RouterOS\n") do={
           $LogPrint warning $0 ("Removing dummy. Typo on installation?");
           /system/script/remove $Script;
