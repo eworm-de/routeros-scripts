@@ -100,7 +100,7 @@
     $LogPrintVerbose debug $ScriptName ("Update " . $UpdateID . ": " . [ :serialize to=json $Update ]);
 
     :local Message ($Update->"message");
-    :local IsReply ([ :typeof ($Message->"reply_to_message") ] = "array");
+    :local IsAnyReply ([ :typeof ($Message->"reply_to_message") ] = "array");
     :local IsMyReply ($TelegramMessageIDs->[ :tostr ($Message->"reply_to_message"->"message_id") ]);
     :if (($IsMyReply = 1 || $TelegramChatOffset->0 > 0 || $Uptime > 5m) && $UpdateID >= $TelegramChatOffset->2) do={
       :local Trusted false;
@@ -138,7 +138,7 @@
             " from update " . $UpdateID . "!");
           :set Done true;
         }
-        :if ($Done = false && ($IsMyReply = 1 || ($IsReply = false && \
+        :if ($Done = false && ($IsMyReply = 1 || ($IsAnyReply = false && \
              $TelegramChatActive = true)) && [ :len $Command ] > 0) do={
           :if ([ $ValidateSyntax $Command ] = true) do={
             :local State "";
