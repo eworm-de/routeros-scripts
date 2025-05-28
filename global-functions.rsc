@@ -119,6 +119,11 @@
     :return false;
   }
 
+  :if (([ /certificate/settings/get ]->"builtin-trust-anchors") = "trusted" && \
+       [[ :parse (":return [ :len [ /certificate/builtin/find where common-name=\"" . $CommonName . "\" ] ]") ]] > 0) do={
+    :return true;
+  }
+
   :if ([ :len [ /certificate/find where common-name=$CommonName ] ] = 0) do={
     $LogPrint info $0 ("Certificate with CommonName '" . $CommonName . "' not available.");
     :if ([ $CertificateDownload $CommonName ] = false) do={

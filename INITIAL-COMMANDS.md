@@ -18,17 +18,21 @@ Run the complete base installation:
 
     {
       :local BaseUrl "https://git.eworm.de/cgit/routeros-scripts/plain/";
+      :local CertCommonName "ISRG Root X2";
       :local CertFileName "ISRG-Root-X2.pem";
       :local CertFingerprint "69729b8e15a86efc177a57afb7171dfc64add28c2fca8cf1507e34453ccb1470";
 
-      :put "Importing certificate...";
-      /tool/fetch ($BaseUrl . "certs/" . $CertFileName) dst-path=$CertFileName as-value;
-      :delay 1s;
-      /certificate/import file-name=$CertFileName passphrase="";
-      :if ([ :len [ /certificate/find where fingerprint=$CertFingerprint ] ] != 1) do={
-        :error "Something is wrong with your certificates!";
+      :if (!(([ /certificate/settings/get ]->"builtin-trust-anchors") = "trusted" && \
+           [[ :parse (":return [ :len [ /certificate/builtin/find where common-name=\"" . $CertCommonName . "\" ] ]") ]] > 0)) do={
+        :put "Importing certificate...";
+        /tool/fetch ($BaseUrl . "certs/" . $CertFileName) dst-path=$CertFileName as-value;
+        :delay 1s;
+        /certificate/import file-name=$CertFileName passphrase="";
+        :if ([ :len [ /certificate/find where fingerprint=$CertFingerprint ] ] != 1) do={
+          :error "Something is wrong with your certificates!";
+        };
+        :delay 1s;
       };
-      :delay 1s;
       :put "Renaming global-config-overlay, if exists...";
       /system/script/set name=("global-config-overlay-" . [ /system/clock/get date ] . "-" . [ /system/clock/get time ]) [ find where name="global-config-overlay" ];
       :foreach Script in={ "global-config"; "global-config-overlay"; "global-functions" } do={
@@ -41,9 +45,11 @@ Run the complete base installation:
       :put "Scheduling to load configuration and functions...";
       /system/scheduler/remove [ find where name="global-scripts" ];
       /system/scheduler/add name="global-scripts" start-time=startup on-event="/system/script { run global-config; run global-functions; }";
-      :put "Renaming certificate by its common-name...";
-      :global CertificateNameByCN;
-      $CertificateNameByCN $CertFingerprint;
+      :if ([ :len [ /certificate/find where fingerprint=$CertFingerprint ] ] > 0) do={
+        :put "Renaming certificate by its common-name...";
+        :global CertificateNameByCN;
+        $CertificateNameByCN $CertFingerprint;
+      };
     };
 
 Then continue setup with
