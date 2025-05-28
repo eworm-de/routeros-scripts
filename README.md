@@ -72,7 +72,14 @@ including demonstation recorded live at [MUM Europe
 ### The long way in detail
 
 The update script does server certificate verification, so first step is to
-download the certificates. If you intend to download the scripts from a
+download the certificates.
+
+> 💡️ **Hint**: RouterOS 7.19 comes with a builtin certificate store. You
+> can skip the steps regarding certificate download and import if you set
+> the trust for these builtin trust anchors:
+> `/certificate/settings/set builtin-trust-anchors=trusted;`
+
+If you intend to download the scripts from a
 different location (for example from github.com) install the corresponding
 certificate chain.
 
