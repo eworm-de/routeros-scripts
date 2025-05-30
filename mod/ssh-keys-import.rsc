@@ -75,6 +75,7 @@
   :local User     [ :tostr $2 ];
 
   :global EitherOr;
+  :global FileExists;
   :global LogPrint;
   :global ParseKeyValueStore;
   :global SSHKeysImport;
@@ -84,8 +85,7 @@
     :return false;
   }
 
-  :local File [ /file/find where name=$FileName ];
-  :if ([ :len $File ] = 0) do={
+  :if ([ $FileExists $FileName ] = true) do={
     $LogPrint warning $0 ("File '" . $FileName . "' does not exist.");
     :return false;
   }
