@@ -44,6 +44,7 @@
   :global IsDNSResolving;
   :global IsTimeSync;
   :global LogPrint;
+  :global RmFile;
 
   :local AllDone true;
   :local QueueLen [ :len $EmailQueue ];
@@ -111,7 +112,7 @@
             :set Wait false;
             :if (($Message->"remove-attach") = true) do={
               :foreach File in=$Attach do={
-                /file/remove $File;
+                $RmFile $File;
               }
             }
           }
