@@ -38,6 +38,7 @@
 :global ExitError;
 :global FetchHuge;
 :global FetchUserAgentStr;
+:global FileExists;
 :global FileGet;
 :global FormatLine;
 :global FormatMultiLines;
@@ -528,6 +529,29 @@
 
   :return ("User-Agent: Mikrotik/" . $Resource->"version" . " " . \
     $Resource->"architecture-name" . " " . $Caller . "/Fetch (https://rsc.eworm.de/)");
+}
+
+# check for existence of file, optionally with type
+:set FileExists do={
+  :local FileName [ :tostr $1 ];
+  :local Type     [ :tostr $2 ];
+
+  :global FileGet;
+
+  :local FileVal [ $FileGet $FileName ];
+  :if ($FileVal = false) do={
+    :return false;
+  }
+
+  :if ([ :len ($FileVal->"size") ] = 0) do={
+    :return false;
+  }
+
+  :if ([ :len $Type ] = 0 || $FileVal->"type" = $Type) do={
+    :return true;
+  }
+
+  :return false;
 }
 
 # get file properties in array, or false on error
