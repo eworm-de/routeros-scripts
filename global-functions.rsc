@@ -1086,25 +1086,26 @@
 :set RmFile do={
   :local FileName [ :tostr $1 ];
 
+  :global FileGet;
   :global LogPrint;
 
   $LogPrint debug $0 ("Removing file: ". $FileName);
 
-  :if ([ :len [ /file/find where name=$FileName (type=directory or type=disk) ] ] > 0) do={
-    $LogPrint error $0 ("File '" . $FileName . "' is not a file.");
-    :return false;
-  }
-
-  :local File [ /file/find where name=$FileName !(type=directory or type=disk) ];
-  :if ([ :len $File ] = 0) do={
+  :local FileVal [ $FileGet $FileName ];
+  :if ($FileVal = false) do={
     $LogPrint debug $0 ("... which does not exist.");
     :return true;
   }
 
+  :if ($FileVal->"type" = "directory" || $FileVal->"type" = "disk") do={
+    $LogPrint error $0 ("File '" . $FileName . "' is not a file.");
+    :return false;
+  }
+
   :onerror Err {
-    /file/remove $File;
+    /file/remove $FileName;
   } do={
-    $LogPrint error $0 ("Removing file '" . $FileName . "' (" . $File . ") failed: " . $Err);
+    $LogPrint error $0 ("Removing file '" . $FileName . "' failed: " . $Err);
     :return false;
   }
   :return true;
