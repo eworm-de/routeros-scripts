@@ -4,7 +4,7 @@
 #                         Michael Gisbers <michael@gisbers.de>
 # https://rsc.eworm.de/COPYING.md
 #
-# requires RouterOS, version=7.15
+# requires RouterOS, version=7.18
 #
 # download and cleanup packages for CAP installation from CAPsMAN
 # https://rsc.eworm.de/doc/capsman-download-packages.md
@@ -56,8 +56,8 @@
       "). Please place your packages!");
   }
 
-  :foreach Package in=[ /file/find where type=package \
-        package-version!=$InstalledVersion name~("^" . $PackagePath) ] do={
+  :foreach Package in=[ /file/find recursive where path=$PackagePath \
+        type="package" package-version!=$InstalledVersion ] do={
     :local File [ /file/get $Package ];
     :if ($File->"package-architecture" = "mips") do={
       :set ($File->"package-architecture") "mipsbe";
@@ -69,7 +69,7 @@
     }
   }
 
-  :if ([ :len [ /file/find where type=package name~("^" . $PackagePath) ] ] = 0) do={
+  :if ([ :len [ /file/find recursive where path=$PackagePath type="package" ] ] = 0) do={
     $LogPrint info $ScriptName ("No packages available, downloading default set.");
 # NOT /interface/wifi/ #
     :foreach Arch in={ "arm"; "mipsbe" } do={
