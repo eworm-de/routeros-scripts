@@ -27,6 +27,7 @@
 
   :global CleanName;
   :global DeviceInfo;
+  :global FileExists;
   :global FormatLine;
   :global LogPrint;
   :global MkDir;
@@ -124,16 +125,16 @@
     attach=$Attach; remove-attach=true });
 
   # wait for the mail to be sent
-  :local I 0;
-  :while ([ :len [ /file/find where name ~ ($FilePath . "\\.(backup|rsc)\$") ] ] > 0) do={
-    :if ($I >= 120) do={
-      $LogPrint warning $ScriptName ("Files are still available, sending e-mail failed.");
-      :set PackagesUpdateBackupFailure true;
-      :set ExitOK true;
-      :error false;
-    }
-    :delay 1s;
-    :set I ($I + 1);
+  :do {
+    :retry {
+      :if ([ $FileExists ($FilePath . ".backup") "backup" ] = true || \
+           [ $FileExists ($FilePath . ".rsc") "script" ] = true) do={
+        :error "Files are still available.";
+      }
+    } delay=1s max=120;
+  } on-error={
+    $LogPrint warning $ScriptName ("Files are still available, sending e-mail failed.");
+    :set PackagesUpdateBackupFailure true;
   }
 } do={
   :global ExitError; $ExitError $ExitOK [ :jobname ] $Err;
