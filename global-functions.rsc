@@ -1057,25 +1057,26 @@
 :set RmDir do={
   :local DirName [ :tostr $1 ];
 
+  :global FileGet;
   :global LogPrint;
 
   $LogPrint debug $0 ("Removing directory: ". $DirName);
 
-  :if ([ :len [ /file/find where name=$DirName type!=directory ] ] > 0) do={
-    $LogPrint error $0 ("Directory '" . $DirName . "' is not a directory.");
-    :return false;
-  }
-
-  :local Dir [ /file/find where name=$DirName type=directory ];
-  :if ([ :len $Dir ] = 0) do={
+  :local DirVal [ $FileGet $DirName ];
+  :if ($DirVal = false) do={
     $LogPrint debug $0 ("... which does not exist.");
     :return true;
   }
 
+  :if ($DirVal->"type" != "directory") do={
+    $LogPrint error $0 ("Directory '" . $DirName . "' is not a directory.");
+    :return false;
+  }
+
   :onerror Err {
-    /file/remove $Dir;
+    /file/remove $DirName;
   } do={
-    $LogPrint error $0 ("Removing directory '" . $DirName . "' (" . $Dir . ") failed: " . $Err);
+    $LogPrint error $0 ("Removing directory '" . $DirName . "' failed: " . $Err);
     :return false;
   }
   :return true;
