@@ -1746,16 +1746,14 @@
   :global MAX;
 
   :set FileName [ $CleanFilePath $FileName ];
-  :local I 1;
   :local Delay ([ $MAX [ $EitherOr $WaitTime 2s ] 100ms ] / 10);
 
-  :while ([ :len [ /file/find where name=$FileName ] ] = 0) do={
-    :if ($I >= 10) do={
-      :return false;
-    }
-    :delay $Delay;
-    :set I ($I + 1);
-  }
+  :do {
+    :retry {
+      /file/get $FileName;
+      :return true;
+    } delay=$Delay max=10;
+  } on-error={ }
 
   :return false;
 }
