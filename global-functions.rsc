@@ -365,6 +365,7 @@
 
   :global CertificateAvailable;
   :global CleanFilePath;
+  :global FileExists;
   :global LogPrint;
   :global MkDir;
   :global RmFile;
@@ -385,7 +386,7 @@
     :return false;
   }
 
-  :if ([ :len [ /file/find where name=$PkgDest type="package" ] ] > 0) do={
+  :if ([ $FileExists $PkgDest "package" ] = true) do={
     $LogPrint info $0 ("Package file " . $PkgName . " already exists.");
     :return true;
   }
@@ -407,7 +408,7 @@
     :return false;
   }
 
-  :if ([ /file/get [ find where name=$PkgDest ] type ] != "package") do={
+  :if ([ $FileExists $PkgDest "package" ] = false) do={
     $LogPrint warning $0 ("Downloaded file is not a package, removing.");
     $RmFile $PkgDest;
     :return false;
