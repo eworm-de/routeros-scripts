@@ -893,6 +893,7 @@
   :local Path [ :tostr $1 ];
 
   :global CleanFilePath;
+  :global FileGet;
   :global LogPrint;
   :global RmDir;
   :global WaitForFile;
@@ -930,7 +931,8 @@
 
   $LogPrint debug $0 ("Making directory: " . $Path);
 
-  :if ([ :len [ /file/find where name=$Path type="directory" ] ] = 1) do={
+  :local PathVal [ $FileGet $Path ];
+  :if ($PathVal->"type" = "directory") do={
     $LogPrint debug $0 ("... which already exists.");
     :return true;
   }
