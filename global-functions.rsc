@@ -1757,15 +1757,6 @@
     :set I ($I + 1);
   }
 
-  :while ([ :len [ /file/find where name=$FileName ] ] > 0) do={
-    :do {
-      /file/get $FileName;
-      :return true;
-    } on-error={ }
-    :delay $Delay;
-    :set Delay ($Delay * 3 / 2);
-  }
-
   :return false;
 }
 
