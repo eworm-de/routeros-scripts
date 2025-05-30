@@ -40,6 +40,7 @@
 
   :global EitherOr;
   :global EMailGenerateFrom;
+  :global FileExists;
   :global IsDNSResolving;
   :global IsTimeSync;
   :global LogPrint;
@@ -93,7 +94,7 @@
       :onerror Err {
         :local Attach ({});
         :foreach File in=[ :toarray [ $EitherOr ($Message->"attach") "" ] ] do={
-          :if ([ :len [ /file/find where name=$File ] ] = 1) do={
+          :if ([ $FileExists $File ] = true) do={
             :set Attach ($Attach, $File);
           } else={
             $LogPrint warning $0 ("File '" . $File . "' does not exist, can not attach.");
