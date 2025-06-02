@@ -127,7 +127,8 @@
   # wait for the mail to be sent
   :do {
     :retry {
-      :if ([ $FileExists ($FilePath . ".backup") "backup" ] = true || \
+      :if ([ $FileExists ($FilePath . ".conf") ".conf file" ] = true || \
+           [ $FileExists ($FilePath . ".backup") "backup" ] = true || \
            [ $FileExists ($FilePath . ".rsc") "script" ] = true) do={
         :error "Files are still available.";
       }
