@@ -137,6 +137,7 @@
     $LogPrint warning $ScriptName ("Files are still available, sending e-mail failed.");
     :set PackagesUpdateBackupFailure true;
   }
+  # do not remove the files here, as the mail is still queued!
 } do={
   :global ExitError; $ExitError $ExitOK [ :jobname ] $Err;
 }
