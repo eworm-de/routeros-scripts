@@ -30,6 +30,7 @@
   :global CertificateAvailable;
   :global EitherOr;
   :global EscapeForRegEx;
+  :global FileExists;
   :global GetRandom20CharAlNum;
   :global IfThenElse;
   :global LogPrint;
@@ -154,7 +155,7 @@
             :if ([ $WaitForFile ($File . ".done") [ $EitherOr $TelegramChatRunTime 20s ] ] = false) do={
               :set State ([ $SymbolForNotification "warning-sign" ] . "The command did not finish, still running in background.\n\n");
             }
-            :if ([ :len [ /file/find where name=($File . ".failed") ] ] > 0) do={
+            :if ([ $FileExists ($File . ".failed") ] = true) do={
               :set State ([ $SymbolForNotification "cross-mark" ] . "The command failed with an error!\n\n");
             }
             :local Content ([ /file/read chunk-size=32768 file=$File as-value ]->"data");

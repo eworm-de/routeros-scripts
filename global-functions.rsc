@@ -38,6 +38,8 @@
 :global ExitError;
 :global FetchHuge;
 :global FetchUserAgentStr;
+:global FileExists;
+:global FileGet;
 :global FormatLine;
 :global FormatMultiLines;
 :global GetMacVendor;
@@ -363,6 +365,7 @@
 
   :global CertificateAvailable;
   :global CleanFilePath;
+  :global FileExists;
   :global LogPrint;
   :global MkDir;
   :global RmFile;
@@ -383,7 +386,7 @@
     :return false;
   }
 
-  :if ([ :len [ /file/find where name=$PkgDest type="package" ] ] > 0) do={
+  :if ([ $FileExists $PkgDest "package" ] = true) do={
     $LogPrint info $0 ("Package file " . $PkgName . " already exists.");
     :return true;
   }
@@ -405,7 +408,7 @@
     :return false;
   }
 
-  :if ([ /file/get [ find where name=$PkgDest ] type ] != "package") do={
+  :if ([ $FileExists $PkgDest "package" ] = false) do={
     $LogPrint warning $0 ("Downloaded file is not a package, removing.");
     $RmFile $PkgDest;
     :return false;
@@ -527,6 +530,41 @@
 
   :return ("User-Agent: Mikrotik/" . $Resource->"version" . " " . \
     $Resource->"architecture-name" . " " . $Caller . "/Fetch (https://rsc.eworm.de/)");
+}
+
+# check for existence of file, optionally with type
+:set FileExists do={
+  :local FileName [ :tostr $1 ];
+  :local Type     [ :tostr $2 ];
+
+  :global FileGet;
+
+  :local FileVal [ $FileGet $FileName ];
+  :if ($FileVal = false) do={
+    :return false;
+  }
+
+  :if ([ :len ($FileVal->"size") ] = 0) do={
+    :return false;
+  }
+
+  :if ([ :len $Type ] = 0 || $FileVal->"type" = $Type) do={
+    :return true;
+  }
+
+  :return false;
+}
+
+# get file properties in array, or false on error
+:set FileGet do={
+  :local FileName [ :tostr $1 ];
+
+  :local FileVal false;
+  :do {
+    :set FileVal [ /file/get $FileName ];
+  } on-error={ }
+
+  :return $FileVal;
 }
 
 # format a line for output
@@ -880,6 +918,7 @@
   :local Path [ :tostr $1 ];
 
   :global CleanFilePath;
+  :global FileGet;
   :global LogPrint;
   :global RmDir;
   :global WaitForFile;
@@ -917,7 +956,8 @@
 
   $LogPrint debug $0 ("Making directory: " . $Path);
 
-  :if ([ :len [ /file/find where name=$Path type="directory" ] ] = 1) do={
+  :local PathVal [ $FileGet $Path ];
+  :if ($PathVal->"type" = "directory") do={
     $LogPrint debug $0 ("... which already exists.");
     :return true;
   }
@@ -1042,25 +1082,26 @@
 :set RmDir do={
   :local DirName [ :tostr $1 ];
 
+  :global FileGet;
   :global LogPrint;
 
   $LogPrint debug $0 ("Removing directory: ". $DirName);
 
-  :if ([ :len [ /file/find where name=$DirName type!=directory ] ] > 0) do={
-    $LogPrint error $0 ("Directory '" . $DirName . "' is not a directory.");
-    :return false;
-  }
-
-  :local Dir [ /file/find where name=$DirName type=directory ];
-  :if ([ :len $Dir ] = 0) do={
+  :local DirVal [ $FileGet $DirName ];
+  :if ($DirVal = false) do={
     $LogPrint debug $0 ("... which does not exist.");
     :return true;
   }
 
+  :if ($DirVal->"type" != "directory") do={
+    $LogPrint error $0 ("Directory '" . $DirName . "' is not a directory.");
+    :return false;
+  }
+
   :onerror Err {
-    /file/remove $Dir;
+    /file/remove $DirName;
   } do={
-    $LogPrint error $0 ("Removing directory '" . $DirName . "' (" . $Dir . ") failed: " . $Err);
+    $LogPrint error $0 ("Removing directory '" . $DirName . "' failed: " . $Err);
     :return false;
   }
   :return true;
@@ -1070,25 +1111,26 @@
 :set RmFile do={
   :local FileName [ :tostr $1 ];
 
+  :global FileGet;
   :global LogPrint;
 
   $LogPrint debug $0 ("Removing file: ". $FileName);
 
-  :if ([ :len [ /file/find where name=$FileName (type=directory or type=disk) ] ] > 0) do={
-    $LogPrint error $0 ("File '" . $FileName . "' is not a file.");
-    :return false;
-  }
-
-  :local File [ /file/find where name=$FileName !(type=directory or type=disk) ];
-  :if ([ :len $File ] = 0) do={
+  :local FileVal [ $FileGet $FileName ];
+  :if ($FileVal = false) do={
     $LogPrint debug $0 ("... which does not exist.");
     :return true;
   }
 
+  :if ($FileVal->"type" = "directory" || $FileVal->"type" = "disk") do={
+    $LogPrint error $0 ("File '" . $FileName . "' is not a file.");
+    :return false;
+  }
+
   :onerror Err {
-    /file/remove $File;
+    /file/remove $FileName;
   } do={
-    $LogPrint error $0 ("Removing file '" . $FileName . "' (" . $File . ") failed: " . $Err);
+    $LogPrint error $0 ("Removing file '" . $FileName . "' failed: " . $Err);
     :return false;
   }
   :return true;
@@ -1729,25 +1771,14 @@
   :global MAX;
 
   :set FileName [ $CleanFilePath $FileName ];
-  :local I 1;
   :local Delay ([ $MAX [ $EitherOr $WaitTime 2s ] 100ms ] / 10);
 
-  :while ([ :len [ /file/find where name=$FileName ] ] = 0) do={
-    :if ($I >= 10) do={
-      :return false;
-    }
-    :delay $Delay;
-    :set I ($I + 1);
-  }
-
-  :while ([ :len [ /file/find where name=$FileName ] ] > 0) do={
-    :do {
+  :do {
+    :retry {
       /file/get $FileName;
       :return true;
-    } on-error={ }
-    :delay $Delay;
-    :set Delay ($Delay * 3 / 2);
-  }
+    } delay=$Delay max=10;
+  } on-error={ }
 
   :return false;
 }
