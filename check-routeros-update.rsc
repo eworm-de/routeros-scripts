@@ -28,6 +28,7 @@
   :global EscapeForRegEx;
   :global FetchUserAgentStr;
   :global LogPrint;
+  :global RebootForUpdate;
   :global ScriptFromTerminal;
   :global ScriptLock;
   :global SendNotification2;
@@ -62,9 +63,14 @@
   $WaitFullyConnected;
 
   :if ([ :len [ /system/scheduler/find where name="_RebootForUpdate" ] ] > 0) do={
-    $LogPrint info $ScriptName ("A reboot for update is already scheduled.");
-    :set ExitOK true;
-    :error false;
+    :if ([ :typeof $RebootForUpdate ] = "nothing") do={
+      $LogPrint info $ScriptName ("Found a stale scheduler for reboot, removing.");
+      /system/scheduler/remove "_RebootForUpdate";
+    } else={
+      $LogPrint info $ScriptName ("A reboot for update is already scheduled.");
+      :set ExitOK true;
+      :error false;
+    }
   }
 
   $LogPrint debug $ScriptName ("Checking for updates...");
