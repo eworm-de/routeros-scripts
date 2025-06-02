@@ -20,6 +20,7 @@
 
   :global CleanFilePath;
   :global DownloadPackage;
+  :global FileGet;
   :global LogPrint;
   :global MkDir;
   :global RmFile;
@@ -42,7 +43,7 @@
     :error false;
   }
 
-  :if ([ :len [ /file/find where name=$PackagePath type="directory" ] ] = 0) do={
+  :if ([ $FileGet $PackagePath ] = false) do={
     :if ([ $MkDir $PackagePath ] = false) do={
       $LogPrint warning $ScriptName ("Creating directory at CAPsMAN package path (" . \
         $PackagePath . ") failed!");
