@@ -38,6 +38,7 @@
 :global ExitError;
 :global FetchHuge;
 :global FetchUserAgentStr;
+:global FileGet;
 :global FormatLine;
 :global FormatMultiLines;
 :global GetMacVendor;
@@ -527,6 +528,18 @@
 
   :return ("User-Agent: Mikrotik/" . $Resource->"version" . " " . \
     $Resource->"architecture-name" . " " . $Caller . "/Fetch (https://rsc.eworm.de/)");
+}
+
+# get file properties in array, or false on error
+:set FileGet do={
+  :local FileName [ :tostr $1 ];
+
+  :local FileVal false;
+  :do {
+    :set FileVal [ /file/get $FileName ];
+  } on-error={ }
+
+  :return $FileVal;
 }
 
 # format a line for output
