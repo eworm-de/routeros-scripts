@@ -46,8 +46,8 @@ Configuration
 
 The configuration goes to `global-config-overlay`, this is the only parameter:
 
-* `PackagesUpdateDeferReboot`: defer the reboot for night (between 3 AM
-  and 5 AM)
+* `PackagesUpdateDeferReboot`: defer the reboot for night (between 3 AM and
+  5 AM), use a numerical value in days suffixed with a `d` to defer further
 
 By modifying the scheduler's `start-time` you can force the reboot at
 different time.

@@ -31,19 +31,24 @@
   :local Schedule do={
     :local ScriptName [ :tostr $1 ];
 
+    :global PackagesUpdateDeferReboot;
+
     :global GetRandomNumber;
+    :global IfThenElse;
     :global LogPrint;
 
     :global RebootForUpdate do={
       /system/reboot;
     }
 
+    :local Interval [ $IfThenElse ($PackagesUpdateDeferReboot >= 1d) $PackagesUpdateDeferReboot 1d ];
     :local StartTime [ :tostr [ :totime (10800 + [ $GetRandomNumber 7200 ]) ] ];
-    /system/scheduler/add name="_RebootForUpdate" start-time=$StartTime interval=1d \
+    /system/scheduler/add name="_RebootForUpdate" start-time=$StartTime interval=$Interval \
         on-event=("/system/scheduler/remove \"_RebootForUpdate\"; " . \
         ":global RebootForUpdate; \$RebootForUpdate;");
     $LogPrint info $ScriptName ("Scheduled reboot for update at " . $StartTime . \
-        " local time (" . [ /system/clock/get time-zone-name ] . ").");
+        " local time (" . [ /system/clock/get time-zone-name ] . ")" . \
+        [ $IfThenElse ($Interval > 1d) (" deferred by " . $Interval) ] . ".");
     :return true;
   }
 
@@ -153,7 +158,7 @@
       :error true;
     }
   } else={
-    :if ($PackagesUpdateDeferReboot = true) do={
+    :if ($PackagesUpdateDeferReboot = true || $PackagesUpdateDeferReboot >= 1d) do={
       $Schedule $ScriptName;
       :set ExitOK true;
       :error true;
