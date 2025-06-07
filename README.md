@@ -4,7 +4,7 @@ RouterOS Scripts
 [![GitHub stars](https://img.shields.io/github/stars/eworm-de/routeros-scripts?logo=GitHub&style=flat&color=red)](https://github.com/eworm-de/routeros-scripts/stargazers)
 [![GitHub forks](https://img.shields.io/github/forks/eworm-de/routeros-scripts?logo=GitHub&style=flat&color=green)](https://github.com/eworm-de/routeros-scripts/network)
 [![GitHub watchers](https://img.shields.io/github/watchers/eworm-de/routeros-scripts?logo=GitHub&style=flat&color=blue)](https://github.com/eworm-de/routeros-scripts/watchers)
-[![required RouterOS version](https://img.shields.io/badge/RouterOS-7.17-yellow?style=flat)](https://mikrotik.com/download/changelogs/)
+[![required RouterOS version](https://img.shields.io/badge/RouterOS-7.19-yellow?style=flat)](https://mikrotik.com/download/changelogs/)
 [![Telegram group @routeros_scripts](https://img.shields.io/badge/Telegram-%40routeros__scripts-%2326A5E4?logo=telegram&style=flat)](https://t.me/routeros_scripts)
 [![donate with PayPal](https://img.shields.io/badge/Like_it%3F-Donate!-orange?logo=githubsponsors&logoColor=orange&style=flat)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=A4ZXBD6YS2W8J)
 
@@ -50,7 +50,7 @@ temporarily.
 
 > 💡️ **Hint**: If in doubt have a look at the badge at the top of each
 > page showing the minimum version required:
-> ![required RouterOS version](https://img.shields.io/badge/RouterOS-7.17-yellow?style=flat)
+> ![required RouterOS version](https://img.shields.io/badge/RouterOS-7.19-yellow?style=flat)
 
 > ℹ️ **Info**: The `main` branch is now RouterOS v7 only. If you are still
 > running RouterOS v6 switch to `routeros-v6` branch!
