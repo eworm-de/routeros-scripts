@@ -4,7 +4,7 @@
 #                         Michael Gisbers <michael@gisbers.de>
 # https://rsc.eworm.de/COPYING.md
 #
-# requires RouterOS, version=7.15
+# requires RouterOS, version=7.19
 # requires device-mode, fetch, scheduler
 #
 # global functions
@@ -121,8 +121,8 @@
     :return false;
   }
 
-  :if (([ /certificate/settings/get ]->"builtin-trust-anchors") = "trusted" && \
-       [[ :parse (":return [ :len [ /certificate/builtin/find where common-name=\"" . $CommonName . "\" ] ]") ]] > 0) do={
+  :if ([ /certificate/settings/get builtin-trust-anchors ] = "trusted" && \
+       [ :len [ /certificate/builtin/find where common-name=$CommonName ] ] > 0) do={
     :return true;
   }
 
