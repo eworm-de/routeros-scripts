@@ -32,7 +32,10 @@ certificate is checked.
 
 > ⚠️ **Warning**: The script does not limit the size of a list, but keep in
 > mind that huge lists can exhaust your device's resources (RAM and CPU),
-> and may take a long time to process.
+> and may take a long time to process.  
+> Even crashes for the complete scripting (and CLI) subsystem are possible.
+> This should be logged accordingly with warnings when global functions are
+> reloaded from scheduler.
 
 Requirements and installation
 -----------------------------
