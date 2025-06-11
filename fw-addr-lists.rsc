@@ -48,6 +48,12 @@
   }
   $WaitFullyConnected;
 
+  :if ([ :len [ /log/find where topics=({"script"; "warning"}) \
+      message=("\$LogPrintOnce: The message is already in log, scripting subsystem may have crashed before!") ] ] > 0) do={
+    $LogPrintOnce warning $ScriptName ("Scripting subsystem may have crashed, possibly caused by us. Delaying!");
+    :delay 5m;
+  }
+
   :local ListComment ("managed by " . $ScriptName);
 
   :foreach FwListName,FwList in=$FwAddrLists do={
