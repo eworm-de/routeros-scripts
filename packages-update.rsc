@@ -41,7 +41,8 @@
       /system/reboot;
     }
 
-    :local Interval [ $IfThenElse ($PackagesUpdateDeferReboot >= 1d) $PackagesUpdateDeferReboot 1d ];
+    :local Interval [ $IfThenElse ([ :totime $PackagesUpdateDeferReboot ] >= 1d) \
+        $PackagesUpdateDeferReboot 1d ];
     :local StartTime [ :tostr [ :totime (10800 + [ $GetRandomNumber 7200 ]) ] ];
     /system/scheduler/add name="_RebootForUpdate" start-time=$StartTime interval=$Interval \
         on-event=("/system/scheduler/remove \"_RebootForUpdate\"; " . \
@@ -158,7 +159,7 @@
       :error true;
     }
   } else={
-    :if ($PackagesUpdateDeferReboot = true || $PackagesUpdateDeferReboot >= 1d) do={
+    :if ($PackagesUpdateDeferReboot = true || [ :totime $PackagesUpdateDeferReboot ] >= 1d) do={
       $Schedule $ScriptName;
       :set ExitOK true;
       :error true;
