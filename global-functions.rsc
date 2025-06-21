@@ -1771,14 +1771,26 @@
   :global MAX;
 
   :set FileName [ $CleanFilePath $FileName ];
-  :local Delay ([ $MAX [ $EitherOr $WaitTime 2s ] 100ms ] / 10);
+  :local Delay ([ $MAX [ $EitherOr $WaitTime 2s ] 100ms ] / 9);
 
   :do {
-    :retry {
+    :retry { 
+      :if ([ :len [ /file/find where name=$FileName ] ] = 0) do={
+        :error false;
+      }
+    } delay=$Delay max=10;
+  } on-error={
+    :return false;
+  }
+
+  :while ([ :len [ /file/find where name=$FileName ] ] > 0) do={
+    :do {
       /file/get $FileName;
       :return true;
-    } delay=$Delay max=10;
-  } on-error={ }
+    } on-error={ }
+    :delay $Delay;
+    :set Delay ($Delay * 3 / 2);
+  }
 
   :return false;
 }
