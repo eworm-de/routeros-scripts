@@ -559,6 +559,12 @@
 :set FileGet do={
   :local FileName [ :tostr $1 ];
 
+  :global WaitForFile;
+
+  :if ([ $WaitForFile $FileName 0s ] = false) do={
+    :return false;
+  }
+
   :local FileVal false;
   :do {
     :set FileVal [ /file/get $FileName ];
