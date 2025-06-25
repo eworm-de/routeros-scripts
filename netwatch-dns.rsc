@@ -119,11 +119,13 @@
 
     :local Data false;
     :onerror Err {
-      :set Data ([ /tool/fetch check-certificate=yes-without-crl output=user \
-        http-header-field=({ "accept: application/dns-message" }) \
-        url=(($DohServer->"doh-url") . "?dns=" . [ :convert to=base64 ([ :rndstr length=2 ] . \
-        "\01\00" . "\00\01" . "\00\00" . "\00\00" . "\00\00" . "\09doh-check\05eworm\02de\00" . \
-        "\00\10" . "\00\01") ]) as-value ]->"data");
+      :retry {
+        :set Data ([ /tool/fetch check-certificate=yes-without-crl output=user \
+          http-header-field=({ "accept: application/dns-message" }) \
+          url=(($DohServer->"doh-url") . "?dns=" . [ :convert to=base64 ([ :rndstr length=2 ] . \
+          "\01\00" . "\00\01" . "\00\00" . "\00\00" . "\00\00" . "\09doh-check\05eworm\02de\00" . \
+          "\00\10" . "\00\01") ]) as-value ]->"data");
+        } delay=1s max=3;
     } do={
       $LogPrint warning $ScriptName ("Request to DoH server " . ($DohServer->"doh-url") . \
           " failed: " . $Err);
