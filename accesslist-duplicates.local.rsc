@@ -22,7 +22,7 @@
   :foreach AccList in=[ /interface/wireless/access-list/find where mac-address!="00:00:00:00:00:00" ] do={
     :local Mac [ /interface/wireless/access-list/get $AccList mac-address ];
     :if ($Seen->$Mac = 1) do={
-      /interface/wireless/access-list/print where mac-address=$Mac;
+      /interface/wireless/access-list/print without-paging where mac-address=$Mac;
       :local Remove [ :tonum [ /terminal/ask prompt="\nNumeric id to remove, any key to skip!" ] ];
 
       :if ([ :typeof $Remove ] = "num") do={

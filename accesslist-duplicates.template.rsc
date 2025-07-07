@@ -27,9 +27,9 @@
     :local Mac [ /interface/wifi/access-list/get $AccList mac-address ];
     :local Mac [ /interface/wireless/access-list/get $AccList mac-address ];
     :if ($Seen->$Mac = 1) do={
-      /caps-man/access-list/print where mac-address=$Mac;
-      /interface/wifi/access-list/print where mac-address=$Mac;
-      /interface/wireless/access-list/print where mac-address=$Mac;
+      /caps-man/access-list/print without-paging where mac-address=$Mac;
+      /interface/wifi/access-list/print without-paging where mac-address=$Mac;
+      /interface/wireless/access-list/print without-paging where mac-address=$Mac;
       :local Remove [ :tonum [ /terminal/ask prompt="\nNumeric id to remove, any key to skip!" ] ];
 
       :if ([ :typeof $Remove ] = "num") do={

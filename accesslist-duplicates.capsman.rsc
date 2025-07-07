@@ -22,7 +22,7 @@
   :foreach AccList in=[ /caps-man/access-list/find where mac-address!="00:00:00:00:00:00" ] do={
     :local Mac [ /caps-man/access-list/get $AccList mac-address ];
     :if ($Seen->$Mac = 1) do={
-      /caps-man/access-list/print where mac-address=$Mac;
+      /caps-man/access-list/print without-paging where mac-address=$Mac;
       :local Remove [ :tonum [ /terminal/ask prompt="\nNumeric id to remove, any key to skip!" ] ];
 
       :if ([ :typeof $Remove ] = "num") do={
