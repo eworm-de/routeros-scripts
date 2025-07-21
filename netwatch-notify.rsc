@@ -62,14 +62,14 @@
 
     :local FwAddrList ($ScriptName . "-" . [ $GetRandom20CharAlNum ]);
     :if ([ :typeof [ :toip $Expected ] ] = "ip") do={
-      /ip/firewall/address-list/add address=$Name list=$FwAddrList dynamic=yes timeout=10s;
+      /ip/firewall/address-list/add address=$Name list=$FwAddrList dynamic=yes timeout=30s;
       :delay 20ms;
       :if ([ :len [ /ip/firewall/address-list/find where list=$FwAddrList address=$Expected ] ] > 0) do={
         :return true;
       }
     }
     :if ([ :typeof [ :toip6 $Expected ] ] = "ip6") do={
-      /ipv6/firewall/address-list/add address=$Name list=$FwAddrList dynamic=yes timeout=10s;
+      /ipv6/firewall/address-list/add address=$Name list=$FwAddrList dynamic=yes timeout=30s;
       :delay 20ms;
       :if ([ :len [ /ipv6/firewall/address-list/find where list=$FwAddrList address=$Expected ] ] > 0) do={
         :return true;
