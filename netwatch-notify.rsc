@@ -127,7 +127,7 @@
               $LogPrint [ $IfThenElse ($HostInfo->"no-resolve-fail" != true) warning debug ] \
                   $ScriptName ("Resolving name '" . $HostInfo->"resolve" . [ $IfThenElse \
                   ($HostInfo->"resolve" != $HostInfo->"name") ("' for " . $Type . " '" . \
-                  $HostInfo->"name") "" ] . "' failed: " . $Err);
+                  $HostInfo->"name") "" ] . "' failed third time: " . $Err);
             }
           }
         }
