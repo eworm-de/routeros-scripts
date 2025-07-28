@@ -1608,7 +1608,9 @@
 
   :global LogPrintOnce;
 
-  :local Symbols {
+  :global SymbolsExtra;
+
+  :local Symbols ({
     "abacus"="\F0\9F\A7\AE";
     "alarm-clock"="\E2\8F\B0";
     "arrow-down"="\E2\AC\87";
@@ -1643,7 +1645,7 @@
     "star"="\E2\AD\90";
     "warning-sign"="\E2\9A\A0";
     "white-heavy-check-mark"="\E2\9C\85"
-  }
+  }, $SymbolsExtra);
 
   :if ([ :len ($Symbols->$Name) ] = 0) do={
     $LogPrintOnce warning $0 ("No symbol available for name '" . $Name . "'!");
