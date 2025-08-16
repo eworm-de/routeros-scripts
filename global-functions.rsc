@@ -133,6 +133,11 @@
     }
   }
 
+  :if ([ :len [ /certificate/find where common-name=$CommonName ] ] > 1) do={
+    $LogPrint info $0 ("There are " . $CertCount . " Certificates with CommonName '" . $CommonName . "'. Should be ok.");
+    :return true;
+  }
+
   :local CertVal [ /certificate/get [ find where common-name=$CommonName ] ];
   :while (($CertVal->"akid") != "" && ($CertVal->"akid") != ($CertVal->"skid")) do={
     :if ([ :len [ /certificate/find where skid=($CertVal->"akid") ] ] = 0) do={
