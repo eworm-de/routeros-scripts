@@ -11,7 +11,8 @@
 :global CheckHealthPlugins;
 
 :set ($CheckHealthPlugins->[ :jobname ]) do={
-  :local FuncName [ :tostr $0 ];
+  :local FuncName   [ :tostr $0 ];
+  :local ScriptName [ :tostr $1 ];
 
   :global CheckHealthLast;
   :global Identity;
@@ -32,13 +33,13 @@
     :if ([ :typeof ($CheckHealthLast->$Name) ] != "nothing") do={
       :if ($CheckHealthLast->$Name = "ok" && \
            $Value != "ok") do={
-        $SendNotification2 ({ origin=$FuncName; \
+        $SendNotification2 ({ origin=$ScriptName; \
           subject=([ $SymbolForNotification "cross-mark" ] . "Health warning: " . $Name); \
           message=("The device '" . $Name . "' on " . $Identity . " failed!") });
       }
       :if ($CheckHealthLast->$Name != "ok" && \
            $Value = "ok") do={
-        $SendNotification2 ({ origin=$FuncName; \
+        $SendNotification2 ({ origin=$ScriptName; \
           subject=([ $SymbolForNotification "white-heavy-check-mark" ] . "Health recovery: " . $Name); \
           message=("The device '" . $Name . "' on " . $Identity . " recovered!") });
       }
