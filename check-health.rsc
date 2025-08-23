@@ -101,7 +101,7 @@
 
   :foreach PluginName,Discard in=$CheckHealthPlugins do={
     ($CheckHealthPlugins->$PluginName) \
-         ("\$CheckHealthPlugins->\"" . $PluginName . "\"");
+        ("\$CheckHealthPlugins->\"" . $PluginName . "\"") $ScriptName;
   }
 
   :set CheckHealthPlugins;
