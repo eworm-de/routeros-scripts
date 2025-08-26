@@ -92,16 +92,16 @@
       :onerror Err {
         /system/script/run $Plugin;
       } do={
-        $LogPrint error $ScriptName ("Plugin '" . $ScriptVal->"name" . "' failed to run: " . $Err);
+        $LogPrint error $ScriptName ("Plugin '" . $PluginVal->"name" . "' failed to run: " . $Err);
       }
     } else={
-      $LogPrint error $ScriptName ("Plugin '" . $ScriptVal->"name" . "' failed syntax validation, skipping.");
+      $LogPrint error $ScriptName ("Plugin '" . $PluginVal->"name" . "' failed syntax validation, skipping.");
     }
   }
 
   :foreach PluginName,Discard in=$CheckHealthPlugins do={
     ($CheckHealthPlugins->$PluginName) \
-         ("\$CheckHealthPlugins->\"" . $PluginName . "\"");
+        ("\$CheckHealthPlugins->\"" . $PluginName . "\"") $ScriptName;
   }
 
   :set CheckHealthPlugins;

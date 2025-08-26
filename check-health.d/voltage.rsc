@@ -11,7 +11,8 @@
 :global CheckHealthPlugins;
 
 :set ($CheckHealthPlugins->[ :jobname ]) do={
-  :local FuncName [ :tostr $0 ];
+  :local FuncName   [ :tostr $0 ];
+  :local ScriptName [ :tostr $1 ];
 
   :global CheckHealthLast;
   :global CheckHealthVoltageLow;
@@ -39,7 +40,7 @@
 
       :if ($NumLast * (100 + $CheckHealthVoltagePercent) < $NumCurr * 100 || \
            $NumLast * 100 > $NumCurr * (100 + $CheckHealthVoltagePercent)) do={
-        $SendNotification2 ({ origin=$FuncName; \
+        $SendNotification2 ({ origin=$ScriptName; \
           subject=([ $SymbolForNotification ("high-voltage-sign,chart-" . [ $IfThenElse ($NumLast < \
             $NumCurr) "in" "de" ] . "creasing") ] . "Health warning: " . $Name); \
           message=("The " . $Name . " on " . $Identity . " jumped more than " . $CheckHealthVoltagePercent . "%.\n\n" . \
@@ -47,12 +48,12 @@
             [ $FormatLine "new value" ($Value . " V") 12 ]) });
       } else={ 
         :if ($NumCurr <= $CheckHealthVoltageLow && $NumLast > $CheckHealthVoltageLow) do={ 
-          $SendNotification2 ({ origin=$FuncName; \
+          $SendNotification2 ({ origin=$ScriptName; \
             subject=([ $SymbolForNotification "high-voltage-sign,chart-decreasing" ] . "Health warning: Low " . $Name); \ 
             message=("The " . $Name . " on " . $Identity . " dropped to " . $Value . " V below hard limit.") }); 
         } 
         :if ($NumCurr > $CheckHealthVoltageLow && $NumLast <= $CheckHealthVoltageLow) do={ 
-          $SendNotification2 ({ origin=$FuncName; \
+          $SendNotification2 ({ origin=$ScriptName; \
             subject=([ $SymbolForNotification "high-voltage-sign,chart-increasing" ] . "Health recovery: Low " . $Name); \ 
             message=("The " . $Name . " on " . $Identity . " recovered to " . $Value . " V above hard limit.") }); 
         }

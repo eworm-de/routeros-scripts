@@ -11,7 +11,8 @@
 :global CheckHealthPlugins;
 
 :set ($CheckHealthPlugins->[ :jobname ]) do={
-  :local FuncName [ :tostr $0 ];
+  :local FuncName   [ :tostr $0 ];
+  :local ScriptName [ :tostr $1 ];
 
   :global CheckHealthLast;
   :global CheckHealthTemperature;
@@ -54,7 +55,7 @@
       }
       :if ($Value > $CheckHealthTemperature->$Name && \
            $CheckHealthTemperatureNotified->$Name != true) do={
-        $SendNotification2 ({ origin=$FuncName; \
+        $SendNotification2 ({ origin=$ScriptName; \
           subject=([ $SymbolForNotification "fire" ] . "Health warning: " . $Name); \
           message=("The " . $Name . " on " . $Identity . " is above threshold: " . \
             $Value . "\C2\B0" . "C") });
@@ -62,7 +63,7 @@
       }
       :if ($Value <= ($CheckHealthTemperature->$Name - $CheckHealthTemperatureDeviation) && \
            $CheckHealthTemperatureNotified->$Name = true) do={
-        $SendNotification2 ({ origin=$FuncName; \
+        $SendNotification2 ({ origin=$ScriptName; \
           subject=([ $SymbolForNotification "white-heavy-check-mark" ] . "Health recovery: " . $Name); \
           message=("The " . $Name . " on " . $Identity . " dropped below threshold: " .  \
             $Value . "\C2\B0" . "C") });
