@@ -41,6 +41,11 @@
       /system/reboot;
     }
 
+    :if ([ /system/scheduler/find where name="_RebootForUpdate" ] > 0) do={
+      $LogPrint warning $ScriptName ("Scheduler for reboot already exists.");
+      :return false;
+    }
+
     :local Interval [ $IfThenElse ([ :totime $PackagesUpdateDeferReboot ] >= 1d) \
         $PackagesUpdateDeferReboot 1d ];
     :local StartTime [ :tostr [ :totime (10800 + [ $GetRandomNumber 7200 ]) ] ];
