@@ -11,8 +11,8 @@ HTML = $(MARKDOWN:.md=.html)
 
 all: $(CAPSMAN) $(LOCAL) $(WIFI) $(HTML) checksums.json
 
-%.html: %.md Makefile
-	markdown $< | sed 's/href="\([-_\./[:alnum:]]*\)\.md"/href="\1.html"/g' > $@
+%.html: %.md contrib/html.sh contrib/html.sh.d/head.html
+	contrib/html.sh $< > $@
 
 %.capsman.rsc: %.template.rsc Makefile
 	sed -e '/\/interface\/wifi\//d' -e '/\/interface\/wireless\//d' -e 's|%TEMPL%|.capsman|' \
