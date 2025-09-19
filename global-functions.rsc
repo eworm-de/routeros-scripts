@@ -1787,14 +1787,11 @@
   :local Delay ([ $MAX [ $EitherOr $WaitTime 2s ] 100ms ] / 9);
 
   :do {
-    :retry { 
-      :if ([ :len [ /file/find where name=$FileName ] ] = 0) do={
-        :error false;
-      }
+    :retry {
+      /file/get $FileName;
+      :return true;
     } delay=$Delay max=10;
-  } on-error={
-    :return false;
-  }
+  } on-error={ }
 
   :while ([ :len [ /file/find where name=$FileName ] ] > 0) do={
     :do {
