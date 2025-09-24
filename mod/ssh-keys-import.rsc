@@ -85,7 +85,7 @@
     :return false;
   }
 
-  :if ([ $FileExists $FileName ] = true) do={
+  :if ([ $FileExists $FileName ] = false) do={
     $LogPrint warning $0 ("File '" . $FileName . "' does not exist.");
     :return false;
   }
