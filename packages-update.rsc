@@ -41,7 +41,7 @@
       /system/reboot;
     }
 
-    :if ([ /system/scheduler/find where name="_RebootForUpdate" ] > 0) do={
+    :if ([ :len [ /system/scheduler/find where name="_RebootForUpdate" ] ] > 0) do={
       $LogPrint warning $ScriptName ("Scheduler for reboot already exists.");
       :return false;
     }
