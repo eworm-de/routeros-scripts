@@ -103,7 +103,7 @@
       :foreach Line in=[ :deserialize $Data delimiter="\n" from=dsv options=dsv.plain ] do={
         :set Line ($Line->0);
         :local Address;
-        :if ([ :pick $Line 0 1 ] = "{") do={
+        :if ([ :pick $Line 0 1 ] = "{" && [ :pick $Line ([ :len $Line ] - 1) ] = "}") do={
           :do {
             :set Address [ :tostr ([ :deserialize from=json $Line ]->"cidr") ];
           } on-error={ }
