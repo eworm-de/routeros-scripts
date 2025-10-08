@@ -112,11 +112,12 @@
           :set Address ([ :pick $Line 0 [ $FindDelim $Line ] ] . ($List->"cidr"));
         }
         :do {
-          :local Branch [ $GetBranch $Address ];
+          :local Branch;
           :if ($Address ~ "^[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}(/[0-9]{1,2})?\$") do={
             :if ($Address ~ "/32\$") do={
               :set Address [ :pick $Address 0 ([ :len $Address ] - 3) ];
             }
+            :set Branch [ $GetBranch $Address ];
             :set ($IPv4Addresses->$Branch->$Address) $TimeOut;
             :error true;
           }
@@ -129,10 +130,12 @@
               :set Cidr [ $MIN [ :pick $Address ($Slash + 1) [ :len $Address ] ] 64 ];
             }
             :set Address (([ :toip6 $Net ] & ffff:ffff:ffff:ffff::) . "/" . $Cidr);
+            :set Branch [ $GetBranch $Address ];
             :set ($IPv6Addresses->$Branch->$Address) $TimeOut;
             :error true;
           }
           :if ($Address ~ "^[\\.a-zA-Z0-9-]+\\.[a-zA-Z]{2,}\$") do={
+            :set Branch [ $GetBranch $Address ];
             :set ($IPv4Addresses->$Branch->$Address) $TimeOut;
             :set ($IPv6Addresses->$Branch->$Address) $TimeOut;
             :error true;
