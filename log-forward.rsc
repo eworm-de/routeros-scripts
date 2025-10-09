@@ -95,7 +95,7 @@
     :set LogForwardRateLimit ($LogForwardRateLimit + 10);
 
     $SendNotification2 ({ origin=$ScriptName; \
-      subject=([ $SymbolForNotification [ $IfThenElse ($Warning = true) "warning-sign" "memo" ] ] . \
+      subject=([ $SymbolForNotification ("memo" . [ $IfThenElse ($Warning = true) ",warning-sign" ]) ] . \
         "Log Forwarding"); \
       message=("The log on " . $Identity . " contains " . [ $IfThenElse ($Count = 1) "this message" \
         ("these " . $Count . " messages") ] . " after " . [ /system/resource/get uptime ] . " uptime." . \
