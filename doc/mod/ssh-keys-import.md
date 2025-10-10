@@ -38,7 +38,7 @@ import that key:
     $SSHKeysImport "ssh-rsa AAAAB3Nza...QYZk8= user" admin;
 
 The third part of the key (`user` in this example) is inherited as
-`key-owner` in RouterOS (or `info` starting with RouterOS 7.21beta2). Also
+`info` in RouterOS (or `key-owner` with RouterOS 7.20.x and before). Also
 the `MD5` fingerprint is recorded, this helps to audit and verify the
 available keys.
 
