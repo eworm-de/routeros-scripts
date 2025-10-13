@@ -21,11 +21,17 @@
   :global TelegramQueue;
   :global TelegramMessageIDs;
 
+  :global CertificateAvailable;
   :global IsFullyConnected;
   :global LogPrint;
 
   :if ([ $IsFullyConnected ] = false) do={
     $LogPrint debug $0 ("System is not fully connected, not flushing.");
+    :return false;
+  }
+
+  :if ([ $CertificateAvailable "Go Daddy Root Certificate Authority - G2" ] = false) do={
+    $LogPrint warning $0 ("Downloading required certificate failed.");
     :return false;
   }
 
