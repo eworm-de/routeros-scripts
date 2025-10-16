@@ -465,7 +465,7 @@
   :local Error  [ :tostr $3 ];
 
   :global IfThenElse;
-  :global LogPrint; 
+  :global LogPrint;
 
   :if ($ExitOK = "false") do={
     $LogPrint error $Name ([ $IfThenElse ([ :pick $Name 0 1 ] = "\$") \
