@@ -1008,13 +1008,25 @@
   :global MAX;
   :global MIN;
 
+  :global NetMask6Cache;
+
+  :if ([ :typeof ($NetMask6Cache->$CIDR) ] = "ip6") do={
+    :return ($NetMask6Cache->$CIDR);
+  }
+
+  :if ([ :typeof $NetMask6Cache ] = "nothing") do={
+    :set NetMask6Cache ({});
+  }
+
   :local Mask "";
   :for I from=0 to=7 do={
     :set Mask ($Mask . \
       [ :convert from=num to=hex (0xffff - (0xffff >> [ :tonum [ $MIN [ $MAX ($CIDR - (16 * $I)) 0 ] 16 ] ])) ] . \
       [ $IfThenElse ($I < 7) ":" ]);
   }
-  :return [ :toip6 $Mask ];
+  :set Mask [ :toip6 $Mask ];
+  :set ($NetMask6Cache->$CIDR) $Mask;
+  :return $Mask;
 }
 
 # prepare NotificationFunctions array
