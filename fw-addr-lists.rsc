@@ -22,10 +22,12 @@
   :global EitherOr;
   :global FetchHuge;
   :global HumanReadableNum;
+  :global IfThenElse;
   :global LogPrint;
   :global LogPrintOnce;
   :global LogPrintVerbose;
   :global MIN;
+  :global NetMask4;
   :global ScriptLock;
   :global WaitFullyConnected;
 
@@ -114,8 +116,13 @@
         :do {
           :local Branch;
           :if ($Address ~ "^[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}(/[0-9]{1,2})?\$") do={
-            :if ($Address ~ "/32\$") do={
-              :set Address [ :pick $Address 0 ([ :len $Address ] - 3) ];
+            :local Net $Address;
+            :local CIDR 32;
+            :local Slash [ :find $Address "/" ];
+            :if ([ :typeof $Slash ] = "num") do={
+              :set Net [ :toip [ :pick $Address 0 $Slash ] ]
+              :set CIDR [ :pick $Address ($Slash + 1) [ :len $Address ] ];
+              :set Address [ :tostr (([ :toip $Net ] & [ $NetMask4 $CIDR ]) . [ $IfThenElse ($CIDR < 32) ("/" . $CIDR) ]) ];
             }
             :set Branch [ $GetBranch $Address ];
             :set ($IPv4Addresses->$Branch->$Address) $TimeOut;
