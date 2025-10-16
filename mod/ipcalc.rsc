@@ -34,9 +34,12 @@
 # calculate and return netmask, network, min host, max host and broadcast
 :set IPCalcReturn do={
   :local Input [ :tostr $1 ];
+
+  :global NetMask4;
+
   :local Address [ :toip [ :pick $Input 0 [ :find $Input "/" ] ] ];
   :local Bits [ :tonum [ :pick $Input ([ :find $Input "/" ] + 1) [ :len $Input ] ] ];
-  :local Mask ((255.255.255.255 << (32 - $Bits)) & 255.255.255.255);
+  :local Mask [ $NetMask4 $Bits ];
 
   :local Return {
     "address"=$Address;
