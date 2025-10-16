@@ -61,6 +61,7 @@
 :global MAX;
 :global MIN;
 :global MkDir;
+:global NetMask4;
 :global NotificationFunctions;
 :global ParseDate;
 :global ParseKeyValueStore;
@@ -988,6 +989,13 @@
   }
 
   :return true;
+}
+
+# return an IPv4 netmask for CIDR
+:set NetMask4 do={
+  :local CIDR [ :tonum $1 ];
+
+  :return ((255.255.255.255 << (32 - $CIDR)) & 255.255.255.255);
 }
 
 # prepare NotificationFunctions array
