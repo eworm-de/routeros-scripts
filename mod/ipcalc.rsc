@@ -36,21 +36,32 @@
   :local Input [ :tostr $1 ];
 
   :global NetMask4;
+  :global NetMask6;
 
-  :local Address [ :toip [ :pick $Input 0 [ :find $Input "/" ] ] ];
+  :local Address [ :pick $Input 0 [ :find $Input "/" ] ];
   :local Bits [ :tonum [ :pick $Input ([ :find $Input "/" ] + 1) [ :len $Input ] ] ];
-  :local Mask [ $NetMask4 $Bits ];
+  :local Mask;
+  :local One;
+  :if ([ :typeof [ :toip $Address ] ] = "ip") do={
+    :set Address [ :toip $Address ];
+    :set Mask [ $NetMask4 $Bits ];
+    :set One 0.0.0.1;
+  } else={
+    :set Address [ :toip6 $Address ];
+    :set Mask [ $NetMask6 $Bits ];
+    :set One ::1;
+  }
 
-  :local Return {
+  :local Return ({
     "address"=$Address;
     "netmask"=$Mask;
     "networkaddress"=($Address & $Mask);
     "networkbits"=$Bits;
     "network"=(($Address & $Mask) . "/" . $Bits);
-    "hostmin"=(($Address & $Mask) | 0.0.0.1);
-    "hostmax"=(($Address | ~$Mask) ^ 0.0.0.1);
+    "hostmin"=(($Address & $Mask) | $One);
+    "hostmax"=(($Address | ~$Mask) ^ $One);
     "broadcast"=($Address | ~$Mask);
-  }
+  });
 
   :return $Return;
 }
