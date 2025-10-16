@@ -62,6 +62,7 @@
 :global MIN;
 :global MkDir;
 :global NetMask4;
+:global NetMask6;
 :global NotificationFunctions;
 :global ParseDate;
 :global ParseKeyValueStore;
@@ -996,6 +997,24 @@
   :local CIDR [ :tonum $1 ];
 
   :return ((255.255.255.255 << (32 - $CIDR)) & 255.255.255.255);
+}
+
+# return an IPv6 netmask for CIDR
+:set NetMask6 do={
+  :local FuncName $0;
+  :local CIDR [ :tostr $1 ];
+
+  :global IfThenElse;
+  :global MAX;
+  :global MIN;
+
+  :local Mask "";
+  :for I from=0 to=7 do={
+    :set Mask ($Mask . \
+      [ :convert from=num to=hex (0xffff - (0xffff >> [ :tonum [ $MIN [ $MAX ($CIDR - (16 * $I)) 0 ] 16 ] ])) ] . \
+      [ $IfThenElse ($I < 7) ":" ]);
+  }
+  :return [ :toip6 $Mask ];
 }
 
 # prepare NotificationFunctions array
