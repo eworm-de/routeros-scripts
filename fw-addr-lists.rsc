@@ -26,8 +26,8 @@
   :global LogPrint;
   :global LogPrintOnce;
   :global LogPrintVerbose;
-  :global MIN;
   :global NetMask4;
+  :global NetMask6;
   :global ScriptLock;
   :global WaitFullyConnected;
 
@@ -130,13 +130,13 @@
           }
           :if ($Address ~ "^[0-9a-zA-Z]*:[0-9a-zA-Z:\\.]+(/[0-9]{1,3})?\$") do={
             :local Net $Address;
-            :local Cidr 64;
+            :local CIDR 128;
             :local Slash [ :find $Address "/" ];
             :if ([ :typeof $Slash ] = "num") do={
               :set Net [ :toip6 [ :pick $Address 0 $Slash ] ]
-              :set Cidr [ $MIN [ :pick $Address ($Slash + 1) [ :len $Address ] ] 64 ];
+              :set CIDR [ :pick $Address ($Slash + 1) [ :len $Address ] ];
             }
-            :set Address (([ :toip6 $Net ] & ffff:ffff:ffff:ffff::) . "/" . $Cidr);
+            :set Address (([ :toip6 $Net ] & [ $NetMask6 $CIDR ]) . "/" . $CIDR);
             :set Branch [ $GetBranch $Address ];
             :set ($IPv6Addresses->$Branch->$Address) $TimeOut;
             :error true;
