@@ -7,11 +7,14 @@ LOCAL = $(wildcard *.local.rsc)
 WIFI = $(wildcard *.wifi.rsc)
 
 MARKDOWN = $(wildcard *.md doc/*.md doc/mod/*.md)
-HTML = $(MARKDOWN:.md=.html)
+HTML = $(MARKDOWN:.md=.html) style.css
 
 all: $(CAPSMAN) $(LOCAL) $(WIFI) $(HTML) checksums.json
 
-%.html: %.md contrib/html.sh contrib/html.sh.d/head.html
+style.css: contrib/general/style.css
+	cp $< $@
+
+%.html: %.md style.css contrib/html.sh contrib/html.sh.d/head.html
 	contrib/html.sh $< > $@
 
 %.capsman.rsc: %.template.rsc Makefile
