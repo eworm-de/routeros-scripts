@@ -107,7 +107,7 @@ chat with [BotFather ↗️](https://t.me/BotFather) and set it there.
 ![set profile photo](notification-telegram.d/setuserpic.avif)
 
 Have a look at my
-[RouterOS-Scripts Logo Color Changer](https://git.eworm.de/cgit/routeros-scripts/plain/contrib/logo-color.html)
+[Logo Color Changer](https://git.eworm.de/cgit/routeros-scripts/plain/contrib/logo-color.html)
 to create a colored version of this scripts' logo.
 
 See also
