@@ -4,6 +4,28 @@ body {
   font-family: fira-sans, sans-serif;
   font-size: 10pt;
 }
+h2 {
+  border-bottom: 1px solid #ccc;
+  color: #000;
+}
+a {
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+}
+blockquote {
+  border-left: 4px solid #ccc;
+  padding: 0 10px;
+  color: #777;
+}
+code {
+  margin: 0 2px;
+  padding: 2px 5px;
+  border: 1px solid #ccc;
+  background-color: #f8f8f8;
+  border-radius: 3px;
+}
 div.notification {
   position: relative;
   float: right;
@@ -31,6 +53,16 @@ p.hint {
 pre {
   font-family: fira-mono, monospace;
   white-space: pre-wrap;
+  background-color: #f8f8f8;
+  border: 1px solid #ccc;
+  overflow: auto;
+  padding: 6px 10px;
+  border-radius: 3px;
+}
+pre code {
+  margin: 0;
+  padding: 0;
+  border: 0;
 }
 span.link {
   color: #863600;

@@ -11,7 +11,7 @@ HTML = $(MARKDOWN:.md=.html)
 
 all: $(CAPSMAN) $(LOCAL) $(WIFI) $(HTML) checksums.json
 
-%.html: %.md contrib/html.sh contrib/html.sh.d/head.html
+%.html: %.md general/style.css contrib/html.sh contrib/html.sh.d/head.html
 	contrib/html.sh $< > $@
 
 %.capsman.rsc: %.template.rsc Makefile
