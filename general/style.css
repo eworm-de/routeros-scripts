@@ -1,0 +1,79 @@
+/* stylesheet for RouterOS Scripts */
+body {
+  background-color: transparent;
+  font-family: fira-sans, sans-serif;
+  font-size: 10pt;
+  line-height: 1.6;
+}
+h2 {
+  border-bottom: 1px solid #ccc;
+  color: #000;
+}
+a {
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+}
+blockquote {
+  border-left: 4px solid #ccc;
+  padding: 0 10px;
+  color: #777;
+}
+code {
+  margin: 0 2px;
+  padding: 2px 5px;
+  border: 1px solid #ccc;
+  background-color: #f8f8f8;
+  border-radius: 3px;
+}
+div.notification {
+  position: relative;
+  float: none;
+  width: 600px;
+  border: 3px outset #6c5d53;
+  /* border-radius: 5px; */
+  padding: 10px;
+  background-color: #e6e6e6;
+}
+div.content {
+  padding-left: 60px;
+}
+img.logo {
+  float: left;
+  border-radius: 50%;
+}
+p.heading {
+  margin: 0px;
+  font-weight: bold;
+  text-decoration: underline;
+}
+p.hint {
+  display: none;
+}
+pre {
+  font-family: fira-mono, monospace;
+  white-space: pre-wrap;
+  background-color: #f8f8f8;
+  border: 1px solid #ccc;
+  overflow: auto;
+  padding: 6px 10px;
+  border-radius: 3px;
+}
+pre code {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+span.link {
+  color: #863600;
+}
+@media only screen and (orientation: landscape) {
+  body {
+    margin-left: 10vw;
+    margin-right: 10vw;
+  }
+  div.notification {
+    float: right;
+  }
+}
