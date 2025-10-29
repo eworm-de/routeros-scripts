@@ -1,7 +1,8 @@
+/* stylesheet for RouterOS Scripts */
 body {
+  background-color: transparent;
   font-family: fira-sans, sans-serif;
   font-size: 10pt;
-  background-color: transparent;
 }
 div.notification {
   position: relative;
