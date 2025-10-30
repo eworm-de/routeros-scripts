@@ -33,7 +33,7 @@ all: $(CAPSMAN) $(LOCAL) $(WIFI) $(HTML) checksums.json
 		< $< > $@
 
 checksums.json: contrib/checksums.sh *.rsc */*.rsc
-	contrib/checksums.sh
+	contrib/checksums.sh > $@
 
 clean:
 	rm -f $(HTML) checksums.json
