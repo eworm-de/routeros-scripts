@@ -6,4 +6,4 @@ set -e
 
 md5sum $(find -name '*.rsc' | sort) | \
 	sed -e "s| \./||" -e 's|.rsc$||' | \
-	jq --raw-input --null-input '[ inputs | split (" ") | { (.[1]): (.[0]) }] | add' > 'checksums.json'
+	jq --raw-input --null-input '[ inputs | split (" ") | { (.[1]): (.[0]) }] | add'
