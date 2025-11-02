@@ -1313,6 +1313,11 @@
           $LogPrint warning $0 ("Removing dummy. Typo on installation?");
           /system/script/remove $Script;
         }
+        :if ([ :len ($ScriptInfo->"base-url") ] = 0 && [ :len ($ScriptInfo->"url-suffix") ] = 0 && \
+             [ :len $CheckSum ] = 0) do={
+          $LogPrintOnce warning $0 \
+              ("Added the script manually? Skip updates with 'ignore=true' in comment.");
+        }
         :error false;
       }
 
