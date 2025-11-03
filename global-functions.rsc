@@ -1309,6 +1309,10 @@
         }
       } do={
         $LogPrint warning $0 ("Failed fetching script '" . $ScriptVal->"name" . "': " . $Err);
+        :if ($Err != "Fetch failed with status 404") do={
+          :error false;
+        }
+
         :if ($ScriptVal->"source" = "#!rsc by RouterOS\n") do={
           $LogPrint warning $0 ("Removing dummy. Typo on installation?");
           /system/script/remove $Script;
