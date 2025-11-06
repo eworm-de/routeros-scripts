@@ -1312,6 +1312,7 @@
         :if ($ScriptVal->"source" = "#!rsc by RouterOS\n") do={
           $LogPrint warning $0 ("Removing dummy. Typo on installation?");
           /system/script/remove $Script;
+          :error false;
         }
         :if ([ :len ($ScriptInfo->"base-url") ] = 0 && [ :len ($ScriptInfo->"url-suffix") ] = 0 && \
              [ :len $CheckSum ] = 0) do={
