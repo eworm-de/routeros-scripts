@@ -12,6 +12,7 @@ sed \
 
 markdown -f toc,idanchor "${1}" | sed \
 	-e 's/href="\([-_\./[:alnum:]]*\)\.md\(#[-[:alnum:]]*\)\?"/href="\1.html\2"/g' \
-	-e '/<h[1234] /s| id="\(.*\)">| id="\L\1">|'
+	-e '/<h[1234] /s| id="\(.*\)">| id="\L\1">|' \
+	-e '/<h[1234] /s|-2[1789cd]-||g' -e '/<h[1234] /s|--26-amp-3b-||g'
 
 printf '</body></html>'
