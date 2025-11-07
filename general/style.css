@@ -28,7 +28,7 @@ code {
 }
 div.notification {
   position: relative;
-  float: right;
+  float: none;
   width: 600px;
   border: 3px outset #6c5d53;
   /* border-radius: 5px; */
@@ -66,4 +66,13 @@ pre code {
 }
 span.link {
   color: #863600;
+}
+@media only screen and (orientation: landscape) {
+  body {
+    margin-left: 10vw;
+    margin-right: 10vw;
+  }
+  div.notification {
+    float: right;
+  }
 }
