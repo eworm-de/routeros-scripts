@@ -63,7 +63,7 @@ First time users should take the long way below.
 
 Want to see it in action? I've had a presentation [Repository based
 RouterOS script distribution ↗️](https://www.youtube.com/watch?v=B9neG3oAhcY)
-including demonstation recorded live at [MUM Europe
+including demonstration recorded live at [MUM Europe
 2019 ↗️](https://mum.mikrotik.com/2019/EU/) in Vienna.
 
 > ⚠️ **Warning**: Some details changed. So see the presentation, then follow
