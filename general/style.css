@@ -3,6 +3,7 @@ body {
   background-color: transparent;
   font-family: fira-sans, sans-serif;
   font-size: 10pt;
+  line-height: 1.6;
 }
 h2 {
   border-bottom: 1px solid #ccc;
