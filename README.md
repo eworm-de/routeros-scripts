@@ -77,7 +77,7 @@ download the certificates.
 > 💡️ **Hint**: RouterOS 7.19 comes with a builtin certificate store. You
 > can skip the steps regarding certificate download and import and jump
 > to [installation of scripts](#installation-of-scripts) if you set the
-> trust for these builtin trust anchors:
+> trust for these builtin trust anchors:  
 > `/certificate/settings/set builtin-trust-anchors=trusted;`
 
 If you intend to download the scripts from a
@@ -173,7 +173,7 @@ This last step is required when ever you make changes to your configuration.
 
 > ℹ️ **Info**: It is recommended to edit the configuration using the command
 > line interface. If using Winbox on Windows OS, the line endings may be
-> missing. To fix this run:
+> missing. To fix this run:  
 > `/system/script/set source=[ :tocrlf [ get global-config-overlay source ] ] global-config-overlay;`
 
 Updating scripts
