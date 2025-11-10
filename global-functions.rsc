@@ -161,7 +161,6 @@
   :global ScriptUpdatesBaseUrl;
   :global ScriptUpdatesUrlSuffix;
 
-  :global CertificateAvailable;
   :global CertificateNameByCN;
   :global CleanName;
   :global FetchUserAgentStr;
