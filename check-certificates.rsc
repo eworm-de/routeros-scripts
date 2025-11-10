@@ -189,7 +189,7 @@
           fingerprint!=[ :tostr ($CertVal->"fingerprint") ] expires-after>$CertRenewTime ];
         :local CertNewVal [ /certificate/get $CertNew ];
 
-        :if ([ $CertificateAvailable ([ $ParseKeyValueStore ($CertNewVal->"issuer") ]->"CN") ] = false) do={
+        :if ([ $CertificateAvailable ([ $ParseKeyValueStore ($CertNewVal->"issuer") ]->"CN") "fetch" ] = false) do={
           $LogPrint warning $ScriptName ("The certificate chain is not available!");
         }
 
