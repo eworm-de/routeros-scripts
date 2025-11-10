@@ -21,7 +21,7 @@
   :global CertWarnTime;
   :global Identity;
 
-  :global CertificateAvailable
+  :global CertificateAvailable;
   :global EscapeForRegEx;
   :global IfThenElse;
   :global LogPrint;
