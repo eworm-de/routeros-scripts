@@ -106,10 +106,14 @@
 # check and download required certificate
 :set CertificateAvailable do={
   :local CommonName [ :tostr $1 ];
+  :local UseFor     [ :tostr $2 ];
 
   :global CertificateDownload;
+  :global EitherOr;
   :global LogPrint;
   :global ParseKeyValueStore;
+
+  :set UseFor [ $EitherOr $UseFor "undefined" ];
 
   :if ([ /system/resource/get free-hdd-space ] < 8388608 && \
        [ /certificate/settings/get crl-download ] = true && \
@@ -123,7 +127,10 @@
     :return false;
   }
 
-  :if (([ /certificate/settings/get ]->"builtin-trust-anchors") = "trusted" && \
+  :local CertSettings [ /certificate/settings/get ];
+  :if ((($CertSettings->"builtin-trust-anchors") = "trusted" || \
+        ($CertSettings->"builtin-trust-store") ~ $UseFor || \
+        ($CertSettings->"builtin-trust-store") = "all") && \
        [[ :parse (":return [ :len [ /certificate/builtin/find where common-name=\"" . $CommonName . "\" ] ]") ]] > 0) do={
     :return true;
   }
@@ -397,7 +404,7 @@
     :return true;
   }
 
-  :if ([ $CertificateAvailable "ISRG Root X1" ] = false) do={
+  :if ([ $CertificateAvailable "ISRG Root X1" "fetch" ] = false) do={
     $LogPrint error $0 ("Downloading required certificate failed.");
     :return false;
   }
@@ -633,7 +640,7 @@
   }
 
   :do {
-    :if ([ $CertificateAvailable "GTS Root R4" ] = false) do={
+    :if ([ $CertificateAvailable "GTS Root R4" "fetch" ] = false) do={
       $LogPrint warning $0 ("Downloading required certificate failed.");
       :error false;
     }
@@ -1241,7 +1248,7 @@
   :global SymbolForNotification;
   :global ValidateSyntax;
 
-  :if ([ $CertificateAvailable "ISRG Root X2" ] = false) do={
+  :if ([ $CertificateAvailable "ISRG Root X2" "fetch" ] = false) do={
     $LogPrint warning $0 ("Downloading certificate failed, trying without.");
   }
 
@@ -1292,7 +1299,7 @@
       }
 
       :if ([ :len ($ScriptInfo->"certificate") ] > 0) do={
-        :if ([ $CertificateAvailable ($ScriptInfo->"certificate") ] = false) do={
+        :if ([ $CertificateAvailable ($ScriptInfo->"certificate") "fetch" ] = false) do={
           $LogPrint warning $0 ("Downloading certificate failed, trying without.");
         }
       }

@@ -22,8 +22,11 @@ Run the complete base installation:
       :local CertFileName "ISRG-Root-X2.pem";
       :local CertFingerprint "69729b8e15a86efc177a57afb7171dfc64add28c2fca8cf1507e34453ccb1470";
 
-      :if (!(([ /certificate/settings/get ]->"builtin-trust-anchors") = "trusted" && \
-           [[ :parse (":return [ :len [ /certificate/builtin/find where common-name=\"" . $CertCommonName . "\" ] ]") ]] > 0)) do={
+      :local CertSettings [ /certificate/settings/get ];
+      :if (!((($CertSettings->"builtin-trust-anchors") = "trusted" || \
+              ($CertSettings->"builtin-trust-store") ~ "fetch" || \
+              ($CertSettings->"builtin-trust-store") = "all") && \
+             [[ :parse (":return [ :len [ /certificate/builtin/find where common-name=\"" . $CertCommonName . "\" ] ]") ]] > 0)) do={
         :put "Importing certificate...";
         /tool/fetch ($BaseUrl . "certs/" . $CertFileName) dst-path=$CertFileName as-value;
         :delay 1s;

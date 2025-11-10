@@ -78,7 +78,10 @@ download the certificates.
 > can skip the steps regarding certificate download and import and jump
 > to [installation of scripts](#installation-of-scripts) if you set the
 > trust for these builtin trust anchors:  
-> `/certificate/settings/set builtin-trust-anchors=trusted;`
+> `/certificate/settings/set builtin-trust-anchors=trusted;`  
+> With RouterOS 7.21 the functionality was changed. Set this at minimum,
+> but make sure not to drop other targets:  
+> `/certificate/settings/set builtin-trust-store=fetch;`
 
 If you intend to download the scripts from a
 different location (for example from github.com) install the corresponding

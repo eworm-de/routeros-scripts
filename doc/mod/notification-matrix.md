@@ -49,7 +49,7 @@ your server in device's certificate store.
 The example below is for `matrix.org`, which uses a trust chain from *Google
 Trust Services*. Run this to import the required certificate:
 
-    $CertificateAvailable "GTS Root R4";
+    $CertificateAvailable "GTS Root R4" "fetch";
 
 Replace the CA certificate name with what ever is needed for your server.
 You may want to find the

@@ -109,7 +109,7 @@
 
   :onerror Err {
     :if ($Server = "ntfy.sh") do={
-      :if ([ $CertificateAvailable "ISRG Root X1" ] = false) do={
+      :if ([ $CertificateAvailable "ISRG Root X1" "fetch" ] = false) do={
         $LogPrint warning $0 ("Downloading required certificate failed.");
         :error false;
       }

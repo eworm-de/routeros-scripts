@@ -74,7 +74,7 @@
 
       :if ([ :len ($List->"cert") ] > 0) do={
         :set CheckCertificate true;
-        :if ([ $CertificateAvailable ($List->"cert") ] = false) do={
+        :if ([ $CertificateAvailable ($List->"cert") "fetch" ] = false) do={
           $LogPrint warning $ScriptName ("Downloading required certificate (" . $FwListName . \
               " / " . $List->"url" . ") failed, trying anyway.");
         }

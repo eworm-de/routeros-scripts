@@ -61,7 +61,7 @@ Import a certificate by CommonName
 Running the function `$CertificateAvailable` with that name as parameter
 makes sure the certificate is available in the device's store:
 
-    $CertificateAvailable "ISRG Root X2";
+    $CertificateAvailable "ISRG Root X2" "fetch";
 
 If the certificate is actually available already nothing happens, and there
 is no output. Otherwise the certificate is downloaded and imported.
