@@ -1248,7 +1248,7 @@
   :global SymbolForNotification;
   :global ValidateSyntax;
 
-  :if ([ $CertificateAvailable "ISRG Root X2" ] = false) do={
+  :if ([ $CertificateAvailable "ISRG Root X2" "fetch" ] = false) do={
     $LogPrint warning $0 ("Downloading certificate failed, trying without.");
   }
 
@@ -1299,7 +1299,7 @@
       }
 
       :if ([ :len ($ScriptInfo->"certificate") ] > 0) do={
-        :if ([ $CertificateAvailable ($ScriptInfo->"certificate") ] = false) do={
+        :if ([ $CertificateAvailable ($ScriptInfo->"certificate") "fetch" ] = false) do={
           $LogPrint warning $0 ("Downloading certificate failed, trying without.");
         }
       }
