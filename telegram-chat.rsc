@@ -61,7 +61,7 @@
     :set TelegramRandomDelay 0;
   }
 
-  :if ([ $CertificateAvailable "Go Daddy Root Certificate Authority - G2" ] = false) do={
+  :if ([ $CertificateAvailable "Go Daddy Root Certificate Authority - G2" "fetch" ] = false) do={
     $LogPrint warning $ScriptName ("Downloading required certificate failed.");
     :set ExitOK true;
     :error false;
