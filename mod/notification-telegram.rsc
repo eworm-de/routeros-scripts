@@ -30,7 +30,7 @@
     :return false;
   }
 
-  :if ([ $CertificateAvailable "Go Daddy Root Certificate Authority - G2" ] = false) do={
+  :if ([ $CertificateAvailable "Go Daddy Root Certificate Authority - G2" "fetch" ] = false) do={
     $LogPrint warning $0 ("Downloading required certificate failed.");
     :return false;
   }
@@ -72,7 +72,7 @@
   :global CertificateAvailable;
   :global LogPrint;
 
-  :if ([ $CertificateAvailable "Go Daddy Root Certificate Authority - G2" ] = false) do={
+  :if ([ $CertificateAvailable "Go Daddy Root Certificate Authority - G2" "fetch" ] = false) do={
     $LogPrint warning $0 ("Downloading required certificate failed.");
     :return false;
   }
@@ -197,7 +197,7 @@
       "&reply_to_message_id=" . ($Notification->"replyto") . "&message_thread_id=" . $ThreadId . \
       "&disable_web_page_preview=true&parse_mode=MarkdownV2");
   :onerror Err {
-    :if ([ $CertificateAvailable "Go Daddy Root Certificate Authority - G2" ] = false) do={
+    :if ([ $CertificateAvailable "Go Daddy Root Certificate Authority - G2" "fetch" ] = false) do={
       $LogPrint warning $0 ("Downloading required certificate failed.");
       :error false;
     }
