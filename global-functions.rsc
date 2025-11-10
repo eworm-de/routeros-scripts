@@ -106,10 +106,14 @@
 # check and download required certificate
 :set CertificateAvailable do={
   :local CommonName [ :tostr $1 ];
+  :local UseFor     [ :tostr $2 ];
 
   :global CertificateDownload;
+  :global EitherOr;
   :global LogPrint;
   :global ParseKeyValueStore;
+
+  :set UseFor [ $EitherOr $UseFor "undefined" ];
 
   :if ([ /system/resource/get free-hdd-space ] < 8388608 && \
        [ /certificate/settings/get crl-download ] = true && \
@@ -123,7 +127,10 @@
     :return false;
   }
 
-  :if (([ /certificate/settings/get ]->"builtin-trust-anchors") = "trusted" && \
+  :local CertSettings [ /certificate/settings/get ];
+  :if ((($CertSettings->"builtin-trust-anchors") = "trusted" || \
+        ($CertSettings->"builtin-trust-store") ~ $UseFor || \
+        ($CertSettings->"builtin-trust-store") = "all") && \
        [[ :parse (":return [ :len [ /certificate/builtin/find where common-name=\"" . $CommonName . "\" ] ]") ]] > 0) do={
     :return true;
   }
