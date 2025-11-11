@@ -87,7 +87,7 @@ If you intend to download the scripts from a
 different location (for example from github.com) install the corresponding
 certificate chain.
 
-    /tool/fetch "https://git.eworm.de/cgit/routeros-scripts/plain/certs/ISRG-Root-X2.pem" dst-path="isrg-root-x2.pem";
+    /tool/fetch "https://rsc.eworm.de/main/certs/ISRG-Root-X2.pem" dst-path="isrg-root-x2.pem";
 
 ![screenshot: download certs](README.d/01-download-certs.avif)
 
@@ -125,7 +125,7 @@ date and time is set correctly!
 
 Now let's download the main scripts and add them in configuration on the fly.
 
-    :foreach Script in={ "global-config"; "global-config-overlay"; "global-functions" } do={ /system/script/add name=$Script owner=$Script source=([ /tool/fetch check-certificate=yes-without-crl ("https://git.eworm.de/cgit/routeros-scripts/plain/" . $Script . ".rsc") output=user as-value]->"data"); };
+    :foreach Script in={ "global-config"; "global-config-overlay"; "global-functions" } do={ /system/script/add name=$Script owner=$Script source=([ /tool/fetch check-certificate=yes-without-crl ("https://rsc.eworm.de/main/" . $Script . ".rsc") output=user as-value]->"data"); };
 
 ![screenshot: import scripts](README.d/04-import-scripts.avif)
 

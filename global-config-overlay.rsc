@@ -6,7 +6,7 @@
 # https://rsc.eworm.de/#editing-configuration
 
 # Copy relevant configuration from global-config, paste and modify it here.
-# https://rsc.eworm.de/global-config.rsc
+# https://rsc.eworm.de/main/global-config.rsc
 
 
 # End of global-config-overlay
