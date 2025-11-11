@@ -7,4 +7,7 @@ HTML	:= $(wildcard *.html)
 all: docs
 
 docs: $(HTML)
-	sed -i '/href=/s|\.md|\.html|' $(HTML)
+	sed -i \
+		-e '/href=/s|\.md|\.html|' \
+		-e '/blockquote/s|/\*! display \*/|display: none;|' \
+		 $(HTML)
