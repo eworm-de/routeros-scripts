@@ -404,7 +404,7 @@ immediately remove the link in question.
 Upstream
 --------
 
-[![upstream](README.d/upstream.png)](https://rsc.eworm.de/)
+[![upstream](general/qr-code.png)](https://rsc.eworm.de/)
 
 URL:
 [GitHub.com](https://github.com/eworm-de/routeros-scripts#routeros-scripts)
