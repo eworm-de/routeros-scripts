@@ -408,12 +408,11 @@ Upstream
 
 [![upstream](general/qr-code.png)](https://rsc.eworm.de/)
 
-URL:
-[GitHub.com](https://github.com/eworm-de/routeros-scripts#routeros-scripts)
+### Code hosting
 
-Mirror:
-[eworm.de](https://git.eworm.de/cgit/routeros-scripts/about/)
-[GitLab.com](https://gitlab.com/eworm-de/routeros-scripts#routeros-scripts)
+* [git.eworm.de](https://git.eworm.de/cgit/routeros-scripts/about/)
+* [GitHub.com](https://github.com/eworm-de/routeros-scripts#routeros-scripts)
+* [GitLab.com](https://gitlab.com/eworm-de/routeros-scripts#routeros-scripts)
 
 ---
 [⬆️ Go back to top](#top)
