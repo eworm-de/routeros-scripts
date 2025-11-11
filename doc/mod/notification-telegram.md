@@ -109,6 +109,10 @@ chat with [BotFather ↗️](https://t.me/BotFather) and set it there.
 Have a look at my [Logo Color Changer](../../contrib/logo-color.html)
 to create a colored version of this scripts' logo.
 
+> 💡️ **Hint**: The above link may be broken on code hosting sites.
+> Use [Logo Color Changer](https://rsc.eworm.de/main/contrib/logo-color.html)
+> instead.
+
 See also
 --------
 
