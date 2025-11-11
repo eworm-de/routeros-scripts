@@ -8,6 +8,8 @@ sed \
 	-e "s|__TITLE__|$(head -n1 "${1}")|" \
 	-e "s|__STYLE__|$(realpath --relative-to="${RELTO}" general/style.css)|" \
 	-e "s|__LOGO__|$(realpath --relative-to="${RELTO}" logo.png)|" \
+	-e "s|__EWORM__|$(realpath --relative-to="${RELTO}" general/eworm-meadow.avif)|" \
+	-e "s|__QR_CODE__|$(realpath --relative-to="${RELTO}" general/qr-code.png)|" \
 	< "${0}.d/head.html"
 
 markdown -f toc,idanchor "${1}" | sed \

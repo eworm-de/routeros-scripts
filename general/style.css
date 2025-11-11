@@ -68,6 +68,18 @@ pre code {
 span.link {
   color: #863600;
 }
+td.head {
+  line-height: 1.2;
+  padding: 0 2em;
+}
+td.head .top {
+  font-size: 250%;
+  font-weight: bold;
+}
+td.head .bottom {
+  font-size: 125%;
+  color: #555;
+}
 @media only screen and (orientation: landscape) {
   body {
     margin-left: 10vw;
