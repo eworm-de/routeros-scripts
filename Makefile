@@ -8,6 +8,10 @@ GEN_RSC		:= $(wildcard *.capsman.rsc *.local.rsc *.wifi.rsc)
 MARKDOWN	:= $(wildcard *.md doc/*.md doc/mod/*.md)
 HTML		:= $(MARKDOWN:.md=.html)
 
+DATE		?= $(shell date --rfc-email)
+VERSION		?= $(shell git symbolic-ref --short HEAD 2>/dev/null)/$(shell git rev-list --count HEAD 2>/dev/null)/$(shell git rev-parse --short=8 HEAD 2>/dev/null)
+export DATE VERSION
+
 .PHONY: all checksums docs rsc clean
 
 all: checksums docs rsc
@@ -19,7 +23,7 @@ checksums.json: contrib/checksums.sh $(ALL_RSC)
 
 docs: $(HTML)
 
-%.html: %.md general/style.css contrib/html.sh contrib/html.sh.d/head.html
+%.html: %.md general/style.css contrib/html.sh contrib/html.sh.d/head.html contrib/html.sh.d/foot.html
 	contrib/html.sh $< > $@
 
 rsc: $(GEN_RSC)

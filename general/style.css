@@ -43,6 +43,10 @@ img.logo {
   float: left;
   border-radius: 50%;
 }
+p.foot {
+  color: #777;
+  text-align: center;
+}
 p.heading {
   margin: 0px;
   font-weight: bold;

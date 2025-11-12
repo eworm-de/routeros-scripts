@@ -18,4 +18,7 @@ markdown -f toc,idanchor "${1}" | sed \
 	-e '/<h[1234] /s|-2[1789cd]-||g' -e '/<h[1234] /s|--26-amp-3b-||g' \
 	-e '/The above link may be broken on code hosting sites/s|blockquote|blockquote style="display: none;"|'
 
-printf '</body></html>'
+sed \
+	-e "s|__DATE__|${DATE:-$(date --rfc-email)}|" \
+	-e "s|__VERSION__|${VERSION:-unknown}|" \
+	< "${0}.d/foot.html"
