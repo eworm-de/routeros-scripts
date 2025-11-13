@@ -8,6 +8,8 @@ sed \
 	-e "s|__TITLE__|$(head -n1 "${1}")|" \
 	-e "s|__STYLE__|$(realpath --relative-to="${RELTO}" general/style.css)|" \
 	-e "s|__LOGO__|$(realpath --relative-to="${RELTO}" logo.png)|" \
+	-e "s|__EWORM__|$(realpath --relative-to="${RELTO}" general/eworm-meadow.avif)|" \
+	-e "s|__QR_CODE__|$(realpath --relative-to="${RELTO}" general/qr-code.png)|" \
 	< "${0}.d/head.html"
 
 markdown -f toc,idanchor "${1}" | sed \
@@ -16,4 +18,7 @@ markdown -f toc,idanchor "${1}" | sed \
 	-e '/<h[1234] /s|-2[1789cd]-||g' -e '/<h[1234] /s|--26-amp-3b-||g' \
 	-e '/The above link may be broken on code hosting sites/s|blockquote|blockquote style="display: none;"|'
 
-printf '</body></html>'
+sed \
+	-e "s|__DATE__|${DATE:-$(date --rfc-email)}|" \
+	-e "s|__VERSION__|${VERSION:-unknown}|" \
+	< "${0}.d/foot.html"
