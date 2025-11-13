@@ -17,7 +17,7 @@ Initial commands
 Run the complete base installation:
 
     {
-      :local BaseUrl "https://git.eworm.de/cgit/routeros-scripts/plain/";
+      :local BaseUrl "https://rsc.eworm.de/main/";
       :local CertCommonName "ISRG Root X2";
       :local CertFileName "ISRG-Root-X2.pem";
       :local CertFingerprint "69729b8e15a86efc177a57afb7171dfc64add28c2fca8cf1507e34453ccb1470";

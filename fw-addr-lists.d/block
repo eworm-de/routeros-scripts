@@ -1,5 +1,5 @@
 # an ip address list for use with fw-addr-lists script
-# https://git.eworm.de/cgit/routeros-scripts/about/doc/fw-addr-lists.md
+# https://rsc.eworm.de/doc/fw-addr-lists.md
 
 # example.net
 93.184.216.34
