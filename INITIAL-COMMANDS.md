@@ -45,9 +45,6 @@ Run the complete base installation:
       };
       :put "Loading configuration and functions...";
       /system/script { run global-config; run global-functions; };
-      :put "Scheduling to load configuration and functions...";
-      /system/scheduler/remove [ find where name="global-scripts" ];
-      /system/scheduler/add name="global-scripts" start-time=startup on-event="/system/script { run global-config; run global-functions; }";
       :if ([ :len [ /certificate/find where fingerprint=$CertFingerprint ] ] > 0) do={
         :put "Renaming certificate by its common-name...";
         :global CertificateNameByCN;

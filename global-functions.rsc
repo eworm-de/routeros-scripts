@@ -1900,6 +1900,15 @@
   }
 }
 
+# add (and fix) global scripts scheduler
+:local OnEvent "/system/script { run global-config; run global-functions; }";
+:if ([ :len [ /system/scheduler/find where name="global-scripts" ] ] = 0) do={
+  /system/scheduler/add name="global-scripts" start-time=startup;
+}
+:if ([ /system/scheduler/get "global-scripts" on-event ] != $OnEvent) do={
+  /system/scheduler/set "global-scripts" on-event=$OnEvent;
+}
+
 # Log success
 :local Resource [ /system/resource/get ];
 $LogPrintOnce info $ScriptName ("Loaded on " . $Resource->"board-name" . \

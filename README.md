@@ -129,12 +129,12 @@ Now let's download the main scripts and add them in configuration on the fly.
 
 ![screenshot: import scripts](README.d/04-import-scripts.avif)
 
-And finally load configuration and functions and add the scheduler.
+And finally run configuration and functions. This will also add the
+scheduler for loading at system startup automatically.
 
     /system/script { run global-config; run global-functions; };
-    /system/scheduler/add name="global-scripts" start-time=startup on-event="/system/script { run global-config; run global-functions; }";
 
-![screenshot: run and schedule scripts](README.d/05-run-and-schedule-scripts.avif)
+![screenshot: run scripts](README.d/05-run-scripts.avif)
 
 > 💡️ **Hint**: You see complaints regarding syntax errors? Most likely the
 > RouterOS on your device is too old. Check for updates!
