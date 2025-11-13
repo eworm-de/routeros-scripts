@@ -12,7 +12,7 @@ DATE		?= $(shell date --rfc-email)
 VERSION		?= $(shell git symbolic-ref --short HEAD 2>/dev/null)/$(shell git rev-list --count HEAD 2>/dev/null)/$(shell git rev-parse --short=8 HEAD 2>/dev/null)
 export DATE VERSION
 
-.PHONY: all checksums docs rsc clean
+.PHONY: all checksums commitinfo docs rsc clean
 
 all: checksums docs rsc
 
@@ -20,6 +20,10 @@ checksums: checksums.json
 
 checksums.json: contrib/checksums.sh $(ALL_RSC)
 	contrib/checksums.sh > $@
+
+commitinfo: global-functions.rsc
+	contrib/commitinfo.sh $< > $<~
+	mv $<~ $<
 
 docs: $(HTML)
 
