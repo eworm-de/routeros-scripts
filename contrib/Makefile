@@ -6,8 +6,5 @@ HTML	:= $(wildcard *.html)
 
 all: docs
 
-docs: $(HTML)
-	sed -i \
-		-e '/href=/s|\.md|\.html|' \
-		-e '/blockquote/s|/\*! display \*/|display: none;|' \
-		 $(HTML)
+docs: static-html.sh $(HTML)
+	./static-html.sh $(HTML)
