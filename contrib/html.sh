@@ -10,12 +10,14 @@ sed \
 	-e "s|__LOGO__|$(realpath --relative-to="${RELTO}" logo.png)|" \
 	-e "s|__EWORM__|$(realpath --relative-to="${RELTO}" general/eworm-meadow.avif)|" \
 	-e "s|__QR_CODE__|$(realpath --relative-to="${RELTO}" general/qr-code.png)|" \
+	-e "s|__CLIPBOARD__|$(realpath --relative-to="${RELTO}" general/clipboard.js)|" \
 	< "${0}.d/head.html"
 
 markdown -f toc,idanchor "${1}" | sed \
 	-e 's/href="\([-_\./[:alnum:]]*\)\.md\(#[-[:alnum:]]*\)\?"/href="\1.html\2"/g' \
 	-e '/<h[1234] /s| id="\(.*\)">| id="\L\1">|' \
 	-e '/<h[1234] /s|-2[1789cd]-||g' -e '/<h[1234] /s|--26-amp-3b-||g' \
+	-e '/^<pre>/s|pre|pre onclick="CopyToClipboard(this)"|g' \
 	-e '/The above link may be broken on code hosting sites/s|blockquote|blockquote style="display: none;"|'
 
 sed \
