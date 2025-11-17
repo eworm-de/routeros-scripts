@@ -132,7 +132,7 @@
   }
 
   :if ($AllDone = true && $QueueLen = [ :len $EmailQueue ]) do={
-    /system/scheduler/remove $Scheduler;
+    /system/scheduler/remove [ find where name="_FlushEmailQueue" ];
     :set EmailQueue;
     :return true;
   }
