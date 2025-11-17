@@ -69,6 +69,12 @@ pre code {
   padding: 0;
   border: 0;
 }
+pre::before {
+  content: "📋 Copy!";
+  float: right;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+}
 span.link {
   color: #863600;
 }
