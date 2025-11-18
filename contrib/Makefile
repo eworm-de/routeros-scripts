@@ -1,6 +1,6 @@
 # Makefile
 
-HTML	:= $(wildcard *.html)
+HTML	:= $(shell grep -xl '<!-- static html //-->' *.html)
 
 .PHONY: all docs
 
