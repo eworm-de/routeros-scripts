@@ -51,12 +51,10 @@ The functions `$SSHKeysImportFile` can read an `authorized_keys`-style file
 and import all the keys. The user given to the function can be overwritting
 from comments in the file. Create a file `keys.pub` with this content:
 
-```
-ssh-ed25519 AAAAC3Nza...3OcN8A user@client
-ssh-rsa AAAAB3Nza...ozyts= worker@station
-# user=example
-ssh-rsa AAAAB3Nza...GXQVk= person@host
-```
+    ssh-ed25519 AAAAC3Nza...3OcN8A user@client
+    ssh-rsa AAAAB3Nza...ozyts= worker@station
+    # user=example
+    ssh-rsa AAAAB3Nza...GXQVk= person@host
 
 Then import it with:
 
