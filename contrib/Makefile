@@ -6,5 +6,8 @@ HTML	:= $(shell grep -xl '<!-- static html //-->' *.html)
 
 all: docs
 
-docs: static-html.sh $(HTML)
+badges.html: badges.md
+	markdown $< > $@
+
+docs: static-html.sh $(HTML) badges.html
 	./static-html.sh $(HTML)
