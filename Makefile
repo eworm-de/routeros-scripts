@@ -43,3 +43,4 @@ rsc: $(GEN_RSC)
 
 clean:
 	rm -f $(HTML) checksums.json
+	make -C contrib/ clean
