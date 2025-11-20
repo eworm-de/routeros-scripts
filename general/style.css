@@ -58,6 +58,8 @@ p.hint {
 pre {
   font-family: fira-mono, monospace;
   white-space: pre-wrap;
+}
+pre.code {
   background-color: #f8f8f8;
   border: 1px solid #ccc;
   overflow: auto;
@@ -69,7 +71,7 @@ pre code {
   padding: 0;
   border: 0;
 }
-pre::before {
+pre.code::before {
   content: "📋 Copy!";
   float: right;
   border: 1px solid #ccc;
