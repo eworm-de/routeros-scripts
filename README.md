@@ -225,7 +225,7 @@ cleanup add a scheduler entry.
 
     $ScriptInstallUpdate dhcp-to-dns,lease-script;
     /ip/dhcp-server/set lease-script=lease-script [ find ];
-    /system/scheduler/add name="dhcp-to-dns" interval=5m on-event="/system/script/run dhcp-to-dns;";
+    /system/scheduler/add name="dhcp-to-dns" interval=5m start-time=startup on-event="/system/script/run dhcp-to-dns;";
 
 ![screenshot: setup lease script](README.d/12-setup-lease-script.avif)
 
