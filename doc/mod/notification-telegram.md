@@ -36,7 +36,7 @@ Configuration
 Open Telegram, then start a chat with [BotFather ↗️](https://t.me/BotFather) and
 create your own bot:
 
-![create new bot](notification-telegram.d/newbot.avif)
+![create new bot](notification-telegram.d/01-newbot.avif)
 
 Set that token from *BotFather* (use your own!) to `TelegramTokenId`, for
 now just temporarily:
@@ -49,7 +49,7 @@ then send your first message. Any text will do. On your device run
 
     $GetTelegramChatId;
 
-![get chat id](notification-telegram.d/getchatid.avif)
+![get chat id](notification-telegram.d/02-getchatid.avif)
 
 Finally edit `global-config-overlay`, add `TelegramTokenId` with the token
 from *BotFather* and `TelegramChatId` with your retrieved chat id. Then
@@ -104,7 +104,7 @@ Tips & Tricks
 You can use a profile photo for your bot to make it recognizable. Open the
 chat with [BotFather ↗️](https://t.me/BotFather) and set it there.
 
-![set profile photo](notification-telegram.d/setuserpic.avif)
+![set profile photo](notification-telegram.d/03-setuserpic.avif)
 
 Have a look at my [Logo Color Changer](../../contrib/logo-color.html)
 to create a colored version of this scripts' logo.
