@@ -48,6 +48,7 @@ p.foot {
   text-align: center;
 }
 p.heading {
+  font-size: 120%;
   margin: 0px;
   font-weight: bold;
   text-decoration: underline;
