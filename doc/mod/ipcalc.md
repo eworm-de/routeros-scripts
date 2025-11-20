@@ -43,7 +43,7 @@ It expects an IP address in CIDR notation as argument.
 
     $IPCalc 192.168.88.1/24;
 
-![IPCalc](ipcalc.d/ipcalc.avif)
+![IPCalc](ipcalc.d/01-ipcalc.avif)
 
 ### IPCalcReturn
 
@@ -53,7 +53,7 @@ the information in a named array.
 
     :put ([ $IPCalcReturn  192.168.88.1/24 ]->"broadcast");
 
-![IPCalcReturn](ipcalc.d/ipcalcreturn.avif)
+![IPCalcReturn](ipcalc.d/02-ipcalcreturn.avif)
 
 ---
 [⬅️ Go back to main README](../../README.md)  
