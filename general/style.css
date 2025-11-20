@@ -41,7 +41,7 @@ div.content {
 }
 img.logo {
   float: left;
-  border-radius: 50%;
+  /* border-radius: 50%; */
 }
 p.foot {
   color: #777;
