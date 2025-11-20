@@ -57,7 +57,8 @@ Initial setup
 If you know how things work just copy and paste the
 [initial commands](INITIAL-COMMANDS.md). Remember to edit and rerun
 `global-config-overlay`!
-First time users should take the long way below.
+First time users should take [the long way in detail](#the-long-way-in-detail)
+below.
 
 ### Live presentation
 
