@@ -55,7 +55,8 @@ Initial setup
 ### Get me ready!
 
 If you know how things work just copy and paste the
-[initial commands](INITIAL-COMMANDS.md). Remember to edit and rerun
+[initial commands](INITIAL-COMMANDS.md). These also support fixing an
+existing but broken installation. Remember to edit and rerun
 `global-config-overlay`!
 First time users should take [the long way in detail](#the-long-way-in-detail)
 below.
