@@ -35,9 +35,10 @@ The script works around the limitations, for example it does:
 It is intended to be run periodically from scheduler, then collects new
 log messages and forwards them via notification.
 
-### Sample notification
+### Sample notifications
 
-![log-forward notification](log-forward.d/notification.avif)
+![log-forward notification info](log-forward.d/notification-01-info.avif)  
+![log-forward notification warn](log-forward.d/notification-02-warn.avif)
 
 Requirements and installation
 -----------------------------
