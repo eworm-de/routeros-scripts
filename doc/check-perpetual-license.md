@@ -20,9 +20,10 @@ On *Cloud Hosted Router* (*CHR*) the licensing is perpetual: Buy once, use
 forever - but it needs regular renewal. This script checks licensing state
 and sends a notification to warn before expiration.
 
-### Sample notification
+### Sample notifications
 
-![check-perpetual-license notification](check-perpetual-license.d/notification.avif)
+![check-perpetual-license notification warn](check-perpetual-license.d/notification-01-warn.avif)  
+![check-perpetual-license notification renew](check-perpetual-license.d/notification-02-renew.avif)
 
 Requirements and installation
 -----------------------------
