@@ -231,7 +231,7 @@
       :local State [ $IfThenElse (($CertVal->"expired") = true) "expired" "is about to expire" ];
 
       $SendNotification2 ({ origin=$ScriptName; \
-        subject=([ $SymbolForNotification "warning-sign" ] . "Certificate warning: " . ($CertVal->"name")); \
+        subject=([ $SymbolForNotification "lock-with-ink-pen,warning-sign" ] . "Certificate warning: " . ($CertVal->"name")); \
         message=("A certificate on " . $Identity . " " . $State . ".\n\n" . [ $FormatInfo $Cert ]) });
       $LogPrint info $ScriptName ("The certificate '" . ($CertVal->"name") . "' " . $State . \
           ", it is invalid after " . ($CertVal->"invalid-after") . ".");
