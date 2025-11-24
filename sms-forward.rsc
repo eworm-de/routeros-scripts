@@ -68,8 +68,8 @@
           $LogPrint warning $ScriptName ("Failed to remove message: " . $Err);
         }
       } else={
-        :set Messages ($Messages . "\n\nOn " . $SmsVal->"timestamp" . \
-            " type " . $SmsVal->"type" . ":\n" . $SmsVal->"message");
+        :set Messages ($Messages . "\n\n" . [ $SymbolForNotification "incoming-envelope" ] . \
+            "On " . $SmsVal->"timestamp" . " type " . $SmsVal->"type" . ":\n" . $SmsVal->"message");
         :foreach Hook in=$SmsForwardHooks do={
           :if ($Phone~($Hook->"allowed-number") && ($SmsVal->"message")~($Hook->"match")) do={
             :if ([ $ValidateSyntax ($Hook->"command") ] = true) do={
