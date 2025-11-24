@@ -19,9 +19,10 @@ Description
 This script tries to download and renew certificates, then notifies about
 certificates that are still about to expire.
 
-### Sample notification
+### Sample notifications
 
-![check-certificates notification](check-certificates.d/notification.avif)
+![check-certificates notification warning](check-certificates.d/notification-01-warn.avif)  
+![check-certificates notification renew](check-certificates.d/notification-02-renew.avif)
 
 Requirements and installation
 -----------------------------

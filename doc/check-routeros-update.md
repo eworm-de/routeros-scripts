@@ -35,9 +35,10 @@ automatically is supported.
 > to your production environment! Automatic updates should be handled
 > with care!
 
-### Sample notification
+### Sample notifications
 
-![check-routeros-update notification](check-routeros-update.d/notification.avif)
+![check-routeros-update notification found](check-routeros-update.d/notification-01-found.avif)  
+![check-routeros-update notification neighbor](check-routeros-update.d/notification-02-neighbor.avif)
 
 Requirements and installation
 -----------------------------
