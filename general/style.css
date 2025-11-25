@@ -39,6 +39,9 @@ div.notification {
 div.content {
   padding-left: 60px;
 }
+hr {
+  clear: both;
+}
 img.logo {
   float: left;
   /* border-radius: 50%; */
