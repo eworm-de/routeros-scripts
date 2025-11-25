@@ -103,5 +103,6 @@ td.head .bottom {
   }
   div.notification {
     float: right;
+    margin: 10px;
   }
 }
