@@ -88,6 +88,8 @@ Be notified when run from scheduler or run it manually:
 
 If an update is found you can install it right away.
 
+![Terminal](check-routeros-update.d/terminal.avif)
+
 Installing script [packages-update](packages-update.md) gives extra options.
 
 Tips & Tricks
