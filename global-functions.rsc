@@ -1672,6 +1672,7 @@
 :set SymbolByUnicodeName do={
   :local Name [ :tostr $1 ];
 
+  :global EitherOr;
   :global LogPrintOnce;
 
   :global SymbolsExtra;
@@ -1713,12 +1714,18 @@
     "white-heavy-check-mark"="\E2\9C\85"
   }, $SymbolsExtra);
 
+  :local Magic [ :pick [ /system/clock/get date ] 4 10 ];
+  :local Special {
+    "large-orange-circle-04-01"="\F0\9F\8D\8A";
+    "large-orange-circle-10-31"="\F0\9F\8E\83";
+    "large-red-circle-04-01"="\F0\9F\8D\92" };
+
   :if ([ :len ($Symbols->$Name) ] = 0) do={
     $LogPrintOnce warning $0 ("No symbol available for name '" . $Name . "'!");
     :return "";
   }
 
-  :return (($Symbols->$Name) . "\EF\B8\8F");
+  :return ([ $EitherOr ($Special->($Name . $Magic)) ($Symbols->$Name) ] . "\EF\B8\8F");
 }
 
 # return symbol for notification
