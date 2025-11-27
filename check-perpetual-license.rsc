@@ -42,7 +42,7 @@
     $LogPrint warning $ScriptName ("Your license expired on " . ($License->"deadline-at") . "!");
     :if ($SentCertificateNotification != "expired") do={
       $SendNotification2 ({ origin=$ScriptName; \
-        subject=([ $SymbolForNotification "warning-sign" ] . "License expired!"); \
+        subject=([ $SymbolForNotification "scroll,warning-sign" ] . "License expired!"); \
         message=("Your license expired on " . ($License->"deadline-at") . \
           ", can no longer update RouterOS on " . $Identity . "...") });
       :set SentCertificateNotification "expired";
@@ -55,7 +55,7 @@
     $LogPrint warning $ScriptName ("Your license will expire on " . ($License->"deadline-at") . "!");
     :if ($SentCertificateNotification != "warning") do={
       $SendNotification2 ({ origin=$ScriptName; \
-        subject=([ $SymbolForNotification "warning-sign" ] . "License about to expire!"); \
+        subject=([ $SymbolForNotification "scroll,warning-sign" ] . "License about to expire!"); \
         message=("Your license failed to renew and is about to expire on " . \
           ($License->"deadline-at") . " on " . $Identity . "...") });
       :set SentCertificateNotification "warning";
@@ -68,7 +68,7 @@
        [ :totime ($License->"deadline-at") ] - 4w > [ :timestamp ]) do={
     $LogPrint info $ScriptName ("Your license was successfully renewed.");
     $SendNotification2 ({ origin=$ScriptName; \
-      subject=([ $SymbolForNotification "white-heavy-check-mark" ] . "License renewed"); \
+      subject=([ $SymbolForNotification "scroll,white-heavy-check-mark" ] . "License renewed"); \
       message=("Your license was successfully renewed on " . $Identity . \
         ". It is now valid until " . ($License->"deadline-at") . ".") });
     :set SentCertificateNotification;
