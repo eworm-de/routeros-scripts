@@ -1,7 +1,14 @@
 Send notifications via Matrix
 =============================
 
-[◀ Go back to main README](../../README.md)
+[![GitHub stars](https://img.shields.io/github/stars/eworm-de/routeros-scripts?logo=GitHub&style=flat&color=red)](https://github.com/eworm-de/routeros-scripts/stargazers)
+[![GitHub forks](https://img.shields.io/github/forks/eworm-de/routeros-scripts?logo=GitHub&style=flat&color=green)](https://github.com/eworm-de/routeros-scripts/network)
+[![GitHub watchers](https://img.shields.io/github/watchers/eworm-de/routeros-scripts?logo=GitHub&style=flat&color=blue)](https://github.com/eworm-de/routeros-scripts/watchers)
+[![required RouterOS version](https://img.shields.io/badge/RouterOS-7.15-yellow?style=flat)](https://mikrotik.com/download/changelogs/)
+[![Telegram group @routeros_scripts](https://img.shields.io/badge/Telegram-%40routeros__scripts-%2326A5E4?logo=telegram&style=flat)](https://t.me/routeros_scripts)
+[![donate with PayPal](https://img.shields.io/badge/Like_it%3F-Donate!-orange?logo=githubsponsors&logoColor=orange&style=flat)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=A4ZXBD6YS2W8J)
+
+[⬅️ Go back to main README](../../README.md)
 
 > ℹ️️ **Info**: This module can not be used on its own but requires the base
 > installation. See [main README](../../README.md) for details.
@@ -10,7 +17,7 @@ Description
 -----------
 
 This module adds support for sending notifications via
-[Matrix](https://matrix.org/) via client server api. A queue is used to
+[Matrix ↗️](https://matrix.org/) via client server api. A queue is used to
 make sure notifications are not lost on failure but sent later.
 
 Requirements and installation
@@ -21,8 +28,8 @@ Just install the module:
     $ScriptInstallUpdate mod/notification-matrix;
 
 Also install a Matrix client on at least one of your mobile and/or desktop
-devices. As there is no privilege separation you should create a dedicated
-notification account, in addition to your general user account.
+devices. Create and setup an account there, we will reference that as
+"*general account*" later.
 
 Configuration
 -------------
@@ -31,58 +38,66 @@ Edit `global-config-overlay`, add `MatrixHomeServer`, `MatrixAccessToken` and
 `MatrixRoom` - see below on hints how to retrieve this information. Then
 reload the configuration.
 
-### Home server
+> ℹ️ **Info**: Copy relevant configuration from
+> [`global-config`](../../global-config.rsc) (the one without `-overlay`) to
+> your local `global-config-overlay` and modify it to your specific needs.
+
+The Matrix server is connected via encrypted https, and certificate
+verification is applied. So make sure you have the certificate chain for
+your server in device's certificate store.
+
+The example below is for `matrix.org`, which uses a trust chain from *Google
+Trust Services*. Run this to import the required certificate:
+
+    $CertificateAvailable "GTS Root R4" "fetch";
+
+Replace the CA certificate name with what ever is needed for your server.
+You may want to find the
+[certificate name from browser](../../CERTIFICATES.md).
+
+### From other device
+
+If you have setup your Matrix *notification account* before just reuse that.
+Copy the relevant configuration to the device to be configured.
+
+### Setup new account
+
+As there is no privilege separation you should create a dedicated account
+for use with these scripts, in addition to your *general account*.
+We will reference that as "*notification account*" in the following steps.
+
+#### Authenticate
 
 Matrix user accounts are identified by a unique user id in the form of
-`@localpart:domain`. The `domain` part is not necessarily your home server
-address, you have to resolve it with the procedure described in the
-[Matrix specification](https://spec.matrix.org/latest/client-server-api/#server-discovery).
+`@localpart:domain`. Use that and your password to generate an access token
+and write first part of the configuration:
 
-Your best bet is to query the server at `domain` with the
-[well-known uri](https://spec.matrix.org/latest/client-server-api/#well-known-uri).
-For "*matrix.org*" this query is:
+    $SetupMatrixAuthenticate "@example:matrix.org" "v3ry-s3cr3t";
 
-    / tool fetch "https://matrix.org/.well-known/matrix/client" output=user;
+![authenticate](notification-matrix.d/01-authenticate.avif)
 
-![home server](notification-matrix.d/01-home-server.avif)
+The configuration is written to a new configuration snippet
+`global-config-overlay.d/mod/notification-matrix`.
 
-So the home server for "*matrix.org*" is "*matrix-client.matrix.org*".
-Please strip the protocol ("*https://*") for `MatrixHomeServer` if given.
+#### Join Room
 
-### Access token
+Every Matix chat is a room, so we have to create one. Do that with your
+*general account*, this makes sure your *general account* is the room owner.
+Then join the room and invite the *notification account* by its user id
+"*@example:matrix.org*".
+Look up the *room id* within the Matrix client, it should read like
+"*!WUcxpSjKyxSGelouhA:matrix.org*" (starting with an exclamation mark and
+ending with the domain).
 
-After discovering the correct home server an access token has to be created.
-For this the login credentials (username and password) of the notification
-account must be sent to the home server via
-[client server api](https://matrix.org/docs/guides/client-server-api#login).
+Finally make the *notification account* join into the room by accepting
+the invite.
 
-We use the home server discovered above, "*matrix-client.matrix.org*".
-The user is "*example*" and password is "*v3ry-s3cr3t*".
+    $SetupMatrixJoinRoom "!WUcxpSjKyxSGelouhA:matrix.org";
 
-    / tool fetch "https://matrix-client.matrix.org/_matrix/client/r0/login" http-method=post http-data="{\"type\":\"m.login.password\", \"user\":\"example\", \"password\":\"v3ry-s3cr3t\"}" output=user;
+![join room](notification-matrix.d/02-join-room.avif)
 
-![access token](notification-matrix.d/02-access-token.avif)
-
-The server replied with a JSON object containing the `access_token`, use that
-for `MatrixAccessToken`.
-
-### Room
-
-Every Matix chat is a room, so we have to create one. Do so with your general
-user, this makes sure your general user is the room owner. Then join the room
-and invite the notification user by its user id "*@example:matrix.org*". Look
-up the room id within the Matrix client, it should read like
-"*!WUcxpSjKyxSGelouhA:matrix.org*". Use that for `MatrixRoom`.
-
-Finally join the notification user to the room by accepting the invite. Again,
-this can be done with 
-[client server api](https://matrix.org/docs/guides/client-server-api#joining-a-room-via-an-invite).
-Make sure to replace room id ("*!*" is escaped with "*%21*") and access token
-with your data.
-
-    / tool fetch "https://matrix-client.matrix.org/_matrix/client/r0/rooms/%21WUcxpSjKyxSGelouhA:matrix.org/join?access_token=yt_ZXdvcm0tdGVzdA_NNqUyvKHRhBLZmnzVVSK_0xu6yN" http-method=post http-data="" output=user;
-
-![join room](notification-matrix.d/03-join-room.avif)
+The configuration is appended to the configuration snippet
+`global-config-overlay.d/mod/notification-matrix`.
 
 Usage and invocation
 --------------------
@@ -90,11 +105,36 @@ Usage and invocation
 There's nothing special to do. Every script or function sending a notification
 will now send it to your Matrix account.
 
+But of course you can use the function to send notifications directly. Give
+it a try:
+
+    $SendMatrix "Subject..." "Body...";
+
+Alternatively this sends a notification with all available and configured
+methods:
+
+    $SendNotification "Subject..." "Body...";
+
+To use the functions in your own scripts you have to declare them first.
+Place this before you call them:
+
+    :global SendMatrix;
+    :global SendNotification;
+
+In case there is a situation when the queue needs to be purged there is a
+function available:
+
+    $PurgeMatrixQueue;
+
 See also
 --------
 
+* [Certificate name from browser](../../CERTIFICATES.md)
+* [Send notifications via e-mail](notification-email.md)
+* [Send notifications via Gotify](notification-gotify.md)
+* [Send notifications via Ntfy](notification-ntfy.md)
 * [Send notifications via Telegram](notification-telegram.md)
 
 ---
-[◀ Go back to main README](../../README.md)  
-[▲ Go back to top](#top)
+[⬅️ Go back to main README](../../README.md)  
+[⬆️ Go back to top](#top)

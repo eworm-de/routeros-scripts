@@ -1,7 +1,14 @@
 Forward log messages via notification
 =====================================
 
-[◀ Go back to main README](../README.md)
+[![GitHub stars](https://img.shields.io/github/stars/eworm-de/routeros-scripts?logo=GitHub&style=flat&color=red)](https://github.com/eworm-de/routeros-scripts/stargazers)
+[![GitHub forks](https://img.shields.io/github/forks/eworm-de/routeros-scripts?logo=GitHub&style=flat&color=green)](https://github.com/eworm-de/routeros-scripts/network)
+[![GitHub watchers](https://img.shields.io/github/watchers/eworm-de/routeros-scripts?logo=GitHub&style=flat&color=blue)](https://github.com/eworm-de/routeros-scripts/watchers)
+[![required RouterOS version](https://img.shields.io/badge/RouterOS-7.15-yellow?style=flat)](https://mikrotik.com/download/changelogs/)
+[![Telegram group @routeros_scripts](https://img.shields.io/badge/Telegram-%40routeros__scripts-%2326A5E4?logo=telegram&style=flat)](https://t.me/routeros_scripts)
+[![donate with PayPal](https://img.shields.io/badge/Like_it%3F-Donate!-orange?logo=githubsponsors&logoColor=orange&style=flat)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=A4ZXBD6YS2W8J)
+
+[⬅️ Go back to main README](../README.md)
 
 > ℹ️ **Info**: This script can not be used on its own but requires the base
 > installation. See [main README](../README.md) for details.
@@ -9,20 +16,29 @@ Forward log messages via notification
 Description
 -----------
 
-RouterOS supports sending log messages via e-mail or to a syslog server.
-This has some limitation, however:
+RouterOS itself supports sending log messages via e-mail or to a syslog
+server (see `/system/logging`). This has some limitation, however:
 
 * does not work early after boot if network connectivity is not
-  yet established
+  yet established, or breaks intermittently
 * lots of messages generate a flood of mails
-* Matrix and Telegram are not supported
+* Gotify, Matrix, Ntfy and Telegram are not supported
 
-The script is intended to be run periodically. It collects log messages
-and forwards them via notification.
+The script works around the limitations, for example it does:
 
-### Sample notification
+* read from `/log`, including messages from early boot
+* skip multi-repeated messages
+* rate-limit itself to mitigate flooding
+* forward via notification (which includes *e-mail*, *Gotify*, *Matrix*,
+  *Ntfy* and *Telegram* when installed and configured, see below)
 
-![log-forward notification](log-forward.d/notification.svg)
+It is intended to be run periodically from scheduler, then collects new
+log messages and forwards them via notification.
+
+### Sample notifications
+
+![log-forward notification info](log-forward.d/notification-01-info.avif)  
+![log-forward notification warn](log-forward.d/notification-02-warn.avif)
 
 Requirements and installation
 -----------------------------
@@ -33,10 +49,16 @@ Just install the script:
 
 ... and add a scheduler:
 
-    / system scheduler add interval=1m name=log-forward on-event="/ system script run log-forward;" start-time=startup;
+    /system/scheduler/add interval=1m name=log-forward on-event="/system/script/run log-forward;" start-time=startup;
 
 Configuration
 -------------
+
+The default configuration should provide reasonable presets, filtering
+*info*, and effectively forwarding *warning* and *error*.
+
+> 💡️ **Hint**: Please try with defaults first, especially if you are not
+> familiar with regular expressions!
 
 The configuration goes to `global-config-overlay`, these are the parameters:
 
@@ -46,10 +68,36 @@ The configuration goes to `global-config-overlay`, these are the parameters:
 * `LogForwardIncludeMessage`: define message text to be forwarded (even if
   filter matches)
 
-Also notification settings are required for e-mail,
-[matrix](mod/notification-matrix.md) and/or
+> ℹ️ **Info**: Copy relevant configuration from
+> [`global-config`](../global-config.rsc) (the one without `-overlay`) to
+> your local `global-config-overlay` and modify it to your specific needs.
+
+These patterns are matched as
+[regular expressions ↗️](https://wiki.mikrotik.com/wiki/Manual:Regular_Expressions).
+To forward **all** (ignoring severity) log messages with topics `account`
+(which includes user logins) and `dhcp` you need something like:
+
+    :global LogForwardInclude "(account|dhcp)";
+
+Also notification settings are required for
+[e-mail](mod/notification-email.md),
+[gotify](mod/notification-gotify.md),
+[matrix](mod/notification-matrix.md),
+[ntfy](mod/notification-ntfy.md) and/or
 [telegram](mod/notification-telegram.md).
 
+Tips & Tricks
+-------------
+
+### Notification on reboot
+
+You want to receive a notification on every device (re-)boot? Quite easy,
+just add:
+
+    :global LogForwardIncludeMessage "(^router rebooted)";
+
+This will match on every log message beginning with `router rebooted`.
+
 ---
-[◀ Go back to main README](../README.md)  
-[▲ Go back to top](#top)
+[⬅️ Go back to main README](../README.md)  
+[⬆️ Go back to top](#top)

@@ -1,3 +1,16 @@
+# backup and temporary files
 *~
+
+# patches and related files
+*.orig
 *.patch
+*.rej
+
+# html files (as generated from markdown)
 *.html
+
+# checksums file as used by $ScriptInstallUpdate
+checksums.json
+
+# Mac OS X folder settings file
+.DS_Store

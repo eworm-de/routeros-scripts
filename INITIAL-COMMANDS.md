@@ -1,42 +1,69 @@
 Initial commands
 ================
 
-[◀ Go back to main README](README.md)
+[![GitHub stars](https://img.shields.io/github/stars/eworm-de/routeros-scripts?logo=GitHub&style=flat&color=red)](https://github.com/eworm-de/routeros-scripts/stargazers)
+[![GitHub forks](https://img.shields.io/github/forks/eworm-de/routeros-scripts?logo=GitHub&style=flat&color=green)](https://github.com/eworm-de/routeros-scripts/network)
+[![GitHub watchers](https://img.shields.io/github/watchers/eworm-de/routeros-scripts?logo=GitHub&style=flat&color=blue)](https://github.com/eworm-de/routeros-scripts/watchers)
+[![required RouterOS version](https://img.shields.io/badge/RouterOS-7.15-yellow?style=flat)](https://mikrotik.com/download/changelogs/)
+[![Telegram group @routeros_scripts](https://img.shields.io/badge/Telegram-%40routeros__scripts-%2326A5E4?logo=telegram&style=flat)](https://t.me/routeros_scripts)
+[![donate with PayPal](https://img.shields.io/badge/Like_it%3F-Donate!-orange?logo=githubsponsors&logoColor=orange&style=flat)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=A4ZXBD6YS2W8J)
 
-> ⚠️ **Warning**: These command are inteneded for initial setup. If you are
+[⬅️ Go back to main README](README.md)
+
+> ⚠️ **Warning**: These commands are intended for initial setup. If you are
 > not aware of the procedure please follow
 > [the long way in detail](README.md#the-long-way-in-detail).
 
-One extra step is required if you run RouterOS v6:
-
-    :global ScriptUpdatesUrlSuffix "\?h=routeros-v6";
-
-Then run the complete base installation:
+Run the complete base installation:
 
     {
-      :global ScriptUpdatesUrlSuffix;
-      / tool fetch "https://git.eworm.de/cgit/routeros-scripts/plain/certs/R3.pem" dst-path="letsencrypt-R3.pem" as-value;
-      :delay 1s;
-      / certificate import file-name=letsencrypt-R3.pem passphrase="";
-      :if ([ :len [ / certificate find where fingerprint="67add1166b020ae61b8f5fc96813c04c2aa589960796865572a3c7e737613dfd" or fingerprint="96bcec06264976f37460779acf28c5a7cfe8a3c0aae11a8ffcee05c0bddf08c6" ] ] != 2) do={
-        :error "Something is wrong with your certificates!";
+      :local BaseUrl "https://rsc.eworm.de/main/";
+      :local CertCommonName "ISRG Root X2";
+      :local CertFileName "ISRG-Root-X2.pem";
+      :local CertFingerprint "69729b8e15a86efc177a57afb7171dfc64add28c2fca8cf1507e34453ccb1470";
+
+      :local CertSettings [ /certificate/settings/get ];
+      :if (!((($CertSettings->"builtin-trust-anchors") = "trusted" || \
+              ($CertSettings->"builtin-trust-store") ~ "fetch" || \
+              ($CertSettings->"builtin-trust-store") = "all") && \
+             [[ :parse (":return [ :len [ /certificate/builtin/find where common-name=\"" . $CertCommonName . "\" ] ]") ]] > 0)) do={
+        :put "Importing certificate...";
+        /tool/fetch ($BaseUrl . "certs/" . $CertFileName) dst-path=$CertFileName as-value;
+        :delay 1s;
+        /certificate/import file-name=$CertFileName passphrase="";
+        :if ([ :len [ /certificate/find where fingerprint=$CertFingerprint ] ] != 1) do={
+          :error "Something is wrong with your certificates!";
+        };
+        :delay 1s;
       };
-      / file remove "letsencrypt-R3.pem";
-      :delay 1s;
+      :put "Renaming global-config-overlay, if exists...";
+      /system/script/set name=("global-config-overlay-" . [ /system/clock/get date ] . "-" . [ /system/clock/get time ]) [ find where name="global-config-overlay" ];
       :foreach Script in={ "global-config"; "global-config-overlay"; "global-functions" } do={
-        / system script add name=$Script source=([ / tool fetch check-certificate=yes-without-crl ("https://git.eworm.de/cgit/routeros-scripts/plain/" . $Script . $ScriptUpdatesUrlSuffix) output=user as-value]->"data");
+        :put "Installing $Script...";
+        /system/script/remove [ find where name=$Script ];
+        /system/script/add name=$Script owner=$Script source=([ /tool/fetch check-certificate=yes-without-crl ($BaseUrl . $Script . ".rsc") output=user as-value ]->"data");
       };
-      / system script { run global-config; run global-functions; };
-      / system scheduler add name="global-scripts" start-time=startup on-event="/ system script { run global-config; run global-functions; }";
-      :global CertificateNameByCN;
-      $CertificateNameByCN "R3";
-      $CertificateNameByCN "ISRG Root X1";
-    }
+      :put "Loading configuration and functions...";
+      /system/script { run global-config; run global-functions; };
+      :if ([ :len [ /certificate/find where fingerprint=$CertFingerprint ] ] > 0) do={
+        :put "Renaming certificate by its common-name...";
+        :global CertificateNameByCN;
+        $CertificateNameByCN $CertFingerprint;
+      };
+    };
 
-Optional to update the scripts automatically:
+Then continue setup with
+[scheduled automatic updates](README.md#scheduled-automatic-updates) or
+[editing configuration](README.md#editing-configuration).
 
-    / system scheduler add name="ScriptInstallUpdate" start-time=startup interval=1d on-event=":global ScriptInstallUpdate; \$ScriptInstallUpdate;";
+## Fix existing installation
+
+The [initial commands](#initial-commands) above allow to fix an existing
+installation in case it ever breaks. If `global-config-overlay` did exist
+before it is renamed with a date and time suffix (like
+`global-config-overlay-2024-01-25-09:33:12`). Make sure to restore the
+configuration overlay if required.
 
 ---
-[◀ Go back to main README](README.md)  
-[▲ Go back to top](#top)
+[⬅️ Go back to main README](README.md)  
+[⬆️ Go back to top](#top)
