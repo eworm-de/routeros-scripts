@@ -41,7 +41,7 @@ Run the complete base installation:
       :foreach Script in={ "global-config"; "global-config-overlay"; "global-functions" } do={
         :put "Installing $Script...";
         /system/script/remove [ find where name=$Script ];
-        /system/script/add name=$Script owner=$Script source=([ /tool/fetch check-certificate=yes-without-crl ($BaseUrl . $Script . ".rsc") output=user as-value]->"data");
+        /system/script/add name=$Script owner=$Script source=([ /tool/fetch check-certificate=yes-without-crl ($BaseUrl . $Script . ".rsc") output=user as-value ]->"data");
       };
       :put "Loading configuration and functions...";
       /system/script { run global-config; run global-functions; };
