@@ -42,7 +42,7 @@
     $LogPrint warning $ScriptName ("Your license expired on " . ($License->"deadline-at") . "!");
     :if ($SentCertificateNotification != "expired") do={
       $SendNotification2 ({ origin=$ScriptName; \
-        subject=([ $SymbolForNotification "scroll,warning-sign" ] . "License expired!"); \
+        subject=([ $SymbolForNotification "scroll,cross-mark" ] . "License expired!"); \
         message=("Your license expired on " . ($License->"deadline-at") . \
           ", can no longer update RouterOS on " . $Identity . "...") });
       :set SentCertificateNotification "expired";
