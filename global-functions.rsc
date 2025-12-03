@@ -1717,6 +1717,7 @@
 
   :local Magic [ :pick [ /system/clock/get date ] 4 10 ];
   :local Special {
+    "information-04-01"="\F0\9F\9A\BB";
     "large-orange-circle-04-01"="\F0\9F\8D\8A";
     "large-orange-circle-10-31"="\F0\9F\8E\83";
     "large-red-circle-04-01"="\F0\9F\8D\92" };
