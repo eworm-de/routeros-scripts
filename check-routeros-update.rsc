@@ -39,14 +39,11 @@
   :local DoUpdate do={
     :local ScriptName [ :tostr $1 ];
 
-    :global LogPrint;
-
     :if ([ :len [ /system/script/find where name="packages-update" ] ] > 0) do={
       /system/script/run packages-update;
     } else={
       /system/package/update/install without-paging;
     }
-    $LogPrint info $ScriptName ("Waiting for system to reboot.");
   }
 
   :if ([ $ScriptLock $ScriptName ] = false) do={
