@@ -94,8 +94,8 @@
         :set ($HostInfo->"doh-url") ("https://" . [ $EitherOr $HostName ($HostVal->"host") ] . "/dns-query");
       }
 
-      :if ($DohCurrent = $HostInfo->"doh-url") do={
-        $LogPrint debug $ScriptName ("Current DoH server is still up: " . $DohCurrent);
+      :if ($DohCurrent = $HostInfo->"doh-url" && [ $IsDNSResolving ] = true) do={
+        $LogPrint debug $ScriptName ("Current DoH server is still up and resolving: " . $DohCurrent);
         :set ExitOK true;
         :error true;
       }
