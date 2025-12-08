@@ -105,7 +105,7 @@
   }
 
   :if ([ :len $DohCurrent ] > 0) do={
-    $LogPrint info $ScriptName ("Current DoH server is down, disabling: " . $DohCurrent);
+    $LogPrint info $ScriptName ("Current DoH server is down or not resolving, disabling: " . $DohCurrent);
     /ip/dns/set use-doh-server="";
     /ip/dns/cache/flush;
   }
