@@ -19,7 +19,6 @@
   :global CertificateAvailable;
   :global EitherOr;
   :global IsDNSResolving;
-  :global IsTimeSync;
   :global LogPrint;
   :global LogPrintOnce;
   :global ParseKeyValueStore;
