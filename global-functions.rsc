@@ -518,7 +518,11 @@
     $RmDir $DirName;
     :return false;
   }
-  $WaitForFile $FileName;
+
+  :if ([ $WaitForFile $FileName 5s ] = false) do={
+    $LogPrint debug $0 ("The file downloaded from " . $Url . " did not show up.");
+    :return false;
+  }
 
   :local FileSize [ /file/get $FileName size ];
   :local Return "";
