@@ -8,6 +8,8 @@ RouterOS Scripts
 [![Telegram group @routeros_scripts](https://img.shields.io/badge/Telegram-%40routeros__scripts-%2326A5E4?logo=telegram&style=flat)](https://t.me/routeros_scripts)
 [![donate with PayPal](https://img.shields.io/badge/Like_it%3F-Donate!-orange?logo=githubsponsors&logoColor=orange&style=flat)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=A4ZXBD6YS2W8J)
 
+**a collection of scripts for MikroTik RouterOS**
+
 ![RouterOS Scripts Logo](logo.svg)
 
 [RouterOS ↗️](https://mikrotik.com/software) is the operating system developed
