@@ -1,5 +1,5 @@
 # News, changes and migration by RouterOS Scripts
-# Copyright (c) 2019-2025 Christian Hesse <mail@eworm.de>
+# Copyright (c) 2019-2026 Christian Hesse <mail@eworm.de>
 # https://rsc.eworm.de/COPYING.md
 
 :global IDonate;

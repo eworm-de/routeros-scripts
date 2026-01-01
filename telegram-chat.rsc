@@ -1,6 +1,6 @@
 #!rsc by RouterOS
 # RouterOS script: telegram-chat
-# Copyright (c) 2023-2025 Christian Hesse <mail@eworm.de>
+# Copyright (c) 2023-2026 Christian Hesse <mail@eworm.de>
 # https://rsc.eworm.de/COPYING.md
 #
 # requires RouterOS, version=7.15

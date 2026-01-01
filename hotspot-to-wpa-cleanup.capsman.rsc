@@ -1,6 +1,6 @@
 #!rsc by RouterOS
 # RouterOS script: hotspot-to-wpa-cleanup.capsman
-# Copyright (c) 2021-2025 Christian Hesse <mail@eworm.de>
+# Copyright (c) 2021-2026 Christian Hesse <mail@eworm.de>
 # https://rsc.eworm.de/COPYING.md
 #
 # provides: lease-script, order=80

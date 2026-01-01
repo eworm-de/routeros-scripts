@@ -1,6 +1,6 @@
 #!rsc by RouterOS
 # RouterOS script: collect-wireless-mac%TEMPL%
-# Copyright (c) 2013-2025 Christian Hesse <mail@eworm.de>
+# Copyright (c) 2013-2026 Christian Hesse <mail@eworm.de>
 # https://rsc.eworm.de/COPYING.md
 #
 # provides: lease-script, order=40

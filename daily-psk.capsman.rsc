@@ -1,6 +1,6 @@
 #!rsc by RouterOS
 # RouterOS script: daily-psk.capsman
-# Copyright (c) 2013-2025 Christian Hesse <mail@eworm.de>
+# Copyright (c) 2013-2026 Christian Hesse <mail@eworm.de>
 #                         Michael Gisbers <michael@gisbers.de>
 # https://rsc.eworm.de/COPYING.md
 #

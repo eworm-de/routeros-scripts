@@ -1,5 +1,5 @@
 # Overlay for global configuration by RouterOS Scripts
-# Copyright (c) 2013-2025 Christian Hesse <mail@eworm.de>
+# Copyright (c) 2013-2026 Christian Hesse <mail@eworm.de>
 # https://rsc.eworm.de/COPYING.md
 #
 # global configuration, custom overlay

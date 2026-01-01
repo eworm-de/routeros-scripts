@@ -1,6 +1,6 @@
 #!rsc by RouterOS
 # RouterOS script: ip-addr-bridge
-# Copyright (c) 2018-2025 Christian Hesse <mail@eworm.de>
+# Copyright (c) 2018-2026 Christian Hesse <mail@eworm.de>
 # https://rsc.eworm.de/COPYING.md
 #
 # enable or disable ip addresses based on bridge port state

@@ -1,6 +1,6 @@
 #!rsc by RouterOS
 # RouterOS script: backup-upload
-# Copyright (c) 2013-2025 Christian Hesse <mail@eworm.de>
+# Copyright (c) 2013-2026 Christian Hesse <mail@eworm.de>
 # https://rsc.eworm.de/COPYING.md
 #
 # provides: backup-script, order=50
