@@ -1,21 +1,21 @@
 #!rsc by RouterOS
-# RouterOS script: global-config
+# Skrip RouterOS: konfigurasi-global
 # Copyright (c) 2013-2026 Christian Hesse <mail@eworm.de>
 # https://rsc.eworm.de/COPYING.md
 #
-# global configuration
+# konfigurasi global
 # https://rsc.eworm.de/
 
-# Warning: Do *NOT* copy this line to overlay!
+# Peringatan: JANGAN copy baris ini ke overlay!
 :global GlobalConfigReady false;
 #   ||   ... but
 #  \||/   start
 #   \/    here!
 
-# Set this to 'true' to disable news and change notifications.
+# Atur ke 'true' untuk nonaktifkan notifikasi berita dan perubahan.
 :global NoNewsAndChangesNotification false;
 
-# Add extra text (or emojis) in notification tags.
+# Tambah teks ekstra (atau emoji) di label notifikasi.
 :global IdentityExtra "";
 
 # This is used in DNS scripts ('ipsec-to-dns' and fallback in 'dhcp-to-dns')
