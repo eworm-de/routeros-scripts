@@ -1,5 +1,5 @@
 #!rsc by RouterOS
-# RouterOS script: backup-partition
+# Skrip RouterOS: backup-partition
 # Copyright (c) 2022-2026 Christian Hesse <mail@eworm.de>
 # https://rsc.eworm.de/COPYING.md
 #

@@ -1,5 +1,5 @@
 #!rsc by RouterOS
-# RouterOS script: ipv6-update
+# Skrip RouterOS: ipv6-update
 # Copyright (c) 2013-2026 Christian Hesse <mail@eworm.de>
 # https://rsc.eworm.de/COPYING.md
 #

@@ -1,5 +1,5 @@
 #!rsc by RouterOS
-# RouterOS script: daily-psk.local
+# Skrip RouterOS: daily-psk.local
 # Copyright (c) 2013-2026 Christian Hesse <mail@eworm.de>
 #                         Michael Gisbers <michael@gisbers.de>
 # https://rsc.eworm.de/COPYING.md

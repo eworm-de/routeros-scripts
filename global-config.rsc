@@ -18,11 +18,11 @@
 # Tambah teks ekstra (atau emoji) di label notifikasi.
 :global IdentityExtra "";
 
-# This is used in DNS scripts ('ipsec-to-dns' and fallback in 'dhcp-to-dns')
+# Ini digunakan in DNS scripts ('ipsec-to-dns' and fallback in 'dhcp-to-dns')
 # and backup scripts for file names.
 :global Domain "example.com";
 
-# You can send e-mail notifications. Configure the system's mail settings
+# Anda dapat mengirim e-mail notifications. Configure the system's mail settings
 # (/tool/e-mail), then install the module:
 # $ScriptInstallUpdate mod/notification-email
 # The to-address needs to be filled; cc-address can be empty, one address
@@ -32,14 +32,14 @@
 #:global EmailGeneralTo "mail@example.com";
 #:global EmailGeneralCc "another@example.com,third@example.com";
 
-# You can send Telegram notifications. Register a bot
+# Anda dapat mengirim Telegram notifications. Register a bot
 # and add the token and chat ids here, then install the module:
 # $ScriptInstallUpdate mod/notification-telegram
 :global TelegramTokenId "";
 :global TelegramChatId "";
 #:global TelegramTokenId "123456:ABCDEF-GHI";
 #:global TelegramChatId "12345678";
-# Use this to send notifications to a specific topic in group.
+# Gunakan ini to send notifications to a specific topic in group.
 :global TelegramThreadId "";
 # Using telegram-chat you have to define trusted chat ids (not group ids!)
 # or user names. Groups allow to chat with devices simultaneously.
@@ -50,7 +50,7 @@
 :global TelegramChatGroups "(all)";
 #:global TelegramChatGroups "(all|home|office)";
 
-# You can send Matrix notifications. Configure these settings and
+# Anda dapat mengirim Matrix notifications. Configure these settings and
 # install the module:
 # $ScriptInstallUpdate mod/notification-matrix
 :global MatrixHomeServer "";
@@ -60,7 +60,7 @@
 #:global MatrixAccessToken "123456ABCDEFGHI...";
 #:global MatrixRoom "!example:matrix.org";
 
-# You can send Ntfy notifications. Configure these settings and
+# Anda dapat mengirim Ntfy notifications. Configure these settings and
 # install the module:
 # $ScriptInstallUpdate mod/notification-ntfy
 :global NtfyServer "ntfy.sh";
@@ -69,7 +69,7 @@
 :global NtfyServerToken "";
 :global NtfyTopic "";
 
-# You can send Gotify notifications. Configure these settings and
+# Anda dapat mengirim Gotify notifications. Configure these settings and
 # install the module:
 # $ScriptInstallUpdate mod/notification-gotify
 :global GotifyServer "";
@@ -104,7 +104,7 @@
 :global BackupPartitionCopyBeforeFeatureUpdate false;
 
 # This defines the settings for firewall address-lists (fw-addr-lists).
-# Warning: Mind your device's resources - memory and processing!
+# Peringatan: Mind your device's resources - memory and processing!
 :global FwAddrLists {
 #  "allow"={
 #    { url="https://rsc.eworm.de/main/fw-addr-lists.d/allow";
@@ -156,7 +156,7 @@
 # Allow to install updates automatically if seen in neighbor list.
 :global SafeUpdateNeighbor false;
 :global SafeUpdateNeighborIdentity "";
-# Install *ALL* updates automatically!
+# Instal *ALL* updates automatically!
 # Set to all upper-case "Yes, please!" to enable.
 :global SafeUpdateAll "no";
 
@@ -199,7 +199,7 @@
 :global HostNameInZone true;
 :global PrefixInZone true;
 
-# Run different commands with multiple mode-button presses.
+# Jalankan different commands with multiple mode-button presses.
 :global ModeButton {
   1="/system/leds/settings/set all-leds-off=(({ \"never\"=\"immediate\"; \"immediate\"=\"never\" })->[ get all-leds-off ]);";
   2=":global Identity; :global SendNotification; :global SymbolForNotification; \$SendNotification ([ \$SymbolForNotification \"earth\" ] . \"Hello...\") (\"Hello world, \" . \$Identity . \" calling!\");";
@@ -211,7 +211,7 @@
 # This led gives visual feedback if type is 'on' or 'off'.
 :global ModeButtonLED "user-led";
 
-# Run commands on SMS action.
+# Jalankan commands on SMS action.
 :global SmsAction {
   bridge-port-vlan-alt=":global BridgePortVlan; \$BridgePortVlan alt;";
   reboot="/system/reboot;";
@@ -219,7 +219,7 @@
 # add more here...
 };
 
-# Run commands by hooking into SMS forward.
+# Jalankan commands by hooking into SMS forward.
 :global SmsForwardHooks {
   { match="magic string";
     allowed-number="12345678";
@@ -243,8 +243,8 @@
 # use next branch with my git url (git.eworm.de)
 #:global ScriptUpdatesUrlSuffix "?h=next";
 
-# Use this for defaults with $ScriptRunOnce
-# Install module with:
+# Gunakan ini for defaults with $ScriptRunOnce
+# Instal module with:
 # $ScriptInstallUpdate mod/scriptrunonce
 :global ScriptRunOnceBaseUrl "";
 :global ScriptRunOnceUrlSuffix "";
@@ -253,10 +253,10 @@
 # for you. If you like the scripts and think this is of value for you or your
 # business please consider a donation:
 # https://rsc.eworm.de/#donate
-# Enable this to silence donation hint.
+# Aktifkan this to silence donation hint.
 :global IDonate false;
 
-# Use this for certificate auto-renew
+# Gunakan ini for certificate auto-renew
 :global CertRenewUrl "";
 #:global CertRenewUrl "https://example.com/certificates/";
 :global CertRenewTime 3w;

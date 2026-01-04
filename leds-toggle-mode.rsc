@@ -1,5 +1,5 @@
 #!rsc by RouterOS
-# RouterOS script: leds-toggle-mode
+# Skrip RouterOS: leds-toggle-mode
 # Copyright (c) 2018-2026 Christian Hesse <mail@eworm.de>
 # https://rsc.eworm.de/COPYING.md
 #

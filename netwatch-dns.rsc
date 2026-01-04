@@ -1,5 +1,5 @@
 #!rsc by RouterOS
-# RouterOS script: netwatch-dns
+# Skrip RouterOS: netwatch-dns
 # Copyright (c) 2022-2026 Christian Hesse <mail@eworm.de>
 # https://rsc.eworm.de/COPYING.md
 #

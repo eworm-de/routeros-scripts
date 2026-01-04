@@ -1,5 +1,5 @@
 #!rsc by RouterOS
-# RouterOS script: collect-wireless-mac.wifi
+# Skrip RouterOS: collect-wireless-mac.wifi
 # Copyright (c) 2013-2026 Christian Hesse <mail@eworm.de>
 # https://rsc.eworm.de/COPYING.md
 #

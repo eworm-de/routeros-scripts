@@ -1,5 +1,5 @@
 #!rsc by RouterOS
-# RouterOS script: super-mario-theme
+# Skrip RouterOS: super-mario-theme
 # Copyright (c) 2013-2026 Christian Hesse <mail@eworm.de>
 # https://rsc.eworm.de/COPYING.md
 #

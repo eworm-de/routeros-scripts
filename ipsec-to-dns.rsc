@@ -1,5 +1,5 @@
 #!rsc by RouterOS
-# RouterOS script: ipsec-to-dns
+# Skrip RouterOS: ipsec-to-dns
 # Copyright (c) 2021-2026 Christian Hesse <mail@eworm.de>
 # https://rsc.eworm.de/COPYING.md
 #

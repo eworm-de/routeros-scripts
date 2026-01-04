@@ -1,5 +1,5 @@
 #!rsc by RouterOS
-# RouterOS script: global-wait
+# Skrip RouterOS: global-wait
 # Copyright (c) 2020-2026 Christian Hesse <mail@eworm.de>
 # https://rsc.eworm.de/COPYING.md
 #

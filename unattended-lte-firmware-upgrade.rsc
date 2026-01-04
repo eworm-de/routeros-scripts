@@ -1,5 +1,5 @@
 #!rsc by RouterOS
-# RouterOS script: unattended-lte-firmware-upgrade
+# Skrip RouterOS: unattended-lte-firmware-upgrade
 # Copyright (c) 2018-2026 Christian Hesse <mail@eworm.de>
 # https://rsc.eworm.de/COPYING.md
 #

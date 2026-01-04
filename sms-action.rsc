@@ -1,5 +1,5 @@
 #!rsc by RouterOS
-# RouterOS script: sms-action
+# Skrip RouterOS: sms-action
 # Copyright (c) 2018-2026 Christian Hesse <mail@eworm.de>
 # https://rsc.eworm.de/COPYING.md
 #

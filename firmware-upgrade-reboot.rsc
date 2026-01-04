@@ -1,5 +1,5 @@
 #!rsc by RouterOS
-# RouterOS script: firmware-upgrade-reboot
+# Skrip RouterOS: firmware-upgrade-reboot
 # Copyright (c) 2022-2026 Christian Hesse <mail@eworm.de>
 # https://rsc.eworm.de/COPYING.md
 #

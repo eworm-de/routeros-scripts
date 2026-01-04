@@ -1,5 +1,5 @@
 #!rsc by RouterOS
-# RouterOS script: dhcp-lease-comment%TEMPL%
+# Skrip RouterOS: dhcp-lease-comment%TEMPL%
 # Copyright (c) 2013-2026 Christian Hesse <mail@eworm.de>
 # https://rsc.eworm.de/COPYING.md
 #

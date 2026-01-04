@@ -1,5 +1,5 @@
 #!rsc by RouterOS
-# RouterOS script: capsman-download-packages.wifi
+# Skrip RouterOS: capsman-download-packages.wifi
 # Copyright (c) 2018-2026 Christian Hesse <mail@eworm.de>
 #                         Michael Gisbers <michael@gisbers.de>
 # https://rsc.eworm.de/COPYING.md

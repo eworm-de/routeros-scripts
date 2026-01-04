@@ -1,5 +1,5 @@
 #!rsc by RouterOS
-# RouterOS script: check-health.d/voltage
+# Skrip RouterOS: check-health.d/voltage
 # Copyright (c) 2019-2026 Christian Hesse <mail@eworm.de>
 # https://rsc.eworm.de/COPYING.md
 #

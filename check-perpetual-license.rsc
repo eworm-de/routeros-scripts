@@ -1,5 +1,5 @@
 #!rsc by RouterOS
-# RouterOS script: check-perpetual-license
+# Skrip RouterOS: check-perpetual-license
 # Copyright (c) 2025-2026 Christian Hesse <mail@eworm.de>
 # https://rsc.eworm.de/COPYING.md
 #

@@ -1,5 +1,5 @@
 #!rsc by RouterOS
-# RouterOS script: hotspot-to-wpa%TEMPL%
+# Skrip RouterOS: hotspot-to-wpa%TEMPL%
 # Copyright (c) 2019-2026 Christian Hesse <mail@eworm.de>
 # https://rsc.eworm.de/COPYING.md
 #

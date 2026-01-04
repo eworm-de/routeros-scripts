@@ -1,5 +1,5 @@
 #!rsc by RouterOS
-# RouterOS script: check-routeros-update
+# Skrip RouterOS: check-routeros-update
 # Copyright (c) 2013-2026 Christian Hesse <mail@eworm.de>
 # https://rsc.eworm.de/COPYING.md
 #

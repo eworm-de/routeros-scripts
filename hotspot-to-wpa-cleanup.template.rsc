@@ -1,5 +1,5 @@
 #!rsc by RouterOS
-# RouterOS script: hotspot-to-wpa-cleanup%TEMPL%
+# Skrip RouterOS: hotspot-to-wpa-cleanup%TEMPL%
 # Copyright (c) 2021-2026 Christian Hesse <mail@eworm.de>
 # https://rsc.eworm.de/COPYING.md
 #

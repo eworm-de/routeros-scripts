@@ -1,5 +1,5 @@
 #!rsc by RouterOS
-# RouterOS script: mod/notification-gotify
+# Skrip RouterOS: mod/notification-gotify
 # Copyright (c) 2013-2026 Christian Hesse <mail@eworm.de>
 #                         Leonardo David Monteiro <leo@cub3.xyz>
 # https://rsc.eworm.de/COPYING.md

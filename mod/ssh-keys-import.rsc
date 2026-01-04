@@ -1,5 +1,5 @@
 #!rsc by RouterOS
-# RouterOS script: mod/ssh-keys-import
+# Skrip RouterOS: mod/ssh-keys-import
 # Copyright (c) 2020-2026 Christian Hesse <mail@eworm.de>
 # https://rsc.eworm.de/COPYING.md
 #

@@ -1,5 +1,5 @@
 #!rsc by RouterOS
-# RouterOS script: accesslist-duplicates.local
+# Skrip RouterOS: accesslist-duplicates.local
 # Copyright (c) 2018-2026 Christian Hesse <mail@eworm.de>
 # https://rsc.eworm.de/COPYING.md
 #

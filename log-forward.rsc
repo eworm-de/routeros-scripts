@@ -1,5 +1,5 @@
 #!rsc by RouterOS
-# RouterOS script: log-forward
+# Skrip RouterOS: log-forward
 # Copyright (c) 2020-2026 Christian Hesse <mail@eworm.de>
 # https://rsc.eworm.de/COPYING.md
 #

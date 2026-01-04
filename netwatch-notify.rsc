@@ -1,5 +1,5 @@
 #!rsc by RouterOS
-# RouterOS script: netwatch-notify
+# Skrip RouterOS: netwatch-notify
 # Copyright (c) 2020-2026 Christian Hesse <mail@eworm.de>
 # https://rsc.eworm.de/COPYING.md
 #

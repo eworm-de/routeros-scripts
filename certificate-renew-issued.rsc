@@ -1,5 +1,5 @@
 #!rsc by RouterOS
-# RouterOS script: certificate-renew-issued
+# Skrip RouterOS: certificate-renew-issued
 # Copyright (c) 2019-2026 Christian Hesse <mail@eworm.de>
 # https://rsc.eworm.de/COPYING.md
 #
