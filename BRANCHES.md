@@ -22,13 +22,13 @@ for testing.
 
 To install a single script from `next` branch:
 
-    $ScriptInstallUpdate script-name "base-url=https://rsc.eworm.de/next/";
+    $ScriptInstallUpdate script-name "base-url=https://raw.githubusercontent.com/dumkot/routeros-sc/next/";
 
 ## Switch existing script
 
 Alternatively switch an existing script to update from `next` branch:
 
-    /system/script/set comment="base-url=https://rsc.eworm.de/next/" script-name;
+    /system/script/set comment="base-url=https://raw.githubusercontent.com/dumkot/routeros-sc/next/" script-name;
     $ScriptInstallUpdate;
 
 ## Switch installation
@@ -36,7 +36,7 @@ Alternatively switch an existing script to update from `next` branch:
 Last but not least - to switch the complete installation to the `next`
 branch edit `global-config-overlay` and add:
 
-    :global ScriptUpdatesBaseUrl "https://rsc.eworm.de/next/";
+    :global ScriptUpdatesBaseUrl "https://raw.githubusercontent.com/dumkot/routeros-sc/next/";
 
 ... then reload the configuration and update:
 
