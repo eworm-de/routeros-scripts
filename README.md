@@ -1,6 +1,9 @@
 RouterOS Scripts
 ================
 
+> 🇮🇩 **Distribusi pribadi untuk penggunaan lokal** (Dumai, Riau)
+> Tidak ada garansi resmi. Gunakan dengan risiko Anda sendiri. Versi Indonesia ada di [README-ID.md](./README-ID.md)
+
 [![GitHub stars](https://img.shields.io/github/stars/dumkot/routeros-sc?logo=GitHub&style=flat&color=red)](https://github.com/dumkot/routeros-sc/stargazers)
 [![GitHub forks](https://img.shields.io/github/forks/dumkot/routeros-sc?logo=GitHub&style=flat&color=green)](https://github.com/dumkot/routeros-sc/network)
 [![GitHub watchers](https://img.shields.io/github/watchers/dumkot/routeros-sc?logo=GitHub&style=flat&color=blue)](https://github.com/dumkot/routeros-sc/watchers)
@@ -16,6 +19,10 @@ RouterOS Scripts
 by [MikroTik ↗️](https://mikrotik.com/aboutus) for networking tasks. This
 repository holds a number of [scripts ↗️](https://wiki.mikrotik.com/wiki/Manual:Scripting)
 to manage RouterOS devices or extend their functionality.
+> 🇮🇩 **Catatan untuk Pengguna Indonesia**: Repository ini adalah distribusi **pribadi** untuk penggunaan lokal di Dumai, Riau. Tidak ada garansi support resmi. Jika ada yang ingin menggunakan, silakan gunakan dengan risiko Anda sendiri.
+>
+
+
 
 *Use at your own risk*, pay attention to
 [license and warranty](#license-and-warranty), and
