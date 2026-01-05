@@ -276,7 +276,7 @@
 #
 # load custom settings from overlay and snippets
 :foreach Script in=([ /system/script/find where name="global-config-overlay" ], \
-                    [ /system/script/find where name~"^global-config-overlay.d/" ]) do={
+                    [ /system/script/find where name~"^global-config-overlay\\.d/." ]) do={
   :onerror Err {
     /system/script/run $Script;
   } do={
