@@ -266,7 +266,7 @@ Notes
 Greeting
 --------
 
-    /setwelcome Hello {mention} and welcome to {chatname}!
+    /setwelcome Hello {mention}, and welcome to {chatname}!
     Please note this group is not about RouterOS in general, but [RouterOS Scripts](https://rsc.eworm.de/). Also pay attention to [rules](https://t.me/routeros_scripts/4), thanks!
 
 ---
