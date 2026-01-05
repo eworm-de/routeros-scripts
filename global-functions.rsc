@@ -1900,7 +1900,7 @@
 }
 
 # load modules
-:foreach Script in=[ /system/script/find where name ~ "^mod/." ] do={
+:foreach Script in=[ /system/script/find where name ~ "^(global-functions\\.d|mod)/." ] do={
   :local ScriptVal [ /system/script/get $Script ];
   :if ([ $ValidateSyntax ($ScriptVal->"source") ] = true) do={
     :onerror Err {
