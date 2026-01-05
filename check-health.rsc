@@ -74,7 +74,7 @@
     :set CheckHealthRAMUtilizationNotified false;
   }
 
-  :local Plugins [ /system/script/find where name~"^check-health.d/." ];
+  :local Plugins [ /system/script/find where name~"^check-health\\.d/." ];
   :if ([ :len $Plugins ] = 0) do={
     $LogPrint debug $ScriptName ("No plugins installed.");
     :set ExitOK true;
