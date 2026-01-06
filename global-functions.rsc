@@ -243,6 +243,10 @@
   :local Str [ :tostr $1 ];
   :local Num [ :tonum $2 ];
 
+  :if ($Num = 0) do={
+    :return "";
+  }
+
   :local Return "";
   :for I from=1 to=$Num do={
     :set Return ($Return . $Str);
