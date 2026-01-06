@@ -240,9 +240,12 @@
 
 # multiply given character(s)
 :set CharacterMultiply do={
+  :local Str [ :tostr $1 ];
+  :local Num [ :tonum $2 ];
+
   :local Return "";
-  :for I from=1 to=$2 do={
-    :set Return ($Return . $1);
+  :for I from=1 to=$Num do={
+    :set Return ($Return . $Str);
   }
   :return $Return;
 }
