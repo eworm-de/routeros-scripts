@@ -36,7 +36,7 @@
 
     :global CharacterMultiply;
 
-    :return ([ $CharacterMultiply " " $Level ] . "-" . $Prefix . "-> " . $Value);
+    :return ([ $CharacterMultiply " " ($Level * 2) ] . "-" . $Prefix . "-> " . $Value);
   }
 
   :local TypeOf [ :typeof $Input ];
