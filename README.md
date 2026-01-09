@@ -37,6 +37,8 @@ Specific scripts may require even newer RouterOS version.
 > ℹ️ **Info**: The `main` branch is now RouterOS v7 only. If you are still
 > running RouterOS v6 switch to `routeros-v6` branch!
 
+#### Prerequisite configuration
+
 Starting with RouterOS 7.17 the
 [device-mode ↗️](https://help.mikrotik.com/docs/spaces/ROS/pages/93749258/Device-mode)
 has been extended to give more fine-grained control over what features are
