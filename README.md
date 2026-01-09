@@ -27,12 +27,26 @@ Requirements
 ### Software (RouterOS)
 
 Latest version of the scripts require recent RouterOS to function properly.
-Make sure to install latest updates before you begin. If new functionality
-or a breaking change in RouterOS `7.n` is used in my scripts I push my
-change some time after `7.(n+1)` was released. At any time you should have
-at least two minor and their bugfix releases to choose from.
+Make sure to install latest updates before you begin. This is supposed to
+work flawlessly with these channels:
 
-Specific scripts may require even newer RouterOS version.
+* `stable` - the latest version considered stable for daily use, including
+   new features
+* `long-term` - a version considered rock-solid, usually one minor version
+   behind `stable` (`7.(n-1)`)
+
+New functionality or breaking changes in RouterOS are adopted fairly quick.
+These changes are pushed for general availability once a version of
+RouterOS supporting this had been released to the `long-term` channel a
+reasonable time ago.
+
+At any time you should have at least two minor versions and their bugfix
+releases to choose from. Often way older versions of RouterOS work just
+fine.
+
+On the other hand in seldom cases and for good reasons *specific* scripts
+may require an even newer RouterOS version, so only `stable` is supported
+temporarily.
 
 > ℹ️ **Info**: The `main` branch is now RouterOS v7 only. If you are still
 > running RouterOS v6 switch to `routeros-v6` branch!
