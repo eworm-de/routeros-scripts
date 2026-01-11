@@ -48,6 +48,10 @@ On the other hand in seldom cases and for good reasons *specific* scripts
 may require an even newer RouterOS version, so only `stable` is supported
 temporarily.
 
+> 💡️ **Hint**: If in doubt have a look at the badge at the top of each
+> page showing the minimum version required:
+> ![required RouterOS version](https://img.shields.io/badge/RouterOS-7.15-yellow?style=flat)
+
 > ℹ️ **Info**: The `main` branch is now RouterOS v7 only. If you are still
 > running RouterOS v6 switch to `routeros-v6` branch!
 
