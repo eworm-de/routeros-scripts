@@ -117,6 +117,12 @@
       :local Return "";
       :for I from=0 to=5 do={
         :set Return ($Return . [ $ParseKeyValueStore ($CertVal->"issuer") ]->"CN");
+        :local CertSettings [ /certificate/settings/get ];
+        :if (([ :len ($CertSettings->"builtin-trust-anchors") ] > 0 || \
+              [ :len ($CertSettings->"builtin-trust-store") ] > 0) && \
+             [[ :parse (":return [ :len [ /certificate/builtin/find where skid=\"" . ($CertVal->"akid") . "\" ] ]") ]] > 0) do={
+          :return $Return;
+        }
         :set CertVal [ /certificate/get [ find where skid=($CertVal->"akid") ] ];
         :if (($CertVal->"akid") = "" || ($CertVal->"akid") = ($CertVal->"skid")) do={
           :return $Return;
