@@ -4,7 +4,7 @@
 #                         Michael Gisbers <michael@gisbers.de>
 # https://rsc.eworm.de/COPYING.md
 #
-# requires RouterOS, version=7.15
+# requires RouterOS, version=7.17
 #
 # download and cleanup packages for CAP installation from CAPsMAN
 # https://rsc.eworm.de/doc/capsman-download-packages.md

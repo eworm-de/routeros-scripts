@@ -3,7 +3,7 @@
 # Copyright (c) 2022-2026 Christian Hesse <mail@eworm.de>
 # https://rsc.eworm.de/COPYING.md
 #
-# requires RouterOS, version=7.16
+# requires RouterOS, version=7.17
 # requires device-mode, fetch
 #
 # monitor and manage dns/doh with netwatch

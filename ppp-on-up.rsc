@@ -3,7 +3,7 @@
 # Copyright (c) 2013-2026 Christian Hesse <mail@eworm.de>
 # https://rsc.eworm.de/COPYING.md
 #
-# requires RouterOS, version=7.15
+# requires RouterOS, version=7.17
 #
 # run scripts on ppp up
 # https://rsc.eworm.de/doc/ppp-on-up.md

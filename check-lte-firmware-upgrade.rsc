@@ -3,7 +3,7 @@
 # Copyright (c) 2018-2026 Christian Hesse <mail@eworm.de>
 # https://rsc.eworm.de/COPYING.md
 #
-# requires RouterOS, version=7.15
+# requires RouterOS, version=7.17
 #
 # check for LTE firmware upgrade, send notification
 # https://rsc.eworm.de/doc/check-lte-firmware-upgrade.md

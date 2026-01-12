@@ -4,7 +4,7 @@
 #                         Anatoly Bubenkov <bubenkoff@gmail.com>
 # https://rsc.eworm.de/COPYING.md
 #
-# requires RouterOS, version=7.15
+# requires RouterOS, version=7.17
 #
 # forward SMS to e-mail
 # https://rsc.eworm.de/doc/sms-forward.md

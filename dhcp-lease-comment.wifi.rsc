@@ -4,7 +4,7 @@
 # https://rsc.eworm.de/COPYING.md
 #
 # provides: lease-script, order=60
-# requires RouterOS, version=7.15
+# requires RouterOS, version=7.17
 #
 # update dhcp-server lease comment with infos from access-list
 # https://rsc.eworm.de/doc/dhcp-lease-comment.md

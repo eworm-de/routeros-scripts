@@ -3,7 +3,7 @@
 # Copyright (c) 2021-2026 Christian Hesse <mail@eworm.de>
 # https://rsc.eworm.de/COPYING.md
 #
-# requires RouterOS, version=7.15
+# requires RouterOS, version=7.17
 # requires device-mode, ipsec
 #
 # and add/remove/update DNS entries from IPSec mode-config

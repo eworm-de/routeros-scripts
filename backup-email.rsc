@@ -4,7 +4,7 @@
 # https://rsc.eworm.de/COPYING.md
 #
 # provides: backup-script, order=20
-# requires RouterOS, version=7.15
+# requires RouterOS, version=7.17
 #
 # create and email backup and config file
 # https://rsc.eworm.de/doc/backup-email.md
