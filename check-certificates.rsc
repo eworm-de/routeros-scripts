@@ -3,7 +3,7 @@
 # Copyright (c) 2013-2026 Christian Hesse <mail@eworm.de>
 # https://rsc.eworm.de/COPYING.md
 #
-# requires RouterOS, version=7.17
+# requires RouterOS, version=7.19
 # requires device-mode, fetch
 #
 # check for certificate validity
@@ -126,10 +126,7 @@
       :local Return "";
       :for I from=0 to=5 do={
         :set Return ($Return . [ $ParseKeyValueStore ($CertVal->"issuer") ]->"CN");
-        :local CertSettings [ /certificate/settings/get ];
-        :if (([ :len ($CertSettings->"builtin-trust-anchors") ] > 0 || \
-              [ :len ($CertSettings->"builtin-trust-store") ] > 0) && \
-             [[ :parse (":return [ :len [ /certificate/builtin/find where skid=\"" . ($CertVal->"akid") . "\" ] ]") ]] > 0) do={
+        :if ([ :len [ /certificate/builtin/find where skid=($CertVal->"akid") ] ] > 0) do={
           :return $Return;
         }
         :do {
