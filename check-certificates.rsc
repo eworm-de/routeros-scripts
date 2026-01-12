@@ -123,7 +123,11 @@
              [[ :parse (":return [ :len [ /certificate/builtin/find where skid=\"" . ($CertVal->"akid") . "\" ] ]") ]] > 0) do={
           :return $Return;
         }
-        :set CertVal [ /certificate/get [ find where skid=($CertVal->"akid") ] ];
+        :do {
+          :set CertVal [ /certificate/get [ find where skid=($CertVal->"akid") ] ];
+        } on-error={
+          :return ($Return . " (possibly incomplete!)");
+        }
         :if (($CertVal->"akid") = "" || ($CertVal->"akid") = ($CertVal->"skid")) do={
           :return $Return;
         }
