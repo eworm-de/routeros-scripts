@@ -62,7 +62,11 @@
   :set LogForwardInclude [ $EitherOr $LogForwardInclude [] ];
   :set LogForwardIncludeMessage [ $EitherOr $LogForwardIncludeMessage [] ];
 
+  :local LogAll [ /log/find ];
+  :local MaxId ($LogAll->([ :len $LogAll ] - 1));
+  :local MaxNum [ $HexToNum $MaxId ];
   :local LogForwardFilterLogForwardingCached [ $EitherOr [ $LogForwardFilterLogForwarding ] ("\$^") ];
+
   :foreach Message in=[ /log/find where (!(message="") and \
       !(message~$LogForwardFilterLogForwardingCached) and \
       !(topics~$LogForwardFilter) and !(message~$LogForwardFilterMessage)) or \
@@ -70,7 +74,8 @@
     :set MessageVal [ /log/get $Message ];
     :local Bullet "information";
 
-    :if ($Last < [ $HexToNum ($MessageVal->".id") ]) do={
+    :local Current [ $HexToNum ($MessageVal->".id") ];
+    :if ($Last < $Current && $Current <= $MaxNum) do={
       :local DupCount ($MessageDups->($MessageVal->"message"));
       :if ($MessageVal->"topics" ~ "(warning)") do={
         :set Warning true;
@@ -106,8 +111,7 @@
     :set LogForwardRateLimit [ $MAX 0 ($LogForwardRateLimit - 1) ];
   }
 
-  :local LogAll [ /log/find ];
-  :set LogForwardLast ($LogAll->([ :len $LogAll ] - 1) );
+  :set LogForwardLast $MaxId;
 } do={
   :global ExitError; $ExitError $ExitOK [ :jobname ] $Err;
 }
