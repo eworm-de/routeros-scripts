@@ -75,23 +75,23 @@
     :set MessageVal [ /log/get $Message ];
     :local Bullet "information";
 
-      :local DupCount ($MessageDups->($MessageVal->"message"));
-      :if ($MessageVal->"topics" ~ "(warning)") do={
-        :set Warning true;
-        :set Bullet "large-orange-circle";
-      }
-      :if ($MessageVal->"topics" ~ "(emergency|alert|critical|error)") do={
-        :set Warning true;
-        :set Bullet "large-red-circle";
-      }
-      :if ($DupCount < 3) do={
-        :set Messages ($Messages . "\n" . [ $SymbolForNotification $Bullet ] . \
-          $MessageVal->"time" . " " . [ :tostr ($MessageVal->"topics") ] . " " . $MessageVal->"message");
-      } else={
-        :set Duplicates true;
-      }
-      :set ($MessageDups->($MessageVal->"message")) ($DupCount + 1);
-      :set Count ($Count + 1);
+    :local DupCount ($MessageDups->($MessageVal->"message"));
+    :if ($MessageVal->"topics" ~ "(warning)") do={
+      :set Warning true;
+      :set Bullet "large-orange-circle";
+    }
+    :if ($MessageVal->"topics" ~ "(emergency|alert|critical|error)") do={
+      :set Warning true;
+      :set Bullet "large-red-circle";
+    }
+    :if ($DupCount < 3) do={
+      :set Messages ($Messages . "\n" . [ $SymbolForNotification $Bullet ] . \
+        $MessageVal->"time" . " " . [ :tostr ($MessageVal->"topics") ] . " " . $MessageVal->"message");
+    } else={
+      :set Duplicates true;
+    }
+    :set ($MessageDups->($MessageVal->"message")) ($DupCount + 1);
+    :set Count ($Count + 1);
   }
 
   :if ($Count > 0) do={
