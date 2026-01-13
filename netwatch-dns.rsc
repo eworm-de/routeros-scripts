@@ -104,7 +104,8 @@
 
   :foreach DohServer in=$DohServers do={
     :if ([ :len ($DohServer->"doh-cert") ] > 0) do={
-      :if ([ $CertificateAvailable ($DohServer->"doh-cert") "dns" ] = false) do={
+      :if ([ $CertificateAvailable ($DohServer->"doh-cert") "fetch" ] = false || \
+           [ $CertificateAvailable ($DohServer->"doh-cert") "dns" ] = false) do={
         $LogPrint warning $ScriptName ("Downloading certificate failed, trying without.");
       }
     }
