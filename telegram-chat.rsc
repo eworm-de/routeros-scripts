@@ -115,7 +115,6 @@
       }
 
       :if ($Trusted = true) do={
-        :local Done false;
         :if ($Command = "?") do={
           $LogPrint info $ScriptName ("Sending notice for update " . $UpdateID . ".");
           $SendTelegram2 ({ origin=$ScriptName; chatid=($Chat->"id"); silent=true; \
@@ -123,9 +122,9 @@
             subject=([ $SymbolForNotification "speech-balloon" ] . "Telegram Chat"); \
             message=([ $IfThenElse ([ :len ($From->"first_name") ] > 0) ("Hello " . ($From->"first_name") . "!\n\n") ] . \
               "Online" . [ $IfThenElse $TelegramChatActive " (and active!)" ] . ", awaiting your commands!") });
-          :set Done true;
+          :continue;
         }
-        :if ($Done = false && [ :pick $Command 0 1 ] = "!") do={
+        :if ([ :pick $Command 0 1 ] = "!") do={
           :if ($Command ~ ("^! *(" . [ $EscapeForRegEx $Identity ] . "|@" . $TelegramChatGroups . ")\$")) do={
             :set TelegramChatActive true;
           } else={
@@ -133,9 +132,9 @@
           }
           $LogPrint info $ScriptName ("Now " . [ $IfThenElse $TelegramChatActive "active" "passive" ] . \
             " from update " . $UpdateID . "!");
-          :set Done true;
+          :continue;
         }
-        :if ($Done = false && ($IsMyReply = 1 || ($IsAnyReply = false && \
+        :if (($IsMyReply = 1 || ($IsAnyReply = false && \
              $TelegramChatActive = true)) && [ :len $Command ] > 0) do={
           :if ([ $ValidateSyntax $Command ] = true) do={
             :local State "";
