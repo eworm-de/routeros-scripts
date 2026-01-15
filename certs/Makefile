@@ -27,7 +27,7 @@ DOMAINS_IPV4 = \
 	ipv4.tunnelbroker.net/Starfield-Root-Certificate-Authority-G2 \
 	mkcert.org/ISRG-Root-X1 \
 	ntfy.sh/ISRG-Root-X1 \
-	www.dshield.org/ISRG-Root-X1 \
+	www.dshield.org/GTS-Root-R4 \
 	www.spamhaus.org/GTS-Root-R4
 DOMAINS_IPV6 = \
 	[2606\:4700\:4700\:\:1111]/DigiCert-Global-Root-G2 \

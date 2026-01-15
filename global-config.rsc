@@ -117,7 +117,7 @@
 #     # higher level (decrease the numerical value) for more addresses, and vice versa
       cert="USERTrust RSA Certification Authority" };
     { url="https://www.dshield.org/block.txt"; cidr="/24";
-      cert="ISRG Root X1" };
+      cert="GTS Root R4" };
     { url="https://lists.blocklist.de/lists/strongips.txt";
       cert="GTS Root R4" };
 #    { url="https://www.spamhaus.org/drop/drop_v4.json";
