@@ -4,7 +4,7 @@ Import ssh keys for public key authentication
 [![GitHub stars](https://img.shields.io/github/stars/eworm-de/routeros-scripts?logo=GitHub&style=flat&color=red)](https://github.com/eworm-de/routeros-scripts/stargazers)
 [![GitHub forks](https://img.shields.io/github/forks/eworm-de/routeros-scripts?logo=GitHub&style=flat&color=green)](https://github.com/eworm-de/routeros-scripts/network)
 [![GitHub watchers](https://img.shields.io/github/watchers/eworm-de/routeros-scripts?logo=GitHub&style=flat&color=blue)](https://github.com/eworm-de/routeros-scripts/watchers)
-[![required RouterOS version](https://img.shields.io/badge/RouterOS-7.19-yellow?style=flat)](https://mikrotik.com/download/changelogs/)
+[![required RouterOS version](https://img.shields.io/badge/RouterOS-7.21-yellow?style=flat)](https://mikrotik.com/download/changelogs/)
 [![Telegram group @routeros_scripts](https://img.shields.io/badge/Telegram-%40routeros__scripts-%2326A5E4?logo=telegram&style=flat)](https://t.me/routeros_scripts)
 [![donate with PayPal](https://img.shields.io/badge/Like_it%3F-Donate!-orange?logo=githubsponsors&logoColor=orange&style=flat)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=A4ZXBD6YS2W8J)
 
@@ -38,9 +38,8 @@ import that key:
     $SSHKeysImport "ssh-rsa AAAAB3Nza...QYZk8= user" admin;
 
 The third part of the key (`user` in this example) is inherited as
-`info` in RouterOS (or `key-owner` with RouterOS 7.20.x and before). Also
-the `MD5` fingerprint is recorded, this helps to audit and verify the
-available keys.
+`info` in RouterOS. Also the `MD5` fingerprint is recorded, this helps
+to audit and verify the available keys.
 
 > ℹ️️ **Info**: Use `ssh-keygen` to show a fingerprint of an existing public
 > key file: `ssh-keygen -l -E md5 -f ~/.ssh/id_ed25519.pub`

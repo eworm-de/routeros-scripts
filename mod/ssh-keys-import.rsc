@@ -3,7 +3,7 @@
 # Copyright (c) 2020-2026 Christian Hesse <mail@eworm.de>
 # https://rsc.eworm.de/COPYING.md
 #
-# requires RouterOS, version=7.19
+# requires RouterOS, version=7.21
 #
 # import ssh keys for public key authentication
 # https://rsc.eworm.de/doc/mod/ssh-keys-import.md
@@ -40,9 +40,8 @@
 
   :local FingerPrintMD5 [ :convert from=base64 transform=md5 to=hex ($KeyVal->1) ];
 
-  :local RegEx ("\\bmd5=" . $FingerPrintMD5 . "\\b");
   :if ([ :len [ /user/ssh-keys/find where user=$User \
-       (key-owner~$RegEx or info~$RegEx) ] ] > 0) do={
+       info~("\\bmd5=" . $FingerPrintMD5 . "\\b") ] ] > 0) do={
     $LogPrint warning $0 ("The ssh public key (MD5:" . $FingerPrintMD5 . \
       ") is already available for user '" . $User . "'.");
     :return false;
