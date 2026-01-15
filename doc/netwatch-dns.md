@@ -62,7 +62,7 @@ manually!
 Importing a certificate automatically is possible. You may want to find the
 [certificate name from browser](../CERTIFICATES.md).
 
-    /tool/netwatch/add comment="doh, doh-cert=DigiCert Global Root G2" host=1.1.1.1;
+    /tool/netwatch/add comment="doh, doh-cert=SSL.com Root Certification Authority ECC" host=1.1.1.1;
     /tool/netwatch/add comment="doh, doh-cert=DigiCert Global Root G3" host=9.9.9.9;
     /tool/netwatch/add comment="doh, doh-cert=GTS Root R1" host=8.8.8.8;
 
