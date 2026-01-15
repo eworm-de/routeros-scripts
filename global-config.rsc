@@ -119,7 +119,7 @@
     { url="https://www.dshield.org/block.txt"; cidr="/24";
       cert="ISRG Root X1" };
     { url="https://lists.blocklist.de/lists/strongips.txt";
-      cert="Certum Trusted Network CA" };
+      cert="GTS Root R4" };
 #    { url="https://www.spamhaus.org/drop/drop_v4.json";
 #      cert="GTS Root R4" };
 #    { url="https://www.spamhaus.org/drop/drop_v6.json";
