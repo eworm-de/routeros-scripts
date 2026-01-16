@@ -55,6 +55,10 @@ resolves to the same address.
 
     /ip/dns/static/add name="cloudflare-dns.com" address=1.1.1.1;
     /tool/netwatch/add comment="doh" host=1.1.1.1;
+    /ip dns static add name=dns.quad9.net address=9.9.9.9;
+    /tool/netwatch/add comment="doh" host=9.9.9.9;
+    /ip/dns/static/add name=dns.google address=8.8.8.8;
+    /tool/netwatch/add comment="doh" host=8.8.8.8;
 
 Be aware that you have to keep the ip address in sync with real world
 manually!
