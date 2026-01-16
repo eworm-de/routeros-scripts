@@ -37,11 +37,11 @@ The DNS and DoH servers to be checked have to be added to netwatch with
 specific comment:
 
     /tool/netwatch/add comment="doh" host=1.1.1.1;
-    /tool/netwatch/add comment="dns" host=8.8.8.8;
     /tool/netwatch/add comment="doh, dns" host=9.9.9.9;
+    /tool/netwatch/add comment="dns" host=8.8.8.8;
 
 This will configure *cloudflare-dns* for DoH (`https://1.1.1.1/dnsquery`), and
-*google-dns* and *quad-nine* for regular DNS (`8.8.8.8,9.9.9.9`) if up.
+*quad-nine* and *google-dns* for regular DNS (`9.9.9.9,8.8.8.8`) if up.
 If *cloudflare-dns* is down the script will fall back to *quad-nine* for DoH.
 
 Giving a specific query url for DoH is possible:
