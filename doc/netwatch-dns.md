@@ -74,7 +74,7 @@ geolocation - give several certificate delimited with colon (`:`) then.
 
 > ⚠️ **Warning**: Combining these techniques can cause some confusion and
 > troubles! Chances are that a service uses different certificates based
-> on indicated server name.
+> on indicated server name (or ip address).
 
 Sometimes using just one specific (possibly internal) DNS server may be
 desired, with fallback in case it fails. This is possible as well:
