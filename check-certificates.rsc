@@ -194,8 +194,14 @@
 
         :local CertNew [ /certificate/find where name~("^" . [ $EscapeForRegEx [ $UrlEncode $FetchName ] ] . "\\.(p12|pem)_[0-9]+\$") \
           (common-name=($CertVal->"common-name") or subject-alt-name~("(^|\\W)(DNS|IP):" . [ $EscapeForRegEx $LastName ] . "(\\W|\$)")) \
-          fingerprint!=[ :tostr ($CertVal->"fingerprint") ] expires-after>$CertRenewTime ];
+          fingerprint!=[ :tostr ($CertVal->"fingerprint") ] ];
         :local CertNewVal [ /certificate/get $CertNew ];
+
+        :if (($CertVal->"expires-after") > ($CertNewVal->"expires-after")) do={
+          /certificate/remove $CertNew;
+          $LogPrint warning $ScriptName ("Old certificate is newer than the new one. Aborting renew.");
+          :error false;
+        }
 
         :if (($CertVal->"private-key") = true && ($CertVal->"private-key") != ($CertNewVal->"private-key")) do={
           /certificate/remove $CertNew;
