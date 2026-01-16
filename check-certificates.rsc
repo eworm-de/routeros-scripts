@@ -197,14 +197,14 @@
           fingerprint!=[ :tostr ($CertVal->"fingerprint") ] expires-after>$CertRenewTime ];
         :local CertNewVal [ /certificate/get $CertNew ];
 
-        :if ([ $CertificateAvailable ([ $ParseKeyValueStore ($CertNewVal->"issuer") ]->"CN") "fetch" ] = false) do={
-          $LogPrint warning $ScriptName ("The certificate chain is not available!");
-        }
-
         :if (($CertVal->"private-key") = true && ($CertVal->"private-key") != ($CertNewVal->"private-key")) do={
           /certificate/remove $CertNew;
           $LogPrint warning $ScriptName ("Old certificate '" . ($CertVal->"name") . "' has a private key, new certificate does not. Aborting renew.");
           :error false;
+        }
+
+        :if ([ $CertificateAvailable ([ $ParseKeyValueStore ($CertNewVal->"issuer") ]->"CN") "fetch" ] = false) do={
+          $LogPrint warning $ScriptName ("The certificate chain is not available!");
         }
 
         /ip/service/set certificate=($CertNewVal->"name") [ find where certificate=($CertVal->"name") ];
