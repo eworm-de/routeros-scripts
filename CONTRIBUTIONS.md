@@ -56,6 +56,7 @@ Add yourself to the list,
 * Peter Ponzel
 * Reiner Vehrenkamp
 * Richard Österreicher
+* Ruben Navarro Huedo
 * Simon Hitzemann
 * Sunny Chu (@sunnychuchu)
 * Ulrich Wessendorf
