@@ -37,11 +37,11 @@ The DNS and DoH servers to be checked have to be added to netwatch with
 specific comment:
 
     /tool/netwatch/add comment="doh" host=1.1.1.1;
-    /tool/netwatch/add comment="dns" host=8.8.8.8;
     /tool/netwatch/add comment="doh, dns" host=9.9.9.9;
+    /tool/netwatch/add comment="dns" host=8.8.8.8;
 
 This will configure *cloudflare-dns* for DoH (`https://1.1.1.1/dnsquery`), and
-*google-dns* and *quad-nine* for regular DNS (`8.8.8.8,9.9.9.9`) if up.
+*quad-nine* and *google-dns* for regular DNS (`9.9.9.9,8.8.8.8`) if up.
 If *cloudflare-dns* is down the script will fall back to *quad-nine* for DoH.
 
 Giving a specific query url for DoH is possible:
@@ -55,20 +55,26 @@ resolves to the same address.
 
     /ip/dns/static/add name="cloudflare-dns.com" address=1.1.1.1;
     /tool/netwatch/add comment="doh" host=1.1.1.1;
+    /ip dns static add name=dns.quad9.net address=9.9.9.9;
+    /tool/netwatch/add comment="doh" host=9.9.9.9;
+    /ip/dns/static/add name=dns.google address=8.8.8.8;
+    /tool/netwatch/add comment="doh" host=8.8.8.8;
 
 Be aware that you have to keep the ip address in sync with real world
 manually!
 
 Importing a certificate automatically is possible. You may want to find the
-[certificate name from browser](../CERTIFICATES.md).
+[certificate name from browser](../CERTIFICATES.md). Sometimes a service
+randomly switches the CA used to issue the certificate, or it just depends
+geolocation - give several certificate delimited with colon (`:`) then.
 
-    /tool/netwatch/add comment="doh, doh-cert=DigiCert Global Root G2" host=1.1.1.1;
+    /tool/netwatch/add comment="doh, doh-cert=SSL.com Root Certification Authority ECC" host=1.1.1.1;
     /tool/netwatch/add comment="doh, doh-cert=DigiCert Global Root G3" host=9.9.9.9;
-    /tool/netwatch/add comment="doh, doh-cert=GTS Root R1" host=8.8.8.8;
+    /tool/netwatch/add comment="doh, doh-cert=GTS Root R1:GTS Root R4" host=8.8.8.8;
 
 > ⚠️ **Warning**: Combining these techniques can cause some confusion and
 > troubles! Chances are that a service uses different certificates based
-> on indicated server name.
+> on indicated server name (or ip address).
 
 Sometimes using just one specific (possibly internal) DNS server may be
 desired, with fallback in case it fails. This is possible as well:

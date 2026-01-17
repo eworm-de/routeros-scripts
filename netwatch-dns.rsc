@@ -17,6 +17,7 @@
   :local ScriptName [ :jobname ];
 
   :global CertificateAvailable;
+  :global CharacterReplace;
   :global EitherOr;
   :global IsDNSResolving;
   :global LogPrint;
@@ -103,10 +104,12 @@
   }
 
   :foreach DohServer in=$DohServers do={
-    :if ([ :len ($DohServer->"doh-cert") ] > 0) do={
-      :if ([ $CertificateAvailable ($DohServer->"doh-cert") "fetch" ] = false || \
-           [ $CertificateAvailable ($DohServer->"doh-cert") "dns" ] = false) do={
-        $LogPrint warning $ScriptName ("Downloading certificate failed, trying without.");
+    :foreach DohCert in=[ :toarray [ $CharacterReplace ($DohServer->"doh-cert") ":" "," ] ] do={
+      :if ([ :len $DohCert ] > 0) do={
+        :if ([ $CertificateAvailable $DohCert "fetch" ] = false || \
+             [ $CertificateAvailable $DohCert "dns" ] = false) do={
+          $LogPrint warning $ScriptName ("Downloading certificate '" . $DohCert . "' failed, trying without.");
+        }
       }
     }
 

@@ -150,9 +150,9 @@
   :local CertVal [ /certificate/get [ find where common-name=$CommonName ] ];
   :while (($CertVal->"akid") != "" && ($CertVal->"akid") != ($CertVal->"skid")) do={
     :if ([ :len [ /certificate/find where skid=($CertVal->"akid") ] ] = 0) do={
-      $LogPrint info $0 ("Certificate chain for '" . $CommonName . \
-        "' is incomplete, missing '" . ([ $ParseKeyValueStore ($CertVal->"issuer") ]->"CN") . "'.");
-      :if ([ $CertificateDownload $CommonName ] = false) do={
+      :local IssuerCN ([ $ParseKeyValueStore ($CertVal->"issuer") ]->"CN");
+      $LogPrint info $0 ("Certificate chain for '" . $CommonName . "' is incomplete, missing '" . $IssuerCN . "'.");
+      :if ([ $CertificateDownload $IssuerCN ] = false) do={
         :return false;
       }
     }
