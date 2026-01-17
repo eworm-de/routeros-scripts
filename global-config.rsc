@@ -108,11 +108,11 @@
 :global FwAddrLists {
 #  "allow"={
 #    { url="https://rsc.eworm.de/main/fw-addr-lists.d/allow";
-#      cert="ISRG Root X2"; timeout=1w };
+#      cert="Root YE"; timeout=1w };
 #  };
   "block"={
 #    { url="https://rsc.eworm.de/main/fw-addr-lists.d/block";
-#      cert="ISRG Root X2" };
+#      cert="Root YE" };
     { url="https://raw.githubusercontent.com/stamparm/ipsum/refs/heads/master/levels/4.txt";
 #     # higher level (decrease the numerical value) for more addresses, and vice versa
       cert="USERTrust RSA Certification Authority" };
@@ -127,7 +127,7 @@
   };
 #  "mikrotik"={
 #    { url="https://rsc.eworm.de/main/fw-addr-lists.d/mikrotik";
-#      cert="ISRG Root X2"; timeout=1w };
+#      cert="Root YE"; timeout=1w };
 #  };
 };
 :global FwAddrListTimeOut 1d;
