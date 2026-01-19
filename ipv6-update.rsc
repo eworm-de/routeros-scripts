@@ -8,7 +8,6 @@
 # update firewall and dns settings on IPv6 prefix change
 # https://rsc.eworm.de/doc/ipv6-update.md
 
-:local ExitOK false;
 :onerror Err {
   :global GlobalConfigReady; :global GlobalFunctionsReady;
   :retry { :if ($GlobalConfigReady != true || $GlobalFunctionsReady != true) \
@@ -25,26 +24,22 @@
   :local PdValid $"pd-valid";
 
   :if ([ $ScriptLock $ScriptName ] = false) do={
-    :set ExitOK true;
-    :error false;
+    :exit;
   }
 
   :if ([ :typeof $NaAddress ] = "str") do={
     $LogPrint info $ScriptName ("An address (" . $NaAddress . ") was acquired, not a prefix. Ignoring.");
-    :set ExitOK true;
-    :error false;
+    :exit;
   }
 
   :if ([ :typeof $PdPrefix ] = "nothing" || [ :typeof $PdValid ] = "nothing") do={
     $LogPrint error $ScriptName ("This script is supposed to run from ipv6 dhcp-client.");
-    :set ExitOK true;
-    :error false;
+    :exit;
   }
 
   :if ($PdValid != 1) do={
     $LogPrint info $ScriptName ("The prefix " . $PdPrefix . " is no longer valid. Ignoring.");
-    :set ExitOK true;
-    :error false;
+    :exit;
   }
 
   :local Pool [ /ipv6/pool/get [ find where prefix=$PdPrefix ] name ];
@@ -103,5 +98,5 @@
     }
   }
 } do={
-  :global ExitError; $ExitError $ExitOK [ :jobname ] $Err;
+  :global ExitOnError; $ExitOnError [ :jobname ] $Err;
 }
