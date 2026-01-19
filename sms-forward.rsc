@@ -9,7 +9,6 @@
 # forward SMS to e-mail
 # https://rsc.eworm.de/doc/sms-forward.md
 
-:local ExitOK false;
 :onerror Err {
   :global GlobalConfigReady; :global GlobalFunctionsReady;
   :retry { :if ($GlobalConfigReady != true || $GlobalFunctionsReady != true) \
@@ -29,14 +28,12 @@
   :global WaitFullyConnected;
 
   :if ([ $ScriptLock $ScriptName ] = false) do={
-    :set ExitOK true;
-    :error false;
+    :exit;
   }
 
   :if ([ /tool/sms/get receive-enabled ] = false) do={
     $LogPrintOnce warning $ScriptName ("Receiving of SMS is not enabled.");
-    :set ExitOK true;
-    :error false;
+    :exit;
   }
 
   $WaitFullyConnected;
@@ -45,8 +42,7 @@
 
   :if ([ /interface/lte/get ($Settings->"port") running ] != true) do={
     $LogPrint info $ScriptName ("The LTE interface is not in running state, skipping.");
-    :set ExitOK true;
-    :error true;
+    :exit;
   }
 
   # forward SMS in a loop
@@ -107,5 +103,5 @@
     }
   }
 } do={
-  :global ExitError; $ExitError $ExitOK [ :jobname ] $Err;
+  :global ExitOnError; $ExitOnError [ :jobname ] $Err;
 }
