@@ -1293,103 +1293,103 @@
       }
     }
 
-      :if ($ScriptInfo->"ignore" = true) do={
-        $LogPrint debug $0 ("Ignoring script '" . $ScriptVal->"name" . "', as requested.");
+    :if ($ScriptInfo->"ignore" = true) do={
+      $LogPrint debug $0 ("Ignoring script '" . $ScriptVal->"name" . "', as requested.");
+      :continue;
+    }
+
+    :local CheckSum ($CheckSums->($ScriptVal->"name"));
+    :if ([ :len ($ScriptInfo->"base-url") ] = 0 && [ :len ($ScriptInfo->"url-suffix") ] = 0 && \
+         [ :convert transform=md5 to=hex [ :tolf ($ScriptVal->"source") ] ] = $CheckSum) do={
+      $LogPrint debug $0 ("Checksum for script '" . $ScriptVal->"name" . "' matches, ignoring.");
+      :continue;
+    }
+
+    :if ([ :len ($ScriptInfo->"certificate") ] > 0) do={
+      :if ([ $CertificateAvailable ($ScriptInfo->"certificate") "fetch" ] = false) do={
+        $LogPrint warning $0 ("Downloading certificate failed, trying without.");
+      }
+    }
+
+    :onerror Err {
+      :local BaseUrl [ $EitherOr ($ScriptInfo->"base-url") $ScriptUpdatesBaseUrl ];
+      :local UrlSuffix [ $EitherOr ($ScriptInfo->"url-suffix") $ScriptUpdatesUrlSuffix ];
+      :local Url ($BaseUrl . $ScriptVal->"name" . ".rsc" . $UrlSuffix);
+      $LogPrint debug $0 ("Fetching script '" . $ScriptVal->"name" . "' from url: " . $Url);
+      :local Result [ /tool/fetch check-certificate=yes-without-crl \
+        http-header-field=({ [ $FetchUserAgentStr $0 ] }) $Url output=user as-value ];
+      :if ($Result->"status" = "finished") do={
+        :set SourceNew [ :tolf ($Result->"data") ];
+      }
+    } do={
+      $LogPrint warning $0 ("Failed fetching script '" . $ScriptVal->"name" . "': " . $Err);
+      :if ($Err != "Fetch failed with status 404") do={
         :continue;
       }
 
-      :local CheckSum ($CheckSums->($ScriptVal->"name"));
+      :if ($ScriptVal->"source" = "#!rsc by RouterOS\n") do={
+        $LogPrint warning $0 ("Removing dummy. Typo on installation?");
+        /system/script/remove $Script;
+        :continue;
+      }
       :if ([ :len ($ScriptInfo->"base-url") ] = 0 && [ :len ($ScriptInfo->"url-suffix") ] = 0 && \
-           [ :convert transform=md5 to=hex [ :tolf ($ScriptVal->"source") ] ] = $CheckSum) do={
-        $LogPrint debug $0 ("Checksum for script '" . $ScriptVal->"name" . "' matches, ignoring.");
-        :continue;
+           [ :len $CheckSum ] = 0) do={
+        $LogPrintOnce warning $0 \
+            ("Added the script manually? Skip updates with 'ignore=true' in comment.");
       }
+      :continue;
+    }
 
-      :if ([ :len ($ScriptInfo->"certificate") ] > 0) do={
-        :if ([ $CertificateAvailable ($ScriptInfo->"certificate") "fetch" ] = false) do={
-          $LogPrint warning $0 ("Downloading certificate failed, trying without.");
-        }
-      }
+    :if ([ :len $SourceNew ] = 0) do={
+      $LogPrint debug $0 ("No update for script '" . $ScriptVal->"name" . "'.");
+      :continue;
+    }
 
-      :onerror Err {
-        :local BaseUrl [ $EitherOr ($ScriptInfo->"base-url") $ScriptUpdatesBaseUrl ];
-        :local UrlSuffix [ $EitherOr ($ScriptInfo->"url-suffix") $ScriptUpdatesUrlSuffix ];
-        :local Url ($BaseUrl . $ScriptVal->"name" . ".rsc" . $UrlSuffix);
-        $LogPrint debug $0 ("Fetching script '" . $ScriptVal->"name" . "' from url: " . $Url);
-        :local Result [ /tool/fetch check-certificate=yes-without-crl \
-          http-header-field=({ [ $FetchUserAgentStr $0 ] }) $Url output=user as-value ];
-        :if ($Result->"status" = "finished") do={
-          :set SourceNew [ :tolf ($Result->"data") ];
-        }
-      } do={
-        $LogPrint warning $0 ("Failed fetching script '" . $ScriptVal->"name" . "': " . $Err);
-        :if ($Err != "Fetch failed with status 404") do={
-          :continue;
-        }
+    :local SourceCRLF [ :tocrlf $SourceNew ];
+    :if ($SourceNew = $ScriptVal->"source" || $SourceCRLF = $ScriptVal->"source") do={
+      $LogPrint debug $0 ("Script '" .  $ScriptVal->"name" . "' did not change.");
+      :continue;
+    }
 
-        :if ($ScriptVal->"source" = "#!rsc by RouterOS\n") do={
-          $LogPrint warning $0 ("Removing dummy. Typo on installation?");
-          /system/script/remove $Script;
-          :continue;
-        }
-        :if ([ :len ($ScriptInfo->"base-url") ] = 0 && [ :len ($ScriptInfo->"url-suffix") ] = 0 && \
-             [ :len $CheckSum ] = 0) do={
-          $LogPrintOnce warning $0 \
-              ("Added the script manually? Skip updates with 'ignore=true' in comment.");
-        }
-        :continue;
-      }
+    :if ([ :pick $SourceNew 0 18 ] != "#!rsc by RouterOS\n") do={
+      $LogPrint warning $0 ("Looks like new script '" . $ScriptVal->"name" . \
+          "' is not valid (missing shebang). Ignoring!");
+      :continue;
+    }
 
-      :if ([ :len $SourceNew ] = 0) do={
-        $LogPrint debug $0 ("No update for script '" . $ScriptVal->"name" . "'.");
-        :continue;
-      }
+    :local RequiredROS ([ $ParseKeyValueStore [ $Grep $SourceNew ("\23 requires RouterOS, ") ] ]->"version");
+    :if ([ $RequiredRouterOS $0 [ $EitherOr $RequiredROS "0.0" ] false ] = false) do={
+      $LogPrintOnce warning $0 ("The script '" . $ScriptVal->"name" . "' requires RouterOS " . \
+          $RequiredROS . ", which is not met by your installation. Ignoring!");
+      :continue;
+    }
 
-      :local SourceCRLF [ :tocrlf $SourceNew ];
-      :if ($SourceNew = $ScriptVal->"source" || $SourceCRLF = $ScriptVal->"source") do={
-        $LogPrint debug $0 ("Script '" .  $ScriptVal->"name" . "' did not change.");
-        :continue;
+    :local RequiredDM [ $ParseKeyValueStore [ $Grep $SourceNew ("\23 requires device-mode, ") ] ];
+    :local MissingDM ({});
+    :foreach Feature,Value in=$RequiredDM do={
+      :if ([ :typeof ($DeviceMode->$Feature) ] = "bool" && ($DeviceMode->$Feature) = false) do={
+        :set MissingDM ($MissingDM, $Feature);
       }
+    }
+    :if ([ :len $MissingDM ] > 0) do={
+      $LogPrintOnce warning $0 ("The script '" . $ScriptVal->"name" . "' requires disabled " . \
+          "device-mode features (" . [ :tostr $MissingDM ] . "). Ignoring!");
+      :continue;
+    }
 
-      :if ([ :pick $SourceNew 0 18 ] != "#!rsc by RouterOS\n") do={
-        $LogPrint warning $0 ("Looks like new script '" . $ScriptVal->"name" . \
-            "' is not valid (missing shebang). Ignoring!");
-        :continue;
-      }
+    :if ([ $ValidateSyntax $SourceNew ] = false) do={
+      $LogPrint warning $0 ("Syntax validation for script '" . $ScriptVal->"name" . "' failed! Ignoring!");
+      :continue;
+    }
 
-      :local RequiredROS ([ $ParseKeyValueStore [ $Grep $SourceNew ("\23 requires RouterOS, ") ] ]->"version");
-      :if ([ $RequiredRouterOS $0 [ $EitherOr $RequiredROS "0.0" ] false ] = false) do={
-        $LogPrintOnce warning $0 ("The script '" . $ScriptVal->"name" . "' requires RouterOS " . \
-            $RequiredROS . ", which is not met by your installation. Ignoring!");
-        :continue;
-      }
-
-      :local RequiredDM [ $ParseKeyValueStore [ $Grep $SourceNew ("\23 requires device-mode, ") ] ];
-      :local MissingDM ({});
-      :foreach Feature,Value in=$RequiredDM do={
-        :if ([ :typeof ($DeviceMode->$Feature) ] = "bool" && ($DeviceMode->$Feature) = false) do={
-          :set MissingDM ($MissingDM, $Feature);
-        }
-      }
-      :if ([ :len $MissingDM ] > 0) do={
-        $LogPrintOnce warning $0 ("The script '" . $ScriptVal->"name" . "' requires disabled " . \
-            "device-mode features (" . [ :tostr $MissingDM ] . "). Ignoring!");
-        :continue;
-      }
-
-      :if ([ $ValidateSyntax $SourceNew ] = false) do={
-        $LogPrint warning $0 ("Syntax validation for script '" . $ScriptVal->"name" . "' failed! Ignoring!");
-        :continue;
-      }
-
-      $LogPrint info $0 ("Updating script: " . $ScriptVal->"name");
-      /system/script/set owner=($ScriptVal->"name") \
-          source=[ $IfThenElse ($ScriptUpdatesCRLF = true) $SourceCRLF $SourceNew ] $Script;
-      :if ($ScriptVal->"name" = "global-config" || \
-           $ScriptVal->"name" = "global-functions" || \
-           $ScriptVal->"name" ~ ("^(global-functions\\.d|mod)/.")) do={
-        :set ReloadGlobal true;
-      }
+    $LogPrint info $0 ("Updating script: " . $ScriptVal->"name");
+    /system/script/set owner=($ScriptVal->"name") \
+        source=[ $IfThenElse ($ScriptUpdatesCRLF = true) $SourceCRLF $SourceNew ] $Script;
+    :if ($ScriptVal->"name" = "global-config" || \
+         $ScriptVal->"name" = "global-functions" || \
+         $ScriptVal->"name" ~ ("^(global-functions\\.d|mod)/.")) do={
+      :set ReloadGlobal true;
+    }
   }
 
   :if ($ReloadGlobal = true) do={
