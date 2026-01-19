@@ -9,7 +9,6 @@
 # check for RouterOS update, send notification and/or install
 # https://rsc.eworm.de/doc/check-routeros-update.md
 
-:local ExitOK false;
 :onerror Err {
   :global GlobalConfigReady; :global GlobalFunctionsReady;
   :retry { :if ($GlobalConfigReady != true || $GlobalFunctionsReady != true) \
@@ -47,14 +46,12 @@
   }
 
   :if ([ $ScriptLock $ScriptName ] = false) do={
-    :set ExitOK true;
-    :error false;
+    :exit;
   }
 
   :if ([ :len [ /system/scheduler/find where name="running-from-backup-partition" ] ] > 0) do={
     $LogPrint warning $ScriptName ("Running from backup partition, refusing to act.");
-    :set ExitOK true;
-    :error false;
+    :exit;
   }
 
   $WaitFullyConnected;
@@ -65,8 +62,7 @@
       /system/scheduler/remove "_RebootForUpdate";
     } else={
       $LogPrint info $ScriptName ("A reboot for update is already scheduled.");
-      :set ExitOK true;
-      :error false;
+      :exit;
     }
   }
 
@@ -78,14 +74,12 @@
     :if ([ $ScriptFromTerminal $ScriptName ] = true) do={
       $LogPrint info $ScriptName ("System is already up to date.");
     }
-    :set ExitOK true;
-    :error true;
+    :exit;
   }
 
   :if ([ :len ($Update->"latest-version") ] = 0) do={
     $LogPrint info $ScriptName ("Received an empty version string from server.");
-    :set ExitOK true;
-    :error false;
+    :exit;
   }
 
   :local NumInstalled [ $VersionToNum ($Update->"installed-version") ];
@@ -97,8 +91,7 @@
 
   :if ($NumLatest < [ $VersionToNum "7.0" ]) do={
     $LogPrint warning $ScriptName ("The version '" . ($Update->"latest-version") . "' is not a valid version.");
-    :set ExitOK true;
-    :error false;
+    :exit;
   }
 
   :if ($NumInstalled < $NumLatest) do={
@@ -110,8 +103,7 @@
         message=("Installing ALL versions automatically, including " . $Update->"latest-version" . \
           "... Updating on " . $Identity . "..."); link=$Link; silent=true });
       $DoUpdate $ScriptName;
-      :set ExitOK true;
-      :error true;
+      :exit;
     }
 
     :if ($SafeUpdatePatch = true && $NumInstalledFeature = $NumLatestFeature) do={
@@ -121,8 +113,7 @@
         message=("Version " . $Update->"latest-version" . " is a patch update for " . $Update->"channel" . \
           ", updating on " . $Identity . "..."); link=$Link; silent=true });
       $DoUpdate $ScriptName;
-      :set ExitOK true;
-      :error true;
+      :exit;
     }
 
     :if ($SafeUpdateNeighbor = true) do={
@@ -137,8 +128,7 @@
           message=("Seen a neighbor (" . $Neighbor . ") running version " . $Update->"latest-version" . \
             " from " . $Update->"channel" . ", updating on " . $Identity . "..."); link=$Link; silent=true });
         $DoUpdate $ScriptName;
-        :set ExitOK true;
-        :error true;
+        :exit;
       }
     }
 
@@ -159,8 +149,7 @@
           message=("Version " . $Update->"latest-version" . " is considered safe for " . $Update->"channel" . \
             ", updating on " . $Identity . "..."); link=$Link; silent=true });
         $DoUpdate $ScriptName;
-        :set ExitOK true;
-        :error true;
+        :exit;
       }
     }
 
@@ -170,16 +159,14 @@
         :if (([ /terminal/inkey timeout=60 ] % 32) = 25) do={
           /system/package/update/set channel=stable;
           $LogPrint info $ScriptName ("Switched to channel 'stable', please re-run!");
-          :set ExitOK true;
-          :error true;
+          :exit;
         }
       }
 
       :put ("Do you want to install RouterOS version " . $Update->"latest-version" . "? [y/N]");
       :if (([ /terminal/inkey timeout=60 ] % 32) = 25) do={
         $DoUpdate $ScriptName;
-        :set ExitOK true;
-        :error true;
+        :exit;
       } else={
         :put "Canceled...";
       }
@@ -188,8 +175,7 @@
     :if ($SentRouterosUpdateNotification = $Update->"latest-version") do={
       $LogPrint info $ScriptName ("Already sent the RouterOS update notification for version " . \
           $Update->"latest-version" . ".");
-      :set ExitOK true;
-      :error true;
+      :exit;
     }
 
     $SendNotification2 ({ origin=$ScriptName; \
@@ -204,8 +190,7 @@
     :if ($SentRouterosUpdateNotification = $Update->"latest-version") do={
       $LogPrint info $ScriptName ("Already sent the RouterOS downgrade notification for version " . \
           $Update->"latest-version" . ".");
-      :set ExitOK true;
-      :error true;
+      :exit;
     }
 
     $SendNotification2 ({ origin=$ScriptName; \
@@ -218,5 +203,5 @@
     :set SentRouterosUpdateNotification ($Update->"latest-version");
   }
 } do={
-  :global ExitError; $ExitError $ExitOK [ :jobname ] $Err;
+  :global ExitOnError; $ExitOnError [ :jobname ] $Err;
 }
