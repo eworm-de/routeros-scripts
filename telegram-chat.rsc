@@ -9,7 +9,6 @@
 # use Telegram to chat with your Router and send commands
 # https://rsc.eworm.de/doc/telegram-chat.md
 
-:local ExitOK false;
 :onerror Err {
   :global GlobalConfigReady; :global GlobalFunctionsReady;
   :retry { :if ($GlobalConfigReady != true || $GlobalFunctionsReady != true) \
@@ -48,8 +47,7 @@
   :global WaitFullyConnected;
 
   :if ([ $ScriptLock $ScriptName ] = false) do={
-    :set ExitOK true;
-    :error false;
+    :exit;
   }
 
   $WaitFullyConnected;
@@ -63,8 +61,7 @@
 
   :if ([ $CertificateAvailable "Go Daddy Root Certificate Authority - G2" "fetch" ] = false) do={
     $LogPrint warning $ScriptName ("Downloading required certificate failed.");
-    :set ExitOK true;
-    :error false;
+    :exit;
   }
 
   $RandomDelay $TelegramRandomDelay;
@@ -89,8 +86,7 @@
 
   :if ($Data = false) do={
     $LogPrint warning $ScriptName ("Failed getting updates.");
-    :set ExitOK true;
-    :error false;
+    :exit;
   }
 
   :local JSON [ :deserialize from=json value=$Data ];
@@ -146,8 +142,7 @@
             :local File ("tmpfs/telegram-chat/" . [ $GetRandom20CharAlNum 6 ]);
             :if ([ $MkDir "tmpfs/telegram-chat" ] = false) do={
               $LogPrint error $ScriptName ("Failed creating directory!");
-              :set ExitOK true;
-              :error false;
+              :exit;
             }
             $LogPrint info $ScriptName ("Running command from update " . $UpdateID . ": " . $Command);
             :execute script=(":do {\n" . $Command . "\n} on-error={ /file/add name=\"" . $File . ".failed\" };" . \
@@ -197,5 +192,5 @@
   :set TelegramChatOffset ([ :pick $TelegramChatOffset 1 3 ], \
     [ $IfThenElse ($UpdateID >= $TelegramChatOffset->2) ($UpdateID + 1) ($TelegramChatOffset->2) ]);
 } do={
-  :global ExitError; $ExitError $ExitOK [ :jobname ] $Err;
+  :global ExitOnError; $ExitOnError [ :jobname ] $Err;
 }

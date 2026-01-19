@@ -8,7 +8,6 @@
 # check for RouterOS health state
 # https://rsc.eworm.de/doc/check-health.md
 
-:local ExitOK false;
 :onerror Err {
   :global GlobalConfigReady; :global GlobalFunctionsReady;
   :retry { :if ($GlobalConfigReady != true || $GlobalFunctionsReady != true) \
@@ -37,8 +36,7 @@
   }
 
   :if ([ $ScriptLock $ScriptName ] = false) do={
-    :set ExitOK true;
-    :error false;
+    :exit;
   }
 
   :local Resource [ /system/resource/get ];
@@ -77,8 +75,7 @@
   :local Plugins [ /system/script/find where name~"^check-health\\.d/." ];
   :if ([ :len $Plugins ] = 0) do={
     $LogPrint debug $ScriptName ("No plugins installed.");
-    :set ExitOK true;
-    :error true;
+    :exit;
   }
 
   :global CheckHealthPlugins ({});
@@ -106,5 +103,5 @@
 
   :set CheckHealthPlugins;
 } do={
-  :global ExitError; $ExitError $ExitOK [ :jobname ] $Err;
+  :global ExitOnError; $ExitOnError [ :jobname ] $Err;
 }

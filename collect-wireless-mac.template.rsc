@@ -12,7 +12,6 @@
 # !! This is just a template to generate the real script!
 # !! Pattern '%TEMPL%' is replaced, paths are filtered.
 
-:local ExitOK false;
 :onerror Err {
   :global GlobalConfigReady; :global GlobalFunctionsReady;
   :retry { :if ($GlobalConfigReady != true || $GlobalFunctionsReady != true) \
@@ -31,8 +30,7 @@
   :global SymbolForNotification;
 
   :if ([ $ScriptLock $ScriptName 10 ] = false) do={
-    :set ExitOK true;
-    :error false;
+    :exit;
   }
 
   :if ([ :len [ /caps-man/access-list/find where comment="--- collected above ---" disabled ] ] = 0) do={
@@ -114,5 +112,5 @@
     }
   }
 } do={
-  :global ExitError; $ExitError $ExitOK [ :jobname ] $Err;
+  :global ExitOnError; $ExitOnError [ :jobname ] $Err;
 }

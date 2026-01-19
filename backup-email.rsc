@@ -9,7 +9,6 @@
 # create and email backup and config file
 # https://rsc.eworm.de/doc/backup-email.md
 
-:local ExitOK false;
 :onerror Err {
   :global GlobalConfigReady; :global GlobalFunctionsReady;
   :retry { :if ($GlobalConfigReady != true || $GlobalFunctionsReady != true) \
@@ -41,28 +40,24 @@
 
   :if ([ :typeof $SendEMail2 ] = "nothing") do={
     $LogPrint error $ScriptName ("The module for sending notifications via e-mail is not installed.");
-    :set ExitOK true;
-    :error false;
+    :exit;
   }
 
   :if ($BackupSendBinary != true && \
        $BackupSendExport != true) do={
     $LogPrint error $ScriptName ("Configured to send neither backup nor config export.");
-    :set ExitOK true;
-    :error false;
+    :exit;
   }
 
   :if ([ $ScriptLock $ScriptName ] = false) do={
     :set PackagesUpdateBackupFailure true;
-    :set ExitOK true;
-    :error false;
+    :exit;
   }
 
   :if ([ :len [ /system/scheduler/find where name="running-from-backup-partition" ] ] > 0) do={
     $LogPrint warning $ScriptName ("Running from backup partition, refusing to act.");
     :set PackagesUpdateBackupFailure true;
-    :set ExitOK true;
-    :error false;
+    :exit;
   }
 
   $WaitFullyConnected;
@@ -82,8 +77,7 @@
 
   :if ([ $MkDir $DirName ] = false) do={
     $LogPrint error $ScriptName ("Failed creating directory!");
-    :set ExitOK true;
-    :error false;
+    :exit;
   }
 
   # binary backup
@@ -139,5 +133,5 @@
   }
   # do not remove the files here, as the mail is still queued!
 } do={
-  :global ExitError; $ExitError $ExitOK [ :jobname ] $Err;
+  :global ExitOnError; $ExitOnError [ :jobname ] $Err;
 }

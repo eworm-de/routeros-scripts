@@ -8,7 +8,6 @@
 # download, import and update firewall address-lists
 # https://rsc.eworm.de/doc/fw-addr-lists.md
 
-:local ExitOK false;
 :onerror Err {
   :global GlobalConfigReady; :global GlobalFunctionsReady;
   :retry { :if ($GlobalConfigReady != true || $GlobalFunctionsReady != true) \
@@ -46,8 +45,7 @@
   }
 
   :if ([ $ScriptLock $ScriptName ] = false) do={
-    :set ExitOK true;
-    :error false;
+    :exit;
   }
   $WaitFullyConnected;
 
@@ -232,5 +230,5 @@
         " - removed: " . [ $HumanReadableNum $CntRemove 1000 ]);
   }
 } do={
-  :global ExitError; $ExitError $ExitOK [ :jobname ] $Err;
+  :global ExitOnError; $ExitOnError [ :jobname ] $Err;
 }

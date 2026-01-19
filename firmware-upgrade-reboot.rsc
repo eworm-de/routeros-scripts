@@ -8,7 +8,6 @@
 # install firmware upgrade, and reboot
 # https://rsc.eworm.de/doc/firmware-upgrade-reboot.md
 
-:local ExitOK false;
 :onerror Err {
   :global GlobalConfigReady; :global GlobalFunctionsReady;
   :retry { :if ($GlobalConfigReady != true || $GlobalFunctionsReady != true) \
@@ -20,21 +19,18 @@
   :global VersionToNum;
 
   :if ([ $ScriptLock $ScriptName ] = false) do={
-    :set ExitOK true;
-    :error false;
+    :exit;
   }
 
   :local RouterBoard [ /system/routerboard/get ];
   :if ($RouterBoard->"current-firmware" = $RouterBoard->"upgrade-firmware") do={
     $LogPrint info $ScriptName ("Current and upgrade firmware match with version " . \
       $RouterBoard->"current-firmware" . ".");
-    :set ExitOK true;
-    :error true;
+    :exit;
   }
   :if ([ $VersionToNum ($RouterBoard->"current-firmware") ] > [ $VersionToNum ($RouterBoard->"upgrade-firmware") ]) do={
     $LogPrint info $ScriptName ("Different firmware version is available, but it is a downgrade. Ignoring.");
-    :set ExitOK true;
-    :error true;
+    :exit;
   }
 
   :if ([ /system/routerboard/settings/get auto-upgrade ] = false) do={
@@ -56,5 +52,5 @@
   $LogPrint info $ScriptName ("Firmware upgrade successful, rebooting.");
   /system/reboot;
 } do={
-  :global ExitError; $ExitError $ExitOK [ :jobname ] $Err;
+  :global ExitOnError; $ExitOnError [ :jobname ] $Err;
 }
