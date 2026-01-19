@@ -9,7 +9,6 @@
 # act on multiple mode and reset button presses
 # https://rsc.eworm.de/doc/mode-button.md
 
-:local ExitOK false;
 :onerror Err {
   :global GlobalConfigReady; :global GlobalFunctionsReady;
   :retry { :if ($GlobalConfigReady != true || $GlobalFunctionsReady != true) \
@@ -92,5 +91,5 @@
     /system/scheduler/set $Scheduler start-time=[ /system/clock/get time ];
   }
 } do={
-  :global ExitError; $ExitError $ExitOK [ :jobname ] $Err;
+  :global ExitError; $ExitError false [ :jobname ] $Err;
 }
