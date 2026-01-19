@@ -8,8 +8,22 @@
 # deprecated global functions
 # https://rsc.eworm.de/
 
+:global ExitError;
 :global HexToNum;
 :global UrlEncode;
+
+# wrapper for $ExitOnError with additional parameter
+:set ExitError do={
+  :local ExitOK [ :tostr $1 ];
+  :local Name   [ :tostr $2 ];
+  :local Error  [ :tostr $3 ];
+
+  :global ExitOnError;
+
+  :if ($ExitOK = "false") do={
+    $ExitOnError $Name $Error;
+  }
+}
 
 # convert from hex (string) to num
 :set HexToNum do={
