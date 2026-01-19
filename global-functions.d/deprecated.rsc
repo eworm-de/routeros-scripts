@@ -7,3 +7,18 @@
 #
 # deprecated global functions
 # https://rsc.eworm.de/
+
+:global HexToNum;
+
+# convert from hex (string) to num
+:set HexToNum do={
+  :local Input [ :tostr $1 ];
+
+  :global HexToNum;
+
+  :if ([ :pick $Input 0 ] = "*") do={
+    :return [ $HexToNum [ :pick  $Input 1 [ :len $Input ] ] ];
+  }
+
+  :return [ :tonum ("0x" . $Input) ];
+}
