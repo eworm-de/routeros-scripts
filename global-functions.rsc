@@ -1293,17 +1293,16 @@
       }
     }
 
-    :do {
       :if ($ScriptInfo->"ignore" = true) do={
         $LogPrint debug $0 ("Ignoring script '" . $ScriptVal->"name" . "', as requested.");
-        :error true;
+        :continue;
       }
 
       :local CheckSum ($CheckSums->($ScriptVal->"name"));
       :if ([ :len ($ScriptInfo->"base-url") ] = 0 && [ :len ($ScriptInfo->"url-suffix") ] = 0 && \
            [ :convert transform=md5 to=hex [ :tolf ($ScriptVal->"source") ] ] = $CheckSum) do={
         $LogPrint debug $0 ("Checksum for script '" . $ScriptVal->"name" . "' matches, ignoring.");
-        :error true;
+        :continue;
       }
 
       :if ([ :len ($ScriptInfo->"certificate") ] > 0) do={
@@ -1325,44 +1324,44 @@
       } do={
         $LogPrint warning $0 ("Failed fetching script '" . $ScriptVal->"name" . "': " . $Err);
         :if ($Err != "Fetch failed with status 404") do={
-          :error false;
+          :continue;
         }
 
         :if ($ScriptVal->"source" = "#!rsc by RouterOS\n") do={
           $LogPrint warning $0 ("Removing dummy. Typo on installation?");
           /system/script/remove $Script;
-          :error false;
+          :continue;
         }
         :if ([ :len ($ScriptInfo->"base-url") ] = 0 && [ :len ($ScriptInfo->"url-suffix") ] = 0 && \
              [ :len $CheckSum ] = 0) do={
           $LogPrintOnce warning $0 \
               ("Added the script manually? Skip updates with 'ignore=true' in comment.");
         }
-        :error false;
+        :continue;
       }
 
       :if ([ :len $SourceNew ] = 0) do={
         $LogPrint debug $0 ("No update for script '" . $ScriptVal->"name" . "'.");
-        :error false;
+        :continue;
       }
 
       :local SourceCRLF [ :tocrlf $SourceNew ];
       :if ($SourceNew = $ScriptVal->"source" || $SourceCRLF = $ScriptVal->"source") do={
         $LogPrint debug $0 ("Script '" .  $ScriptVal->"name" . "' did not change.");
-        :error false;
+        :continue;
       }
 
       :if ([ :pick $SourceNew 0 18 ] != "#!rsc by RouterOS\n") do={
         $LogPrint warning $0 ("Looks like new script '" . $ScriptVal->"name" . \
             "' is not valid (missing shebang). Ignoring!");
-        :error false;
+        :continue;
       }
 
       :local RequiredROS ([ $ParseKeyValueStore [ $Grep $SourceNew ("\23 requires RouterOS, ") ] ]->"version");
       :if ([ $RequiredRouterOS $0 [ $EitherOr $RequiredROS "0.0" ] false ] = false) do={
         $LogPrintOnce warning $0 ("The script '" . $ScriptVal->"name" . "' requires RouterOS " . \
             $RequiredROS . ", which is not met by your installation. Ignoring!");
-        :error false;
+        :continue;
       }
 
       :local RequiredDM [ $ParseKeyValueStore [ $Grep $SourceNew ("\23 requires device-mode, ") ] ];
@@ -1375,12 +1374,12 @@
       :if ([ :len $MissingDM ] > 0) do={
         $LogPrintOnce warning $0 ("The script '" . $ScriptVal->"name" . "' requires disabled " . \
             "device-mode features (" . [ :tostr $MissingDM ] . "). Ignoring!");
-        :error false;
+        :continue;
       }
 
       :if ([ $ValidateSyntax $SourceNew ] = false) do={
         $LogPrint warning $0 ("Syntax validation for script '" . $ScriptVal->"name" . "' failed! Ignoring!");
-        :error false;
+        :continue;
       }
 
       $LogPrint info $0 ("Updating script: " . $ScriptVal->"name");
@@ -1391,7 +1390,6 @@
            $ScriptVal->"name" ~ ("^(global-functions\\.d|mod)/.")) do={
         :set ReloadGlobal true;
       }
-    } on-error={ }
   }
 
   :if ($ReloadGlobal = true) do={
