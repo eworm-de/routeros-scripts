@@ -49,7 +49,6 @@
 :global GetRandom20CharHex;
 :global GetRandomNumber;
 :global Grep;
-:global HexToNum;
 :global HumanReadableNum;
 :global IfThenElse;
 :global IsDefaultRouteReachable;
@@ -736,19 +735,6 @@
   } while=([ :len $Input ] > 0);
 
   :return [];
-}
-
-# convert from hex (string) to num
-:set HexToNum do={
-  :local Input [ :tostr $1 ];
-
-  :global HexToNum;
-
-  :if ([ :pick $Input 0 ] = "*") do={
-    :return [ $HexToNum [ :pick  $Input 1 [ :len $Input ] ] ];
-  }
-
-  :return [ :tonum ("0x" . $Input) ];
 }
 
 # return human readable number
