@@ -3,7 +3,7 @@
 # Copyright (c) 2013-2026 Christian Hesse <mail@eworm.de>
 # https://rsc.eworm.de/COPYING.md
 #
-# requires RouterOS, version=7.17
+# requires RouterOS, version=7.19
 #
 # run scripts on DHCP lease
 # https://rsc.eworm.de/doc/lease-script.md

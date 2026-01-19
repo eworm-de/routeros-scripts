@@ -3,7 +3,7 @@
 # Copyright (c) 2023-2026 Christian Hesse <mail@eworm.de>
 # https://rsc.eworm.de/COPYING.md
 #
-# requires RouterOS, version=7.17
+# requires RouterOS, version=7.19
 #
 # download, import and update firewall address-lists
 # https://rsc.eworm.de/doc/fw-addr-lists.md

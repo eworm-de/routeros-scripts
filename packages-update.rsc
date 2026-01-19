@@ -3,7 +3,7 @@
 # Copyright (c) 2019-2026 Christian Hesse <mail@eworm.de>
 # https://rsc.eworm.de/COPYING.md
 #
-# requires RouterOS, version=7.17
+# requires RouterOS, version=7.19
 # requires device-mode, scheduler
 #
 # download packages and reboot for installation

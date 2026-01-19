@@ -3,7 +3,7 @@
 # Copyright (c) 2018-2026 Christian Hesse <mail@eworm.de>
 # https://rsc.eworm.de/COPYING.md
 #
-# requires RouterOS, version=7.17
+# requires RouterOS, version=7.19
 #
 # run action on received SMS
 # https://rsc.eworm.de/doc/sms-action.md

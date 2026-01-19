@@ -4,7 +4,7 @@
 #                         Michael Gisbers <michael@gisbers.de>
 # https://rsc.eworm.de/COPYING.md
 #
-# requires RouterOS, version=7.17
+# requires RouterOS, version=7.19
 #
 # update daily PSK (pre shared key)
 # https://rsc.eworm.de/doc/daily-psk.md

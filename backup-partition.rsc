@@ -4,7 +4,7 @@
 # https://rsc.eworm.de/COPYING.md
 #
 # provides: backup-script, order=70
-# requires RouterOS, version=7.17
+# requires RouterOS, version=7.19
 # requires device-mode, scheduler
 #
 # save configuration to fallback partition
