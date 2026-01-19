@@ -10,7 +10,6 @@
 # save configuration to fallback partition
 # https://rsc.eworm.de/doc/backup-partition.md
 
-:local ExitOK false;
 :onerror Err {
   :global GlobalConfigReady; :global GlobalFunctionsReady;
   :retry { :if ($GlobalConfigReady != true || $GlobalFunctionsReady != true) \
@@ -45,22 +44,19 @@
 
   :if ([ $ScriptLock $ScriptName ] = false) do={
     :set PackagesUpdateBackupFailure true;
-    :set ExitOK true;
-    :error false;
+    :exit;
   }
 
   :if ([ :len [ /system/scheduler/find where name="running-from-backup-partition" ] ] > 0) do={
     $LogPrint warning $ScriptName ("Running from backup partition, refusing to act.");
     :set PackagesUpdateBackupFailure true;
-    :set ExitOK true;
-    :error false;
+    :exit;
   }
 
   :if ([ :len [ /partitions/find ] ] < 2) do={
     $LogPrint error $ScriptName ("Device does not have a fallback partition.");
     :set PackagesUpdateBackupFailure true;
-    :set ExitOK true;
-    :error false;
+    :exit;
   }
 
   :local ActiveRunning [ /partitions/find where active running ];
@@ -68,8 +64,7 @@
   :if ([ :len $ActiveRunning ] < 1) do={
     $LogPrint error $ScriptName ("Device is not running from active partition.");
     :set PackagesUpdateBackupFailure true;
-    :set ExitOK true;
-    :error false;
+    :exit;
   }
 
   :local FallbackToName [ /partitions/get $ActiveRunning fallback-to ];
@@ -78,8 +73,7 @@
   :if ([ :len $FallbackTo ] < 1) do={
     $LogPrint error $ScriptName ("There is no inactive partition named '" . $FallbackToName . "'.");
     :set PackagesUpdateBackupFailure true;
-    :set ExitOK true;
-    :error false;
+    :exit;
   }
 
   :if ([ /partitions/get $ActiveRunning version ] != [ /partitions/get $FallbackTo version]) do={
@@ -88,8 +82,7 @@
       :if (([ /terminal/inkey timeout=60 ] % 32) = 25) do={
         :if ([ $CopyTo $ScriptName $FallbackTo $FallbackToName ] = false) do={
           :set PackagesUpdateBackupFailure true;
-          :set ExitOK true;
-          :error false;
+          :exit;
         }
       }
     } else={
@@ -101,8 +94,7 @@
            ($NumInstalled & $BitMask) != ($NumLatest & $BitMask)) do={
         :if ([ $CopyTo $ScriptName $FallbackTo $FallbackToName ] = false) do={
           :set PackagesUpdateBackupFailure true;
-          :set ExitOK true;
-          :error false;
+          :exit;
         }
       }
     }
@@ -120,9 +112,8 @@
     $LogPrint error $ScriptName ("Failed saving configuration to partition '" . \
         $FallbackToName . "': " . $Err);
     :set PackagesUpdateBackupFailure true;
-    :set ExitOK true;
-    :error false;
+    :exit;
   }
 } do={
-  :global ExitError; $ExitError $ExitOK [ :jobname ] $Err;
+  :global ExitOnError; $ExitOnError [ :jobname ] $Err;
 }
