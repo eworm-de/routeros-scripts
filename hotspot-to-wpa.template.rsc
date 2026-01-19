@@ -12,7 +12,6 @@
 # !! This is just a template to generate the real script!
 # !! Pattern '%TEMPL%' is replaced, paths are filtered.
 
-:local ExitOK false;
 :onerror Err {
   :global GlobalConfigReady; :global GlobalFunctionsReady;
   :retry { :if ($GlobalConfigReady != true || $GlobalFunctionsReady != true) \
@@ -28,14 +27,12 @@
   :local UserName $username;
 
   :if ([ $ScriptLock $ScriptName ] = false) do={
-    :set ExitOK true;
-    :error false;
+    :exit;
   }
 
   :if ([ :typeof $MacAddress ] = "nothing" || [ :typeof $UserName ] = "nothing") do={
     $LogPrint error $ScriptName ("This script is supposed to run from hotspot on login.");
-    :set ExitOK true;
-    :error false;
+    :exit;
   }
 
   :local Date [ /system/clock/get date ];
@@ -68,8 +65,7 @@
 
   :if ($Template->"action" = "reject") do={
     $LogPrint info $ScriptName ("Ignoring login for hotspot '" . $Hotspot . "'.");
-    :set ExitOK true;
-    :error true;
+    :exit;
   }
 
   # allow login page to load
@@ -121,5 +117,5 @@
   /caps-man/access-list/set $Entry action=accept;
   /interface/wifi/access-list/set $Entry action=accept;
 } do={
-  :global ExitError; $ExitError $ExitOK [ :jobname ] $Err;
+  :global ExitOnError; $ExitOnError [ :jobname ] $Err;
 }
