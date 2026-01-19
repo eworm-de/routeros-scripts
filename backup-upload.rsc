@@ -4,13 +4,12 @@
 # https://rsc.eworm.de/COPYING.md
 #
 # provides: backup-script, order=50
-# requires RouterOS, version=7.19
+# requires RouterOS, version=7.22
 # requires device-mode, fetch
 #
 # create and upload backup and config file
 # https://rsc.eworm.de/doc/backup-upload.md
 
-:local ExitOK false;
 :onerror Err {
   :global GlobalConfigReady; :global GlobalFunctionsReady;
   :retry { :if ($GlobalConfigReady != true || $GlobalFunctionsReady != true) \
@@ -48,21 +47,18 @@
   :if ($BackupSendBinary != true && \
        $BackupSendExport != true) do={
     $LogPrint error $ScriptName ("Configured to send neither backup nor config export.");
-    :set ExitOK true;
-    :error false;
+    :exit;
   }
 
   :if ([ $ScriptLock $ScriptName ] = false) do={
     :set PackagesUpdateBackupFailure true;
-    :set ExitOK true;
-    :error false;
+    :exit;
   }
 
   :if ([ :len [ /system/scheduler/find where name="running-from-backup-partition" ] ] > 0) do={
     $LogPrint warning $ScriptName ("Running from backup partition, refusing to act.");
     :set PackagesUpdateBackupFailure true;
-    :set ExitOK true;
-    :error false;
+    :exit;
   }
 
   $WaitFullyConnected;
@@ -84,8 +80,7 @@
 
   :if ([ $MkDir $DirName ] = false) do={
     $LogPrint error $ScriptName ("Failed creating directory!");
-    :set ExitOK true;
-    :error false;
+    :exit;
   }
 
   # binary backup
@@ -177,5 +172,5 @@
   }
   $RmDir $DirName;
 } do={
-  :global ExitError; $ExitError $ExitOK [ :jobname ] $Err;
+  :global ExitOnError; $ExitOnError [ :jobname ] $Err;
 }
