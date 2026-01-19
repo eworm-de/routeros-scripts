@@ -8,7 +8,6 @@
 # run action on received SMS
 # https://rsc.eworm.de/doc/sms-action.md
 
-:local ExitOK false;
 :onerror Err {
   :global GlobalConfigReady; :global GlobalFunctionsReady;
   :retry { :if ($GlobalConfigReady != true || $GlobalFunctionsReady != true) \
@@ -24,8 +23,7 @@
 
   :if ([ :typeof $Action ] = "nothing") do={
     $LogPrint error $ScriptName ("This script is supposed to run from SMS hook with action=...");
-    :set ExitOK true;
-    :error false;
+    :exit;
   }
 
   :local Code ($SmsAction->$Action);
@@ -37,5 +35,5 @@
     $LogPrint warning $ScriptName ("The code for action '" . $Action . "' failed syntax validation!");
   }
 } do={
-  :global ExitError; $ExitError $ExitOK [ :jobname ] $Err;
+  :global ExitOnError; $ExitOnError [ :jobname ] $Err;
 }
