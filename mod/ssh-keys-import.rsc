@@ -3,7 +3,7 @@
 # Copyright (c) 2020-2026 Christian Hesse <mail@eworm.de>
 # https://rsc.eworm.de/COPYING.md
 #
-# requires RouterOS, version=7.17
+# requires RouterOS, version=7.19
 #
 # import ssh keys for public key authentication
 # https://rsc.eworm.de/doc/mod/ssh-keys-import.md

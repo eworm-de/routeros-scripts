@@ -4,7 +4,7 @@
 #                         Leonardo David Monteiro <leo@cub3.xyz>
 # https://rsc.eworm.de/COPYING.md
 #
-# requires RouterOS, version=7.17
+# requires RouterOS, version=7.19
 # requires device-mode, fetch, scheduler
 #
 # send notifications via Gotify (gotify.net)

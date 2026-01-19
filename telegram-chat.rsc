@@ -3,7 +3,7 @@
 # Copyright (c) 2023-2026 Christian Hesse <mail@eworm.de>
 # https://rsc.eworm.de/COPYING.md
 #
-# requires RouterOS, version=7.17
+# requires RouterOS, version=7.19
 # requires device-mode, fetch
 #
 # use Telegram to chat with your Router and send commands

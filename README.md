@@ -4,7 +4,7 @@ RouterOS Scripts
 [![GitHub stars](https://img.shields.io/github/stars/eworm-de/routeros-scripts?logo=GitHub&style=flat&color=red)](https://github.com/eworm-de/routeros-scripts/stargazers)
 [![GitHub forks](https://img.shields.io/github/forks/eworm-de/routeros-scripts?logo=GitHub&style=flat&color=green)](https://github.com/eworm-de/routeros-scripts/network)
 [![GitHub watchers](https://img.shields.io/github/watchers/eworm-de/routeros-scripts?logo=GitHub&style=flat&color=blue)](https://github.com/eworm-de/routeros-scripts/watchers)
-[![required RouterOS version](https://img.shields.io/badge/RouterOS-7.17-yellow?style=flat)](https://mikrotik.com/download/changelogs/)
+[![required RouterOS version](https://img.shields.io/badge/RouterOS-7.19-yellow?style=flat)](https://mikrotik.com/download/changelogs/)
 [![Telegram group @routeros_scripts](https://img.shields.io/badge/Telegram-%40routeros__scripts-%2326A5E4?logo=telegram&style=flat)](https://t.me/routeros_scripts)
 [![donate with PayPal](https://img.shields.io/badge/Like_it%3F-Donate!-orange?logo=githubsponsors&logoColor=orange&style=flat)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=A4ZXBD6YS2W8J)
 
@@ -50,7 +50,7 @@ temporarily.
 
 > 💡️ **Hint**: If in doubt have a look at the badge at the top of each
 > page showing the minimum version required:
-> ![required RouterOS version](https://img.shields.io/badge/RouterOS-7.17-yellow?style=flat)
+> ![required RouterOS version](https://img.shields.io/badge/RouterOS-7.19-yellow?style=flat)
 
 > ℹ️ **Info**: The `main` branch is now RouterOS v7 only. If you are still
 > running RouterOS v6 switch to `routeros-v6` branch!
@@ -97,17 +97,30 @@ including demonstration recorded live at [MUM Europe
 
 ### The long way in detail
 
-The update script does server certificate verification, so first step is to
-download the certificates.
+The update script does server certificate verification, so first step is
+to establish trust.
 
-> 💡️ **Hint**: RouterOS 7.19 comes with a builtin certificate store. You
-> can skip the steps regarding certificate download and import and jump
-> to [installation of scripts](#installation-of-scripts) if you set the
-> trust for these builtin trust anchors:  
+#### Builtin trust store
+
+RouterOS comes with a builtin trust store with several CA certificates.
+If you intend **not** to trust this store jump to
+[download and import certificate](#download-and-import-certificate) now.
+
+Select the `fetch` command to trust these builtin certificates at
+least, but make sure not to drop other targets:
+
+    /certificate/settings/set builtin-trust-store=fetch;
+
+![screenshot: builtin trust store](README.d/00-builtin-trust-store.avif)
+
+> 💡️ **Hint**: With RouterOS 7.20.x and before the functionality was
+> different. Set the trust for the builtin trust anchors:  
 > `/certificate/settings/set builtin-trust-anchors=trusted;`  
-> With RouterOS 7.21 the functionality was changed. Set this at minimum,
-> but make sure not to drop other targets:  
-> `/certificate/settings/set builtin-trust-store=fetch;`
+
+You can skip the steps regarding *download and import certificate* and
+jump to [installation of scripts](#installation-of-scripts) now.
+
+#### Download and import certificate
 
 If you intend to download the scripts from a
 different location (for example from github.com) install the corresponding
