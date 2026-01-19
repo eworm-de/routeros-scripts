@@ -8,7 +8,6 @@
 # check for LTE firmware upgrade, send notification
 # https://rsc.eworm.de/doc/check-lte-firmware-upgrade.md
 
-:local ExitOK false;
 :onerror Err {
   :global GlobalConfigReady; :global GlobalFunctionsReady;
   :retry { :if ($GlobalConfigReady != true || $GlobalFunctionsReady != true) \
@@ -20,8 +19,7 @@
   :global ScriptLock;
 
   :if ([ $ScriptLock $ScriptName ] = false) do={
-    :set ExitOK true;
-    :error false;
+    :exit;
   }
 
   :if ([ :typeof $SentLteFirmwareUpgradeNotification ] != "array") do={
@@ -103,5 +101,5 @@
     $CheckInterface $ScriptName $Interface;
   }
 } do={
-  :global ExitError; $ExitError $ExitOK [ :jobname ] $Err;
+  :global ExitOnError; $ExitOnError [ :jobname ] $Err;
 }
