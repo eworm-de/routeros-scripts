@@ -9,7 +9,6 @@
 # ipsec remote peer
 # https://rsc.eworm.de/doc/update-gre-address.md
 
-:local ExitOK false;
 :onerror Err {
   :global GlobalConfigReady; :global GlobalFunctionsReady;
   :retry { :if ($GlobalConfigReady != true || $GlobalFunctionsReady != true) \
@@ -21,8 +20,7 @@
   :global ScriptLock; 
 
   :if ([ $ScriptLock $ScriptName ] = false) do={
-    :set ExitOK true;
-    :error false;
+    :exit;
   }
 
   /interface/gre/set remote-address=0.0.0.0 disabled=yes [ find where !running !disabled ];
@@ -42,5 +40,5 @@
     }
   }
 } do={
-  :global ExitError; $ExitError $ExitOK [ :jobname ] $Err;
+  :global ExitOnError; $ExitOnError [ :jobname ] $Err;
 }
