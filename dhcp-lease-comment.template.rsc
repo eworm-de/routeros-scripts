@@ -4,7 +4,7 @@
 # https://rsc.eworm.de/COPYING.md
 #
 # provides: dhcpv4-server-lease, order=60
-# requires RouterOS, version=7.19
+# requires RouterOS, version=7.22
 #
 # update dhcp-server lease comment with infos from access-list
 # https://rsc.eworm.de/doc/dhcp-lease-comment.md
@@ -12,7 +12,6 @@
 # !! This is just a template to generate the real script!
 # !! Pattern '%TEMPL%' is replaced, paths are filtered.
 
-:local ExitOK false;
 :onerror Err {
   :global GlobalConfigReady; :global GlobalFunctionsReady;
   :retry { :if ($GlobalConfigReady != true || $GlobalFunctionsReady != true) \
@@ -23,8 +22,7 @@
   :global ScriptLock;
 
   :if ([ $ScriptLock $ScriptName ] = false) do={
-    :set ExitOK true;
-    :error false;
+    :exit;
   }
 
   :foreach Lease in=[ /ip/dhcp-server/lease/find where dynamic=yes status=bound ] do={
@@ -44,5 +42,5 @@
     }
   }
 } do={
-  :global ExitError; $ExitError $ExitOK [ :jobname ] $Err;
+  :global ExitOnError; $ExitOnError [ :jobname ] $Err;
 }
