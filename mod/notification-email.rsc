@@ -3,7 +3,7 @@
 # Copyright (c) 2013-2026 Christian Hesse <mail@eworm.de>
 # https://rsc.eworm.de/COPYING.md
 #
-# requires RouterOS, version=7.19
+# requires RouterOS, version=7.21
 # requires device-mode, email, scheduler
 #
 # send notifications via e-mail
@@ -91,7 +91,6 @@
 
   :foreach Id,Message in=$EmailQueue do={
     :if ([ :typeof $Message ] = "array" ) do={
-      :while ([ /tool/e-mail/get last-status ] = "in-progress") do={ :delay 1s; }
       :onerror Err {
         :local Attach ({});
         :foreach File in=[ :toarray [ $EitherOr ($Message->"attach") "" ] ] do={
@@ -101,29 +100,15 @@
             $LogPrint warning $0 ("File '" . $File . "' does not exist, can not attach.");
           }
         }
-        :do {
-          /tool/e-mail/send from=[ $EMailGenerateFrom ] to=($Message->"to") \
-              cc=($Message->"cc") subject=($Message->"subject") \
-              body=($Message->"body") file=$Attach;
-        } on-error={ }
-        :local Wait true;
-        :do {
-          :delay 1s;
-          :local Status [ /tool/e-mail/get last-status ];
-          :if ($Status = "succeeded") do={
-            :set ($EmailQueue->$Id);
-            :set Wait false;
-            :if (($Message->"remove-attach") = true) do={
-              :foreach File in=$Attach do={
-                $RmFile $File;
-              }
-            }
+        /tool/e-mail/send from=[ $EMailGenerateFrom ] to=($Message->"to") \
+            cc=($Message->"cc") subject=($Message->"subject") \
+            body=($Message->"body") file=$Attach;
+        :set ($EmailQueue->$Id);
+        :if (($Message->"remove-attach") = true) do={
+          :foreach File in=$Attach do={
+            $RmFile $File;
           }
-          :if ($Status = "failed") do={
-            :set AllDone false;
-            :set Wait false;
-          }
-        } while=($Wait = true);
+        }
       } do={
         $LogPrint warning $0 ("Sending queued mail failed: " . $Err);
         :set AllDone false;
