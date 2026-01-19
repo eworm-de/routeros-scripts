@@ -169,7 +169,7 @@
     :do {
       :if ([ :len $CertRenewUrl ] = 0) do={
         $LogPrintOnce info $ScriptName ("No CertRenewUrl given.");
-        :error false;
+        :continue;
       }
       $LogPrint info $ScriptName ("Attempting to renew certificate '" . ($CertVal->"name") . "'.");
 
