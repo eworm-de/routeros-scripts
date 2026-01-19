@@ -9,7 +9,6 @@
 # upload backup to MikroTik cloud
 # https://rsc.eworm.de/doc/backup-cloud.md
 
-:local ExitOK false;
 :onerror Err {
   :global GlobalConfigReady; :global GlobalFunctionsReady;
   :retry { :if ($GlobalConfigReady != true || $GlobalFunctionsReady != true) \
@@ -36,15 +35,13 @@
 
   :if ([ $ScriptLock $ScriptName ] = false) do={
     :set PackagesUpdateBackupFailure true;
-    :set ExitOK true;
-    :error false;
+    :exit;
   }
 
   :if ([ :len [ /system/scheduler/find where name="running-from-backup-partition" ] ] > 0) do={
     $LogPrint warning $ScriptName ("Running from backup partition, refusing to act.");
     :set PackagesUpdateBackupFailure true;
-    :set ExitOK true;
-    :error false;
+    :exit;
   }
 
   $WaitFullyConnected;
@@ -55,8 +52,7 @@
 
   :if ([ $MkDir ("tmpfs/backup-cloud") ] = false) do={
     $LogPrint error $ScriptName ("Failed creating directory!");
-    :set ExitOK true;
-    :error false;
+    :exit;
   }
 
   :local I 5;
@@ -100,5 +96,5 @@
   }
   $RmDir "tmpfs/backup-cloud";
 } do={
-  :global ExitError; $ExitError $ExitOK [ :jobname ] $Err;
+  :global ExitOnError; $ExitOnError [ :jobname ] $Err;
 }
