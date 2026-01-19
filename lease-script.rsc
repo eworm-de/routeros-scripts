@@ -8,7 +8,6 @@
 # run scripts on DHCP lease
 # https://rsc.eworm.de/doc/lease-script.md
 
-:local ExitOK false;
 :onerror Err {
   :global GlobalConfigReady; :global GlobalFunctionsReady;
   :retry { :if ($GlobalConfigReady != true || $GlobalFunctionsReady != true) \
@@ -26,22 +25,19 @@
        [ :typeof $leaseServerName ] = "nothing" || \
        [ :typeof $leaseBound ] = "nothing") do={
     $LogPrint error $ScriptName ("This script is supposed to run from ip dhcp-server.");
-    :set ExitOK true;
-    :error false;
+    :exit;
   }
 
   $LogPrint debug $ScriptName ("DHCP Server " . $leaseServerName . " " . [ $IfThenElse ($leaseBound = 0) \
     "de" "" ] . "assigned lease " . $leaseActIP . " to " . $leaseActMAC);
 
   :if ([ $ScriptLock $ScriptName 10 ] = false) do={
-    :set ExitOK true;
-    :error false;
+    :exit;
   }
 
   :if ([ :len [ /system/script/job/find where script=$ScriptName ] ] > 1) do={
     $LogPrint debug $ScriptName ("More invocations are waiting, exiting early.");
-    :set ExitOK true;
-    :error true;
+    :exit;
   }
 
   :local RunOrder ({});
@@ -61,5 +57,5 @@
     }
   }
 } do={
-  :global ExitError; $ExitError $ExitOK [ :jobname ] $Err;
+  :global ExitOnError; $ExitOnError [ :jobname ] $Err;
 }
