@@ -8,7 +8,6 @@
 # monitor netwatch and send notifications
 # https://rsc.eworm.de/doc/netwatch-notify.md
 
-:local ExitOK false;
 :onerror Err {
   :global GlobalConfigReady; :global GlobalFunctionsReady;
   :retry { :if ($GlobalConfigReady != true || $GlobalFunctionsReady != true) \
@@ -80,8 +79,7 @@
   }
 
   :if ([ $ScriptLock $ScriptName ] = false) do={
-    :set ExitOK true;
-    :error false;
+    :exit;
   }
 
   :local ScriptFromTerminalCached [ $ScriptFromTerminal $ScriptName ];
@@ -225,5 +223,5 @@
     }
   }
 } do={
-  :global ExitError; $ExitError $ExitOK [ :jobname ] $Err;
+  :global ExitOnError; $ExitOnError [ :jobname ] $Err;
 }

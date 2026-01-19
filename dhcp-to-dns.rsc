@@ -9,7 +9,6 @@
 # check DHCP leases and add/remove/update DNS entries
 # https://rsc.eworm.de/doc/dhcp-to-dns.md
 
-:local ExitOK false;
 :onerror Err {
   :global GlobalConfigReady; :global GlobalFunctionsReady;
   :retry { :if ($GlobalConfigReady != true || $GlobalFunctionsReady != true) \
@@ -28,8 +27,7 @@
   :global ScriptLock;
 
   :if ([ $ScriptLock $ScriptName 10 ] = false) do={
-    :set ExitOK true;
-    :error false;
+    :exit;
   }
 
   :local Ttl 5m;
@@ -126,5 +124,5 @@
     }
   }
 } do={
-  :global ExitError; $ExitError $ExitOK [ :jobname ] $Err;
+  :global ExitOnError; $ExitOnError [ :jobname ] $Err;
 }
