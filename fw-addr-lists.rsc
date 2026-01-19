@@ -112,39 +112,39 @@
           :set Address ([ :pick $Line 0 [ $FindDelim $Line ] ] . ($List->"cidr"));
         }
 
-          :local Branch;
-          :if ($Address ~ "^[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}(/[0-9]{1,2})?\$") do={
-            :local Net $Address;
-            :local CIDR 32;
-            :local Slash [ :find $Address "/" ];
-            :if ([ :typeof $Slash ] = "num") do={
-              :set Net [ :toip [ :pick $Address 0 $Slash ] ]
-              :set CIDR [ :pick $Address ($Slash + 1) [ :len $Address ] ];
-              :set Address [ :tostr (([ :toip $Net ] & [ $NetMask4 $CIDR ]) . [ $IfThenElse ($CIDR < 32) ("/" . $CIDR) ]) ];
-            }
-            :set Branch [ $GetBranch $Address ];
-            :set ($IPv4Addresses->$Branch->$Address) $TimeOut;
-            :continue;
+        :local Branch;
+        :if ($Address ~ "^[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}(/[0-9]{1,2})?\$") do={
+          :local Net $Address;
+          :local CIDR 32;
+          :local Slash [ :find $Address "/" ];
+          :if ([ :typeof $Slash ] = "num") do={
+            :set Net [ :toip [ :pick $Address 0 $Slash ] ]
+            :set CIDR [ :pick $Address ($Slash + 1) [ :len $Address ] ];
+            :set Address [ :tostr (([ :toip $Net ] & [ $NetMask4 $CIDR ]) . [ $IfThenElse ($CIDR < 32) ("/" . $CIDR) ]) ];
           }
-          :if ($Address ~ "^[0-9a-zA-Z]*:[0-9a-zA-Z:\\.]+(/[0-9]{1,3})?\$") do={
-            :local Net $Address;
-            :local CIDR 128;
-            :local Slash [ :find $Address "/" ];
-            :if ([ :typeof $Slash ] = "num") do={
-              :set Net [ :toip6 [ :pick $Address 0 $Slash ] ]
-              :set CIDR [ :pick $Address ($Slash + 1) [ :len $Address ] ];
-            }
-            :set Address (([ :toip6 $Net ] & [ $NetMask6 $CIDR ]) . "/" . $CIDR);
-            :set Branch [ $GetBranch $Address ];
-            :set ($IPv6Addresses->$Branch->$Address) $TimeOut;
-            :continue;
+          :set Branch [ $GetBranch $Address ];
+          :set ($IPv4Addresses->$Branch->$Address) $TimeOut;
+          :continue;
+        }
+        :if ($Address ~ "^[0-9a-zA-Z]*:[0-9a-zA-Z:\\.]+(/[0-9]{1,3})?\$") do={
+          :local Net $Address;
+          :local CIDR 128;
+          :local Slash [ :find $Address "/" ];
+          :if ([ :typeof $Slash ] = "num") do={
+            :set Net [ :toip6 [ :pick $Address 0 $Slash ] ]
+            :set CIDR [ :pick $Address ($Slash + 1) [ :len $Address ] ];
           }
-          :if ($Address ~ "^[\\.a-zA-Z0-9-]+\\.[a-zA-Z]{2,}\$") do={
-            :set Branch [ $GetBranch $Address ];
-            :set ($IPv4Addresses->$Branch->$Address) $TimeOut;
-            :set ($IPv6Addresses->$Branch->$Address) $TimeOut;
-            :continue;
-          }
+          :set Address (([ :toip6 $Net ] & [ $NetMask6 $CIDR ]) . "/" . $CIDR);
+          :set Branch [ $GetBranch $Address ];
+          :set ($IPv6Addresses->$Branch->$Address) $TimeOut;
+          :continue;
+        }
+        :if ($Address ~ "^[\\.a-zA-Z0-9-]+\\.[a-zA-Z]{2,}\$") do={
+          :set Branch [ $GetBranch $Address ];
+          :set ($IPv4Addresses->$Branch->$Address) $TimeOut;
+          :set ($IPv6Addresses->$Branch->$Address) $TimeOut;
+          :continue;
+        }
       }
     }
 
