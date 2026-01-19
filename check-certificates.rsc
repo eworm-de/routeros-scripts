@@ -25,6 +25,7 @@
   :global EscapeForRegEx;
   :global IfThenElse;
   :global LogPrint;
+  :global LogPrintOnce;
   :global ParseKeyValueStore;
   :global ScriptLock;
   :global SendNotification2;
@@ -164,7 +165,7 @@
 
     :do {
       :if ([ :len $CertRenewUrl ] = 0) do={
-        $LogPrint info $ScriptName ("No CertRenewUrl given.");
+        $LogPrintOnce info $ScriptName ("No CertRenewUrl given.");
         :error false;
       }
       $LogPrint info $ScriptName ("Attempting to renew certificate '" . ($CertVal->"name") . "'.");
