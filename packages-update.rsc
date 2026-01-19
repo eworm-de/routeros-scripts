@@ -3,13 +3,12 @@
 # Copyright (c) 2019-2026 Christian Hesse <mail@eworm.de>
 # https://rsc.eworm.de/COPYING.md
 #
-# requires RouterOS, version=7.19
+# requires RouterOS, version=7.22
 # requires device-mode, scheduler
 #
 # download packages and reboot for installation
 # https://rsc.eworm.de/doc/packages-update.md
 
-:local ExitOK false;
 :onerror Err {
   :global GlobalConfigReady; :global GlobalFunctionsReady;
   :retry { :if ($GlobalConfigReady != true || $GlobalFunctionsReady != true) \
@@ -59,28 +58,24 @@
   }
 
   :if ([ $ScriptLock $ScriptName ] = false) do={
-    :set ExitOK true;
-    :error false;
+    :exit;
   }
 
   :if ([ :len [ /system/scheduler/find where name="running-from-backup-partition" ] ] > 0) do={
     $LogPrint warning $ScriptName ("Running from backup partition, refusing to act.");
-    :set ExitOK true;
-    :error false;
+    :exit;
   }
 
   :local Update [ /system/package/update/get ];
 
   :if ([ :typeof ($Update->"latest-version") ] = "nothing") do={
     $LogPrint warning $ScriptName ("Latest version is not known.");
-    :set ExitOK true;
-    :error false;
+    :exit;
   }
 
   :if ($Update->"installed-version" = $Update->"latest-version") do={
     $LogPrint info $ScriptName ("Version " . $Update->"latest-version" . " is already installed.");
-    :set ExitOK true;
-    :error true;
+    :exit;
   }
 
   :local RunOrder ({});
@@ -111,13 +106,11 @@
           $LogPrint info $ScriptName ("User requested to continue anyway.");
         } else={
           $LogPrint info $ScriptName ("Canceled update...");
-          :set ExitOK true;
-          :error false;
+          :exit;
         }
       } else={
         $LogPrint warning $ScriptName ("Canceled non-interactive update.");
-        :set ExitOK true;
-        :error false;
+        :exit;
       }
     }
   }
@@ -136,8 +129,7 @@
       }
     } else={
       $LogPrint warning $ScriptName ("Not installing downgrade automatically.");
-      :set ExitOK true;
-      :error false;
+      :exit;
     }
   }
 
@@ -145,8 +137,7 @@
     :local PkgName [ /system/package/get $Package name ];
     :if ([ $DownloadPackage $PkgName ($Update->"latest-version") ] = false) do={
       $LogPrint error $ScriptName ("Download for package " . $PkgName . " failed, update aborted.");
-      :set ExitOK true;
-      :error false;
+      :exit;
     }
   }
 
@@ -160,14 +151,12 @@
     :put "Do you want to (s)chedule reboot or (r)eboot now? [s/R]";
     :if (([ /terminal/inkey timeout=60 ] % 32) = 19) do={
       $Schedule $ScriptName;
-      :set ExitOK true;
-      :error true;
+      :exit;
     }
   } else={
     :if ($PackagesUpdateDeferReboot = true || [ :totime $PackagesUpdateDeferReboot ] >= 1d) do={
       $Schedule $ScriptName;
-      :set ExitOK true;
-      :error true;
+      :exit;
     }
   }
 
@@ -175,5 +164,5 @@
   :delay 1s;
   /system/reboot;
 } do={
-  :global ExitError; $ExitError $ExitOK [ :jobname ] $Err;
+  :global ExitOnError; $ExitOnError [ :jobname ] $Err;
 }
