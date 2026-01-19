@@ -3,13 +3,12 @@
 # Copyright (c) 2022-2026 Christian Hesse <mail@eworm.de>
 # https://rsc.eworm.de/COPYING.md
 #
-# requires RouterOS, version=7.21
+# requires RouterOS, version=7.22
 # requires device-mode, fetch
 #
 # monitor and manage dns/doh with netwatch
 # https://rsc.eworm.de/doc/netwatch-dns.md
 
-:local ExitOK false;
 :onerror Err {
   :global GlobalConfigReady; :global GlobalFunctionsReady;
   :retry { :if ($GlobalConfigReady != true || $GlobalFunctionsReady != true) \
@@ -25,15 +24,13 @@
   :global ScriptLock;
 
   :if ([ $ScriptLock $ScriptName ] = false) do={
-    :set ExitOK true;
-    :error false;
+    :exit;
   }
 
   :local SettleTime (5m30s - [ /system/resource/get uptime ]);
   :if ($SettleTime > 0s) do={
     $LogPrint info $ScriptName ("System just booted, giving netwatch " . $SettleTime . " to settle.");
-    :set ExitOK true;
-    :error true;
+    :exit;
   }
 
   :local DnsServers ({});
@@ -88,8 +85,7 @@
 
       :if ($DohCurrent = $HostInfo->"doh-url" && [ $IsDNSResolving ] = true) do={
         $LogPrint debug $ScriptName ("Current DoH server is still up and resolving: " . $DohCurrent);
-        :set ExitOK true;
-        :error true;
+        :exit;
       }
 
       :set ($DohServers->[ :len $DohServers ]) $HostInfo;
@@ -136,8 +132,7 @@
         }
         /ip/dns/cache/flush;
         $LogPrint info $ScriptName ("Setting DoH server: " . ($DohServer->"doh-url"));
-        :set ExitOK true;
-        :error true;
+        :exit;
       } else={
         $LogPrint warning $ScriptName ("Received unexpected response from DoH server: " . \
           ($DohServer->"doh-url"));
@@ -145,5 +140,5 @@
     }
   }
 } do={
-  :global ExitError; $ExitError $ExitOK [ :jobname ] $Err;
+  :global ExitOnError; $ExitOnError [ :jobname ] $Err;
 }

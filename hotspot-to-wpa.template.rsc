@@ -3,7 +3,7 @@
 # Copyright (c) 2019-2026 Christian Hesse <mail@eworm.de>
 # https://rsc.eworm.de/COPYING.md
 #
-# requires RouterOS, version=7.21
+# requires RouterOS, version=7.22
 # requires device-mode, hotspot
 # requires policy, policy=read;write
 #
@@ -13,7 +13,6 @@
 # !! This is just a template to generate the real script!
 # !! Pattern '%TEMPL%' is replaced, paths are filtered.
 
-:local ExitOK false;
 :onerror Err {
   :local ScriptName [ :jobname ];
 
@@ -27,15 +26,13 @@
   :if ([ :len [ /interface/wifi/access-list/find where \
        comment=("hotspot-to-wpa template " . $Hotspot) disabled action="reject" ] ] > 0) do={
     :log info ($ScriptName . ": Ignoring login for " . $MacAddress . " on hotspot '" . $Hotspot . "'.");
-    :set ExitOK true;
-    :error false;
+    :exit;
   }
 
   :local Lease [ /ip/dhcp-server/lease/find where mac-address=$MacAddress address=$Address ];
   :if ([ :len $Lease ] != 1) do={
     :log warning ($ScriptName . ": Did not find exactly one lease for " . $MacAddress . "!");
-    :set ExitOK true;
-    :error false;
+    :exit;
   }
 
   /ip/dhcp-server/lease/set \
@@ -50,5 +47,5 @@
   :delay 1s;
   /ip/dhcp-server/lease/disable $Lease;
 } do={
-  :if ($ExitOK = false) do={ :log error ([ :jobname ] . ": " . $Err); }
+  :log error ([ :jobname ] . ": " . $Err);
 }

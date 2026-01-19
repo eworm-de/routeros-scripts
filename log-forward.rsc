@@ -8,7 +8,6 @@
 # forward log messages via notification
 # https://rsc.eworm.de/doc/log-forward.md
 
-:local ExitOK false;
 :onerror Err {
   :global GlobalConfigReady; :global GlobalFunctionsReady;
   :retry { :if ($GlobalConfigReady != true || $GlobalFunctionsReady != true) \
@@ -33,8 +32,7 @@
   :global SymbolForNotification;
 
   :if ([ $ScriptLock $ScriptName ] = false) do={
-    :set ExitOK true;
-    :error false;
+    :exit;
   }
 
   :if ([ :typeof $LogForwardLast ] = "nothing") do={
@@ -48,8 +46,7 @@
   :if ($LogForwardRateLimit > 30) do={
     :set LogForwardRateLimit ($LogForwardRateLimit - 1);
     $LogPrint info $ScriptName ("Rate limit in action, not forwarding logs, if any!");
-    :set ExitOK true;
-    :error false;
+    :exit;
   }
 
   :local Count 0;
@@ -111,5 +108,5 @@
 
   :set LogForwardLast $Max;
 } do={
-  :global ExitError; $ExitError $ExitOK [ :jobname ] $Err;
+  :global ExitOnError; $ExitOnError [ :jobname ] $Err;
 }
