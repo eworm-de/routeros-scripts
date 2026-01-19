@@ -12,7 +12,6 @@
 # !! This is just a template to generate the real script!
 # !! Pattern '%TEMPL%' is replaced, paths are filtered.
 
-:local ExitOK false;
 :onerror Err {
   :global GlobalConfigReady; :global GlobalFunctionsReady;
   :retry { :if ($GlobalConfigReady != true || $GlobalFunctionsReady != true) \
@@ -29,8 +28,7 @@
   :global WaitFullyConnected;
 
   :if ([ $ScriptLock $ScriptName ] = false) do={
-    :set ExitOK true;
-    :error false;
+    :exit;
   }
   $WaitFullyConnected;
 
@@ -41,16 +39,14 @@
 
   :if ([ :len $PackagePath ] = 0) do={
     $LogPrint warning $ScriptName ("The CAPsMAN package path is not defined, can not download packages.");
-    :set ExitOK true;
-    :error false;
+    :exit;
   }
 
   :if ([ $FileGet $PackagePath ] = false) do={
     :if ([ $MkDir $PackagePath ] = false) do={
       $LogPrint warning $ScriptName ("Creating directory at CAPsMAN package path (" . \
         $PackagePath . ") failed!");
-      :set ExitOK true;
-      :error false;
+      :exit;
     }
     $LogPrint info $ScriptName ("Created directory at CAPsMAN package path (" . $PackagePath . \
       "). Please place your packages!");
@@ -100,5 +96,5 @@
     }
   }
 } do={
-  :global ExitError; $ExitError $ExitOK [ :jobname ] $Err;
+  :global ExitOnError; $ExitOnError [ :jobname ] $Err;
 }
