@@ -8,7 +8,6 @@
 # check perpetual license on CHR
 # https://rsc.eworm.de/doc/check-perpetual-license.md
 
-:local ExitOK false;
 :onerror Err {
   :global GlobalConfigReady; :global GlobalFunctionsReady;
   :retry { :if ($GlobalConfigReady != true || $GlobalFunctionsReady != true) \
@@ -25,8 +24,7 @@
   :global WaitFullyConnected;
 
   :if ([ $ScriptLock $ScriptName ] = false) do={
-    :set ExitOK true;
-    :error false;
+    :exit;
   }
 
   $WaitFullyConnected;
@@ -34,8 +32,7 @@
   :local License [ /system/license/get ];
   :if ([ :typeof ($License->"deadline-at") ] != "str") do={
     $LogPrint info $ScriptName ("This device does not have a perpetual license.");
-    :set ExitOK true;
-    :error true;
+    :exit;
   }
   
   :if ([ :len ($License->"next-renewal-at") ] = 0 && ($License->"limited-upgrades") = true) do={
@@ -47,8 +44,7 @@
           ", can no longer update RouterOS on " . $Identity . "...") });
       :set SentCertificateNotification "expired";
     }
-    :set ExitOK true;
-    :error true;
+    :exit;
   }
 
   :if ([ :totime ($License->"deadline-at") ] - 3w < [ :timestamp ]) do={
@@ -60,8 +56,7 @@
           ($License->"deadline-at") . " on " . $Identity . "...") });
       :set SentCertificateNotification "warning";
     }
-    :set ExitOK true;
-    :error true;
+    :exit;
   }
 
   :if ([ :typeof $SentCertificateNotification ] = "str" && \
@@ -74,5 +69,5 @@
     :set SentCertificateNotification;
   }
 } do={
-  :global ExitError; $ExitError $ExitOK [ :jobname ] $Err;
+  :global ExitOnError; $ExitOnError [ :jobname ] $Err;
 }
