@@ -11,7 +11,6 @@
 # update local address of tunnelbroker interface
 # https://rsc.eworm.de/doc/update-tunnelbroker.md
 
-:local ExitOK false;
 :onerror Err {
   :global GlobalConfigReady; :global GlobalFunctionsReady;
   :retry { :if ($GlobalConfigReady != true || $GlobalFunctionsReady != true) \
@@ -24,14 +23,12 @@
   :global ScriptLock;
 
   :if ([ $ScriptLock $ScriptName ] = false) do={
-    :set ExitOK true;
-    :error false;
+    :exit;
   }
 
   :if ([ $CertificateAvailable "Starfield Root Certificate Authority - G2" "fetch" ] = false) do={
     $LogPrint error $ScriptName ("Downloading required certificate failed.");
-    :set ExitOK true;
-    :error false;
+    :exit;
   }
 
   :foreach Interface in=[ /interface/6to4/find where comment~"^tunnelbroker" !disabled ] do={
@@ -54,8 +51,7 @@
 
     :if (!($Data ~ "^(good|nochg) ")) do={
       $LogPrint error $ScriptName ("Failed sending the local address to tunnelbroker or unexpected response!");
-      :set ExitOK true;
-      :error false;
+      :exit;
     }
 
     :local PublicAddress [ :pick $Data ([ :find $Data " " ] + 1) [ :find $Data "\n" ] ];
@@ -70,5 +66,5 @@
     }
   }
 } do={
-  :global ExitError; $ExitError $ExitOK [ :jobname ] $Err;
+  :global ExitOnError; $ExitOnError [ :jobname ] $Err;
 }
