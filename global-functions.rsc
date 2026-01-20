@@ -30,6 +30,7 @@
 :global CharacterReplace;
 :global CleanFilePath;
 :global CleanName;
+:global CommitBrief;
 :global DeviceInfo;
 :global Dos2Unix;
 :global DownloadPackage;
@@ -320,13 +321,24 @@
   :return $Return;
 }
 
-# get readable device info
-:set DeviceInfo do={
+# return a brief commit description
+:set CommitBrief do={
   :global CommitId;
   :global CommitInfo;
+
+  :if ($CommitId = "unknown") do={
+    :return "unknown";
+  }
+
+  :return ($CommitInfo . "/" . [ :pick $CommitId 0 8 ]);
+}
+
+# get readable device info
+:set DeviceInfo do={
   :global ExpectedConfigVersion;
   :global Identity;
 
+  :global CommitBrief;
   :global IfThenElse;
   :global FormatLine;
 
@@ -367,8 +379,7 @@
         $RouterBoard->"current-firmware" != $RouterBoard->"upgrade-firmware") \
       ([ $FormatLine "    Firmware" ($RouterBoard->"current-firmware") ] . "\n") ] . \
     "RouterOS-Scripts:\n" . \
-    [ $IfThenElse ($CommitId != "unknown") \
-      ([ $FormatLine "    Commit" ($CommitInfo . "/" . [ :pick $CommitId 0 8 ]) ] . "\n") ] . \
+    [ $FormatLine "    Commit" [ $CommitBrief ] ] . "\n" . \
     [ $FormatLine "    Version" $ExpectedConfigVersion ]);
 }
 
@@ -561,16 +572,13 @@
 :set FetchUserAgentStr do={
   :local Caller [ :tostr $1 ];
 
-  :global CommitId;
-  :global CommitInfo;
-
+  :global CommitBrief;
   :global IfThenElse;
 
   :local Resource [ /system/resource/get ];
 
   :return ("User-Agent: Mikrotik/" . $Resource->"version" . " " . $Resource->"architecture-name" . \
-    " " . $Caller . "/Fetch (https://rsc.eworm.de/" . [ $IfThenElse ($CommitId != "unknown") \
-    ("; " . $CommitInfo . "/" . [ :pick $CommitId 0 8 ]) ] . ")");
+    " " . $Caller . "/Fetch (https://rsc.eworm.de/; " . [ $CommitBrief ] . ")");
 }
 
 # check for existence of file, optionally with type
@@ -1251,7 +1259,6 @@
   :local NewComment [ :tostr   $2 ];
 
   :global CommitId;
-  :global CommitInfo;
   :global ExpectedConfigVersion;
   :global GlobalConfigReady;
   :global GlobalFunctionsReady;
@@ -1425,10 +1432,6 @@
     } do={
       $LogPrint error $0 ("Reloading global configuration and functions failed! " . $Err);
     }
-  }
-
-  :if ($CommitId != "unknown" && $CommitIdBefore != $CommitId) do={
-    $LogPrint info $0 ("Updated to commit: " . $CommitInfo . "/" . [ :pick $CommitId 0 8 ]);
   }
 
   :if ($ExpectedConfigVersionBefore > $ExpectedConfigVersion) do={
@@ -1942,8 +1945,9 @@
 
 # Log success
 :local Resource [ /system/resource/get ];
-$LogPrintOnce info $ScriptName ("Loaded on " . $Resource->"board-name" . \
-  " with RouterOS " . $Resource->"version" . ".");
+$LogPrintOnce info $ScriptName ("Loaded " . \
+    [ $IfThenElse ($CommitId != "unknown") ([ $CommitBrief ] . " ") ] . \
+    "on " . $Resource->"board-name" . " with RouterOS " . $Resource->"version" . ".");
 
 # signal we are ready
 :set GlobalFunctionsReady true;
