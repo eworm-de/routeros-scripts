@@ -1397,7 +1397,7 @@
           source=[ $IfThenElse ($ScriptUpdatesCRLF = true) $SourceCRLF $SourceNew ] $Script;
       :if ($ScriptVal->"name" = "global-config" || \
            $ScriptVal->"name" = "global-functions" || \
-           $ScriptVal->"name" ~ ("^mod/.")) do={
+           $ScriptVal->"name" ~ ("^(global-functions\\.d|mod)/.")) do={
         :set ReloadGlobal true;
       }
     } on-error={ }
