@@ -1926,6 +1926,7 @@
     add name="global-scripts" start-time=startup;
   }
   set on-event=$OnEvent [ find where name="global-scripts" on-event!=$OnEvent ];
+  enable [ find where name="global-scripts" disabled ];
 }
 
 # Log success
