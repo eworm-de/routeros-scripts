@@ -82,7 +82,7 @@
         $LogPrint info $FuncName ("No action defined for " . $Count . " mode-button presses.");
       }
     } do={
-      :global ExitError; $ExitError false $0 $Err;
+      :global ExitOnError; $ExitOnError $0 $Err;
     } }
     /system/scheduler/add name="_ModeButtonScheduler" \
         on-event=":global ModeButtonScheduler; \$ModeButtonScheduler;" interval=3s;
@@ -91,5 +91,5 @@
     /system/scheduler/set $Scheduler start-time=[ /system/clock/get time ];
   }
 } do={
-  :global ExitError; $ExitError false [ :jobname ] $Err;
+  :global ExitOnError; $ExitOnError [ :jobname ] $Err;
 }
