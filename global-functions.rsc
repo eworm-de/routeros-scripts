@@ -36,6 +36,7 @@
 :global EitherOr;
 :global EscapeForRegEx;
 :global ExitError;
+:global ExitOnError;
 :global FetchHuge;
 :global FetchUserAgentStr;
 :global FileExists;
@@ -487,6 +488,19 @@
         "Function" "Script" ] . " '" . $Name . "' exited with error" . \
         [ $IfThenElse (!($Error ~ "^(|true|false)\$")) (": " . $Error) "." ]);
   }
+}
+
+# simple macro to print error message on unintentional error
+:set ExitOnError do={
+  :local Name   [ :tostr $1 ];
+  :local Error  [ :tostr $2 ];
+
+  :global IfThenElse;
+  :global LogPrint;
+
+  $LogPrint error $Name ([ $IfThenElse ([ :pick $Name 0 1 ] = "\$") \
+      "Function" "Script" ] . " '" . $Name . "' exited with error" . \
+      [ $IfThenElse (!($Error ~ "^(|true|false)\$")) (": " . $Error) "." ]);
 }
 
 # fetch huge data to file, read in chunks
