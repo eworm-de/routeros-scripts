@@ -36,6 +36,7 @@
 :global EitherOr;
 :global EscapeForRegEx;
 :global ExitError;
+:global ExitOnError;
 :global FetchHuge;
 :global FetchUserAgentStr;
 :global FileExists;
@@ -473,20 +474,30 @@
   :return $Return;
 }
 
-# simple macro to print error message on unintentional error
+# wrapper for $ExitOnError with additional parameter
 :set ExitError do={
   :local ExitOK [ :tostr $1 ];
   :local Name   [ :tostr $2 ];
   :local Error  [ :tostr $3 ];
 
+  :global ExitOnError;
+
+  :if ($ExitOK = "false") do={
+    $ExitOnError $Name $Error;
+  }
+}
+
+# simple macro to print error message on unintentional error
+:set ExitOnError do={
+  :local Name   [ :tostr $1 ];
+  :local Error  [ :tostr $2 ];
+
   :global IfThenElse;
   :global LogPrint;
 
-  :if ($ExitOK = "false") do={
-    $LogPrint error $Name ([ $IfThenElse ([ :pick $Name 0 1 ] = "\$") \
-        "Function" "Script" ] . " '" . $Name . "' exited with error" . \
-        [ $IfThenElse (!($Error ~ "^(|true|false)\$")) (": " . $Error) "." ]);
-  }
+  $LogPrint error $Name ([ $IfThenElse ([ :pick $Name 0 1 ] = "\$") \
+      "Function" "Script" ] . " '" . $Name . "' exited with error" . \
+      [ $IfThenElse (!($Error ~ "^(|true|false)\$")) (": " . $Error) "." ]);
 }
 
 # fetch huge data to file, read in chunks
@@ -1516,7 +1527,7 @@
     :set GlobalConfigMigration;
   }
 } do={
-  :global ExitError; $ExitError false $0 $Err;
+  :global ExitOnError; $ExitOnError $0 $Err;
 } }
 
 # lock script against multiple invocation
@@ -1662,7 +1673,7 @@
 
   $SendNotification2 ({ origin=$0; subject=$1; message=$2; link=$3; silent=$4 });
 } do={
-  :global ExitError; $ExitError false $0 $Err;
+  :global ExitOnError; $ExitOnError $0 $Err;
 } }
 
 # send notification via NotificationFunctions - expects one array argument

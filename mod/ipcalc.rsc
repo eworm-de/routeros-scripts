@@ -28,7 +28,7 @@
     [ $FormatLine "HostMax" ($Values->"hostmax") ] . "\n" . \
     [ $FormatLine "Broadcast" ($Values->"broadcast") ]) ];
 } do={
-  :global ExitError; $ExitError false $0 $Err;
+  :global ExitOnError; $ExitOnError $0 $Err;
 } }
 
 # calculate and return netmask, network, min host, max host and broadcast

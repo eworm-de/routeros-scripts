@@ -54,7 +54,7 @@
     :set GotifyQueue;
   }
 } do={
-  :global ExitError; $ExitError false $0 $Err;
+  :global ExitOnError; $ExitOnError $0 $Err;
 } }
 
 # send notification via Gotify - expects one array argument
@@ -126,7 +126,7 @@
 
   $SendGotify2 ({ origin=$0; subject=$1; message=$2; link=$3; silent=$4 });
 } do={
-  :global ExitError; $ExitError false $0 $Err;
+  :global ExitOnError; $ExitOnError $0 $Err;
 } }
 
 # send notification via Gotify - expects one array argument

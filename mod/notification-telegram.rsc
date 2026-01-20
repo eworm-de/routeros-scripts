@@ -62,7 +62,7 @@
     :set TelegramQueue;
   }
 } do={
-  :global ExitError; $ExitError false $0 $Err;
+  :global ExitOnError; $ExitOnError $0 $Err;
 } }
 
 # get the chat id
@@ -101,7 +101,7 @@
     $LogPrint info $0 ("The thread id is: " . ($Message->"message_thread_id"));
   }
 } do={
-  :global ExitError; $ExitError false $0 $Err;
+  :global ExitOnError; $ExitOnError $0 $Err;
 } } 
 
 # send notification via telegram - expects one array argument
@@ -237,7 +237,7 @@
 
   $SendTelegram2 ({ origin=$0; subject=$1; message=$2; link=$3; silent=$4 });
 } do={
-  :global ExitError; $ExitError false $0 $Err;
+  :global ExitOnError; $ExitOnError $0 $Err;
 } }
 
 # send notification via telegram - expects one array argument

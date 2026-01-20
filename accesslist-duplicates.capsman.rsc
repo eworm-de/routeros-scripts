@@ -32,5 +32,5 @@
     :set ($Seen->$Mac) 1;
   }
 } do={
-  :global ExitError; $ExitError false [ :jobname ] $Err;
+  :global ExitOnError; $ExitOnError [ :jobname ] $Err;
 }

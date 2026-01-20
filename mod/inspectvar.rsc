@@ -17,7 +17,7 @@
 
   :put [ :tocrlf [ $InspectVarReturn $1 ] ];
 } do={
-  :global ExitError; $ExitError false $0 $Err;
+  :global ExitOnError; $ExitOnError $0 $Err;
 } }
 
 # inspect variable and return formatted string

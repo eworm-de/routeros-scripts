@@ -68,7 +68,7 @@
     :return false;
   }
 } do={
-  :global ExitError; $ExitError false $0 $Err;
+  :global ExitOnError; $ExitOnError $0 $Err;
 } }
 
 # import keys from a file
@@ -110,5 +110,5 @@
     }
   }
 } do={
-  :global ExitError; $ExitError false $0 $Err;
+  :global ExitOnError; $ExitOnError $0 $Err;
 } }
