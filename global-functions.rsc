@@ -1925,9 +1925,7 @@
   :if ([ :len [ find where name="global-scripts" ] ] = 0) do={
     add name="global-scripts" start-time=startup;
   }
-  :if ([ get "global-scripts" on-event ] != $OnEvent) do={
-    set "global-scripts" on-event=$OnEvent;
-  }
+  set on-event=$OnEvent [ find where name="global-scripts" on-event!=$OnEvent ];
 }
 
 # Log success
