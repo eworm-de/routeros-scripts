@@ -572,16 +572,13 @@
 :set FetchUserAgentStr do={
   :local Caller [ :tostr $1 ];
 
-  :global CommitId;
-  :global CommitInfo;
-
+  :global CommitBrief;
   :global IfThenElse;
 
   :local Resource [ /system/resource/get ];
 
   :return ("User-Agent: Mikrotik/" . $Resource->"version" . " " . $Resource->"architecture-name" . \
-    " " . $Caller . "/Fetch (https://rsc.eworm.de/" . [ $IfThenElse ($CommitId != "unknown") \
-    ("; " . $CommitInfo . "/" . [ :pick $CommitId 0 8 ]) ] . ")");
+    " " . $Caller . "/Fetch (https://rsc.eworm.de/; " . [ $CommitBrief ] . ")");
 }
 
 # check for existence of file, optionally with type
