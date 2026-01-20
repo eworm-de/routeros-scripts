@@ -59,7 +59,7 @@
     :set MatrixQueue;
   }
 } do={
-  :global ExitError; $ExitError false $0 $Err;
+  :global ExitOnError; $ExitOnError $0 $Err;
 } }
 
 # send notification via Matrix - expects one array argument
@@ -172,7 +172,7 @@
 
   $SendMatrix2 ({ origin=$0; subject=$1; message=$2; link=$3 });
 } do={
-  :global ExitError; $ExitError false $0 $Err;
+  :global ExitOnError; $ExitOnError $0 $Err;
 } }
 
 # send notification via Matrix - expects one array argument
