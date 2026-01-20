@@ -36,7 +36,6 @@
 :global DownloadPackage;
 :global EitherOr;
 :global EscapeForRegEx;
-:global ExitError;
 :global ExitOnError;
 :global FetchHuge;
 :global FetchUserAgentStr;
@@ -481,19 +480,6 @@
   }
 
   :return $Return;
-}
-
-# wrapper for $ExitOnError with additional parameter
-:set ExitError do={
-  :local ExitOK [ :tostr $1 ];
-  :local Name   [ :tostr $2 ];
-  :local Error  [ :tostr $3 ];
-
-  :global ExitOnError;
-
-  :if ($ExitOK = "false") do={
-    $ExitOnError $Name $Error;
-  }
 }
 
 # simple macro to print error message on unintentional error
