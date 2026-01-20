@@ -1950,8 +1950,9 @@
 
 # Log success
 :local Resource [ /system/resource/get ];
-$LogPrintOnce info $ScriptName ("Loaded on " . $Resource->"board-name" . \
-  " with RouterOS " . $Resource->"version" . ".");
+$LogPrintOnce info $ScriptName ("Loaded " . \
+    [ $IfThenElse ($CommitId != "unknown") ([ $CommitBrief ] . " ") ] . \
+    "on " . $Resource->"board-name" . " with RouterOS " . $Resource->"version" . ".");
 
 # signal we are ready
 :set GlobalFunctionsReady true;
