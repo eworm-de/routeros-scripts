@@ -1270,7 +1270,6 @@
   :global ScriptUpdatesUrlSuffix;
 
   :global CertificateAvailable;
-  :global CommitBrief;
   :global EitherOr;
   :global FetchUserAgentStr;
   :global Grep;
@@ -1433,10 +1432,6 @@
     } do={
       $LogPrint error $0 ("Reloading global configuration and functions failed! " . $Err);
     }
-  }
-
-  :if ($CommitIdBefore != $CommitId) do={
-    $LogPrint info $0 ("Updated to commit: " . [ $CommitBrief ]);
   }
 
   :if ($ExpectedConfigVersionBefore > $ExpectedConfigVersion) do={
