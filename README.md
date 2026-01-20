@@ -57,11 +57,12 @@ temporarily.
 
 #### Prerequisite configuration
 
-Starting with RouterOS 7.17 the
+The
 [device-mode ↗️](https://help.mikrotik.com/docs/spaces/ROS/pages/93749258/Device-mode)
-has been extended to give more fine-grained control over what features are
-available. You need to enable `scheduler` and `fetch` at least, specific
-scripts may require additional features.
+is a mechanism to lock down a device for security reasons, it gives
+fine-grained control over what features are available. You need to enable
+`scheduler` and `fetch` at least, specific scripts may require additional
+features.
 
 ### Hardware
 
