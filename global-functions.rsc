@@ -30,6 +30,7 @@
 :global CharacterReplace;
 :global CleanFilePath;
 :global CleanName;
+:global CommitBrief;
 :global DeviceInfo;
 :global Dos2Unix;
 :global DownloadPackage;
@@ -318,6 +319,18 @@
     :set Return ($Return . $Char);
   }
   :return $Return;
+}
+
+# return a brief commit description
+:set CommitBrief do={
+  :global CommitId;
+  :global CommitInfo;
+
+  :if ($CommitId = "unknown") do={
+    :return "unknown";
+  }
+
+  :return ($CommitInfo . "/" . [ :pick $CommitId 0 8 ]);
 }
 
 # get readable device info
