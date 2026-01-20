@@ -474,19 +474,16 @@
   :return $Return;
 }
 
-# simple macro to print error message on unintentional error
+# wrapper for $ExitOnError with additional parameter
 :set ExitError do={
   :local ExitOK [ :tostr $1 ];
   :local Name   [ :tostr $2 ];
   :local Error  [ :tostr $3 ];
 
-  :global IfThenElse;
-  :global LogPrint;
+  :global ExitOnError;
 
   :if ($ExitOK = "false") do={
-    $LogPrint error $Name ([ $IfThenElse ([ :pick $Name 0 1 ] = "\$") \
-        "Function" "Script" ] . " '" . $Name . "' exited with error" . \
-        [ $IfThenElse (!($Error ~ "^(|true|false)\$")) (": " . $Error) "." ]);
+    $ExitOnError $Name $Error;
   }
 }
 
