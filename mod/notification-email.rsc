@@ -146,7 +146,7 @@
   /system/scheduler/set interval=(($SchedVal->"run-count") . "m") \
       comment="Waiting for retry..." $Scheduler;
 } do={
-  :global ExitError; $ExitError false $0 $Err;
+  :global ExitOnError; $ExitOnError $0 $Err;
 } }
 
 # generate filter for log-forward
@@ -274,7 +274,7 @@
 
   $SendEMail2 ({ origin=$0; subject=$1; message=$2; link=$3 });
 } do={
-  :global ExitError; $ExitError false $0 $Err;
+  :global ExitOnError; $ExitOnError $0 $Err;
 } }
 
 # send notification via e-mail - expects one array argument
