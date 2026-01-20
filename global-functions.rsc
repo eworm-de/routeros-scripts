@@ -1259,7 +1259,6 @@
   :local NewComment [ :tostr   $2 ];
 
   :global CommitId;
-  :global CommitInfo;
   :global ExpectedConfigVersion;
   :global GlobalConfigReady;
   :global GlobalFunctionsReady;
@@ -1271,6 +1270,7 @@
   :global ScriptUpdatesUrlSuffix;
 
   :global CertificateAvailable;
+  :global CommitBrief;
   :global EitherOr;
   :global FetchUserAgentStr;
   :global Grep;
@@ -1435,8 +1435,8 @@
     }
   }
 
-  :if ($CommitId != "unknown" && $CommitIdBefore != $CommitId) do={
-    $LogPrint info $0 ("Updated to commit: " . $CommitInfo . "/" . [ :pick $CommitId 0 8 ]);
+  :if ($CommitIdBefore != $CommitId) do={
+    $LogPrint info $0 ("Updated to commit: " . [ $CommitBrief ]);
   }
 
   :if ($ExpectedConfigVersionBefore > $ExpectedConfigVersion) do={
