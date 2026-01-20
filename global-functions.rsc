@@ -1920,12 +1920,14 @@
 }
 
 # add (and fix) global scripts scheduler
-:local OnEvent "/system/script { run global-config; run global-functions; }";
-:if ([ :len [ /system/scheduler/find where name="global-scripts" ] ] = 0) do={
-  /system/scheduler/add name="global-scripts" start-time=startup;
-}
-:if ([ /system/scheduler/get "global-scripts" on-event ] != $OnEvent) do={
-  /system/scheduler/set "global-scripts" on-event=$OnEvent;
+/system/scheduler {
+  :local OnEvent "/system/script { run global-config; run global-functions; }";
+  :if ([ :len [ find where name="global-scripts" ] ] = 0) do={
+    add name="global-scripts" start-time=startup;
+  }
+  :if ([ get "global-scripts" on-event ] != $OnEvent) do={
+    set "global-scripts" on-event=$OnEvent;
+  }
 }
 
 # Log success
