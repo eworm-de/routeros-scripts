@@ -111,6 +111,8 @@ least, but make sure not to drop other targets:
 
     /certificate/settings/set builtin-trust-store=fetch;
 
+![screenshot: builtin trust store](README.d/00-builtin-trust-store.avif)
+
 > 💡️ **Hint**: With RouterOS 7.20.x and before the functionality was
 > different. Set the trust for the builtin trust anchors:  
 > `/certificate/settings/set builtin-trust-anchors=trusted;`  
