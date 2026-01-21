@@ -97,18 +97,28 @@ including demonstration recorded live at [MUM Europe
 
 ### The long way in detail
 
-The update script does server certificate verification, so first step is to
-download the certificates.
+The update script does server certificate verification, so first step is
+to establish trust.
 
-> 💡️ **Hint**: RouterOS comes with a builtin certificate store. You
-> can skip the steps regarding certificate download and import and jump
-> to [installation of scripts](#installation-of-scripts) if you set the
-> certificates to be trusted by the `fetch` command at least. But make
-> sure not to drop other targets:  
-> `/certificate/settings/set builtin-trust-store=fetch;`
-> With RouterOS 7.20.x and before the functionality was different. Set
-> the trust for the builtin trust anchors:  
+#### Builtin trust store
+
+RouterOS comes with a builtin trust store with several CA certificates.
+If you intend **not** to trust this store jump to
+[download and import certificate](#download-and-import-certificate) now.
+
+Select the `fetch` command to trust these builtin certificates at
+least, but make sure not to drop other targets:
+
+    /certificate/settings/set builtin-trust-store=fetch;
+
+> 💡️ **Hint**: With RouterOS 7.20.x and before the functionality was
+> different. Set the trust for the builtin trust anchors:  
 > `/certificate/settings/set builtin-trust-anchors=trusted;`  
+
+You can skip the steps regarding *download and import certificate* and
+jump to [installation of scripts](#installation-of-scripts) now.
+
+#### Download and import certificate
 
 If you intend to download the scripts from a
 different location (for example from github.com) install the corresponding
