@@ -1024,7 +1024,6 @@
 
 # return an IPv6 netmask for CIDR
 :set NetMask6 do={
-  :local FuncName $0;
   :local CIDR [ :tostr $1 ];
 
   :global IfThenElse;
