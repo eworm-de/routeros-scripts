@@ -4,7 +4,7 @@
 #                         Michael Gisbers <michael@gisbers.de>
 # https://rsc.eworm.de/COPYING.md
 #
-# requires RouterOS, version=7.19
+# requires RouterOS, version=7.21
 # requires device-mode, fetch, scheduler
 #
 # global functions
@@ -130,8 +130,7 @@
   }
 
   :local CertSettings [ /certificate/settings/get ];
-  :if ((($CertSettings->"builtin-trust-anchors") = "trusted" || \
-        ($CertSettings->"builtin-trust-store") ~ $UseFor || \
+  :if ((($CertSettings->"builtin-trust-store") ~ $UseFor || \
         ($CertSettings->"builtin-trust-store") = "all") && \
        [ :len [ /certificate/builtin/find where common-name=$CommonName ] ] > 0) do={
     :return true;
