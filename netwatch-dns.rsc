@@ -121,9 +121,9 @@
     } do={
       $LogPrint warning $ScriptName ("Request to DoH server " . ($DohServer->"doh-url") . \
           " failed: " . $Err);
+      :continue;
     }
 
-    :if ($Data != false) do={
       :if ([ :typeof [ :find $Data "doh-check-OK" ] ] = "num") do={
         /ip/dns/set use-doh-server=($DohServer->"doh-url") verify-doh-cert=yes;
         :if ([ /certificate/settings/get crl-use ] = true) do={
@@ -136,7 +136,6 @@
         $LogPrint warning $ScriptName ("Received unexpected response from DoH server: " . \
           ($DohServer->"doh-url"));
       }
-    }
   }
 } do={
   :global ExitOnError; $ExitOnError [ :jobname ] $Err;
