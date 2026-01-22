@@ -124,7 +124,12 @@
       :continue;
     }
 
-    :if ([ :typeof [ :find $Data "doh-check-OK" ] ] = "num") do={
+    :if ([ :typeof [ :find $Data "doh-check-OK" ] ] != "num") do={
+      $LogPrint warning $ScriptName ("Received unexpected response from DoH server: " . \
+          ($DohServer->"doh-url"));
+      :continue;
+    }
+
       /ip/dns/set use-doh-server=($DohServer->"doh-url") verify-doh-cert=yes;
       :if ([ /certificate/settings/get crl-use ] = true) do={
         $LogPrintOnce warning $ScriptName ("Configured to use CRL, that can cause severe issue!");
@@ -132,10 +137,6 @@
       /ip/dns/cache/flush;
       $LogPrint info $ScriptName ("Setting DoH server: " . ($DohServer->"doh-url"));
       :exit;
-    } else={
-      $LogPrint warning $ScriptName ("Received unexpected response from DoH server: " . \
-        ($DohServer->"doh-url"));
-    }
   }
 } do={
   :global ExitOnError; $ExitOnError [ :jobname ] $Err;
