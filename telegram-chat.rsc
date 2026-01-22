@@ -68,19 +68,19 @@
 
   :local Data false;
   :for I from=1 to=4 do={
-      :onerror Err {
-        :set Data ([ /tool/fetch check-certificate=yes-without-crl output=user \
-          ("https://api.telegram.org/bot" . $TelegramTokenId . "/getUpdates?offset=" . \
-          $TelegramChatOffset->0 . "&allowed_updates=%5B%22message%22%5D") as-value ]->"data");
-        :set TelegramRandomDelay [ $MAX 0 ($TelegramRandomDelay - 1) ];
-        :break;
-      } do={
-        :if ($I < 4) do={
-          $LogPrint debug $ScriptName ("Fetch failed, " . $I . ". try: " . $Err);
-          :set TelegramRandomDelay [ $MIN 15 ($TelegramRandomDelay + 5) ];
-          :delay (($I * $I) . "s");
-        }
+    :onerror Err {
+      :set Data ([ /tool/fetch check-certificate=yes-without-crl output=user \
+        ("https://api.telegram.org/bot" . $TelegramTokenId . "/getUpdates?offset=" . \
+        $TelegramChatOffset->0 . "&allowed_updates=%5B%22message%22%5D") as-value ]->"data");
+      :set TelegramRandomDelay [ $MAX 0 ($TelegramRandomDelay - 1) ];
+      :break;
+    } do={
+      :if ($I < 4) do={
+        $LogPrint debug $ScriptName ("Fetch failed, " . $I . ". try: " . $Err);
+        :set TelegramRandomDelay [ $MIN 15 ($TelegramRandomDelay + 5) ];
+        :delay (($I * $I) . "s");
       }
+    }
   }
 
   :if ($Data = false) do={
