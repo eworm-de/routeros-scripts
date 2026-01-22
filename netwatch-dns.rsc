@@ -130,13 +130,13 @@
       :continue;
     }
 
-      /ip/dns/set use-doh-server=($DohServer->"doh-url") verify-doh-cert=yes;
-      :if ([ /certificate/settings/get crl-use ] = true) do={
-        $LogPrintOnce warning $ScriptName ("Configured to use CRL, that can cause severe issue!");
-      }
-      /ip/dns/cache/flush;
-      $LogPrint info $ScriptName ("Setting DoH server: " . ($DohServer->"doh-url"));
-      :exit;
+    /ip/dns/set use-doh-server=($DohServer->"doh-url") verify-doh-cert=yes;
+    :if ([ /certificate/settings/get crl-use ] = true) do={
+      $LogPrintOnce warning $ScriptName ("Configured to use CRL, that can cause severe issue!");
+    }
+    /ip/dns/cache/flush;
+    $LogPrint info $ScriptName ("Setting DoH server: " . ($DohServer->"doh-url"));
+    :exit;
   }
 } do={
   :global ExitOnError; $ExitOnError [ :jobname ] $Err;
