@@ -117,11 +117,10 @@ certificate chain.
 
 ![screenshot: download certs](README.d/01-download-certs.avif)
 
-Note that the command above does *not* verify server certificate, so if you
-want to be safe download with your workstations's browser from CA's website
-and transfer the file to your MikroTik device.
-
-* Let's Encrypt / ISRG [Root YE ↗️](https://letsencrypt.org/certs/gen-y/root-ye.pem)
+> ℹ️ **Info**: Note that the command above does *not* verify server
+> certificate, so if you want to be safe download with your workstations's
+> browser from CA's website and transfer the file to your MikroTik device:
+> *Let's Encrypt* / *ISRG* [Root YE ↗️](https://letsencrypt.org/certs/gen-y/root-ye.pem)
 
 Then we import the certificate.
 
