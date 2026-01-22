@@ -55,9 +55,17 @@
           "' (file '" . $CertFileName . "')...");
 
       :do {
-        /tool/fetch check-certificate=yes-without-crl http-header-field=({ [ $FetchUserAgentStr $ScriptName ] }) \
-            ($CertRenewUrl . $CertFileName) dst-path=$CertFileName as-value;
-        $WaitForFile $CertFileName;
+        :onerror Err {
+          /tool/fetch check-certificate=yes-without-crl \
+              http-header-field=({ [ $FetchUserAgentStr $ScriptName ] }) \
+              ($CertRenewUrl . $CertFileName) dst-path=$CertFileName as-value;
+        } do={
+          :if ($Err != "Fetch failed with status 404") do={
+            $LogPrint warning $0 ("Failed fetching certificate: " . $Err);
+          }
+          :error false;
+        }
+        $WaitForFile $CertFileName;  
 
         :local DecryptionFailed true;
         :foreach I,PassPhrase in=$CertRenewPass do={
