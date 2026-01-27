@@ -10,7 +10,7 @@ DOMAINS_DUAL = \
 	api.macvendors.com/GTS-Root-R4 \
 	api.telegram.org/Go-Daddy-Root-Certificate-Authority-G2 \
 	cloudflare-dns.com/SSL-com-Root-Certification-Authority-ECC \
-	dns.google/GTS-Root-R4 \
+	dns.google/GTS-Root-RX \
 	dns.quad9.net/DigiCert-Global-Root-G3 \
 	git.eworm.de/Root-YE \
 	lists.blocklist.de/GTS-Root-R4 \
@@ -20,7 +20,7 @@ DOMAINS_DUAL = \
 	upgrade.mikrotik.com/ISRG-Root-X1
 DOMAINS_IPV4 = \
 	1.1.1.1/SSL-com-Root-Certification-Authority-ECC \
-	8.8.8.8/GTS-Root-R1 \
+	8.8.8.8/GTS-Root-RX \
 	9.9.9.9/DigiCert-Global-Root-G3 \
 	api.mullvad.net/ISRG-Root-X1 \
 	ipv4.showipv6.de/ISRG-Root-X1 \
@@ -31,7 +31,7 @@ DOMAINS_IPV4 = \
 	www.spamhaus.org/GTS-Root-R4
 DOMAINS_IPV6 = \
 	[2606\:4700\:4700\:\:1111]/SSL-com-Root-Certification-Authority-ECC \
-	[2001\:4860\:4860\:\:8888]/GTS-Root-R1 \
+	[2001\:4860\:4860\:\:8888]/GTS-Root-RX \
 	[2620\:fe\:\:9]/DigiCert-Global-Root-G3 \
 	ipv6.showipv6.de/ISRG-Root-X1
 
