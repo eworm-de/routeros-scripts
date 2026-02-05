@@ -155,7 +155,7 @@
       [ $FormatLine "    days" ($CertVal->"days-valid") ] . "\n" . \
       [ $FormatLine "    from" ($CertVal->"invalid-before") ] . "\n" . \
       [ $FormatLine "    to" ($CertVal->"invalid-after") ] . "\n" . \
-      [ $FormatLine "Expires in" [ $IfThenElse (($CertVal->"expired") = true) "expired" [ $FormatExpire ($CertVal->"expires-after") ] ] ]);
+      [ $FormatLine "    time left" [ $IfThenElse (($CertVal->"expired") = true) "expired" [ $FormatExpire ($CertVal->"expires-after") ] ] ]);
   }
 
   :if ([ $ScriptLock $ScriptName ] = false) do={
