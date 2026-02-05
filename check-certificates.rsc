@@ -152,6 +152,7 @@
       [ $FormatLine "Fingerprint" ($CertVal->"fingerprint") ] . "\n" . \
       [ $IfThenElse ([ :len ($CertVal->"ca") ] > 0) [ $FormatLine "Issuer" ($CertVal->"ca") ] [ $FormatLine "Issuer chain" [ $FormatCertChain $Cert ] ] ] . "\n" . \
       "Validity:\n" . \
+      [ $FormatLine "    days" ($CertVal->"days-valid") ] . "\n" . \
       [ $FormatLine "    from" ($CertVal->"invalid-before") ] . "\n" . \
       [ $FormatLine "    to" ($CertVal->"invalid-after") ] . "\n" . \
       [ $FormatLine "Expires in" [ $IfThenElse (($CertVal->"expired") = true) "expired" [ $FormatExpire ($CertVal->"expires-after") ] ] ]);
