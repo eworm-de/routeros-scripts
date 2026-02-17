@@ -726,6 +726,8 @@
   }
 
   :do {
+    # Do *NOT* try :deserialize here to split lines. It can fail with
+    # scripts, and it *does* fail with global-functions!
     :local Line [ :pick $Input 0 [ :find $Input "\n" ] ];
     :if ([ :typeof [ :find $Line $Pattern ] ] = "num") do={
       :return $Line;
