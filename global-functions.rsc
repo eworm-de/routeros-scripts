@@ -728,11 +728,12 @@
   :do {
     # Do *NOT* try :deserialize here to split lines. It can fail with
     # scripts, and it *does* fail with global-functions!
-    :local Line [ :pick $Input 0 [ :find $Input "\n" ] ];
+    :local Len [ :find $Input "\n" ];
+    :local Line [ :pick $Input 0 $Len ];
     :if ([ :typeof [ :find $Line $Pattern ] ] = "num") do={
       :return $Line;
     }
-    :set Input [ :pick $Input ([ :find $Input "\n" ] + 1) [ :len $Input ] ];
+    :set Input [ :pick $Input ($Len + 1) [ :len $Input ] ];
   } while=([ :len $Input ] > 0);
 
   :return [];
