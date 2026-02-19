@@ -38,6 +38,7 @@ Add yourself to the list,
 * Alex Maier
 * Andrea Ruffini Perico
 * Andrew Cox
+* Benjamin Newman
 * Christoph Boss (@Kampfwurst)
 * Daniel Ziegenberg (@ziegenberg)
 * Devin Dean (@dd2594gh)
