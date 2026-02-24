@@ -259,12 +259,12 @@
 # Use this for certificate auto-renew
 :global CertRenewUrl "";
 #:global CertRenewUrl "https://example.com/certificates/";
-:global CertRenewTime 3w;
+:global CertRenewTime 2w;
 :global CertRenewPass {
   "v3ry-s3cr3t";
   "4n0th3r-s3cr3t";
 };
-:global CertWarnTime 2w;
+:global CertWarnTime 1w;
 :global CertIssuedExportPass {
   "cert1-cn"="v3ry-s3cr3t";
   "cert2-cn"="4n0th3r-s3cr3t";

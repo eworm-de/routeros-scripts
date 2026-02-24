@@ -63,6 +63,7 @@
   136="Introduced script 'check-perpetual-license' to check for license state on CHR.";
   137="Added support to send notifications via Gotify (gotify.net).";
   138="RouterOS 7.19 is suffering an issue with certificate store. Fixing trust state for all certificates...";
+  139="Certificate Authorities will reduce the leaf certificate validity times soon. Thus the defaults for renewal and warning in 'check-certificates' were decreased.";
 };
 
 # Migration steps to be applied on script updates
