@@ -48,11 +48,10 @@
 
   :local AllDone true;
   :local QueueLen [ :len $EmailQueue ];
-  :local Scheduler [ /system/scheduler/find where name="_FlushEmailQueue" ];
 
-  :if ([ :len $Scheduler ] > 0 && $QueueLen = 0) do={
+  :if ([ :len [ /system/scheduler/find where name="_FlushEmailQueue" ] ] > 0 && $QueueLen = 0) do={
     $LogPrint warning $0 ("Flushing E-Mail messages from scheduler, but queue is empty.");
-    /system/scheduler/remove $Scheduler;
+    /system/scheduler/remove [ find where name="_FlushEmailQueue" ];
     :return false;
   }
 
@@ -60,15 +59,14 @@
     :return true;
   }
 
-  :if ([ :len $Scheduler ] < 0) do={
+  :if ([ :len [ /system/scheduler/find where name="_FlushEmailQueue" ] ] < 0) do={
     /system/scheduler/add name="_FlushEmailQueue" interval=1m start-time=startup \
         comment="Doing initial checks..." on-event=(":global FlushEmailQueue; \$FlushEmailQueue;");
-    :set Scheduler [ /system/scheduler/find where name="_FlushEmailQueue" ];
   }
 
-  :local SchedVal [ /system/scheduler/get $Scheduler ];
-  :if (($SchedVal->"interval") < 1m) do={
-    /system/scheduler/set interval=1m comment="Doing initial checks..." $Scheduler;
+  :if (([ /system/scheduler/get [ find where name="_FlushEmailQueue" ] ]->"interval") < 1m) do={
+    /system/scheduler/set interval=1m comment="Doing initial checks..." \
+      [ find where name="_FlushEmailQueue" ];
   }
 
   :if ([ /tool/e-mail/get last-status ] = "in-progress") do={
@@ -87,7 +85,8 @@
     :return false;
   }
 
-  /system/scheduler/set interval=($QueueLen . "m") comment="Sending..." $Scheduler;
+  /system/scheduler/set interval=($QueueLen . "m") comment="Sending..." \
+    [ find where name="_FlushEmailQueue" ];
 
   :foreach Id,Message in=$EmailQueue do={
     :if ([ :typeof $Message ] = "array" ) do={
@@ -143,8 +142,8 @@
     :return false;
   }
 
-  /system/scheduler/set interval=(($SchedVal->"run-count") . "m") \
-      comment="Waiting for retry..." $Scheduler;
+  /system/scheduler/set interval=(([ get [ find where name="_FlushEmailQueue" ] ]->"run-count") . "m") \
+      comment="Waiting for retry..." [ find where name="_FlushEmailQueue" ];
 } do={
   :global ExitOnError; $ExitOnError $0 $Err;
 } }
