@@ -64,9 +64,14 @@
         comment="Doing initial checks..." on-event=(":global FlushEmailQueue; \$FlushEmailQueue;");
   }
 
-  :if (([ /system/scheduler/get [ find where name="_FlushEmailQueue" ] ]->"interval") < 1m) do={
-    /system/scheduler/set interval=1m comment="Doing initial checks..." \
-      [ find where name="_FlushEmailQueue" ];
+  :do {
+    :if (([ /system/scheduler/get [ find where name="_FlushEmailQueue" ] ]->"interval") < 1m) do={
+      /system/scheduler/set interval=1m comment="Doing initial checks..." \
+        [ find where name="_FlushEmailQueue" ];
+    } 
+  } on-error={
+    $LogPrint debug $0 ("The scheduler is gone, aborting.");
+    :return false;
   }
 
   :if ([ /tool/e-mail/get last-status ] = "in-progress") do={
