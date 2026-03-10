@@ -1290,7 +1290,9 @@
   }
 
   :foreach Script in=$Scripts do={
-    :if ([ :len [ /system/script/find where name=$Script ] ] = 0) do={
+    :if ([ :len [ /system/script/find where name=$Script ] ] > 0) do={
+      $LogPrint warning $0 ("Requested to add script '" . $Script . "', but that exists already!");
+    } else={
       $LogPrint info $0 ("Adding new script: " . $Script);
       /system/script/add name=$Script owner=$Script source="#!rsc by RouterOS\n" comment=$NewComment;
     }
