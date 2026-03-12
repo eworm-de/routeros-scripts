@@ -177,9 +177,11 @@
       $LogPrint info $ScriptName ("Attempting to renew certificate '" . ($CertVal->"name") . "'.");
 
       :local ImportSuccess false;
-      :set LastName ($CertVal->"common-name");
-      :set FetchName $LastName;
-      :set ImportSuccess [ $CheckCertificatesDownloadImport $ScriptName $LastName $FetchName ];
+      :if ([ :len ($CertVal->"common-name") ] > 0) do={
+        :set LastName ($CertVal->"common-name");
+        :set FetchName $LastName;
+        :set ImportSuccess [ $CheckCertificatesDownloadImport $ScriptName $LastName $FetchName ];
+      }
       :foreach SAN in=($CertVal->"subject-alt-name") do={
         :if ($ImportSuccess = false) do={
           :set LastName [ :pick $SAN ([ :find $SAN ":" ] + 1) [ :len $SAN ] ];
