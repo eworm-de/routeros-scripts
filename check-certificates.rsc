@@ -61,7 +61,7 @@
               ($CertRenewUrl . $CertFileName) dst-path=$CertFileName as-value;
         } do={
           :if (!($Err ~ "[Ss]tatus 404")) do={
-            $LogPrint warning $0 ("Failed fetching certificate: " . $Err);
+            $LogPrint warning $0 ("Failed fetching certificate by '" . $FetchName . "': " . $Err);
           }
           :error false;
         }
