@@ -115,7 +115,7 @@
 #      cert="Root YE" };
     { url="https://raw.githubusercontent.com/stamparm/ipsum/refs/heads/master/levels/4.txt";
 #     # higher level (decrease the numerical value) for more addresses, and vice versa
-      cert="USERTrust RSA Certification Authority" };
+      cert="ISRG Root X1" };
     { url="https://www.dshield.org/block.txt"; cidr="/24";
       cert="GTS Root R4" };
     { url="https://lists.blocklist.de/lists/strongips.txt";

@@ -16,7 +16,7 @@ DOMAINS_DUAL = \
 	gitlab.com/USERTrust-RSA-Certification-Authority \
 	lists.blocklist.de/GTS-Root-R4 \
 	matrix.org/GTS-Root-R4 \
-	raw.githubusercontent.com/USERTrust-RSA-Certification-Authority \
+	raw.githubusercontent.com/ISRG-Root-X1 \
 	rsc.eworm.de/Root-YE \
 	upgrade.mikrotik.com/ISRG-Root-X1
 DOMAINS_IPV4 = \
