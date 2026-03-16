@@ -51,7 +51,6 @@
          active-address=($DnsRecordVal->"address") server=($DnsRecordInfo->"server") status=bound ] ] > 0) do={
       $LogPrint debug $ScriptName ("Lease for " . $MacInServer . " (" . $DnsRecordVal->"name" . ") still exists. Not deleting record.");
     } else={
-      :local Found false;
       $LogPrint info $ScriptName ("Lease expired for " . $MacInServer . ", deleting record (" . $DnsRecordVal->"name" . ").");
       /ip/dns/static/remove $DnsRecord;
       /ip/dns/static/remove [ find where type=CNAME comment=($DnsRecordVal->"comment") ];
