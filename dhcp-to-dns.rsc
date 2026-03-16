@@ -67,7 +67,11 @@
       :continue;
     }
 
-    :if ([ :len ($LeaseVal->"active-address") ] > 0) do={
+    :if ([ :len ($LeaseVal->"active-address") ] = 0) do={
+      $LogPrint debug $ScriptName ("No address available... Ignoring.");
+      :continue;
+    }
+
       :local Comment ($CommentPrefix . ", macaddress=" . $LeaseVal->"active-mac-address" . ", server=" . $LeaseVal->"server");
       :local MacDash [ $CleanName ($LeaseVal->"active-mac-address") ];
       :local HostName [ $CleanName [ $EitherOr ([ $ParseKeyValueStore ($LeaseVal->"comment") ]->"hostname") ($LeaseVal->"host-name") ] ];
@@ -119,9 +123,6 @@
       :if ([ :len [ /ip/dns/static/find where name=$FullA type=A ] ] > 1) do={
         $LogPrintOnce warning $ScriptName ("The name '" . $FullA . "' appeared in more than one A record!");
       }
-    } else={
-      $LogPrint debug $ScriptName ("No address available... Ignoring.");
-    }
   }
 } do={
   :global ExitOnError; $ExitOnError [ :jobname ] $Err;
