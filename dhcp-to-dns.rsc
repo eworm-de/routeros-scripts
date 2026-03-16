@@ -72,57 +72,57 @@
       :continue;
     }
 
-      :local Comment ($CommentPrefix . ", macaddress=" . $LeaseVal->"active-mac-address" . ", server=" . $LeaseVal->"server");
-      :local MacDash [ $CleanName ($LeaseVal->"active-mac-address") ];
-      :local HostName [ $CleanName [ $EitherOr ([ $ParseKeyValueStore ($LeaseVal->"comment") ]->"hostname") ($LeaseVal->"host-name") ] ];
-      :local Network [ /ip/dhcp-server/network/find where ($LeaseVal->"active-address") in address ];
-      :local NetworkVal;
-      :if ([ :len $Network ] > 0) do={
-        :set NetworkVal [ /ip/dhcp-server/network/get ($Network->0) ];
-      }
-      :local NetworkInfo [ $ParseKeyValueStore ($NetworkVal->"comment") ];
-      :local NetDomain ([ $IfThenElse ([ :len ($NetworkInfo->"name-extra") ] > 0) ($NetworkInfo->"name-extra" . ".") ] . \
-        [ $EitherOr [ $EitherOr ($NetworkInfo->"domain") ($NetworkVal->"domain") ] $Domain ]);
-      :local FullA ($MacDash . "." . $NetDomain);
-      :local FullCN ($HostName . "." . $NetDomain);
-      :local MacInServer ($LeaseVal->"active-mac-address" . " in " . $LeaseVal->"server");
+    :local Comment ($CommentPrefix . ", macaddress=" . $LeaseVal->"active-mac-address" . ", server=" . $LeaseVal->"server");
+    :local MacDash [ $CleanName ($LeaseVal->"active-mac-address") ];
+    :local HostName [ $CleanName [ $EitherOr ([ $ParseKeyValueStore ($LeaseVal->"comment") ]->"hostname") ($LeaseVal->"host-name") ] ];
+    :local Network [ /ip/dhcp-server/network/find where ($LeaseVal->"active-address") in address ];
+    :local NetworkVal;
+    :if ([ :len $Network ] > 0) do={
+      :set NetworkVal [ /ip/dhcp-server/network/get ($Network->0) ];
+    }
+    :local NetworkInfo [ $ParseKeyValueStore ($NetworkVal->"comment") ];
+    :local NetDomain ([ $IfThenElse ([ :len ($NetworkInfo->"name-extra") ] > 0) ($NetworkInfo->"name-extra" . ".") ] . \
+      [ $EitherOr [ $EitherOr ($NetworkInfo->"domain") ($NetworkVal->"domain") ] $Domain ]);
+    :local FullA ($MacDash . "." . $NetDomain);
+    :local FullCN ($HostName . "." . $NetDomain);
+    :local MacInServer ($LeaseVal->"active-mac-address" . " in " . $LeaseVal->"server");
 
-      :local DnsRecord [ /ip/dns/static/find where comment=$Comment type=A ];
-      :if ([ :len $DnsRecord ] > 0) do={
-        :local DnsRecordVal [ /ip/dns/static/get $DnsRecord ];
+    :local DnsRecord [ /ip/dns/static/find where comment=$Comment type=A ];
+    :if ([ :len $DnsRecord ] > 0) do={
+      :local DnsRecordVal [ /ip/dns/static/get $DnsRecord ];
 
-        :if ($DnsRecordVal->"address" = $LeaseVal->"active-address" && $DnsRecordVal->"name" = $FullA) do={
-          $LogPrint debug $ScriptName ("The A record for " . $MacInServer . " (" . $FullA . ") does not need updating.");
-        } else={
-          $LogPrint info $ScriptName ("Updating A record for " . $MacInServer . " (" . $FullA . " -> " . $LeaseVal->"active-address" . ").");
-          /ip/dns/static/set address=($LeaseVal->"active-address") name=$FullA $DnsRecord;
-        }
-
-        :local CName [ /ip/dns/static/find where comment=$Comment type=CNAME ];
-        :if ([ :len $CName ] > 0) do={
-          :local CNameVal [ /ip/dns/static/get $CName ];
-          :if ($CNameVal->"name" != $FullCN || $CNameVal->"cname" != $FullA) do={
-            $LogPrint info $ScriptName ("Deleting CNAME record with wrong data for " . $MacInServer . ".");
-            /ip/dns/static/remove $CName;
-          }
-        }
-        :if ([ :len $HostName ] > 0 && [ :len [ /ip/dns/static/find where name=$FullCN type=CNAME ] ] = 0) do={
-          $LogPrint info $ScriptName ("Adding CNAME record for " . $MacInServer . " (" . $FullCN . " -> " . $FullA . ").");
-          /ip/dns/static/add name=$FullCN type=CNAME cname=$FullA ttl=$Ttl comment=$Comment place-before=$PlaceBefore;
-        }
-
+      :if ($DnsRecordVal->"address" = $LeaseVal->"active-address" && $DnsRecordVal->"name" = $FullA) do={
+        $LogPrint debug $ScriptName ("The A record for " . $MacInServer . " (" . $FullA . ") does not need updating.");
       } else={
-        $LogPrint info $ScriptName ("Adding A record for " . $MacInServer . " (" . $FullA . " -> " . $LeaseVal->"active-address" . ").");
-        /ip/dns/static/add name=$FullA type=A address=($LeaseVal->"active-address") ttl=$Ttl comment=$Comment place-before=$PlaceBefore;
-        :if ([ :len $HostName ] > 0 && [ :len [ /ip/dns/static/find where name=$FullCN type=CNAME ] ] = 0) do={
-          $LogPrint info $ScriptName ("Adding CNAME record for " . $MacInServer . " (" . $FullCN . " -> " . $FullA . ").");
-          /ip/dns/static/add name=$FullCN type=CNAME cname=$FullA ttl=$Ttl comment=$Comment place-before=$PlaceBefore;
-        }
+        $LogPrint info $ScriptName ("Updating A record for " . $MacInServer . " (" . $FullA . " -> " . $LeaseVal->"active-address" . ").");
+        /ip/dns/static/set address=($LeaseVal->"active-address") name=$FullA $DnsRecord;
       }
 
-      :if ([ :len [ /ip/dns/static/find where name=$FullA type=A ] ] > 1) do={
-        $LogPrintOnce warning $ScriptName ("The name '" . $FullA . "' appeared in more than one A record!");
+      :local CName [ /ip/dns/static/find where comment=$Comment type=CNAME ];
+      :if ([ :len $CName ] > 0) do={
+        :local CNameVal [ /ip/dns/static/get $CName ];
+        :if ($CNameVal->"name" != $FullCN || $CNameVal->"cname" != $FullA) do={
+          $LogPrint info $ScriptName ("Deleting CNAME record with wrong data for " . $MacInServer . ".");
+          /ip/dns/static/remove $CName;
+        }
       }
+      :if ([ :len $HostName ] > 0 && [ :len [ /ip/dns/static/find where name=$FullCN type=CNAME ] ] = 0) do={
+        $LogPrint info $ScriptName ("Adding CNAME record for " . $MacInServer . " (" . $FullCN . " -> " . $FullA . ").");
+        /ip/dns/static/add name=$FullCN type=CNAME cname=$FullA ttl=$Ttl comment=$Comment place-before=$PlaceBefore;
+      }
+
+    } else={
+      $LogPrint info $ScriptName ("Adding A record for " . $MacInServer . " (" . $FullA . " -> " . $LeaseVal->"active-address" . ").");
+      /ip/dns/static/add name=$FullA type=A address=($LeaseVal->"active-address") ttl=$Ttl comment=$Comment place-before=$PlaceBefore;
+      :if ([ :len $HostName ] > 0 && [ :len [ /ip/dns/static/find where name=$FullCN type=CNAME ] ] = 0) do={
+        $LogPrint info $ScriptName ("Adding CNAME record for " . $MacInServer . " (" . $FullCN . " -> " . $FullA . ").");
+        /ip/dns/static/add name=$FullCN type=CNAME cname=$FullA ttl=$Ttl comment=$Comment place-before=$PlaceBefore;
+      }
+    }
+
+    :if ([ :len [ /ip/dns/static/find where name=$FullA type=A ] ] > 1) do={
+      $LogPrintOnce warning $ScriptName ("The name '" . $FullA . "' appeared in more than one A record!");
+    }
   }
 } do={
   :global ExitOnError; $ExitOnError [ :jobname ] $Err;
