@@ -72,15 +72,21 @@
       :continue;
     }
 
-    :local Comment ($CommentPrefix . ", macaddress=" . $LeaseVal->"active-mac-address" . ", server=" . $LeaseVal->"server");
-    :local MacDash [ $CleanName ($LeaseVal->"active-mac-address") ];
-    :local HostName [ $CleanName [ $EitherOr ([ $ParseKeyValueStore ($LeaseVal->"comment") ]->"hostname") ($LeaseVal->"host-name") ] ];
     :local Network [ /ip/dhcp-server/network/find where ($LeaseVal->"active-address") in address ];
     :local NetworkVal;
     :if ([ :len $Network ] > 0) do={
       :set NetworkVal [ /ip/dhcp-server/network/get ($Network->0) ];
     }
     :local NetworkInfo [ $ParseKeyValueStore ($NetworkVal->"comment") ];
+
+    :if ($NetworkInfo->"dns-ignore" = true) do={
+      $LogPrint debug $ScriptName ("Lease for " . $LeaseVal->"active-mac-address" . " is in ignored network... Skipping.");
+      :continue;
+    }
+
+    :local Comment ($CommentPrefix . ", macaddress=" . $LeaseVal->"active-mac-address" . ", server=" . $LeaseVal->"server");
+    :local MacDash [ $CleanName ($LeaseVal->"active-mac-address") ];
+    :local HostName [ $CleanName [ $EitherOr ([ $ParseKeyValueStore ($LeaseVal->"comment") ]->"hostname") ($LeaseVal->"host-name") ] ];
     :local NetDomain ([ $IfThenElse ([ :len ($NetworkInfo->"name-extra") ] > 0) ($NetworkInfo->"name-extra" . ".") ] . \
       [ $EitherOr [ $EitherOr ($NetworkInfo->"domain") ($NetworkVal->"domain") ] $Domain ]);
     :local FullA ($MacDash . "." . $NetDomain);
