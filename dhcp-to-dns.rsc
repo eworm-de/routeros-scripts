@@ -64,6 +64,7 @@
       }
     } on-error={
       $LogPrint debug $ScriptName ("A lease just vanished, ignoring.");
+      :continue;
     }
 
     :if ([ :len ($LeaseVal->"active-address") ] > 0) do={
