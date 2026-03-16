@@ -50,8 +50,12 @@ A bound lease for mac address `00:11:22:33:44:55` with ip address
 `10.0.0.50` would result in an A record `00-11-22-33-44-55.example.com`
 pointing to the given ip address.
 
-Additional options can be given from comment, to add an extra level in
-dns name or define a different domain.
+Additional options can be given from comment, first of all you can opt-out
+for specific networks:
+
+    /ip/dhcp-server/network/add address=10.0.0.0/24 domain=example.com comment="dns-ignore=true";
+
+Use this to add an extra level in dns name or define a different domain.
 
     /ip/dhcp-server/network/add address=10.0.0.0/24 domain=example.com comment="domain=another-domain.com, name-extra=dhcp";
 
