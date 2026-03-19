@@ -15,6 +15,7 @@ markdown -f toc,idanchor "${1}" | sed \
 	-e '/<h[1234] /s| id="\(.*\)">| id="\L\1">|' \
 	-e '/<h[1234] /s|--26-amp-3b-||g' \
 	-e '/<h[1234] /s|-2[1789cd]-||g' \
+	-e '/<h[1234] /s|-3[f]-||g' \
 	-e '/^<pre>/s|pre|pre class="code" onclick="CopyToClipboard(this)"|g' \
 	-e '/The above link may be broken on code hosting sites/s|blockquote|blockquote style="display: none;"|'
 
