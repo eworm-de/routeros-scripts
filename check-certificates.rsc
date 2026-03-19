@@ -164,7 +164,8 @@
   }
   $WaitFullyConnected;
 
-  :foreach Cert in=[ /certificate/find where !revoked !ca !scep-url expires-after<$CertRenewTime ] do={
+  :foreach Cert in=[ /certificate/find where !revoked !ca !scep-url expires-after<$CertRenewTime \
+                     (common-name or subject-alt-name) ] do={
     :local CertVal [ /certificate/get $Cert ];
     :local LastName;
     :local FetchName;
