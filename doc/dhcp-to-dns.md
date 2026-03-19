@@ -80,6 +80,23 @@ Note this information can be configured in wireless access list with
 then due to script execution order. Decrease the scheduler interval to
 reduce the effect.
 
+Frequently asked questions
+--------------------------
+
+### Is it possible to have the hostname in reverse lookup?
+
+It used to be like that in the beginning. But there are way too many special
+cases... Devices without hostname, devices with same hostname, devices
+switching from one network to another, devices with same hostname in
+different network, ...
+
+Fixing one broke another. It never really worked without problems. So
+finally the code ended with what we have now.
+
+I know about that side effect and limitation with reverse lookup, but
+there's really no (easy) way to get that right without mac address. The
+reverse lookup will always give a name based on mac address.
+
 See also
 --------
 
