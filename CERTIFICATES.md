@@ -32,13 +32,13 @@ is to use a desktop browser to get that information. This demonstration uses
 [Mozilla Firefox ↗️](https://www.mozilla.org/firefox/).
 
 Let's assume we want to make sure the certificate for
-[git.eworm.de](https://git.eworm.de/) is available. Open that page in the
-browser, then click the *lock* icon in addressbar, followed by "*Connection
-secure*".
+[rsc.eworm.de](https://rsc.eworm.de/) is available. Open that page in the
+browser, then click the *shield* icon in addressbar, followed by
+"*Connection secure*".
 
 ![screenshot: dialog A](CERTIFICATES.d/01-dialog-A.avif)
 
-The dialog will change, click "*More information*".
+The dialog will change, click "*More site information*".
 
 ![screenshot: dialog B](CERTIFICATES.d/02-dialog-B.avif)
 
