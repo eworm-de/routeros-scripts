@@ -55,7 +55,7 @@ create it with:
     /ipv6/firewall/address-list/add address=2003:cf:2f0f:de00::/56 comment=ipv6-pool-isp list=extern;
 
 If the dynamic entry exists already you need to remove it before creating
-the static one..
+the static one.
 
 Address list entries for specific interfaces can be updated as well. The
 interface needs to get its address from pool `isp` and the address list entry
