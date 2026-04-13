@@ -36,6 +36,7 @@ Just install the script:
 See also
 --------
 
+* [Run other scripts on IPv6 DHCP client lease](dhcpv6-client-lease.md)
 * [Update configuration on IPv6 prefix change](ipv6-update.md)
 * [Update tunnelbroker configuration](update-tunnelbroker.md)
 

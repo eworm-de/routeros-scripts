@@ -77,6 +77,7 @@ start with "`ipv6-pool-`" and actual pool name, followed by a comma,
 See also
 --------
 
+* [Run other scripts on IPv6 DHCP client lease](dhcpv6-client-lease.md)
 * [Run scripts on ppp connection](ppp-on-up.md)
 
 ---

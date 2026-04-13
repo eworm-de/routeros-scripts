@@ -4,6 +4,7 @@
 # https://rsc.eworm.de/COPYING.md
 #
 # requires RouterOS, version=7.19
+# provides: dhcpv6-client-lease, order=40
 #
 # update firewall and dns settings on IPv6 prefix change
 # https://rsc.eworm.de/doc/ipv6-update.md
@@ -15,14 +16,17 @@
       do={ :error ("Global config and/or functions not ready."); }; } delay=500ms max=50;
   :local ScriptName [ :jobname ];
 
+  :global EitherOr;
   :global LogPrint;
   :global ParseKeyValueStore;
   :global ScriptLock;
 
-  :local NaAddress $"na-address";
-  :local NaValid $"na-valid";
-  :local PdPrefix $"pd-prefix";
-  :local PdValid $"pd-valid";
+  :global DHCPv6ClientLeaseVars;
+
+  :local NaAddress [ $EitherOr $"na-address" ($DHCPv6ClientLeaseVars->"na-address") ];
+  :local NaValid [ $EitherOr $"na-valid" ($DHCPv6ClientLeaseVars->"na-valid") ];
+  :local PdPrefix [ $EitherOr $"pd-prefix" ($DHCPv6ClientLeaseVars->"pd-prefix") ];
+  :local PdValid [ $EitherOr $"pd-valid" ($DHCPv6ClientLeaseVars->"pd-valid") ];
 
   :if ([ $ScriptLock $ScriptName ] = false) do={
     :set ExitOK true;
