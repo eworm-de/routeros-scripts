@@ -65,6 +65,7 @@
   138="RouterOS 7.19 is suffering an issue with certificate store. Fixing trust state for all certificates...";
   139="Certificate Authorities will reduce the leaf certificate validity times soon. Thus the defaults for renewal and warning in 'check-certificates' were decreased.";
   140="The scripts 'lease-script' was renamed to 'dhcpv4-server-lease', configuration was updated automatically.";
+  141="Introduced script 'dhcpv6-client-lease' to run several scripts on IPv6 DHCP client lease.";
 };
 
 # Migration steps to be applied on script updates

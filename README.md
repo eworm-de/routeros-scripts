@@ -287,6 +287,7 @@ Available scripts
 * [Comment DHCP leases with info from access list](doc/dhcp-lease-comment.md) (`dhcp-lease-comment`)
 * [Create DNS records for DHCP leases](doc/dhcp-to-dns.md) (`dhcp-to-dns`)
 * [Run other scripts on IPv4 DHCP server lease](doc/dhcpv4-server-lease.md) (`dhcpv4-server-lease`)
+* [Run other scripts on IPv6 DHCP client lease](doc/dhcpv6-client-lease.md) (`dhcpv6-client-lease`)
 * [Automatically upgrade firmware and reboot](doc/firmware-upgrade-reboot.md) (`firmware-upgrade-reboot`)
 * [Download, import and update firewall address-lists](doc/fw-addr-lists.md) (`fw-addr-lists`)
 * [Wait for global functions und modules](doc/global-wait.md) (`global-wait`)
