@@ -258,8 +258,8 @@ Some events can run a script. If you want your DHCP hostnames to be available
 in DNS use `dhcp-to-dns` with the events from dhcp server. For a regular
 cleanup add a scheduler entry.
 
-    $ScriptInstallUpdate dhcp-to-dns,lease-script;
-    /ip/dhcp-server/set lease-script=lease-script [ find ];
+    $ScriptInstallUpdate dhcp-to-dns,dhcpv4-server-lease;
+    /ip/dhcp-server/set lease-script="dhcpv4-server-lease" [ find ];
     /system/scheduler/add name="dhcp-to-dns" interval=5m start-time=startup on-event="/system/script/run dhcp-to-dns;";
 
 ![screenshot: setup lease script](README.d/12-setup-lease-script.avif)
@@ -286,6 +286,7 @@ Available scripts
 * [Use wireless network with daily psk](doc/daily-psk.md) (`daily-psk`)
 * [Comment DHCP leases with info from access list](doc/dhcp-lease-comment.md) (`dhcp-lease-comment`)
 * [Create DNS records for DHCP leases](doc/dhcp-to-dns.md) (`dhcp-to-dns`)
+* [Run other scripts on IPv4 DHCP server lease](doc/dhcpv4-server-lease.md) (`dhcpv4-server-lease`)
 * [Automatically upgrade firmware and reboot](doc/firmware-upgrade-reboot.md) (`firmware-upgrade-reboot`)
 * [Download, import and update firewall address-lists](doc/fw-addr-lists.md) (`fw-addr-lists`)
 * [Wait for global functions und modules](doc/global-wait.md) (`global-wait`)
@@ -294,7 +295,6 @@ Available scripts
 * [Create DNS records for IPSec peers](doc/ipsec-to-dns.md) (`ipsec-to-dns`)
 * [Update configuration on IPv6 prefix change](doc/ipv6-update.md) (`ipv6-update`)
 * [Manage IP addresses with bridge status](doc/ip-addr-bridge.md) (`ip-addr-bridge`)
-* [Run other scripts on DHCP lease](doc/lease-script.md) (`lease-script`)
 * [Manage LEDs dark mode](doc/leds-mode.md) (`leds-day-mode`, `leds-night-mode` & `leds-toggle-mode`)
 * [Forward log messages via notification](doc/log-forward.md) (`log-forward`)
 * [Mode button with multiple presses](doc/mode-button.md) (`mode-button`)

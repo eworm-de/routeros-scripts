@@ -91,6 +91,10 @@ Notes
 
     /save dhcp-to-dns Create DNS records for DHCP leases with [dhcp-to-dns](https://rsc.eworm.de/doc/dhcp-to-dns.md).
 
+#### dhcpv4-server-lease
+
+    /save dhcpv4-server-lease Run other scripts on IPv4 DHCP server lease with [dhcpv4-server-lease](https://rsc.eworm.de/doc/dhcpv4-server-lease.md).
+
 #### firmware-upgrade-reboot
 
     /save firmware-upgrade-reboot Automatically upgrade firmware and reboot with [firmware-upgrade-reboot](https://rsc.eworm.de/doc/firmware-upgrade-reboot.md).
@@ -122,10 +126,6 @@ Notes
 #### ip-addr-bridge
 
     /save ip-addr-bridge Manage IP addresses with [ip-addr-bridge](https://rsc.eworm.de/doc/ip-addr-bridge.md).
-
-#### lease-script
-
-    /save lease-script Run other scripts on DHCP lease with [lease-script](https://rsc.eworm.de/doc/lease-script.md).
 
 #### leds-mode
 

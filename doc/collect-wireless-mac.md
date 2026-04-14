@@ -64,14 +64,14 @@ Usage and invocation
 
 Run this script from a dhcp server as lease-script to collect the MAC
 address when a new address is leased. You may want to use
-[lease-script](lease-script.md).
+[dhcpv4-server-lease](dhcpv4-server-lease.md).
 
 See also
 --------
 
 * [Comment DHCP leases with info from access list](dhcp-lease-comment.md)
 * [Create DNS records for DHCP leases](dhcp-to-dns.md)
-* [Run other scripts on DHCP lease](lease-script.md)
+* [Run other scripts on IPv4 DHCP server lease](dhcpv4-server-lease.md)
 
 ---
 [⬅️ Go back to main README](../README.md)  

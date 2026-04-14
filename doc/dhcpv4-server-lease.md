@@ -1,5 +1,5 @@
-Comment DHCP leases with info from access list
-==============================================
+Run other scripts on IPv4 DHCP server lease
+===========================================
 
 [![GitHub stars](https://img.shields.io/github/stars/eworm-de/routeros-scripts?logo=GitHub&style=flat&color=red)](https://github.com/eworm-de/routeros-scripts/stargazers)
 [![GitHub forks](https://img.shields.io/github/forks/eworm-de/routeros-scripts?logo=GitHub&style=flat&color=green)](https://github.com/eworm-de/routeros-scripts/network)
@@ -16,48 +16,38 @@ Comment DHCP leases with info from access list
 Description
 -----------
 
-This script adds comments to dynamic dhcp server leases. Infos are taken
-from wireless access list.
+This script is supposed to run from IPv4 DHCP server as lease script. On a
+DHCP lease it runs each script containing the following line, where `##` is
+a decimal number for ordering:
+
+    # provides: dhcpv4-server-lease, order=##
+
+Currently it runs if available, in order:
+
+* [dhcp-to-dns](dhcp-to-dns.md)
+* [collect-wireless-mac](collect-wireless-mac.md)
+* [dhcp-lease-comment](dhcp-lease-comment.md)
+* `hotspot-to-wpa-cleanup`, which is an optional cleanup script
+  of [hotspot-to-wpa](hotspot-to-wpa.md)
 
 Requirements and installation
 -----------------------------
 
-Depending on whether you use `wifi` package (`/interface/wifi`), legacy
-wifi with CAPsMAN (`/caps-man`) or local wireless interface
-(`/interface/wireless`) you need to install a different script.
+Just install the script:
 
-For `wifi`:
+    $ScriptInstallUpdate dhcpv4-server-lease;
 
-    $ScriptInstallUpdate dhcp-lease-comment.wifi;
+... and add it as `lease-script` to your dhcp server:
 
-For legacy CAPsMAN:
-
-    $ScriptInstallUpdate dhcp-lease-comment.capsman;
-
-For legacy local interface:
-
-    $ScriptInstallUpdate dhcp-lease-comment.local;
-
-Configuration
--------------
-
-Infos are taken from wireless access list. Add entries with proper comments
-there. You may want to use [collect-wireless-mac](collect-wireless-mac.md)
-to prepare entries.
-
-Usage and invocation
---------------------
-
-Run this script from a dhcp server as lease-script to update the comment
-just after a new address is leased. You may want to use
-[dhcpv4-server-lease](dhcpv4-server-lease.md).
+    /ip/dhcp-server/set lease-script="dhcpv4-server-lease" [ find ];
 
 See also
 --------
 
 * [Collect MAC addresses in wireless access list](collect-wireless-mac.md)
+* [Comment DHCP leases with info from access list](dhcp-lease-comment.md)
 * [Create DNS records for DHCP leases](dhcp-to-dns.md)
-* [Run other scripts on IPv4 DHCP server lease](dhcpv4-server-lease.md)
+* [Use WPA network with hotspot credentials](hotspot-to-wpa.md)
 
 ---
 [⬅️ Go back to main README](../README.md)  

@@ -3,7 +3,7 @@
 # Copyright (c) 2021-2026 Christian Hesse <mail@eworm.de>
 # https://rsc.eworm.de/COPYING.md
 #
-# provides: lease-script, order=80
+# provides: dhcpv4-server-lease, order=80
 # requires RouterOS, version=7.19
 # requires device-mode, hotspot
 #

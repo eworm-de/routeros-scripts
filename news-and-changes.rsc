@@ -64,6 +64,7 @@
   137="Added support to send notifications via Gotify (gotify.net).";
   138="RouterOS 7.19 is suffering an issue with certificate store. Fixing trust state for all certificates...";
   139="Certificate Authorities will reduce the leaf certificate validity times soon. Thus the defaults for renewal and warning in 'check-certificates' were decreased.";
+  140="The scripts 'lease-script' was renamed to 'dhcpv4-server-lease', configuration was updated automatically.";
 };
 
 # Migration steps to be applied on script updates
@@ -74,4 +75,5 @@
   111=":local Rec [ /ip/dns/static/find where comment~\"^managed by dhcp-to-dns for \" ]; :if ([ :len \$Rec ] > 0) do={ /ip/dns/static/remove \$Rec; /system/script/run dhcp-to-dns; };";
   132=":if ([ :len [ /system/script/find where name=\"check-health\" ] ] > 0) do={ :local Code \":local Install \\\"check-health\\\"; :if ([ :len [ /system/health/find where type=\\\"\\\" name~\\\"-state\\\\\\\$\\\" ] ] > 0) do={ :set Install (\\\$Install . \\\",check-health.d/state\\\"); }; :if ([ :len [ /system/health/find where type=\\\"C\\\" ] ] > 0) do={ :set Install (\\\$Install . \\\",check-health.d/temperature\\\"); }; :if ([ :len [ /system/health/find where type=\\\"V\\\" ] ] > 0) do={ :set Install (\\\$Install . \\\",check-health.d/voltage\\\"); }; :global ScriptInstallUpdate; \\\$ScriptInstallUpdate \\\$Install;\"; :global ValidateSyntax; :if ([ \$ValidateSyntax \$Code ] = true) do={ :do { [ :parse \$Code ]; } on-error={ }; }; };";
   138="/certificate/set trusted=yes [ find where trusted=yes ];";
+  140=":if ([ :len [ /system/script/find where name=\"lease-script\" ] ] > 0) do={ /system/script/set name=\"dhcpv4-server-lease\" \"lease-script\"; :global ScriptInstallUpdate; \$ScriptInstallUpdate; /ip/dhcp-server/set lease-script=\"dhcpv4-server-lease\" [ find where lease-script=\"lease-script\" ]; };";
 };

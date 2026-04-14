@@ -3,7 +3,7 @@
 # Copyright (c) 2013-2026 Christian Hesse <mail@eworm.de>
 # https://rsc.eworm.de/COPYING.md
 #
-# provides: lease-script, order=60
+# provides: dhcpv4-server-lease, order=60
 # requires RouterOS, version=7.19
 #
 # update dhcp-server lease comment with infos from access-list

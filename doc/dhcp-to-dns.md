@@ -28,7 +28,7 @@ Just install the script:
     $ScriptInstallUpdate dhcp-to-dns;
 
 Then run it from dhcp server as lease script. You may want to use
-[lease-script](lease-script.md).
+[dhcpv4-server-lease](dhcpv4-server-lease.md).
 
 A scheduler cares about cleanup:
 
@@ -102,8 +102,8 @@ See also
 
 * [Collect MAC addresses in wireless access list](collect-wireless-mac.md)
 * [Comment DHCP leases with info from access list](dhcp-lease-comment.md)
+* [Run other scripts on IPv4 DHCP server lease](dhcpv4-server-lease.md)
 * [Create DNS records for IPSec peers](ipsec-to-dns.md)
-* [Run other scripts on DHCP lease](lease-script.md)
 
 ---
 [⬅️ Go back to main README](../README.md)  

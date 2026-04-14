@@ -49,24 +49,24 @@ and add a scheduler.
 
 For `wifi`:
 
-    $ScriptInstallUpdate hotspot-to-wpa-cleanup.wifi,lease-script; 
-    /system/scheduler/add interval=1d name=hotspot-to-wpa-cleanup on-event="/system/script/run hotspot-to-wpa-cleanup.wifi;" start-time=startup;
+    $ScriptInstallUpdate hotspot-to-wpa-cleanup.wifi,dhcpv4-server-lease;
+    /system/scheduler/add interval=1d name="hotspot-to-wpa-cleanup" on-event="/system/script/run hotspot-to-wpa-cleanup.wifi;" start-time=startup;
 
 For legacy CAPsMAN:
 
-    $ScriptInstallUpdate hotspot-to-wpa-cleanup.capsman,lease-script;
-    /system/scheduler/add interval=1d name=hotspot-to-wpa-cleanup on-event="/system/script/run hotspot-to-wpa-cleanup.capsman;" start-time=startup;
+    $ScriptInstallUpdate hotspot-to-wpa-cleanup.capsman,dhcpv4-server-lease;
+    /system/scheduler/add interval=1d name="hotspot-to-wpa-cleanup" on-event="/system/script/run hotspot-to-wpa-cleanup.capsman;" start-time=startup;
 
 And add the lease script and matcher comment to your wpa interfaces' dhcp
 server. You can add more information to the comment, separated by comma. In
 this example the server is called `hotspot-to-wpa`.
 
-    /ip/dhcp-server/set lease-script=lease-script comment="hotspot-to-wpa=wpa" hotspot-to-wpa;
+    /ip/dhcp-server/set lease-script="dhcpv4-server-lease" comment="hotspot-to-wpa=wpa" hotspot-to-wpa;
 
 You can specify the timeout after which a device is removed from leases and
 access-list. The default is four weeks.
 
-    /ip/dhcp-server/set lease-script=lease-script comment="hotspot-to-wpa=wpa, timeout=2w" hotspot-to-wpa;
+    /ip/dhcp-server/set lease-script="dhcpv4-server-lease" comment="hotspot-to-wpa=wpa, timeout=2w" hotspot-to-wpa;
 
 Configuration
 -------------
@@ -117,7 +117,7 @@ passphrase from hotspot credentials.
 See also
 --------
 
-* [Run other scripts on DHCP lease](lease-script.md)
+* [Run other scripts on IPv4 DHCP server lease](dhcpv4-server-lease.md)
 
 ---
 [⬅️ Go back to main README](../README.md)  
