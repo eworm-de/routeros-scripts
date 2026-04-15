@@ -3,12 +3,11 @@
 # Copyright (c) 2026 Christian Hesse <mail@eworm.de>
 # https://rsc.eworm.de/COPYING.md
 #
-# requires RouterOS, version=7.19
+# requires RouterOS, version=7.22
 #
 # run scripts on IPv6 DHCP client lease
 # https://rsc.eworm.de/doc/dhcpv6-client-lease.md
 
-:local ExitOK false;
 :onerror Err {
   :global GlobalConfigReady; :global GlobalFunctionsReady;
   :retry { :if ($GlobalConfigReady != true || $GlobalFunctionsReady != true) \
@@ -21,15 +20,13 @@
   :global ScriptLock;
 
   :if ([ $ScriptLock $ScriptName 10 ] = false) do={
-    :set ExitOK true;
-    :error false;
+    :exit;
   }
 
   :if (([ :typeof $"na-address" ] = "nothing" || [ :typeof $"na-valid" ] = "nothing") && \
        ([ :typeof $"pd-prefix" ] = "nothing" || [ :typeof $"pd-valid" ] = "nothing")) do={
     $LogPrint error $ScriptName ("This script is supposed to run from ipv6 dhcp-client.");
-    :set ExitOK true;
-    :error false;
+    :exit;
   }
 
   :global DHCPv6ClientLeaseVars {
@@ -59,5 +56,5 @@
   :set DHCPv6ClientLeaseVars;
 } do={
   :global DHCPv6ClientLeaseVars; :set DHCPv6ClientLeaseVars;
-  :global ExitError; $ExitError $ExitOK [ :jobname ] $Err;
+  :global ExitOnError; $ExitOnError [ :jobname ] $Err;
 }
