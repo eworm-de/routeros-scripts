@@ -28,7 +28,7 @@
   :local PdPrefix [ $EitherOr $"pd-prefix" ($DHCPv6ClientLeaseVars->"pd-prefix") ];
   :local PdValid [ $EitherOr $"pd-valid" ($DHCPv6ClientLeaseVars->"pd-valid") ];
 
-  :if ([ $ScriptLock $ScriptName ] = false) do={
+  :if ([ $ScriptLock $ScriptName 10 ] = false) do={
     :set ExitOK true;
     :error false;
   }
