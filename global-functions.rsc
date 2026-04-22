@@ -111,11 +111,13 @@
   :local UseFor     [ :tostr $2 ];
 
   :global CertificateDownload;
-  :global EitherOr;
   :global LogPrint;
   :global ParseKeyValueStore;
 
-  :set UseFor [ $EitherOr $UseFor "undefined" ];
+  :if ([ :len $UseFor ] = 0) do={
+    $LogPrint warning $0 ("The intended use is undefined!");
+    :set UseFor "undefined";
+  }
 
   :if ([ /system/resource/get free-hdd-space ] < 8388608 && \
        [ /certificate/settings/get crl-download ] = true && \
