@@ -37,7 +37,9 @@ Also make sure the device has correct time configured, best is to set up
 the ntp client.
 
 Then edit `global-config-overlay`, add `EmailGeneralTo` with a valid
-recipient address. Finally reload the configuration.
+recipient address. Optionally add `EmailServerCertificate` and add the CA
+certificate name if you have certificate verification enabled. Finally
+reload the configuration.
 
 > ℹ️ **Info**: Copy relevant configuration from
 > [`global-config`](../../global-config.rsc) (the one without `-overlay`) to

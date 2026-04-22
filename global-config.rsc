@@ -31,6 +31,8 @@
 :global EmailGeneralCc "";
 #:global EmailGeneralTo "mail@example.com";
 #:global EmailGeneralCc "another@example.com,third@example.com";
+# Add the CA certificate name here for verification.
+:global EmailServerCertificate "";
 
 # You can send Telegram notifications. Register a bot
 # and add the token and chat ids here, then install the module:

@@ -37,7 +37,9 @@
 # flush e-mail queue
 :set FlushEmailQueue do={ :onerror Err {
   :global EmailQueue;
+  :global EmailServerCertificate;
 
+  :global CertificateAvailable;
   :global EitherOr;
   :global EMailGenerateFrom;
   :global FileExists;
@@ -88,6 +90,14 @@
   :if ([ :typeof [ :toip ($EMailSettings->"server") ] ] != "ip" && [ $IsDNSResolving ] = false) do={
     $LogPrint debug $0 ("Server address is a DNS name and resolving fails, not flushing.");
     :return false;
+  }
+
+  :if (([ /tool/e-mail/get ]->"certificate-verification") ~ "^yes" && \
+       [ :len $EmailServerCertificate ] > 0) do={
+    :if ([ $CertificateAvailable $EmailServerCertificate "email" ] = false) do={
+      $LogPrint warning $0 ("Downloading required certificate failed.");
+      :return false;
+    }
   }
 
   /system/scheduler/set interval=($QueueLen . "m") comment="Sending..." \
