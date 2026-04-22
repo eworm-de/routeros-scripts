@@ -191,7 +191,12 @@
     $LogPrint warning $0 ("Failed downloading certificate with CommonName '" . $CommonName . \
       "' from repository! Trying fallback to mkcert.org...");
     :do {
-      :if ([ :len [ /certificate/find where common-name="ISRG Root X1" ] ] = 0) do={
+      :local CertSettings [ /certificate/settings/get ];
+      :if ([ :len [ /certificate/find where common-name="ISRG Root X1" ] ] = 0 && \
+           !((($CertSettings->"builtin-trust-anchors") = "trusted" || \
+              ($CertSettings->"builtin-trust-store") ~ "fetch" || \
+              ($CertSettings->"builtin-trust-store") = "all") && \
+             [ :len [ /certificate/builtin/find where common-name="ISRG Root X1" ] ] > 0)) do={
         $LogPrint error $0 ("Required certificate is not available.");
         :return false;
       }
