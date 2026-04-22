@@ -92,7 +92,7 @@
     :return false;
   }
 
-  :if (([ /tool/e-mail/get ]->"certificate-verification") ~ "^yes" && \
+  :if ([ /tool/e-mail/get certificate-verification ] ~ "^yes" && \
        [ :len $EmailServerCertificate ] > 0) do={
     :if ([ $CertificateAvailable $EmailServerCertificate "email" ] = false) do={
       $LogPrint warning $0 ("Downloading required certificate failed.");
