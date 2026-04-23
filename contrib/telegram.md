@@ -95,6 +95,10 @@ Notes
 
     /save dhcpv4-server-lease Run other scripts on IPv4 DHCP server lease with [dhcpv4-server-lease](https://rsc.eworm.de/doc/dhcpv4-server-lease.md).
 
+#### dhcpv6-client-lease
+
+    /save dhcpv6-client-lease Run other scripts on IPv6 DHCP client lease with [dhcpv6-client-lease](https://rsc.eworm.de/doc/dhcpv6-client-lease.md).
+
 #### firmware-upgrade-reboot
 
     /save firmware-upgrade-reboot Automatically upgrade firmware and reboot with [firmware-upgrade-reboot](https://rsc.eworm.de/doc/firmware-upgrade-reboot.md).
