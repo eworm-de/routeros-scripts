@@ -90,8 +90,9 @@
 # Toggle this to disable color output in terminal/cli.
 :global TerminalColorOutput true;
 
-# This defines what backups to generate, the password to use,
-# and what random delay (between 0 and given seconds) to apply.
+# This defines whether to add date & time in filenames, what backups to generate,
+# the password to use, and what random delay (between 0 and given seconds) to apply.
+:global BackupFileNameDate false;
 :global BackupSendBinary false;
 :global BackupSendExport true;
 :global BackupSendGlobalConfig true;

@@ -16,6 +16,7 @@
       do={ :error ("Global config and/or functions not ready."); }; } delay=500ms max=50;
   :local ScriptName [ :jobname ];
 
+  :global BackupFileNameDate;
   :global BackupPassword;
   :global BackupRandomDelay;
   :global BackupSendBinary;
@@ -73,7 +74,9 @@
 
   # filename based on identity
   :local DirName ("tmpfs/" . $ScriptName);
-  :local FileName [ $CleanName ($Identity . "." . $Domain) ];
+  :local Clock [ /system/clock/get ];
+  :local FileName [ $CleanName ($Identity . "." . $Domain . [ $IfThenElse \
+      ($BackupFileNameDate = true) ("-" . $Clock->"date" . "-" . $Clock->"time") "" ] ) ];
   :local FilePath ($DirName . "/" . $FileName);
   :local BackupFile "none";
   :local ExportFile "none";

@@ -34,6 +34,7 @@ Configuration
 
 The configuration goes to `global-config-overlay`, these are the parameters:
 
+* `BackupFileNameDate`: whether to add date & time in filenames
 * `BackupSendBinary`: whether to send binary backup
 * `BackupSendExport`: whether to send configuration export
 * `BackupSendGlobalConfig`: whether to send `global-config-overlay`
