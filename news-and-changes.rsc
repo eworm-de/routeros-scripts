@@ -67,6 +67,7 @@
   140="The scripts 'lease-script' was renamed to 'dhcpv4-server-lease', configuration was updated automatically.";
   141="Introduced script 'dhcpv6-client-lease' to run several scripts on IPv6 DHCP client lease.";
   142="Added a setting for 'mod/notification-email' to check availability of certificate chain.";
+  143="Made backup scripts 'backup-email' and 'backup-upload' support date & time in filenames.";
 };
 
 # Migration steps to be applied on script updates
