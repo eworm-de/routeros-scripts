@@ -75,8 +75,8 @@
   # filename based on identity
   :local DirName ("tmpfs/" . $ScriptName);
   :local Clock [ /system/clock/get ];
-  :local FileName [ $CleanName ($Identity . "." . $Domain . [ $IfThenElse ($BackupFileNameDate = true) \
-      ("-" . $Clock->"date" . "-" . $Clock->"time" . "-" . $Clock->"gmt-offset") "" ] ) ];
+  :local FileName [ $CleanName ($Identity . "." . $Domain . [ $IfThenElse \
+      ($BackupFileNameDate = true) ("-" . $Clock->"date" . "-" . $Clock->"time") "" ] ) ];
   :local FilePath ($DirName . "/" . $FileName);
   :local BackupFile "none";
   :local ExportFile "none";
