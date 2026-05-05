@@ -17,6 +17,7 @@
   :local ScriptName [ :jobname ];
 
   :global Domain;
+  :global DhcpToDnsCnameDomain;
   :global Identity;
 
   :global CleanName;
@@ -71,7 +72,8 @@
     :if ([ :len ($LeaseVal->"active-address") ] > 0) do={
       :local Comment ($CommentPrefix . ", macaddress=" . $LeaseVal->"active-mac-address" . ", server=" . $LeaseVal->"server");
       :local MacDash [ $CleanName ($LeaseVal->"active-mac-address") ];
-      :local HostName [ $CleanName [ $EitherOr ([ $ParseKeyValueStore ($LeaseVal->"comment") ]->"hostname") ($LeaseVal->"host-name") ] ];
+      :local LeaseInfo [ $ParseKeyValueStore ($LeaseVal->"comment") ];
+      :local HostName [ $CleanName [ $EitherOr ($LeaseInfo->"hostname") ($LeaseVal->"host-name") ] ];
       :local Network [ /ip/dhcp-server/network/find where ($LeaseVal->"active-address") in address ];
       :local NetworkVal;
       :if ([ :len $Network ] > 0) do={
@@ -81,7 +83,8 @@
       :local NetDomain ([ $IfThenElse ([ :len ($NetworkInfo->"name-extra") ] > 0) ($NetworkInfo->"name-extra" . ".") ] . \
         [ $EitherOr [ $EitherOr ($NetworkInfo->"domain") ($NetworkVal->"domain") ] $Domain ]);
       :local FullA ($MacDash . "." . $NetDomain);
-      :local FullCN ($HostName . "." . $NetDomain);
+      :local CnameDomain [ $EitherOr ($LeaseInfo->"cname-domain") [ $EitherOr ($NetworkInfo->"cname-domain") $DhcpToDnsCnameDomain ] ];
+      :local FullCN ($HostName . "." . [ $IfThenElse ([ :len $CnameDomain ] > 0) $CnameDomain $NetDomain ]);
       :local MacInServer ($LeaseVal->"active-mac-address" . " in " . $LeaseVal->"server");
 
       :local DnsRecord [ /ip/dns/static/find where comment=$Comment type=A ];
