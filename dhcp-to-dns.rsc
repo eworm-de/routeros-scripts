@@ -71,9 +71,9 @@
 
     :if ([ :len ($LeaseVal->"active-address") ] > 0) do={
       :local Comment ($CommentPrefix . ", macaddress=" . $LeaseVal->"active-mac-address" . ", server=" . $LeaseVal->"server");
-      :local MacDash [ $CleanName ($LeaseVal->"active-mac-address") ];
+      :local MacDash [ :tolower [ $CleanName ($LeaseVal->"active-mac-address") ] ];
       :local LeaseInfo [ $ParseKeyValueStore ($LeaseVal->"comment") ];
-      :local HostName [ $CleanName [ $EitherOr ($LeaseInfo->"hostname") ($LeaseVal->"host-name") ] ];
+      :local HostName [ :tolower [ $CleanName [ $EitherOr ($LeaseInfo->"hostname") ($LeaseVal->"host-name") ] ] ];
       :local Network [ /ip/dhcp-server/network/find where ($LeaseVal->"active-address") in address ];
       :local NetworkVal;
       :if ([ :len $Network ] > 0) do={
