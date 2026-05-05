@@ -81,7 +81,6 @@
 :global SendNotification2;
 :global SymbolByUnicodeName;
 :global SymbolForNotification;
-:global ToLower;
 :global Unix2Dos;
 :global UrlEncode;
 :global ValidateSyntax;
@@ -301,24 +300,6 @@
   }
 
   :return $Path;
-}
-
-# convert string to lower case
-:set ToLower do={
-  :local Input [ :tostr $1 ];
-  :local Upper "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-  :local Lower "abcdefghijklmnopqrstuvwxyz";
-  :local Return "";
-
-  :for I from=0 to=([ :len $Input ] - 1) do={
-    :local Char [ :pick $Input $I ];
-    :local Pos [ :find $Upper $Char ];
-    :if ([ :typeof $Pos ] != "nil") do={
-      :set Char [ :pick $Lower $Pos ($Pos + 1) ];
-    }
-    :set Return ($Return . $Char);
-  }
-  :return $Return;
 }
 
 # clean name for DNS, file and more

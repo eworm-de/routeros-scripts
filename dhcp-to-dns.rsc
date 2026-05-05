@@ -27,11 +27,26 @@
   :global LogPrintOnce;
   :global ParseKeyValueStore;
   :global ScriptLock;
-  :global ToLower;
 
   :if ([ $ScriptLock $ScriptName 10 ] = false) do={
     :set ExitOK true;
     :error false;
+  }
+
+  :local ToLower do={
+    :local Input [ :tostr $1 ];
+    :local Upper "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    :local Lower "abcdefghijklmnopqrstuvwxyz";
+    :local Return "";
+    :for I from=0 to=([ :len $Input ] - 1) do={
+      :local Char [ :pick $Input $I ];
+      :local Pos [ :find $Upper $Char ];
+      :if ([ :typeof $Pos ] != "nil") do={
+        :set Char [ :pick $Lower $Pos ($Pos + 1) ];
+      }
+      :set Return ($Return . $Char);
+    }
+    :return $Return;
   }
 
   :local Ttl 5m;
