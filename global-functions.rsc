@@ -813,10 +813,15 @@
 :set IsDNSResolving do={
   :do {
     :resolve "low-ttl.eworm.de";
-  } on-error={
-    :return false;
-  }
-  :return true;
+    :return true;
+  } on-error={ }
+
+  :do {
+    :resolve "low-ttl.eworm.net";
+    :return true;
+  } on-error={ }
+
+  :return false;
 }
 
 # check if system is is fully connected (default route reachable, DNS resolving, time sync)
