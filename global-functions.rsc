@@ -1238,8 +1238,10 @@
   :onerror Err {
     /file/remove [ find where name=$FileName ];
   } do={
-    $LogPrint error $0 ("Removing file '" . $FileName . "' failed: " . $Err);
-    :return false;
+    :if (!($Err ~ "no such item")) do={
+      $LogPrint error $0 ("Removing file '" . $FileName . "' failed: " . $Err);
+      :return false;
+    }
   }
   :return true;
 }
