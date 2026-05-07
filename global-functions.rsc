@@ -1234,7 +1234,7 @@
   }
 
   :onerror Err {
-    /file/remove $FileName;
+    /file/remove [ find where name=$FileName ];
   } do={
     $LogPrint error $0 ("Removing file '" . $FileName . "' failed: " . $Err);
     :return false;
