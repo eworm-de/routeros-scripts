@@ -1205,7 +1205,7 @@
   }
 
   :onerror Err {
-    /file/remove $DirName;
+    /file/remove [ find where name=$DirName ];
   } do={
     $LogPrint error $0 ("Removing directory '" . $DirName . "' failed: " . $Err);
     :return false;
