@@ -1207,8 +1207,10 @@
   :onerror Err {
     /file/remove [ find where name=$DirName ];
   } do={
-    $LogPrint error $0 ("Removing directory '" . $DirName . "' failed: " . $Err);
-    :return false;
+    :if (!($Err ~ "no such item")) do={
+      $LogPrint error $0 ("Removing directory '" . $DirName . "' failed: " . $Err);
+      :return false;
+    }
   }
   :return true;
 }
