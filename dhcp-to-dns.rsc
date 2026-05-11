@@ -66,6 +66,7 @@
       $LogPrint debug $ScriptName ("A lease just vanished, ignoring.");
       :continue;
     }
+    :local LeaseInfo [ $ParseKeyValueStore ($LeaseVal->"comment") ];
 
     :if ([ :len ($LeaseVal->"active-address") ] = 0) do={
       $LogPrint debug $ScriptName ("No address available... Ignoring.");
@@ -86,7 +87,7 @@
 
     :local Comment ($CommentPrefix . ", macaddress=" . $LeaseVal->"active-mac-address" . ", server=" . $LeaseVal->"server");
     :local MacDash [ $CleanName ($LeaseVal->"active-mac-address") ];
-    :local HostName [ $CleanName [ $EitherOr ([ $ParseKeyValueStore ($LeaseVal->"comment") ]->"hostname") ($LeaseVal->"host-name") ] ];
+    :local HostName [ $CleanName [ $EitherOr ($LeaseInfo->"hostname") ($LeaseVal->"host-name") ] ];
     :local NetDomain ([ $IfThenElse ([ :len ($NetworkInfo->"name-extra") ] > 0) ($NetworkInfo->"name-extra" . ".") ] . \
       [ $EitherOr [ $EitherOr ($NetworkInfo->"domain") ($NetworkVal->"domain") ] $Domain ]);
     :local FullA [ :convert transform=lc ($MacDash . "." . $NetDomain) ];
