@@ -23,6 +23,7 @@ for details!
 * [Ignacio Serrano](mailto:ignic@ignic.com) (@ignic)
 * [Ilya Kulakov](mailto:kulakov.ilya@gmail.com) (@Kentzo)
 * [Leonardo David Monteiro](mailto:leo@cub3.xyz) (@leosfsm)
+* [Łukasz Witkowski](mailto:witul@skyhost.pl) (@witul)
 * [Michael Gisbers](mailto:michael@gisbers.de) (@mgisbers)
 * [Miquel Bonastre](mailto:mbonastre@yahoo.com) (@mbonastre)
 * @netravnen
