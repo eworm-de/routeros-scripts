@@ -306,17 +306,11 @@
   :for I from=0 to=([ :len $Input ] - 1) do={
     :local Char [ :pick $Input $I ];
     :if ([ :typeof [ :find "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789" $Char ] ] = "nil") do={
-      :do {
-        :if ([ :len $Return ] = 0) do={
-          :error true;
-        }
-        :if ([ :pick $Return ([ :len $Return ] - 1) ] = "-") do={
-          :error true;
-        }
-        :set Char "-";
-      } on-error={
-        :set Char "";
+      :if ([ :len $Return ] = 0 || \
+           [ :pick $Return ([ :len $Return ] - 1) ] = "-") do={
+        :continue;
       }
+      :set Char "-";
     }
     :set Return ($Return . $Char);
   }
