@@ -91,7 +91,8 @@
     :local NetDomain ([ $IfThenElse ([ :len ($NetworkInfo->"name-extra") ] > 0) ($NetworkInfo->"name-extra" . ".") ] . \
       [ $EitherOr [ $EitherOr ($NetworkInfo->"domain") ($NetworkVal->"domain") ] $Domain ]);
     :local FullA [ :convert transform=lc ($MacDash . "." . $NetDomain) ];
-    :local FullCN [ :convert transform=lc ($HostName . "." . $NetDomain) ];
+    :local CNameDomain [ $EitherOr ($LeaseInfo->"cname-domain") ($NetworkInfo->"cname-domain") ];
+    :local FullCN [ :convert transform=lc ($HostName . "." . [ $EitherOr $CNameDomain $NetDomain ]) ];
     :local MacInServer ($LeaseVal->"active-mac-address" . " in " . $LeaseVal->"server");
 
     :local DnsRecord [ /ip/dns/static/find where comment=$Comment type=A ];

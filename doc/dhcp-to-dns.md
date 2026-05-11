@@ -84,6 +84,19 @@ Note this information can be configured in wireless access list with
 then due to script execution order. Decrease the scheduler interval to
 reduce the effect.
 
+### Override domain for CNAME records
+
+By default both the A record (based on mac address) and the CNAME record
+(based on host name) use the same domain. You can set a different domain
+for CNAME records with `cname-domain=` in network comment:
+
+    /ip/dhcp-server/network/add address=10.0.0.0/24 domain=dhcp.example.com comment="cname-domain=example.com";
+
+Adding `cname-domain=` in lease comment has even higher priority:
+
+    /ip/dhcp-server/lease/add address=10.0.0.50 comment="cname-domain=example.com" mac-address=00:11:22:33:44:55 server=dhcp;
+
+
 Frequently asked questions
 --------------------------
 
