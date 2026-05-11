@@ -89,8 +89,8 @@
     :local HostName [ $CleanName [ $EitherOr ([ $ParseKeyValueStore ($LeaseVal->"comment") ]->"hostname") ($LeaseVal->"host-name") ] ];
     :local NetDomain ([ $IfThenElse ([ :len ($NetworkInfo->"name-extra") ] > 0) ($NetworkInfo->"name-extra" . ".") ] . \
       [ $EitherOr [ $EitherOr ($NetworkInfo->"domain") ($NetworkVal->"domain") ] $Domain ]);
-    :local FullA ($MacDash . "." . $NetDomain);
-    :local FullCN ($HostName . "." . $NetDomain);
+    :local FullA [ :convert transform=lc ($MacDash . "." . $NetDomain) ];
+    :local FullCN [ :convert transform=lc ($HostName . "." . $NetDomain) ];
     :local MacInServer ($LeaseVal->"active-mac-address" . " in " . $LeaseVal->"server");
 
     :local DnsRecord [ /ip/dns/static/find where comment=$Comment type=A ];
