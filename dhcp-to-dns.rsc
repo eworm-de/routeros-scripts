@@ -80,8 +80,8 @@
     }
     :local NetworkInfo [ $ParseKeyValueStore ($NetworkVal->"comment") ];
 
-    :if ($NetworkInfo->"dns-ignore" = true) do={
-      $LogPrint debug $ScriptName ("Lease for " . $LeaseVal->"active-mac-address" . " is in ignored network... Skipping.");
+    :if ($LeaseInfo->"dns-ignore" = true || $NetworkInfo->"dns-ignore" = true) do={
+      $LogPrint debug $ScriptName ("Lease for " . $LeaseVal->"active-mac-address" . " is ignored... Skipping.");
       :continue;
     }
 
