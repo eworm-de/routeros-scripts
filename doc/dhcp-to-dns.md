@@ -55,6 +55,8 @@ for specific networks:
 
     /ip/dhcp-server/network/add address=10.0.0.0/24 domain=example.com comment="dns-ignore=true";
 
+The same can be done for a specific lease with its comment.
+
 Use this to add an extra level in dns name or define a different domain.
 
     /ip/dhcp-server/network/add address=10.0.0.0/24 domain=example.com comment="domain=another-domain.com, name-extra=dhcp";
