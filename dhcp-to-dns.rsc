@@ -66,25 +66,33 @@
       $LogPrint debug $ScriptName ("A lease just vanished, ignoring.");
       :continue;
     }
+    :local LeaseInfo [ $ParseKeyValueStore ($LeaseVal->"comment") ];
 
     :if ([ :len ($LeaseVal->"active-address") ] = 0) do={
       $LogPrint debug $ScriptName ("No address available... Ignoring.");
       :continue;
     }
 
-    :local Comment ($CommentPrefix . ", macaddress=" . $LeaseVal->"active-mac-address" . ", server=" . $LeaseVal->"server");
-    :local MacDash [ $CleanName ($LeaseVal->"active-mac-address") ];
-    :local HostName [ $CleanName [ $EitherOr ([ $ParseKeyValueStore ($LeaseVal->"comment") ]->"hostname") ($LeaseVal->"host-name") ] ];
     :local Network [ /ip/dhcp-server/network/find where ($LeaseVal->"active-address") in address ];
     :local NetworkVal;
     :if ([ :len $Network ] > 0) do={
       :set NetworkVal [ /ip/dhcp-server/network/get ($Network->0) ];
     }
     :local NetworkInfo [ $ParseKeyValueStore ($NetworkVal->"comment") ];
+
+    :if ($LeaseInfo->"dns-ignore" = true || $NetworkInfo->"dns-ignore" = true) do={
+      $LogPrint debug $ScriptName ("Lease for " . $LeaseVal->"active-mac-address" . " is ignored... Skipping.");
+      :continue;
+    }
+
+    :local Comment ($CommentPrefix . ", macaddress=" . $LeaseVal->"active-mac-address" . ", server=" . $LeaseVal->"server");
+    :local MacDash [ $CleanName ($LeaseVal->"active-mac-address") ];
+    :local HostName [ $CleanName [ $EitherOr ($LeaseInfo->"hostname") ($LeaseVal->"host-name") ] ];
     :local NetDomain ([ $IfThenElse ([ :len ($NetworkInfo->"name-extra") ] > 0) ($NetworkInfo->"name-extra" . ".") ] . \
       [ $EitherOr [ $EitherOr ($NetworkInfo->"domain") ($NetworkVal->"domain") ] $Domain ]);
-    :local FullA ($MacDash . "." . $NetDomain);
-    :local FullCN ($HostName . "." . $NetDomain);
+    :local FullA [ :convert transform=lc ($MacDash . "." . $NetDomain) ];
+    :local CNameDomain [ $EitherOr ($LeaseInfo->"cname-domain") ($NetworkInfo->"cname-domain") ];
+    :local FullCN [ :convert transform=lc ($HostName . "." . [ $EitherOr $CNameDomain $NetDomain ]) ];
     :local MacInServer ($LeaseVal->"active-mac-address" . " in " . $LeaseVal->"server");
 
     :local DnsRecord [ /ip/dns/static/find where comment=$Comment type=A ];

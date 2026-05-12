@@ -50,8 +50,14 @@ A bound lease for mac address `00:11:22:33:44:55` with ip address
 `10.0.0.50` would result in an A record `00-11-22-33-44-55.example.com`
 pointing to the given ip address.
 
-Additional options can be given from comment, to add an extra level in
-dns name or define a different domain.
+Additional options can be given from comment, first of all you can opt-out
+for specific networks:
+
+    /ip/dhcp-server/network/add address=10.0.0.0/24 domain=example.com comment="dns-ignore=true";
+
+The same can be done for a specific lease with its comment.
+
+Use this to add an extra level in dns name or define a different domain.
 
     /ip/dhcp-server/network/add address=10.0.0.0/24 domain=example.com comment="domain=another-domain.com, name-extra=dhcp";
 
@@ -79,6 +85,19 @@ Note this information can be configured in wireless access list with
 [dhcp-lease-comment](dhcp-lease-comment.md), though it comes with a delay
 then due to script execution order. Decrease the scheduler interval to
 reduce the effect.
+
+### Override domain for CNAME records
+
+By default both the A record (based on mac address) and the CNAME record
+(based on host name) use the same domain. You can set a different domain
+for CNAME records with `cname-domain=` in network comment:
+
+    /ip/dhcp-server/network/add address=10.0.0.0/24 domain=dhcp.example.com comment="cname-domain=example.com";
+
+Adding `cname-domain=` in lease comment has even higher priority:
+
+    /ip/dhcp-server/lease/add address=10.0.0.50 comment="cname-domain=example.com" mac-address=00:11:22:33:44:55 server=dhcp;
+
 
 Frequently asked questions
 --------------------------
