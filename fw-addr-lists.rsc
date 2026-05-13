@@ -3,7 +3,7 @@
 # Copyright (c) 2023-2026 Christian Hesse <mail@eworm.de>
 # https://rsc.eworm.de/COPYING.md
 #
-# requires RouterOS, version=7.19
+# requires RouterOS, version=7.21
 #
 # download, import and update firewall address-lists
 # https://rsc.eworm.de/doc/fw-addr-lists.md
@@ -72,11 +72,13 @@
       :local Data false;
       :local TimeOut [ $EitherOr [ :totime ($List->"timeout") ] $FwAddrListTimeOut ];
 
-      :if ([ :len ($List->"cert") ] > 0) do={
-        :set CheckCertificate true;
-        :if ([ $CertificateAvailable ($List->"cert") "fetch" ] = false) do={
-          $LogPrint warning $ScriptName ("Downloading required certificate (" . $FwListName . \
-              " / " . $List->"url" . ") failed, trying anyway.");
+      :foreach Cert in=[ :toarray delimiter=":" ($List->"cert") ] do={
+        :if ([ :len ($Cert) ] > 0) do={
+          :set CheckCertificate true;
+          :if ([ $CertificateAvailable $Cert "fetch" ] = false) do={
+            $LogPrint warning $ScriptName ("Downloading required certificate (" . $FwListName . \
+                " / " . $List->"url" . ") failed, trying anyway.");
+          }
         }
       }
 

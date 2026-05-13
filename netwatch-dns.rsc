@@ -3,7 +3,7 @@
 # Copyright (c) 2022-2026 Christian Hesse <mail@eworm.de>
 # https://rsc.eworm.de/COPYING.md
 #
-# requires RouterOS, version=7.19
+# requires RouterOS, version=7.21
 # requires device-mode, fetch
 #
 # monitor and manage dns/doh with netwatch
@@ -17,7 +17,6 @@
   :local ScriptName [ :jobname ];
 
   :global CertificateAvailable;
-  :global CharacterReplace;
   :global EitherOr;
   :global IsDNSResolving;
   :global LogPrint;
@@ -104,7 +103,7 @@
   }
 
   :foreach DohServer in=$DohServers do={
-    :foreach DohCert in=[ :toarray [ $CharacterReplace ($DohServer->"doh-cert") ":" "," ] ] do={
+    :foreach DohCert in=[ :toarray delimiter=":" ($DohServer->"doh-cert") ] do={
       :if ([ :len $DohCert ] > 0) do={
         :if ([ $CertificateAvailable $DohCert "fetch" ] = false || \
              [ $CertificateAvailable $DohCert "dns" ] = false) do={
