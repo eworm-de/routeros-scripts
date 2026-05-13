@@ -4,7 +4,7 @@
 # https://rsc.eworm.de/COPYING.md
 #
 # provides: backup-script, order=40
-# requires RouterOS, version=7.19
+# requires RouterOS, version=7.21
 #
 # upload backup to MikroTik cloud
 # https://rsc.eworm.de/doc/backup-cloud.md

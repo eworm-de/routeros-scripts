@@ -4,7 +4,7 @@
 # https://rsc.eworm.de/COPYING.md
 #
 # provides: dhcpv4-server-lease, order=80
-# requires RouterOS, version=7.19
+# requires RouterOS, version=7.21
 # requires device-mode, hotspot
 #
 # manage and clean up private WPA passphrase after hotspot login

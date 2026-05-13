@@ -3,7 +3,7 @@
 # Copyright (c) 2026 Christian Hesse <mail@eworm.de>
 # https://rsc.eworm.de/COPYING.md
 #
-# requires RouterOS, version=7.19
+# requires RouterOS, version=7.21
 #
 # run scripts on IPv6 DHCP client lease
 # https://rsc.eworm.de/doc/dhcpv6-client-lease.md

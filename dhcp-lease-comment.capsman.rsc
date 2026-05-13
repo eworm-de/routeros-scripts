@@ -4,7 +4,7 @@
 # https://rsc.eworm.de/COPYING.md
 #
 # provides: dhcpv4-server-lease, order=60
-# requires RouterOS, version=7.19
+# requires RouterOS, version=7.21
 #
 # update dhcp-server lease comment with infos from access-list
 # https://rsc.eworm.de/doc/dhcp-lease-comment.md

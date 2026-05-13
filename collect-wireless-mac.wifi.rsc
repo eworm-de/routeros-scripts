@@ -4,7 +4,7 @@
 # https://rsc.eworm.de/COPYING.md
 #
 # provides: dhcpv4-server-lease, order=40
-# requires RouterOS, version=7.19
+# requires RouterOS, version=7.21
 #
 # collect wireless mac adresses in access list
 # https://rsc.eworm.de/doc/collect-wireless-mac.md
