@@ -126,18 +126,18 @@ If you intend to download the scripts from a
 different location (for example from github.com) install the corresponding
 certificate chain.
 
-    /tool/fetch "https://rsc.eworm.de/main/certs/Root-YE.pem" dst-path="root-ye.pem";
+    /tool/fetch "https://rsc.eworm.de/main/certs/ISRG-Root-X2.pem" dst-path="isrg-root-x2.pem";
 
 ![screenshot: download certs](README.d/01-download-certs.avif)
 
 > ℹ️ **Info**: Note that the command above does *not* verify server
 > certificate, so if you want to be safe download with your workstations's
 > browser from CA's website and transfer the file to your MikroTik device:
-> *Let's Encrypt* / *ISRG* [Root YE ↗️](https://letsencrypt.org/certs/gen-y/root-ye.pem)
+> *Let's Encrypt* / *ISRG* [ISRG Root X2 ↗️](https://letsencrypt.org/certs/isrg-root-x2.pem)
 
 Then we import the certificate.
 
-    /certificate/import file-name="root-ye.pem" passphrase="";
+    /certificate/import file-name="isrg-root-x2.pem" passphrase="";
 
 Do not worry that the command is not shown - that happens because it contains
 a sensitive property, the passphrase.
@@ -145,11 +145,11 @@ a sensitive property, the passphrase.
 ![screenshot: import certs](README.d/02-import-certs.avif)
 
 For basic verification we rename the certificate and print it by
-fingerprint. Make sure exactly this one certificate ("*Root-YE*")
+fingerprint. Make sure exactly this one certificate ("*ISRG-Root-X2*")
 is shown.
 
-    /certificate/set name="Root-YE" [ find where common-name="Root YE" ];
-    /certificate/print proplist=name,fingerprint where fingerprint="e14ffcad5b0025731006caa43a121a22d8e9700f4fb9cf852f02a708aa5d5666";
+    /certificate/set name="ISRG-Root-X2" [ find where common-name="ISRG Root X2" ];
+    /certificate/print proplist=name,fingerprint where fingerprint="69729b8e15a86efc177a57afb7171dfc64add28c2fca8cf1507e34453ccb1470";
 
 ![screenshot: check certs](README.d/03-check-certs.avif)
 
