@@ -3,7 +3,7 @@
 # Copyright (c) 2019-2026 Christian Hesse <mail@eworm.de>
 # https://rsc.eworm.de/COPYING.md
 #
-# requires RouterOS, version=7.19
+# requires RouterOS, version=7.21
 #
 # check for RouterOS health state
 # https://rsc.eworm.de/doc/check-health.md
@@ -31,8 +31,7 @@
   :global ValidateSyntax;
 
   :local TempToNum do={
-    :global CharacterReplace;
-    :local T [ :toarray [ $CharacterReplace $1 "." "," ] ];
+    :local T [ :toarray delimiter="." $1 ];
     :return ($T->0 * 10 + $T->1);
   }
 
