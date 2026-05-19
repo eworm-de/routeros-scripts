@@ -38,7 +38,7 @@ and the [First Login ↗️](https://gotify.net/docs/first-login) setup. Once
 you have a user and account you can start creating apps. Each app is an
 independent notification feed for a device or application.
 
-![Create new app](notification-gotify.d/appsetup.avif)
+![screenshot: Create new app](notification-gotify.d/appsetup.avif)
  
 On creation apps are assigned a *Token* for authentification, you will need
 that in configuration.
