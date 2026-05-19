@@ -50,7 +50,7 @@ The function `$ScriptRunOnce` expects an URL (or name if
 
     $ScriptRunOnce https://rsc.eworm.de/main/doc/mod/scriptrunonce.d/hello-world.rsc;
 
-![ScriptRunOnce](scriptrunonce.d/01-scriptrunonce.avif)
+![screenshot: ScriptRunOnce](scriptrunonce.d/01-scriptrunonce.avif)
 
 Giving multiple scripts is possible, separated by comma.
 

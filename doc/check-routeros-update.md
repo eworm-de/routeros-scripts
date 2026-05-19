@@ -37,8 +37,8 @@ automatically is supported.
 
 ### Sample notifications
 
-![check-routeros-update notification found](check-routeros-update.d/notification-01-found.avif)  
-![check-routeros-update notification neighbor](check-routeros-update.d/notification-02-neighbor.avif)
+![notification: check-routeros-update found](check-routeros-update.d/notification-01-found.avif)  
+![notification: check-routeros-update neighbor](check-routeros-update.d/notification-02-neighbor.avif)
 
 Requirements and installation
 -----------------------------
@@ -88,7 +88,7 @@ Be notified when run from scheduler or run it manually:
 
 If an update is found you can install it right away.
 
-![Terminal](check-routeros-update.d/terminal.avif)
+![screenshot: terminal](check-routeros-update.d/terminal.avif)
 
 Installing script [packages-update](packages-update.md) gives extra options.
 

@@ -22,8 +22,8 @@ and sends a notification to warn before expiration.
 
 ### Sample notifications
 
-![check-perpetual-license notification warn](check-perpetual-license.d/notification-01-warn.avif)  
-![check-perpetual-license notification renew](check-perpetual-license.d/notification-02-renew.avif)
+![notification: check-perpetual-license warn](check-perpetual-license.d/notification-01-warn.avif)  
+![notification: check-perpetual-license renew](check-perpetual-license.d/notification-02-renew.avif)
 
 Requirements and installation
 -----------------------------

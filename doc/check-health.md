@@ -40,27 +40,27 @@ sensors available in hardware:
 
 #### CPU utilization
 
-![check-health notification cpu utilization high](check-health.d/notification-01-cpu-utilization-high.avif)  
-![check-health notification cpu utilization ok](check-health.d/notification-02-cpu-utilization-ok.avif)
+![notification: check-health cpu utilization high](check-health.d/notification-01-cpu-utilization-high.avif)  
+![notification: check-health cpu utilization ok](check-health.d/notification-02-cpu-utilization-ok.avif)
 
 #### RAM utilization (low available RAM)
 
-![check-health notification ram utilization high](check-health.d/notification-03-ram-utilization-high.avif)  
-![check-health notification ram utilization ok](check-health.d/notification-04-ram-utilization-ok.avif)
+![notification: check-health ram utilization high](check-health.d/notification-03-ram-utilization-high.avif)  
+![notification: check-health ram utilization ok](check-health.d/notification-04-ram-utilization-ok.avif)
 
 #### Voltage
 
-![check-health notification voltage](check-health.d/notification-05-voltage.avif)
+![notification: check-health voltage](check-health.d/notification-05-voltage.avif)
 
 #### Temperature
 
-![check-health notification temperature high](check-health.d/notification-06-temperature-high.avif)  
-![check-health notification temperature ok](check-health.d/notification-07-temperature-ok.avif)
+![notification: check-health temperature high](check-health.d/notification-06-temperature-high.avif)  
+![notification: check-health temperature ok](check-health.d/notification-07-temperature-ok.avif)
 
 #### PSU state
 
-![check-health notification state fail](check-health.d/notification-08-state-fail.avif)  
-![check-health notification state ok](check-health.d/notification-09-state-ok.avif)
+![notification: check-health state fail](check-health.d/notification-08-state-fail.avif)  
+![notification: check-health state ok](check-health.d/notification-09-state-ok.avif)
 
 Requirements and installation
 -----------------------------

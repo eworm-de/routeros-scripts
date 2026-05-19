@@ -230,7 +230,7 @@ everything is up-to-date it will not produce any output.
 If the update includes news or requires configuration changes a notification
 is sent - in addition to terminal output and log messages.
 
-![news and changes notification](README.d/notification-news-and-changes.avif)
+![notification: news and changes](README.d/notification-news-and-changes.avif)
 
 Adding a script
 ---------------

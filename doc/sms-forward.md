@@ -22,7 +22,7 @@ A broadband interface with SMS support is required.
 
 ### Sample notification
 
-![sms-forward notification](sms-forward.d/notification.avif)
+![notification: sms-forward](sms-forward.d/notification.avif)
 
 Requirements and installation
 -----------------------------

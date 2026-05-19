@@ -24,7 +24,7 @@ and modify it to your needs.
 
 ### Sample notification
 
-![collect-wireless-mac notification](collect-wireless-mac.d/notification.avif)
+![notification: collect-wireless-mac](collect-wireless-mac.d/notification.avif)
 
 Requirements and installation
 -----------------------------
