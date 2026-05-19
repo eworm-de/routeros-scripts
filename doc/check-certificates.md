@@ -21,8 +21,8 @@ certificates that are still about to expire.
 
 ### Sample notifications
 
-![check-certificates notification warning](check-certificates.d/notification-01-warn.avif)  
-![check-certificates notification renew](check-certificates.d/notification-02-renew.avif)
+![notification: check-certificates warning](check-certificates.d/notification-01-warn.avif)  
+![notification: check-certificates renew](check-certificates.d/notification-02-renew.avif)
 
 Requirements and installation
 -----------------------------
