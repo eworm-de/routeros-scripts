@@ -33,7 +33,7 @@ Call the function `$InspectVar` with a variable as parameter:
 
     $InspectVar $ModeButton;
 
-![InspectVar](inspectvar.d/01-inspectvar.avif)
+![screenshot: InspectVar](inspectvar.d/01-inspectvar.avif)
 
 ---
 [⬅️ Go back to main README](../../README.md)  
