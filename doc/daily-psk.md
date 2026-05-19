@@ -21,7 +21,7 @@ passphrase to a pseudo-random string daily.
 
 ### Sample notification
 
-![daily-psk notification](daily-psk.d/notification.avif)
+![notification: daily-psk](daily-psk.d/notification.avif)
 
 Requirements and installation
 -----------------------------
