@@ -37,8 +37,8 @@ log messages and forwards them via notification.
 
 ### Sample notifications
 
-![log-forward notification info](log-forward.d/notification-01-info.avif)  
-![log-forward notification warn](log-forward.d/notification-02-warn.avif)
+![notification: log-forward info](log-forward.d/notification-01-info.avif)  
+![notification: log-forward warn](log-forward.d/notification-02-warn.avif)
 
 Requirements and installation
 -----------------------------
