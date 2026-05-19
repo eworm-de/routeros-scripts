@@ -45,6 +45,9 @@ hr {
 img.notification {
   box-shadow: 3px 3px 7px rgba(100,100,100,0.7);
 }
+img.screenshot {
+  box-shadow: 3px 3px 7px rgba(100,100,100,0.7);
+}
 img.logo {
   float: left;
   /* border-radius: 50%; */
