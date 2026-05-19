@@ -74,7 +74,7 @@ and write first part of the configuration:
 
     $SetupMatrixAuthenticate "@example:matrix.org" "v3ry-s3cr3t";
 
-![authenticate](notification-matrix.d/01-authenticate.avif)
+![screenshot: authenticate](notification-matrix.d/01-authenticate.avif)
 
 The configuration is written to a new configuration snippet
 `global-config-overlay.d/mod/notification-matrix`.
@@ -94,7 +94,7 @@ the invite.
 
     $SetupMatrixJoinRoom "!WUcxpSjKyxSGelouhA:matrix.org";
 
-![join room](notification-matrix.d/02-join-room.avif)
+![screenshot: join room](notification-matrix.d/02-join-room.avif)
 
 The configuration is appended to the configuration snippet
 `global-config-overlay.d/mod/notification-matrix`.
