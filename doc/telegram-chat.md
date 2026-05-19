@@ -61,13 +61,13 @@ containing `! identity` (exclamation mark, optional space and system's
 identity). To query all dynamic ip addresses form a device named "*MikroTik*"
 send `! MikroTik`, followed by `/ip/address/print where dynamic;`.
 
-![chat to specific device](telegram-chat.d/01-chat-specific.avif)
+![screenshot: chat to specific device](telegram-chat.d/01-chat-specific.avif)
 
 Devices can be grouped to chat with them simultaneously. The default group
 "*all*" can be activated by sending `! @all`, which will make all devices
 act on your commands.
 
-![chat to all devices](telegram-chat.d/02-chat-all.avif)
+![screenshot: chat to all devices](telegram-chat.d/02-chat-all.avif)
 
 Send a single exclamation mark or non-existent identity to make all
 devices passive again.
@@ -78,7 +78,7 @@ Let's assume you received a message from a device before, and want to send
 a command to that device. No need to activate it, you can just reply to
 that message.
 
-![reply to message](telegram-chat.d/03-reply.avif)
+![screenshot: reply to message](telegram-chat.d/03-reply.avif)
 
 Associated messages are cleared on device reboot.
 
