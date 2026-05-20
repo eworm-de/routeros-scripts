@@ -30,7 +30,6 @@
   :global ScriptLock;
   :global SendNotification2;
   :global SymbolForNotification;
-  :global UrlEncode;
   :global WaitFullyConnected;
 
   :local CheckCertificatesDownloadImport do={
@@ -46,11 +45,10 @@
     :global FetchUserAgentStr;
     :global LogPrint;
     :global RmFile;
-    :global UrlEncode;
     :global WaitForFile;
 
     :foreach Type in={ "p12"; "pem" } do={
-      :local CertFileName ([ $UrlEncode $FetchName ] . "." . $Type);
+      :local CertFileName ([ :convert to=url $FetchName ] . "." . $Type);
       $LogPrint debug $ScriptName ("Trying type '" . $Type . "' for '" . $CertName . \
           "' (file '" . $CertFileName . "')...");
 
@@ -202,7 +200,7 @@
       } else={
         $LogPrint debug $ScriptName ("Certificate '" . $CertVal->"name" . "' was not updated, but replaced.");
 
-        :local CertNew [ /certificate/find where name~("^" . [ $EscapeForRegEx [ $UrlEncode $FetchName ] ] . "\\.(p12|pem)_[0-9]+\$") \
+        :local CertNew [ /certificate/find where name~("^" . [ $EscapeForRegEx [ :convert to=url $FetchName ] ] . "\\.(p12|pem)_[0-9]+\$") \
           (common-name=($CertVal->"common-name") or subject-alt-name~("(^|\\W)(DNS|IP):" . [ $EscapeForRegEx $LastName ] . "(\\W|\$)")) \
           fingerprint!=[ :tostr ($CertVal->"fingerprint") ] ];
         :local CertNewVal [ /certificate/get $CertNew ];
