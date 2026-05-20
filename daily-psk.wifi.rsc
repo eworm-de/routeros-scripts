@@ -27,7 +27,6 @@
   :global ScriptLock;
   :global SendNotification2;
   :global SymbolForNotification;
-  :global UrlEncode;
   :global WaitForFile;
   :global WaitFullyConnected;
 
@@ -78,7 +77,7 @@
           $LogPrint debug $ScriptName ("Already sent a mail for SSID " . $Ssid . ", skipping.");
         } else={
           :local Link ($DailyPskQrCodeUrl . \
-              "?scale=8&level=1&ssid=" . [ $UrlEncode $Ssid ] . "&pass=" . [ $UrlEncode $NewPsk ]);
+              "?scale=8&level=1&ssid=" . [ :convert to=url $Ssid ] . "&pass=" . [ :convert to=url $NewPsk ]);
           $SendNotification2 ({ origin=$ScriptName; \
             subject=([ $SymbolForNotification "calendar" ] . "daily PSK " . $Ssid); \
             message=("This is the daily PSK on " . $Identity . ":\n\n" . \
