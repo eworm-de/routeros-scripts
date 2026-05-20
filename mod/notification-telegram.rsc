@@ -126,7 +126,6 @@
   :global LogPrint;
   :global ProtocolStrip;
   :global SymbolForNotification;
-  :global UrlEncode;
 
   :local EscapeMD do={
     :local Text [ :tostr $1 ];
@@ -203,7 +202,7 @@
     }
     :local Data ([ /tool/fetch check-certificate=yes-without-crl output=user http-method=post \
       ("https://api.telegram.org/bot" . $TokenId . "/sendMessage") \
-      http-data=($HTTPData . "&text=" . [ $UrlEncode $Text ]) as-value ]->"data");
+      http-data=($HTTPData . "&text=" . [ :convert to=url $Text ]) as-value ]->"data");
     :set ($TelegramMessageIDs->[ :tostr ([ :deserialize from=json value=$Data ]->"result"->"message_id") ]) 1;
   } do={
     $LogPrint info $0 ("Failed sending Telegram notification: " . $Err . " - Queuing...");
@@ -215,7 +214,7 @@
       [ $EscapeMD ("This message was queued since _" . [ /system/clock/get date ] . \
       " " . [ /system/clock/get time ] . "_ and may be obsolete.") "plain" "_" ]);
     :set ($TelegramQueue->[ :len $TelegramQueue ]) { tokenid=$TokenId;
-      http-data=($HTTPData . "&text=" . [ $UrlEncode $Text ]) };
+      http-data=($HTTPData . "&text=" . [ :convert to=url $Text ]) };
     :if ([ :len [ /system/scheduler/find where name="_FlushTelegramQueue" ] ] = 0) do={
       /system/scheduler/add name="_FlushTelegramQueue" interval=1m start-time=startup \
         on-event=(":global FlushTelegramQueue; \$FlushTelegramQueue;");

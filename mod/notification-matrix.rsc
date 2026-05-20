@@ -242,7 +242,6 @@
 
   :global FetchUserAgentStr;
   :global LogPrint;
-  :global UrlEncode;
 
   :global MatrixAccessToken;
   :global MatrixHomeServer;
@@ -251,8 +250,8 @@
   :onerror Err {
     /tool/fetch check-certificate=yes-without-crl output=none \
         http-header-field=({ [ $FetchUserAgentStr $0 ] }) http-method=post http-data="" \
-        ("https://" . $MatrixHomeServer . "/_matrix/client/r0/rooms/" . [ $UrlEncode $MatrixRoom ] . \
-        "/join?access_token=" . [ $UrlEncode $MatrixAccessToken ]) as-value;
+        ("https://" . $MatrixHomeServer . "/_matrix/client/r0/rooms/" . [ :convert to=url $MatrixRoom ] . \
+        "/join?access_token=" . [ :convert to=url $MatrixAccessToken ]) as-value;
     $LogPrint debug $0 ("Joined the room.");
   } do={
     $LogPrint error $0 ("Failed joining the room: " . $Err);

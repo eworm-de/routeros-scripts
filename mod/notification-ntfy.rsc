@@ -80,7 +80,6 @@
   :global IfThenElse;
   :global LogPrint;
   :global SymbolForNotification;
-  :global UrlEncode;
 
   :local Server [ $EitherOr ($NtfyServerOverride->($Notification->"origin")) $NtfyServer ];
   :local User [ $EitherOr ($NtfyServerUserOverride->($Notification->"origin")) $NtfyServerUser ];
@@ -92,7 +91,7 @@
     :return false;
   }
 
-  :local Url ("https://" . $Server . "/" . [ $UrlEncode $Topic ]);
+  :local Url ("https://" . $Server . "/" . [ :convert to=url $Topic ]);
   :local Headers ({ [ $FetchUserAgentStr ($Notification->"origin") ]; \
     ("Priority: " . [ $IfThenElse ($Notification->"silent") "low" "default" ]); \
     ("Title: " . "[" . $IdentityExtra . $Identity . "] " . ($Notification->"subject")) });
