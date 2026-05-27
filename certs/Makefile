@@ -12,12 +12,12 @@ DOMAINS_DUAL = \
 	cloudflare-dns.com/SSL-com-Root-Certification-Authority-ECC \
 	dns.google/GTS-Root-RX \
 	dns.quad9.net/DigiCert-Global-Root-G3 \
-	git.eworm.de/ISRG-Root-X2 \
+	git.eworm.de/Root-YE \
 	gitlab.com/USERTrust-RSA-Certification-Authority \
 	lists.blocklist.de/GTS-Root-R4 \
 	matrix.org/GTS-Root-R4 \
 	raw.githubusercontent.com/ISRG-Root-X1 \
-	rsc.eworm.de/ISRG-Root-X2 \
+	rsc.eworm.de/Root-YE \
 	upgrade.mikrotik.com/ISRG-Root-X1
 DOMAINS_IPV4 = \
 	1.1.1.1/SSL-com-Root-Certification-Authority-ECC \
