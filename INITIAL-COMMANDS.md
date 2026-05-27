@@ -18,9 +18,9 @@ Run the complete base installation:
 
     {
       :local BaseUrl "https://rsc.eworm.de/main/";
-      :local CertCommonName "ISRG Root X2";
-      :local CertFileName "ISRG-Root-X2.pem";
-      :local CertFingerprint "69729b8e15a86efc177a57afb7171dfc64add28c2fca8cf1507e34453ccb1470";
+      :local CertCommonName "Root YE";
+      :local CertFileName "Root-YE.pem";
+      :local CertFingerprint "e14ffcad5b0025731006caa43a121a22d8e9700f4fb9cf852f02a708aa5d5666";
 
       :local CertSettings [ /certificate/settings/get ];
       :if (!((($CertSettings->"builtin-trust-anchors") = "trusted" || \
