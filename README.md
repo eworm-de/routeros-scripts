@@ -401,6 +401,13 @@ Feel free to contact me via e-mail or open an
 [pull request](https://github.com/eworm-de/routeros-scripts/pulls)
 at github.
 
+### Stars
+
+Head over to
+[RouterOS Scripts on GitHub](https://github.com/eworm-de/routeros-scripts/)
+and add your star! Let the [star history](STAR-HISTORY.md) shoot up, and
+make the project visible for others!
+
 ### Donate
 
 This project is developed in private spare time and usage is free of charge
