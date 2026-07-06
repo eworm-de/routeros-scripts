@@ -17,6 +17,7 @@
   :local ScriptName [ :jobname ];
 
   :global Domain;
+  :global DhcpToDnsCnameDomain;
   :global Identity;
 
   :global CleanName;
@@ -30,6 +31,22 @@
   :if ([ $ScriptLock $ScriptName 10 ] = false) do={
     :set ExitOK true;
     :error false;
+  }
+
+  :local ToLower do={
+    :local Input [ :tostr $1 ];
+    :local Upper "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    :local Lower "abcdefghijklmnopqrstuvwxyz";
+    :local Return "";
+    :for I from=0 to=([ :len $Input ] - 1) do={
+      :local Char [ :pick $Input $I ];
+      :local Pos [ :find $Upper $Char ];
+      :if ([ :typeof $Pos ] != "nil") do={
+        :set Char [ :pick $Lower $Pos ($Pos + 1) ];
+      }
+      :set Return ($Return . $Char);
+    }
+    :return $Return;
   }
 
   :local Ttl 5m;
@@ -70,8 +87,9 @@
 
     :if ([ :len ($LeaseVal->"active-address") ] > 0) do={
       :local Comment ($CommentPrefix . ", macaddress=" . $LeaseVal->"active-mac-address" . ", server=" . $LeaseVal->"server");
-      :local MacDash [ $CleanName ($LeaseVal->"active-mac-address") ];
-      :local HostName [ $CleanName [ $EitherOr ([ $ParseKeyValueStore ($LeaseVal->"comment") ]->"hostname") ($LeaseVal->"host-name") ] ];
+      :local MacDash [ $ToLower [ $CleanName ($LeaseVal->"active-mac-address") ] ];
+      :local LeaseInfo [ $ParseKeyValueStore ($LeaseVal->"comment") ];
+      :local HostName [ $ToLower [ $CleanName [ $EitherOr ($LeaseInfo->"hostname") ($LeaseVal->"host-name") ] ] ];
       :local Network [ /ip/dhcp-server/network/find where ($LeaseVal->"active-address") in address ];
       :local NetworkVal;
       :if ([ :len $Network ] > 0) do={
@@ -81,7 +99,8 @@
       :local NetDomain ([ $IfThenElse ([ :len ($NetworkInfo->"name-extra") ] > 0) ($NetworkInfo->"name-extra" . ".") ] . \
         [ $EitherOr [ $EitherOr ($NetworkInfo->"domain") ($NetworkVal->"domain") ] $Domain ]);
       :local FullA ($MacDash . "." . $NetDomain);
-      :local FullCN ($HostName . "." . $NetDomain);
+      :local CnameDomain [ $EitherOr ($LeaseInfo->"cname-domain") [ $EitherOr ($NetworkInfo->"cname-domain") $DhcpToDnsCnameDomain ] ];
+      :local FullCN ($HostName . "." . [ $IfThenElse ([ :len $CnameDomain ] > 0) $CnameDomain $NetDomain ]);
       :local MacInServer ($LeaseVal->"active-mac-address" . " in " . $LeaseVal->"server");
 
       :local DnsRecord [ /ip/dns/static/find where comment=$Comment type=A ];

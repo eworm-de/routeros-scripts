@@ -63,6 +63,27 @@ If no domain is found in dhcp server's network definition a fallback from
 
 * `Domain`: the domain used for dns records
 
+### Override domain for CNAME records
+
+By default both the A record (based on mac address) and the CNAME record
+(based on host name) use the same domain. You can set a different domain
+for CNAME records at three levels (in order of priority):
+
+**Per lease** — add `cname-domain=` to the lease comment:
+
+    /ip/dhcp-server/lease/add address=10.0.0.50 comment="hostname=mydevice, cname-domain=example.com" mac-address=00:11:22:33:44:55 server=dhcp;
+
+**Per network** — add `cname-domain=` to the network comment:
+
+    /ip/dhcp-server/network/add address=10.0.0.0/24 domain=dhcp.example.com comment="name-extra=v10, cname-domain=example.com";
+
+This would result in A record `00-11-22-33-44-55.v10.dhcp.example.com` and
+CNAME record `mydevice.example.com` for the same lease.
+
+**Globally** — set the parameter in `global-config-overlay`:
+
+* `DhcpToDnsCnameDomain`: domain used for CNAME records; leave empty (default) to use the same domain as A records
+
 > ℹ️ **Info**: Copy relevant configuration from
 > [`global-config`](../global-config.rsc) (the one without `-overlay`) to
 > your local `global-config-overlay` and modify it to your specific needs.

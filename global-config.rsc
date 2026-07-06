@@ -22,6 +22,11 @@
 # and backup scripts for file names.
 :global Domain "example.com";
 
+# Override domain used for CNAME records in dhcp-to-dns. Can also be set
+# per network or per lease via 'cname-domain=...' in their comment.
+# Leave empty to use the same domain as A records (default).
+:global DhcpToDnsCnameDomain "";
+
 # You can send e-mail notifications. Configure the system's mail settings
 # (/tool/e-mail), then install the module:
 # $ScriptInstallUpdate mod/notification-email
