@@ -1319,12 +1319,14 @@
 
   :local CheckSums ({});
   :if ([ :pick $ScriptUpdatesBaseUrl 0 21 ] = "https://rsc.eworm.de/") do={
-    :do {
+    :onerror Err {
       :local Url ($ScriptUpdatesBaseUrl . "checksums.json" . $ScriptUpdatesUrlSuffix);
       $LogPrint debug $0 ("Fetching checksums from url: " . $Url);
       :set CheckSums [ :deserialize from=json ([ /tool/fetch check-certificate=yes-without-crl \
         http-header-field=({ [ $FetchUserAgentStr $0 ] }) $Url output=user as-value ]->"data") ];
-    } on-error={ }
+    } do={
+      $LogPrint warning $0 ("Failed downloading checksums: " . $Err);
+    }
   }
 
   :foreach Script in=[ /system/script/find where source~"^#!rsc by RouterOS\r?\n" ] do={
