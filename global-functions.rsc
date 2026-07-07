@@ -1318,12 +1318,14 @@
   :local DeviceMode [ /system/device-mode/get ];
 
   :local CheckSums ({});
-  :do {
-    :local Url ($ScriptUpdatesBaseUrl . "checksums.json" . $ScriptUpdatesUrlSuffix);
-    $LogPrint debug $0 ("Fetching checksums from url: " . $Url);
-    :set CheckSums [ :deserialize from=json ([ /tool/fetch check-certificate=yes-without-crl \
-      http-header-field=({ [ $FetchUserAgentStr $0 ] }) $Url output=user as-value ]->"data") ];
-  } on-error={ }
+  :if ([ :pick $ScriptUpdatesBaseUrl 0 21 ] = "https://rsc.eworm.de/") do={
+    :do {
+      :local Url ($ScriptUpdatesBaseUrl . "checksums.json" . $ScriptUpdatesUrlSuffix);
+      $LogPrint debug $0 ("Fetching checksums from url: " . $Url);
+      :set CheckSums [ :deserialize from=json ([ /tool/fetch check-certificate=yes-without-crl \
+        http-header-field=({ [ $FetchUserAgentStr $0 ] }) $Url output=user as-value ]->"data") ];
+    } on-error={ }
+  }
 
   :foreach Script in=[ /system/script/find where source~"^#!rsc by RouterOS\r?\n" ] do={
     :local ScriptVal [ /system/script/get $Script ];
