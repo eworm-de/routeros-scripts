@@ -63,6 +63,10 @@ Just replace the first lines for updated variables.
 > 💡️ **Hint**: You may want to set the same *url* with `ScriptUpdatesBaseUrl`
 > in `global-config-overlay`.
 
+> ⚠️ **Warning**: The mirrors do not provide checksums. Each invocation of
+> `$ScriptInstallUpdate` takes longer and generates more traffic, as every
+> script needs to be downloaded for local check!
+
 ### Install from git.eworm.de
 
       :local BaseUrl "https://git.eworm.de/cgit/routeros-scripts/plain/";
