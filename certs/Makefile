@@ -13,7 +13,7 @@ DOMAINS_DUAL = \
 	dns.google/GTS-Root-RX \
 	dns.quad9.net/DigiCert-Global-Root-G3 \
 	git.eworm.de/Root-YE \
-	gitlab.com/USERTrust-RSA-Certification-Authority \
+	gitlab.com/Sectigo-Public-Server-Authentication-Root-R46 \
 	lists.blocklist.de/GTS-Root-R4 \
 	matrix.org/GTS-Root-R4 \
 	raw.githubusercontent.com/ISRG-Root-X1 \
