@@ -60,6 +60,9 @@ Then continue setup with
 In case you have issues with my default source using a mirror may help.
 Just replace the first lines for updated variables.
 
+> 💡️ **Hint**: You may want to set the same *url* with `ScriptUpdatesBaseUrl`
+> in `global-config-overlay`.
+
 ### Install from git.eworm.de
 
       :local BaseUrl "https://git.eworm.de/cgit/routeros-scripts/plain/";
