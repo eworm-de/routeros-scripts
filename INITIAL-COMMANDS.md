@@ -55,6 +55,32 @@ Then continue setup with
 [scheduled automatic updates](README.md#scheduled-automatic-updates) or
 [editing configuration](README.md#editing-configuration).
 
+## Install from mirror
+
+In case you have issues with my default source using a mirror may help.
+Just replace the first lines for updated variables.
+
+### Install from git.eworm.de
+
+      :local BaseUrl "https://git.eworm.de/cgit/routeros-scripts/plain/";
+      :local CertCommonName "Root YE";
+      :local CertFileName "Root-YE.pem";
+      :local CertFingerprint "e14ffcad5b0025731006caa43a121a22d8e9700f4fb9cf852f02a708aa5d5666";
+
+### Install from Github
+
+      :local BaseUrl "https://raw.githubusercontent.com/eworm-de/routeros-scripts/main/";
+      :local CertCommonName "Root YR";
+      :local CertFileName "Root-YR.pem";
+      :local CertFingerprint "e57b7e6f150c419102e8d5c055729ff967b9d1a829bf00cec89ca604ebf4a86f";
+
+### Install from Gitlab
+
+      :local BaseUrl "https://gitlab.com/eworm-de/routeros-scripts/raw/main/";
+      :local CertCommonName "Sectigo Public Server Authentication Root R46";
+      :local CertFileName "Sectigo-Public-Server-Authentication-Root-R46.pem";
+      :local CertFingerprint "7bb647a62aeeac88bf257aa522d01ffea395e0ab45c73f93f65654ec38f25a06";
+
 ## Fix existing installation
 
 The [initial commands](#initial-commands) above allow to fix an existing
