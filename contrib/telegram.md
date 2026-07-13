@@ -271,10 +271,6 @@ Notes
 
     /save off-topic Please note this group is not about MikroTik RouterOS in general, but [RouterOS Scripts](https://rsc.eworm.de/). Your request is not about scripting at all, so please discuss somewhere else. See the [MikroTik RouterOS users (english)](https://t.me/RouterOS_users_english) group or official Mikrotik forums (https://forum.mikrotik.com/).
 
-#### Star History
-
-    /save star-history See the [star history for RouterOS Scripts](https://rsc.eworm.de/STAR-HISTORY.md) - and do not forget to leave your star!
-
 Greeting
 --------
 
