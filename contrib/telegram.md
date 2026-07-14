@@ -5,13 +5,13 @@ Telegram
 [![GitHub forks](https://img.shields.io/github/forks/eworm-de/routeros-scripts?logo=GitHub&style=flat&color=green)](https://github.com/eworm-de/routeros-scripts/network)
 [![GitHub watchers](https://img.shields.io/github/watchers/eworm-de/routeros-scripts?logo=GitHub&style=flat&color=blue)](https://github.com/eworm-de/routeros-scripts/watchers)
 [![required RouterOS version](https://img.shields.io/badge/RouterOS-7.21-yellow?style=flat)](https://mikrotik.com/download/changelogs/)
-[![Telegram group @routeros_scripts](https://img.shields.io/badge/Telegram-%40routeros__scripts-%2326A5E4?logo=telegram&style=flat)](https://t.me/routeros_scripts)
+[![Telegram group @routeros_scripts](https://img.shields.io/badge/Telegram-%40routeros__scripts-%2326A5E4?logo=telegram&style=flat)](https://telegram.me/routeros_scripts)
 [![donate with PayPal](https://img.shields.io/badge/Like_it%3F-Donate!-orange?logo=githubsponsors&logoColor=orange&style=flat)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=A4ZXBD6YS2W8J)
 
 [⬅️ Go back to main README](../README.md)
 
-We have [Miss Rose Bot ↗️](https://t.me/MissRose_bot) in our
-[RouterOS-Scripts ↗️](https://t.me/routeros_scripts) Telegram group,
+We have [Miss Rose Bot ↗️](https://telegram.me/MissRose_bot) in our
+[RouterOS-Scripts ↗️](https://telegram.me/routeros_scripts) Telegram group,
 always kind and ready to help moderate.
 
 Notes
@@ -269,13 +269,13 @@ Notes
 
 #### Off-topic
 
-    /save off-topic Please note this group is not about MikroTik RouterOS in general, but [RouterOS Scripts](https://rsc.eworm.de/). Your request is not about scripting at all, so please discuss somewhere else. See the [MikroTik RouterOS users (english)](https://t.me/RouterOS_users_english) group or official Mikrotik forums (https://forum.mikrotik.com/).
+    /save off-topic Please note this group is not about MikroTik RouterOS in general, but [RouterOS Scripts](https://rsc.eworm.de/). Your request is not about scripting at all, so please discuss somewhere else. See the [MikroTik RouterOS users (english)](https://telegram.me/RouterOS_users_english) group or official Mikrotik forums (https://forum.mikrotik.com/).
 
 Greeting
 --------
 
     /setwelcome Hello {mention}, and welcome to {chatname}!
-    Please note this group is not about RouterOS in general, but [RouterOS Scripts](https://rsc.eworm.de/). Also pay attention to [rules](https://t.me/routeros_scripts/4), thanks!
+    Please note this group is not about RouterOS in general, but [RouterOS Scripts](https://rsc.eworm.de/). Also pay attention to [rules](https://telegram.me/routeros_scripts/4), thanks!
 
 ---
 [⬅️ Go back to main README](../README.md)  
