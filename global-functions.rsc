@@ -1282,6 +1282,7 @@
   :global IDonate;
   :global NoNewsAndChangesNotification;
   :global ScriptUpdatesBaseUrl;
+  :global ScriptUpdatesCheckSums;
   :global ScriptUpdatesCRLF;
   :global ScriptUpdatesUrlSuffix;
 
@@ -1318,7 +1319,8 @@
   :local DeviceMode [ /system/device-mode/get ];
 
   :local CheckSums ({});
-  :if ([ :pick $ScriptUpdatesBaseUrl 0 21 ] = "https://rsc.eworm.de/") do={
+  :if ([ :pick $ScriptUpdatesBaseUrl 0 21 ] = "https://rsc.eworm.de/" || \
+       $ScriptUpdatesCheckSums = true) do={
     :onerror Err {
       :local Url ($ScriptUpdatesBaseUrl . "checksums.json" . $ScriptUpdatesUrlSuffix);
       $LogPrint debug $0 ("Fetching checksums from url: " . $Url);
