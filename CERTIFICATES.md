@@ -48,7 +48,9 @@ can be closed now.)
 ![screenshot: window](CERTIFICATES.d/03-window.avif)
 
 A new tab opens, showing information on the server certificate and its
-chain of trust. The leftmost certificate is what we are interested in.
+chain of trust. The leftmost certificate is the current server certificate,
+the rightmost one is the *certification authority* certificate and what we
+are interested in.
 
 ![screenshot: certificate](CERTIFICATES.d/04-certificate.avif)
 
