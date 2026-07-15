@@ -114,7 +114,7 @@
   :global ParseKeyValueStore;
 
   :if ([ :len $UseFor ] = 0) do={
-    $LogPrint warning $0 ("The intended use is undefined!");
+    $LogPrint info $0 ("The intended use is undefined!");
     :set UseFor "undefined";
   }
 
