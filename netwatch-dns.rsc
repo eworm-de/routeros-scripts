@@ -3,7 +3,7 @@
 # Copyright (c) 2022-2026 Christian Hesse <mail@eworm.de>
 # https://rsc.eworm.de/COPYING.md
 #
-# requires RouterOS, version=7.22
+# requires RouterOS, version=7.24rc1
 # requires device-mode, fetch
 #
 # monitor and manage dns/doh with netwatch
@@ -113,11 +113,20 @@
       :local I 1;
       :retry {
         :set I ($I ^ 1);
-        :set Data ([ /tool/fetch check-certificate=yes-without-crl output=user \
-          http-header-field=({ "accept: application/dns-message" }) \
-          url=(($DohServer->"doh-url") . "?dns=" . [ :convert to=base64 ([ :rndstr length=2 ] . \
+        :local Url (($DohServer->"doh-url") . "?dns=" . [ :convert to=base64 ([ :rndstr length=2 ] . \
           "\01\00" . "\00\01" . "\00\00" . "\00\00" . "\00\00" . "\09doh-check\05eworm" . \
-          ({ "\02de"; "\03net" }->$I) . "\00" . "\00\10" . "\00\01") ]) as-value ]->"data");
+          ({ "\02de"; "\03net" }->$I) . "\00" . "\00\10" . "\00\01") ]);
+        :onerror Err {
+          :set Data ([ /tool/fetch check-certificate=yes-without-crl output=user http-version=http2 \
+            http-header-field=({ "accept: application/dns-message" }) url=$Url as-value ]->"data");
+        } do={
+          :if ($Err ~ "^bad parameter http-version") do={
+            :set Data ([ /tool/fetch check-certificate=yes-without-crl output=user \
+              http-header-field=({ "accept: application/dns-message" }) url=$Url as-value ]->"data");
+          } else={
+            :error $Err;
+          }
+        }
       } delay=500ms max=6;
     } do={
       $LogPrint warning $ScriptName ("Request to DoH server " . ($DohServer->"doh-url") . \
