@@ -68,6 +68,7 @@
   141="Introduced script 'dhcpv6-client-lease' to run several scripts on IPv6 DHCP client lease.";
   142="Added a setting for 'mod/notification-email' to check availability of certificate chain.";
   143="Made backup scripts 'backup-email' and 'backup-upload' support date & time in filenames.";
+  144="Split and reworked 'mode-button' for compatibility with RouterOS 7.24, configuration was updated automatically.";
 };
 
 # Migration steps to be applied on script updates
@@ -79,4 +80,5 @@
   132=":if ([ :len [ /system/script/find where name=\"check-health\" ] ] > 0) do={ :local Code \":local Install \\\"check-health\\\"; :if ([ :len [ /system/health/find where type=\\\"\\\" name~\\\"-state\\\\\\\$\\\" ] ] > 0) do={ :set Install (\\\$Install . \\\",check-health.d/state\\\"); }; :if ([ :len [ /system/health/find where type=\\\"C\\\" ] ] > 0) do={ :set Install (\\\$Install . \\\",check-health.d/temperature\\\"); }; :if ([ :len [ /system/health/find where type=\\\"V\\\" ] ] > 0) do={ :set Install (\\\$Install . \\\",check-health.d/voltage\\\"); }; :global ScriptInstallUpdate; \\\$ScriptInstallUpdate \\\$Install;\"; :global ValidateSyntax; :if ([ \$ValidateSyntax \$Code ] = true) do={ :do { [ :parse \$Code ]; } on-error={ }; }; };";
   138="/certificate/set trusted=yes [ find where trusted=yes ];";
   140=":if ([ :len [ /system/script/find where name=\"lease-script\" ] ] > 0) do={ /system/script/set name=\"dhcpv4-server-lease\" \"lease-script\"; :global ScriptInstallUpdate; \$ScriptInstallUpdate; /ip/dhcp-server/set lease-script=\"dhcpv4-server-lease\" [ find where lease-script=\"lease-script\" ]; };";
+  144=":if ([ :len [ /system/script/find where name=\"mode-button\" ] ] > 0) do={ :global ScriptInstallUpdate; \$ScriptInstallUpdate mode-button-scheduler; };";
 };

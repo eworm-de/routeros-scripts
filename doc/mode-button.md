@@ -16,7 +16,7 @@ Mode button with multiple presses
 Description
 -----------
 
-This script extend the functionality of mode button. Instead of just one
+These scripts extend the functionality of mode button. Instead of just one
 you can trigger several actions by pressing the mode button several times.
 
 The hardware needs to have a mode button, see
@@ -39,9 +39,9 @@ Copy this code to terminal to check:
 Requirements and installation
 -----------------------------
 
-Just install the script:
+Just install the scripts:
 
-    $ScriptInstallUpdate mode-button;
+    $ScriptInstallUpdate mode-button,mode-button-scheduler;
 
 Then configure the mode button to run `mode-button`:
 
