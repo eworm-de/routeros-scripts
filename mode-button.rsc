@@ -15,21 +15,20 @@
       do={ :error ("Global config and/or functions not ready."); }; } delay=500ms max=50;
   :local ScriptName [ :jobname ];
 
-  :global ModeButton;
-
   :global LogPrint;
-
-  :set ($ModeButton->"count") ($ModeButton->"count" + 1);
 
   :local Scheduler [ /system/scheduler/find where name="mode-button-scheduler" ];
 
   :if ([ :len $Scheduler ] = 0) do={
     $LogPrint info $ScriptName ("Creating scheduler mode-button-scheduler, counting presses...");
     /system/scheduler/add name="mode-button-scheduler" interval=3s \
+        comment=[ :serialize to=json ({ count=1 }) ] \
         on-event="/system/script/run mode-button-scheduler;";
   } else={
     $LogPrint debug $ScriptName ("Updating scheduler mode-button-scheduler...");
-    /system/scheduler/set $Scheduler start-time=[ /system/clock/get time ];
+    :local Presses (([ :deserialize from=json [ /system/scheduler/get $Scheduler comment ] ]->"count") + 1);
+    /system/scheduler/set $Scheduler start-time=[ /system/clock/get time ] \
+        comment=[ :serialize to=json ({ count=$Presses }) ];
   }
 } do={
   :global ExitOnError; $ExitOnError [ :jobname ] $Err;

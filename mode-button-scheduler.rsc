@@ -35,12 +35,18 @@
     /system/leds/set type=[ $IfThenElse ([ get $LED type ] = "on") "off" "on" ] $LED;
   }
 
-  :local Count ($ModeButton->"count");
+  :local Scheduler [ /system/scheduler/find where name="mode-button-scheduler" ];
+
+  :if ([ :len $Scheduler ] = 0) do={
+    $LogPrint error $ScriptName ("Scheduler does not exist.");
+    :set ExitOK true;
+    :error false;
+  }
+  
+  :local Count ([ :deserialize from=json [ /system/scheduler/get $Scheduler comment ] ]->"count");
   :local Code ($ModeButton->[ :tostr $Count ]);
 
-  :set ($ModeButton->"count") 0;
-  :set ModeButtonScheduler;
-  /system/scheduler/remove [ find where name="mode-button-scheduler" ];
+  /system/scheduler/remove $Scheduler;
 
   :if ([ :len $Code ] = 0) do={
     $LogPrint info $ScriptName ("No action defined for " . $Count . " mode-button presses.");
