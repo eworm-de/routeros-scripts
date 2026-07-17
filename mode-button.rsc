@@ -54,32 +54,34 @@
       :set ModeButtonScheduler;
       /system/scheduler/remove [ find where name="_ModeButtonScheduler" ];
 
-      :if ([ :len $Code ] > 0) do={
-        :if ([ $ValidateSyntax $Code ] = true) do={
-          $LogPrint info $FuncName ("Acting on " . $Count . " mode-button presses: " . $Code);
-
-          :for I from=1 to=$Count do={
-            $LEDInvert;
-            :if ([ /system/routerboard/settings/get silent-boot ] = false) do={
-              :beep length=200ms;
-            }
-            :delay 200ms;
-            $LEDInvert;
-            :delay 200ms;
-          }
-
-          :onerror Err {
-            [ :parse $Code ];
-          } do={
-            $LogPrint warning $FuncName \
-                ("The code for " . $Count . " mode-button presses failed with runtime error: " . $Err);
-          }
-        } else={
-          $LogPrint warning $FuncName \
-              ("The code for " . $Count . " mode-button presses failed syntax validation!");
-        }
-      } else={
+      :if ([ :len $Code ] = 0) do={
         $LogPrint info $FuncName ("No action defined for " . $Count . " mode-button presses.");
+        :return false;
+      }
+
+      :if ([ $ValidateSyntax $Code ] = false) do={
+        $LogPrint warning $FuncName \
+            ("The code for " . $Count . " mode-button presses failed syntax validation!");
+        :return false;
+      }
+
+      $LogPrint info $FuncName ("Acting on " . $Count . " mode-button presses: " . $Code);
+
+      :for I from=1 to=$Count do={
+        $LEDInvert;
+        :if ([ /system/routerboard/settings/get silent-boot ] = false) do={
+          :beep length=200ms;
+        }
+        :delay 200ms;
+        $LEDInvert;
+        :delay 200ms;
+      }
+
+      :onerror Err {
+        [ :parse $Code ];
+      } do={
+        $LogPrint warning $FuncName \
+            ("The code for " . $Count . " mode-button presses failed with runtime error: " . $Err);
       }
     } do={
       :global ExitOnError; $ExitOnError $0 $Err;
