@@ -3,13 +3,12 @@
 # Copyright (c) 2018-2026 Christian Hesse <mail@eworm.de>
 # https://rsc.eworm.de/COPYING.md
 #
-# requires RouterOS, version=7.21
+# requires RouterOS, version=7.22
 # requires device-mode, scheduler
 #
 # act on multiple mode and reset button presses
 # https://rsc.eworm.de/doc/mode-button.md
 
-:local ExitOK false;
 :onerror Err {
   :global GlobalConfigReady; :global GlobalFunctionsReady;
   :retry { :if ($GlobalConfigReady != true || $GlobalFunctionsReady != true) \
@@ -39,8 +38,7 @@
 
   :if ([ :len $Scheduler ] = 0) do={
     $LogPrint error $ScriptName ("Scheduler does not exist.");
-    :set ExitOK true;
-    :error false;
+    :exit;
   }
   
   :local Count ([ :deserialize from=json [ /system/scheduler/get $Scheduler comment ] ]->"count");
@@ -50,15 +48,13 @@
 
   :if ([ :len $Code ] = 0) do={
     $LogPrint info $ScriptName ("No action defined for " . $Count . " mode-button presses.");
-    :set ExitOK true;
-    :error false;
+    :exit;
   }
 
   :if ([ $ValidateSyntax $Code ] = false) do={
     $LogPrint warning $ScriptName \
         ("The code for " . $Count . " mode-button presses failed syntax validation!");
-    :set ExitOK true;
-    :error false;
+    :exit;
   }
 
   $LogPrint info $ScriptName ("Acting on " . $Count . " mode-button presses: " . $Code);
@@ -80,5 +76,5 @@
         ("The code for " . $Count . " mode-button presses failed with runtime error: " . $Err);
   }
 } do={
-  :global ExitError; $ExitError $ExitOK [ :jobname ] $Err;
+  :global ExitOnError; $ExitOnError [ :jobname ] $Err;
 }
