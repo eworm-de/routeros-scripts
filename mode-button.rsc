@@ -5,6 +5,7 @@
 #
 # requires RouterOS, version=7.21
 # requires device-mode, scheduler
+# requires policy, dont-require-permissions
 #
 # act on multiple mode and reset button presses
 # https://rsc.eworm.de/doc/mode-button.md
