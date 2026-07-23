@@ -1440,9 +1440,14 @@
         $LogPrint debug $0 ("New policy for script '" . $ScriptVal->"name" . \
             "': " . ($ReqPolicy->"policy"));
       }
+      :if ([ :len ($ReqPolicy->"dont-require-permissions") ] > 0) do={
+        :set ($ScriptVal->"dont-require-permissions") ($ReqPolicy->"dont-require-permissions");
+        $LogPrint debug $0 ("Setting dont-require-permissions for script '" . $ScriptVal->"name" . "'.");
+      }
 
       $LogPrint info $0 ("Updating script: " . $ScriptVal->"name");
       /system/script/set owner=($ScriptVal->"name") policy=($ScriptVal->"policy") \
+          dont-require-permissions=($ScriptVal->"dont-require-permissions") \
           source=[ $IfThenElse ($ScriptUpdatesCRLF = true) $SourceCRLF $SourceNew ] $Script;
       :if ($ScriptVal->"name" = "global-config" || \
            $ScriptVal->"name" = "global-functions" || \
