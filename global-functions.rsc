@@ -1336,14 +1336,6 @@
     :local ScriptInfo [ $ParseKeyValueStore ($ScriptVal->"comment") ];
     :local SourceNew;
 
-    :foreach Scheduler in=[ /system/scheduler/find where on-event~("\\b" . $ScriptVal->"name" . "\\b") ] do={
-      :local SchedulerVal [ /system/scheduler/get $Scheduler ];
-      :if ($ScriptVal->"policy" != $SchedulerVal->"policy") do={
-        $LogPrint warning $0 ("Policies differ for script '" . $ScriptVal->"name" . \
-          "' and its scheduler '" . $SchedulerVal->"name" . "'!");
-      }
-    }
-
     :do {
       :if ($ScriptInfo->"ignore" = true) do={
         $LogPrint debug $0 ("Ignoring script '" . $ScriptVal->"name" . "', as requested.");
