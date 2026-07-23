@@ -1434,8 +1434,15 @@
         :error false;
       }
 
+      :local ReqPolicy [ $ParseKeyValueStore [ $Grep $SourceNew ("\23 requires policy, ") ] ];
+      :if ([ :len ($ReqPolicy->"policy") ] > 0) do={
+        :set ($ScriptVal->"policy") [ :toarray delimiter=";" ($ReqPolicy->"policy") ];
+        $LogPrint debug $0 ("New policy for script '" . $ScriptVal->"name" . \
+            "': " . ($ReqPolicy->"policy"));
+      }
+
       $LogPrint info $0 ("Updating script: " . $ScriptVal->"name");
-      /system/script/set owner=($ScriptVal->"name") \
+      /system/script/set owner=($ScriptVal->"name") policy=($ScriptVal->"policy") \
           source=[ $IfThenElse ($ScriptUpdatesCRLF = true) $SourceCRLF $SourceNew ] $Script;
       :if ($ScriptVal->"name" = "global-config" || \
            $ScriptVal->"name" = "global-functions" || \
