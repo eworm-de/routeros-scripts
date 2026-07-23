@@ -69,6 +69,7 @@
   142="Added a setting for 'mod/notification-email' to check availability of certificate chain.";
   143="Made backup scripts 'backup-email' and 'backup-upload' support date & time in filenames.";
   144="Split and reworked 'mode-button' for compatibility with RouterOS 7.24, configuration was updated automatically.";
+  145="Split and reworked 'hotspot-to-wpa' for compatibility with RouterOS 7.24, configuration was updated automatically.";
 };
 
 # Migration steps to be applied on script updates
@@ -81,4 +82,5 @@
   138="/certificate/set trusted=yes [ find where trusted=yes ];";
   140=":if ([ :len [ /system/script/find where name=\"lease-script\" ] ] > 0) do={ /system/script/set name=\"dhcpv4-server-lease\" \"lease-script\"; :global ScriptInstallUpdate; \$ScriptInstallUpdate; /ip/dhcp-server/set lease-script=\"dhcpv4-server-lease\" [ find where lease-script=\"lease-script\" ]; };";
   144=":if ([ :len [ /system/script/find where name=\"mode-button\" ] ] > 0) do={ :global ScriptInstallUpdate; \$ScriptInstallUpdate mode-button-scheduler; };";
+  145=":local Script [ /system/script/find where name~\"^hostspot-to-wap\\\\.\"; :if ([ :len \$Script ] > 0) do={ :local Type ([ :toarray delimiter=\".\" [ /system/script/get name \$Script ] ]->1); :global ScriptInstallUpdate; \$ScriptInstallUpdate (\"dhcpv4-server-lease,hostspot-to-wap-lease.\" . \$Type); :foreach Hotspot in=[ /ip/hotspot/find ] do={ /ip/dhcp-server/set lease-script=\"dhcpv4-server-lease\" [ find where interface=[ /ip/hotspot/get \$Hotspot interface ] ]; }; };";
 };

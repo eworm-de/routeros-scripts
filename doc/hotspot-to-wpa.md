@@ -26,35 +26,38 @@ Requirements and installation
 You need a properly configured hotspot on one (open) SSID and a WPA enabled
 SSID with suffix "`-wpa`".
 
-Then install the script.
-Depending on whether you use `wifi` package (`/interface/wifi`)or legacy
-wifi with CAPsMAN (`/caps-man`) you need to install a different script and
-set it as `on-login` script in hotspot.
+Then install the scripts. Depending on whether you use `wifi` package
+(`/interface/wifi`) or legacy wireless with CAPsMAN (`/caps-man`) you need
+to install a different set of scripts. Then set the `on-login` script in hotspot.
 
 For `wifi`:
 
-    $ScriptInstallUpdate hotspot-to-wpa.wifi;
+    $ScriptInstallUpdate hotspot-to-wpa.wifi,hotspot-to-wpa-lease.wifi,dhcpv4-server-lease;
     /ip/hotspot/user/profile/set on-login="hotspot-to-wpa.wifi" [ find ];
 
 For legacy CAPsMAN:
 
-    $ScriptInstallUpdate hotspot-to-wpa.capsman;
+    $ScriptInstallUpdate hotspot-to-wpa.wifi,hotspot-to-wpa-lease.capsman,dhcpv4-server-lease;
     /ip/hotspot/user/profile/set on-login="hotspot-to-wpa.capsman" [ find ];
+
+Finally ad add the lease script your hotspot interfaces' dhcp server.
+
+    /ip/dhcp-server/set lease-script="dhcpv4-server-lease" hotspot;
 
 ### Automatic cleanup
 
-With just `hotspot-to-wpa` installed the mac addresses will last in the
+With just the above scripts installed the mac addresses will last in the
 access list forever. Install the optional script for automatic cleanup
 and add a scheduler.
 
 For `wifi`:
 
-    $ScriptInstallUpdate hotspot-to-wpa-cleanup.wifi,dhcpv4-server-lease;
+    $ScriptInstallUpdate hotspot-to-wpa-cleanup.wifi;
     /system/scheduler/add interval=1d name="hotspot-to-wpa-cleanup" on-event="/system/script/run hotspot-to-wpa-cleanup.wifi;" start-time=startup;
 
 For legacy CAPsMAN:
 
-    $ScriptInstallUpdate hotspot-to-wpa-cleanup.capsman,dhcpv4-server-lease;
+    $ScriptInstallUpdate hotspot-to-wpa-cleanup.capsman;
     /system/scheduler/add interval=1d name="hotspot-to-wpa-cleanup" on-event="/system/script/run hotspot-to-wpa-cleanup.capsman;" start-time=startup;
 
 And add the lease script and matcher comment to your wpa interfaces' dhcp
