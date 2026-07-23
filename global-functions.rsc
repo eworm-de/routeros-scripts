@@ -1441,9 +1441,7 @@
       /system/script/set owner=($ScriptVal->"name") policy=($ScriptVal->"policy") \
           dont-require-permissions=($ScriptVal->"dont-require-permissions") \
           source=[ $IfThenElse ($ScriptUpdatesCRLF = true) $SourceCRLF $SourceNew ] $Script;
-      :if ($ScriptVal->"name" = "global-config" || \
-           $ScriptVal->"name" = "global-functions" || \
-           $ScriptVal->"name" ~ ("^(global-functions\\.d|mod)/.")) do={
+      :if ($ScriptVal->"name" ~ ("^(global-config|global-functions(\\.d/.+)?|mod/.+)\$")) do={
         :set ReloadGlobal true;
       }
     } on-error={ }
