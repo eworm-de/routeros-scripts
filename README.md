@@ -294,7 +294,7 @@ Available scripts
 * [Manage IP addresses with bridge status](doc/ip-addr-bridge.md) (`ip-addr-bridge`)
 * [Manage LEDs dark mode](doc/leds-mode.md) (`leds-day-mode`, `leds-night-mode` & `leds-toggle-mode`)
 * [Forward log messages via notification](doc/log-forward.md) (`log-forward`)
-* [Mode button with multiple presses](doc/mode-button.md) (`mode-button`)
+* [Mode button with multiple presses](doc/mode-button.md) (`mode-button` & `mode-button-scheduler`)
 * [Manage DNS and DoH servers from netwatch](doc/netwatch-dns.md) (`netwatch-dns`)
 * [Notify on host up and down](doc/netwatch-notify.md) (`netwatch-notify`)
 * [Visualize OSPF state via LEDs](doc/ospf-to-leds.md) (`ospf-to-leds`)
