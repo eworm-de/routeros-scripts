@@ -103,7 +103,7 @@
   }
 
   :foreach DohServer in=$DohServers do={
-    :foreach DohCert in=[ :toarray delimiter=":" ($DohServer->"doh-cert") ] do={
+    :foreach DohCert in=[ :toarray delimiter=":" [ $EitherOr ($DohServer->"doh-cert") "" ] ] do={
       :if ([ :len $DohCert ] > 0) do={
         :if ([ $CertificateAvailable $DohCert "fetch" ] = false || \
              [ $CertificateAvailable $DohCert "dns" ] = false) do={
