@@ -41,6 +41,10 @@
     :local LeaseVal [ $ParseKeyValueStore [ /ip/dhcp-server/lease/get $Lease comment ] ];
     /ip/dhcp-server/lease/remove $Lease;
 
+    :if (($LeaseVal->"hotspot-to-wpa") != true) do={
+      :continue;
+    }
+
     :local Date [ /system/clock/get date ];
     :local UserVal ({});
     :if ([ :len [ /ip/hotspot/user/find where name=($LeaseVal->"username") ] ] > 0) do={
