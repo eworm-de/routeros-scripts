@@ -4,7 +4,7 @@ Telegram
 [![GitHub stars](https://img.shields.io/github/stars/eworm-de/routeros-scripts?logo=GitHub&style=flat&color=red)](https://github.com/eworm-de/routeros-scripts/stargazers)
 [![GitHub forks](https://img.shields.io/github/forks/eworm-de/routeros-scripts?logo=GitHub&style=flat&color=green)](https://github.com/eworm-de/routeros-scripts/network)
 [![GitHub watchers](https://img.shields.io/github/watchers/eworm-de/routeros-scripts?logo=GitHub&style=flat&color=blue)](https://github.com/eworm-de/routeros-scripts/watchers)
-[![required RouterOS version](https://img.shields.io/badge/RouterOS-7.19-yellow?style=flat)](https://mikrotik.com/download/changelogs/)
+[![required RouterOS version](https://img.shields.io/badge/RouterOS-7.22-yellow?style=flat)](https://mikrotik.com/download/changelogs/)
 [![Telegram group @routeros_scripts](https://img.shields.io/badge/Telegram-%40routeros__scripts-%2326A5E4?logo=telegram&style=flat)](https://t.me/routeros_scripts)
 [![donate with PayPal](https://img.shields.io/badge/Like_it%3F-Donate!-orange?logo=githubsponsors&logoColor=orange&style=flat)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=A4ZXBD6YS2W8J)
 
@@ -91,6 +91,14 @@ Notes
 
     /save dhcp-to-dns Create DNS records for DHCP leases with [dhcp-to-dns](https://rsc.eworm.de/doc/dhcp-to-dns.md).
 
+#### dhcpv4-server-lease
+
+    /save dhcpv4-server-lease Run other scripts on IPv4 DHCP server lease with [dhcpv4-server-lease](https://rsc.eworm.de/doc/dhcpv4-server-lease.md).
+
+#### dhcpv6-client-lease
+
+    /save dhcpv6-client-lease Run other scripts on IPv6 DHCP client lease with [dhcpv6-client-lease](https://rsc.eworm.de/doc/dhcpv6-client-lease.md).
+
 #### firmware-upgrade-reboot
 
     /save firmware-upgrade-reboot Automatically upgrade firmware and reboot with [firmware-upgrade-reboot](https://rsc.eworm.de/doc/firmware-upgrade-reboot.md).
@@ -122,10 +130,6 @@ Notes
 #### ip-addr-bridge
 
     /save ip-addr-bridge Manage IP addresses with [ip-addr-bridge](https://rsc.eworm.de/doc/ip-addr-bridge.md).
-
-#### lease-script
-
-    /save lease-script Run other scripts on DHCP lease with [lease-script](https://rsc.eworm.de/doc/lease-script.md).
 
 #### leds-mode
 
@@ -258,6 +262,10 @@ Notes
 #### Next!
 
     /save next Another satisfied user. 😊 Next, please!
+
+#### Notename
+
+    /save notename The `notename` is just an example from my note listing. Use the literal name of the note you want to see!
 
 #### Off-topic
 

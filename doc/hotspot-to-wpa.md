@@ -4,7 +4,7 @@ Use WPA network with hotspot credentials
 [![GitHub stars](https://img.shields.io/github/stars/eworm-de/routeros-scripts?logo=GitHub&style=flat&color=red)](https://github.com/eworm-de/routeros-scripts/stargazers)
 [![GitHub forks](https://img.shields.io/github/forks/eworm-de/routeros-scripts?logo=GitHub&style=flat&color=green)](https://github.com/eworm-de/routeros-scripts/network)
 [![GitHub watchers](https://img.shields.io/github/watchers/eworm-de/routeros-scripts?logo=GitHub&style=flat&color=blue)](https://github.com/eworm-de/routeros-scripts/watchers)
-[![required RouterOS version](https://img.shields.io/badge/RouterOS-7.19-yellow?style=flat)](https://mikrotik.com/download/changelogs/)
+[![required RouterOS version](https://img.shields.io/badge/RouterOS-7.22-yellow?style=flat)](https://mikrotik.com/download/changelogs/)
 [![Telegram group @routeros_scripts](https://img.shields.io/badge/Telegram-%40routeros__scripts-%2326A5E4?logo=telegram&style=flat)](https://t.me/routeros_scripts)
 [![donate with PayPal](https://img.shields.io/badge/Like_it%3F-Donate!-orange?logo=githubsponsors&logoColor=orange&style=flat)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=A4ZXBD6YS2W8J)
 
@@ -26,47 +26,50 @@ Requirements and installation
 You need a properly configured hotspot on one (open) SSID and a WPA enabled
 SSID with suffix "`-wpa`".
 
-Then install the script.
-Depending on whether you use `wifi` package (`/interface/wifi`)or legacy
-wifi with CAPsMAN (`/caps-man`) you need to install a different script and
-set it as `on-login` script in hotspot.
+Then install the scripts. Depending on whether you use `wifi` package
+(`/interface/wifi`) or legacy wireless with CAPsMAN (`/caps-man`) you need
+to install a different set of scripts. Then set the `on-login` script in hotspot.
 
 For `wifi`:
 
-    $ScriptInstallUpdate hotspot-to-wpa.wifi;
+    $ScriptInstallUpdate hotspot-to-wpa.wifi,hotspot-to-wpa-lease.wifi,dhcpv4-server-lease;
     /ip/hotspot/user/profile/set on-login="hotspot-to-wpa.wifi" [ find ];
 
 For legacy CAPsMAN:
 
-    $ScriptInstallUpdate hotspot-to-wpa.capsman;
+    $ScriptInstallUpdate hotspot-to-wpa.wifi,hotspot-to-wpa-lease.capsman,dhcpv4-server-lease;
     /ip/hotspot/user/profile/set on-login="hotspot-to-wpa.capsman" [ find ];
+
+Finally ad add the lease script your hotspot interfaces' dhcp server.
+
+    /ip/dhcp-server/set lease-script="dhcpv4-server-lease" hotspot;
 
 ### Automatic cleanup
 
-With just `hotspot-to-wpa` installed the mac addresses will last in the
+With just the above scripts installed the mac addresses will last in the
 access list forever. Install the optional script for automatic cleanup
 and add a scheduler.
 
 For `wifi`:
 
-    $ScriptInstallUpdate hotspot-to-wpa-cleanup.wifi,lease-script; 
-    /system/scheduler/add interval=1d name=hotspot-to-wpa-cleanup on-event="/system/script/run hotspot-to-wpa-cleanup.wifi;" start-time=startup;
+    $ScriptInstallUpdate hotspot-to-wpa-cleanup.wifi;
+    /system/scheduler/add interval=1d name="hotspot-to-wpa-cleanup" on-event="/system/script/run hotspot-to-wpa-cleanup.wifi;" start-time=startup;
 
 For legacy CAPsMAN:
 
-    $ScriptInstallUpdate hotspot-to-wpa-cleanup.capsman,lease-script;
-    /system/scheduler/add interval=1d name=hotspot-to-wpa-cleanup on-event="/system/script/run hotspot-to-wpa-cleanup.capsman;" start-time=startup;
+    $ScriptInstallUpdate hotspot-to-wpa-cleanup.capsman;
+    /system/scheduler/add interval=1d name="hotspot-to-wpa-cleanup" on-event="/system/script/run hotspot-to-wpa-cleanup.capsman;" start-time=startup;
 
 And add the lease script and matcher comment to your wpa interfaces' dhcp
 server. You can add more information to the comment, separated by comma. In
 this example the server is called `hotspot-to-wpa`.
 
-    /ip/dhcp-server/set lease-script=lease-script comment="hotspot-to-wpa=wpa" hotspot-to-wpa;
+    /ip/dhcp-server/set lease-script="dhcpv4-server-lease" comment="hotspot-to-wpa=wpa" hotspot-to-wpa;
 
 You can specify the timeout after which a device is removed from leases and
 access-list. The default is four weeks.
 
-    /ip/dhcp-server/set lease-script=lease-script comment="hotspot-to-wpa=wpa, timeout=2w" hotspot-to-wpa;
+    /ip/dhcp-server/set lease-script="dhcpv4-server-lease" comment="hotspot-to-wpa=wpa, timeout=2w" hotspot-to-wpa;
 
 Configuration
 -------------
@@ -117,7 +120,7 @@ passphrase from hotspot credentials.
 See also
 --------
 
-* [Run other scripts on DHCP lease](lease-script.md)
+* [Run other scripts on IPv4 DHCP server lease](dhcpv4-server-lease.md)
 
 ---
 [⬅️ Go back to main README](../README.md)  

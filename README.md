@@ -4,7 +4,7 @@ RouterOS Scripts
 [![GitHub stars](https://img.shields.io/github/stars/eworm-de/routeros-scripts?logo=GitHub&style=flat&color=red)](https://github.com/eworm-de/routeros-scripts/stargazers)
 [![GitHub forks](https://img.shields.io/github/forks/eworm-de/routeros-scripts?logo=GitHub&style=flat&color=green)](https://github.com/eworm-de/routeros-scripts/network)
 [![GitHub watchers](https://img.shields.io/github/watchers/eworm-de/routeros-scripts?logo=GitHub&style=flat&color=blue)](https://github.com/eworm-de/routeros-scripts/watchers)
-[![required RouterOS version](https://img.shields.io/badge/RouterOS-7.19-yellow?style=flat)](https://mikrotik.com/download/changelogs/)
+[![required RouterOS version](https://img.shields.io/badge/RouterOS-7.22-yellow?style=flat)](https://mikrotik.com/download/changelogs/)
 [![Telegram group @routeros_scripts](https://img.shields.io/badge/Telegram-%40routeros__scripts-%2326A5E4?logo=telegram&style=flat)](https://t.me/routeros_scripts)
 [![donate with PayPal](https://img.shields.io/badge/Like_it%3F-Donate!-orange?logo=githubsponsors&logoColor=orange&style=flat)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=A4ZXBD6YS2W8J)
 
@@ -50,7 +50,7 @@ temporarily.
 
 > 💡️ **Hint**: If in doubt have a look at the badge at the top of each
 > page showing the minimum version required:
-> ![required RouterOS version](https://img.shields.io/badge/RouterOS-7.19-yellow?style=flat)
+> ![required RouterOS version](https://img.shields.io/badge/RouterOS-7.22-yellow?style=flat)
 
 > ℹ️ **Info**: The `main` branch is now RouterOS v7 only. If you are still
 > running RouterOS v6 switch to `routeros-v6` branch!
@@ -112,10 +112,6 @@ least, but make sure not to drop other targets:
     /certificate/settings/set builtin-trust-store=fetch;
 
 ![screenshot: builtin trust store](README.d/00-builtin-trust-store.avif)
-
-> 💡️ **Hint**: With RouterOS 7.20.x and before the functionality was
-> different. Set the trust for the builtin trust anchors:  
-> `/certificate/settings/set builtin-trust-anchors=trusted;`  
 
 You can skip the steps regarding *download and import certificate* and
 jump to [installation of scripts](#installation-of-scripts) now.
@@ -230,7 +226,7 @@ everything is up-to-date it will not produce any output.
 If the update includes news or requires configuration changes a notification
 is sent - in addition to terminal output and log messages.
 
-![news and changes notification](README.d/notification-news-and-changes.avif)
+![notification: news and changes](README.d/notification-news-and-changes.avif)
 
 Adding a script
 ---------------
@@ -258,8 +254,8 @@ Some events can run a script. If you want your DHCP hostnames to be available
 in DNS use `dhcp-to-dns` with the events from dhcp server. For a regular
 cleanup add a scheduler entry.
 
-    $ScriptInstallUpdate dhcp-to-dns,lease-script;
-    /ip/dhcp-server/set lease-script=lease-script [ find ];
+    $ScriptInstallUpdate dhcp-to-dns,dhcpv4-server-lease;
+    /ip/dhcp-server/set lease-script="dhcpv4-server-lease" [ find ];
     /system/scheduler/add name="dhcp-to-dns" interval=5m start-time=startup on-event="/system/script/run dhcp-to-dns;";
 
 ![screenshot: setup lease script](README.d/12-setup-lease-script.avif)
@@ -286,18 +282,19 @@ Available scripts
 * [Use wireless network with daily psk](doc/daily-psk.md) (`daily-psk`)
 * [Comment DHCP leases with info from access list](doc/dhcp-lease-comment.md) (`dhcp-lease-comment`)
 * [Create DNS records for DHCP leases](doc/dhcp-to-dns.md) (`dhcp-to-dns`)
+* [Run other scripts on IPv4 DHCP server lease](doc/dhcpv4-server-lease.md) (`dhcpv4-server-lease`)
+* [Run other scripts on IPv6 DHCP client lease](doc/dhcpv6-client-lease.md) (`dhcpv6-client-lease`)
 * [Automatically upgrade firmware and reboot](doc/firmware-upgrade-reboot.md) (`firmware-upgrade-reboot`)
 * [Download, import and update firewall address-lists](doc/fw-addr-lists.md) (`fw-addr-lists`)
 * [Wait for global functions und modules](doc/global-wait.md) (`global-wait`)
 * [Send GPS position to server](doc/gps-track.md) (`gps-track`)
-* [Use WPA network with hotspot credentials](doc/hotspot-to-wpa.md) (`hotspot-to-wpa` & `hotspot-to-wpa-cleanup`)
+* [Use WPA network with hotspot credentials](doc/hotspot-to-wpa.md) (`hotspot-to-wpa`, `hotspot-to-wpa-lease` & `hotspot-to-wpa-cleanup`)
 * [Create DNS records for IPSec peers](doc/ipsec-to-dns.md) (`ipsec-to-dns`)
 * [Update configuration on IPv6 prefix change](doc/ipv6-update.md) (`ipv6-update`)
 * [Manage IP addresses with bridge status](doc/ip-addr-bridge.md) (`ip-addr-bridge`)
-* [Run other scripts on DHCP lease](doc/lease-script.md) (`lease-script`)
 * [Manage LEDs dark mode](doc/leds-mode.md) (`leds-day-mode`, `leds-night-mode` & `leds-toggle-mode`)
 * [Forward log messages via notification](doc/log-forward.md) (`log-forward`)
-* [Mode button with multiple presses](doc/mode-button.md) (`mode-button`)
+* [Mode button with multiple presses](doc/mode-button.md) (`mode-button` & `mode-button-scheduler`)
 * [Manage DNS and DoH servers from netwatch](doc/netwatch-dns.md) (`netwatch-dns`)
 * [Notify on host up and down](doc/netwatch-notify.md) (`netwatch-notify`)
 * [Visualize OSPF state via LEDs](doc/ospf-to-leds.md) (`ospf-to-leds`)

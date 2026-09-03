@@ -1,0 +1,114 @@
+#!rsc by RouterOS
+# RouterOS script: hotspot-to-wpa-lease%TEMPL%
+# Copyright (c) 2019-2026 Christian Hesse <mail@eworm.de>
+# https://rsc.eworm.de/COPYING.md
+#
+# provides: dhcpv4-server-lease, order=40
+# requires RouterOS, version=7.22
+# requires device-mode, hotspot
+#
+# add private WPA passphrase after hotspot login
+# https://rsc.eworm.de/doc/hotspot-to-wpa.md
+#
+# !! This is just a template to generate the real script!
+# !! Pattern '%TEMPL%' is replaced, paths are filtered.
+
+:onerror Err {
+  :global GlobalConfigReady; :global GlobalFunctionsReady;
+  :retry { :if ($GlobalConfigReady != true || $GlobalFunctionsReady != true) \
+      do={ :error ("Global config and/or functions not ready."); }; } delay=500ms max=50;
+  :local ScriptName [ :jobname ];
+
+  :global EitherOr;
+  :global LogPrint;
+  :global ParseKeyValueStore;
+  :global ScriptLock;
+
+  :if ([ $ScriptLock $ScriptName ] = false) do={
+    :exit;
+  }
+
+  :if ([ :len [ /caps-man/access-list/find where comment="--- hotspot-to-wpa above ---" disabled ] ] = 0) do={
+  :if ([ :len [ /interface/wifi/access-list/find where comment="--- hotspot-to-wpa above ---" disabled ] ] = 0) do={
+    /caps-man/access-list/add comment="--- hotspot-to-wpa above ---" disabled=yes;
+    /interface/wifi/access-list/add comment="--- hotspot-to-wpa above ---" disabled=yes;
+    $LogPrint warning $ScriptName ("Added disabled access-list entry with comment '--- hotspot-to-wpa above ---'.");
+  }
+  :local PlaceBefore ([ /caps-man/access-list/find where comment="--- hotspot-to-wpa above ---" disabled ]->0);
+  :local PlaceBefore ([ /interface/wifi/access-list/find where comment="--- hotspot-to-wpa above ---" disabled ]->0);
+
+  :foreach Lease in=[ /ip/dhcp-server/lease/find where !dynamic disabled comment~"\\bhotspot-to-wpa\\b" ] do={
+    :local LeaseVal [ $ParseKeyValueStore [ /ip/dhcp-server/lease/get $Lease comment ] ];
+    /ip/dhcp-server/lease/remove $Lease;
+
+    :if (($LeaseVal->"hotspot-to-wpa") != true) do={
+      :continue;
+    }
+
+    :local Date [ /system/clock/get date ];
+    :local UserVal ({});
+    :if ([ :len [ /ip/hotspot/user/find where name=($LeaseVal->"username") ] ] > 0) do={
+      :set UserVal [ /ip/hotspot/user/get [ find where name=($LeaseVal->"username") ] ];
+    }
+    :local UserInfo [ $ParseKeyValueStore ($UserVal->"comment") ];
+
+    :if ([ :len [ /caps-man/access-list/find where \
+    :if ([ :len [ /interface/wifi/access-list/find where \
+        comment=("hotspot-to-wpa template " . $LeaseVal->"hotspot") disabled ] ] = 0) do={
+      /caps-man/access-list/add comment=("hotspot-to-wpa template " . $LeaseVal->"hotspot") disabled=yes place-before=$PlaceBefore;
+      /interface/wifi/access-list/add comment=("hotspot-to-wpa template " . $LeaseVal->"hotspot") disabled=yes place-before=$PlaceBefore;
+      $LogPrint warning $ScriptName ("Added template in access-list for hotspot '" . $LeaseVal->"hotspot" . "'.");
+    }
+    :local Template [ /caps-man/access-list/get ([ find where \
+    :local Template [ /interface/wifi/access-list/get ([ find where \
+        comment=("hotspot-to-wpa template " . $LeaseVal->"hotspot") disabled ]->0) ];
+
+    $LogPrint info $ScriptName ("Adding/updating access-list entry for mac address " . $LeaseVal->"mac-address" . \
+      " (user " . $LeaseVal->"username" . ").");
+    /caps-man/access-list/remove [ find where mac-address=($LeaseVal->"mac-address") comment~"^hotspot-to-wpa: " ];
+    /interface/wifi/access-list/remove [ find where mac-address=($LeaseVal->"mac-address") comment~"^hotspot-to-wpa: " ];
+    /caps-man/access-list/add private-passphrase=($UserVal->"password") ssid-regexp="-wpa\$" \
+    /interface/wifi/access-list/add passphrase=($UserVal->"password") ssid-regexp="-wpa\$" \
+        mac-address=($LeaseVal->"mac-address") comment=("hotspot-to-wpa: " . $LeaseVal->"username" . \
+        ", " . $LeaseVal->"mac-address" . ", " . $Date) action=reject place-before=$PlaceBefore;
+
+    :local Entry [ /caps-man/access-list/find where mac-address=($LeaseVal->"mac-address") \
+    :local Entry [ /interface/wifi/access-list/find where mac-address=($LeaseVal->"mac-address") \
+        comment=("hotspot-to-wpa: " . $LeaseVal->"username" . ", " . $LeaseVal->"mac-address" . ", " . $Date) ];
+# NOT /caps-man/ #
+    :set ($Template->"private-passphrase") ($Template->"passphrase");
+# NOT /caps-man/ #
+    :local PrivatePassphrase [ $EitherOr ($UserInfo->"private-passphrase") ($Template->"private-passphrase") ];
+    :if ([ :len $PrivatePassphrase ] > 0) do={
+      :if ($PrivatePassphrase = "ignore") do={
+        /caps-man/access-list/set $Entry !private-passphrase;
+        /interface/wifi/access-list/set $Entry !passphrase;
+      } else={
+        /caps-man/access-list/set $Entry private-passphrase=$PrivatePassphrase;
+        /interface/wifi/access-list/set $Entry passphrase=$PrivatePassphrase;
+      }
+    }
+    :local SsidRegexp [ $EitherOr ($UserInfo->"ssid-regexp") ($Template->"ssid-regexp") ];
+    :if ([ :len $SsidRegexp ] > 0) do={
+      /caps-man/access-list/set $Entry ssid-regexp=$SsidRegexp;
+      /interface/wifi/access-list/set $Entry ssid-regexp=$SsidRegexp;
+    }
+    :local VlanId [ $EitherOr ($UserInfo->"vlan-id") ($Template->"vlan-id") ];
+    :if ([ :len $VlanId ] > 0) do={
+      /caps-man/access-list/set $Entry vlan-id=$VlanId;
+      /interface/wifi/access-list/set $Entry vlan-id=$VlanId;
+    }
+# NOT /interface/wifi/ #
+    :local VlanMode [ $EitherOr ($UserInfo->"vlan-mode") ($Template->"vlan-mode") ];
+    :if ([ :len $VlanMode] > 0) do={
+      /caps-man/access-list/set $Entry vlan-mode=$VlanMode;
+    }
+# NOT /interface/wifi/ #
+
+    :delay 2s;
+    /caps-man/access-list/set $Entry action=accept;
+    /interface/wifi/access-list/set $Entry action=accept;
+  }
+} do={
+  :global ExitOnError; $ExitOnError [ :jobname ] $Err;
+}

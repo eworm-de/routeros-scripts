@@ -3,12 +3,11 @@
 # Copyright (c) 2020-2026 Christian Hesse <mail@eworm.de>
 # https://rsc.eworm.de/COPYING.md
 #
-# requires RouterOS, version=7.19
+# requires RouterOS, version=7.22
 #
 # forward log messages via notification
 # https://rsc.eworm.de/doc/log-forward.md
 
-:local ExitOK false;
 :onerror Err {
   :global GlobalConfigReady; :global GlobalFunctionsReady;
   :retry { :if ($GlobalConfigReady != true || $GlobalFunctionsReady != true) \
@@ -24,7 +23,6 @@
   :global LogForwardRateLimit;
 
   :global EitherOr;
-  :global HexToNum;
   :global IfThenElse;
   :global LogForwardFilterLogForwarding;
   :global LogPrint;
@@ -34,8 +32,11 @@
   :global SymbolForNotification;
 
   :if ([ $ScriptLock $ScriptName ] = false) do={
-    :set ExitOK true;
-    :error false;
+    :exit;
+  }
+
+  :if ([ :typeof $LogForwardLast ] = "nothing") do={
+    :set LogForwardLast false;
   }
 
   :if ([ :typeof $LogForwardRateLimit ] = "nothing") do={
@@ -45,13 +46,11 @@
   :if ($LogForwardRateLimit > 30) do={
     :set LogForwardRateLimit ($LogForwardRateLimit - 1);
     $LogPrint info $ScriptName ("Rate limit in action, not forwarding logs, if any!");
-    :set ExitOK true;
-    :error false;
+    :exit;
   }
 
   :local Count 0;
   :local Duplicates false;
-  :local Last [ $IfThenElse ([ :len $LogForwardLast ] > 0) [ $HexToNum $LogForwardLast ] -1 ];
   :local Messages "";
   :local Warning false;
   :local MessageVal;
@@ -63,37 +62,33 @@
   :set LogForwardIncludeMessage [ $EitherOr $LogForwardIncludeMessage [] ];
 
   :local LogAll [ /log/find ];
-  :local MaxId ($LogAll->([ :len $LogAll ] - 1));
-  :local MaxNum [ $HexToNum $MaxId ];
+  :local Max ($LogAll->([ :len $LogAll ] - 1));
   :local LogForwardFilterLogForwardingCached [ $EitherOr [ $LogForwardFilterLogForwarding ] ("\$^") ];
 
-  :foreach Message in=[ /log/find where (!(message="") and \
-      !(message~$LogForwardFilterLogForwardingCached) and \
-      !(topics~$LogForwardFilter) and !(message~$LogForwardFilterMessage)) or \
-      topics~$LogForwardInclude or message~$LogForwardIncludeMessage ] do={
+  :foreach Message in=[ /log/find where .id>$LogForwardLast and .id<=$Max and \
+      ((!(message="") and !(message~$LogForwardFilterLogForwardingCached) and \
+        !(topics~$LogForwardFilter) and !(message~$LogForwardFilterMessage)) or \
+       topics~$LogForwardInclude or message~$LogForwardIncludeMessage) ] do={
     :set MessageVal [ /log/get $Message ];
     :local Bullet "information";
 
-    :local Current [ $HexToNum ($MessageVal->".id") ];
-    :if ($Last < $Current && $Current <= $MaxNum) do={
-      :local DupCount ($MessageDups->($MessageVal->"message"));
-      :if ($MessageVal->"topics" ~ "(warning)") do={
-        :set Warning true;
-        :set Bullet "large-orange-circle";
-      }
-      :if ($MessageVal->"topics" ~ "(emergency|alert|critical|error)") do={
-        :set Warning true;
-        :set Bullet "large-red-circle";
-      }
-      :if ($DupCount < 3) do={
-        :set Messages ($Messages . "\n" . [ $SymbolForNotification $Bullet ] . \
-          $MessageVal->"time" . " " . [ :tostr ($MessageVal->"topics") ] . " " . $MessageVal->"message");
-      } else={
-        :set Duplicates true;
-      }
-      :set ($MessageDups->($MessageVal->"message")) ($DupCount + 1);
-      :set Count ($Count + 1);
+    :local DupCount ($MessageDups->($MessageVal->"message"));
+    :if ($MessageVal->"topics" ~ "(warning)") do={
+      :set Warning true;
+      :set Bullet "large-orange-circle";
     }
+    :if ($MessageVal->"topics" ~ "(emergency|alert|critical|error)") do={
+      :set Warning true;
+      :set Bullet "large-red-circle";
+    }
+    :if ($DupCount < 3) do={
+      :set Messages ($Messages . "\n" . [ $SymbolForNotification $Bullet ] . \
+        $MessageVal->"time" . " " . [ :tostr ($MessageVal->"topics") ] . " " . $MessageVal->"message");
+    } else={
+      :set Duplicates true;
+    }
+    :set ($MessageDups->($MessageVal->"message")) ($DupCount + 1);
+    :set Count ($Count + 1);
   }
 
   :if ($Count > 0) do={
@@ -111,7 +106,7 @@
     :set LogForwardRateLimit [ $MAX 0 ($LogForwardRateLimit - 1) ];
   }
 
-  :set LogForwardLast $MaxId;
+  :set LogForwardLast $Max;
 } do={
-  :global ExitError; $ExitError $ExitOK [ :jobname ] $Err;
+  :global ExitOnError; $ExitOnError [ :jobname ] $Err;
 }

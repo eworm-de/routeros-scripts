@@ -4,7 +4,7 @@ Chat with your router and send commands via Telegram bot
 [![GitHub stars](https://img.shields.io/github/stars/eworm-de/routeros-scripts?logo=GitHub&style=flat&color=red)](https://github.com/eworm-de/routeros-scripts/stargazers)
 [![GitHub forks](https://img.shields.io/github/forks/eworm-de/routeros-scripts?logo=GitHub&style=flat&color=green)](https://github.com/eworm-de/routeros-scripts/network)
 [![GitHub watchers](https://img.shields.io/github/watchers/eworm-de/routeros-scripts?logo=GitHub&style=flat&color=blue)](https://github.com/eworm-de/routeros-scripts/watchers)
-[![required RouterOS version](https://img.shields.io/badge/RouterOS-7.19-yellow?style=flat)](https://mikrotik.com/download/changelogs/)
+[![required RouterOS version](https://img.shields.io/badge/RouterOS-7.22-yellow?style=flat)](https://mikrotik.com/download/changelogs/)
 [![Telegram group @routeros_scripts](https://img.shields.io/badge/Telegram-%40routeros__scripts-%2326A5E4?logo=telegram&style=flat)](https://t.me/routeros_scripts)
 [![donate with PayPal](https://img.shields.io/badge/Like_it%3F-Donate!-orange?logo=githubsponsors&logoColor=orange&style=flat)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=A4ZXBD6YS2W8J)
 
@@ -61,13 +61,13 @@ containing `! identity` (exclamation mark, optional space and system's
 identity). To query all dynamic ip addresses form a device named "*MikroTik*"
 send `! MikroTik`, followed by `/ip/address/print where dynamic;`.
 
-![chat to specific device](telegram-chat.d/01-chat-specific.avif)
+![screenshot: chat to specific device](telegram-chat.d/01-chat-specific.avif)
 
 Devices can be grouped to chat with them simultaneously. The default group
 "*all*" can be activated by sending `! @all`, which will make all devices
 act on your commands.
 
-![chat to all devices](telegram-chat.d/02-chat-all.avif)
+![screenshot: chat to all devices](telegram-chat.d/02-chat-all.avif)
 
 Send a single exclamation mark or non-existent identity to make all
 devices passive again.
@@ -78,7 +78,7 @@ Let's assume you received a message from a device before, and want to send
 a command to that device. No need to activate it, you can just reply to
 that message.
 
-![reply to message](telegram-chat.d/03-reply.avif)
+![screenshot: reply to message](telegram-chat.d/03-reply.avif)
 
 Associated messages are cleared on device reboot.
 

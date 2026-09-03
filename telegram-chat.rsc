@@ -3,13 +3,12 @@
 # Copyright (c) 2023-2026 Christian Hesse <mail@eworm.de>
 # https://rsc.eworm.de/COPYING.md
 #
-# requires RouterOS, version=7.19
+# requires RouterOS, version=7.22
 # requires device-mode, fetch
 #
 # use Telegram to chat with your Router and send commands
 # https://rsc.eworm.de/doc/telegram-chat.md
 
-:local ExitOK false;
 :onerror Err {
   :global GlobalConfigReady; :global GlobalFunctionsReady;
   :retry { :if ($GlobalConfigReady != true || $GlobalFunctionsReady != true) \
@@ -48,8 +47,7 @@
   :global WaitFullyConnected;
 
   :if ([ $ScriptLock $ScriptName ] = false) do={
-    :set ExitOK true;
-    :error false;
+    :exit;
   }
 
   $WaitFullyConnected;
@@ -63,34 +61,31 @@
 
   :if ([ $CertificateAvailable "Go Daddy Root Certificate Authority - G2" "fetch" ] = false) do={
     $LogPrint warning $ScriptName ("Downloading required certificate failed.");
-    :set ExitOK true;
-    :error false;
+    :exit;
   }
 
   $RandomDelay $TelegramRandomDelay;
 
   :local Data false;
   :for I from=1 to=4 do={
-    :if ($Data = false) do={
-      :onerror Err {
-        :set Data ([ /tool/fetch check-certificate=yes-without-crl output=user \
-          ("https://api.telegram.org/bot" . $TelegramTokenId . "/getUpdates?offset=" . \
-          $TelegramChatOffset->0 . "&allowed_updates=%5B%22message%22%5D") as-value ]->"data");
-        :set TelegramRandomDelay [ $MAX 0 ($TelegramRandomDelay - 1) ];
-      } do={
-        :if ($I < 4) do={
-          $LogPrint debug $ScriptName ("Fetch failed, " . $I . ". try: " . $Err);
-          :set TelegramRandomDelay [ $MIN 15 ($TelegramRandomDelay + 5) ];
-          :delay (($I * $I) . "s");
-        }
+    :onerror Err {
+      :set Data ([ /tool/fetch check-certificate=yes-without-crl output=user \
+        ("https://api.telegram.org/bot" . $TelegramTokenId . "/getUpdates?offset=" . \
+        $TelegramChatOffset->0 . "&allowed_updates=%5B%22message%22%5D") as-value ]->"data");
+      :set TelegramRandomDelay [ $MAX 0 ($TelegramRandomDelay - 1) ];
+      :break;
+    } do={
+      :if ($I < 4) do={
+        $LogPrint debug $ScriptName ("Fetch failed, " . $I . ". try: " . $Err);
+        :set TelegramRandomDelay [ $MIN 15 ($TelegramRandomDelay + 5) ];
+        :delay (($I * $I) . "s");
       }
     }
   }
 
   :if ($Data = false) do={
     $LogPrint warning $ScriptName ("Failed getting updates.");
-    :set ExitOK true;
-    :error false;
+    :exit;
   }
 
   :local JSON [ :deserialize from=json value=$Data ];
@@ -119,7 +114,6 @@
       }
 
       :if ($Trusted = true) do={
-        :local Done false;
         :if ($Command = "?") do={
           $LogPrint info $ScriptName ("Sending notice for update " . $UpdateID . ".");
           $SendTelegram2 ({ origin=$ScriptName; chatid=($Chat->"id"); silent=true; \
@@ -127,9 +121,9 @@
             subject=([ $SymbolForNotification "speech-balloon" ] . "Telegram Chat"); \
             message=([ $IfThenElse ([ :len ($From->"first_name") ] > 0) ("Hello " . ($From->"first_name") . "!\n\n") ] . \
               "Online" . [ $IfThenElse $TelegramChatActive " (and active!)" ] . ", awaiting your commands!") });
-          :set Done true;
+          :continue;
         }
-        :if ($Done = false && [ :pick $Command 0 1 ] = "!") do={
+        :if ([ :pick $Command 0 1 ] = "!") do={
           :if ($Command ~ ("^! *(" . [ $EscapeForRegEx $Identity ] . "|@" . $TelegramChatGroups . ")\$")) do={
             :set TelegramChatActive true;
           } else={
@@ -137,17 +131,16 @@
           }
           $LogPrint info $ScriptName ("Now " . [ $IfThenElse $TelegramChatActive "active" "passive" ] . \
             " from update " . $UpdateID . "!");
-          :set Done true;
+          :continue;
         }
-        :if ($Done = false && ($IsMyReply = 1 || ($IsAnyReply = false && \
+        :if (($IsMyReply = 1 || ($IsAnyReply = false && \
              $TelegramChatActive = true)) && [ :len $Command ] > 0) do={
           :if ([ $ValidateSyntax $Command ] = true) do={
             :local State "";
             :local File ("tmpfs/telegram-chat/" . [ $GetRandom20CharAlNum 6 ]);
             :if ([ $MkDir "tmpfs/telegram-chat" ] = false) do={
               $LogPrint error $ScriptName ("Failed creating directory!");
-              :set ExitOK true;
-              :error false;
+              :exit;
             }
             $LogPrint info $ScriptName ("Running command from update " . $UpdateID . ": " . $Command);
             :execute script=(":do {\n" . $Command . "\n} on-error={ /file/add name=\"" . $File . ".failed\" };" . \
@@ -197,5 +190,5 @@
   :set TelegramChatOffset ([ :pick $TelegramChatOffset 1 3 ], \
     [ $IfThenElse ($UpdateID >= $TelegramChatOffset->2) ($UpdateID + 1) ($TelegramChatOffset->2) ]);
 } do={
-  :global ExitError; $ExitError $ExitOK [ :jobname ] $Err;
+  :global ExitOnError; $ExitOnError [ :jobname ] $Err;
 }

@@ -5,7 +5,7 @@
 # https://rsc.eworm.de/COPYING.md
 #
 # provides: capsman-rolling-upgrade%TEMPL%
-# requires RouterOS, version=7.19
+# requires RouterOS, version=7.22
 #
 # upgrade CAPs one after another
 # https://rsc.eworm.de/doc/capsman-rolling-upgrade.md
@@ -13,7 +13,6 @@
 # !! This is just a template to generate the real script!
 # !! Pattern '%TEMPL%' is replaced, paths are filtered.
 
-:local ExitOK false;
 :onerror Err {
   :global GlobalConfigReady; :global GlobalFunctionsReady;
   :retry { :if ($GlobalConfigReady != true || $GlobalFunctionsReady != true) \
@@ -24,8 +23,7 @@
   :global ScriptLock;
 
   :if ([ $ScriptLock $ScriptName ] = false) do={
-    :set ExitOK true;
-    :error false;
+    :exit;
   }
 
   :local InstalledVersion [ /system/package/update/get installed-version ];
@@ -54,5 +52,5 @@
     }
   }
 } do={
-  :global ExitError; $ExitError $ExitOK [ :jobname ] $Err;
+  :global ExitOnError; $ExitOnError [ :jobname ] $Err;
 }

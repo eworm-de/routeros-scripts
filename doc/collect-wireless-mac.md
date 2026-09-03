@@ -4,7 +4,7 @@ Collect MAC addresses in wireless access list
 [![GitHub stars](https://img.shields.io/github/stars/eworm-de/routeros-scripts?logo=GitHub&style=flat&color=red)](https://github.com/eworm-de/routeros-scripts/stargazers)
 [![GitHub forks](https://img.shields.io/github/forks/eworm-de/routeros-scripts?logo=GitHub&style=flat&color=green)](https://github.com/eworm-de/routeros-scripts/network)
 [![GitHub watchers](https://img.shields.io/github/watchers/eworm-de/routeros-scripts?logo=GitHub&style=flat&color=blue)](https://github.com/eworm-de/routeros-scripts/watchers)
-[![required RouterOS version](https://img.shields.io/badge/RouterOS-7.19-yellow?style=flat)](https://mikrotik.com/download/changelogs/)
+[![required RouterOS version](https://img.shields.io/badge/RouterOS-7.22-yellow?style=flat)](https://mikrotik.com/download/changelogs/)
 [![Telegram group @routeros_scripts](https://img.shields.io/badge/Telegram-%40routeros__scripts-%2326A5E4?logo=telegram&style=flat)](https://t.me/routeros_scripts)
 [![donate with PayPal](https://img.shields.io/badge/Like_it%3F-Donate!-orange?logo=githubsponsors&logoColor=orange&style=flat)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=A4ZXBD6YS2W8J)
 
@@ -24,7 +24,7 @@ and modify it to your needs.
 
 ### Sample notification
 
-![collect-wireless-mac notification](collect-wireless-mac.d/notification.avif)
+![notification: collect-wireless-mac](collect-wireless-mac.d/notification.avif)
 
 Requirements and installation
 -----------------------------
@@ -64,14 +64,14 @@ Usage and invocation
 
 Run this script from a dhcp server as lease-script to collect the MAC
 address when a new address is leased. You may want to use
-[lease-script](lease-script.md).
+[dhcpv4-server-lease](dhcpv4-server-lease.md).
 
 See also
 --------
 
 * [Comment DHCP leases with info from access list](dhcp-lease-comment.md)
 * [Create DNS records for DHCP leases](dhcp-to-dns.md)
-* [Run other scripts on DHCP lease](lease-script.md)
+* [Run other scripts on IPv4 DHCP server lease](dhcpv4-server-lease.md)
 
 ---
 [⬅️ Go back to main README](../README.md)  

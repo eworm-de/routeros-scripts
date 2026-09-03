@@ -4,7 +4,7 @@ Certificate name from browser
 [![GitHub stars](https://img.shields.io/github/stars/eworm-de/routeros-scripts?logo=GitHub&style=flat&color=red)](https://github.com/eworm-de/routeros-scripts/stargazers)
 [![GitHub forks](https://img.shields.io/github/forks/eworm-de/routeros-scripts?logo=GitHub&style=flat&color=green)](https://github.com/eworm-de/routeros-scripts/network)
 [![GitHub watchers](https://img.shields.io/github/watchers/eworm-de/routeros-scripts?logo=GitHub&style=flat&color=blue)](https://github.com/eworm-de/routeros-scripts/watchers)
-[![required RouterOS version](https://img.shields.io/badge/RouterOS-7.19-yellow?style=flat)](https://mikrotik.com/download/changelogs/)
+[![required RouterOS version](https://img.shields.io/badge/RouterOS-7.22-yellow?style=flat)](https://mikrotik.com/download/changelogs/)
 [![Telegram group @routeros_scripts](https://img.shields.io/badge/Telegram-%40routeros__scripts-%2326A5E4?logo=telegram&style=flat)](https://t.me/routeros_scripts)
 [![donate with PayPal](https://img.shields.io/badge/Like_it%3F-Donate!-orange?logo=githubsponsors&logoColor=orange&style=flat)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=A4ZXBD6YS2W8J)
 
@@ -32,13 +32,13 @@ is to use a desktop browser to get that information. This demonstration uses
 [Mozilla Firefox ↗️](https://www.mozilla.org/firefox/).
 
 Let's assume we want to make sure the certificate for
-[git.eworm.de](https://git.eworm.de/) is available. Open that page in the
-browser, then click the *lock* icon in addressbar, followed by "*Connection
-secure*".
+[rsc.eworm.de](https://rsc.eworm.de/) is available. Open that page in the
+browser, then click the *shield* icon in addressbar, followed by
+"*Connection secure*".
 
 ![screenshot: dialog A](CERTIFICATES.d/01-dialog-A.avif)
 
-The dialog will change, click "*More information*".
+The dialog will change, click "*More site information*".
 
 ![screenshot: dialog B](CERTIFICATES.d/02-dialog-B.avif)
 
@@ -48,7 +48,9 @@ can be closed now.)
 ![screenshot: window](CERTIFICATES.d/03-window.avif)
 
 A new tab opens, showing information on the server certificate and its
-chain of trust. The leftmost certificate is what we are interested in.
+chain of trust. The leftmost certificate is the current server certificate,
+the rightmost one is the *certification authority* certificate and what we
+are interested in.
 
 ![screenshot: certificate](CERTIFICATES.d/04-certificate.avif)
 
@@ -68,6 +70,20 @@ is no output. Otherwise the certificate is downloaded and imported.
 
 If importing a certificate with that exact name fails a warning is given
 and nothing is actually imported.
+
+Certificate by Organizational Unit
+----------------------------------
+
+There are some rare cases where the *Common Name* is not unique, for example
+several certificates with name "`GlobalSign`" do exist. To download and
+import these (from [mkcert.org ↗️](https://mkcert.org)) it may be required to
+use the *Organizational Unit*.
+
+![screenshot: certificate by OU](CERTIFICATES.d/05-cert-from-OU.avif)
+
+In this special case run:
+
+    $CertificateAvailable "GlobalSign Root CA - R3" "fetch";
 
 See also
 --------

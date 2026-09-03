@@ -4,7 +4,7 @@ Update configuration on IPv6 prefix change
 [![GitHub stars](https://img.shields.io/github/stars/eworm-de/routeros-scripts?logo=GitHub&style=flat&color=red)](https://github.com/eworm-de/routeros-scripts/stargazers)
 [![GitHub forks](https://img.shields.io/github/forks/eworm-de/routeros-scripts?logo=GitHub&style=flat&color=green)](https://github.com/eworm-de/routeros-scripts/network)
 [![GitHub watchers](https://img.shields.io/github/watchers/eworm-de/routeros-scripts?logo=GitHub&style=flat&color=blue)](https://github.com/eworm-de/routeros-scripts/watchers)
-[![required RouterOS version](https://img.shields.io/badge/RouterOS-7.19-yellow?style=flat)](https://mikrotik.com/download/changelogs/)
+[![required RouterOS version](https://img.shields.io/badge/RouterOS-7.22-yellow?style=flat)](https://mikrotik.com/download/changelogs/)
 [![Telegram group @routeros_scripts](https://img.shields.io/badge/Telegram-%40routeros__scripts-%2326A5E4?logo=telegram&style=flat)](https://t.me/routeros_scripts)
 [![donate with PayPal](https://img.shields.io/badge/Like_it%3F-Donate!-orange?logo=githubsponsors&logoColor=orange&style=flat)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=A4ZXBD6YS2W8J)
 
@@ -55,7 +55,7 @@ create it with:
     /ipv6/firewall/address-list/add address=2003:cf:2f0f:de00::/56 comment=ipv6-pool-isp list=extern;
 
 If the dynamic entry exists already you need to remove it before creating
-the static one..
+the static one.
 
 Address list entries for specific interfaces can be updated as well. The
 interface needs to get its address from pool `isp` and the address list entry
@@ -77,6 +77,7 @@ start with "`ipv6-pool-`" and actual pool name, followed by a comma,
 See also
 --------
 
+* [Run other scripts on IPv6 DHCP client lease](dhcpv6-client-lease.md)
 * [Run scripts on ppp connection](ppp-on-up.md)
 
 ---

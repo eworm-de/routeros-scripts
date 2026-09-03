@@ -4,7 +4,7 @@ Create DNS records for DHCP leases
 [![GitHub stars](https://img.shields.io/github/stars/eworm-de/routeros-scripts?logo=GitHub&style=flat&color=red)](https://github.com/eworm-de/routeros-scripts/stargazers)
 [![GitHub forks](https://img.shields.io/github/forks/eworm-de/routeros-scripts?logo=GitHub&style=flat&color=green)](https://github.com/eworm-de/routeros-scripts/network)
 [![GitHub watchers](https://img.shields.io/github/watchers/eworm-de/routeros-scripts?logo=GitHub&style=flat&color=blue)](https://github.com/eworm-de/routeros-scripts/watchers)
-[![required RouterOS version](https://img.shields.io/badge/RouterOS-7.19-yellow?style=flat)](https://mikrotik.com/download/changelogs/)
+[![required RouterOS version](https://img.shields.io/badge/RouterOS-7.22-yellow?style=flat)](https://mikrotik.com/download/changelogs/)
 [![Telegram group @routeros_scripts](https://img.shields.io/badge/Telegram-%40routeros__scripts-%2326A5E4?logo=telegram&style=flat)](https://t.me/routeros_scripts)
 [![donate with PayPal](https://img.shields.io/badge/Like_it%3F-Donate!-orange?logo=githubsponsors&logoColor=orange&style=flat)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=A4ZXBD6YS2W8J)
 
@@ -28,7 +28,7 @@ Just install the script:
     $ScriptInstallUpdate dhcp-to-dns;
 
 Then run it from dhcp server as lease script. You may want to use
-[lease-script](lease-script.md).
+[dhcpv4-server-lease](dhcpv4-server-lease.md).
 
 A scheduler cares about cleanup:
 
@@ -50,8 +50,14 @@ A bound lease for mac address `00:11:22:33:44:55` with ip address
 `10.0.0.50` would result in an A record `00-11-22-33-44-55.example.com`
 pointing to the given ip address.
 
-Additional options can be given from comment, to add an extra level in
-dns name or define a different domain.
+Additional options can be given from comment, first of all you can opt-out
+for specific networks:
+
+    /ip/dhcp-server/network/add address=10.0.0.0/24 domain=example.com comment="dns-ignore=true";
+
+The same can be done for a specific lease with its comment.
+
+Use this to add an extra level in dns name or define a different domain.
 
     /ip/dhcp-server/network/add address=10.0.0.0/24 domain=example.com comment="domain=another-domain.com, name-extra=dhcp";
 
@@ -80,13 +86,43 @@ Note this information can be configured in wireless access list with
 then due to script execution order. Decrease the scheduler interval to
 reduce the effect.
 
+### Override domain for CNAME records
+
+By default both the A record (based on mac address) and the CNAME record
+(based on host name) use the same domain. You can set a different domain
+for CNAME records with `cname-domain=` in network comment:
+
+    /ip/dhcp-server/network/add address=10.0.0.0/24 domain=dhcp.example.com comment="cname-domain=example.com";
+
+Adding `cname-domain=` in lease comment has even higher priority:
+
+    /ip/dhcp-server/lease/add address=10.0.0.50 comment="cname-domain=example.com" mac-address=00:11:22:33:44:55 server=dhcp;
+
+
+Frequently asked questions
+--------------------------
+
+### Is it possible to have the hostname in reverse lookup?
+
+It used to be like that in the beginning. But there are way too many special
+cases... Devices without hostname, devices with same hostname, devices
+switching from one network to another, devices with same hostname in
+different network, ...
+
+Fixing one broke another. It never really worked without problems. So
+finally the code ended with what we have now.
+
+I know about that side effect and limitation with reverse lookup, but
+there's really no (easy) way to get that right without mac address. The
+reverse lookup will always give a name based on mac address.
+
 See also
 --------
 
 * [Collect MAC addresses in wireless access list](collect-wireless-mac.md)
 * [Comment DHCP leases with info from access list](dhcp-lease-comment.md)
+* [Run other scripts on IPv4 DHCP server lease](dhcpv4-server-lease.md)
 * [Create DNS records for IPSec peers](ipsec-to-dns.md)
-* [Run other scripts on DHCP lease](lease-script.md)
 
 ---
 [⬅️ Go back to main README](../README.md)  

@@ -3,7 +3,7 @@
 # Copyright (c) 2013-2026 Christian Hesse <mail@eworm.de>
 # https://rsc.eworm.de/COPYING.md
 #
-# requires RouterOS, version=7.19
+# requires RouterOS, version=7.22
 # requires device-mode, fetch, scheduler
 #
 # send notifications via Ntfy (ntfy.sh)
@@ -80,7 +80,6 @@
   :global IfThenElse;
   :global LogPrint;
   :global SymbolForNotification;
-  :global UrlEncode;
 
   :local Server [ $EitherOr ($NtfyServerOverride->($Notification->"origin")) $NtfyServer ];
   :local User [ $EitherOr ($NtfyServerUserOverride->($Notification->"origin")) $NtfyServerUser ];
@@ -92,7 +91,7 @@
     :return false;
   }
 
-  :local Url ("https://" . $Server . "/" . [ $UrlEncode $Topic ]);
+  :local Url ("https://" . $Server . "/" . [ :convert to=url $Topic ]);
   :local Headers ({ [ $FetchUserAgentStr ($Notification->"origin") ]; \
     ("Priority: " . [ $IfThenElse ($Notification->"silent") "low" "default" ]); \
     ("Title: " . "[" . $IdentityExtra . $Identity . "] " . ($Notification->"subject")) });

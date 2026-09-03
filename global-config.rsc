@@ -31,6 +31,8 @@
 :global EmailGeneralCc "";
 #:global EmailGeneralTo "mail@example.com";
 #:global EmailGeneralCc "another@example.com,third@example.com";
+# Add the CA certificate name here for verification.
+:global EmailServerCertificate "";
 
 # You can send Telegram notifications. Register a bot
 # and add the token and chat ids here, then install the module:
@@ -88,7 +90,9 @@
 # Toggle this to disable color output in terminal/cli.
 :global TerminalColorOutput true;
 
-# This defines what backups to generate and what password to use.
+# This defines whether to add date & time in filenames, what backups to generate,
+# the password to use, and what random delay (between 0 and given seconds) to apply.
+:global BackupFileNameDate false;
 :global BackupSendBinary false;
 :global BackupSendExport true;
 :global BackupSendGlobalConfig true;
@@ -108,11 +112,11 @@
 :global FwAddrLists {
 #  "allow"={
 #    { url="https://rsc.eworm.de/main/fw-addr-lists.d/allow";
-#      cert="Root YE"; timeout=1w };
+#      cert="ISRG Root X2:Root YE"; timeout=1w };
 #  };
   "block"={
 #    { url="https://rsc.eworm.de/main/fw-addr-lists.d/block";
-#      cert="Root YE" };
+#      cert="ISRG Root X2:Root YE" };
     { url="https://raw.githubusercontent.com/stamparm/ipsum/refs/heads/master/levels/4.txt";
 #     # higher level (decrease the numerical value) for more addresses, and vice versa
       cert="ISRG Root X1" };
@@ -127,7 +131,7 @@
   };
 #  "mikrotik"={
 #    { url="https://rsc.eworm.de/main/fw-addr-lists.d/mikrotik";
-#      cert="Root YE"; timeout=1w };
+#      cert="ISRG Root X2:Root YE"; timeout=1w };
 #  };
 };
 :global FwAddrListTimeOut 1d;

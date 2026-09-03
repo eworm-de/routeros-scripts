@@ -4,7 +4,7 @@
 #                         Michael Gisbers <michael@gisbers.de>
 # https://rsc.eworm.de/COPYING.md
 #
-# requires RouterOS, version=7.19
+# requires RouterOS, version=7.22
 # requires device-mode, fetch, scheduler
 #
 # global functions
@@ -15,7 +15,7 @@
 # Git commit id & info, expected configuration version
 :global CommitId "unknown";
 :global CommitInfo "unknown";
-:global ExpectedConfigVersion 139;
+:global ExpectedConfigVersion 145;
 
 # global variables not to be changed by user
 :global GlobalFunctionsReady false;
@@ -36,7 +36,6 @@
 :global DownloadPackage;
 :global EitherOr;
 :global EscapeForRegEx;
-:global ExitError;
 :global ExitOnError;
 :global FetchHuge;
 :global FetchUserAgentStr;
@@ -49,7 +48,6 @@
 :global GetRandom20CharHex;
 :global GetRandomNumber;
 :global Grep;
-:global HexToNum;
 :global HumanReadableNum;
 :global IfThenElse;
 :global IsDefaultRouteReachable;
@@ -82,7 +80,6 @@
 :global SymbolByUnicodeName;
 :global SymbolForNotification;
 :global Unix2Dos;
-:global UrlEncode;
 :global ValidateSyntax;
 :global VersionToNum;
 :global WaitDefaultRouteReachable;
@@ -111,11 +108,13 @@
   :local UseFor     [ :tostr $2 ];
 
   :global CertificateDownload;
-  :global EitherOr;
   :global LogPrint;
   :global ParseKeyValueStore;
 
-  :set UseFor [ $EitherOr $UseFor "undefined" ];
+  :if ([ :len $UseFor ] = 0) do={
+    $LogPrint info $0 ("The intended use is undefined!");
+    :set UseFor "undefined";
+  }
 
   :if ([ /system/resource/get free-hdd-space ] < 8388608 && \
        [ /certificate/settings/get crl-download ] = true && \
@@ -130,26 +129,25 @@
   }
 
   :local CertSettings [ /certificate/settings/get ];
-  :if ((($CertSettings->"builtin-trust-anchors") = "trusted" || \
-        ($CertSettings->"builtin-trust-store") ~ $UseFor || \
+  :if ((($CertSettings->"builtin-trust-store") ~ $UseFor || \
         ($CertSettings->"builtin-trust-store") = "all") && \
-       [ :len [ /certificate/builtin/find where common-name=$CommonName ] ] > 0) do={
+       [ :len [ /certificate/builtin/find where common-name=$CommonName or unit=$CommonName ] ] > 0) do={
     :return true;
   }
 
-  :if ([ :len [ /certificate/find where common-name=$CommonName ] ] = 0) do={
+  :if ([ :len [ /certificate/find where common-name=$CommonName or unit=$CommonName ] ] = 0) do={
     $LogPrint info $0 ("Certificate with CommonName '" . $CommonName . "' not available.");
     :if ([ $CertificateDownload $CommonName ] = false) do={
       :return false;
     }
   }
 
-  :if ([ :len [ /certificate/find where common-name=$CommonName ] ] > 1) do={
+  :if ([ :len [ /certificate/find where common-name=$CommonName or unit=$CommonName ] ] > 1) do={
     $LogPrint info $0 ("There are " . $CertCount . " Certificates with CommonName '" . $CommonName . "'. Should be ok.");
     :return true;
   }
 
-  :local CertVal [ /certificate/get [ find where common-name=$CommonName ] ];
+  :local CertVal [ /certificate/get [ find where common-name=$CommonName or unit=$CommonName ] ];
   :while (($CertVal->"akid") != "" && ($CertVal->"akid") != ($CertVal->"skid")) do={
     :if ([ :len [ /certificate/find where skid=($CertVal->"akid") ] ] = 0) do={
       :local IssuerCN ([ $ParseKeyValueStore ($CertVal->"issuer") ]->"CN");
@@ -172,6 +170,7 @@
 
   :global CertificateNameByCN;
   :global CleanName;
+  :global IfThenElse;
   :global FetchUserAgentStr;
   :global LogPrint;
   :global RmFile;
@@ -189,7 +188,11 @@
     $LogPrint warning $0 ("Failed downloading certificate with CommonName '" . $CommonName . \
       "' from repository! Trying fallback to mkcert.org...");
     :do {
-      :if ([ :len [ /certificate/find where common-name="ISRG Root X1" ] ] = 0) do={
+      :local CertSettings [ /certificate/settings/get ];
+      :if ([ :len [ /certificate/find where common-name="ISRG Root X1" ] ] = 0 && \
+           !((($CertSettings->"builtin-trust-store") ~ "fetch" || \
+              ($CertSettings->"builtin-trust-store") = "all") && \
+             [ :len [ /certificate/builtin/find where common-name="ISRG Root X1" ] ] > 0)) do={
         $LogPrint error $0 ("Required certificate is not available.");
         :return false;
       }
@@ -211,14 +214,15 @@
   :delay 1s;
   $RmFile $FileName;
 
-  :if ([ :len [ /certificate/find where common-name=$CommonName ] ] = 0) do={
+  :if ([ :len [ /certificate/find where common-name=$CommonName or unit=$CommonName ] ] = 0) do={
     /certificate/remove [ find where name~("^" . $FileName . "_[0-9]+\$") ];
     $LogPrint warning $0 ("Certificate with CommonName '" . $CommonName . "' still unavailable!");
     :return false;
   }
 
   :foreach Cert in=[ /certificate/find where name~("^" . $FileName . "_[0-9]+\$") ] do={
-    $CertificateNameByCN [ /certificate/get $Cert common-name ];
+    $CertificateNameByCN [ $IfThenElse ([ /certificate/get $Cert unit ] = $CommonName) \
+      $CommonName [ /certificate/get $Cert common-name ] ];
   }
   :return true;
 }
@@ -230,11 +234,23 @@
   :global CleanName;
   :global LogPrint;
 
-  :local Cert ([ /certificate/find where (common-name=$Match or fingerprint=$Match or name=$Match) ]->0);
+  :local Cert [ /certificate/find where unit=$Match ];
+  :if ([ :len $Cert ] = 1) do={
+    /certificate/set $Cert name=[ $CleanName $Match ];
+    :return true;
+  }
+
+  :set Cert [ /certificate/find where common-name=$Match or fingerprint=$Match or name=$Match ];
+  :if ([ :len $Cert ] > 1) do={
+    $LogPrint warning $0 ("Too many matching certificates found.");
+    :return false;
+  }
+
   :if ([ :len $Cert ] = 0) do={
     $LogPrint warning $0 ("No matching certificate found.");
     :return false;
   }
+
   :local CommonName [ /certificate/get $Cert common-name ];
   /certificate/set $Cert name=[ $CleanName $CommonName ];
   :return true;
@@ -303,18 +319,12 @@
 
   :for I from=0 to=([ :len $Input ] - 1) do={
     :local Char [ :pick $Input $I ];
-    :if ([ :typeof [ find "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789" $Char ] ] = "nil") do={
-      :do {
-        :if ([ :len $Return ] = 0) do={
-          :error true;
-        }
-        :if ([ :pick $Return ([ :len $Return ] - 1) ] = "-") do={
-          :error true;
-        }
-        :set Char "-";
-      } on-error={
-        :set Char "";
+    :if ([ :typeof [ :find "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789" $Char ] ] = "nil") do={
+      :if ([ :len $Return ] = 0 || \
+           [ :pick $Return ([ :len $Return ] - 1) ] = "-") do={
+        :continue;
       }
+      :set Char "-";
     }
     :set Return ($Return . $Char);
   }
@@ -483,19 +493,6 @@
   }
 
   :return $Return;
-}
-
-# wrapper for $ExitOnError with additional parameter
-:set ExitError do={
-  :local ExitOK [ :tostr $1 ];
-  :local Name   [ :tostr $2 ];
-  :local Error  [ :tostr $3 ];
-
-  :global ExitOnError;
-
-  :if ($ExitOK = "false") do={
-    $ExitOnError $Name $Error;
-  }
 }
 
 # simple macro to print error message on unintentional error
@@ -739,19 +736,6 @@
   :return [];
 }
 
-# convert from hex (string) to num
-:set HexToNum do={
-  :local Input [ :tostr $1 ];
-
-  :global HexToNum;
-
-  :if ([ :pick $Input 0 ] = "*") do={
-    :return [ $HexToNum [ :pick  $Input 1 [ :len $Input ] ] ];
-  }
-
-  :return [ :tonum ("0x" . $Input) ];
-}
-
 # return human readable number
 :set HumanReadableNum do={
   :local Input [ :tonum $1 ];
@@ -805,10 +789,15 @@
 # check if DNS is resolving
 :set IsDNSResolving do={
   :do {
-    :resolve "low-ttl.eworm.de";
+    :local I 1;
+    :retry {
+      :set I ($I ^ 1);
+      :resolve ("low-ttl.eworm." . ({ "de"; "net" }->$I));
+    } delay=50ms max=6;
   } on-error={
     :return false;
   }
+
   :return true;
 }
 
@@ -1046,31 +1035,9 @@
 
 # return an IPv6 netmask for CIDR
 :set NetMask6 do={
-  :local CIDR [ :tostr $1 ];
+  :local CIDR [ :tonum $1 ];
 
-  :global IfThenElse;
-  :global MAX;
-  :global MIN;
-
-  :global NetMask6Cache;
-
-  :if ([ :typeof ($NetMask6Cache->$CIDR) ] = "ip6") do={
-    :return ($NetMask6Cache->$CIDR);
-  }
-
-  :if ([ :typeof $NetMask6Cache ] = "nothing") do={
-    :set NetMask6Cache ({});
-  }
-
-  :local Mask "";
-  :for I from=0 to=7 do={
-    :set Mask ($Mask . \
-      [ :convert from=num to=hex (0xffff - (0xffff >> [ :tonum [ $MIN [ $MAX ($CIDR - (16 * $I)) 0 ] 16 ] ])) ] . \
-      [ $IfThenElse ($I < 7) ":" ]);
-  }
-  :set Mask [ :toip6 $Mask ];
-  :set ($NetMask6Cache->$CIDR) $Mask;
-  :return $Mask;
+  :return (((~::) << (128 - $CIDR)) & (~::));
 }
 
 # prepare NotificationFunctions array
@@ -1193,10 +1160,12 @@
   }
 
   :onerror Err {
-    /file/remove $DirName;
+    /file/remove [ find where name=$DirName ];
   } do={
-    $LogPrint error $0 ("Removing directory '" . $DirName . "' failed: " . $Err);
-    :return false;
+    :if (!($Err ~ "no such item")) do={
+      $LogPrint error $0 ("Removing directory '" . $DirName . "' failed: " . $Err);
+      :return false;
+    }
   }
   :return true;
 }
@@ -1222,10 +1191,12 @@
   }
 
   :onerror Err {
-    /file/remove $FileName;
+    /file/remove [ find where name=$FileName ];
   } do={
-    $LogPrint error $0 ("Removing file '" . $FileName . "' failed: " . $Err);
-    :return false;
+    :if (!($Err ~ "no such item")) do={
+      $LogPrint error $0 ("Removing file '" . $FileName . "' failed: " . $Err);
+      :return false;
+    }
   }
   :return true;
 }
@@ -1269,6 +1240,7 @@
   :global IDonate;
   :global NoNewsAndChangesNotification;
   :global ScriptUpdatesBaseUrl;
+  :global ScriptUpdatesCheckSums;
   :global ScriptUpdatesCRLF;
   :global ScriptUpdatesUrlSuffix;
 
@@ -1285,13 +1257,14 @@
   :global SymbolForNotification;
   :global ValidateSyntax;
 
-  :if ([ $CertificateAvailable "Root YE" "fetch" ] = false) do={
+  :if ([ $CertificateAvailable "ISRG Root X2" "fetch" ] = false || \
+       [ $CertificateAvailable "Root YE" "fetch" ] = false) do={
     $LogPrint warning $0 ("Downloading certificate failed, trying without.");
   }
 
   :foreach Script in=$Scripts do={
     :if ([ :len [ /system/script/find where name=$Script ] ] > 0) do={
-      $LogPrint warning $0 ("Requested to add script '" . $Script . "', but that exists already!");
+      $LogPrint info $0 ("Requested to add script '" . $Script . "', but that exists already!");
     } else={
       $LogPrint info $0 ("Adding new script: " . $Script);
       /system/script/add name=$Script owner=$Script source="#!rsc by RouterOS\n" comment=$NewComment;
@@ -1304,125 +1277,130 @@
   :local DeviceMode [ /system/device-mode/get ];
 
   :local CheckSums ({});
-  :do {
-    :local Url ($ScriptUpdatesBaseUrl . "checksums.json" . $ScriptUpdatesUrlSuffix);
-    $LogPrint debug $0 ("Fetching checksums from url: " . $Url);
-    :set CheckSums [ :deserialize from=json ([ /tool/fetch check-certificate=yes-without-crl \
-      http-header-field=({ [ $FetchUserAgentStr $0 ] }) $Url output=user as-value ]->"data") ];
-  } on-error={ }
+  :if ([ :pick $ScriptUpdatesBaseUrl 0 21 ] = "https://rsc.eworm.de/" || \
+       $ScriptUpdatesCheckSums = true) do={
+    :onerror Err {
+      :local Url ($ScriptUpdatesBaseUrl . "checksums.json" . $ScriptUpdatesUrlSuffix);
+      $LogPrint debug $0 ("Fetching checksums from url: " . $Url);
+      :set CheckSums [ :deserialize from=json ([ /tool/fetch check-certificate=yes-without-crl \
+        http-header-field=({ [ $FetchUserAgentStr $0 ] }) $Url output=user as-value ]->"data") ];
+    } do={
+      $LogPrint warning $0 ("Failed downloading checksums: " . $Err);
+    }
+  }
 
   :foreach Script in=[ /system/script/find where source~"^#!rsc by RouterOS\r?\n" ] do={
     :local ScriptVal [ /system/script/get $Script ];
     :local ScriptInfo [ $ParseKeyValueStore ($ScriptVal->"comment") ];
     :local SourceNew;
 
-    :foreach Scheduler in=[ /system/scheduler/find where on-event~("\\b" . $ScriptVal->"name" . "\\b") ] do={
-      :local SchedulerVal [ /system/scheduler/get $Scheduler ];
-      :if ($ScriptVal->"policy" != $SchedulerVal->"policy") do={
-        $LogPrint warning $0 ("Policies differ for script '" . $ScriptVal->"name" . \
-          "' and its scheduler '" . $SchedulerVal->"name" . "'!");
+    :if ($ScriptInfo->"ignore" = true) do={
+      $LogPrint debug $0 ("Ignoring script '" . $ScriptVal->"name" . "', as requested.");
+      :continue;
+    }
+
+    :local CheckSum ($CheckSums->($ScriptVal->"name"));
+    :if ([ :len ($ScriptInfo->"base-url") ] = 0 && [ :len ($ScriptInfo->"url-suffix") ] = 0 && \
+         [ :convert transform=md5 to=hex [ :tolf ($ScriptVal->"source") ] ] = $CheckSum) do={
+      $LogPrint debug $0 ("Checksum for script '" . $ScriptVal->"name" . "' matches, ignoring.");
+      :continue;
+    }
+
+    :if ([ :len ($ScriptInfo->"certificate") ] > 0) do={
+      :if ([ $CertificateAvailable ($ScriptInfo->"certificate") "fetch" ] = false) do={
+        $LogPrint warning $0 ("Downloading certificate failed, trying without.");
       }
     }
 
-    :do {
-      :if ($ScriptInfo->"ignore" = true) do={
-        $LogPrint debug $0 ("Ignoring script '" . $ScriptVal->"name" . "', as requested.");
-        :error true;
+    :onerror Err {
+      :local BaseUrl [ $EitherOr ($ScriptInfo->"base-url") $ScriptUpdatesBaseUrl ];
+      :local UrlSuffix [ $EitherOr ($ScriptInfo->"url-suffix") $ScriptUpdatesUrlSuffix ];
+      :local Url ($BaseUrl . $ScriptVal->"name" . ".rsc" . $UrlSuffix);
+      $LogPrint debug $0 ("Fetching script '" . $ScriptVal->"name" . "' from url: " . $Url);
+      :local Result [ /tool/fetch check-certificate=yes-without-crl \
+        http-header-field=({ [ $FetchUserAgentStr $0 ] }) $Url output=user as-value ];
+      :if ($Result->"status" = "finished") do={
+        :set SourceNew [ :tolf ($Result->"data") ];
+      }
+    } do={
+      $LogPrint warning $0 ("Failed fetching script '" . $ScriptVal->"name" . "': " . $Err);
+      :if ($Err != "Fetch failed with status 404") do={
+        :continue;
       }
 
-      :local CheckSum ($CheckSums->($ScriptVal->"name"));
+      :if ($ScriptVal->"source" = "#!rsc by RouterOS\n") do={
+        $LogPrint warning $0 ("Removing dummy. Typo on installation?");
+        /system/script/remove $Script;
+        :continue;
+      }
       :if ([ :len ($ScriptInfo->"base-url") ] = 0 && [ :len ($ScriptInfo->"url-suffix") ] = 0 && \
-           [ :convert transform=md5 to=hex [ :tolf ($ScriptVal->"source") ] ] = $CheckSum) do={
-        $LogPrint debug $0 ("Checksum for script '" . $ScriptVal->"name" . "' matches, ignoring.");
-        :error true;
+           [ :len $CheckSum ] = 0) do={
+        $LogPrintOnce warning $0 \
+            ("Added the script manually? Skip updates with 'ignore=true' in comment.");
       }
+      :continue;
+    }
 
-      :if ([ :len ($ScriptInfo->"certificate") ] > 0) do={
-        :if ([ $CertificateAvailable ($ScriptInfo->"certificate") "fetch" ] = false) do={
-          $LogPrint warning $0 ("Downloading certificate failed, trying without.");
-        }
-      }
+    :if ([ :len $SourceNew ] = 0) do={
+      $LogPrint debug $0 ("No update for script '" . $ScriptVal->"name" . "'.");
+      :continue;
+    }
 
-      :onerror Err {
-        :local BaseUrl [ $EitherOr ($ScriptInfo->"base-url") $ScriptUpdatesBaseUrl ];
-        :local UrlSuffix [ $EitherOr ($ScriptInfo->"url-suffix") $ScriptUpdatesUrlSuffix ];
-        :local Url ($BaseUrl . $ScriptVal->"name" . ".rsc" . $UrlSuffix);
-        $LogPrint debug $0 ("Fetching script '" . $ScriptVal->"name" . "' from url: " . $Url);
-        :local Result [ /tool/fetch check-certificate=yes-without-crl \
-          http-header-field=({ [ $FetchUserAgentStr $0 ] }) $Url output=user as-value ];
-        :if ($Result->"status" = "finished") do={
-          :set SourceNew [ :tolf ($Result->"data") ];
-        }
-      } do={
-        $LogPrint warning $0 ("Failed fetching script '" . $ScriptVal->"name" . "': " . $Err);
-        :if ($Err != "Fetch failed with status 404") do={
-          :error false;
-        }
+    :local SourceCRLF [ :tocrlf $SourceNew ];
+    :if ($SourceNew = $ScriptVal->"source" || $SourceCRLF = $ScriptVal->"source") do={
+      $LogPrint debug $0 ("Script '" .  $ScriptVal->"name" . "' did not change.");
+      :continue;
+    }
 
-        :if ($ScriptVal->"source" = "#!rsc by RouterOS\n") do={
-          $LogPrint warning $0 ("Removing dummy. Typo on installation?");
-          /system/script/remove $Script;
-          :error false;
-        }
-        :if ([ :len ($ScriptInfo->"base-url") ] = 0 && [ :len ($ScriptInfo->"url-suffix") ] = 0 && \
-             [ :len $CheckSum ] = 0) do={
-          $LogPrintOnce warning $0 \
-              ("Added the script manually? Skip updates with 'ignore=true' in comment.");
-        }
-        :error false;
-      }
+    :if ([ :pick $SourceNew 0 18 ] != "#!rsc by RouterOS\n") do={
+      $LogPrint warning $0 ("Looks like new script '" . $ScriptVal->"name" . \
+          "' is not valid (missing shebang). Ignoring!");
+      :continue;
+    }
 
-      :if ([ :len $SourceNew ] = 0) do={
-        $LogPrint debug $0 ("No update for script '" . $ScriptVal->"name" . "'.");
-        :error false;
-      }
+    :local RequiredROS ([ $ParseKeyValueStore [ $Grep $SourceNew ("\23 requires RouterOS, ") ] ]->"version");
+    :if ([ $RequiredRouterOS $0 [ $EitherOr $RequiredROS "0.0" ] false ] = false) do={
+      $LogPrintOnce warning $0 ("The script '" . $ScriptVal->"name" . "' requires RouterOS " . \
+          $RequiredROS . ", which is not met by your installation. Ignoring!");
+      :continue;
+    }
 
-      :local SourceCRLF [ :tocrlf $SourceNew ];
-      :if ($SourceNew = $ScriptVal->"source" || $SourceCRLF = $ScriptVal->"source") do={
-        $LogPrint debug $0 ("Script '" .  $ScriptVal->"name" . "' did not change.");
-        :error false;
+    :local RequiredDM [ $ParseKeyValueStore [ $Grep $SourceNew ("\23 requires device-mode, ") ] ];
+    :local MissingDM ({});
+    :foreach Feature,Value in=$RequiredDM do={
+      :if ([ :typeof ($DeviceMode->$Feature) ] = "bool" && ($DeviceMode->$Feature) = false) do={
+        :set MissingDM ($MissingDM, $Feature);
       }
+    }
+    :if ([ :len $MissingDM ] > 0) do={
+      $LogPrintOnce warning $0 ("The script '" . $ScriptVal->"name" . "' requires disabled " . \
+          "device-mode features (" . [ :tostr $MissingDM ] . "). Ignoring!");
+      :continue;
+    }
 
-      :if ([ :pick $SourceNew 0 18 ] != "#!rsc by RouterOS\n") do={
-        $LogPrint warning $0 ("Looks like new script '" . $ScriptVal->"name" . \
-            "' is not valid (missing shebang). Ignoring!");
-        :error false;
-      }
+    :if ([ $ValidateSyntax $SourceNew ] = false) do={
+      $LogPrint warning $0 ("Syntax validation for script '" . $ScriptVal->"name" . "' failed! Ignoring!");
+      :continue;
+    }
 
-      :local RequiredROS ([ $ParseKeyValueStore [ $Grep $SourceNew ("\23 requires RouterOS, ") ] ]->"version");
-      :if ([ $RequiredRouterOS $0 [ $EitherOr $RequiredROS "0.0" ] false ] = false) do={
-        $LogPrintOnce warning $0 ("The script '" . $ScriptVal->"name" . "' requires RouterOS " . \
-            $RequiredROS . ", which is not met by your installation. Ignoring!");
-        :error false;
-      }
+    :local ReqPolicy [ $ParseKeyValueStore [ $Grep $SourceNew ("\23 requires policy, ") ] ];
+    :if ([ :len ($ReqPolicy->"policy") ] > 0) do={
+      :set ($ScriptVal->"policy") [ :toarray delimiter=";" ($ReqPolicy->"policy") ];
+      $LogPrint debug $0 ("New policy for script '" . $ScriptVal->"name" . \
+          "': " . ($ReqPolicy->"policy"));
+    }
+    :if ([ :len ($ReqPolicy->"dont-require-permissions") ] > 0) do={
+      :set ($ScriptVal->"dont-require-permissions") ($ReqPolicy->"dont-require-permissions");
+      $LogPrint debug $0 ("Setting dont-require-permissions for script '" . $ScriptVal->"name" . "'.");
+    }
 
-      :local RequiredDM [ $ParseKeyValueStore [ $Grep $SourceNew ("\23 requires device-mode, ") ] ];
-      :local MissingDM ({});
-      :foreach Feature,Value in=$RequiredDM do={
-        :if ([ :typeof ($DeviceMode->$Feature) ] = "bool" && ($DeviceMode->$Feature) = false) do={
-          :set MissingDM ($MissingDM, $Feature);
-        }
-      }
-      :if ([ :len $MissingDM ] > 0) do={
-        $LogPrintOnce warning $0 ("The script '" . $ScriptVal->"name" . "' requires disabled " . \
-            "device-mode features (" . [ :tostr $MissingDM ] . "). Ignoring!");
-        :error false;
-      }
-
-      :if ([ $ValidateSyntax $SourceNew ] = false) do={
-        $LogPrint warning $0 ("Syntax validation for script '" . $ScriptVal->"name" . "' failed! Ignoring!");
-        :error false;
-      }
-
-      $LogPrint info $0 ("Updating script: " . $ScriptVal->"name");
-      /system/script/set owner=($ScriptVal->"name") \
-          source=[ $IfThenElse ($ScriptUpdatesCRLF = true) $SourceCRLF $SourceNew ] $Script;
-      :if ($ScriptVal->"name" = "global-config" || \
-           $ScriptVal->"name" = "global-functions" || \
-           $ScriptVal->"name" ~ ("^(global-functions\\.d|mod)/.")) do={
-        :set ReloadGlobal true;
-      }
-    } on-error={ }
+    $LogPrint info $0 ("Updating script: " . $ScriptVal->"name");
+    /system/script/set owner=($ScriptVal->"name") policy=($ScriptVal->"policy") \
+        dont-require-permissions=($ScriptVal->"dont-require-permissions") \
+        source=[ $IfThenElse ($ScriptUpdatesCRLF = true) $SourceCRLF $SourceNew ] $Script;
+    :if ($ScriptVal->"name" ~ ("^(global-config|global-functions(\\.d/.+)?|mod/.+)\$")) do={
+      :set ReloadGlobal true;
+    }
   }
 
   :if ($ReloadGlobal = true) do={
@@ -1778,33 +1756,6 @@
 # convert line endings, UNIX -> DOS
 :set Unix2Dos do={
   :return [ :tocrlf [ :tostr $1 ] ];
-}
-
-# url encoding
-:set UrlEncode do={
-  :local Input [ :tostr $1 ];
-
-  :if ([ :len $Input ] = 0) do={
-    :return "";
-  }
-
-  :local Return "";
-  :local Chars ("\n\r !\"#\$%&'()*+,:;<=>?@[\\]^`{|}~");
-  :local Subs { "%0A"; "%0D"; "%20"; "%21"; "%22"; "%23"; "%24"; "%25"; "%26"; "%27";
-         "%28"; "%29"; "%2A"; "%2B"; "%2C"; "%3A"; "%3B"; "%3C"; "%3D"; "%3E"; "%3F";
-         "%40"; "%5B"; "%5C"; "%5D"; "%5E"; "%60"; "%7B"; "%7C"; "%7D"; "%7E" };
-
-  :for I from=0 to=([ :len $Input ] - 1) do={
-    :local Char [ :pick $Input $I ];
-    :local Replace [ :find $Chars $Char ];
-
-    :if ([ :typeof $Replace ] = "num") do={
-      :set Char ($Subs->$Replace);
-    }
-    :set Return ($Return . $Char);
-  }
-
-  :return $Return;
 }
 
 # basic syntax validation

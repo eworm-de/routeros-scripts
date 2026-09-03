@@ -64,14 +64,23 @@
   137="Added support to send notifications via Gotify (gotify.net).";
   138="RouterOS 7.19 is suffering an issue with certificate store. Fixing trust state for all certificates...";
   139="Certificate Authorities will reduce the leaf certificate validity times soon. Thus the defaults for renewal and warning in 'check-certificates' were decreased.";
+  140="The scripts 'lease-script' was renamed to 'dhcpv4-server-lease', configuration was updated automatically.";
+  141="Introduced script 'dhcpv6-client-lease' to run several scripts on IPv6 DHCP client lease.";
+  142="Added a setting for 'mod/notification-email' to check availability of certificate chain.";
+  143="Made backup scripts 'backup-email' and 'backup-upload' support date & time in filenames.";
+  144="Split and reworked 'mode-button' for compatibility with RouterOS 7.24, configuration was updated automatically.";
+  145="Split and reworked 'hotspot-to-wpa' for compatibility with RouterOS 7.24, configuration was updated automatically.";
 };
 
 # Migration steps to be applied on script updates
 :global GlobalConfigMigration {
-  97=":local Rec [ /ip/dns/static/find where comment~\"^managed by dhcp-to-dns for \" ]; :if ([ :len \$Rec ] > 0) do={ /ip/dns/static/remove \$Rec; /system/script/run dhcp-to-dns; }";
-  100=":global ScriptInstallUpdate; :if ([ :len [ /system/script/find where name=\"ssh-keys-import\" source~\"^#!rsc by RouterOS\\r?\\n\" ] ] > 0) do={ /system/script/set name=\"mod/ssh-keys-import\" ssh-keys-import; \$ScriptInstallUpdate; }";
+  97=":local Rec [ /ip/dns/static/find where comment~\"^managed by dhcp-to-dns for \" ]; :if ([ :len \$Rec ] > 0) do={ /ip/dns/static/remove \$Rec; /system/script/run dhcp-to-dns; };";
+  100=":global ScriptInstallUpdate; :if ([ :len [ /system/script/find where name=\"ssh-keys-import\" source~\"^#!rsc by RouterOS\\r?\\n\" ] ] > 0) do={ /system/script/set name=\"mod/ssh-keys-import\" ssh-keys-import; \$ScriptInstallUpdate; };";
   104=":global CharacterReplace; :global ScriptInstallUpdate; :foreach Script in={ \"capsman-download-packages\"; \"capsman-rolling-upgrade\"; \"hotspot-to-wpa\"; \"hotspot-to-wpa-cleanup\" } do={ /system/script/set name=(\$Script . \".capsman\") [ find where name=\$Script ]; :foreach Scheduler in=[ /system/scheduler/find where on-event~(\$Script . \"([^-.]|\\\$)\") ] do={ /system/scheduler/set \$Scheduler on-event=[ \$CharacterReplace [ get \$Scheduler on-event ] \$Script (\$Script . \".capsman\") ]; }; }; /ip/hotspot/user/profile/set on-login=\"hotspot-to-wpa.capsman\" [ find where on-login=\"hotspot-to-wpa\" ]; \$ScriptInstallUpdate;";
-  111=":local Rec [ /ip/dns/static/find where comment~\"^managed by dhcp-to-dns for \" ]; :if ([ :len \$Rec ] > 0) do={ /ip/dns/static/remove \$Rec; /system/script/run dhcp-to-dns; }";
-  132=":if ([ :len [ /system/script/find where name=\"check-health\" ] ] > 0) do={ :local Code \":local Install \\\"check-health\\\"; :if ([ :len [ /system/health/find where type=\\\"\\\" name~\\\"-state\\\\\\\$\\\" ] ] > 0) do={ :set Install (\\\$Install . \\\",check-health.d/state\\\"); }; :if ([ :len [ /system/health/find where type=\\\"C\\\" ] ] > 0) do={ :set Install (\\\$Install . \\\",check-health.d/temperature\\\"); }; :if ([ :len [ /system/health/find where type=\\\"V\\\" ] ] > 0) do={ :set Install (\\\$Install . \\\",check-health.d/voltage\\\"); }; :global ScriptInstallUpdate; \\\$ScriptInstallUpdate \\\$Install;\"; :global ValidateSyntax; :if ([ \$ValidateSyntax \$Code ] = true) do={ :do { [ :parse \$Code ]; } on-error={ }; }; }";
+  111=":local Rec [ /ip/dns/static/find where comment~\"^managed by dhcp-to-dns for \" ]; :if ([ :len \$Rec ] > 0) do={ /ip/dns/static/remove \$Rec; /system/script/run dhcp-to-dns; };";
+  132=":if ([ :len [ /system/script/find where name=\"check-health\" ] ] > 0) do={ :local Code \":local Install \\\"check-health\\\"; :if ([ :len [ /system/health/find where type=\\\"\\\" name~\\\"-state\\\\\\\$\\\" ] ] > 0) do={ :set Install (\\\$Install . \\\",check-health.d/state\\\"); }; :if ([ :len [ /system/health/find where type=\\\"C\\\" ] ] > 0) do={ :set Install (\\\$Install . \\\",check-health.d/temperature\\\"); }; :if ([ :len [ /system/health/find where type=\\\"V\\\" ] ] > 0) do={ :set Install (\\\$Install . \\\",check-health.d/voltage\\\"); }; :global ScriptInstallUpdate; \\\$ScriptInstallUpdate \\\$Install;\"; :global ValidateSyntax; :if ([ \$ValidateSyntax \$Code ] = true) do={ :do { [ :parse \$Code ]; } on-error={ }; }; };";
   138="/certificate/set trusted=yes [ find where trusted=yes ];";
+  140=":if ([ :len [ /system/script/find where name=\"lease-script\" ] ] > 0) do={ /system/script/set name=\"dhcpv4-server-lease\" \"lease-script\"; :global ScriptInstallUpdate; \$ScriptInstallUpdate; /ip/dhcp-server/set lease-script=\"dhcpv4-server-lease\" [ find where lease-script=\"lease-script\" ]; };";
+  144=":if ([ :len [ /system/script/find where name=\"mode-button\" ] ] > 0) do={ :global ScriptInstallUpdate; \$ScriptInstallUpdate mode-button-scheduler; };";
+  145=":local Script [ /system/script/find where name~\"^hotspot-to-wpa\\\\.\" ]; :if ([ :len \$Script ] > 0) do={ :local Type ([ :toarray delimiter=\".\" [ /system/script/get \$Script name ] ]->1); :global ScriptInstallUpdate; \$ScriptInstallUpdate (\"dhcpv4-server-lease,hotspot-to-wpa-lease.\" . \$Type); :foreach Hotspot in=[ /ip/hotspot/find ] do={ /ip/dhcp-server/set lease-script=\"dhcpv4-server-lease\" [ find where interface=[ /ip/hotspot/get \$Hotspot interface ] ]; }; };";
 };

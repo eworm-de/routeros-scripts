@@ -4,7 +4,7 @@
 #                         Michael Gisbers <michael@gisbers.de>
 # https://rsc.eworm.de/COPYING.md
 #
-# requires RouterOS, version=7.19
+# requires RouterOS, version=7.22
 #
 # update daily PSK (pre shared key)
 # https://rsc.eworm.de/doc/daily-psk.md
@@ -12,7 +12,6 @@
 # !! This is just a template to generate the real script!
 # !! Pattern '%TEMPL%' is replaced, paths are filtered.
 
-:local ExitOK false;
 :onerror Err {
   :global GlobalConfigReady; :global GlobalFunctionsReady;
   :retry { :if ($GlobalConfigReady != true || $GlobalFunctionsReady != true) \
@@ -28,13 +27,11 @@
   :global ScriptLock;
   :global SendNotification2;
   :global SymbolForNotification;
-  :global UrlEncode;
   :global WaitForFile;
   :global WaitFullyConnected;
 
   :if ([ $ScriptLock $ScriptName ] = false) do={
-    :set ExitOK true;
-    :error false;
+    :exit;
   }
   $WaitFullyConnected;
 
@@ -93,7 +90,7 @@
           $LogPrint debug $ScriptName ("Already sent a mail for SSID " . $Ssid . ", skipping.");
         } else={
           :local Link ($DailyPskQrCodeUrl . \
-              "?scale=8&level=1&ssid=" . [ $UrlEncode $Ssid ] . "&pass=" . [ $UrlEncode $NewPsk ]);
+              "?scale=8&level=1&ssid=" . [ :convert to=url $Ssid ] . "&pass=" . [ :convert to=url $NewPsk ]);
           $SendNotification2 ({ origin=$ScriptName; \
             subject=([ $SymbolForNotification "calendar" ] . "daily PSK " . $Ssid); \
             message=("This is the daily PSK on " . $Identity . ":\n\n" . \
@@ -107,5 +104,5 @@
     }
   }
 } do={
-  :global ExitError; $ExitError $ExitOK [ :jobname ] $Err;
+  :global ExitOnError; $ExitOnError [ :jobname ] $Err;
 }

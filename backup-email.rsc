@@ -4,18 +4,18 @@
 # https://rsc.eworm.de/COPYING.md
 #
 # provides: backup-script, order=20
-# requires RouterOS, version=7.19
+# requires RouterOS, version=7.22
 #
 # create and email backup and config file
 # https://rsc.eworm.de/doc/backup-email.md
 
-:local ExitOK false;
 :onerror Err {
   :global GlobalConfigReady; :global GlobalFunctionsReady;
   :retry { :if ($GlobalConfigReady != true || $GlobalFunctionsReady != true) \
       do={ :error ("Global config and/or functions not ready."); }; } delay=500ms max=50;
   :local ScriptName [ :jobname ];
 
+  :global BackupFileNameDate;
   :global BackupPassword;
   :global BackupRandomDelay;
   :global BackupSendBinary;
@@ -41,28 +41,24 @@
 
   :if ([ :typeof $SendEMail2 ] = "nothing") do={
     $LogPrint error $ScriptName ("The module for sending notifications via e-mail is not installed.");
-    :set ExitOK true;
-    :error false;
+    :exit;
   }
 
   :if ($BackupSendBinary != true && \
        $BackupSendExport != true) do={
     $LogPrint error $ScriptName ("Configured to send neither backup nor config export.");
-    :set ExitOK true;
-    :error false;
+    :exit;
   }
 
   :if ([ $ScriptLock $ScriptName ] = false) do={
     :set PackagesUpdateBackupFailure true;
-    :set ExitOK true;
-    :error false;
+    :exit;
   }
 
   :if ([ :len [ /system/scheduler/find where name="running-from-backup-partition" ] ] > 0) do={
     $LogPrint warning $ScriptName ("Running from backup partition, refusing to act.");
     :set PackagesUpdateBackupFailure true;
-    :set ExitOK true;
-    :error false;
+    :exit;
   }
 
   $WaitFullyConnected;
@@ -73,7 +69,9 @@
 
   # filename based on identity
   :local DirName ("tmpfs/" . $ScriptName);
-  :local FileName [ $CleanName ($Identity . "." . $Domain) ];
+  :local Clock [ /system/clock/get ];
+  :local FileName [ $CleanName ($Identity . "." . $Domain . [ $IfThenElse \
+      ($BackupFileNameDate = true) ("-" . $Clock->"date" . "-" . $Clock->"time") "" ] ) ];
   :local FilePath ($DirName . "/" . $FileName);
   :local BackupFile "none";
   :local ExportFile "none";
@@ -82,8 +80,7 @@
 
   :if ([ $MkDir $DirName ] = false) do={
     $LogPrint error $ScriptName ("Failed creating directory!");
-    :set ExitOK true;
-    :error false;
+    :exit;
   }
 
   # binary backup
@@ -139,5 +136,5 @@
   }
   # do not remove the files here, as the mail is still queued!
 } do={
-  :global ExitError; $ExitError $ExitOK [ :jobname ] $Err;
+  :global ExitOnError; $ExitOnError [ :jobname ] $Err;
 }

@@ -3,54 +3,53 @@
 # Copyright (c) 2013-2026 Christian Hesse <mail@eworm.de>
 # https://rsc.eworm.de/COPYING.md
 #
-# requires RouterOS, version=7.19
+# requires RouterOS, version=7.22
+# provides: dhcpv6-client-lease, order=40
 #
 # update firewall and dns settings on IPv6 prefix change
 # https://rsc.eworm.de/doc/ipv6-update.md
 
-:local ExitOK false;
 :onerror Err {
   :global GlobalConfigReady; :global GlobalFunctionsReady;
   :retry { :if ($GlobalConfigReady != true || $GlobalFunctionsReady != true) \
       do={ :error ("Global config and/or functions not ready."); }; } delay=500ms max=50;
   :local ScriptName [ :jobname ];
 
+  :global EitherOr;
   :global LogPrint;
   :global ParseKeyValueStore;
   :global ScriptLock;
 
-  :local NaAddress $"na-address";
-  :local NaValid $"na-valid";
-  :local PdPrefix $"pd-prefix";
-  :local PdValid $"pd-valid";
+  :global DHCPv6ClientLeaseVars;
 
-  :if ([ $ScriptLock $ScriptName ] = false) do={
-    :set ExitOK true;
-    :error false;
+  :local NaAddress [ $EitherOr $"na-address" ($DHCPv6ClientLeaseVars->"na-address") ];
+  :local NaValid [ $EitherOr $"na-valid" ($DHCPv6ClientLeaseVars->"na-valid") ];
+  :local PdPrefix [ $EitherOr $"pd-prefix" ($DHCPv6ClientLeaseVars->"pd-prefix") ];
+  :local PdValid [ $EitherOr $"pd-valid" ($DHCPv6ClientLeaseVars->"pd-valid") ];
+
+  :if ([ $ScriptLock $ScriptName 10 ] = false) do={
+    :exit;
   }
 
   :if ([ :typeof $NaAddress ] = "str") do={
     $LogPrint info $ScriptName ("An address (" . $NaAddress . ") was acquired, not a prefix. Ignoring.");
-    :set ExitOK true;
-    :error false;
+    :exit;
   }
 
   :if ([ :typeof $PdPrefix ] = "nothing" || [ :typeof $PdValid ] = "nothing") do={
     $LogPrint error $ScriptName ("This script is supposed to run from ipv6 dhcp-client.");
-    :set ExitOK true;
-    :error false;
+    :exit;
   }
 
   :if ($PdValid != 1) do={
     $LogPrint info $ScriptName ("The prefix " . $PdPrefix . " is no longer valid. Ignoring.");
-    :set ExitOK true;
-    :error false;
+    :exit;
   }
 
   :local Pool [ /ipv6/pool/get [ find where prefix=$PdPrefix ] name ];
   :if ([ :len [ /ipv6/firewall/address-list/find where comment=("ipv6-pool-" . $Pool) ] ] = 0) do={
     /ipv6/firewall/address-list/add list=("ipv6-pool-" . $Pool) address=:: comment=("ipv6-pool-" . $Pool) dynamic=yes;
-    $LogPrint warning $ScriptName ("Added dynamic ipv6 address list entry for ipv6-pool-" . $Pool);
+    $LogPrint info $ScriptName ("Added dynamic ipv6 address list entry for ipv6-pool-" . $Pool);
   }
   :local AddrList [ /ipv6/firewall/address-list/find where comment=("ipv6-pool-" . $Pool) ];
   :local OldPrefix [ /ipv6/firewall/address-list/get ($AddrList->0) address ];
@@ -103,5 +102,5 @@
     }
   }
 } do={
-  :global ExitError; $ExitError $ExitOK [ :jobname ] $Err;
+  :global ExitOnError; $ExitOnError [ :jobname ] $Err;
 }

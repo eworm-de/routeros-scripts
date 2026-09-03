@@ -3,7 +3,7 @@
 # Copyright (c) 2019-2026 Christian Hesse <mail@eworm.de>
 # https://rsc.eworm.de/COPYING.md
 #
-# requires RouterOS, version=7.19
+# requires RouterOS, version=7.22
 #
 # check for RouterOS health state - voltage plugin
 # https://rsc.eworm.de/doc/check-health.md

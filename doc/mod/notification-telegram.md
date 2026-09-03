@@ -4,7 +4,7 @@ Send notifications via Telegram
 [![GitHub stars](https://img.shields.io/github/stars/eworm-de/routeros-scripts?logo=GitHub&style=flat&color=red)](https://github.com/eworm-de/routeros-scripts/stargazers)
 [![GitHub forks](https://img.shields.io/github/forks/eworm-de/routeros-scripts?logo=GitHub&style=flat&color=green)](https://github.com/eworm-de/routeros-scripts/network)
 [![GitHub watchers](https://img.shields.io/github/watchers/eworm-de/routeros-scripts?logo=GitHub&style=flat&color=blue)](https://github.com/eworm-de/routeros-scripts/watchers)
-[![required RouterOS version](https://img.shields.io/badge/RouterOS-7.19-yellow?style=flat)](https://mikrotik.com/download/changelogs/)
+[![required RouterOS version](https://img.shields.io/badge/RouterOS-7.22-yellow?style=flat)](https://mikrotik.com/download/changelogs/)
 [![Telegram group @routeros_scripts](https://img.shields.io/badge/Telegram-%40routeros__scripts-%2326A5E4?logo=telegram&style=flat)](https://t.me/routeros_scripts)
 [![donate with PayPal](https://img.shields.io/badge/Like_it%3F-Donate!-orange?logo=githubsponsors&logoColor=orange&style=flat)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=A4ZXBD6YS2W8J)
 
@@ -36,7 +36,7 @@ Configuration
 Open Telegram, then start a chat with [BotFather ↗️](https://t.me/BotFather) and
 create your own bot:
 
-![create new bot](notification-telegram.d/01-newbot.avif)
+![screenshot: create new bot](notification-telegram.d/01-newbot.avif)
 
 Set that token from *BotFather* (use your own!) to `TelegramTokenId`, for
 now just temporarily:
@@ -49,7 +49,7 @@ then send your first message. Any text will do. On your device run
 
     $GetTelegramChatId;
 
-![get chat id](notification-telegram.d/02-getchatid.avif)
+![screenshot: get chat id](notification-telegram.d/02-getchatid.avif)
 
 Finally edit `global-config-overlay`, add `TelegramTokenId` with the token
 from *BotFather* and `TelegramChatId` with your retrieved chat id. Then
@@ -104,7 +104,7 @@ Tips & Tricks
 You can use a profile photo for your bot to make it recognizable. Open the
 chat with [BotFather ↗️](https://t.me/BotFather) and set it there.
 
-![set profile photo](notification-telegram.d/03-setuserpic.avif)
+![screenshot: set profile photo](notification-telegram.d/03-setuserpic.avif)
 
 Have a look at my [Logo Color Changer](../../contrib/logo-color.html)
 to create a colored version of this scripts' logo.

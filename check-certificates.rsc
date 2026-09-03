@@ -3,13 +3,12 @@
 # Copyright (c) 2013-2026 Christian Hesse <mail@eworm.de>
 # https://rsc.eworm.de/COPYING.md
 #
-# requires RouterOS, version=7.19
+# requires RouterOS, version=7.22
 # requires device-mode, fetch
 #
 # check for certificate validity
 # https://rsc.eworm.de/doc/check-certificates.md
 
-:local ExitOK false;
 :onerror Err {
   :global GlobalConfigReady; :global GlobalFunctionsReady;
   :retry { :if ($GlobalConfigReady != true || $GlobalFunctionsReady != true) \
@@ -30,7 +29,6 @@
   :global ScriptLock;
   :global SendNotification2;
   :global SymbolForNotification;
-  :global UrlEncode;
   :global WaitFullyConnected;
 
   :local CheckCertificatesDownloadImport do={
@@ -46,11 +44,10 @@
     :global FetchUserAgentStr;
     :global LogPrint;
     :global RmFile;
-    :global UrlEncode;
     :global WaitForFile;
 
     :foreach Type in={ "p12"; "pem" } do={
-      :local CertFileName ([ $UrlEncode $FetchName ] . "." . $Type);
+      :local CertFileName ([ :convert to=url $FetchName ] . "." . $Type);
       $LogPrint debug $ScriptName ("Trying type '" . $Type . "' for '" . $CertName . \
           "' (file '" . $CertFileName . "')...");
 
@@ -159,12 +156,12 @@
   }
 
   :if ([ $ScriptLock $ScriptName ] = false) do={
-    :set ExitOK true;
-    :error false;
+    :exit;
   }
   $WaitFullyConnected;
 
-  :foreach Cert in=[ /certificate/find where !revoked !ca !scep-url expires-after<$CertRenewTime ] do={
+  :foreach Cert in=[ /certificate/find where !revoked !scep-url expires-after<$CertRenewTime \
+                     !ca (common-name or subject-alt-name) ] do={
     :local CertVal [ /certificate/get $Cert ];
     :local LastName;
     :local FetchName;
@@ -172,7 +169,7 @@
     :do {
       :if ([ :len $CertRenewUrl ] = 0) do={
         $LogPrintOnce info $ScriptName ("No CertRenewUrl given.");
-        :error false;
+        :break;
       }
       $LogPrint info $ScriptName ("Attempting to renew certificate '" . ($CertVal->"name") . "'.");
 
@@ -201,7 +198,7 @@
       } else={
         $LogPrint debug $ScriptName ("Certificate '" . $CertVal->"name" . "' was not updated, but replaced.");
 
-        :local CertNew [ /certificate/find where name~("^" . [ $EscapeForRegEx [ $UrlEncode $FetchName ] ] . "\\.(p12|pem)_[0-9]+\$") \
+        :local CertNew [ /certificate/find where name~("^" . [ $EscapeForRegEx [ :convert to=url $FetchName ] ] . "\\.(p12|pem)_[0-9]+\$") \
           (common-name=($CertVal->"common-name") or subject-alt-name~("(^|\\W)(DNS|IP):" . [ $EscapeForRegEx $LastName ] . "(\\W|\$)")) \
           fingerprint!=[ :tostr ($CertVal->"fingerprint") ] ];
         :local CertNewVal [ /certificate/get $CertNew ];
@@ -244,8 +241,8 @@
     }
   }
 
-  :foreach Cert in=[ /certificate/find where !revoked !scep-url !(expires-after=[]) \
-                     expires-after<$CertWarnTime !(fingerprint=[]) ] do={
+  :foreach Cert in=[ /certificate/find where !revoked !scep-url expires-after<$CertWarnTime \
+                     !(expires-after=[]) !(fingerprint=[]) ] do={
     :local CertVal [ /certificate/get $Cert ];
 
     :if ([ :len [ /certificate/scep-server/find where ca-cert=($CertVal->"ca") ] ] > 0) do={
@@ -261,5 +258,5 @@
     }
   }
 } do={
-  :global ExitError; $ExitError $ExitOK [ :jobname ] $Err;
+  :global ExitOnError; $ExitOnError [ :jobname ] $Err;
 }

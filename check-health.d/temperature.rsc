@@ -3,7 +3,7 @@
 # Copyright (c) 2019-2026 Christian Hesse <mail@eworm.de>
 # https://rsc.eworm.de/COPYING.md
 #
-# requires RouterOS, version=7.19
+# requires RouterOS, version=7.22
 #
 # check for RouterOS health state - temperature plugin
 # https://rsc.eworm.de/doc/check-health.md
@@ -14,6 +14,7 @@
   :local FuncName   [ :tostr $0 ];
   :local ScriptName [ :tostr $1 ];
 
+  :global CheckHealthCPUUtilization;
   :global CheckHealthLast;
   :global CheckHealthTemperature;
   :global CheckHealthTemperatureDeviation;
@@ -30,8 +31,7 @@
   }
 
   :local TempToNum do={
-    :global CharacterReplace;
-    :local T [ :toarray [ $CharacterReplace $1 "." "," ] ];
+    :local T [ :toarray delimiter="." $1 ];
     :return ($T->0 * 10 + $T->1);
   }
 
@@ -58,7 +58,8 @@
         $SendNotification2 ({ origin=$ScriptName; \
           subject=([ $SymbolForNotification "fire" ] . "Health warning: " . $Name); \
           message=("The " . $Name . " on " . $Identity . " is above threshold: " . \
-            $Value . "\C2\B0" . "C") });
+            $Value . "\C2\B0C\n\n" . "The average CPU utilization is at " . \
+            ($CheckHealthCPUUtilization / 10) . "%!") });
         :set ($CheckHealthTemperatureNotified->$Name) true;
       }
       :if ($Value <= ($CheckHealthTemperature->$Name - $CheckHealthTemperatureDeviation) && \
@@ -66,7 +67,8 @@
         $SendNotification2 ({ origin=$ScriptName; \
           subject=([ $SymbolForNotification "white-heavy-check-mark" ] . "Health recovery: " . $Name); \
           message=("The " . $Name . " on " . $Identity . " dropped below threshold: " .  \
-            $Value . "\C2\B0" . "C") });
+            $Value . "\C2\B0C\n\n" . "The average CPU utilization is at " . \
+            ($CheckHealthCPUUtilization / 10) . "%!") });
         :set ($CheckHealthTemperatureNotified->$Name) false;
       }
     }

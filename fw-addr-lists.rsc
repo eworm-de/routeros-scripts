@@ -3,12 +3,11 @@
 # Copyright (c) 2023-2026 Christian Hesse <mail@eworm.de>
 # https://rsc.eworm.de/COPYING.md
 #
-# requires RouterOS, version=7.19
+# requires RouterOS, version=7.22
 #
 # download, import and update firewall address-lists
 # https://rsc.eworm.de/doc/fw-addr-lists.md
 
-:local ExitOK false;
 :onerror Err {
   :global GlobalConfigReady; :global GlobalFunctionsReady;
   :retry { :if ($GlobalConfigReady != true || $GlobalFunctionsReady != true) \
@@ -46,8 +45,7 @@
   }
 
   :if ([ $ScriptLock $ScriptName ] = false) do={
-    :set ExitOK true;
-    :error false;
+    :exit;
   }
   $WaitFullyConnected;
 
@@ -72,11 +70,13 @@
       :local Data false;
       :local TimeOut [ $EitherOr [ :totime ($List->"timeout") ] $FwAddrListTimeOut ];
 
-      :if ([ :len ($List->"cert") ] > 0) do={
-        :set CheckCertificate true;
-        :if ([ $CertificateAvailable ($List->"cert") "fetch" ] = false) do={
-          $LogPrint warning $ScriptName ("Downloading required certificate (" . $FwListName . \
-              " / " . $List->"url" . ") failed, trying anyway.");
+      :foreach Cert in=[ :toarray delimiter=":" [ :tostr ($List->"cert") ] ] do={
+        :if ([ :len ($Cert) ] > 0) do={
+          :set CheckCertificate true;
+          :if ([ $CertificateAvailable $Cert "fetch" ] = false) do={
+            $LogPrint warning $ScriptName ("Downloading required certificate (" . $FwListName . \
+                " / " . $List->"url" . ") failed, trying anyway.");
+          }
         }
       }
 
@@ -113,41 +113,40 @@
         } else={
           :set Address ([ :pick $Line 0 [ $FindDelim $Line ] ] . ($List->"cidr"));
         }
-        :do {
-          :local Branch;
-          :if ($Address ~ "^[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}(/[0-9]{1,2})?\$") do={
-            :local Net $Address;
-            :local CIDR 32;
-            :local Slash [ :find $Address "/" ];
-            :if ([ :typeof $Slash ] = "num") do={
-              :set Net [ :toip [ :pick $Address 0 $Slash ] ]
-              :set CIDR [ :pick $Address ($Slash + 1) [ :len $Address ] ];
-              :set Address [ :tostr (([ :toip $Net ] & [ $NetMask4 $CIDR ]) . [ $IfThenElse ($CIDR < 32) ("/" . $CIDR) ]) ];
-            }
-            :set Branch [ $GetBranch $Address ];
-            :set ($IPv4Addresses->$Branch->$Address) $TimeOut;
-            :error true;
+
+        :local Branch;
+        :if ($Address ~ "^[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}(/[0-9]{1,2})?\$") do={
+          :local Net $Address;
+          :local CIDR 32;
+          :local Slash [ :find $Address "/" ];
+          :if ([ :typeof $Slash ] = "num") do={
+            :set Net [ :toip [ :pick $Address 0 $Slash ] ]
+            :set CIDR [ :pick $Address ($Slash + 1) [ :len $Address ] ];
+            :set Address [ :tostr (([ :toip $Net ] & [ $NetMask4 $CIDR ]) . [ $IfThenElse ($CIDR < 32) ("/" . $CIDR) ]) ];
           }
-          :if ($Address ~ "^[0-9a-zA-Z]*:[0-9a-zA-Z:\\.]+(/[0-9]{1,3})?\$") do={
-            :local Net $Address;
-            :local CIDR 128;
-            :local Slash [ :find $Address "/" ];
-            :if ([ :typeof $Slash ] = "num") do={
-              :set Net [ :toip6 [ :pick $Address 0 $Slash ] ]
-              :set CIDR [ :pick $Address ($Slash + 1) [ :len $Address ] ];
-            }
-            :set Address (([ :toip6 $Net ] & [ $NetMask6 $CIDR ]) . "/" . $CIDR);
-            :set Branch [ $GetBranch $Address ];
-            :set ($IPv6Addresses->$Branch->$Address) $TimeOut;
-            :error true;
+          :set Branch [ $GetBranch $Address ];
+          :set ($IPv4Addresses->$Branch->$Address) $TimeOut;
+          :continue;
+        }
+        :if ($Address ~ "^[0-9a-zA-Z]*:[0-9a-zA-Z:\\.]+(/[0-9]{1,3})?\$") do={
+          :local Net $Address;
+          :local CIDR 128;
+          :local Slash [ :find $Address "/" ];
+          :if ([ :typeof $Slash ] = "num") do={
+            :set Net [ :toip6 [ :pick $Address 0 $Slash ] ]
+            :set CIDR [ :pick $Address ($Slash + 1) [ :len $Address ] ];
           }
-          :if ($Address ~ "^[\\.a-zA-Z0-9-]+\\.[a-zA-Z]{2,}\$") do={
-            :set Branch [ $GetBranch $Address ];
-            :set ($IPv4Addresses->$Branch->$Address) $TimeOut;
-            :set ($IPv6Addresses->$Branch->$Address) $TimeOut;
-            :error true;
-          }
-        } on-error={ }
+          :set Address (([ :toip6 $Net ] & [ $NetMask6 $CIDR ]) . "/" . $CIDR);
+          :set Branch [ $GetBranch $Address ];
+          :set ($IPv6Addresses->$Branch->$Address) $TimeOut;
+          :continue;
+        }
+        :if ($Address ~ "^[\\.a-zA-Z0-9-]+\\.[a-zA-Z]{2,}\$") do={
+          :set Branch [ $GetBranch $Address ];
+          :set ($IPv4Addresses->$Branch->$Address) $TimeOut;
+          :set ($IPv6Addresses->$Branch->$Address) $TimeOut;
+          :continue;
+        }
       }
     }
 
@@ -232,5 +231,5 @@
         " - removed: " . [ $HumanReadableNum $CntRemove 1000 ]);
   }
 } do={
-  :global ExitError; $ExitError $ExitOK [ :jobname ] $Err;
+  :global ExitOnError; $ExitOnError [ :jobname ] $Err;
 }

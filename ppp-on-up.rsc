@@ -3,12 +3,11 @@
 # Copyright (c) 2013-2026 Christian Hesse <mail@eworm.de>
 # https://rsc.eworm.de/COPYING.md
 #
-# requires RouterOS, version=7.19
+# requires RouterOS, version=7.22
 #
 # run scripts on ppp up
 # https://rsc.eworm.de/doc/ppp-on-up.md
 
-:local ExitOK false;
 :onerror Err {
   :global GlobalConfigReady; :global GlobalFunctionsReady;
   :retry { :if ($GlobalConfigReady != true || $GlobalFunctionsReady != true) \
@@ -21,8 +20,7 @@
 
   :if ([ :typeof $Interface ] = "nothing") do={
     $LogPrint error $ScriptName ("This script is supposed to run from ppp on-up script hook.");
-    :set ExitOK true;
-    :error false;
+    :exit;
   }
 
   :local IntName [ /interface/get $Interface name ];
@@ -40,5 +38,5 @@
     }
   }
 } do={
-  :global ExitError; $ExitError $ExitOK [ :jobname ] $Err;
+  :global ExitOnError; $ExitOnError [ :jobname ] $Err;
 }

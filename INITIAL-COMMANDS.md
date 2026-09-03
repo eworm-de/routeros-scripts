@@ -4,7 +4,7 @@ Initial commands
 [![GitHub stars](https://img.shields.io/github/stars/eworm-de/routeros-scripts?logo=GitHub&style=flat&color=red)](https://github.com/eworm-de/routeros-scripts/stargazers)
 [![GitHub forks](https://img.shields.io/github/forks/eworm-de/routeros-scripts?logo=GitHub&style=flat&color=green)](https://github.com/eworm-de/routeros-scripts/network)
 [![GitHub watchers](https://img.shields.io/github/watchers/eworm-de/routeros-scripts?logo=GitHub&style=flat&color=blue)](https://github.com/eworm-de/routeros-scripts/watchers)
-[![required RouterOS version](https://img.shields.io/badge/RouterOS-7.19-yellow?style=flat)](https://mikrotik.com/download/changelogs/)
+[![required RouterOS version](https://img.shields.io/badge/RouterOS-7.22-yellow?style=flat)](https://mikrotik.com/download/changelogs/)
 [![Telegram group @routeros_scripts](https://img.shields.io/badge/Telegram-%40routeros__scripts-%2326A5E4?logo=telegram&style=flat)](https://t.me/routeros_scripts)
 [![donate with PayPal](https://img.shields.io/badge/Like_it%3F-Donate!-orange?logo=githubsponsors&logoColor=orange&style=flat)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=A4ZXBD6YS2W8J)
 
@@ -23,8 +23,7 @@ Run the complete base installation:
       :local CertFingerprint "e14ffcad5b0025731006caa43a121a22d8e9700f4fb9cf852f02a708aa5d5666";
 
       :local CertSettings [ /certificate/settings/get ];
-      :if (!((($CertSettings->"builtin-trust-anchors") = "trusted" || \
-              ($CertSettings->"builtin-trust-store") ~ "fetch" || \
+      :if (!((($CertSettings->"builtin-trust-store") ~ "fetch" || \
               ($CertSettings->"builtin-trust-store") = "all") && \
              [ :len [ /certificate/builtin/find where common-name=$CertCommonName ] ] > 0)) do={
         :put "Importing certificate...";
@@ -55,6 +54,39 @@ Run the complete base installation:
 Then continue setup with
 [scheduled automatic updates](README.md#scheduled-automatic-updates) or
 [editing configuration](README.md#editing-configuration).
+
+## Install from mirror
+
+In case you have issues with my default source using a mirror may help.
+Just replace the first lines for updated variables.
+
+> 💡️ **Hint**: You may want to set the same *url* with `ScriptUpdatesBaseUrl`
+> in `global-config-overlay`.
+
+> ⚠️ **Warning**: The mirrors do not provide checksums. Each invocation of
+> `$ScriptInstallUpdate` takes longer and generates more traffic, as every
+> script needs to be downloaded for local check!
+
+### Install from git.eworm.de
+
+      :local BaseUrl "https://git.eworm.de/cgit/routeros-scripts/plain/";
+      :local CertCommonName "Root YE";
+      :local CertFileName "Root-YE.pem";
+      :local CertFingerprint "e14ffcad5b0025731006caa43a121a22d8e9700f4fb9cf852f02a708aa5d5666";
+
+### Install from Github
+
+      :local BaseUrl "https://raw.githubusercontent.com/eworm-de/routeros-scripts/main/";
+      :local CertCommonName "Root YR";
+      :local CertFileName "Root-YR.pem";
+      :local CertFingerprint "e57b7e6f150c419102e8d5c055729ff967b9d1a829bf00cec89ca604ebf4a86f";
+
+### Install from Gitlab
+
+      :local BaseUrl "https://gitlab.com/eworm-de/routeros-scripts/raw/main/";
+      :local CertCommonName "Sectigo Public Server Authentication Root R46";
+      :local CertFileName "Sectigo-Public-Server-Authentication-Root-R46.pem";
+      :local CertFingerprint "7bb647a62aeeac88bf257aa522d01ffea395e0ab45c73f93f65654ec38f25a06";
 
 ## Fix existing installation
 
