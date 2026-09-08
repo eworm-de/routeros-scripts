@@ -92,7 +92,8 @@
   :local BitMask [ $VersionToNum "255.255zero0" ];
   :local NumInstalledFeature ($NumInstalled & $BitMask);
   :local NumLatestFeature ($NumLatest & $BitMask);
-  :local Link ("https://mikrotik.com/download/changelogs/" . $Update->"channel" . "-release-tree");
+  :local Link ("https://mikrotik.com/download/changelogs?versionFilter=" . \
+      $Update->"latest-version" . "&channelFilter");
 
   :if ($NumLatest < [ $VersionToNum "7.0" ]) do={
     $LogPrint warning $ScriptName ("The version '" . ($Update->"latest-version") . "' is not a valid version.");
