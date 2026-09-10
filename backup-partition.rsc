@@ -82,6 +82,14 @@
     :while ($Once) do={
       :set Once 0;
 
+      :if ($FallbackToVal->"version" = "EMPTY") do={
+        :if ([ $CopyTo $ScriptName $FallbackTo ($FallbackToVal->"name") ] = false) do={
+          :set PackagesUpdateBackupFailure true;
+          :exit;
+        }
+        :continue;
+      }
+
       :if ([ $ScriptFromTerminal $ScriptName ] = true) do={
         :put ("The partitions have different RouterOS versions. Copy over to '" . ($FallbackToVal->"name") . "'? [y/N]");
         :if (([ /terminal/inkey timeout=60 ] % 32) = 25) do={
