@@ -67,20 +67,22 @@
     :exit;
   }
 
-  :local FallbackToName [ /partitions/get $ActiveRunning fallback-to ];
-  :local FallbackTo [ /partition/find where name=$FallbackToName !active ];
+  :local ActiveRunningVal [ /partitions/get $ActiveRunning ];
+  :local FallbackTo [ /partition/find where name=($ActiveRunningVal->"fallback-to") !active ];
 
   :if ([ :len $FallbackTo ] < 1) do={
-    $LogPrint error $ScriptName ("There is no inactive partition named '" . $FallbackToName . "'.");
+    $LogPrint error $ScriptName ("There is no inactive partition named '" . ($ActiveRunningVal->"fallback-to") . "'.");
     :set PackagesUpdateBackupFailure true;
     :exit;
   }
 
-  :if ([ /partitions/get $ActiveRunning version ] != [ /partitions/get $FallbackTo version]) do={
+  :local FallbackToVal [ /partition/get $FallbackTo ];
+
+  :if ($ActiveRunningVal->"version" != $FallbackToVal->"version") do={
     :if ([ $ScriptFromTerminal $ScriptName ] = true) do={
-      :put ("The partitions have different RouterOS versions. Copy over to '" . $FallbackToName . "'? [y/N]");
+      :put ("The partitions have different RouterOS versions. Copy over to '" . ($FallbackToVal->"name") . "'? [y/N]");
       :if (([ /terminal/inkey timeout=60 ] % 32) = 25) do={
-        :if ([ $CopyTo $ScriptName $FallbackTo $FallbackToName ] = false) do={
+        :if ([ $CopyTo $ScriptName $FallbackTo ($FallbackToVal->"name") ] = false) do={
           :set PackagesUpdateBackupFailure true;
           :exit;
         }
@@ -92,7 +94,7 @@
       :local BitMask [ $VersionToNum "255.255zero0" ];
       :if ($BackupPartitionCopyBeforeFeatureUpdate = true && $NumLatest > 0 && \
            ($NumInstalled & $BitMask) != ($NumLatest & $BitMask)) do={
-        :if ([ $CopyTo $ScriptName $FallbackTo $FallbackToName ] = false) do={
+        :if ([ $CopyTo $ScriptName $FallbackTo ($FallbackToVal->"name") ] = false) do={
           :set PackagesUpdateBackupFailure true;
           :exit;
         }
@@ -106,11 +108,11 @@
         "[ /partitions/get [ find where running ] name ] . \"'!\")");
     /partitions/save-config-to $FallbackTo;
     /system/scheduler/remove "running-from-backup-partition";
-    $LogPrint info $ScriptName ("Saved configuration to partition '" . $FallbackToName . "'.");
+    $LogPrint info $ScriptName ("Saved configuration to partition '" . ($FallbackToVal->"name") . "'.");
   } do={
     /system/scheduler/remove [ find where name="running-from-backup-partition" ];
     $LogPrint error $ScriptName ("Failed saving configuration to partition '" . \
-        $FallbackToName . "': " . $Err);
+        ($FallbackToVal->"name") . "': " . $Err);
     :set PackagesUpdateBackupFailure true;
     :exit;
   }
