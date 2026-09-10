@@ -25,18 +25,17 @@
   :global VersionToNum;
 
   :local CopyTo do={
-    :local ScriptName     [ :tostr $1 ];
-    :local FallbackTo     [ :toid  $2 ];
-    :local FallbackToName [ :tostr $3 ];
+    :local ScriptName [ :tostr $1 ];
+    :local FallbackTo [ :toid  $2 ];
+    :local PartName   [ :tostr $3 ];
 
     :global LogPrint;
 
     :onerror Err {
       /partitions/copy-to $FallbackTo;
-      $LogPrint info $ScriptName ("Copied RouterOS to partition '" . $FallbackToName . "'.");
+      $LogPrint info $ScriptName ("Copied RouterOS to partition '" . $PartName . "'.");
     } do={
-      $LogPrint error $ScriptName ("Failed copying RouterOS to partition '" . \
-          $FallbackToName . "': " . $Err);
+      $LogPrint error $ScriptName ("Failed copying RouterOS to partition '" . $PartName . "': " . $Err);
       :return false;
     }
     :return true;
