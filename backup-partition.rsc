@@ -78,15 +78,21 @@
   :local FallbackToVal [ /partition/get $FallbackTo ];
 
   :if ($ActiveRunningVal->"version" != $FallbackToVal->"version") do={
-    :if ([ $ScriptFromTerminal $ScriptName ] = true) do={
-      :put ("The partitions have different RouterOS versions. Copy over to '" . ($FallbackToVal->"name") . "'? [y/N]");
-      :if (([ /terminal/inkey timeout=60 ] % 32) = 25) do={
-        :if ([ $CopyTo $ScriptName $FallbackTo ($FallbackToVal->"name") ] = false) do={
-          :set PackagesUpdateBackupFailure true;
-          :exit;
+    :local Once 1;
+    :while ($Once) do={
+      :set Once 0;
+
+      :if ([ $ScriptFromTerminal $ScriptName ] = true) do={
+        :put ("The partitions have different RouterOS versions. Copy over to '" . ($FallbackToVal->"name") . "'? [y/N]");
+        :if (([ /terminal/inkey timeout=60 ] % 32) = 25) do={
+          :if ([ $CopyTo $ScriptName $FallbackTo ($FallbackToVal->"name") ] = false) do={
+            :set PackagesUpdateBackupFailure true;
+            :exit;
+          }
         }
+        :continue;
       }
-    } else={
+
       :local Update [ /system/package/update/get ];
       :local NumInstalled [ $VersionToNum ($Update->"installed-version") ];
       :local NumLatest [ $VersionToNum ($Update->"latest-version") ];
