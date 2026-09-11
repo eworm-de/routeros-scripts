@@ -319,6 +319,7 @@ Available modules
 * [Send notifications via Gotify](doc/mod/notification-gotify.md) (`mod/notification-gotify`)
 * [Send notifications via Matrix](doc/mod/notification-matrix.md) (`mod/notification-matrix`)
 * [Send notifications via Ntfy](doc/mod/notification-ntfy.md) (`mod/notification-ntfy`)
+* [Send notifications via Signalgrid](doc/mod/notification-signalgrid.md) (`mod/notification-signalgrid`)
 * [Send notifications via Telegram](doc/mod/notification-telegram.md) (`mod/notification-telegram`)
 * [Download script and run it once](doc/mod/scriptrunonce.md) (`mod/scriptrunonce`)
 * [Import ssh keys for public key authentication](doc/mod/ssh-keys-import.md) (`mod/ssh-keys-import`)
