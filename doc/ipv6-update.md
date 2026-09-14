@@ -74,6 +74,16 @@ start with "`ipv6-pool-`" and actual pool name, followed by a comma,
 
     /ip/dns/static/add address=2003:cf:2f0f:de00:1122:3344:5566:7788 comment="ipv6-pool-isp, interface=br-local" name=test.example.com ttl=15m;
 
+### Addresses from sub-pool
+
+You can create sub-pools from your primary pool, and use these to get the
+addresses. Sub-pools are matched automatically, the comment has to reflect
+the primary pool.
+
+    /ipv6/pool/add from-pool=isp name=isp-sub1 prefix-length=64;
+    /ipv6/address/add from-pool=isp-sub1 interface=vl-sub1;
+    /ipv6/firewall/address-list/add address=2003:cf:2f0f:de01::/64 omment="ipv6-pool-isp, interface=vl-sub1" list=sub1;
+
 See also
 --------
 

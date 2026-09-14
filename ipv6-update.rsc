@@ -54,6 +54,11 @@
   :local AddrList [ /ipv6/firewall/address-list/find where comment=("ipv6-pool-" . $Pool) ];
   :local OldPrefix [ /ipv6/firewall/address-list/get ($AddrList->0) address ];
 
+  :local SubPool ({});
+  :foreach Sub in=[ /ipv6/pool/find where from-pool=$Pool ] do={
+    :set SubPool ($SubPool, [ /ipv6/pool/get $Sub name ]);
+  }
+
   :if ($OldPrefix != $PdPrefix) do={
     $LogPrint info $ScriptName ("Updating IPv6 address list with new IPv6 prefix " . $PdPrefix);
     /ipv6/firewall/address-list/set address=$PdPrefix $AddrList;
@@ -65,7 +70,8 @@
       :local ListEntryVal [ /ipv6/firewall/address-list/get $ListEntry ];
       :local Comment [ $ParseKeyValueStore ($ListEntryVal->"comment") ];
 
-      :local Prefix [ /ipv6/address/find where from-pool=$Pool interface=($Comment->"interface") global ];
+      :local Prefix [ /ipv6/address/find where (from-pool=$Pool or from-pool in $SubPool) \
+          interface=($Comment->"interface") global ];
       :if ([ :len $Prefix ] = 1) do={
         :set Prefix [ /ipv6/address/get $Prefix address ];
 
@@ -89,7 +95,8 @@
       :local RecordVal [ /ip/dns/static/get $Record ];
       :local Comment [ $ParseKeyValueStore ($RecordVal->"comment") ];
 
-      :local Prefix [ /ipv6/address/find where from-pool=$Pool interface=($Comment->"interface") global ];
+      :local Prefix [ /ipv6/address/find where (from-pool=$Pool or from-pool in $SubPool) \
+          interface=($Comment->"interface") global ];
       :if ([ :len $Prefix ] = 1) do={
         :set Prefix [ /ipv6/address/get $Prefix address ];
         :set Prefix ([ :toip6 [ :pick $Prefix 0 [ :find $Prefix "/64" ] ] ] & ffff:ffff:ffff:ffff::);
