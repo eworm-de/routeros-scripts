@@ -23,7 +23,8 @@ Run the complete base installation:
       :local CertFingerprint "e14ffcad5b0025731006caa43a121a22d8e9700f4fb9cf852f02a708aa5d5666";
 
       :local CertSettings [ /certificate/settings/get ];
-      :if (!((($CertSettings->"builtin-trust-store") ~ "fetch" || \
+      :if ([ :len [ /certificate/find where common-name=$CertCommonName ] ] = 0 && \
+           !((($CertSettings->"builtin-trust-store") ~ "fetch" || \
               ($CertSettings->"builtin-trust-store") = "all") && \
              [ :len [ /certificate/builtin/find where common-name=$CertCommonName ] ] > 0)) do={
         :put "Importing certificate...";
