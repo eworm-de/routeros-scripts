@@ -20,18 +20,18 @@ Run the complete base installation:
       :local BaseUrl "https://rsc.eworm.de/main/";
       :local CertCommonName "Root YE";
       :local CertFileName "Root-YE.pem";
-      :local CertFingerprint "e14ffcad5b0025731006caa43a121a22d8e9700f4fb9cf852f02a708aa5d5666";
+      :local CertSKID "A3C8265A8EA14CD03563FC9B23C83AAE56F34F56";
 
       :local CertSettings [ /certificate/settings/get ];
-      :if ([ :len [ /certificate/find where common-name=$CertCommonName ] ] = 0 && \
+      :if ([ :len [ /certificate/find where skid=$CertSKID ] ] = 0 && \
            !((($CertSettings->"builtin-trust-store") ~ "fetch" || \
               ($CertSettings->"builtin-trust-store") = "all") && \
-             [ :len [ /certificate/builtin/find where common-name=$CertCommonName ] ] > 0)) do={
+             [ :len [ /certificate/builtin/find where skid=$CertSKID ] ] > 0)) do={
         :put "Importing certificate...";
         /tool/fetch ($BaseUrl . "certs/" . $CertFileName) dst-path=$CertFileName as-value;
         :delay 1s;
         /certificate/import file-name=$CertFileName passphrase="";
-        :if ([ :len [ /certificate/find where fingerprint=$CertFingerprint ] ] != 1) do={
+        :if ([ :len [ /certificate/find where skid=$CertSKID ] ] != 1) do={
           :error "Something is wrong with your certificates!";
         };
         :delay 1s;
@@ -45,10 +45,10 @@ Run the complete base installation:
       };
       :put "Loading configuration and functions...";
       /system/script { run global-config; run global-functions; };
-      :if ([ :len [ /certificate/find where fingerprint=$CertFingerprint ] ] > 0) do={
+      :if ([ :len [ /certificate/find where skid=$CertSKID ] ] > 0) do={
         :put "Renaming certificate by its common-name...";
         :global CertificateNameByCN;
-        $CertificateNameByCN $CertFingerprint;
+        $CertificateNameByCN $CertSKID;
       };
     };
 
@@ -73,21 +73,21 @@ Just replace the first lines for updated variables.
       :local BaseUrl "https://git.eworm.de/cgit/routeros-scripts/plain/";
       :local CertCommonName "Root YE";
       :local CertFileName "Root-YE.pem";
-      :local CertFingerprint "e14ffcad5b0025731006caa43a121a22d8e9700f4fb9cf852f02a708aa5d5666";
+      :local CertSKID "A3C8265A8EA14CD03563FC9B23C83AAE56F34F56";
 
 ### Install from Github
 
       :local BaseUrl "https://raw.githubusercontent.com/eworm-de/routeros-scripts/main/";
       :local CertCommonName "Root YR";
       :local CertFileName "Root-YR.pem";
-      :local CertFingerprint "e57b7e6f150c419102e8d5c055729ff967b9d1a829bf00cec89ca604ebf4a86f";
+      :local CertSKID "DEE75B60D0226D40287D3F0D01FEA4B552B45194";
 
 ### Install from Gitlab
 
       :local BaseUrl "https://gitlab.com/eworm-de/routeros-scripts/raw/main/";
       :local CertCommonName "Sectigo Public Server Authentication Root R46";
       :local CertFileName "Sectigo-Public-Server-Authentication-Root-R46.pem";
-      :local CertFingerprint "7bb647a62aeeac88bf257aa522d01ffea395e0ab45c73f93f65654ec38f25a06";
+      :local CertSKID "5673586495F9921AB0122A046279A14015882149";
 
 ## Fix existing installation
 
