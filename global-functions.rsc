@@ -143,7 +143,7 @@
   }
 
   :if ([ :len [ /certificate/find where common-name=$CommonName or unit=$CommonName ] ] > 1) do={
-    $LogPrint info $0 ("There are " . $CertCount . " Certificates with CommonName '" . $CommonName . "'. Should be ok.");
+    $LogPrint info $0 ("There are several certificates with CommonName '" . $CommonName . "'. Should be ok.");
     :return true;
   }
 
@@ -240,7 +240,7 @@
     :return true;
   }
 
-  :set Cert [ /certificate/find where common-name=$Match or fingerprint=$Match or name=$Match ];
+  :set Cert [ /certificate/find where common-name=$Match or fingerprint=$Match or name=$Match or skid=$Match ];
   :if ([ :len $Cert ] > 1) do={
     $LogPrint warning $0 ("Too many matching certificates found.");
     :return false;
