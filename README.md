@@ -141,11 +141,11 @@ a sensitive property, the passphrase.
 ![screenshot: import certs](README.d/02-import-certs.avif)
 
 For basic verification we rename the certificate and print it by
-fingerprint. Make sure exactly this one certificate ("*Root-YE*")
-is shown.
+*subject key identifier* (*skid*). Make sure exactly this one certificate
+("*Root-YE*") is shown.
 
     /certificate/set name="Root-YE" [ find where common-name="Root YE" ];
-    /certificate/print proplist=name,fingerprint where fingerprint="e14ffcad5b0025731006caa43a121a22d8e9700f4fb9cf852f02a708aa5d5666";
+    /certificate/print proplist=name,skid where skid="A3C8265A8EA14CD03563FC9B23C83AAE56F34F56";
 
 ![screenshot: check certs](README.d/03-check-certs.avif)
 
