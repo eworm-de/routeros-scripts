@@ -240,7 +240,7 @@
     :return true;
   }
 
-  :set Cert [ /certificate/find where common-name=$Match or fingerprint=$Match or name=$Match ];
+  :set Cert [ /certificate/find where common-name=$Match or fingerprint=$Match or name=$Match or skid=$Match ];
   :if ([ :len $Cert ] > 1) do={
     $LogPrint warning $0 ("Too many matching certificates found.");
     :return false;
