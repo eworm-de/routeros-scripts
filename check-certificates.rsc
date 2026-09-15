@@ -147,6 +147,7 @@
       [ $IfThenElse ([ :len ($CertVal->"subject-alt-name") ] > 0) ([ $FormatMultiLines "SubjectAltNames" ($CertVal->"subject-alt-name") ] . "\n") ] . \
       [ $FormatLine "Private key" [ $IfThenElse (($CertVal->"private-key") = true) "available" "missing" ] ] . "\n" . \
       [ $FormatLine "Fingerprint" ($CertVal->"fingerprint") ] . "\n" . \
+      [ $FormatLine "Subject Key Id" ($CertVal->"skid") ] . "\n" . \
       [ $IfThenElse ([ :len ($CertVal->"ca") ] > 0) [ $FormatLine "Issuer" ($CertVal->"ca") ] [ $FormatLine "Issuer chain" [ $FormatCertChain $Cert ] ] ] . "\n" . \
       "Validity:\n" . \
       [ $FormatLine "    days" ($CertVal->"days-valid") ] . "\n" . \
