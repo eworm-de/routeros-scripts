@@ -18,7 +18,6 @@ Run the complete base installation:
 
     {
       :local BaseUrl "https://rsc.eworm.de/main/";
-      :local CertCommonName "Root YE";
       :local CertFileName "Root-YE.pem";
       :local CertSKID "A3C8265A8EA14CD03563FC9B23C83AAE56F34F56";
 
@@ -71,21 +70,18 @@ Just replace the first lines for updated variables.
 ### Install from git.eworm.de
 
       :local BaseUrl "https://git.eworm.de/cgit/routeros-scripts/plain/";
-      :local CertCommonName "Root YE";
       :local CertFileName "Root-YE.pem";
       :local CertSKID "A3C8265A8EA14CD03563FC9B23C83AAE56F34F56";
 
 ### Install from Github
 
       :local BaseUrl "https://raw.githubusercontent.com/eworm-de/routeros-scripts/main/";
-      :local CertCommonName "Root YR";
       :local CertFileName "Root-YR.pem";
       :local CertSKID "DEE75B60D0226D40287D3F0D01FEA4B552B45194";
 
 ### Install from Gitlab
 
       :local BaseUrl "https://gitlab.com/eworm-de/routeros-scripts/raw/main/";
-      :local CertCommonName "Sectigo Public Server Authentication Root R46";
       :local CertFileName "Sectigo-Public-Server-Authentication-Root-R46.pem";
       :local CertSKID "5673586495F9921AB0122A046279A14015882149";
 
