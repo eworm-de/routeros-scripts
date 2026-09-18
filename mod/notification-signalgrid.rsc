@@ -195,10 +195,11 @@
   :global SendSignalgrid2;
 
   $SendSignalgrid2 ({
-    title=$0;
-    body=$1;
-    severity=$2;
-    critical=$3
+    origin=$0;
+    title=$1;
+    body=$2;
+    severity=$3;
+    critical=$4
   });
 } do={
   :global ExitOnError; $ExitOnError $0 $Err;
