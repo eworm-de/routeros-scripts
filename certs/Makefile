@@ -16,7 +16,7 @@ DOMAINS_DUAL = \
 	gitlab.com/Sectigo-Public-Server-Authentication-Root-R46 \
 	lists.blocklist.de/GTS-Root-R4 \
 	matrix.org/GTS-Root-R4 \
-	raw.githubusercontent.com/ISRG-Root-X1 \
+	raw.githubusercontent.com/Root-YR \
 	rsc.eworm.de/Root-YE \
 	upgrade.mikrotik.com/ISRG-Root-X1
 DOMAINS_IPV4 = \
