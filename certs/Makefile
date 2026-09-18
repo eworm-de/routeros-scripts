@@ -23,7 +23,7 @@ DOMAINS_IPV4 = \
 	1.1.1.1/SSL-com-Root-Certification-Authority-ECC \
 	8.8.8.8/GTS-Root-RX \
 	9.9.9.9/DigiCert-Global-Root-G3 \
-	api.mullvad.net/ISRG-Root-X1 \
+	api.mullvad.net/Root-YE \
 	ipv4.showipv6.de/ISRG-Root-X1 \
 	ipv4.tunnelbroker.net/Starfield-Root-Certificate-Authority-G2 \
 	mkcert.org/Root-YE \
