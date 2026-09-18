@@ -112,14 +112,14 @@
 :global FwAddrLists {
 #  "allow"={
 #    { url="https://rsc.eworm.de/main/fw-addr-lists.d/allow";
-#      cert="ISRG Root X2:Root YE"; timeout=1w };
+#      cert="Root YE"; timeout=1w };
 #  };
   "block"={
 #    { url="https://rsc.eworm.de/main/fw-addr-lists.d/block";
-#      cert="ISRG Root X2:Root YE" };
+#      cert="Root YE" };
     { url="https://raw.githubusercontent.com/stamparm/ipsum/refs/heads/master/levels/4.txt";
 #     # higher level (decrease the numerical value) for more addresses, and vice versa
-      cert="ISRG Root X1" };
+      cert="Root YR" };
     { url="https://www.dshield.org/block.txt"; cidr="/24";
       cert="GTS Root R4" };
     { url="https://lists.blocklist.de/lists/strongips.txt";
@@ -131,7 +131,7 @@
   };
 #  "mikrotik"={
 #    { url="https://rsc.eworm.de/main/fw-addr-lists.d/mikrotik";
-#      cert="ISRG Root X2:Root YE"; timeout=1w };
+#      cert="Root YE"; timeout=1w };
 #  };
 };
 :global FwAddrListTimeOut 1d;

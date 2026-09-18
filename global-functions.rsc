@@ -189,10 +189,10 @@
       "' from repository! Trying fallback to mkcert.org...");
     :do {
       :local CertSettings [ /certificate/settings/get ];
-      :if ([ :len [ /certificate/find where common-name="ISRG Root X1" ] ] = 0 && \
+      :if ([ :len [ /certificate/find where common-name="Root YE" ] ] = 0 && \
            !((($CertSettings->"builtin-trust-store") ~ "fetch" || \
               ($CertSettings->"builtin-trust-store") = "all") && \
-             [ :len [ /certificate/builtin/find where common-name="ISRG Root X1" ] ] > 0)) do={
+             [ :len [ /certificate/builtin/find where common-name="Root YE" ] ] > 0)) do={
         $LogPrint error $0 ("Required certificate is not available.");
         :return false;
       }
@@ -433,7 +433,7 @@
     :return true;
   }
 
-  :if ([ $CertificateAvailable "ISRG Root X1" "fetch" ] = false) do={
+  :if ([ $CertificateAvailable "Root YE" "fetch" ] = false) do={
     $LogPrint error $0 ("Downloading required certificate failed.");
     :return false;
   }
@@ -1257,8 +1257,7 @@
   :global SymbolForNotification;
   :global ValidateSyntax;
 
-  :if ([ $CertificateAvailable "ISRG Root X2" "fetch" ] = false || \
-       [ $CertificateAvailable "Root YE" "fetch" ] = false) do={
+  :if ([ $CertificateAvailable "Root YE" "fetch" ] = false) do={
     $LogPrint warning $0 ("Downloading certificate failed, trying without.");
   }
 

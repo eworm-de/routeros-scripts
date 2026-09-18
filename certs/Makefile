@@ -16,25 +16,25 @@ DOMAINS_DUAL = \
 	gitlab.com/Sectigo-Public-Server-Authentication-Root-R46 \
 	lists.blocklist.de/GTS-Root-R4 \
 	matrix.org/GTS-Root-R4 \
-	raw.githubusercontent.com/ISRG-Root-X1 \
+	raw.githubusercontent.com/Root-YR \
 	rsc.eworm.de/Root-YE \
-	upgrade.mikrotik.com/ISRG-Root-X1
+	upgrade.mikrotik.com/Root-YE
 DOMAINS_IPV4 = \
 	1.1.1.1/SSL-com-Root-Certification-Authority-ECC \
 	8.8.8.8/GTS-Root-RX \
 	9.9.9.9/DigiCert-Global-Root-G3 \
-	api.mullvad.net/ISRG-Root-X1 \
-	ipv4.showipv6.de/ISRG-Root-X1 \
+	api.mullvad.net/Root-YE \
+	ipv4.showipv6.de/Root-YR \
 	ipv4.tunnelbroker.net/Starfield-Root-Certificate-Authority-G2 \
-	mkcert.org/ISRG-Root-X1 \
-	ntfy.sh/ISRG-Root-X1 \
+	mkcert.org/Root-YE \
+	ntfy.sh/Root-YR \
 	www.dshield.org/GTS-Root-R4 \
 	www.spamhaus.org/GTS-Root-R4
 DOMAINS_IPV6 = \
 	[2606\:4700\:4700\:\:1111]/SSL-com-Root-Certification-Authority-ECC \
 	[2001\:4860\:4860\:\:8888]/GTS-Root-RX \
 	[2620\:fe\:\:9]/DigiCert-Global-Root-G3 \
-	ipv6.showipv6.de/ISRG-Root-X1
+	ipv6.showipv6.de/Root-YR
 
 .PHONY: $(DOMAINS_DUAL) $(DOMAINS_IPV4) $(DOMAINS_IPV6)
 
