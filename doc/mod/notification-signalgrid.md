@@ -60,9 +60,9 @@ it a try:
 
     $SendSignalgrid "Subject..." "Body...";
 
-Severity and critical delivery can optionally be specified:
+A link can optionally be specified:
 
-    $SendSignalgrid "Subject..." "Body..." "warning" false;
+    $SendSignalgrid "Subject..." "Body..." "https://example.com/";
 
 For full control the array-based function accepts Signalgrid fields directly:
 

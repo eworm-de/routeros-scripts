@@ -18,11 +18,17 @@
 :set FlushSignalgridQueue do={ :onerror Err {
   :global SignalgridQueue;
 
+  :global CertificateAvailable;
   :global IsFullyConnected;
   :global LogPrint;
 
   :if ([ $IsFullyConnected ] = false) do={
     $LogPrint debug $0 ("System is not fully connected, not flushing.");
+    :return false;
+  }
+
+  :if ([ $CertificateAvailable "Root YE" "fetch" ] = false) do={
+    $LogPrint warning $0 ("Downloading required certificate failed.");
     :return false;
   }
 
@@ -69,10 +75,10 @@
   :global SignalgridCriticalOverride;
   :global SignalgridQueue;
 
+  :global CertificateAvailable;
   :global EitherOr;
   :global FetchUserAgentStr;
   :global LogPrint;
-  :global SymbolForNotification;
 
   :local Origin ($Notification->"origin");
 
@@ -116,15 +122,16 @@
     :set Body "";
   }
 
+  :local Link ($Notification->"link");
+
+  :if ([ :typeof $Link ] = "nothing") do={
+    :set Link "";
+  }
+
   :local Severity ($Notification->"severity");
 
   :if ([ :typeof $Severity ] = "nothing") do={
     :set Severity "info";
-  }
-
-  :if ([ :len ($Notification->"link") ] > 0) do={
-    :set Body ($Body . "\n\n" . \
-      [ $SymbolForNotification "link" ] . ($Notification->"link"));
   }
 
   :if ([ :len $Origin ] > 0) do={
@@ -142,10 +149,16 @@
     "&channel=" . [ :convert $Channel to=url ] . \
     "&title=" . [ :convert $Title to=url ] . \
     "&body=" . [ :convert $Body to=url ] . \
+    "&link=" . [ :convert $Link to=url ] . \
     "&severity=" . [ :convert $Severity to=url ] . \
     "&critical=" . [ :convert [ :tostr $Critical ] to=url ]);
 
   :onerror Err {
+    :if ([ $CertificateAvailable "Root YE" "fetch" ] = false) do={
+      $LogPrint warning $0 ("Downloading required certificate failed.");
+      :error false;
+    }
+
     /tool/fetch check-certificate=yes-without-crl output=none http-method=post \
       http-header-field=$Headers \
       http-data=$Data \
@@ -158,7 +171,6 @@
     }
 
     :set Body ($Body . "\n\n" . \
-      [ $SymbolForNotification "alarm-clock" ] . \
       "This message was queued since " . \
       [ /system/clock/get date ] . " " . \
       [ /system/clock/get time ] . \
@@ -168,6 +180,7 @@
       "&channel=" . [ :convert $Channel to=url ] . \
       "&title=" . [ :convert $Title to=url ] . \
       "&body=" . [ :convert $Body to=url ] . \
+      "&link=" . [ :convert $Link to=url ] . \
       "&severity=" . [ :convert $Severity to=url ] . \
       "&critical=" . [ :convert [ :tostr $Critical ] to=url ]);
 
@@ -194,12 +207,7 @@
 :set SendSignalgrid do={ :onerror Err {
   :global SendSignalgrid2;
 
-  $SendSignalgrid2 ({
-    title=$0;
-    body=$1;
-    severity=$2;
-    critical=$3
-  });
+  $SendSignalgrid2 ({ origin=$0; subject=$1; message=$2; link=$3; silent=$4 });
 } do={
   :global ExitOnError; $ExitOnError $0 $Err;
 } }
