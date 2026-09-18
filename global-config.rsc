@@ -77,7 +77,14 @@
 :global GotifyServer "";
 :global GotifyToken "";
 
-# It is possible to override e-mail, Telegram, Matrix and Ntfy setting
+# You can send Signalgrid notifications. Configure these settings and
+# install the module:
+# $ScriptInstallUpdate mod/notification-signalgrid
+:global SignalgridClientKey "";
+:global SignalgridChannel "";
+:global SignalgridCritical false;
+
+# It is possible to override e-mail, Telegram, Matrix, Ntfy and Signalgrid setting
 # for every script. This is done in arrays, where 'Override' is appended
 # to the variable name, like this:
 #:global EmailGeneralToOverride {
