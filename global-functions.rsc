@@ -433,7 +433,7 @@
     :return true;
   }
 
-  :if ([ $CertificateAvailable "ISRG Root X1" "fetch" ] = false) do={
+  :if ([ $CertificateAvailable "Root YE" "fetch" ] = false) do={
     $LogPrint error $0 ("Downloading required certificate failed.");
     :return false;
   }

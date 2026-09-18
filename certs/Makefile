@@ -18,7 +18,7 @@ DOMAINS_DUAL = \
 	matrix.org/GTS-Root-R4 \
 	raw.githubusercontent.com/Root-YR \
 	rsc.eworm.de/Root-YE \
-	upgrade.mikrotik.com/ISRG-Root-X1
+	upgrade.mikrotik.com/Root-YE
 DOMAINS_IPV4 = \
 	1.1.1.1/SSL-com-Root-Certification-Authority-ECC \
 	8.8.8.8/GTS-Root-RX \
