@@ -26,7 +26,7 @@ DOMAINS_IPV4 = \
 	api.mullvad.net/ISRG-Root-X1 \
 	ipv4.showipv6.de/ISRG-Root-X1 \
 	ipv4.tunnelbroker.net/Starfield-Root-Certificate-Authority-G2 \
-	mkcert.org/ISRG-Root-X1 \
+	mkcert.org/Root-YE \
 	ntfy.sh/ISRG-Root-X1 \
 	www.dshield.org/GTS-Root-R4 \
 	www.spamhaus.org/GTS-Root-R4
