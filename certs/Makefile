@@ -24,7 +24,7 @@ DOMAINS_IPV4 = \
 	8.8.8.8/GTS-Root-RX \
 	9.9.9.9/DigiCert-Global-Root-G3 \
 	api.mullvad.net/Root-YE \
-	ipv4.showipv6.de/ISRG-Root-X1 \
+	ipv4.showipv6.de/Root-YR \
 	ipv4.tunnelbroker.net/Starfield-Root-Certificate-Authority-G2 \
 	mkcert.org/Root-YE \
 	ntfy.sh/Root-YR \
@@ -34,7 +34,7 @@ DOMAINS_IPV6 = \
 	[2606\:4700\:4700\:\:1111]/SSL-com-Root-Certification-Authority-ECC \
 	[2001\:4860\:4860\:\:8888]/GTS-Root-RX \
 	[2620\:fe\:\:9]/DigiCert-Global-Root-G3 \
-	ipv6.showipv6.de/ISRG-Root-X1
+	ipv6.showipv6.de/Root-YR
 
 .PHONY: $(DOMAINS_DUAL) $(DOMAINS_IPV4) $(DOMAINS_IPV6)
 
