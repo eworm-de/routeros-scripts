@@ -1257,8 +1257,7 @@
   :global SymbolForNotification;
   :global ValidateSyntax;
 
-  :if ([ $CertificateAvailable "ISRG Root X2" "fetch" ] = false || \
-       [ $CertificateAvailable "Root YE" "fetch" ] = false) do={
+  :if ([ $CertificateAvailable "Root YE" "fetch" ] = false) do={
     $LogPrint warning $0 ("Downloading certificate failed, trying without.");
   }
 
