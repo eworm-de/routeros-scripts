@@ -29,6 +29,7 @@ for details!
 * [Miquel Bonastre](mailto:mbonastre@yahoo.com) (@mbonastre)
 * @netravnen
 * [netztrip](mailto:dave-tvg@netztrip.de) (@netztrip)
+* [Signalgrid.co](https://signalgrid.co/) (@signalgridco)
 * [Stefan Müller](mailto:stefan.mueller.83@gmail.com) (@PackElend)
 
 ## Donations
