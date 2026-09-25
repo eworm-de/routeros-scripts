@@ -77,9 +77,9 @@
 :global GotifyServer "";
 :global GotifyToken "";
 
-# It is possible to override e-mail, Telegram, Matrix and Ntfy setting
-# for every script. This is done in arrays, where 'Override' is appended
-# to the variable name, like this:
+# It is possible to override e-mail, Gotify, Matrix, Ntfy and Telegram
+# setting for every script. This is done in arrays, where 'Override' is
+# appended to the variable name, like this:
 #:global EmailGeneralToOverride {
 #  "check-certificates"="override@example.com";
 #  "backup-email"="backup@example.com";
