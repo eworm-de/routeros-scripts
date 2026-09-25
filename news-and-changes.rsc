@@ -70,6 +70,7 @@
   143="Made backup scripts 'backup-email' and 'backup-upload' support date & time in filenames.";
   144="Split and reworked 'mode-button' for compatibility with RouterOS 7.24, configuration was updated automatically.";
   145="Split and reworked 'hotspot-to-wpa' for compatibility with RouterOS 7.24, configuration was updated automatically.";
+  146="Added support to send notifications via Signalgrid (signalgrid.co).";
 };
 
 # Migration steps to be applied on script updates
