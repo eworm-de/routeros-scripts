@@ -8,6 +8,7 @@ CURL = curl \
 
 DOMAINS_DUAL = \
 	api.macvendors.com/GTS-Root-R4 \
+	api.signalgrid.co/Root-YE \
 	api.telegram.org/Go-Daddy-Root-Certificate-Authority-G2 \
 	cloudflare-dns.com/SSL-com-Root-Certification-Authority-ECC \
 	dns.google/GTS-Root-RX \
