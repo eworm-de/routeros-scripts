@@ -92,6 +92,7 @@ See also
 * [Send notifications via e-mail](notification-email.md)
 * [Send notifications via Gotify](notification-gotify.md)
 * [Send notifications via Matrix](notification-matrix.md)
+* [Send notifications via Signalgrid](notification-signalgrid.md)
 * [Send notifications via Telegram](notification-telegram.md)
 
 ---
