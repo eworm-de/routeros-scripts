@@ -130,6 +130,8 @@
 
   :local CertSettings [ /certificate/settings/get ];
   :if ((($CertSettings->"builtin-trust-store") ~ $UseFor || \
+        (($CertSettings->"builtin-trust-store") = "default" && \
+         ($CertSettings->"current-defaults") ~ $UseFor) || \
         ($CertSettings->"builtin-trust-store") = "all") && \
        [ :len [ /certificate/builtin/find where common-name=$CommonName or unit=$CommonName ] ] > 0) do={
     :return true;
