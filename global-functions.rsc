@@ -130,6 +130,8 @@
 
   :local CertSettings [ /certificate/settings/get ];
   :if ((($CertSettings->"builtin-trust-store") ~ $UseFor || \
+        (($CertSettings->"builtin-trust-store") = "default" && \
+         ($CertSettings->"current-defaults") ~ $UseFor) || \
         ($CertSettings->"builtin-trust-store") = "all") && \
        [ :len [ /certificate/builtin/find where common-name=$CommonName or unit=$CommonName ] ] > 0) do={
     :return true;
@@ -191,6 +193,8 @@
       :local CertSettings [ /certificate/settings/get ];
       :if ([ :len [ /certificate/find where common-name="Root YE" ] ] = 0 && \
            !((($CertSettings->"builtin-trust-store") ~ "fetch" || \
+              (($CertSettings->"builtin-trust-store") = "default" && \
+               ($CertSettings->"current-defaults") ~ "fetch") || \
               ($CertSettings->"builtin-trust-store") = "all") && \
              [ :len [ /certificate/builtin/find where common-name="Root YE" ] ] > 0)) do={
         $LogPrint error $0 ("Required certificate is not available.");

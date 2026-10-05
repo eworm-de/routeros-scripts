@@ -113,6 +113,9 @@ least, but make sure not to drop other targets:
 
 ![screenshot: builtin trust store](README.d/00-builtin-trust-store.avif)
 
+Alternatively setting `builtin-trust-store=default` should be a reasonable
+choice, including all values that may be required.
+
 You can skip the steps regarding *download and import certificate* and
 jump to [installation of scripts](#installation-of-scripts) now.
 
