@@ -84,7 +84,7 @@
 
     $LogPrint info $ScriptName ("A new firmware version " . ($Firmware->"latest") . " is available for " . \
       "LTE interface " . $IntName . ".");
-    $SendNotification2 ({ origin=$ScriptName; \
+    $SendNotification2 ({ origin=$ScriptName; silent=true; \
       subject=([ $SymbolForNotification "sparkles" ] . "LTE firmware upgrade"); \
       message=("A new firmware version " . ($Firmware->"latest") . " is available for " . \
         "LTE interface " . $IntName . " on " . $Identity . ".\n\n" . \
@@ -93,7 +93,7 @@
         [ $IfThenElse ([ :len ($Info->"revision") ] > 0) ([ $FormatLine "Revision" ($Info->"revision") ] . "\n") ] . \
         "Firmware version:\n" . \
         [ $FormatLine "    Installed" ($Firmware->"installed") ] . "\n" . \
-        [ $FormatLine "    Available" ($Firmware->"latest") ]); silent=true });
+        [ $FormatLine "    Available" ($Firmware->"latest") ]) });
     :set ($SentLteFirmwareUpgradeNotification->$IntName) ($Firmware->"latest");
   }
 
