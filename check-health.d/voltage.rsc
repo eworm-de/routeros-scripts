@@ -40,7 +40,7 @@
 
       :if ($NumLast * (100 + $CheckHealthVoltagePercent) < $NumCurr * 100 || \
            $NumLast * 100 > $NumCurr * (100 + $CheckHealthVoltagePercent)) do={
-        $SendNotification2 ({ origin=$ScriptName; \
+        $SendNotification2 ({ origin=$ScriptName; silent=false; \
           subject=([ $SymbolForNotification ("high-voltage-sign,chart-" . [ $IfThenElse ($NumLast < \
             $NumCurr) "in" "de" ] . "creasing") ] . "Health warning: " . $Name); \
           message=("The " . $Name . " on " . $Identity . " jumped more than " . $CheckHealthVoltagePercent . "%.\n\n" . \
@@ -48,7 +48,7 @@
             [ $FormatLine "new value" ($Value . " V") 12 ]) });
       } else={ 
         :if ($NumCurr <= $CheckHealthVoltageLow && $NumLast > $CheckHealthVoltageLow) do={ 
-          $SendNotification2 ({ origin=$ScriptName; \
+          $SendNotification2 ({ origin=$ScriptName; silent=false; \
             subject=([ $SymbolForNotification "high-voltage-sign,chart-decreasing" ] . "Health warning: Low " . $Name); \ 
             message=("The " . $Name . " on " . $Identity . " dropped to " . $Value . " V below hard limit.") }); 
         } 
