@@ -80,15 +80,15 @@
 
     :local Cloud [ /system/backup/cloud/get ([ find ]->0) ];
 
-    $SendNotification2 ({ origin=$ScriptName; \
+    $SendNotification2 ({ origin=$ScriptName;  silent=true; \
       subject=([ $SymbolForNotification "floppy-disk,cloud" ] . "Cloud backup"); \
       message=("Uploaded backup for " . $Identity . " to cloud.\n\n" . \
         [ $DeviceInfo ] . "\n\n" . \
         [ $FormatLine "Name" ($Cloud->"name") ] . "\n" . \
         [ $FormatLine "Size" ([ $HumanReadableNum ($Cloud->"size") 1024 ] . "B") ] . "\n" . \
-        [ $FormatLine "Download key" ($Cloud->"secret-download-key") ]); silent=true });
+        [ $FormatLine "Download key" ($Cloud->"secret-download-key") ]) });
   } else={
-    $SendNotification2 ({ origin=$ScriptName; \
+    $SendNotification2 ({ origin=$ScriptName;  silent=false; \
       subject=([ $SymbolForNotification "floppy-disk,warning-sign" ] . "Cloud backup failed"); \
       message=("Failed uploading backup for " . $Identity . " to cloud!\n\n" . [ $DeviceInfo ]) });
     $LogPrint error $ScriptName ("Failed uploading backup for " . $Identity . " to cloud!");

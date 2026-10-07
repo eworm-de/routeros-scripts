@@ -76,7 +76,7 @@
           "first seen on " . $DateTime . " connected to SSID " . $RegVal->"ssid" . ", interface " . $RegVal->"interface");
         $LogPrint info $ScriptName $Message;
         /caps-man/access-list/add place-before=$PlaceBefore comment=$Message mac-address=($RegVal->"mac-address") disabled=yes;
-        $SendNotification2 ({ origin=$ScriptName; \
+        $SendNotification2 ({ origin=$ScriptName; silent=false; \
           subject=([ $SymbolForNotification "mobile-phone" ] . $RegVal->"mac-address" . " connected to " . $RegVal->"ssid"); \
           message=("A device with unknown MAC address connected to " . $RegVal->"ssid" . " on " . $Identity . ".\n\n" . \
             [ $FormatLine "Controller" $Identity ] . "\n" . \

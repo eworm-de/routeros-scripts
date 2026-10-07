@@ -88,7 +88,7 @@
 
     :if ([ :len $Messages ] > 0) do={
       :local Count [ :len $Delete ];
-      $SendNotification2 ({ origin=$ScriptName; \
+      $SendNotification2 ({ origin=$ScriptName; silent=false; \
         subject=([ $SymbolForNotification "incoming-envelope" ] . "SMS Forwarding from " . $Phone); \
         message=("Received " . [ $IfThenElse ($Count = 1) "this message" ("these " . $Count . " messages") ] . \
           " by " . $Identity . " from " . $Phone . ":" . $Messages) });

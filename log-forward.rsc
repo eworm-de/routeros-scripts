@@ -94,7 +94,7 @@
   :if ($Count > 0) do={
     :set LogForwardRateLimit ($LogForwardRateLimit + 10);
 
-    $SendNotification2 ({ origin=$ScriptName; \
+    $SendNotification2 ({ origin=$ScriptName; silent=(!($Warning)); \
       subject=([ $SymbolForNotification ("memo" . [ $IfThenElse ($Warning = true) ",warning-sign" ]) ] . \
         "Log Forwarding"); \
       message=("The log on " . $Identity . " contains " . [ $IfThenElse ($Count = 1) "this message" \

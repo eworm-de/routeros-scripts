@@ -104,20 +104,20 @@
     :if ($SafeUpdateAll ~ "^YES,? ?PLEASE!?\$") do={
       $LogPrint info $ScriptName ("Installing ALL versions automatically, including " . \
         $Update->"latest-version" . "...");
-      $SendNotification2 ({ origin=$ScriptName; \
+      $SendNotification2 ({ origin=$ScriptName; silent=false; \
         subject=([ $SymbolForNotification "sparkles" ] . "RouterOS update: " . $Update->"latest-version"); \
         message=("Installing ALL versions automatically, including " . $Update->"latest-version" . \
-          "... Updating on " . $Identity . "..."); link=$Link; silent=true });
+          "... Updating on " . $Identity . "..."); link=$Link });
       $DoUpdate $ScriptName;
       :exit;
     }
 
     :if ($SafeUpdatePatch = true && $NumInstalledFeature = $NumLatestFeature) do={
       $LogPrint info $ScriptName ("Version " . $Update->"latest-version" . " is a patch release, updating...");
-      $SendNotification2 ({ origin=$ScriptName; \
+      $SendNotification2 ({ origin=$ScriptName; silent=true; \
         subject=([ $SymbolForNotification "sparkles" ] . "RouterOS update: " . $Update->"latest-version"); \
         message=("Version " . $Update->"latest-version" . " is a patch update for " . $Update->"channel" . \
-          ", updating on " . $Identity . "..."); link=$Link; silent=true });
+          ", updating on " . $Identity . "..."); link=$Link });
       $DoUpdate $ScriptName;
       :exit;
     }
@@ -129,10 +129,10 @@
         :local Neighbor [ /ip/neighbor/get ($Neighbors->0) identity ];
         $LogPrint info $ScriptName ("Seen a neighbor (" . $Neighbor . ") running version " . \
           $Update->"latest-version" . " from " . $Update->"channel" . ", updating...");
-        $SendNotification2 ({ origin=$ScriptName; \
+        $SendNotification2 ({ origin=$ScriptName; silent=true; \
           subject=([ $SymbolForNotification "sparkles" ] . "RouterOS update: " . $Update->"latest-version"); \
           message=("Seen a neighbor (" . $Neighbor . ") running version " . $Update->"latest-version" . \
-            " from " . $Update->"channel" . ", updating on " . $Identity . "..."); link=$Link; silent=true });
+            " from " . $Update->"channel" . ", updating on " . $Identity . "..."); link=$Link });
         $DoUpdate $ScriptName;
         :exit;
       }
@@ -150,10 +150,10 @@
       }
       :if ($Result->"status" = "finished" && $Result->"data" = $Update->"latest-version") do={
         $LogPrint info $ScriptName ("Version " . $Update->"latest-version" . " is considered safe, updating...");
-        $SendNotification2 ({ origin=$ScriptName; \
+        $SendNotification2 ({ origin=$ScriptName; silent=true; \
           subject=([ $SymbolForNotification "sparkles" ] . "RouterOS update: " . $Update->"latest-version"); \
           message=("Version " . $Update->"latest-version" . " is considered safe for " . $Update->"channel" . \
-            ", updating on " . $Identity . "..."); link=$Link; silent=true });
+            ", updating on " . $Identity . "..."); link=$Link });
         $DoUpdate $ScriptName;
         :exit;
       }
@@ -184,11 +184,11 @@
       :exit;
     }
 
-    $SendNotification2 ({ origin=$ScriptName; \
+    $SendNotification2 ({ origin=$ScriptName; silent=true; \
       subject=([ $SymbolForNotification "sparkles" ] . "RouterOS update: " . $Update->"latest-version"); \
       message=("A new RouterOS version " . ($Update->"latest-version") . \
         " is available for " . $Identity . ".\n\n" . \
-        [ $DeviceInfo ]); link=$Link; silent=true });
+        [ $DeviceInfo ]); link=$Link });
     :set SentRouterosUpdateNotification ($Update->"latest-version");
   }
 
@@ -199,11 +199,11 @@
       :exit;
     }
 
-    $SendNotification2 ({ origin=$ScriptName; \
+    $SendNotification2 ({ origin=$ScriptName; silent=false; \
       subject=([ $SymbolForNotification "warning-sign" ] . "RouterOS version: " . $Update->"latest-version"); \
       message=("A different RouterOS version " . ($Update->"latest-version") . \
         " is available for " . $Identity . ", but it is a downgrade.\n\n" . \
-        [ $DeviceInfo ]); link=$Link; silent=true });
+        [ $DeviceInfo ]); link=$Link });
     $LogPrint info $ScriptName ("A different RouterOS version " . ($Update->"latest-version") . \
       " is available for downgrade.");
     :set SentRouterosUpdateNotification ($Update->"latest-version");

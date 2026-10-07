@@ -33,13 +33,13 @@
     :if ([ :typeof ($CheckHealthLast->$Name) ] != "nothing") do={
       :if ($CheckHealthLast->$Name = "ok" && \
            $Value != "ok") do={
-        $SendNotification2 ({ origin=$ScriptName; \
+        $SendNotification2 ({ origin=$ScriptName; silent=false; \
           subject=([ $SymbolForNotification "cross-mark" ] . "Health warning: " . $Name); \
           message=("The device '" . $Name . "' on " . $Identity . " failed!") });
       }
       :if ($CheckHealthLast->$Name != "ok" && \
            $Value = "ok") do={
-        $SendNotification2 ({ origin=$ScriptName; \
+        $SendNotification2 ({ origin=$ScriptName; silent=true; \
           subject=([ $SymbolForNotification "white-heavy-check-mark" ] . "Health recovery: " . $Name); \
           message=("The device '" . $Name . "' on " . $Identity . " recovered!") });
       }

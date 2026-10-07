@@ -42,13 +42,13 @@
 
   :set CheckHealthCPUUtilization (($CheckHealthCPUUtilization * 4 + ($Resource->"cpu-load") * 10) / 5);
   :if ($CheckHealthCPUUtilization > 750 && $CheckHealthCPUUtilizationNotified != true) do={
-    $SendNotification2 ({ origin=$ScriptName; \
+    $SendNotification2 ({ origin=$ScriptName; silent=false; \
       subject=([ $SymbolForNotification "abacus,chart-increasing" ] . "Health warning: CPU utilization"); \
       message=("The average CPU utilization on " . $Identity . " is at " . ($CheckHealthCPUUtilization / 10) . "%!") });
     :set CheckHealthCPUUtilizationNotified true;
   }
   :if ($CheckHealthCPUUtilization < 650 && $CheckHealthCPUUtilizationNotified = true) do={
-    $SendNotification2 ({ origin=$ScriptName; \
+    $SendNotification2 ({ origin=$ScriptName; silent=true; \
       subject=([ $SymbolForNotification "abacus,chart-decreasing" ] . "Health recovery: CPU utilization"); \
       message=("The average CPU utilization on " . $Identity . " decreased to " . ($CheckHealthCPUUtilization / 10) . "%.") });
     :set CheckHealthCPUUtilizationNotified false;
@@ -56,7 +56,7 @@
 
   :local CheckHealthRAMUtilization (($Resource->"total-memory" - $Resource->"free-memory") * 100 / $Resource->"total-memory");
   :if ($CheckHealthRAMUtilization >=80 && $CheckHealthRAMUtilizationNotified != true) do={
-    $SendNotification2 ({ origin=$ScriptName; \
+    $SendNotification2 ({ origin=$ScriptName; silent=false; \
       subject=([ $SymbolForNotification "card-file-box,chart-increasing" ] . "Health warning: RAM utilization"); \
       message=("The RAM utilization on " . $Identity . " is at " . $CheckHealthRAMUtilization . "%!\n\n" . \
       [ $FormatLine "total" ([ $HumanReadableNum ($Resource->"total-memory") 1024 ] . "B") 8 ] . "\n" . \
@@ -65,7 +65,7 @@
     :set CheckHealthRAMUtilizationNotified true;
   }
   :if ($CheckHealthRAMUtilization < 70 && $CheckHealthRAMUtilizationNotified = true) do={
-    $SendNotification2 ({ origin=$ScriptName; \
+    $SendNotification2 ({ origin=$ScriptName; silent=true; \
       subject=([ $SymbolForNotification "card-file-box,chart-decreasing" ] . "Health recovery: RAM utilization"); \
       message=("The RAM utilization on " . $Identity . " decreased to " . $CheckHealthRAMUtilization . "%.") });
     :set CheckHealthRAMUtilizationNotified false;
