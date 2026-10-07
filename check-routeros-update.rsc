@@ -104,7 +104,7 @@
     :if ($SafeUpdateAll ~ "^YES,? ?PLEASE!?\$") do={
       $LogPrint info $ScriptName ("Installing ALL versions automatically, including " . \
         $Update->"latest-version" . "...");
-      $SendNotification2 ({ origin=$ScriptName; silent=true; \
+      $SendNotification2 ({ origin=$ScriptName; silent=false; \
         subject=([ $SymbolForNotification "sparkles" ] . "RouterOS update: " . $Update->"latest-version"); \
         message=("Installing ALL versions automatically, including " . $Update->"latest-version" . \
           "... Updating on " . $Identity . "..."); link=$Link });
@@ -199,7 +199,7 @@
       :exit;
     }
 
-    $SendNotification2 ({ origin=$ScriptName; silent=true; \
+    $SendNotification2 ({ origin=$ScriptName; silent=false; \
       subject=([ $SymbolForNotification "warning-sign" ] . "RouterOS version: " . $Update->"latest-version"); \
       message=("A different RouterOS version " . ($Update->"latest-version") . \
         " is available for " . $Identity . ", but it is a downgrade.\n\n" . \
