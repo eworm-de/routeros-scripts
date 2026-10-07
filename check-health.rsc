@@ -48,7 +48,7 @@
     :set CheckHealthCPUUtilizationNotified true;
   }
   :if ($CheckHealthCPUUtilization < 650 && $CheckHealthCPUUtilizationNotified = true) do={
-    $SendNotification2 ({ origin=$ScriptName; \
+    $SendNotification2 ({ origin=$ScriptName; silent=true; \
       subject=([ $SymbolForNotification "abacus,chart-decreasing" ] . "Health recovery: CPU utilization"); \
       message=("The average CPU utilization on " . $Identity . " decreased to " . ($CheckHealthCPUUtilization / 10) . "%.") });
     :set CheckHealthCPUUtilizationNotified false;
@@ -65,7 +65,7 @@
     :set CheckHealthRAMUtilizationNotified true;
   }
   :if ($CheckHealthRAMUtilization < 70 && $CheckHealthRAMUtilizationNotified = true) do={
-    $SendNotification2 ({ origin=$ScriptName; \
+    $SendNotification2 ({ origin=$ScriptName; silent=true; \
       subject=([ $SymbolForNotification "card-file-box,chart-decreasing" ] . "Health recovery: RAM utilization"); \
       message=("The RAM utilization on " . $Identity . " decreased to " . $CheckHealthRAMUtilization . "%.") });
     :set CheckHealthRAMUtilizationNotified false;
