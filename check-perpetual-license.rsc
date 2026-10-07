@@ -62,7 +62,7 @@
   :if ([ :typeof $SentCertificateNotification ] = "str" && \
        [ :totime ($License->"deadline-at") ] - 4w > [ :timestamp ]) do={
     $LogPrint info $ScriptName ("Your license was successfully renewed.");
-    $SendNotification2 ({ origin=$ScriptName; \
+    $SendNotification2 ({ origin=$ScriptName; silent=true; \
       subject=([ $SymbolForNotification "scroll,white-heavy-check-mark" ] . "License renewed"); \
       message=("Your license was successfully renewed on " . $Identity . \
         ". It is now valid until " . ($License->"deadline-at") . ".") });
