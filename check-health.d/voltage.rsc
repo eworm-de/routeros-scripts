@@ -53,7 +53,7 @@
             message=("The " . $Name . " on " . $Identity . " dropped to " . $Value . " V below hard limit.") }); 
         } 
         :if ($NumCurr > $CheckHealthVoltageLow && $NumLast <= $CheckHealthVoltageLow) do={ 
-          $SendNotification2 ({ origin=$ScriptName; \
+          $SendNotification2 ({ origin=$ScriptName; silent=true; \
             subject=([ $SymbolForNotification "high-voltage-sign,chart-increasing" ] . "Health recovery: Low " . $Name); \ 
             message=("The " . $Name . " on " . $Identity . " recovered to " . $Value . " V above hard limit.") }); 
         }
