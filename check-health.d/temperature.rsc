@@ -64,7 +64,7 @@
       }
       :if ($Value <= ($CheckHealthTemperature->$Name - $CheckHealthTemperatureDeviation) && \
            $CheckHealthTemperatureNotified->$Name = true) do={
-        $SendNotification2 ({ origin=$ScriptName; \
+        $SendNotification2 ({ origin=$ScriptName; silent=true; \
           subject=([ $SymbolForNotification "white-heavy-check-mark" ] . "Health recovery: " . $Name); \
           message=("The " . $Name . " on " . $Identity . " dropped below threshold: " .  \
             $Value . "\C2\B0C\n\n" . "The average CPU utilization is at " . \
