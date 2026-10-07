@@ -157,7 +157,7 @@
         [ $FormatLine $Name $File ] ];
   }
 
-  $SendNotification2 ({ origin=$ScriptName; \
+  $SendNotification2 ({ origin=$ScriptName; silent=[ $IfThenElse ($Failed > 0) false true ]; \
     subject=[ $IfThenElse ($Failed > 0) \
       ([ $SymbolForNotification "floppy-disk,warning-sign" ] . "Backup & Config upload with failure") \
       ([ $SymbolForNotification "floppy-disk,arrow-up" ] . "Backup & Config upload") ]; \
@@ -165,7 +165,7 @@
       [ $DeviceInfo ] . "\n\n" . \
       [ $FileInfo "Backup file" $BackupFile ] . "\n" . \
       [ $FileInfo "Export file" $ExportFile ] . "\n" . \
-      [ $FileInfo "Config file" $ConfigFile ]); silent=true });
+      [ $FileInfo "Config file" $ConfigFile ]) });
 
   :if ($Failed = 1) do={
     :set PackagesUpdateBackupFailure true;
