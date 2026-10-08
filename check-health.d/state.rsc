@@ -17,12 +17,13 @@
   :global CheckHealthLast;
   :global Identity;
 
+  :global Translate;
   :global LogPrint;
   :global SendNotification2;
   :global SymbolForNotification;
 
   :if ([ :len [ /system/health/find where type="" name~"-state\$"] ] = 0) do={
-    $LogPrint debug $FuncName ("Your device does not provide any state health values.");
+    $LogPrint debug $FuncName ([ $Translate "check-health.state.unavailable" ]);
     :return false;
   }
 
@@ -34,14 +35,14 @@
       :if ($CheckHealthLast->$Name = "ok" && \
            $Value != "ok") do={
         $SendNotification2 ({ origin=$ScriptName; \
-          subject=([ $SymbolForNotification "cross-mark" ] . "Health warning: " . $Name); \
-          message=("The device '" . $Name . "' on " . $Identity . " failed!") });
+          subject=([ $SymbolForNotification "cross-mark" ] . [ $Translate "check-health.warning.subject" { name=$Name } ]); \
+          message=([ $Translate "check-health.state.failed" { name=$Name; identity=$Identity } ]) });
       }
       :if ($CheckHealthLast->$Name != "ok" && \
            $Value = "ok") do={
         $SendNotification2 ({ origin=$ScriptName; \
-          subject=([ $SymbolForNotification "white-heavy-check-mark" ] . "Health recovery: " . $Name); \
-          message=("The device '" . $Name . "' on " . $Identity . " recovered!") });
+          subject=([ $SymbolForNotification "white-heavy-check-mark" ] . [ $Translate "check-health.recovery.subject" { name=$Name } ]); \
+          message=([ $Translate "check-health.state.recovered" { name=$Name; identity=$Identity } ]) });
       }
     }
     :set ($CheckHealthLast->$Name) $Value;

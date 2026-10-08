@@ -15,6 +15,9 @@
 # Set this to 'true' to disable news and change notifications.
 :global NoNewsAndChangesNotification false;
 
+# Language for translated notifications. English is always available offline.
+:global ScriptLanguage "en";
+
 # Add extra text (or emojis) in notification tags.
 :global IdentityExtra "";
 
@@ -292,3 +295,10 @@
 
 # signal we are ready
 :set GlobalConfigReady true;
+
+# Apply language changes when an already initialized installation reloads config.
+:global GlobalFunctionsReady;
+:global LanguageUpdate;
+:if ($GlobalFunctionsReady = true && [ :typeof $LanguageUpdate ] = "code") do={
+  :execute { :global LanguageUpdate; $LanguageUpdate; };
+}

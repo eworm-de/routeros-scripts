@@ -21,12 +21,13 @@
   :global CheckHealthTemperatureNotified;
   :global Identity;
 
+  :global Translate;
   :global LogPrint;
   :global SendNotification2;
   :global SymbolForNotification;
 
   :if ([ :len [ /system/health/find where type="C" ] ] = 0) do={
-    $LogPrint debug $FuncName ("Your device does not provide any voltage health values.");
+    $LogPrint debug $FuncName ([ $Translate "check-health.temperature.unavailable" ]);
     :return false;
   }
 
@@ -45,7 +46,7 @@
 
     :if ([ :typeof ($CheckHealthLast->$Name) ] != "nothing") do={
       :if ([ :typeof ($CheckHealthTemperature->$Name) ] != "num" ) do={
-        $LogPrint info $FuncName ("No threshold given for " . $Name . ", assuming 50C.");
+        $LogPrint info $FuncName ([ $Translate "check-health.temperature.threshold" { name=$Name } ]);
         :set ($CheckHealthTemperature->$Name) 50;
       }
       :local Validate [ /system/health/get [ find where name=$Name ] value ];
@@ -56,19 +57,15 @@
       :if ($Value > $CheckHealthTemperature->$Name && \
            $CheckHealthTemperatureNotified->$Name != true) do={
         $SendNotification2 ({ origin=$ScriptName; \
-          subject=([ $SymbolForNotification "fire" ] . "Health warning: " . $Name); \
-          message=("The " . $Name . " on " . $Identity . " is above threshold: " . \
-            $Value . "\C2\B0C\n\n" . "The average CPU utilization is at " . \
-            ($CheckHealthCPUUtilization / 10) . "%!") });
+          subject=([ $SymbolForNotification "fire" ] . [ $Translate "check-health.warning.subject" { name=$Name } ]); \
+          message=([ $Translate "check-health.temperature.high" { name=$Name; identity=$Identity; value=$Value; percent=($CheckHealthCPUUtilization / 10) } ]) });
         :set ($CheckHealthTemperatureNotified->$Name) true;
       }
       :if ($Value <= ($CheckHealthTemperature->$Name - $CheckHealthTemperatureDeviation) && \
            $CheckHealthTemperatureNotified->$Name = true) do={
         $SendNotification2 ({ origin=$ScriptName; \
-          subject=([ $SymbolForNotification "white-heavy-check-mark" ] . "Health recovery: " . $Name); \
-          message=("The " . $Name . " on " . $Identity . " dropped below threshold: " .  \
-            $Value . "\C2\B0C\n\n" . "The average CPU utilization is at " . \
-            ($CheckHealthCPUUtilization / 10) . "%!") });
+          subject=([ $SymbolForNotification "white-heavy-check-mark" ] . [ $Translate "check-health.recovery.subject" { name=$Name } ]); \
+          message=([ $Translate "check-health.temperature.recovered" { name=$Name; identity=$Identity; value=$Value; percent=($CheckHealthCPUUtilization / 10) } ]) });
         :set ($CheckHealthTemperatureNotified->$Name) false;
       }
     }
