@@ -12,6 +12,13 @@
 # !! This is just a template to generate the real script!
 # !! Pattern '%TEMPL%' is replaced, paths are filtered.
 
+# BEGIN GENERATED LANGUAGE DATA
+# language, name=dhcp-lease-comment, schema=ad1da8da95495f80f8319fac06ad159a82bd84a7d3d038d72df426a6a87b98ef
+:global LanguageEnglish;
+:if ([ :typeof $LanguageEnglish ] != "array") do={ :set LanguageEnglish ({}); }
+:set ($LanguageEnglish->"dhcp-lease-comment.updating") "Updating comment for DHCP lease {mac}: {comment}";
+# END GENERATED LANGUAGE DATA
+
 :onerror Err {
   :global GlobalConfigReady; :global GlobalFunctionsReady;
   :retry { :if ($GlobalConfigReady != true || $GlobalFunctionsReady != true) \
@@ -19,6 +26,7 @@
   :local ScriptName [ :jobname ];
 
   :global LogPrint;
+  :global Translate;
   :global ScriptLock;
 
   :if ([ $ScriptLock $ScriptName ] = false) do={
@@ -37,7 +45,8 @@
       :set NewComment [ /interface/wireless/access-list/get $AccessList comment ];
     }
     :if ([ :len $NewComment ] != 0 && $LeaseVal->"comment" != $NewComment) do={
-      $LogPrint info $ScriptName ("Updating comment for DHCP lease " . $LeaseVal->"active-mac-address" . ": " . $NewComment);
+      $LogPrint info $ScriptName [ $Translate "dhcp-lease-comment.updating" \
+          ({ mac=($LeaseVal->"active-mac-address"); comment=$NewComment }) ];
       /ip/dhcp-server/lease/set comment=$NewComment $Lease;
     }
   }

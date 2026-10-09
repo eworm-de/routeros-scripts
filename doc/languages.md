@@ -44,7 +44,9 @@ The migrated scripts translate `check-health` notifications and diagnostics
 (including state, temperature, and voltage plugins), the four backup scripts,
 certificate checks and local issuance, perpetual-license checks, LTE firmware
 checks, RouterOS and package updates, RouterBOARD firmware upgrades, and rolling
-CAPsMAN upgrades. Other
+CAPsMAN upgrades. GRE and tunnelbroker updates, IPv6 updates, DNS/DoH management,
+DHCP-to-DNS and IPSec-to-DNS synchronization, DHCP lease dispatchers and comments,
+and PPP hooks are also translated. Other
 scripts and bootstrap diagnostics still use English. RouterOS-generated errors,
 sensor names, API fields, file paths, and internal status sentinels retain their
 original values. Interactive confirmations retain `[y/N]` because their key
@@ -68,6 +70,12 @@ index through the existing installer.
 For template families, defaults are embedded in `*.template.rsc`; regenerate
 the platform variants with `make rsc` after updating catalogs. Both CAPsMAN
 variants share the `capsman-rolling-upgrade` catalog.
+
+Pass parameters as parenthesized dictionaries, for example
+`[ $Translate "feature.message" ({ name=$Name }) ]`. Omit a trailing semicolon
+inside these dictionaries: on the tested RouterOS version, a single-entry
+dictionary with that semicolon and surrounding spaces can evaluate as empty
+inside a block. The native tests cover this case separately from JSON rendering.
 
 ```sh
 python3 contrib/languages.py
@@ -149,10 +157,16 @@ languages with isolated globals and a temporary disabled scheduler. Tests
 did not install packages, reboot, renew certificates, or upgrade CAPs. The
 WiFi variant still requires validation on a device with the WiFi package.
 
+The network and DHCP phase brought coverage to 260 messages (520 rendering
+checks). Its sources and supported generated variants parsed on the VM.
+Guarded DHCP, IPv6, PPP, and tunnelbroker diagnostics passed in both locales
+using isolated globals; no network configuration was changed. Optional IPv6
+display fields are converted to strings so absent values render as empty text.
+
 ### Remaining migration
 
 The full migration is still in progress. Next groups include unattended LTE
-upgrades, network and DNS scripts, other wireless templates, notification
+upgrades, Netwatch notifications, remaining network scripts and wireless templates, notification
 modules, SMS and Telegram output, and shared helper diagnostics. Bootstrap
 messages and machine-readable strings
 need individual classification before changes. One upstream pull request will

@@ -9,6 +9,22 @@
 # monitor and manage dns/doh with netwatch
 # https://rsc.eworm.de/doc/netwatch-dns.md
 
+# BEGIN GENERATED LANGUAGE DATA
+# language, name=netwatch-dns, schema=a990191facc83c19ae4d95e097a5f7ec17573be4bce019c61e2ca3dcdffebf43
+:global LanguageEnglish;
+:if ([ :typeof $LanguageEnglish ] != "array") do={ :set LanguageEnglish ({}); }
+:set ($LanguageEnglish->"netwatch-dns.certificate.failed") "Downloading certificate '{name}' failed, trying without.";
+:set ($LanguageEnglish->"netwatch-dns.crl.warning") "Configured to use CRL, that can cause severe issue!";
+:set ($LanguageEnglish->"netwatch-dns.dns.fallback") "Updating DNS servers to fallback: {servers}";
+:set ($LanguageEnglish->"netwatch-dns.dns.updating") "Updating DNS servers: {servers}";
+:set ($LanguageEnglish->"netwatch-dns.doh.current") "Current DoH server is still up and resolving: {server}";
+:set ($LanguageEnglish->"netwatch-dns.doh.disabling") "Current DoH server is down or not resolving, disabling: {server}";
+:set ($LanguageEnglish->"netwatch-dns.doh.setting") "Setting DoH server: {server}";
+:set ($LanguageEnglish->"netwatch-dns.request.failed") "Request to DoH server {server} failed: {error}";
+:set ($LanguageEnglish->"netwatch-dns.response.invalid") "Received unexpected response from DoH server: {server}";
+:set ($LanguageEnglish->"netwatch-dns.settling") "System just booted, giving netwatch {duration} to settle.";
+# END GENERATED LANGUAGE DATA
+
 :onerror Err {
   :global GlobalConfigReady; :global GlobalFunctionsReady;
   :retry { :if ($GlobalConfigReady != true || $GlobalFunctionsReady != true) \
@@ -19,6 +35,7 @@
   :global EitherOr;
   :global IsDNSResolving;
   :global LogPrint;
+  :global Translate;
   :global LogPrintOnce;
   :global ParseKeyValueStore;
   :global ScriptLock;
@@ -29,7 +46,8 @@
 
   :local SettleTime (5m30s - [ /system/resource/get uptime ]);
   :if ($SettleTime > 0s) do={
-    $LogPrint info $ScriptName ("System just booted, giving netwatch " . $SettleTime . " to settle.");
+    $LogPrint info $ScriptName [ $Translate "netwatch-dns.settling" \
+        ({ duration=$SettleTime }) ];
     :exit;
   }
 
@@ -53,14 +71,16 @@
 
   :if ([ :len $DnsServers ] > 0) do={
     :if ($DnsServers != $DnsCurrent) do={
-      $LogPrint info $ScriptName ("Updating DNS servers: " . [ :tostr $DnsServers ]);
+      $LogPrint info $ScriptName [ $Translate "netwatch-dns.dns.updating" \
+          ({ servers=[ :tostr $DnsServers ] }) ];
       /ip/dns/set servers=$DnsServers;
       /ip/dns/cache/flush;
     }
   } else={
     :if ([ :len $DnsFallback ] > 0) do={
       :if ($DnsFallback != $DnsCurrent) do={
-        $LogPrint info $ScriptName ("Updating DNS servers to fallback: " . [ :tostr $DnsFallback ]);
+        $LogPrint info $ScriptName [ $Translate "netwatch-dns.dns.fallback" \
+            ({ servers=[ :tostr $DnsFallback ] }) ];
         /ip/dns/set servers=$DnsFallback;
         /ip/dns/cache/flush;
       }
@@ -84,7 +104,8 @@
       }
 
       :if ($DohCurrent = $HostInfo->"doh-url" && [ $IsDNSResolving ] = true) do={
-        $LogPrint debug $ScriptName ("Current DoH server is still up and resolving: " . $DohCurrent);
+        $LogPrint debug $ScriptName [ $Translate "netwatch-dns.doh.current" \
+            ({ server=$DohCurrent }) ];
         :exit;
       }
 
@@ -93,7 +114,8 @@
   }
 
   :if ([ :len $DohCurrent ] > 0) do={
-    $LogPrint info $ScriptName ("Current DoH server is down or not resolving, disabling: " . $DohCurrent);
+    $LogPrint info $ScriptName [ $Translate "netwatch-dns.doh.disabling" \
+        ({ server=$DohCurrent }) ];
     /ip/dns/set use-doh-server="";
     /ip/dns/cache/flush;
   }
@@ -103,7 +125,8 @@
       :if ([ :len $DohCert ] > 0) do={
         :if ([ $CertificateAvailable $DohCert "fetch" ] = false || \
              [ $CertificateAvailable $DohCert "dns" ] = false) do={
-          $LogPrint warning $ScriptName ("Downloading certificate '" . $DohCert . "' failed, trying without.");
+          $LogPrint warning $ScriptName [ $Translate "netwatch-dns.certificate.failed" \
+              ({ name=$DohCert }) ];
         }
       }
     }
@@ -120,23 +143,24 @@
           ({ "\02de"; "\03net" }->$I) . "\00" . "\00\10" . "\00\01") ]) as-value ]->"data");
       } delay=500ms max=6;
     } do={
-      $LogPrint warning $ScriptName ("Request to DoH server " . ($DohServer->"doh-url") . \
-          " failed: " . $Err);
+      $LogPrint warning $ScriptName [ $Translate "netwatch-dns.request.failed" \
+          ({ server=($DohServer->"doh-url"); error=$Err }) ];
       :continue;
     }
 
     :if ([ :typeof [ :find $Data "doh-check-OK" ] ] != "num") do={
-      $LogPrint warning $ScriptName ("Received unexpected response from DoH server: " . \
-          ($DohServer->"doh-url"));
+      $LogPrint warning $ScriptName [ $Translate "netwatch-dns.response.invalid" \
+          ({ server=($DohServer->"doh-url") }) ];
       :continue;
     }
 
     /ip/dns/set use-doh-server=($DohServer->"doh-url") verify-doh-cert=yes;
     :if ([ /certificate/settings/get crl-use ] = true) do={
-      $LogPrintOnce warning $ScriptName ("Configured to use CRL, that can cause severe issue!");
+      $LogPrintOnce warning $ScriptName [ $Translate "netwatch-dns.crl.warning" ];
     }
     /ip/dns/cache/flush;
-    $LogPrint info $ScriptName ("Setting DoH server: " . ($DohServer->"doh-url"));
+    $LogPrint info $ScriptName [ $Translate "netwatch-dns.doh.setting" \
+        ({ server=($DohServer->"doh-url") }) ];
     :exit;
   }
 } do={
