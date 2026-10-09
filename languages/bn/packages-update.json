@@ -1,0 +1,26 @@
+{
+  "language": "bn",
+  "messages": {
+    "packages-update.scheduler.exists": "রিবুট করার সময়সূচী ইতিমধ্যেই বিদ্যমান।",
+    "packages-update.scheduled": "{time} স্থানীয় সময় ({timezone}) আপডেটের জন্য নির্ধারিত রিবুট।",
+    "packages-update.license.expired": "লাইসেন্সের মেয়াদ শেষ, আপগ্রেড ব্লক করা হয়েছে।",
+    "packages-update.backup.partition": "ব্যাকআপ পার্টিশন থেকে দৌড়াচ্ছে, কাজ করতে অস্বীকার করছে।",
+    "packages-update.version.unknown": "সর্বশেষ সংস্করণ জানা নেই.",
+    "packages-update.version.installed": "সংস্করণ {version} ইতিমধ্যেই ইনস্টল করা আছে৷",
+    "packages-update.backup.running": "আপডেট করার আগে ব্যাকআপ স্ক্রিপ্ট {name} চলছে৷",
+    "packages-update.backup.failed": "আপডেট ব্যর্থ হওয়ার আগে ব্যাকআপ স্ক্রিপ্ট {name} চালানো!",
+    "packages-update.continue.prompt": "আপনি কি যাইহোক চালিয়ে যেতে চান? [y/N]",
+    "packages-update.continue": "ব্যবহারকারী যাইহোক চালিয়ে যাওয়ার জন্য অনুরোধ করেছেন।",
+    "packages-update.canceled.update": "বাতিল করা আপডেট...",
+    "packages-update.canceled.noninteractive": "অ-ইন্টারেক্টিভ আপডেট বাতিল করা হয়েছে।",
+    "packages-update.downgrade.prompt": "সর্বশেষ সংস্করণ ইনস্টল করা একটি থেকে পুরানো. ডাউনগ্রেড করতে চান? [y/N]",
+    "packages-update.canceled": "বাতিল হয়েছে...",
+    "packages-update.downgrade.refused": "স্বয়ংক্রিয়ভাবে ডাউনগ্রেড ইনস্টল করা হচ্ছে না।",
+    "packages-update.download.failed": "প্যাকেজ {name} এর জন্য ডাউনলোড ব্যর্থ হয়েছে, আপডেট বাতিল করা হয়েছে৷",
+    "packages-update.downgrade.reboot": "ডাউনগ্রেডের জন্য রিবুট করা হচ্ছে।",
+    "packages-update.reboot.prompt": "আপনি কি রিবুটের সময় নির্ধারণ করতে চান (s), নাকি এখনই রিবুট করতে চান (r)? [s/R]",
+    "packages-update.update.reboot": "আপডেটের জন্য রিবুট করা হচ্ছে।",
+    "packages-update.scheduled.deferred": "{time} স্থানীয় সময় ({timezone}) {interval} দ্বারা স্থগিত আপডেটের জন্য নির্ধারিত রিবুট৷"
+  },
+  "schema": "77f3f83454477a8d375bfb399dd18ea210e50ceaf290213460a2f613ac47abd1"
+}

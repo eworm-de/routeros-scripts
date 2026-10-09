@@ -1,0 +1,21 @@
+{
+  "language": "id",
+  "messages": {
+    "notification-matrix.offline": "Sistem tidak terhubung sepenuhnya, tidak memerah.",
+    "notification-matrix.queue.empty": "Menghapus pesan Matriks dari penjadwal, tetapi antrian kosong.",
+    "notification-matrix.queue.failed": "Gagal mengirim pesan Matriks antri: {error}",
+    "notification-matrix.send.failed": "Gagal mengirim pemberitahuan Matriks: {error} - Mengantri...",
+    "notification-matrix.home.server": "Server rumah adalah: {server}",
+    "notification-matrix.home.failed": "Gagal mendapatkan server rumah: {error}",
+    "notification-matrix.access.token": "Token aksesnya adalah: {token}",
+    "notification-matrix.login.failed": "Gagal masuk (dan mendapatkan token akses): {error}",
+    "notification-matrix.snippet.added": "Cuplikan konfigurasi ditambahkan. Sekarang buat dan bergabunglah dengan sebuah ruangan!",
+    "notification-matrix.snippet.failed": "Gagal menambahkan cuplikan konfigurasi: {error}",
+    "notification-matrix.room.joined": "Bergabung dengan ruangan.",
+    "notification-matrix.room.failed": "Gagal bergabung ke ruangan: {error}",
+    "notification-matrix.snippet.appended": "Konfigurasi yang ditambahkan ke cuplikan konfigurasi. Silakan tinjau!",
+    "notification-matrix.snippet.append.failed": "Gagal menambahkan konfigurasi ke cuplikan: {error}",
+    "notification-matrix.queued": "Pesan ini dimasukkan dalam antrean sejak {date} dan mungkin sudah usang."
+  },
+  "schema": "f843ad08937ad96c091b0aa66edd949e6e467c336607c9c73ff0270be3b95839"
+}

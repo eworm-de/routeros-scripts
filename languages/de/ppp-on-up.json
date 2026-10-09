@@ -1,0 +1,10 @@
+{
+  "language": "de",
+  "messages": {
+    "ppp-on-up.context.invalid": "Dieses Skript soll über den PPP-On-Up-Skript-Hook ausgeführt werden.",
+    "ppp-on-up.up": "Die PPP-Schnittstelle {interface} ist aktiv.",
+    "ppp-on-up.script.running": "Ausführendes Skript: {name}",
+    "ppp-on-up.script.failed": "Das Ausführen des Skripts „{name}“ ist fehlgeschlagen!"
+  },
+  "schema": "948ef5fc1bb267e734267f57a5d70df419d106197075fec109f206534ce4493c"
+}

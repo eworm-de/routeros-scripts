@@ -1,0 +1,12 @@
+{
+  "language": "ar-EG",
+  "messages": {
+    "bridge-port-to.client.enabled": "تعطيل منفذ الجسر للواجهة {interface}، وتمكين عميل dhcp.",
+    "bridge-port-to.interfaces.enabled": "إعادة تمكين الواجهات...",
+    "bridge-port-to.bridge.enabled": "تمكين منفذ الجسر للواجهة {interface}، والتغيير إلى {config}، {bridge}، وتعطيل عميل dhcp.",
+    "bridge-port-to.bridge.connected": "واجهة {interface} متصلة بالفعل بجسر {config} {bridge}.",
+    "bridge-port-to.client.missing": "تكوين عميل dhcp مفقود للواجهة {interface}!",
+    "bridge-port-to.client.duplicate": "تكوين عميل dhcp مكرر للواجهة {interface}!"
+  },
+  "schema": "9ff4cd55d43b5e48046edec247245c26cd52574d351dd5b3d5c66b36824548d6"
+}

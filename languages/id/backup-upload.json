@@ -1,0 +1,22 @@
+{
+  "language": "id",
+  "messages": {
+    "backup-upload.partition": "Berjalan dari partisi cadangan, menolak untuk bertindak.",
+    "backup-upload.directory": "Gagal membuat direktori!",
+    "backup-upload.options": "Dikonfigurasi untuk tidak mengirim cadangan atau ekspor konfigurasi.",
+    "backup-upload.none": "tidak ada",
+    "backup-upload.label.backup": "berkas cadangan",
+    "backup-upload.label.export": "Ekspor berkas",
+    "backup-upload.label.config": "File konfigurasi",
+    "backup-upload.upload.backup.failed": "Gagal mengunggah file cadangan: {error}",
+    "backup-upload.upload.export.failed": "Gagal mengunggah ekspor konfigurasi: {error}",
+    "backup-upload.upload.config.failed": "Gagal mengunggah global-config-overlay: {error}",
+    "backup-upload.subject": "Unggahan Cadangan & Konfigurasi",
+    "backup-upload.subject.failed": "Unggahan Cadangan & Konfigurasi gagal",
+    "backup-upload.message": "Cadangkan dan konfigurasikan unggahan ekspor untuk {identity}.\n\n{device}\n\n{details}",
+    "backup-upload.failed": "gagal",
+    "backup-upload.label.name": "    nama",
+    "backup-upload.label.size": "    ukuran"
+  },
+  "schema": "ac3b0aa1324d76ce3ef1515ba46a556bd27200aeea4ad75af6d1e26fd41bf67d"
+}

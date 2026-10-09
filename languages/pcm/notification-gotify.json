@@ -1,0 +1,11 @@
+{
+  "language": "pcm",
+  "messages": {
+    "notification-gotify.offline": "System never connect finish; we no go clear the queue.",
+    "notification-gotify.queue.empty": "Dey clear Gotify messages from scheduler, but queue no get anything.",
+    "notification-gotify.queue.failed": "Dey send queued Gotify message no work: {error}",
+    "notification-gotify.send.failed": "No fit send Gotify notification: {error} - Queuing...",
+    "notification-gotify.queued": "This message don dey for queue since {date} {time}; e fit don old."
+  },
+  "schema": "3ca0bb174dd4fcbe639af5145d66a280408096f7c34f9d1dd0565c5061427859"
+}

@@ -39,7 +39,7 @@ Run the complete base installation:
       };
       :put "Renaming global-config-overlay, if exists...";
       /system/script/set name=("global-config-overlay-" . [ /system/clock/get date ] . "-" . [ /system/clock/get time ]) [ find where name="global-config-overlay" ];
-      :foreach Script in={ "global-config"; "global-config-overlay"; "global-functions" } do={
+      :foreach Script in={ "global-config"; "global-config-overlay"; "global-functions.d/core-extra"; "global-functions" } do={
         :put "Installing $Script...";
         /system/script/remove [ find where name=$Script ];
         /system/script/add name=$Script owner=$Script source=([ /tool/fetch check-certificate=yes-without-crl ($BaseUrl . $Script . ".rsc") output=user as-value ]->"data");

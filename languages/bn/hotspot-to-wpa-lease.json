@@ -1,0 +1,9 @@
+{
+  "language": "bn",
+  "messages": {
+    "hotspot-to-wpa-lease.marker.added": "'--- হটস্পট-টু-ডব্লিউপিএ উপরে ---' মন্তব্য সহ নিষ্ক্রিয় অ্যাক্সেস-তালিকা এন্ট্রি যোগ করা হয়েছে।",
+    "hotspot-to-wpa-lease.template.added": "হটস্পট '{hotspot}'-এর জন্য অ্যাক্সেস-লিস্টে টেমপ্লেট যোগ করা হয়েছে।",
+    "hotspot-to-wpa-lease.entry.updated": "ম্যাক ঠিকানা {mac} (ব্যবহারকারী {user}) এর জন্য অ্যাক্সেস-তালিকা এন্ট্রি যোগ/আপডেট করা হচ্ছে।"
+  },
+  "schema": "f78d5db29b04af55a757a12886dca285667ff1378c2d7cd29bc37009f14f5ce8"
+}

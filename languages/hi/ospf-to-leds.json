@@ -1,0 +1,8 @@
+{
+  "language": "hi",
+  "messages": {
+    "ospf-to-leds.on": "OSPF इंस्टेंस {name} में {count} पड़ोसी हैं, आगे बढ़ें!",
+    "ospf-to-leds.off": "OSPF उदाहरण {name} का कोई पड़ोसी नहीं है, नेतृत्व किया गया!"
+  },
+  "schema": "3ae94f59ba09e39d125716de2e5770c50637c8553a2b9dcfe750e4b2f06ecb8e"
+}

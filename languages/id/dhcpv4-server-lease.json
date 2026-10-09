@@ -1,0 +1,12 @@
+{
+  "language": "id",
+  "messages": {
+    "dhcpv4-server-lease.context.invalid": "Skrip ini seharusnya dijalankan dari ip dhcp-server.",
+    "dhcpv4-server-lease.script.running": "Menjalankan skrip dengan pesanan {order}: {name}",
+    "dhcpv4-server-lease.script.failed": "Menjalankan skrip '{name}' gagal: {error}",
+    "dhcpv4-server-lease.waiting": "Lebih banyak doa menunggu, keluar lebih awal.",
+    "dhcpv4-server-lease.assigned": "Server DHCP {server} menetapkan sewa {address} ke {mac}",
+    "dhcpv4-server-lease.deassigned": "Server DHCP {server} membatalkan sewa {address} ke {mac}"
+  },
+  "schema": "e8bd70cbac2cb60d46fce97c5cd6f4d6f35e4039991ffa0fb5fd3e1e1ac986c3"
+}

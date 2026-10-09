@@ -1,0 +1,17 @@
+{
+  "language": "ar",
+  "messages": {
+    "notification-telegram.offline": "لم يتم توصيل النظام بشكل كامل، وليس التنظيف.",
+    "notification-telegram.certificate.failed": "فشل تنزيل الشهادة المطلوبة.",
+    "notification-telegram.queue.empty": "جارٍ مسح رسائل Telegram من المجدول، لكن قائمة الانتظار فارغة.",
+    "notification-telegram.queue.failed": "فشل إرسال رسالة Telegram في قائمة الانتظار: {error}",
+    "notification-telegram.fetch.failed": "فشل جلب البيانات: {error}",
+    "notification-telegram.message.none": "لم يتم تلقي أي رسالة.",
+    "notification-telegram.chat.id": "معرف الدردشة هو: {id}",
+    "notification-telegram.thread.id": "معرف الموضوع هو: {id}",
+    "notification-telegram.truncated": "كانت الرسالة طويلة جدًا وتم اقتطاعها، _{percent}%_!",
+    "notification-telegram.send.failed": "فشل إرسال إشعار Telegram: {error} - الانتظار...",
+    "notification-telegram.queued": "تم وضع هذه الرسالة في قائمة الانتظار منذ _{date} {time}_ وقد تكون قديمة."
+  },
+  "schema": "924e559ca736a5da1f8988a245b39db4d85bda9fd5e9d359b1d0b1ba41e16e5d"
+}

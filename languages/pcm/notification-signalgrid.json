@@ -1,0 +1,12 @@
+{
+  "language": "pcm",
+  "messages": {
+    "notification-signalgrid.offline": "System never connect finish; we no go clear the queue.",
+    "notification-signalgrid.empty": "Dey clear Signalgrid messages from scheduler, but queue no get anything.",
+    "notification-signalgrid.queue.failed": "Dey send queued Signalgrid notification no work: {error}",
+    "notification-signalgrid.certificate.failed": "Dey download wey we need certificate no work.",
+    "notification-signalgrid.sending.failed": "No fit send Signalgrid notification: {error} - Queuing...",
+    "notification-signalgrid.queued": "This message don dey for queue since {date} {time}; e fit don old."
+  },
+  "schema": "128aca9359451217298096f284f1811957b4079d0693132dbe948f2ced909a78"
+}

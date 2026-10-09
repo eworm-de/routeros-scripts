@@ -1,0 +1,16 @@
+{
+  "language": "de",
+  "messages": {
+    "check-perpetual-license.unsupported": "Für dieses Gerät gibt es keine unbefristete Lizenz.",
+    "check-perpetual-license.expired.log": "Ihre Lizenz ist am {date} abgelaufen!",
+    "check-perpetual-license.expired.subject": "Lizenz abgelaufen!",
+    "check-perpetual-license.expired.message": "Ihre Lizenz ist auf {date} abgelaufen. RouterOS kann nicht mehr auf {identity} aktualisiert werden ...",
+    "check-perpetual-license.warning.log": "Ihre Lizenz läuft am {date} ab!",
+    "check-perpetual-license.warning.subject": "Lizenz läuft bald ab!",
+    "check-perpetual-license.warning.message": "Ihre Lizenz konnte nicht verlängert werden und läuft demnächst am {date} am {identity} ab...",
+    "check-perpetual-license.renewed.log": "Ihre Lizenz wurde erfolgreich erneuert.",
+    "check-perpetual-license.renewed.subject": "Lizenz erneuert",
+    "check-perpetual-license.renewed.message": "Ihre Lizenz wurde am {identity} erfolgreich erneuert. Es ist nun gültig bis {date}."
+  },
+  "schema": "32c55d22d323e366e19b8b016c5e836db00f7a8e885d0410216fa65ead84ab9d"
+}

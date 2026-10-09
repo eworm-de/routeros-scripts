@@ -1,0 +1,17 @@
+{
+  "language": "id",
+  "messages": {
+    "backup-cloud.partition": "Berjalan dari partisi cadangan, menolak untuk bertindak.",
+    "backup-cloud.directory": "Gagal membuat direktori!",
+    "backup-cloud.subject": "Cadangan awan",
+    "backup-cloud.subject.failed": "Pencadangan awan gagal",
+    "backup-cloud.message": "Cadangan yang diunggah untuk {identity} ke cloud.\n\n{device}\n\n{details}",
+    "backup-cloud.message.failed": "Gagal mengunggah cadangan untuk {identity} ke cloud!\n\n{device}",
+    "backup-cloud.upload.failed": "Gagal mengunggah cadangan untuk {identity} ke cloud!",
+    "backup-cloud.retry": "Coba lagi berhasil, harap hapus kesalahan koneksi sebelumnya.",
+    "backup-cloud.label.name": "Nama",
+    "backup-cloud.label.size": "Ukuran",
+    "backup-cloud.label.key": "Kunci unduhan"
+  },
+  "schema": "1d68cb944d178c8731db42b15cc1dc9e76c76322543a57e366c56830ef3b644d"
+}

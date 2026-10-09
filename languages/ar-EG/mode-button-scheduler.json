@@ -1,0 +1,11 @@
+{
+  "language": "ar-EG",
+  "messages": {
+    "mode-button-scheduler.scheduler.missing": "المجدول غير موجود.",
+    "mode-button-scheduler.action.missing": "مااتعملش تحديد أي إجراء للضغط على زر الوضع {count}.",
+    "mode-button-scheduler.syntax": "رمز زر الوضع {count} يضغط على فشل التحقق من صحة بناء الجملة!",
+    "mode-button-scheduler.acting": "العمل على الضغط على زر الوضع {count}: {code}",
+    "mode-button-scheduler.failed": "فشل رمز الضغط على زر الوضع {count} مع حدوث خطأ في وقت التشغيل: {error}"
+  },
+  "schema": "573b86779a15979155d7ff480e677e88dbe77a77cbd92ffaba77887856e8af91"
+}

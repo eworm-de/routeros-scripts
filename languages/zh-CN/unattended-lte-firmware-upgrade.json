@@ -1,0 +1,13 @@
+{
+  "language": "zh-CN",
+  "messages": {
+    "unattended-lte-firmware-upgrade.query.failed": "无法获取接口 {interface} 的最新 LTE 固件版本：{error}",
+    "unattended-lte-firmware-upgrade.scheduling": "正在安排接口 {interface} 的 LTE 固件升级。",
+    "unattended-lte-firmware-upgrade.finished": "“{interface}”上的 LTE 固件升级已完成，等待重置。",
+    "unattended-lte-firmware-upgrade.different": "LTE 固件版本仍然不同。升级还是失败了？",
+    "unattended-lte-firmware-upgrade.failed": "“{interface}”上的 LTE 固件升级失败：{error}",
+    "unattended-lte-firmware-upgrade.current": "接口 {interface} 上的 LTE 固件已更新。",
+    "unattended-lte-firmware-upgrade.missing": "没有适用于接口 {interface} 的 LTE 固件信息。"
+  },
+  "schema": "f231d0e80dd157d0022fa102e5293133b9d7d9cc5d18785151ff81e3434c0c7b"
+}

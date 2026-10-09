@@ -1,0 +1,10 @@
+{
+  "language": "es",
+  "messages": {
+    "global-config.overlay.failed": "Error al cargar la configuración desde la superposición o el fragmento {script}: {error}",
+    "global-config.hello.subject": "Hola...",
+    "global-config.hello.message": "¡Hola mundo, {identity} llamando!",
+    "global-config.not.ready": "La configuración global y/o las funciones no están listas."
+  },
+  "schema": "4dea7b8ee007cfceb44462e476d61a9ea4a4066a05150bd7d29153c38e31666f"
+}

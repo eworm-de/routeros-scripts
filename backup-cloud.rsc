@@ -9,10 +9,33 @@
 # upload backup to MikroTik cloud
 # https://rsc.eworm.de/doc/backup-cloud.md
 
+# BEGIN GENERATED LANGUAGE DATA
+# language, name=backup-cloud, schema=1d68cb944d178c8731db42b15cc1dc9e76c76322543a57e366c56830ef3b644d
+:global LanguageEnglish;
+:if ([ :typeof $LanguageEnglish ] != "array") do={ :set LanguageEnglish ({}); }
+:set ($LanguageEnglish->"backup-cloud.directory") "Failed creating directory!";
+:set ($LanguageEnglish->"backup-cloud.label.key") "Download key";
+:set ($LanguageEnglish->"backup-cloud.label.name") "Name";
+:set ($LanguageEnglish->"backup-cloud.label.size") "Size";
+:set ($LanguageEnglish->"backup-cloud.message") "Uploaded backup for {identity} to cloud.\0A\0A{device}\0A\0A{details}";
+:set ($LanguageEnglish->"backup-cloud.message.failed") "Failed uploading backup for {identity} to cloud!\0A\0A{device}";
+:set ($LanguageEnglish->"backup-cloud.partition") "Running from backup partition, refusing to act.";
+:set ($LanguageEnglish->"backup-cloud.retry") "Retry successful, please discard previous connection errors.";
+:set ($LanguageEnglish->"backup-cloud.subject") "Cloud backup";
+:set ($LanguageEnglish->"backup-cloud.subject.failed") "Cloud backup failed";
+:set ($LanguageEnglish->"backup-cloud.upload.failed") "Failed uploading backup for {identity} to cloud!";
+:set ($LanguageEnglish->"global-config.not.ready") "Global config and/or functions not ready.";
+:global GlobalNotReadyMessage;
+:if ([ :typeof $GlobalNotReadyMessage ] != "str") do={
+  :set GlobalNotReadyMessage ($LanguageEnglish->"global-config.not.ready");
+}
+# END GENERATED LANGUAGE DATA
+
 :onerror Err {
   :global GlobalConfigReady; :global GlobalFunctionsReady;
+  :global GlobalNotReadyMessage;
   :retry { :if ($GlobalConfigReady != true || $GlobalFunctionsReady != true) \
-      do={ :error ("Global config and/or functions not ready."); }; } delay=500ms max=50;
+      do={ :error $GlobalNotReadyMessage; }; } delay=500ms max=50;
   :local ScriptName [ :jobname ];
 
   :global BackupRandomDelay;
@@ -22,6 +45,7 @@
   :global DeviceInfo;
   :global FormatLine;
   :global HumanReadableNum;
+  :global Translate;
   :global LogPrint;
   :global MkDir;
   :global RandomDelay;
@@ -39,7 +63,7 @@
   }
 
   :if ([ :len [ /system/scheduler/find where name="running-from-backup-partition" ] ] > 0) do={
-    $LogPrint warning $ScriptName ("Running from backup partition, refusing to act.");
+    $LogPrint warning $ScriptName ([ $Translate "backup-cloud.partition" ]);
     :set PackagesUpdateBackupFailure true;
     :exit;
   }
@@ -51,7 +75,7 @@
   }
 
   :if ([ $MkDir ("tmpfs/backup-cloud") ] = false) do={
-    $LogPrint error $ScriptName ("Failed creating directory!");
+    $LogPrint error $ScriptName ([ $Translate "backup-cloud.directory" ]);
     :exit;
   }
 
@@ -75,23 +99,21 @@
 
   :if ([ $WaitForFile "tmpfs/backup-cloud/done" ] = true) do={
     :if ($I < 4) do={
-      :log warning ($ScriptName . ": Retry successful, please discard previous connection errors.");
+      :log warning ($ScriptName . ": " . [ $Translate "backup-cloud.retry" ]);
     }
 
     :local Cloud [ /system/backup/cloud/get ([ find ]->0) ];
 
     $SendNotification2 ({ origin=$ScriptName;  silent=true; \
-      subject=([ $SymbolForNotification "floppy-disk,cloud" ] . "Cloud backup"); \
-      message=("Uploaded backup for " . $Identity . " to cloud.\n\n" . \
-        [ $DeviceInfo ] . "\n\n" . \
-        [ $FormatLine "Name" ($Cloud->"name") ] . "\n" . \
-        [ $FormatLine "Size" ([ $HumanReadableNum ($Cloud->"size") 1024 ] . "B") ] . "\n" . \
-        [ $FormatLine "Download key" ($Cloud->"secret-download-key") ]) });
+      subject=([ $SymbolForNotification "floppy-disk,cloud" ] . [ $Translate "backup-cloud.subject" ]); \
+      message=([ $Translate "backup-cloud.message" ({ identity=$Identity; device=[ $DeviceInfo ]; details=([ $FormatLine [ $Translate "backup-cloud.label.name" ] ($Cloud->"name") ] . "\n" . \
+        [ $FormatLine [ $Translate "backup-cloud.label.size" ] ([ $HumanReadableNum ($Cloud->"size") 1024 ] . "B") ] . "\n" . \
+        [ $FormatLine [ $Translate "backup-cloud.label.key" ] ($Cloud->"secret-download-key") ]) }) ]) });
   } else={
     $SendNotification2 ({ origin=$ScriptName;  silent=false; \
-      subject=([ $SymbolForNotification "floppy-disk,warning-sign" ] . "Cloud backup failed"); \
-      message=("Failed uploading backup for " . $Identity . " to cloud!\n\n" . [ $DeviceInfo ]) });
-    $LogPrint error $ScriptName ("Failed uploading backup for " . $Identity . " to cloud!");
+      subject=([ $SymbolForNotification "floppy-disk,warning-sign" ] . [ $Translate "backup-cloud.subject.failed" ]); \
+      message=([ $Translate "backup-cloud.message.failed" ({ identity=$Identity; device=[ $DeviceInfo ] }) ]) });
+    $LogPrint error $ScriptName ([ $Translate "backup-cloud.upload.failed" ({ identity=$Identity }) ]);
     :set PackagesUpdateBackupFailure true;
   }
   $RmDir "tmpfs/backup-cloud";

@@ -1,0 +1,8 @@
+{
+  "language": "ja",
+  "messages": {
+    "capsman-rolling-upgrade.starting": "{name} ({identity}) のアップグレードを開始しています...",
+    "capsman-rolling-upgrade.vanished": "リモート CAP が消え、アップグレードがスキップされました。"
+  },
+  "schema": "518c446962bfccca4b56fa763c6aedb6d6e615b691208e3ffc397bbcd2c91de8"
+}

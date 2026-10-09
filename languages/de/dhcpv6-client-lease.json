@@ -1,0 +1,9 @@
+{
+  "language": "de",
+  "messages": {
+    "dhcpv6-client-lease.context.invalid": "Dieses Skript soll vom IPv6-DHCP-Client ausgeführt werden.",
+    "dhcpv6-client-lease.script.running": "Ausführen des Skripts mit der Reihenfolge {order}: {name}",
+    "dhcpv6-client-lease.script.failed": "Das Ausführen des Skripts „{name}“ ist fehlgeschlagen: {error}"
+  },
+  "schema": "6945e4d13819da10f471d905a5fc37284b6cf1e482d9a7b526483b754951e02a"
+}

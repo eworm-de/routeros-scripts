@@ -1,0 +1,12 @@
+{
+  "language": "de",
+  "messages": {
+    "notification-signalgrid.offline": "Das System ist nicht vollständig angeschlossen, die Spülung erfolgt nicht.",
+    "notification-signalgrid.empty": "Signalgrid-Nachrichten werden aus dem Scheduler gelöscht, aber die Warteschlange ist leer.",
+    "notification-signalgrid.queue.failed": "Das Senden der Signalgrid-Benachrichtigung in der Warteschlange ist fehlgeschlagen: {error}",
+    "notification-signalgrid.certificate.failed": "Das Herunterladen des erforderlichen Zertifikats ist fehlgeschlagen.",
+    "notification-signalgrid.sending.failed": "Fehler beim Senden der Signalgrid-Benachrichtigung: {error} – Warteschlange...",
+    "notification-signalgrid.queued": "Diese Nachricht befand sich seit {date} {time} in der Warteschlange und ist möglicherweise veraltet."
+  },
+  "schema": "128aca9359451217298096f284f1811957b4079d0693132dbe948f2ced909a78"
+}

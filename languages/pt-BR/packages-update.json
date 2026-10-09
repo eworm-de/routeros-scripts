@@ -1,0 +1,26 @@
+{
+  "language": "pt-BR",
+  "messages": {
+    "packages-update.scheduler.exists": "Já existe um agendamento de reinicialização.",
+    "packages-update.scheduled": "Reinicialização para atualização agendada para {time}, horário local ({timezone}).",
+    "packages-update.license.expired": "A licença expirou; a atualização está bloqueada.",
+    "packages-update.backup.partition": "Executando a partir da partição de backup; operação recusada.",
+    "packages-update.version.unknown": "A versão mais recente é desconhecida.",
+    "packages-update.version.installed": "A versão {version} já está instalada.",
+    "packages-update.backup.running": "Executando o script de backup {name} antes da atualização.",
+    "packages-update.backup.failed": "Falha ao executar o script de backup {name} antes da atualização!",
+    "packages-update.continue.prompt": "Deseja continuar mesmo assim? [y/N]",
+    "packages-update.continue": "O usuário solicitou continuar mesmo assim.",
+    "packages-update.canceled.update": "Atualização cancelada...",
+    "packages-update.canceled.noninteractive": "Atualização não interativa cancelada.",
+    "packages-update.downgrade.prompt": "A versão disponível é anterior à instalada. Deseja instalar a versão anterior? [y/N]",
+    "packages-update.canceled": "Cancelado...",
+    "packages-update.downgrade.refused": "A versão anterior não será instalada automaticamente.",
+    "packages-update.download.failed": "Falha ao baixar o pacote {name}; atualização abortada.",
+    "packages-update.downgrade.reboot": "Reiniciando para instalar a versão anterior.",
+    "packages-update.reboot.prompt": "Deseja agendar (s) a reinicialização ou reiniciar (r) agora? [s/R]",
+    "packages-update.update.reboot": "Reiniciando para atualização.",
+    "packages-update.scheduled.deferred": "Reinicialização para atualização agendada para {time}, horário local ({timezone}), adiada por {interval}."
+  },
+  "schema": "77f3f83454477a8d375bfb399dd18ea210e50ceaf290213460a2f613ac47abd1"
+}

@@ -1,0 +1,9 @@
+{
+  "language": "pt-BR",
+  "messages": {
+    "hotspot-to-wpa-cleanup.connected": "O cliente com endereço MAC {mac} conectou-se ao WPA; tornando a concessão estática.",
+    "hotspot-to-wpa-cleanup.disconnected": "O cliente com endereço MAC {mac} não se conectou ao WPA; removendo da lista de acesso.",
+    "hotspot-to-wpa-cleanup.expired": "O cliente com endereço MAC {mac} não foi visto há {elapsed}; removendo."
+  },
+  "schema": "1ebc7ea0f3bc0cc65554da860eb4b0739adc55a3f127030c7d8a1c780e722a35"
+}

@@ -1,0 +1,9 @@
+{
+  "language": "ru",
+  "messages": {
+    "hotspot-to-wpa-cleanup.connected": "Клиент с mac-адресом {mac}, подключенный к WPA, делает аренду статической.",
+    "hotspot-to-wpa-cleanup.disconnected": "Клиент с mac-адресом {mac} не подключился к WPA, удалил его из списка доступа.",
+    "hotspot-to-wpa-cleanup.expired": "Клиент с mac-адресом {mac} не был замечен для {elapsed}, удаляем."
+  },
+  "schema": "1ebc7ea0f3bc0cc65554da860eb4b0739adc55a3f127030c7d8a1c780e722a35"
+}

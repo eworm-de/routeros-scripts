@@ -1,0 +1,22 @@
+{
+  "language": "bn",
+  "messages": {
+    "check-lte-firmware-upgrade.fetch.failed": "{interface}: {error} ইন্টারফেসের জন্য সর্বশেষ LTE ফার্মওয়্যার সংস্করণ পাওয়া যায়নি",
+    "check-lte-firmware-upgrade.version.empty": "একটি খালি স্ট্রিং একটি বৈধ সংস্করণ নয়৷",
+    "check-lte-firmware-upgrade.current": "LTE ইন্টারফেস {interface} এর জন্য কোন ফার্মওয়্যার আপগ্রেড উপলব্ধ নেই৷",
+    "check-lte-firmware-upgrade.prompt": "আপনি কি {interface} ইন্টারফেসের জন্য অনুপস্থিত lte ফার্মওয়্যার আপগ্রেড শুরু করতে চান? [y/N]",
+    "check-lte-firmware-upgrade.scheduled": "{interface} ইন্টারফেসের জন্য নির্ধারিত lte ফার্মওয়্যার আপগ্রেড...",
+    "check-lte-firmware-upgrade.canceled": "বাতিল হয়েছে...",
+    "check-lte-firmware-upgrade.already.sent": "{version} সংস্করণের জন্য ইতিমধ্যেই LTE ফার্মওয়্যার আপগ্রেড বিজ্ঞপ্তি পাঠানো হয়েছে৷",
+    "check-lte-firmware-upgrade.available.log": "একটি নতুন ফার্মওয়্যার সংস্করণ {version} LTE ইন্টারফেস {interface} এর জন্য উপলব্ধ৷",
+    "check-lte-firmware-upgrade.subject": "LTE ফার্মওয়্যার আপগ্রেড",
+    "check-lte-firmware-upgrade.message": "একটি নতুন ফার্মওয়্যার সংস্করণ {version} {identity}-এ LTE ইন্টারফেস {interface}-এর জন্য উপলব্ধ।\n\n{details}",
+    "check-lte-firmware-upgrade.label.manufacturer": "প্রস্তুতকারক",
+    "check-lte-firmware-upgrade.label.model": "মডেল",
+    "check-lte-firmware-upgrade.label.revision": "রিভিশন",
+    "check-lte-firmware-upgrade.label.firmware": "ফার্মওয়্যার সংস্করণ:\n",
+    "check-lte-firmware-upgrade.label.installed": "    ইনস্টল করা হয়েছে",
+    "check-lte-firmware-upgrade.label.available": "    পাওয়া যায়"
+  },
+  "schema": "48481740f1c9bb358194e5fc7b620f4ae430d0a89771919bb68cf54ad8f44eee"
+}

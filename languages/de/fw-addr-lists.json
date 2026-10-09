@@ -1,0 +1,21 @@
+{
+  "language": "de",
+  "messages": {
+    "fw-addr-lists.crash.delay": "Möglicherweise ist das Skript-Subsystem abgestürzt, möglicherweise durch uns verursacht. Verzögerung!",
+    "fw-addr-lists.certificate.failed": "Das Herunterladen des erforderlichen Zertifikats ({list} / {url}) ist fehlgeschlagen. Versuchen Sie es trotzdem.",
+    "fw-addr-lists.download.retry": "Das Herunterladen der Liste „{list}“, {count} ist fehlgeschlagen. Versuchen Sie es von: {url}",
+    "fw-addr-lists.download.failed": "Das Herunterladen der Liste „{list}“ von: {url} ist fehlgeschlagen",
+    "fw-addr-lists.downloaded": "{size}B für Liste „{list}“ heruntergeladen von: {url}",
+    "fw-addr-lists.branch": "Abwicklungszweig: {branch}",
+    "fw-addr-lists.summary": "Liste: {list} ({total}) – hinzugefügt: {added} – erneuert: {renewed} – entfernt: {removed}",
+    "fw-addr-lists.ipv4.renew": "Erneuerung der IPv4-Adresse {address} in der Liste „{list}“ mit {timeout}.",
+    "fw-addr-lists.ipv4.remove": "IPv4-Adresse {address} wird aus der Liste „{list}“ entfernt.",
+    "fw-addr-lists.ipv4.add": "Hinzufügen der IPv4-Adresse {address} zur Liste „{list}“ mit {timeout}.",
+    "fw-addr-lists.ipv4.failed": "Die IPv4-Adresse {address} konnte nicht zur Liste „{list}“ hinzugefügt werden: {error}",
+    "fw-addr-lists.ipv6.renew": "Erneuerung der IPv6-Adresse {address} in der Liste „{list}“ mit {timeout}.",
+    "fw-addr-lists.ipv6.remove": "IPv6-Adresse {address} wird aus der Liste „{list}“ entfernt.",
+    "fw-addr-lists.ipv6.add": "Hinzufügen der IPv6-Adresse {address} zur Liste „{list}“ mit {timeout}.",
+    "fw-addr-lists.ipv6.failed": "Die IPv6-Adresse {address} konnte nicht zur Liste „{list}“ hinzugefügt werden: {error}"
+  },
+  "schema": "42bcfb865c10957ae21b18aa798348228d56dea78dd75c130eee6af199b03277"
+}

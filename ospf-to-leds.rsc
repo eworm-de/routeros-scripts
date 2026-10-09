@@ -8,13 +8,28 @@
 # visualize ospf instance state via leds
 # https://rsc.eworm.de/doc/ospf-to-leds.md
 
+# BEGIN GENERATED LANGUAGE DATA
+# language, name=ospf-to-leds, schema=3ae94f59ba09e39d125716de2e5770c50637c8553a2b9dcfe750e4b2f06ecb8e
+:global LanguageEnglish;
+:if ([ :typeof $LanguageEnglish ] != "array") do={ :set LanguageEnglish ({}); }
+:set ($LanguageEnglish->"ospf-to-leds.off") "OSPF instance {name} has no neighbors, led off!";
+:set ($LanguageEnglish->"ospf-to-leds.on") "OSPF instance {name} has {count} neighbors, led on!";
+:set ($LanguageEnglish->"global-config.not.ready") "Global config and/or functions not ready.";
+:global GlobalNotReadyMessage;
+:if ([ :typeof $GlobalNotReadyMessage ] != "str") do={
+  :set GlobalNotReadyMessage ($LanguageEnglish->"global-config.not.ready");
+}
+# END GENERATED LANGUAGE DATA
+
 :onerror Err {
   :global GlobalConfigReady; :global GlobalFunctionsReady;
+  :global GlobalNotReadyMessage;
   :retry { :if ($GlobalConfigReady != true || $GlobalFunctionsReady != true) \
-      do={ :error ("Global config and/or functions not ready."); }; } delay=500ms max=50;
+      do={ :error $GlobalNotReadyMessage; }; } delay=500ms max=50;
   :local ScriptName [ :jobname ];
 
   :global LogPrint;
+  :global Translate;
   :global ParseKeyValueStore;
   :global ScriptLock;
 
@@ -34,11 +49,13 @@
     }
 
     :if ($NeighborCount > 0 && $LEDType = "off") do={
-      $LogPrint info $ScriptName ("OSPF instance " . $InstanceVal->"name" . " has " . $NeighborCount . " neighbors, led on!");
+      $LogPrint info $ScriptName [ $Translate "ospf-to-leds.on" \
+          ({ name=($InstanceVal->"name"); count=$NeighborCount }) ];
       /system/leds/set type=on [ find where leds=$LED ];
     }
     :if ($NeighborCount = 0 && $LEDType = "on") do={
-      $LogPrint info $ScriptName ("OSPF instance " . $InstanceVal->"name" . " has no neighbors, led off!");
+      $LogPrint info $ScriptName [ $Translate "ospf-to-leds.off" \
+          ({ name=($InstanceVal->"name") }) ];
       /system/leds/set type=off [ find where leds=$LED ];
     }
   }

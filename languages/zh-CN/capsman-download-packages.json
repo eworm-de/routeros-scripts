@@ -1,0 +1,10 @@
+{
+  "language": "zh-CN",
+  "messages": {
+    "capsman-download-packages.path.undefined": "CAPsMAN包路径未定义，无法下载包。",
+    "capsman-download-packages.directory.failed": "在 CAPsMAN 包路径 ({path}) 创建目录失败！",
+    "capsman-download-packages.directory.created": "在 CAPsMAN 包路径 ({path}) 处创建了目录。请放置您的包裹！",
+    "capsman-download-packages.defaults": "没有可用的软件包，正在下载默认集。"
+  },
+  "schema": "59f845c7f49406ecd939f7b0cebfb7f994f70400db30d8b136359720c88ab147"
+}

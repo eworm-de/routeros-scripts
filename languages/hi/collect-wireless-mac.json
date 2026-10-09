@@ -1,0 +1,25 @@
+{
+  "language": "hi",
+  "messages": {
+    "collect-wireless-mac.marker.added": "टिप्पणी '---ऊपर एकत्रित ---' के साथ अक्षम पहुंच-सूची प्रविष्टि जोड़ी गई।",
+    "collect-wireless-mac.device.gone": "डिवाइस पहले ही ख़त्म हो चुका है... नज़रअंदाज़ किया जा रहा है।",
+    "collect-wireless-mac.lease.missing": "कोई डीएचसीपी पट्टा नहीं",
+    "collect-wireless-mac.hostname.missing": "कोई होस्टनाम नहीं",
+    "collect-wireless-mac.dns.missing": "कोई डीएनएस नाम नहीं",
+    "collect-wireless-mac.first.seen": "मैक पता {mac} ({vendor}, {hostname}) पहली बार {date} पर देखा गया जो SSID {ssid}, इंटरफ़ेस {interface} से जुड़ा है",
+    "collect-wireless-mac.subject": "{mac} {ssid} से जुड़ा है",
+    "collect-wireless-mac.message": "अज्ञात MAC पते वाला एक उपकरण {identity} पर {ssid} से जुड़ा है।\n\n",
+    "collect-wireless-mac.mac.missing": "कोई मैक पता उपलब्ध नहीं... नज़रअंदाज़ किया जा रहा है।",
+    "collect-wireless-mac.label.controller": "नियंत्रक",
+    "collect-wireless-mac.label.interface": "इंटरफ़ेस",
+    "collect-wireless-mac.label.ssid": "एसएसआईडी",
+    "collect-wireless-mac.label.mac": "मैक",
+    "collect-wireless-mac.label.vendor": "विक्रेता",
+    "collect-wireless-mac.label.hostname": "होस्टनाम",
+    "collect-wireless-mac.label.address": "पता",
+    "collect-wireless-mac.label.dns": "डीएनएस नाम",
+    "collect-wireless-mac.label.date": "दिनांक",
+    "collect-wireless-mac.known": "मैक पता {mac} पहले से ही ज्ञात है: {comment}"
+  },
+  "schema": "70ad56ad671ad178315877f3d03eaddd505e04060e94d4c635cd2ebab32adee9"
+}

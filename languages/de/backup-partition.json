@@ -1,0 +1,16 @@
+{
+  "language": "de",
+  "messages": {
+    "backup-partition.copied": "RouterOS in die Partition „{name}“ kopiert.",
+    "backup-partition.copy.failed": "Fehler beim Kopieren von RouterOS in die Partition „{name}“: {error}",
+    "backup-partition.partition": "Wird von der Backup-Partition ausgeführt und weigert sich zu handeln.",
+    "backup-partition.unavailable": "Das Gerät verfügt über keine Fallback-Partition.",
+    "backup-partition.inactive": "Das Gerät wird nicht von der aktiven Partition ausgeführt.",
+    "backup-partition.fallback.missing": "Es gibt keine inaktive Partition mit dem Namen „{name}“.",
+    "backup-partition.prompt": "Die Partitionen haben unterschiedliche RouterOS-Versionen. Nach „{name}“ kopieren? [y/N]",
+    "backup-partition.saved": "Konfiguration in Partition „{name}“ gespeichert.",
+    "backup-partition.save.failed": "Fehler beim Speichern der Konfiguration in der Partition „{name}“: {error}",
+    "backup-partition.running": "Wird von der Partition „{name}“ ausgeführt!"
+  },
+  "schema": "d37495d3faf22763093e64eb8145eb90d29a006fb0503cc939337741dfd80681"
+}

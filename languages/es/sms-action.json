@@ -1,0 +1,9 @@
+{
+  "language": "es",
+  "messages": {
+    "sms-action.context": "Se supone que este script se ejecuta desde el enlace SMS con action=...",
+    "sms-action.running": "Actuando sobre la acción de SMS '{action}': {code}",
+    "sms-action.syntax": "¡El código de la acción '{action}' falló en la validación de sintaxis!"
+  },
+  "schema": "91ff5010d0d869687a0bb1c0989668afd4c77fed76f0d8728bca83f00940d48e"
+}

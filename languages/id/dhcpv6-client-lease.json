@@ -1,0 +1,9 @@
+{
+  "language": "id",
+  "messages": {
+    "dhcpv6-client-lease.context.invalid": "Skrip ini seharusnya dijalankan dari ipv6 dhcp-client.",
+    "dhcpv6-client-lease.script.running": "Menjalankan skrip dengan pesanan {order}: {name}",
+    "dhcpv6-client-lease.script.failed": "Menjalankan skrip '{name}' gagal: {error}"
+  },
+  "schema": "6945e4d13819da10f471d905a5fc37284b6cf1e482d9a7b526483b754951e02a"
+}

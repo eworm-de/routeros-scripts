@@ -1,0 +1,11 @@
+{
+  "language": "ja",
+  "messages": {
+    "notification-gotify.offline": "システムが完全に接続されておらず、フラッシュされていません。",
+    "notification-gotify.queue.empty": "Gotify メッセージをスケジューラからフラッシュしていますが、キューは空です。",
+    "notification-gotify.queue.failed": "キューに入れられた Gotify メッセージの送信に失敗しました: {error}",
+    "notification-gotify.send.failed": "Gotify 通知の送信に失敗しました: {error} - キュー中...",
+    "notification-gotify.queued": "このメッセージは {date} {time} 以降キューに入れられていたため、廃止された可能性があります。"
+  },
+  "schema": "3ca0bb174dd4fcbe639af5145d66a280408096f7c34f9d1dd0565c5061427859"
+}

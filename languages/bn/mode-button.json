@@ -1,0 +1,8 @@
+{
+  "language": "bn",
+  "messages": {
+    "mode-button.scheduler.creating": "{script}: শিডিউলার mode-button-scheduler তৈরি করা হচ্ছে, প্রেস গণনা করা হচ্ছে...",
+    "mode-button.scheduler.updating": "{script}: সময়সূচী mode-button-scheduler আপডেট করা হচ্ছে..."
+  },
+  "schema": "1b567608fb5b7d34f1710eac3a7c4e5740acbea43a5f928a6be5d5c6d189ed03"
+}

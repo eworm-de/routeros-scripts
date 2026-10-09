@@ -1,0 +1,10 @@
+{
+  "language": "ru",
+  "messages": {
+    "ppp-on-up.context.invalid": "Предполагается, что этот сценарий запускается из перехватчика сценария ppp on-up.",
+    "ppp-on-up.up": "Интерфейс PPP {interface} включен.",
+    "ppp-on-up.script.running": "Запуск сценария: {name}",
+    "ppp-on-up.script.failed": "Не удалось выполнить сценарий «{name}»!"
+  },
+  "schema": "948ef5fc1bb267e734267f57a5d70df419d106197075fec109f206534ce4493c"
+}

@@ -1,0 +1,21 @@
+{
+  "language": "de",
+  "messages": {
+    "dhcp-to-dns.marker.added": "Deaktivierter statischer DNS-Eintrag mit dem Namen „{name}“ hinzugefügt.",
+    "dhcp-to-dns.lease.exists": "Mietvertrag für {lease} ({name}) besteht noch. Datensatz wird nicht gelöscht.",
+    "dhcp-to-dns.lease.expired": "Mietvertrag für {lease} abgelaufen, Datensatz ({name}) wird gelöscht.",
+    "dhcp-to-dns.leases.multiple": "Für die Mac-Adresse {mac} wurden mehrere gebundene Leases gefunden!",
+    "dhcp-to-dns.lease.vanished": "Ein Mietvertrag ist einfach verschwunden, ignoriert.",
+    "dhcp-to-dns.address.missing": "Keine Adresse verfügbar... Ignorieren.",
+    "dhcp-to-dns.lease.ignored": "Lease für {mac} wird ignoriert... Überspringen.",
+    "dhcp-to-dns.record.current": "Der A-Eintrag für {lease} ({name}) muss nicht aktualisiert werden.",
+    "dhcp-to-dns.record.updating": "Aktualisieren eines Datensatzes für {lease} ({name} -> {address}).",
+    "dhcp-to-dns.cname.deleting": "CNAME-Eintrag mit falschen Daten für {lease} wird gelöscht.",
+    "dhcp-to-dns.cname.adding": "CNAME-Eintrag für {lease} hinzufügen ({name} -> {target}).",
+    "dhcp-to-dns.record.adding": "Hinzufügen eines Datensatzes für {lease} ({name} -> {address}).",
+    "dhcp-to-dns.records.multiple": "Der Name „{name}“ tauchte in mehr als einer A-Platte auf!",
+    "dhcp-to-dns.lease.label": "{mac} in {server}",
+    "dhcp-to-dns.lease.label.current": "{mac} in {server}"
+  },
+  "schema": "96d193afd6225330e8e948bff1c489f075720758d514a6288540b978f27c8e6d"
+}

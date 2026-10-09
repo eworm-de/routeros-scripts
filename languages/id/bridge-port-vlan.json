@@ -1,0 +1,13 @@
+{
+  "language": "id",
+  "messages": {
+    "bridge-port-vlan.client.enabled": "Menonaktifkan port jembatan untuk antarmuka {interface}, mengaktifkan klien dhcp.",
+    "bridge-port-vlan.interfaces.enabled": "Mengaktifkan kembali antarmuka...",
+    "bridge-port-vlan.vlan.missing": "Tidak dapat menemukan VLAN '{vlan}' untuk antarmuka {interface}!",
+    "bridge-port-vlan.vlan.enabled": "Mengaktifkan port jembatan untuk antarmuka {interface}, mengubah ke {config} vlan {vlan}{name}, menonaktifkan klien dhcp.",
+    "bridge-port-vlan.vlan.connected": "Antarmuka {interface} sudah terhubung ke {config} vlan {vlan}.",
+    "bridge-port-vlan.client.missing": "Konfigurasi klien dhcp untuk antarmuka {interface} tidak ada!",
+    "bridge-port-vlan.client.duplicate": "Duplikat konfigurasi klien dhcp untuk antarmuka {interface}!"
+  },
+  "schema": "ca51ecefefa0a1bcad40eb3a3ad65db37300e7e3b0f7f3f5abe49a021f6dfda1"
+}

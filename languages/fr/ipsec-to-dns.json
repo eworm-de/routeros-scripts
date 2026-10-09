@@ -1,0 +1,12 @@
+{
+  "language": "fr",
+  "messages": {
+    "ipsec-to-dns.marker.added": "Ajout d'un enregistrement DNS statique désactivé portant le nom « {name} ».",
+    "ipsec-to-dns.peer.exists": "L'homologue {peer} ({name}) existe toujours. Ne pas supprimer l'entrée DNS.",
+    "ipsec-to-dns.peer.gone": "L'homologue {peer} ({name}) a disparu, supprimant l'entrée DNS.",
+    "ipsec-to-dns.current": "L’entrée DNS pour {name} n’a pas besoin d’être mise à jour.",
+    "ipsec-to-dns.replacing": "Remplacement de l'entrée DNS pour {name}, la nouvelle adresse est {address}.",
+    "ipsec-to-dns.adding": "Ajout d'une nouvelle entrée DNS pour {name}, l'adresse est {address}."
+  },
+  "schema": "ed1c281155d118ad0f626106c929affb97ffffbf416dd87053f0becd389012dc"
+}

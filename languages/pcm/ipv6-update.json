@@ -1,0 +1,14 @@
+{
+  "language": "pcm",
+  "messages": {
+    "ipv6-update.address.ignored": "An address ({address}) don acquired, not a prefix. Ignoring.",
+    "ipv6-update.context.invalid": "This script suppose run from ipv6 dhcp-client.",
+    "ipv6-update.prefix.invalid": "prefix {prefix} dey no dey again valid. Ignoring.",
+    "ipv6-update.list.added": "Dem add dynamic ipv6 address list entry for ipv6-pool-{pool}",
+    "ipv6-update.prefix.updating": "Dey update IPv6 address list with new IPv6 prefix {prefix}",
+    "ipv6-update.host.updating": "Dey update IPv6 address list with new IPv6 host address {address} from interface {interface}",
+    "ipv6-update.interface.prefix.updating": "Dey update IPv6 address list with new IPv6 prefix {prefix} from interface {interface}",
+    "ipv6-update.dns.updating": "Dey update DNS record for {name}{regexp} to {address}"
+  },
+  "schema": "d502241c31fb73e9c3245e499a026333b5c7b5265d927b18a2a24bf7948fb823"
+}

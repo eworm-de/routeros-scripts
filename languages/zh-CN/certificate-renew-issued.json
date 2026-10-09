@@ -1,0 +1,9 @@
+{
+  "language": "zh-CN",
+  "messages": {
+    "certificate-renew-issued.exported": "为“{name}”颁发了新证书，导出到“cert-issued/{name}.p12”。",
+    "certificate-renew-issued.directory.failed": "创建目录失败，无法导出证书。",
+    "certificate-renew-issued.issued": "颁发了“{name}”的新证书。"
+  },
+  "schema": "9048d1a3bcb148168f2785f02dea50e8de90c9f3170cedabe6b72d99bc61a2fd"
+}

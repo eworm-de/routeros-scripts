@@ -1,0 +1,12 @@
+{
+  "language": "ur",
+  "messages": {
+    "bridge-port-to.client.enabled": "انٹرفیس {interface} کے لیے پل پورٹ کو غیر فعال کرنا، dhcp کلائنٹ کو فعال کرنا۔",
+    "bridge-port-to.interfaces.enabled": "انٹرفیس کو دوبارہ فعال کیا جا رہا ہے...",
+    "bridge-port-to.bridge.enabled": "{interface} انٹرفیس کے لیے پل پورٹ کو فعال کرنا، {config} پل {bridge} میں تبدیل، dhcp کلائنٹ کو غیر فعال کرنا۔",
+    "bridge-port-to.bridge.connected": "انٹرفیس {interface} پہلے سے ہی {config} پل {bridge} سے منسلک ہے۔",
+    "bridge-port-to.client.missing": "انٹرفیس {interface} کے لیے dhcp کلائنٹ کنفیگریشن غائب ہے!",
+    "bridge-port-to.client.duplicate": "انٹرفیس {interface} کے لیے ڈپلیکیٹ dhcp کلائنٹ کنفیگریشن!"
+  },
+  "schema": "9ff4cd55d43b5e48046edec247245c26cd52574d351dd5b3d5c66b36824548d6"
+}

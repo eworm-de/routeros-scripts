@@ -1,0 +1,11 @@
+{
+  "language": "zh-CN",
+  "messages": {
+    "daily-psk.updating": "将“{ssid}”的每日 PSK 更新为“{psk}”（原为“{previous}”）",
+    "daily-psk.sent": "已经发送了 SSID {ssid} 的邮件，跳过。",
+    "daily-psk.subject": "每日 PSK {ssid}",
+    "daily-psk.message": "这是 {identity} 上的每日 PSK：\n\n{ssid}\n{psk}\n{date}\n\n客户端设备特定规则不得存在！",
+    "daily-psk.date": "日期"
+  },
+  "schema": "64d2ff049c113163d9a5b4847306ad5ac276859115f25bfe3d397cc8b24a1ea0"
+}

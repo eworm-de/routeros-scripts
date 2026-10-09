@@ -1,0 +1,30 @@
+{
+  "language": "zh-CN",
+  "messages": {
+    "telegram-chat.certificate.failed": "下载所需的证书失败。",
+    "telegram-chat.fetch.failed": "获取失败，{count}。尝试：{error}",
+    "telegram-chat.updates.failed": "获取更新失败。",
+    "telegram-chat.update": "更新{id}：{update}",
+    "telegram-chat.notice": "发送更新通知 {id}。",
+    "telegram-chat.subject": "电报聊天",
+    "telegram-chat.greeting": "您好{name}！\n\n",
+    "telegram-chat.directory.failed": "创建目录失败！",
+    "telegram-chat.command.running": "从更新 {id} 运行命令：{command}",
+    "telegram-chat.command.background": "该命令尚未完成，仍在后台运行。\n\n",
+    "telegram-chat.command.failed": "命令因错误而失败！\n\n",
+    "telegram-chat.command": "命令：\n{command}\n\n",
+    "telegram-chat.output": "输出：\n{output}",
+    "telegram-chat.output.empty": "无输出。",
+    "telegram-chat.command.syntax": "更新 {id} 中的命令语法验证失败！",
+    "telegram-chat.command.syntax.message": "该命令语法验证失败！",
+    "telegram-chat.untrusted.message": "你不被信任。",
+    "telegram-chat.update.handled": "已处理更新 {id}。",
+    "telegram-chat.online.passive": "在线，等待您的指挥！",
+    "telegram-chat.online.active": "在线（并且活跃！），等待您的命令！",
+    "telegram-chat.state.active": "现在从更新 {id} 开始生效！",
+    "telegram-chat.state.passive": "现在从更新 {id} 开始被动！",
+    "telegram-chat.untrusted.unnamed": "在更新 {id} 中收到来自不受信任的联系人的消息，没有用户名 (ID {contact})！",
+    "telegram-chat.untrusted.named": "在更新 {id} 中收到来自不受信任的联系人“{username}”（ID {contact}）的消息！"
+  },
+  "schema": "23866b98057d30494867d66d781c3555fc2f373d9af75cb1aac34c965ee3bd54"
+}

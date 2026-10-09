@@ -1,0 +1,8 @@
+{
+  "language": "es",
+  "messages": {
+    "accesslist-duplicates.remove.prompt": "\nIdentificación numérica para eliminar, ¡cualquier clave para omitir!",
+    "accesslist-duplicates.removing": "Eliminando la identificación numérica {id}...\n"
+  },
+  "schema": "11c6e77afe0e5ea39b260eb21e4693aeb7b69299435563d0469b3c22651fdc8c"
+}

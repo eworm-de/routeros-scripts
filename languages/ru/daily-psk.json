@@ -1,0 +1,11 @@
+{
+  "language": "ru",
+  "messages": {
+    "daily-psk.updating": "Обновление ежедневного PSK для «{ssid}» на «{psk}» (было «{previous}»)",
+    "daily-psk.sent": "Уже отправил письмо для SSID {ssid}, пропускаю.",
+    "daily-psk.subject": "ежедневно PSK {ssid}",
+    "daily-psk.message": "Это ежедневный PSK на {identity}:\n\n{ssid}\n{psk}\n{date}\n\nПравило, специфичное для клиентского устройства, не должно существовать!",
+    "daily-psk.date": "Дата"
+  },
+  "schema": "64d2ff049c113163d9a5b4847306ad5ac276859115f25bfe3d397cc8b24a1ea0"
+}

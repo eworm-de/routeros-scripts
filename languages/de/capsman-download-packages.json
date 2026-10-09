@@ -1,0 +1,10 @@
+{
+  "language": "de",
+  "messages": {
+    "capsman-download-packages.path.undefined": "Der CAPsMAN-Paketpfad ist nicht definiert, Pakete können nicht heruntergeladen werden.",
+    "capsman-download-packages.directory.failed": "Das Erstellen des Verzeichnisses im CAPsMAN-Paketpfad ({path}) ist fehlgeschlagen!",
+    "capsman-download-packages.directory.created": "Erstelltes Verzeichnis im CAPsMAN-Paketpfad ({path}). Bitte platzieren Sie Ihre Pakete!",
+    "capsman-download-packages.defaults": "Keine Pakete verfügbar, Standardsatz wird heruntergeladen."
+  },
+  "schema": "59f845c7f49406ecd939f7b0cebfb7f994f70400db30d8b136359720c88ab147"
+}

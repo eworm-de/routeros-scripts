@@ -1,0 +1,12 @@
+{
+  "language": "pt-BR",
+  "messages": {
+    "ipsec-to-dns.marker.added": "Adicionado um registro DNS estático desativado com o nome '{name}'.",
+    "ipsec-to-dns.peer.exists": "O peer {peer} ({name}) ainda existe. O registro DNS será mantido.",
+    "ipsec-to-dns.peer.gone": "O peer {peer} ({name}) desapareceu; excluindo o registro DNS.",
+    "ipsec-to-dns.current": "O registro DNS de {name} não precisa de atualização.",
+    "ipsec-to-dns.replacing": "Substituindo o registro DNS de {name}; o novo endereço é {address}.",
+    "ipsec-to-dns.adding": "Adicionando um novo registro DNS de {name}; o endereço é {address}."
+  },
+  "schema": "ed1c281155d118ad0f626106c929affb97ffffbf416dd87053f0becd389012dc"
+}

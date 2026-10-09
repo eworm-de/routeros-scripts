@@ -1,0 +1,11 @@
+{
+  "language": "bn",
+  "messages": {
+    "daily-psk.updating": "'{ssid}'-এর জন্য '{psk}' থেকে দৈনিক PSK আপডেট করা হচ্ছে ('{previous}' ছিল)",
+    "daily-psk.sent": "ইতিমধ্যেই SSID {ssid}-এর জন্য একটি মেল পাঠানো হয়েছে, এড়িয়ে যাচ্ছে৷",
+    "daily-psk.subject": "দৈনিক PSK {ssid}",
+    "daily-psk.message": "এটি {identity}-এ দৈনিক PSK:\n\n{ssid}\n{psk}\n{date}\n\nএকটি ক্লায়েন্ট ডিভাইস নির্দিষ্ট নিয়ম বিদ্যমান থাকতে হবে না!",
+    "daily-psk.date": "তারিখ"
+  },
+  "schema": "64d2ff049c113163d9a5b4847306ad5ac276859115f25bfe3d397cc8b24a1ea0"
+}

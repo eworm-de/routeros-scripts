@@ -1,0 +1,25 @@
+{
+  "language": "ja",
+  "messages": {
+    "collect-wireless-mac.marker.added": "コメント「--- 上で収集された ---」を含む無効なアクセス リスト エントリを追加しました。",
+    "collect-wireless-mac.device.gone": "デバイスはすでになくなっています...無視します。",
+    "collect-wireless-mac.lease.missing": "no dhcp lease",
+    "collect-wireless-mac.hostname.missing": "no hostname",
+    "collect-wireless-mac.dns.missing": "no dns name",
+    "collect-wireless-mac.first.seen": "MAC アドレス {mac} ({vendor}、{hostname}) は、SSID {ssid}、インターフェイス {interface} に接続された {date} で最初に確認されました",
+    "collect-wireless-mac.subject": "{mac} が {ssid} に接続されました",
+    "collect-wireless-mac.message": "不明な MAC アドレスを持つデバイスが {identity} 上の {ssid} に接続されました。\n\n",
+    "collect-wireless-mac.mac.missing": "利用可能な MAC アドレスがありません...無視します。",
+    "collect-wireless-mac.label.controller": "Controller",
+    "collect-wireless-mac.label.interface": "インターフェース",
+    "collect-wireless-mac.label.ssid": "SSID",
+    "collect-wireless-mac.label.mac": "マック",
+    "collect-wireless-mac.label.vendor": "ベンダー",
+    "collect-wireless-mac.label.hostname": "ホスト名",
+    "collect-wireless-mac.label.address": "住所",
+    "collect-wireless-mac.label.dns": "DNS name",
+    "collect-wireless-mac.label.date": "日付",
+    "collect-wireless-mac.known": "MAC アドレス {mac} はすでにわかっています: {comment}"
+  },
+  "schema": "70ad56ad671ad178315877f3d03eaddd505e04060e94d4c635cd2ebab32adee9"
+}

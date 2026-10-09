@@ -1,0 +1,18 @@
+{
+  "language": "ru",
+  "messages": {
+    "sms-forward.disabled": "Прием СМС не включен.",
+    "sms-forward.interface.stopped": "Интерфейс LTE не работает, пропуск.",
+    "sms-forward.command.removed": "Удаление СМС, запускавшей скрипт.",
+    "sms-forward.remove.failed": "Не удалось удалить сообщение: {error}.",
+    "sms-forward.received": "На {timestamp} типа {type}:\n{message}",
+    "sms-forward.hook.running": "Ходовой крюк '{match}': {command}",
+    "sms-forward.hook.ran": "\n\nЗапустил хук «{match}»:\n{command}",
+    "sms-forward.hook.failed": "Не удалось запустить код перехватчика «{match}»: {error}.",
+    "sms-forward.hook.syntax": "Код ловушки «{match}» не прошел проверку синтаксиса!",
+    "sms-forward.subject": "Переадресация СМС от {phone}",
+    "sms-forward.message.one": "Получил это сообщение от {identity} от {phone}:{messages}",
+    "sms-forward.message.many": "Получил эти сообщения {count} от {identity} от {phone}:{messages}"
+  },
+  "schema": "b605613f43230d212520e682ee06789fe9ebdb37a25f5c21ba93719a7923e2a1"
+}

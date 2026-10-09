@@ -1,0 +1,11 @@
+{
+  "language": "hi",
+  "messages": {
+    "notification-gotify.offline": "सिस्टम पूरी तरह से कनेक्ट नहीं है, फ्लशिंग नहीं हो रही है।",
+    "notification-gotify.queue.empty": "शेड्यूलर से गॉटिफाई संदेशों को फ्लश किया जा रहा है, लेकिन कतार खाली है।",
+    "notification-gotify.queue.failed": "पंक्तिबद्ध Gotify संदेश भेजना विफल रहा: {error}",
+    "notification-gotify.send.failed": "Gotify अधिसूचना भेजने में विफल: {error} - कतारबद्ध...",
+    "notification-gotify.queued": "यह संदेश {date} {time} से कतारबद्ध था और अप्रचलित हो सकता है।"
+  },
+  "schema": "3ca0bb174dd4fcbe639af5145d66a280408096f7c34f9d1dd0565c5061427859"
+}

@@ -1,0 +1,21 @@
+{
+  "language": "pt-BR",
+  "messages": {
+    "notification-email.from": "{identity} via routeros-scripts <{address}>",
+    "notification-email.queue.empty": "Processando e-mails pelo agendador, mas a fila está vazia.",
+    "notification-email.checking": "Realizando verificações iniciais...",
+    "notification-email.scheduler.gone": "O agendamento desapareceu; abortando.",
+    "notification-email.sending.busy": "Há um envio de e-mail em andamento; a fila não será processada.",
+    "notification-email.time.unsynced": "O horário não está sincronizado; a fila não será processada.",
+    "notification-email.dns.failed": "O endereço do servidor é um nome DNS e a resolução falhou; a fila não será processada.",
+    "notification-email.certificate.failed": "Falha ao baixar o certificado necessário.",
+    "notification-email.sending": "Enviando...",
+    "notification-email.attach.missing": "O arquivo '{file}' não existe; não é possível anexá-lo.",
+    "notification-email.send.failed": "Falha ao enviar e-mail da fila: {error}",
+    "notification-email.queue.purged": "A fila foi esvaziada? Encerrando.",
+    "notification-email.retry.waiting": "Aguardando nova tentativa...",
+    "notification-email.truncated": "A mensagem era muito longa e foi truncada!",
+    "notification-email.queuing": "Adicionando novo e-mail à fila..."
+  },
+  "schema": "5a6236090c5b7c3f80f50b70e58e9489c8100e4505c9ddc4ee72854e4de47c20"
+}

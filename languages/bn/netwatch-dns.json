@@ -1,0 +1,16 @@
+{
+  "language": "bn",
+  "messages": {
+    "netwatch-dns.settling": "সিস্টেম সবেমাত্র বুট হয়েছে, নেটওয়াচ {duration} সেটেল করার জন্য দিচ্ছে।",
+    "netwatch-dns.dns.updating": "DNS সার্ভার আপডেট করা হচ্ছে: {servers}",
+    "netwatch-dns.dns.fallback": "ফলব্যাকে DNS সার্ভার আপডেট করা হচ্ছে: {servers}",
+    "netwatch-dns.doh.current": "বর্তমান DoH সার্ভার এখনও চালু আছে এবং সমাধান হচ্ছে: {server}",
+    "netwatch-dns.doh.disabling": "বর্তমান DoH সার্ভারটি ডাউন বা সমাধান হচ্ছে না, নিষ্ক্রিয় করা হচ্ছে: {server}",
+    "netwatch-dns.certificate.failed": "শংসাপত্র '{name}' ডাউনলোড করা ব্যর্থ হয়েছে, চেষ্টা ছাড়াই৷",
+    "netwatch-dns.request.failed": "DoH সার্ভারের কাছে অনুরোধ {server} ব্যর্থ হয়েছে: {error}",
+    "netwatch-dns.response.invalid": "DoH সার্ভার থেকে অপ্রত্যাশিত প্রতিক্রিয়া প্রাপ্ত হয়েছে: {server}",
+    "netwatch-dns.crl.warning": "সিআরএল ব্যবহার করার জন্য কনফিগার করা হয়েছে, এটি গুরুতর সমস্যা সৃষ্টি করতে পারে!",
+    "netwatch-dns.doh.setting": "DoH সার্ভার সেট করা হচ্ছে: {server}"
+  },
+  "schema": "a990191facc83c19ae4d95e097a5f7ec17573be4bce019c61e2ca3dcdffebf43"
+}

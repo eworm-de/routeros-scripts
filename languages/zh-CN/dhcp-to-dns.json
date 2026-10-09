@@ -1,0 +1,21 @@
+{
+  "language": "zh-CN",
+  "messages": {
+    "dhcp-to-dns.marker.added": "添加了名为“{name}”的禁用静态 DNS 记录。",
+    "dhcp-to-dns.lease.exists": "{lease} ({name}) 的租赁仍然存在。不删除记录。",
+    "dhcp-to-dns.lease.expired": "{lease} 的租约已过期，正在删除记录 ({name})。",
+    "dhcp-to-dns.leases.multiple": "发现 mac 地址 {mac} 的多个绑定租约！",
+    "dhcp-to-dns.lease.vanished": "租约就这样消失了，被忽视了。",
+    "dhcp-to-dns.address.missing": "没有可用地址...忽略。",
+    "dhcp-to-dns.lease.ignored": "{mac} 的租约被忽略...跳过。",
+    "dhcp-to-dns.record.current": "{lease} ({name}) 的 A 记录不需要更新。",
+    "dhcp-to-dns.record.updating": "更新 {lease} 的 A 记录（{name} -> {address}）。",
+    "dhcp-to-dns.cname.deleting": "正在删除 {lease} 数据错误的 CNAME 记录。",
+    "dhcp-to-dns.cname.adding": "添加 {lease} 的 CNAME 记录（{name} -> {target}）。",
+    "dhcp-to-dns.record.adding": "添加 {lease} 的记录（{name} -> {address}）。",
+    "dhcp-to-dns.records.multiple": "“{name}”这个名字出现在不止一张A唱片中！",
+    "dhcp-to-dns.lease.label": "{mac} 中 {server}",
+    "dhcp-to-dns.lease.label.current": "{mac} 中 {server}"
+  },
+  "schema": "96d193afd6225330e8e948bff1c489f075720758d514a6288540b978f27c8e6d"
+}

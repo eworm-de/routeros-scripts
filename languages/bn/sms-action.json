@@ -1,0 +1,9 @@
+{
+  "language": "bn",
+  "messages": {
+    "sms-action.context": "এই স্ক্রিপ্টটি কর্মের সাথে এসএমএস হুক থেকে চালানোর কথা=...",
+    "sms-action.running": "এসএমএস অ্যাকশন '{action}'-এ অভিনয় করা: {code}",
+    "sms-action.syntax": "অ্যাকশনের কোড '{action}' সিনট্যাক্স যাচাইকরণ ব্যর্থ হয়েছে!"
+  },
+  "schema": "91ff5010d0d869687a0bb1c0989668afd4c77fed76f0d8728bca83f00940d48e"
+}

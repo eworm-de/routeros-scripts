@@ -1,0 +1,9 @@
+{
+  "language": "ar-EG",
+  "messages": {
+    "gps-track.sent": "إرسال بيانات GPS بتنسيق {format}: خطوط العرض: {latitude} خط الطول: {longitude}",
+    "gps-track.failed": "فشل إرسال بيانات GPS: {error}",
+    "gps-track.invalid": "بيانات GPS مش صالحة."
+  },
+  "schema": "8a481e39bc7d2b2c404102ee33d70ef5d9e6f8586410be28a7438746daa9ed83"
+}

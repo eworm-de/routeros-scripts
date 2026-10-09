@@ -1,0 +1,14 @@
+{
+  "language": "ar-EG",
+  "messages": {
+    "ipv6-update.address.ignored": "تم الحصول على عنوان ({address})، ومش بادئة. تجاهل.",
+    "ipv6-update.context.invalid": "من المفترض أن يتم تشغيل السكربت ده من عميل IPv6 dhcp.",
+    "ipv6-update.prefix.invalid": "البادئة {prefix} لم تعد صالحة. تجاهل.",
+    "ipv6-update.list.added": "اتضاف إدخال قائمة عناوين IPv6 الديناميكي لـ ipv6-pool-{pool}",
+    "ipv6-update.prefix.updating": "تحديث قائمة عناوين IPv6 ببادئة IPv6 الجديدة {prefix}",
+    "ipv6-update.host.updating": "تحديث قائمة عناوين IPv6 بعنوان مضيف IPv6 الجديد {address} من الواجهة {interface}",
+    "ipv6-update.interface.prefix.updating": "تحديث قائمة عناوين IPv6 ببادئة IPv6 الجديدة {prefix} من الواجهة {interface}",
+    "ipv6-update.dns.updating": "تحديث سجل DNS لـ {name}{regexp} إلى {address}"
+  },
+  "schema": "d502241c31fb73e9c3245e499a026333b5c7b5265d927b18a2a24bf7948fb823"
+}

@@ -1,0 +1,9 @@
+{
+  "language": "ar-EG",
+  "messages": {
+    "certificate-renew-issued.exported": "تم إصدار شهادة جديدة لـ \"{name}\"، اتعمل تصديرها إلى \"cert-issued/{name}.p12\".",
+    "certificate-renew-issued.directory.failed": "فشل إنشاء الدليل، ولم ياتعمل تصدير الشهادة.",
+    "certificate-renew-issued.issued": "تم إصدار شهادة جديدة لـ \"{name}\"."
+  },
+  "schema": "9048d1a3bcb148168f2785f02dea50e8de90c9f3170cedabe6b72d99bc61a2fd"
+}

@@ -1,0 +1,11 @@
+{
+  "language": "ja",
+  "messages": {
+    "mode-button-scheduler.scheduler.missing": "スケジューラが存在しません。",
+    "mode-button-scheduler.action.missing": "{count} モード ボタンの押下に対するアクションは定義されていません。",
+    "mode-button-scheduler.syntax": "{count} モード ボタンを押すコードが構文検証に失敗しました。",
+    "mode-button-scheduler.acting": "{count} モードボタンの押下に応じて動作: {code}",
+    "mode-button-scheduler.failed": "{count} モード ボタンを押すためのコードが実行時エラーで失敗しました: {error}"
+  },
+  "schema": "573b86779a15979155d7ff480e677e88dbe77a77cbd92ffaba77887856e8af91"
+}

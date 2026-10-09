@@ -1,0 +1,11 @@
+{
+  "language": "pt-BR",
+  "messages": {
+    "daily-psk.updating": "Atualizando a PSK diária de '{ssid}' para '{psk}' (era '{previous}')",
+    "daily-psk.sent": "Já foi enviado um e-mail para o SSID {ssid}; ignorando.",
+    "daily-psk.subject": "PSK diária {ssid}",
+    "daily-psk.message": "Esta é a PSK diária em {identity}:\n\n{ssid}\n{psk}\n{date}\n\nNão deve existir uma regra específica para o dispositivo cliente!",
+    "daily-psk.date": "Data"
+  },
+  "schema": "64d2ff049c113163d9a5b4847306ad5ac276859115f25bfe3d397cc8b24a1ea0"
+}

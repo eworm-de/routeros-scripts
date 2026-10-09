@@ -1,0 +1,12 @@
+{
+  "language": "de",
+  "messages": {
+    "bridge-port-to.client.enabled": "Deaktivieren des Bridge-Ports für die Schnittstelle {interface}, Aktivieren des DHCP-Clients.",
+    "bridge-port-to.interfaces.enabled": "Schnittstellen werden wieder aktiviert...",
+    "bridge-port-to.bridge.enabled": "Aktivieren des Bridge-Ports für die Schnittstelle {interface}, Wechsel zur {config}-Bridge {bridge}, Deaktivieren des DHCP-Clients.",
+    "bridge-port-to.bridge.connected": "Schnittstelle {interface} ist bereits mit der {config}-Brücke {bridge} verbunden.",
+    "bridge-port-to.client.missing": "Fehlende DHCP-Client-Konfiguration für die Schnittstelle {interface}!",
+    "bridge-port-to.client.duplicate": "Doppelte DHCP-Client-Konfiguration für die Schnittstelle {interface}!"
+  },
+  "schema": "9ff4cd55d43b5e48046edec247245c26cd52574d351dd5b3d5c66b36824548d6"
+}

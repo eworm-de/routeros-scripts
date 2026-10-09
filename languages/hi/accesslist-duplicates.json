@@ -1,0 +1,8 @@
+{
+  "language": "hi",
+  "messages": {
+    "accesslist-duplicates.remove.prompt": "\nहटाने के लिए संख्यात्मक आईडी, कोई भी कुंजी छोड़ें!",
+    "accesslist-duplicates.removing": "संख्यात्मक आईडी {id} हटाई जा रही है...\n"
+  },
+  "schema": "11c6e77afe0e5ea39b260eb21e4693aeb7b69299435563d0469b3c22651fdc8c"
+}

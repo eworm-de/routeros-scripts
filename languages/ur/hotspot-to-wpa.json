@@ -1,0 +1,8 @@
+{
+  "language": "ur",
+  "messages": {
+    "hotspot-to-wpa.ignored": "{script}: ہاٹ اسپاٹ '{hotspot}' پر {mac} کے لیے لاگ ان کو نظر انداز کرنا۔",
+    "hotspot-to-wpa.lease.missing": "{script}: {mac} کے لیے بالکل ایک لیز نہیں ملی!"
+  },
+  "schema": "82d921421b5113cc10cc742bba242aca700d0a06c7bba7435e2d6ce8faa20f74"
+}

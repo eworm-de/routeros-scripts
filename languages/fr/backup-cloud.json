@@ -1,0 +1,17 @@
+{
+  "language": "fr",
+  "messages": {
+    "backup-cloud.partition": "S'exécutant à partir de la partition de sauvegarde, refusant d'agir.",
+    "backup-cloud.directory": "Échec de la création du répertoire !",
+    "backup-cloud.subject": "Sauvegarde dans le cloud",
+    "backup-cloud.subject.failed": "La sauvegarde dans le cloud a échoué",
+    "backup-cloud.message": "Sauvegarde téléchargée pour {identity} sur le cloud.\n\n{device}\n\n{details}",
+    "backup-cloud.message.failed": "Échec du téléchargement de la sauvegarde de {identity} vers le cloud !\n\n{device}",
+    "backup-cloud.upload.failed": "Échec du téléchargement de la sauvegarde de {identity} vers le cloud !",
+    "backup-cloud.retry": "Réessayez avec succès, veuillez ignorer les erreurs de connexion précédentes.",
+    "backup-cloud.label.name": "Nom",
+    "backup-cloud.label.size": "Taille",
+    "backup-cloud.label.key": "Clé de téléchargement"
+  },
+  "schema": "1d68cb944d178c8731db42b15cc1dc9e76c76322543a57e366c56830ef3b644d"
+}

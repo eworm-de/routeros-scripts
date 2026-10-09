@@ -1,0 +1,12 @@
+{
+  "language": "ja",
+  "messages": {
+    "log-forward.limited": "レート制限が実行されており、ログの転送は行われていません (存在する場合)。",
+    "log-forward.subject": "ログ転送",
+    "log-forward.duplicates": "複数回繰り返されるメッセージはスキップされました。",
+    "log-forward.delaying": "レート制限が作動しているため、転送が遅れています。",
+    "log-forward.message.single": "{identity} のログには、{uptime} 稼働時間の後に次のメッセージが含まれています。{duplicates}{delay}\n{messages}",
+    "log-forward.message.multiple": "{identity} のログには、{uptime} 稼働時間後の次の {count} メッセージが含まれています。{duplicates}{delay}\n{messages}"
+  },
+  "schema": "295a2441ccf8e06593a7eedcf16e2ac316badd8c4111d4dab8823ac3b329473c"
+}

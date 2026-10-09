@@ -1,0 +1,30 @@
+{
+  "language": "es",
+  "messages": {
+    "netwatch-notify.type.host": "anfitrión",
+    "netwatch-notify.type.service": "servicio",
+    "netwatch-notify.state.up": "arriba",
+    "netwatch-notify.state.down": "abajo",
+    "netwatch-notify.state.pre-down": "pre-abajo",
+    "netwatch-notify.hook.failed": "El gancho {state} para {type} '{name}' no se pudo ejecutar: {error}",
+    "netwatch-notify.hook.failed.message": "El gancho no se ejecutó.",
+    "netwatch-notify.hook.syntax": "El gancho {state} para {type} '{name}' falló en la validación de sintaxis.",
+    "netwatch-notify.hook.syntax.message": "El enlace falló en la validación de sintaxis.",
+    "netwatch-notify.hook.ran": "Ran gancho en {type} '{name}' {state}: {hook}",
+    "netwatch-notify.hook.ran.message": "Gancho corriendo:\n{hook}",
+    "netwatch-notify.resolve.updated": "El nombre '{resolve}' se resuelve en una dirección diferente {address}, actualizándose.",
+    "netwatch-notify.resolve.named.updated": "El nombre '{resolve}' para {type} '{name}' se resuelve en una dirección diferente {address}, actualizándose.",
+    "netwatch-notify.resolve.failed": "Error al resolver el nombre '{resolve}' por tercera vez: {error}",
+    "netwatch-notify.resolve.named.failed": "La resolución del nombre '{resolve}' para {type} '{name}' falló por tercera vez: {error}",
+    "netwatch-notify.up": "El {type} '{name}' ({details}) está activo.",
+    "netwatch-notify.up.message": "El {type} '{name}' ({details}) está activo desde {since}.\nEstuvo inactivo para las comprobaciones {count} desde {down_since}.",
+    "netwatch-notify.note": "\n\nNota:\n{note}",
+    "netwatch-notify.up.subject": "Notificación de Netwatch: {name} arriba",
+    "netwatch-notify.down.subject": "Notificación de Netwatch: {name} caído",
+    "netwatch-notify.down.waiting": "El {type} '{name}' ({details}) está inactivo para verificaciones de {count}, {remaining} está disponible.",
+    "netwatch-notify.down.notified": "El {type} '{name}' ({details}) está inactivo para comprobaciones de {count}, ya notificado.",
+    "netwatch-notify.down.parent": "El {type} '{name}' ({details}) está inactivo para las comprobaciones de {count}, el {type} {parent} principal está inactivo.",
+    "netwatch-notify.down.message": "El {type} '{name}' ({details}) está inactivo desde {since}."
+  },
+  "schema": "7599eb0829fe6e5e2de9cf05b5bf721fd5b4cd7ce0726daf8735d47e695d7240"
+}

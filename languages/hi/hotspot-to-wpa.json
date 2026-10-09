@@ -1,0 +1,8 @@
+{
+  "language": "hi",
+  "messages": {
+    "hotspot-to-wpa.ignored": "{script}: हॉटस्पॉट '{hotspot}' पर {mac} के लिए लॉगिन को अनदेखा करना।",
+    "hotspot-to-wpa.lease.missing": "{script}: {mac} के लिए बिल्कुल एक भी पट्टा नहीं मिला!"
+  },
+  "schema": "82d921421b5113cc10cc742bba242aca700d0a06c7bba7435e2d6ce8faa20f74"
+}

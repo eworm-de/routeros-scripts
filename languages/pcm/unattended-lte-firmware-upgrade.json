@@ -1,0 +1,13 @@
+{
+  "language": "pcm",
+  "messages": {
+    "unattended-lte-firmware-upgrade.query.failed": "No fit get latest LTE firmware version for interface {interface}: {error}",
+    "unattended-lte-firmware-upgrade.scheduling": "Dey schedule LTE firmware upgrade for interface {interface}.",
+    "unattended-lte-firmware-upgrade.finished": "LTE firmware upgrade for '{interface}' don finish; we dey wait for reset.",
+    "unattended-lte-firmware-upgrade.different": "LTE firmware versions still differ. Upgrade no work anyway?",
+    "unattended-lte-firmware-upgrade.failed": "LTE firmware upgrade on '{interface}' no work: {error}",
+    "unattended-lte-firmware-upgrade.current": "LTE firmware dey up to date on interface {interface}.",
+    "unattended-lte-firmware-upgrade.missing": "No LTE firmware information dey for interface {interface}."
+  },
+  "schema": "f231d0e80dd157d0022fa102e5293133b9d7d9cc5d18785151ff81e3434c0c7b"
+}

@@ -1,0 +1,26 @@
+{
+  "language": "fr",
+  "messages": {
+    "packages-update.scheduler.exists": "Le planificateur de redémarrage existe déjà.",
+    "packages-update.scheduled": "Redémarrage programmé pour la mise à jour à l'heure locale {time} ({timezone}).",
+    "packages-update.license.expired": "La licence a expiré, la mise à niveau est bloquée.",
+    "packages-update.backup.partition": "S'exécutant à partir de la partition de sauvegarde, refusant d'agir.",
+    "packages-update.version.unknown": "La dernière version n'est pas connue.",
+    "packages-update.version.installed": "La version {version} est déjà installée.",
+    "packages-update.backup.running": "Exécution du script de sauvegarde {name} avant la mise à jour.",
+    "packages-update.backup.failed": "L'exécution du script de sauvegarde {name} avant l'échec de la mise à jour !",
+    "packages-update.continue.prompt": "Voulez-vous quand même continuer ? [y/N]",
+    "packages-update.continue": "L'utilisateur a quand même demandé de continuer.",
+    "packages-update.canceled.update": "Mise à jour annulée...",
+    "packages-update.canceled.noninteractive": "Mise à jour non interactive annulée.",
+    "packages-update.downgrade.prompt": "La dernière version est plus ancienne que celle installée. Vous souhaitez rétrograder ? [y/N]",
+    "packages-update.canceled": "Annulé...",
+    "packages-update.downgrade.refused": "Ne pas installer la rétrogradation automatiquement.",
+    "packages-update.download.failed": "Le téléchargement du package {name} a échoué, mise à jour abandonnée.",
+    "packages-update.downgrade.reboot": "Redémarrage pour rétrogradation.",
+    "packages-update.reboot.prompt": "Voulez-vous programmer le redémarrage (s) ou redémarrer maintenant (r) ? [s/R]",
+    "packages-update.update.reboot": "Redémarrage pour mise à jour.",
+    "packages-update.scheduled.deferred": "Redémarrage programmé pour la mise à jour à l'heure locale {time} ({timezone}) différé par {interval}."
+  },
+  "schema": "77f3f83454477a8d375bfb399dd18ea210e50ceaf290213460a2f613ac47abd1"
+}

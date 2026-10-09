@@ -1,0 +1,12 @@
+{
+  "language": "ru",
+  "messages": {
+    "notification-ntfy.offline": "Система не полностью подключена, не промывается.",
+    "notification-ntfy.queue.empty": "Сбрасываются сообщения Ntfy из планировщика, но очередь пуста.",
+    "notification-ntfy.queue.failed": "Не удалось отправить сообщение Ntfy в очередь: {error}.",
+    "notification-ntfy.send.failed": "Не удалось отправить уведомление ntfy: {error} — очередь...",
+    "notification-ntfy.certificate.failed": "Не удалось загрузить необходимый сертификат.",
+    "notification-ntfy.queued": "Это сообщение было в очереди с {date} {time} и может устареть."
+  },
+  "schema": "6734a9715e6b789bb7ff475fdc9f2b11391a7dcbd94aaef3413d695b035d493e"
+}

@@ -9,10 +9,42 @@
 # download packages and reboot for installation
 # https://rsc.eworm.de/doc/packages-update.md
 
+# BEGIN GENERATED LANGUAGE DATA
+# language, name=packages-update, schema=77f3f83454477a8d375bfb399dd18ea210e50ceaf290213460a2f613ac47abd1
+:global LanguageEnglish;
+:if ([ :typeof $LanguageEnglish ] != "array") do={ :set LanguageEnglish ({}); }
+:set ($LanguageEnglish->"packages-update.backup.failed") "Running backup script {name} before update failed!";
+:set ($LanguageEnglish->"packages-update.backup.partition") "Running from backup partition, refusing to act.";
+:set ($LanguageEnglish->"packages-update.backup.running") "Running backup script {name} before update.";
+:set ($LanguageEnglish->"packages-update.canceled") "Canceled...";
+:set ($LanguageEnglish->"packages-update.canceled.noninteractive") "Canceled non-interactive update.";
+:set ($LanguageEnglish->"packages-update.canceled.update") "Canceled update...";
+:set ($LanguageEnglish->"packages-update.continue") "User requested to continue anyway.";
+:set ($LanguageEnglish->"packages-update.continue.prompt") "Do you want to continue anyway? [y/N]";
+:set ($LanguageEnglish->"packages-update.downgrade.prompt") "Latest version is older than installed one. Want to downgrade? [y/N]";
+:set ($LanguageEnglish->"packages-update.downgrade.reboot") "Rebooting for downgrade.";
+:set ($LanguageEnglish->"packages-update.downgrade.refused") "Not installing downgrade automatically.";
+:set ($LanguageEnglish->"packages-update.download.failed") "Download for package {name} failed, update aborted.";
+:set ($LanguageEnglish->"packages-update.license.expired") "The license expired, upgrade is blocked.";
+:set ($LanguageEnglish->"packages-update.reboot.prompt") "Do you want to (s)chedule reboot or (r)eboot now? [s/R]";
+:set ($LanguageEnglish->"packages-update.scheduled") "Scheduled reboot for update at {time} local time ({timezone}).";
+:set ($LanguageEnglish->"packages-update.scheduled.deferred") "Scheduled reboot for update at {time} local time ({timezone}) deferred by {interval}.";
+:set ($LanguageEnglish->"packages-update.scheduler.exists") "Scheduler for reboot already exists.";
+:set ($LanguageEnglish->"packages-update.update.reboot") "Rebooting for update.";
+:set ($LanguageEnglish->"packages-update.version.installed") "Version {version} is already installed.";
+:set ($LanguageEnglish->"packages-update.version.unknown") "Latest version is not known.";
+:set ($LanguageEnglish->"global-config.not.ready") "Global config and/or functions not ready.";
+:global GlobalNotReadyMessage;
+:if ([ :typeof $GlobalNotReadyMessage ] != "str") do={
+  :set GlobalNotReadyMessage ($LanguageEnglish->"global-config.not.ready");
+}
+# END GENERATED LANGUAGE DATA
+
 :onerror Err {
   :global GlobalConfigReady; :global GlobalFunctionsReady;
+  :global GlobalNotReadyMessage;
   :retry { :if ($GlobalConfigReady != true || $GlobalFunctionsReady != true) \
-      do={ :error ("Global config and/or functions not ready."); }; } delay=500ms max=50;
+      do={ :error $GlobalNotReadyMessage; }; } delay=500ms max=50;
   :local ScriptName [ :jobname ];
 
   :global BackupRandomDelay;
@@ -22,6 +54,7 @@
   :global DownloadPackage;
   :global Grep;
   :global LogPrint;
+  :global Translate;
   :global ParseKeyValueStore;
   :global ScriptFromTerminal;
   :global ScriptLock;
@@ -35,13 +68,14 @@
     :global GetRandomNumber;
     :global IfThenElse;
     :global LogPrint;
+    :global Translate;
 
     :global RebootForUpdate do={
       /system/reboot;
     }
 
     :if ([ :len [ /system/scheduler/find where name="_RebootForUpdate" ] ] > 0) do={
-      $LogPrint warning $ScriptName ("Scheduler for reboot already exists.");
+      $LogPrint warning $ScriptName [ $Translate "packages-update.scheduler.exists" ];
       :return false;
     }
 
@@ -51,9 +85,13 @@
     /system/scheduler/add name="_RebootForUpdate" start-time=$StartTime interval=$Interval \
         on-event=("/system/scheduler/remove \"_RebootForUpdate\"; " . \
         ":global RebootForUpdate; \$RebootForUpdate;");
-    $LogPrint info $ScriptName ("Scheduled reboot for update at " . $StartTime . \
-        " local time (" . [ /system/clock/get time-zone-name ] . ")" . \
-        [ $IfThenElse ($Interval > 1d) (" deferred by " . $Interval) ] . ".");
+    :local Message [ $Translate "packages-update.scheduled" ({ time=$StartTime; \
+        timezone=[ /system/clock/get time-zone-name ] }) ];
+    :if ($Interval > 1d) do={
+      :set Message [ $Translate "packages-update.scheduled.deferred" ({ time=$StartTime; \
+          timezone=[ /system/clock/get time-zone-name ]; interval=$Interval }) ];
+    }
+    $LogPrint info $ScriptName $Message;
     :return true;
   }
 
@@ -62,24 +100,25 @@
   }
 
   :if (([ /system/license/get ]->"limited-upgrades") = true) do={
-    $LogPrint warning $ScriptName ("The license expired, upgrade is blocked.");
+    $LogPrint warning $ScriptName [ $Translate "packages-update.license.expired" ];
     :exit;
   }
 
   :if ([ :len [ /system/scheduler/find where name="running-from-backup-partition" ] ] > 0) do={
-    $LogPrint warning $ScriptName ("Running from backup partition, refusing to act.");
+    $LogPrint warning $ScriptName [ $Translate "packages-update.backup.partition" ];
     :exit;
   }
 
   :local Update [ /system/package/update/get ];
 
   :if ([ :typeof ($Update->"latest-version") ] = "nothing") do={
-    $LogPrint warning $ScriptName ("Latest version is not known.");
+    $LogPrint warning $ScriptName [ $Translate "packages-update.version.unknown" ];
     :exit;
   }
 
   :if ($Update->"installed-version" = $Update->"latest-version") do={
-    $LogPrint info $ScriptName ("Version " . $Update->"latest-version" . " is already installed.");
+    $LogPrint info $ScriptName [ $Translate "packages-update.version.installed" \
+        ({ version=($Update->"latest-version") }) ];
     :exit;
   }
 
@@ -96,7 +135,7 @@
     :set BackupRandomDelay 0;
     :set PackagesUpdateBackupFailure false;
     :do {
-      $LogPrint info $ScriptName ("Running backup script " . $Script . " before update.");
+      $LogPrint info $ScriptName [ $Translate "packages-update.backup.running" ({ name=$Script }) ];
       /system/script/run $Script;
     } on-error={
       :set PackagesUpdateBackupFailure true;
@@ -104,17 +143,17 @@
     :set BackupRandomDelay $BackupRandomDelayBefore;
 
     :if ($PackagesUpdateBackupFailure = true) do={
-      $LogPrint warning $ScriptName ("Running backup script " . $Script . " before update failed!");
+      $LogPrint warning $ScriptName [ $Translate "packages-update.backup.failed" ({ name=$Script }) ];
       :if ([ $ScriptFromTerminal $ScriptName ] = true) do={
-        :put "Do you want to continue anyway? [y/N]";
+        :put [ $Translate "packages-update.continue.prompt" ];
         :if (([ /terminal/inkey timeout=60 ] % 32) = 25) do={
-          $LogPrint info $ScriptName ("User requested to continue anyway.");
+          $LogPrint info $ScriptName [ $Translate "packages-update.continue" ];
         } else={
-          $LogPrint info $ScriptName ("Canceled update...");
+          $LogPrint info $ScriptName [ $Translate "packages-update.canceled.update" ];
           :exit;
         }
       } else={
-        $LogPrint warning $ScriptName ("Canceled non-interactive update.");
+        $LogPrint warning $ScriptName [ $Translate "packages-update.canceled.noninteractive" ];
         :exit;
       }
     }
@@ -126,14 +165,14 @@
   :local DoDowngrade false;
   :if ($NumInstalled > $NumLatest) do={
     :if ([ $ScriptFromTerminal $ScriptName ] = true) do={
-      :put "Latest version is older than installed one. Want to downgrade? [y/N]";
+      :put [ $Translate "packages-update.downgrade.prompt" ];
       :if (([ /terminal/inkey timeout=60 ] % 32) = 25) do={
         :set DoDowngrade true;
       } else={
-        :put "Canceled...";
+        :put [ $Translate "packages-update.canceled" ];
       }
     } else={
-      $LogPrint warning $ScriptName ("Not installing downgrade automatically.");
+      $LogPrint warning $ScriptName [ $Translate "packages-update.downgrade.refused" ];
       :exit;
     }
   }
@@ -141,19 +180,19 @@
   :foreach Package in=[ /system/package/find where !bundle !available ] do={
     :local PkgName [ /system/package/get $Package name ];
     :if ([ $DownloadPackage $PkgName ($Update->"latest-version") ] = false) do={
-      $LogPrint error $ScriptName ("Download for package " . $PkgName . " failed, update aborted.");
+      $LogPrint error $ScriptName [ $Translate "packages-update.download.failed" ({ name=$PkgName }) ];
       :exit;
     }
   }
 
   :if ($DoDowngrade = true) do={
-    $LogPrint info $ScriptName ("Rebooting for downgrade.");
+    $LogPrint info $ScriptName [ $Translate "packages-update.downgrade.reboot" ];
     :delay 1s;
     /system/package/downgrade;
   }
 
   :if ([ $ScriptFromTerminal $ScriptName ] = true) do={
-    :put "Do you want to (s)chedule reboot or (r)eboot now? [s/R]";
+    :put [ $Translate "packages-update.reboot.prompt" ];
     :if (([ /terminal/inkey timeout=60 ] % 32) = 19) do={
       $Schedule $ScriptName;
       :exit;
@@ -165,7 +204,7 @@
     }
   }
 
-  $LogPrint info $ScriptName ("Rebooting for update.");
+  $LogPrint info $ScriptName [ $Translate "packages-update.update.reboot" ];
   :delay 1s;
   /system/reboot;
 } do={

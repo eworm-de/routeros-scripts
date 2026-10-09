@@ -1,0 +1,10 @@
+{
+  "language": "ar",
+  "messages": {
+    "global-config.overlay.failed": "فشل تحميل التكوين من التراكب أو المقتطف {script}: {error}",
+    "global-config.hello.subject": "مرحبا...",
+    "global-config.hello.message": "مرحبًا بالعالم، {identity} يتصل!",
+    "global-config.not.ready": "التكوين العام و/أو الوظائف غير جاهزة."
+  },
+  "schema": "4dea7b8ee007cfceb44462e476d61a9ea4a4066a05150bd7d29153c38e31666f"
+}

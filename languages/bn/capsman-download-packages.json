@@ -1,0 +1,10 @@
+{
+  "language": "bn",
+  "messages": {
+    "capsman-download-packages.path.undefined": "CAPsMAN প্যাকেজ পাথ সংজ্ঞায়িত করা নেই, প্যাকেজ ডাউনলোড করা যাবে না।",
+    "capsman-download-packages.directory.failed": "CAPsMAN প্যাকেজ পাথ ({path}) এ ডিরেক্টরি তৈরি করা ব্যর্থ হয়েছে!",
+    "capsman-download-packages.directory.created": "CAPsMAN প্যাকেজ পাথে ({path}) ডিরেক্টরি তৈরি করা হয়েছে। আপনার প্যাকেজ রাখুন!",
+    "capsman-download-packages.defaults": "কোনো প্যাকেজ উপলব্ধ নেই, ডিফল্ট সেট ডাউনলোড হচ্ছে।"
+  },
+  "schema": "59f845c7f49406ecd939f7b0cebfb7f994f70400db30d8b136359720c88ab147"
+}

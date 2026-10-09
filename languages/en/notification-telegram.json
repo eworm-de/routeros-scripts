@@ -1,0 +1,17 @@
+{
+  "language": "en",
+  "messages": {
+    "notification-telegram.offline": "System is not fully connected, not flushing.",
+    "notification-telegram.certificate.failed": "Downloading required certificate failed.",
+    "notification-telegram.queue.empty": "Flushing Telegram messages from scheduler, but queue is empty.",
+    "notification-telegram.queue.failed": "Sending queued Telegram message failed: {error}",
+    "notification-telegram.fetch.failed": "Fetching data failed: {error}",
+    "notification-telegram.message.none": "No message received.",
+    "notification-telegram.chat.id": "The chat id is: {id}",
+    "notification-telegram.thread.id": "The thread id is: {id}",
+    "notification-telegram.truncated": "The message was too long and has been truncated, cut off _{percent}%_!",
+    "notification-telegram.send.failed": "Failed sending Telegram notification: {error} - Queuing...",
+    "notification-telegram.queued": "This message was queued since _{date} {time}_ and may be obsolete."
+  },
+  "schema": "924e559ca736a5da1f8988a245b39db4d85bda9fd5e9d359b1d0b1ba41e16e5d"
+}

@@ -1,0 +1,17 @@
+{
+  "language": "pt-BR",
+  "messages": {
+    "notification-telegram.offline": "O sistema não está totalmente conectado; a fila não será processada.",
+    "notification-telegram.certificate.failed": "Falha ao baixar o certificado necessário.",
+    "notification-telegram.queue.empty": "Processando mensagens do Telegram pelo agendador, mas a fila está vazia.",
+    "notification-telegram.queue.failed": "Falha ao enviar mensagem do Telegram na fila: {error}",
+    "notification-telegram.fetch.failed": "Falha ao buscar dados: {error}",
+    "notification-telegram.message.none": "Nenhuma mensagem recebida.",
+    "notification-telegram.chat.id": "O ID do chat é: {id}",
+    "notification-telegram.thread.id": "O ID do tópico é: {id}",
+    "notification-telegram.truncated": "A mensagem era muito longa e foi truncada; _{percent}%_ foram cortados!",
+    "notification-telegram.send.failed": "Falha ao enviar notificação do Telegram: {error} - Adicionando à fila...",
+    "notification-telegram.queued": "Esta mensagem está na fila desde _{date} {time}_ e pode estar desatualizada."
+  },
+  "schema": "924e559ca736a5da1f8988a245b39db4d85bda9fd5e9d359b1d0b1ba41e16e5d"
+}

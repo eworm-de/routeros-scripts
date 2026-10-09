@@ -9,6 +9,28 @@
 # send notifications via Telegram
 # https://rsc.eworm.de/doc/mod/notification-telegram.md
 
+# BEGIN GENERATED LANGUAGE DATA
+# language, name=notification-telegram, schema=924e559ca736a5da1f8988a245b39db4d85bda9fd5e9d359b1d0b1ba41e16e5d
+:global LanguageEnglish;
+:if ([ :typeof $LanguageEnglish ] != "array") do={ :set LanguageEnglish ({}); }
+:set ($LanguageEnglish->"notification-telegram.certificate.failed") "Downloading required certificate failed.";
+:set ($LanguageEnglish->"notification-telegram.chat.id") "The chat id is: {id}";
+:set ($LanguageEnglish->"notification-telegram.fetch.failed") "Fetching data failed: {error}";
+:set ($LanguageEnglish->"notification-telegram.message.none") "No message received.";
+:set ($LanguageEnglish->"notification-telegram.offline") "System is not fully connected, not flushing.";
+:set ($LanguageEnglish->"notification-telegram.queue.empty") "Flushing Telegram messages from scheduler, but queue is empty.";
+:set ($LanguageEnglish->"notification-telegram.queue.failed") "Sending queued Telegram message failed: {error}";
+:set ($LanguageEnglish->"notification-telegram.queued") "This message was queued since _{date} {time}_ and may be obsolete.";
+:set ($LanguageEnglish->"notification-telegram.send.failed") "Failed sending Telegram notification: {error} - Queuing...";
+:set ($LanguageEnglish->"notification-telegram.thread.id") "The thread id is: {id}";
+:set ($LanguageEnglish->"notification-telegram.truncated") "The message was too long and has been truncated, cut off _{percent}%_!";
+:set ($LanguageEnglish->"global-config.not.ready") "Global config and/or functions not ready.";
+:global GlobalNotReadyMessage;
+:if ([ :typeof $GlobalNotReadyMessage ] != "str") do={
+  :set GlobalNotReadyMessage ($LanguageEnglish->"global-config.not.ready");
+}
+# END GENERATED LANGUAGE DATA
+
 :global FlushTelegramQueue;
 :global GetTelegramChatId;
 :global NotificationFunctions;
@@ -24,14 +46,15 @@
   :global CertificateAvailable;
   :global IsFullyConnected;
   :global LogPrint;
+  :global Translate;
 
   :if ([ $IsFullyConnected ] = false) do={
-    $LogPrint debug $0 ("System is not fully connected, not flushing.");
+    $LogPrint debug $0 [ $Translate "notification-telegram.offline" ];
     :return false;
   }
 
   :if ([ $CertificateAvailable "Go Daddy Root Certificate Authority - G2" "fetch" ] = false) do={
-    $LogPrint warning $0 ("Downloading required certificate failed.");
+    $LogPrint warning $0 [ $Translate "notification-telegram.certificate.failed" ];
     :return false;
   }
 
@@ -39,7 +62,7 @@
   :local QueueLen [ :len $TelegramQueue ];
 
   :if ([ :len [ /system/scheduler/find where name="_FlushTelegramQueue" ] ] > 0 && $QueueLen = 0) do={
-    $LogPrint warning $0 ("Flushing Telegram messages from scheduler, but queue is empty.");
+    $LogPrint warning $0 [ $Translate "notification-telegram.queue.empty" ];
   }
 
   :foreach Id,Message in=$TelegramQueue do={
@@ -51,7 +74,8 @@
         :set ($TelegramQueue->$Id);
         :set ($TelegramMessageIDs->[ :tostr ([ :deserialize from=json value=$Data ]->"result"->"message_id") ]) 1;
       } do={
-        $LogPrint debug $0 ("Sending queued Telegram message failed: " . $Err);
+        $LogPrint debug $0 [ $Translate "notification-telegram.queue.failed" \
+            ({ error=$Err }) ];
         :set AllDone false;
       }
     }
@@ -71,9 +95,10 @@
 
   :global CertificateAvailable;
   :global LogPrint;
+  :global Translate;
 
   :if ([ $CertificateAvailable "Go Daddy Root Certificate Authority - G2" "fetch" ] = false) do={
-    $LogPrint warning $0 ("Downloading required certificate failed.");
+    $LogPrint warning $0 [ $Translate "notification-telegram.certificate.failed" ];
     :return false;
   }
 
@@ -83,7 +108,8 @@
        ("https://api.telegram.org/bot" . $TelegramTokenId . "/getUpdates?offset=0" . \
        "&allowed_updates=%5B%22message%22%5D") as-value ]->"data");
   } do={
-    $LogPrint warning $0 ("Fetching data failed: " . $Err);
+    $LogPrint warning $0 [ $Translate "notification-telegram.fetch.failed" \
+        ({ error=$Err }) ];
     :return false;
   }
 
@@ -91,14 +117,16 @@
   :local Count [ :len ($JSON->"result") ];
 
   :if ($Count = 0) do={
-    $LogPrint info $0 ("No message received.");
+    $LogPrint info $0 [ $Translate "notification-telegram.message.none" ];
     :return false;
   }
 
   :local Message ($JSON->"result"->($Count - 1)->"message");
-  $LogPrint info $0 ("The chat id is: " . ($Message->"chat"->"id"));
+  $LogPrint info $0 [ $Translate "notification-telegram.chat.id" \
+      ({ id=($Message->"chat"->"id") }) ];
   :if (($Message->"is_topic_message") = true) do={
-    $LogPrint info $0 ("The thread id is: " . ($Message->"message_thread_id"));
+    $LogPrint info $0 [ $Translate "notification-telegram.thread.id" \
+        ({ id=($Message->"message_thread_id") }) ];
   }
 } do={
   :global ExitOnError; $ExitOnError $0 $Err;
@@ -124,6 +152,7 @@
   :global EitherOr;
   :global IfThenElse;
   :global LogPrint;
+  :global Translate;
   :global ProtocolStrip;
   :global SymbolForNotification;
 
@@ -188,8 +217,8 @@
   }
   :if ($Truncated = true) do={
     :set Text ($Text . "\n" . [ $SymbolForNotification "scissors" ] . \
-      [ $EscapeMD ("The message was too long and has been truncated, cut off _" . \
-      (($LenSum - [ :len $Text ]) * 100 / $LenSum) . "%_!") "plain" "_" ]);
+      [ $EscapeMD [ $Translate "notification-telegram.truncated" \
+          ({ percent=(($LenSum - [ :len $Text ]) * 100 / $LenSum) }) ] "plain" "_" ]);
   }
 
   :local HTTPData ("chat_id=" . $ChatId . "&disable_notification=" . ($Notification->"silent") . \
@@ -197,7 +226,7 @@
       "&disable_web_page_preview=true&parse_mode=MarkdownV2");
   :onerror Err {
     :if ([ $CertificateAvailable "Go Daddy Root Certificate Authority - G2" "fetch" ] = false) do={
-      $LogPrint warning $0 ("Downloading required certificate failed.");
+      $LogPrint warning $0 [ $Translate "notification-telegram.certificate.failed" ];
       :error false;
     }
     :local Data ([ /tool/fetch check-certificate=yes-without-crl output=user http-method=post \
@@ -205,14 +234,15 @@
       http-data=($HTTPData . "&text=" . [ :convert to=url $Text ]) as-value ]->"data");
     :set ($TelegramMessageIDs->[ :tostr ([ :deserialize from=json value=$Data ]->"result"->"message_id") ]) 1;
   } do={
-    $LogPrint info $0 ("Failed sending Telegram notification: " . $Err . " - Queuing...");
+    $LogPrint info $0 [ $Translate "notification-telegram.send.failed" \
+        ({ error=$Err }) ];
 
     :if ([ :typeof $TelegramQueue ] = "nothing") do={
       :set TelegramQueue ({});
     }
     :set Text ($Text . "\n" . [ $SymbolForNotification "alarm-clock" ] . \
-      [ $EscapeMD ("This message was queued since _" . [ /system/clock/get date ] . \
-      " " . [ /system/clock/get time ] . "_ and may be obsolete.") "plain" "_" ]);
+      [ $EscapeMD [ $Translate "notification-telegram.queued" \
+          ({ date=[ /system/clock/get date ]; time=[ /system/clock/get time ] }) ] "plain" "_" ]);
     :set ($TelegramQueue->[ :len $TelegramQueue ]) { tokenid=$TokenId;
       http-data=($HTTPData . "&text=" . [ :convert to=url $Text ]) };
     :if ([ :len [ /system/scheduler/find where name="_FlushTelegramQueue" ] ] = 0) do={

@@ -1,0 +1,22 @@
+{
+  "language": "ur",
+  "messages": {
+    "backup-upload.partition": "بیک اپ پارٹیشن سے بھاگنا، عمل کرنے سے انکار کرنا۔",
+    "backup-upload.directory": "ڈائرکٹری بنانے میں ناکام!",
+    "backup-upload.options": "نہ تو بیک اپ اور نہ ہی کنفگ ایکسپورٹ بھیجنے کے لیے کنفیگر کیا گیا۔",
+    "backup-upload.none": "کوئی نہیں",
+    "backup-upload.label.backup": "بیک اپ فائل",
+    "backup-upload.label.export": "فائل برآمد کریں۔",
+    "backup-upload.label.config": "کنفگ فائل",
+    "backup-upload.upload.backup.failed": "بیک اپ فائل اپ لوڈ کرنے میں ناکام: {error}",
+    "backup-upload.upload.export.failed": "اپ لوڈ کنفیگریشن ایکسپورٹ ناکام ہو گئی: {error}",
+    "backup-upload.upload.config.failed": "global-config-overlay اپ لوڈ کرنا ناکام ہو گیا: {error}",
+    "backup-upload.subject": "بیک اپ اور کنفیگ اپ لوڈ",
+    "backup-upload.subject.failed": "ناکامی کے ساتھ بیک اپ اور کنفیگ اپ لوڈ",
+    "backup-upload.message": "{identity} کے لیے بیک اپ اور کنفیگریشن ایکسپورٹ اپ لوڈ۔\n\n{device}\n\n{details}",
+    "backup-upload.failed": "ناکام",
+    "backup-upload.label.name": "    نام",
+    "backup-upload.label.size": "    سائز"
+  },
+  "schema": "ac3b0aa1324d76ce3ef1515ba46a556bd27200aeea4ad75af6d1e26fd41bf67d"
+}

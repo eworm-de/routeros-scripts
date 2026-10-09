@@ -8,14 +8,30 @@
 # run scripts on IPv6 DHCP client lease
 # https://rsc.eworm.de/doc/dhcpv6-client-lease.md
 
+# BEGIN GENERATED LANGUAGE DATA
+# language, name=dhcpv6-client-lease, schema=6945e4d13819da10f471d905a5fc37284b6cf1e482d9a7b526483b754951e02a
+:global LanguageEnglish;
+:if ([ :typeof $LanguageEnglish ] != "array") do={ :set LanguageEnglish ({}); }
+:set ($LanguageEnglish->"dhcpv6-client-lease.context.invalid") "This script is supposed to run from ipv6 dhcp-client.";
+:set ($LanguageEnglish->"dhcpv6-client-lease.script.failed") "Running script '{name}' failed: {error}";
+:set ($LanguageEnglish->"dhcpv6-client-lease.script.running") "Running script with order {order}: {name}";
+:set ($LanguageEnglish->"global-config.not.ready") "Global config and/or functions not ready.";
+:global GlobalNotReadyMessage;
+:if ([ :typeof $GlobalNotReadyMessage ] != "str") do={
+  :set GlobalNotReadyMessage ($LanguageEnglish->"global-config.not.ready");
+}
+# END GENERATED LANGUAGE DATA
+
 :onerror Err {
   :global GlobalConfigReady; :global GlobalFunctionsReady;
+  :global GlobalNotReadyMessage;
   :retry { :if ($GlobalConfigReady != true || $GlobalFunctionsReady != true) \
-      do={ :error ("Global config and/or functions not ready."); }; } delay=500ms max=50;
+      do={ :error $GlobalNotReadyMessage; }; } delay=500ms max=50;
   :local ScriptName [ :jobname ];
 
   :global Grep;
   :global LogPrint;
+  :global Translate;
   :global ParseKeyValueStore;
   :global ScriptLock;
 
@@ -25,7 +41,7 @@
 
   :if (([ :typeof $"na-address" ] = "nothing" || [ :typeof $"na-valid" ] = "nothing") && \
        ([ :typeof $"pd-prefix" ] = "nothing" || [ :typeof $"pd-valid" ] = "nothing")) do={
-    $LogPrint error $ScriptName ("This script is supposed to run from ipv6 dhcp-client.");
+    $LogPrint error $ScriptName [ $Translate "dhcpv6-client-lease.context.invalid" ];
     :exit;
   }
 
@@ -46,10 +62,12 @@
 
   :foreach Order,Script in=$RunOrder do={
     :onerror Err {
-      $LogPrint debug $ScriptName ("Running script with order " . $Order . ": " . $Script);
+      $LogPrint debug $ScriptName [ $Translate "dhcpv6-client-lease.script.running" \
+          ({ order=$Order; name=$Script }) ];
       /system/script/run $Script;
     } do={
-      $LogPrint warning $ScriptName ("Running script '" . $Script . "' failed: " . $Err);
+      $LogPrint warning $ScriptName [ $Translate "dhcpv6-client-lease.script.failed" \
+          ({ name=$Script; error=$Err }) ];
     }
   }
 

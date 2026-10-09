@@ -1,0 +1,21 @@
+{
+  "language": "id",
+  "messages": {
+    "dhcp-to-dns.marker.added": "Menambahkan catatan dns statis yang dinonaktifkan dengan nama '{name}'.",
+    "dhcp-to-dns.lease.exists": "Sewa untuk {lease} ({name}) masih ada. Tidak menghapus catatan.",
+    "dhcp-to-dns.lease.expired": "Sewa berakhir untuk {lease}, menghapus catatan ({name}).",
+    "dhcp-to-dns.leases.multiple": "Ditemukan beberapa sewa terikat untuk alamat mac {mac}!",
+    "dhcp-to-dns.lease.vanished": "Sewa hilang begitu saja, diabaikan.",
+    "dhcp-to-dns.address.missing": "Tidak ada alamat yang tersedia... Mengabaikan.",
+    "dhcp-to-dns.lease.ignored": "Sewa untuk {mac} diabaikan... Melewatkan.",
+    "dhcp-to-dns.record.current": "Catatan A untuk {lease} ({name}) tidak perlu diperbarui.",
+    "dhcp-to-dns.record.updating": "Memperbarui catatan A untuk {lease} ({name} -> {address}).",
+    "dhcp-to-dns.cname.deleting": "Menghapus data CNAME dengan data yang salah untuk {lease}.",
+    "dhcp-to-dns.cname.adding": "Menambahkan data CNAME untuk {lease} ({name} -> {target}).",
+    "dhcp-to-dns.record.adding": "Menambahkan catatan A untuk {lease} ({name} -> {address}).",
+    "dhcp-to-dns.records.multiple": "Nama '{name}' muncul di lebih dari satu rekor A!",
+    "dhcp-to-dns.lease.label": "{mac} di {server}",
+    "dhcp-to-dns.lease.label.current": "{mac} di {server}"
+  },
+  "schema": "96d193afd6225330e8e948bff1c489f075720758d514a6288540b978f27c8e6d"
+}

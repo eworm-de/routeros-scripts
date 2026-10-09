@@ -1,0 +1,18 @@
+{
+  "language": "pcm",
+  "messages": {
+    "backup-email.partition": "Device dey run from backup partition; we no go do anything.",
+    "backup-email.directory": "No fit create folder!",
+    "backup-email.options": "Config say make we no send backup or config export.",
+    "backup-email.none": "nothing",
+    "backup-email.label.backup": "Backup file",
+    "backup-email.label.export": "Export file",
+    "backup-email.label.config": "Config file",
+    "backup-email.email.unavailable": "module for sending notifications via e-mail no dey installed.",
+    "backup-email.email.failed": "Files still dey; we no fit send the e-mail.",
+    "backup-email.subject": "Backup & Config",
+    "backup-email.message": "Check files wey we attach for backup and config export for {identity}.\n\n{device}\n\n{details}",
+    "backup-email.files.available": "Files still dey."
+  },
+  "schema": "d64d6ec60b1db0d5105ecd3ee2f9ce710886b1860f5d2ef971c4aa2adcdf6722"
+}

@@ -1,0 +1,30 @@
+{
+  "language": "zh-CN",
+  "messages": {
+    "netwatch-notify.type.host": "主机",
+    "netwatch-notify.type.service": "服务",
+    "netwatch-notify.state.up": "向上",
+    "netwatch-notify.state.down": "向下",
+    "netwatch-notify.state.pre-down": "预降",
+    "netwatch-notify.hook.failed": "{type}“{name}”的 {state} 挂钩无法运行：{error}",
+    "netwatch-notify.hook.failed.message": "钩子无法运行。",
+    "netwatch-notify.hook.syntax": "{type}“{name}”的 {state} 挂钩语法验证失败。",
+    "netwatch-notify.hook.syntax.message": "挂钩未通过语法验证。",
+    "netwatch-notify.hook.ran": "在 {type} '{name}' {state} 上运行钩子：{hook}",
+    "netwatch-notify.hook.ran.message": "然钩：\n{hook}",
+    "netwatch-notify.resolve.updated": "名称“{resolve}”解析为不同的地址 {address}，正在更新。",
+    "netwatch-notify.resolve.named.updated": "{type}“{name}”的名称“{resolve}”解析为不同的地址 {address}，正在更新。",
+    "netwatch-notify.resolve.failed": "解析名称“{resolve}”第三次失败：{error}",
+    "netwatch-notify.resolve.named.failed": "解析 {type}“{name}”的名称“{resolve}”第三次失败：{error}",
+    "netwatch-notify.up": "{type} '{name}' ({details}) 已上线。",
+    "netwatch-notify.up.message": "{type} '{name}' ({details}) 自 {since} 以来上涨。\n自 {down_since} 以来，{count} 检查已关闭。",
+    "netwatch-notify.note": "\n\n注意：\n{note}",
+    "netwatch-notify.up.subject": "Netwatch 通知：{name} 向上",
+    "netwatch-notify.down.subject": "Netwatch 通知：{name} 已关闭",
+    "netwatch-notify.down.waiting": "{type}“{name}”({details}) 已关闭以进行 {count} 检查，{remaining} 将继续运行。",
+    "netwatch-notify.down.notified": "{type}“{name}”({details}) 已关闭以进行 {count} 检查，已通知。",
+    "netwatch-notify.down.parent": "{type}“{name}”({details}) 已关闭以进行 {count} 检查，父级 {type} {parent} 已关闭。",
+    "netwatch-notify.down.message": "{type}“{name}”({details}) 自 {since} 以来已停止运行。"
+  },
+  "schema": "7599eb0829fe6e5e2de9cf05b5bf721fd5b4cd7ce0726daf8735d47e695d7240"
+}

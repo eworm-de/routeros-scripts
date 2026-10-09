@@ -1,0 +1,30 @@
+{
+  "language": "bn",
+  "messages": {
+    "telegram-chat.certificate.failed": "প্রয়োজনীয় শংসাপত্র ডাউনলোড করা ব্যর্থ হয়েছে৷",
+    "telegram-chat.fetch.failed": "আনয়ন ব্যর্থ হয়েছে, {count}. চেষ্টা করুন: {error}",
+    "telegram-chat.updates.failed": "আপডেট পেতে ব্যর্থ হয়েছে.",
+    "telegram-chat.update": "{id} আপডেট করুন: {update}",
+    "telegram-chat.notice": "{id} আপডেটের জন্য বিজ্ঞপ্তি পাঠানো হচ্ছে।",
+    "telegram-chat.subject": "টেলিগ্রাম চ্যাট",
+    "telegram-chat.greeting": "হ্যালো {name}!\n\n",
+    "telegram-chat.directory.failed": "ডিরেক্টরি তৈরি করতে ব্যর্থ হয়েছে!",
+    "telegram-chat.command.running": "{id} আপডেট থেকে কমান্ড চালানো হচ্ছে: {command}",
+    "telegram-chat.command.background": "কমান্ডটি শেষ হয়নি, এখনও ব্যাকগ্রাউন্ডে চলছে।\n\n",
+    "telegram-chat.command.failed": "কমান্ড একটি ত্রুটি সঙ্গে ব্যর্থ হয়েছে!\n\n",
+    "telegram-chat.command": "আদেশ:\n{command}\n\n",
+    "telegram-chat.output": "আউটপুট:\n{output}",
+    "telegram-chat.output.empty": "আউটপুট নেই।",
+    "telegram-chat.command.syntax": "{id} আপডেটের কমান্ডটি সিনট্যাক্স যাচাইকরণ ব্যর্থ হয়েছে!",
+    "telegram-chat.command.syntax.message": "কমান্ড সিনট্যাক্স যাচাইকরণ ব্যর্থ হয়েছে!",
+    "telegram-chat.untrusted.message": "আপনি বিশ্বাস করা হয় না.",
+    "telegram-chat.update.handled": "ইতিমধ্যেই {id} আপডেট করা হয়েছে৷",
+    "telegram-chat.online.passive": "অনলাইন, আপনার আদেশের অপেক্ষায়!",
+    "telegram-chat.online.active": "অনলাইন (এবং সক্রিয়!), আপনার আদেশের অপেক্ষায়!",
+    "telegram-chat.state.active": "এখন {id} আপডেট থেকে সক্রিয়!",
+    "telegram-chat.state.passive": "এখন {id} আপডেট থেকে প্যাসিভ!",
+    "telegram-chat.untrusted.unnamed": "{id} আপডেটে ব্যবহারকারীর নাম (ID {contact}) ছাড়া অবিশ্বস্ত পরিচিতি থেকে একটি বার্তা পেয়েছি!",
+    "telegram-chat.untrusted.named": "{id} আপডেটে অবিশ্বস্ত পরিচিতি '{username}' (ID {contact}) থেকে একটি বার্তা পেয়েছি!"
+  },
+  "schema": "23866b98057d30494867d66d781c3555fc2f373d9af75cb1aac34c965ee3bd54"
+}

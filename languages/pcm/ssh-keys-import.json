@@ -1,0 +1,16 @@
+{
+  "language": "pcm",
+  "messages": {
+    "ssh-keys-import.arguments.key": "Missing argument(s), abeg pass key and user!",
+    "ssh-keys-import.user.missing": "User '{user}' no exist.",
+    "ssh-keys-import.type.unsupported": "SSH key of type '{type}' no be supported.",
+    "ssh-keys-import.key.exists": "ssh public key (MD5:{fingerprint}) don already available for user '{user}'.",
+    "ssh-keys-import.directory.failed": "Dey create directory 'tmpfs/ssh-keys-import' no work!",
+    "ssh-keys-import.imported": "Don import ssh public key ({name}, {type}, MD5:{fingerprint}) for user '{user}'.",
+    "ssh-keys-import.import.failed": "No fit import key: {error}",
+    "ssh-keys-import.arguments.file": "Missing argument(s), abeg pass file name and user!",
+    "ssh-keys-import.file.missing": "File '{file}' no exist.",
+    "ssh-keys-import.user.import.failed": "No fit import key for user '{user}'."
+  },
+  "schema": "54cdcab8a420cb935136ec8a624f3eeceed166b6b96d7dd67b4ef7d0dcd74ea7"
+}

@@ -1,0 +1,21 @@
+{
+  "language": "ja",
+  "messages": {
+    "dhcp-to-dns.marker.added": "「{name}」という名前の無効な静的 DNS レコードを追加しました。",
+    "dhcp-to-dns.lease.exists": "{lease} ({name}) のリースはまだ存在します。記録は削除しません。",
+    "dhcp-to-dns.lease.expired": "{lease} のリースが期限切れになり、レコード ({name}) を削除します。",
+    "dhcp-to-dns.leases.multiple": "MAC アドレス {mac} に複数のバインドされたリースが見つかりました。",
+    "dhcp-to-dns.lease.vanished": "リースは無視して消えてしまいました。",
+    "dhcp-to-dns.address.missing": "利用可能なアドレスがありません...無視します。",
+    "dhcp-to-dns.lease.ignored": "{mac} のリースは無視されます...スキップします。",
+    "dhcp-to-dns.record.current": "{lease} ({name}) の A レコードは更新する必要はありません。",
+    "dhcp-to-dns.record.updating": "{lease} の A レコードを更新しています ({name} -> {address})。",
+    "dhcp-to-dns.cname.deleting": "{lease} の間違ったデータを含む CNAME レコードを削除します。",
+    "dhcp-to-dns.cname.adding": "{lease} ({name} -> {target}) の CNAME レコードを追加します。",
+    "dhcp-to-dns.record.adding": "{lease} ({name} -> {address}) の A レコードを追加します。",
+    "dhcp-to-dns.records.multiple": "「{name}」という名前が複数の A レコードに登場しました。",
+    "dhcp-to-dns.lease.label": "{server}の{mac}",
+    "dhcp-to-dns.lease.label.current": "{server}の{mac}"
+  },
+  "schema": "96d193afd6225330e8e948bff1c489f075720758d514a6288540b978f27c8e6d"
+}

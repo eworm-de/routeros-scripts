@@ -1,0 +1,18 @@
+{
+  "language": "pcm",
+  "messages": {
+    "sms-forward.disabled": "Receiving of SMS no dey enabled.",
+    "sms-forward.interface.stopped": "LTE interface no be in running state, skipping.",
+    "sms-forward.command.removed": "Dey remove SMS, wey start a script.",
+    "sms-forward.remove.failed": "No fit remove message: {error}",
+    "sms-forward.received": "For {timestamp}, type {type}:\n{message}",
+    "sms-forward.hook.running": "Dey run hook '{match}': {command}",
+    "sms-forward.hook.ran": "\n\nRan hook '{match}':\n{command}",
+    "sms-forward.hook.failed": "code for hook '{match}' no fit run: {error}",
+    "sms-forward.hook.syntax": "code for hook '{match}' no pass syntax validation!",
+    "sms-forward.subject": "SMS Forwarding from {phone}",
+    "sms-forward.message.one": "We receive this message by {identity} from {phone}:{messages}",
+    "sms-forward.message.many": "We receive these {count} messages by {identity} from {phone}:{messages}"
+  },
+  "schema": "b605613f43230d212520e682ee06789fe9ebdb37a25f5c21ba93719a7923e2a1"
+}

@@ -1,0 +1,9 @@
+{
+  "language": "bn",
+  "messages": {
+    "hotspot-to-wpa-cleanup.connected": "ম্যাক ঠিকানা {mac} সহ ক্লায়েন্ট WPA এর সাথে সংযুক্ত, লিজকে স্ট্যাটিক করে।",
+    "hotspot-to-wpa-cleanup.disconnected": "ম্যাক অ্যাড্রেস {mac} সহ ক্লায়েন্ট অ্যাক্সেস তালিকা থেকে সরিয়ে WPA-তে সংযোগ করেনি।",
+    "hotspot-to-wpa-cleanup.expired": "ম্যাক ঠিকানা {mac} সহ ক্লায়েন্ট {elapsed} এর জন্য দেখা যায়নি, অপসারণ করা হচ্ছে।"
+  },
+  "schema": "1ebc7ea0f3bc0cc65554da860eb4b0739adc55a3f127030c7d8a1c780e722a35"
+}

@@ -1,0 +1,7 @@
+{
+  "language": "bn",
+  "messages": {
+    "dhcp-lease-comment.updating": "DHCP লিজের জন্য মন্তব্য আপডেট করা হচ্ছে {mac}: {comment}"
+  },
+  "schema": "ad1da8da95495f80f8319fac06ad159a82bd84a7d3d038d72df426a6a87b98ef"
+}

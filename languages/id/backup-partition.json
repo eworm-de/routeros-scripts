@@ -1,0 +1,16 @@
+{
+  "language": "id",
+  "messages": {
+    "backup-partition.copied": "Menyalin RouterOS ke partisi '{name}'.",
+    "backup-partition.copy.failed": "Gagal menyalin RouterOS ke partisi '{name}': {error}",
+    "backup-partition.partition": "Berjalan dari partisi cadangan, menolak untuk bertindak.",
+    "backup-partition.unavailable": "Perangkat tidak memiliki partisi cadangan.",
+    "backup-partition.inactive": "Perangkat tidak berjalan dari partisi aktif.",
+    "backup-partition.fallback.missing": "Tidak ada partisi tidak aktif bernama '{name}'.",
+    "backup-partition.prompt": "Partisi memiliki versi RouterOS yang berbeda. Salin ke '{name}'? [y/N]",
+    "backup-partition.saved": "Konfigurasi tersimpan ke partisi '{name}'.",
+    "backup-partition.save.failed": "Gagal menyimpan konfigurasi ke partisi '{name}': {error}",
+    "backup-partition.running": "Berjalan dari partisi '{name}'!"
+  },
+  "schema": "d37495d3faf22763093e64eb8145eb90d29a006fb0503cc939337741dfd80681"
+}

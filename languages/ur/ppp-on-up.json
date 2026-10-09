@@ -1,0 +1,10 @@
+{
+  "language": "ur",
+  "messages": {
+    "ppp-on-up.context.invalid": "یہ اسکرپٹ پی پی پی آن اپ اسکرپٹ ہک سے چلنا ہے۔",
+    "ppp-on-up.up": "PPP انٹرفیس {interface} اوپر ہے۔",
+    "ppp-on-up.script.running": "چل رہا اسکرپٹ: {name}",
+    "ppp-on-up.script.failed": "اسکرپٹ '{name}' چلانے میں ناکام!"
+  },
+  "schema": "948ef5fc1bb267e734267f57a5d70df419d106197075fec109f206534ce4493c"
+}

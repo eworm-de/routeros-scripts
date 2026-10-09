@@ -1,0 +1,30 @@
+{
+  "language": "en",
+  "messages": {
+    "netwatch-notify.type.host": "host",
+    "netwatch-notify.type.service": "service",
+    "netwatch-notify.state.up": "up",
+    "netwatch-notify.state.down": "down",
+    "netwatch-notify.state.pre-down": "pre-down",
+    "netwatch-notify.hook.failed": "The {state}-hook for {type} '{name}' failed to run: {error}",
+    "netwatch-notify.hook.failed.message": "The hook failed to run.",
+    "netwatch-notify.hook.syntax": "The {state}-hook for {type} '{name}' failed syntax validation.",
+    "netwatch-notify.hook.syntax.message": "The hook failed syntax validation.",
+    "netwatch-notify.hook.ran": "Ran hook on {type} '{name}' {state}: {hook}",
+    "netwatch-notify.hook.ran.message": "Ran hook:\n{hook}",
+    "netwatch-notify.resolve.updated": "Name '{resolve}' resolves to different address {address}, updating.",
+    "netwatch-notify.resolve.named.updated": "Name '{resolve}' for {type} '{name}' resolves to different address {address}, updating.",
+    "netwatch-notify.resolve.failed": "Resolving name '{resolve}' failed third time: {error}",
+    "netwatch-notify.resolve.named.failed": "Resolving name '{resolve}' for {type} '{name}' failed third time: {error}",
+    "netwatch-notify.up": "The {type} '{name}' ({details}) is up.",
+    "netwatch-notify.up.message": "The {type} '{name}' ({details}) is up since {since}.\nIt was down for {count} checks since {down_since}.",
+    "netwatch-notify.note": "\n\nNote:\n{note}",
+    "netwatch-notify.up.subject": "Netwatch Notify: {name} up",
+    "netwatch-notify.down.subject": "Netwatch Notify: {name} down",
+    "netwatch-notify.down.waiting": "The {type} '{name}' ({details}) is down for {count} checks, {remaining} to go.",
+    "netwatch-notify.down.notified": "The {type} '{name}' ({details}) is down for {count} checks, already notified.",
+    "netwatch-notify.down.parent": "The {type} '{name}' ({details}) is down for {count} checks, parent {type} {parent} is down.",
+    "netwatch-notify.down.message": "The {type} '{name}' ({details}) is down since {since}."
+  },
+  "schema": "7599eb0829fe6e5e2de9cf05b5bf721fd5b4cd7ce0726daf8735d47e695d7240"
+}

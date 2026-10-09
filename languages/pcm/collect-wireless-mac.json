@@ -1,0 +1,25 @@
+{
+  "language": "pcm",
+  "messages": {
+    "collect-wireless-mac.marker.added": "Dem add disabled access-list entry with comment '--- collected above ---'.",
+    "collect-wireless-mac.device.gone": "Device don already gone... Ignoring.",
+    "collect-wireless-mac.lease.missing": "no dhcp lease",
+    "collect-wireless-mac.hostname.missing": "no hostname",
+    "collect-wireless-mac.dns.missing": "no dns name",
+    "collect-wireless-mac.first.seen": "We first see MAC address {mac} ({vendor}, {hostname}) on {date}; e connect to SSID {ssid}, interface {interface}",
+    "collect-wireless-mac.subject": "{mac} connected to {ssid}",
+    "collect-wireless-mac.message": "Device wey get MAC address we no know don connect to {ssid} for {identity}.\n\n",
+    "collect-wireless-mac.mac.missing": "No MAC address dey... We dey ignore am.",
+    "collect-wireless-mac.label.controller": "Controller",
+    "collect-wireless-mac.label.interface": "Interface",
+    "collect-wireless-mac.label.ssid": "SSID",
+    "collect-wireless-mac.label.mac": "MAC",
+    "collect-wireless-mac.label.vendor": "Vendor",
+    "collect-wireless-mac.label.hostname": "Hostname",
+    "collect-wireless-mac.label.address": "Address",
+    "collect-wireless-mac.label.dns": "DNS name",
+    "collect-wireless-mac.label.date": "Date",
+    "collect-wireless-mac.known": "MAC address {mac} don already known: {comment}"
+  },
+  "schema": "70ad56ad671ad178315877f3d03eaddd505e04060e94d4c635cd2ebab32adee9"
+}

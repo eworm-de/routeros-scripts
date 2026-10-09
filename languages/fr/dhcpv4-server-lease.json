@@ -1,0 +1,12 @@
+{
+  "language": "fr",
+  "messages": {
+    "dhcpv4-server-lease.context.invalid": "Ce script est censé être exécuté à partir du serveur IP DHCP.",
+    "dhcpv4-server-lease.script.running": "Exécution du script avec la commande {order} : {name}",
+    "dhcpv4-server-lease.script.failed": "L'exécution du script « {name} » a échoué : {error}",
+    "dhcpv4-server-lease.waiting": "D'autres invocations attendent, sortant plus tôt.",
+    "dhcpv4-server-lease.assigned": "Le serveur DHCP {server} a attribué un bail {address} à {mac}",
+    "dhcpv4-server-lease.deassigned": "Le serveur DHCP {server} a attribué le bail {address} à {mac}"
+  },
+  "schema": "e8bd70cbac2cb60d46fce97c5cd6f4d6f35e4039991ffa0fb5fd3e1e1ac986c3"
+}

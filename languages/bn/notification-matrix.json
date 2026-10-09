@@ -1,0 +1,21 @@
+{
+  "language": "bn",
+  "messages": {
+    "notification-matrix.offline": "সিস্টেম সম্পূর্ণরূপে সংযুক্ত নয়, ফ্লাশিং নয়।",
+    "notification-matrix.queue.empty": "শিডিউলার থেকে ম্যাট্রিক্স বার্তা ফ্লাশ করা হচ্ছে, কিন্তু সারি খালি।",
+    "notification-matrix.queue.failed": "সারিবদ্ধ ম্যাট্রিক্স বার্তা পাঠানো ব্যর্থ হয়েছে: {error}",
+    "notification-matrix.send.failed": "ম্যাট্রিক্স বিজ্ঞপ্তি পাঠানো ব্যর্থ হয়েছে: {error} - সারিবদ্ধ...",
+    "notification-matrix.home.server": "হোম সার্ভার হল: {server}",
+    "notification-matrix.home.failed": "হোম সার্ভার পেতে ব্যর্থ হয়েছে: {error}",
+    "notification-matrix.access.token": "অ্যাক্সেস টোকেন হল: {token}",
+    "notification-matrix.login.failed": "লগ ইন করতে ব্যর্থ হয়েছে (এবং অ্যাক্সেস টোকেন পাচ্ছেন): {error}",
+    "notification-matrix.snippet.added": "কনফিগারেশন স্নিপেট যোগ করা হয়েছে। এখন একটি রুম তৈরি করুন এবং যোগদান করুন, দয়া করে!",
+    "notification-matrix.snippet.failed": "কনফিগারেশন স্নিপেট যোগ করতে ব্যর্থ হয়েছে: {error}",
+    "notification-matrix.room.joined": "রুমে যোগ দিল।",
+    "notification-matrix.room.failed": "রুমে যোগ দিতে ব্যর্থ হয়েছে: {error}",
+    "notification-matrix.snippet.appended": "কনফিগারেশন স্নিপেটে কনফিগারেশন যুক্ত করা হয়েছে। পর্যালোচনা করুন!",
+    "notification-matrix.snippet.append.failed": "স্নিপেটে কনফিগারেশন যোগ করতে ব্যর্থ হয়েছে: {error}",
+    "notification-matrix.queued": "এই বার্তাটি {date} থেকে সারিবদ্ধ ছিল এবং অপ্রচলিত হতে পারে৷"
+  },
+  "schema": "f843ad08937ad96c091b0aa66edd949e6e467c336607c9c73ff0270be3b95839"
+}

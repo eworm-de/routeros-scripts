@@ -1,0 +1,12 @@
+{
+  "language": "ur",
+  "messages": {
+    "dhcpv4-server-lease.context.invalid": "سمجھا جاتا ہے کہ یہ اسکرپٹ ip dhcp-server سے چلتی ہے۔",
+    "dhcpv4-server-lease.script.running": "آرڈر {order} کے ساتھ اسکرپٹ چل رہا ہے: {name}",
+    "dhcpv4-server-lease.script.failed": "اسکرپٹ '{name}' چلانے میں ناکام: {error}",
+    "dhcpv4-server-lease.waiting": "مزید دعائیں انتظار کر رہی ہیں، جلد نکل رہی ہیں۔",
+    "dhcpv4-server-lease.assigned": "DHCP سرور {server} {address} کو {mac} کو لیز تفویض کیا گیا",
+    "dhcpv4-server-lease.deassigned": "DHCP سرور {server} لیز {address} کو {mac} کو تفویض کیا گیا"
+  },
+  "schema": "e8bd70cbac2cb60d46fce97c5cd6f4d6f35e4039991ffa0fb5fd3e1e1ac986c3"
+}

@@ -1,0 +1,12 @@
+{
+  "language": "de",
+  "messages": {
+    "notification-ntfy.offline": "Das System ist nicht vollständig angeschlossen, die Spülung erfolgt nicht.",
+    "notification-ntfy.queue.empty": "Ntfy-Nachrichten werden aus dem Planer geleert, aber die Warteschlange ist leer.",
+    "notification-ntfy.queue.failed": "Das Senden der Ntfy-Nachricht in der Warteschlange ist fehlgeschlagen: {error}",
+    "notification-ntfy.send.failed": "Fehler beim Senden der NTFY-Benachrichtigung: {error} – Warteschlange...",
+    "notification-ntfy.certificate.failed": "Das Herunterladen des erforderlichen Zertifikats ist fehlgeschlagen.",
+    "notification-ntfy.queued": "Diese Nachricht befand sich seit {date} {time} in der Warteschlange und ist möglicherweise veraltet."
+  },
+  "schema": "6734a9715e6b789bb7ff475fdc9f2b11391a7dcbd94aaef3413d695b035d493e"
+}

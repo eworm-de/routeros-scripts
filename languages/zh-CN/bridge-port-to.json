@@ -1,0 +1,12 @@
+{
+  "language": "zh-CN",
+  "messages": {
+    "bridge-port-to.client.enabled": "禁用接口 {interface} 的桥接端口，启用 dhcp 客户端。",
+    "bridge-port-to.interfaces.enabled": "重新启用接口...",
+    "bridge-port-to.bridge.enabled": "启用接口{interface}的桥接端口，更改为{config}桥接{bridge}，禁用dhcp客户端。",
+    "bridge-port-to.bridge.connected": "接口 {interface} 已连接到 {config} 桥 {bridge}。",
+    "bridge-port-to.client.missing": "缺少接口 {interface} 的 dhcp 客户端配置！",
+    "bridge-port-to.client.duplicate": "接口 {interface} 的 dhcp 客户端配置重复！"
+  },
+  "schema": "9ff4cd55d43b5e48046edec247245c26cd52574d351dd5b3d5c66b36824548d6"
+}

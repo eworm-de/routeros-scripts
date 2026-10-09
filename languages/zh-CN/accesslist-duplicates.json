@@ -1,0 +1,8 @@
+{
+  "language": "zh-CN",
+  "messages": {
+    "accesslist-duplicates.remove.prompt": "\n要删除的数字 ID，要跳过的任意键！",
+    "accesslist-duplicates.removing": "正在删除数字 ID {id}...\n"
+  },
+  "schema": "11c6e77afe0e5ea39b260eb21e4693aeb7b69299435563d0469b3c22651fdc8c"
+}

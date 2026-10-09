@@ -9,6 +9,32 @@
 # send notifications via e-mail
 # https://rsc.eworm.de/doc/mod/notification-email.md
 
+# BEGIN GENERATED LANGUAGE DATA
+# language, name=notification-email, schema=5a6236090c5b7c3f80f50b70e58e9489c8100e4505c9ddc4ee72854e4de47c20
+:global LanguageEnglish;
+:if ([ :typeof $LanguageEnglish ] != "array") do={ :set LanguageEnglish ({}); }
+:set ($LanguageEnglish->"notification-email.attach.missing") "File '{file}' does not exist, can not attach.";
+:set ($LanguageEnglish->"notification-email.certificate.failed") "Downloading required certificate failed.";
+:set ($LanguageEnglish->"notification-email.checking") "Doing initial checks...";
+:set ($LanguageEnglish->"notification-email.dns.failed") "Server address is a DNS name and resolving fails, not flushing.";
+:set ($LanguageEnglish->"notification-email.from") "{identity} via routeros-scripts <{address}>";
+:set ($LanguageEnglish->"notification-email.queue.empty") "Flushing E-Mail messages from scheduler, but queue is empty.";
+:set ($LanguageEnglish->"notification-email.queue.purged") "Queue was purged? Exiting.";
+:set ($LanguageEnglish->"notification-email.queuing") "Queuing new mail...";
+:set ($LanguageEnglish->"notification-email.retry.waiting") "Waiting for retry...";
+:set ($LanguageEnglish->"notification-email.scheduler.gone") "The scheduler is gone, aborting.";
+:set ($LanguageEnglish->"notification-email.send.failed") "Sending queued mail failed: {error}";
+:set ($LanguageEnglish->"notification-email.sending") "Sending...";
+:set ($LanguageEnglish->"notification-email.sending.busy") "Sending mail is currently in progress, not flushing.";
+:set ($LanguageEnglish->"notification-email.time.unsynced") "Time is not synced, not flushing.";
+:set ($LanguageEnglish->"notification-email.truncated") "The message was too long and has been truncated!";
+:set ($LanguageEnglish->"global-config.not.ready") "Global config and/or functions not ready.";
+:global GlobalNotReadyMessage;
+:if ([ :typeof $GlobalNotReadyMessage ] != "str") do={
+  :set GlobalNotReadyMessage ($LanguageEnglish->"global-config.not.ready");
+}
+# END GENERATED LANGUAGE DATA
+
 :global EMailGenerateFrom;
 :global FlushEmailQueue;
 :global LogForwardFilterLogForwarding;
@@ -24,6 +50,7 @@
   :global Identity;
 
   :global CleanName;
+  :global Translate;
 
   :local From [ /tool/e-mail/get from ];
 
@@ -31,7 +58,8 @@
     :return $From;
   }
 
-  :return ([ $CleanName $Identity ] . " via routeros-scripts <" . $From . ">");
+  :return [ $Translate "notification-email.from" \
+      ({ identity=[ $CleanName $Identity ]; address=$From }) ];
 }
 
 # flush e-mail queue
@@ -46,13 +74,14 @@
   :global IsDNSResolving;
   :global IsTimeSync;
   :global LogPrint;
+  :global Translate;
   :global RmFile;
 
   :local AllDone true;
   :local QueueLen [ :len $EmailQueue ];
 
   :if ([ :len [ /system/scheduler/find where name="_FlushEmailQueue" ] ] > 0 && $QueueLen = 0) do={
-    $LogPrint warning $0 ("Flushing E-Mail messages from scheduler, but queue is empty.");
+    $LogPrint warning $0 [ $Translate "notification-email.queue.empty" ];
     /system/scheduler/remove [ find where name="_FlushEmailQueue" ];
     :return false;
   }
@@ -63,44 +92,44 @@
 
   :if ([ :len [ /system/scheduler/find where name="_FlushEmailQueue" ] ] < 0) do={
     /system/scheduler/add name="_FlushEmailQueue" interval=1m start-time=startup \
-        comment="Doing initial checks..." on-event=(":global FlushEmailQueue; \$FlushEmailQueue;");
+        comment=[ $Translate "notification-email.checking" ] on-event=(":global FlushEmailQueue; \$FlushEmailQueue;");
   }
 
   :do {
     :if (([ /system/scheduler/get [ find where name="_FlushEmailQueue" ] ]->"interval") < 1m) do={
-      /system/scheduler/set interval=1m comment="Doing initial checks..." \
+      /system/scheduler/set interval=1m comment=[ $Translate "notification-email.checking" ] \
         [ find where name="_FlushEmailQueue" ];
     } 
   } on-error={
-    $LogPrint debug $0 ("The scheduler is gone, aborting.");
+    $LogPrint debug $0 [ $Translate "notification-email.scheduler.gone" ];
     :return false;
   }
 
   :if ([ /tool/e-mail/get last-status ] = "in-progress") do={
-    $LogPrint debug $0 ("Sending mail is currently in progress, not flushing.");
+    $LogPrint debug $0 [ $Translate "notification-email.sending.busy" ];
     :return false;
   }
 
   :if ([ $IsTimeSync ] = false) do={
-    $LogPrint debug $0 ("Time is not synced, not flushing.");
+    $LogPrint debug $0 [ $Translate "notification-email.time.unsynced" ];
     :return false;
   }
 
   :local EMailSettings [ /tool/e-mail/get ];
   :if ([ :typeof [ :toip ($EMailSettings->"server") ] ] != "ip" && [ $IsDNSResolving ] = false) do={
-    $LogPrint debug $0 ("Server address is a DNS name and resolving fails, not flushing.");
+    $LogPrint debug $0 [ $Translate "notification-email.dns.failed" ];
     :return false;
   }
 
   :if ([ /tool/e-mail/get certificate-verification ] ~ "^yes" && \
        [ :len $EmailServerCertificate ] > 0) do={
     :if ([ $CertificateAvailable $EmailServerCertificate "email" ] = false) do={
-      $LogPrint warning $0 ("Downloading required certificate failed.");
+      $LogPrint warning $0 [ $Translate "notification-email.certificate.failed" ];
       :return false;
     }
   }
 
-  /system/scheduler/set interval=($QueueLen . "m") comment="Sending..." \
+  /system/scheduler/set interval=($QueueLen . "m") comment=[ $Translate "notification-email.sending" ] \
     [ find where name="_FlushEmailQueue" ];
 
   :foreach Id,Message in=$EmailQueue do={
@@ -111,7 +140,8 @@
           :if ([ $FileExists $File ] = true) do={
             :set Attach ($Attach, $File);
           } else={
-            $LogPrint warning $0 ("File '" . $File . "' does not exist, can not attach.");
+            $LogPrint warning $0 [ $Translate "notification-email.attach.missing" \
+                ({ file=$File }) ];
           }
         }
         /tool/e-mail/send from=[ $EMailGenerateFrom ] to=($Message->"to") \
@@ -124,7 +154,8 @@
           }
         }
       } do={
-        $LogPrint warning $0 ("Sending queued mail failed: " . $Err);
+        $LogPrint warning $0 [ $Translate "notification-email.send.failed" \
+            ({ error=$Err }) ];
         :set AllDone false;
       }
     }
@@ -138,12 +169,12 @@
 
   :if ([ :len [ /system/scheduler/find where name="_FlushEmailQueue" ] ] = 0 && \
        [ :typeof $EmailQueue ] = "nothing") do={
-    $LogPrint info $0 ("Queue was purged? Exiting.");
+    $LogPrint info $0 [ $Translate "notification-email.queue.purged" ];
     :return false;
   }
 
   /system/scheduler/set interval=(([ get [ find where name="_FlushEmailQueue" ] ]->"run-count") . "m") \
-      comment="Waiting for retry..." [ find where name="_FlushEmailQueue" ];
+      comment=[ $Translate "notification-email.retry.waiting" ] [ find where name="_FlushEmailQueue" ];
 } do={
   :global ExitOnError; $ExitOnError $0 $Err;
 } }
@@ -151,14 +182,26 @@
 # generate filter for log-forward
 :set LogForwardFilterLogForwarding do={
   :global EscapeForRegEx;
+  :global LogForwardFilterSubjects;
   :global NotificationEMailSubject;
   :global SymbolForNotification;
 
-  :return ("^Error sending e-mail <(" . \
-    [ $EscapeForRegEx [ $NotificationEMailSubject ([ $SymbolForNotification \
-      "memo" ] . "Log Forwarding") ] ] . "|" . \
-    [ $EscapeForRegEx [ $NotificationEMailSubject ([ $SymbolForNotification \
-      "warning-sign" ] . "Log Forwarding") ] ] . ")>:");
+  # Remember subjects already used so a language change cannot forward old
+  # delivery failures again. The native RouterOS error prefix stays unchanged.
+  :if ([ :typeof $LogForwardFilterSubjects ] != "array") do={
+    :set LogForwardFilterSubjects ({});
+  }
+  :set ($LogForwardFilterSubjects->"Log Forwarding") true;
+  :if ([ :len $1 ] > 0) do={ :set ($LogForwardFilterSubjects->$1) true; }
+  :local Patterns "";
+  :foreach Subject,Unused in=$LogForwardFilterSubjects do={
+    :foreach Symbol in={ "memo"; "warning-sign" } do={
+      :if ([ :len $Patterns ] > 0) do={ :set Patterns ($Patterns . "|"); }
+      :set Patterns ($Patterns . [ $EscapeForRegEx [ $NotificationEMailSubject \
+          ([ $SymbolForNotification $Symbol ] . $Subject) ] ]);
+    }
+  }
+  :return ("^Error sending e-mail <(" . $Patterns . ")>:");
 }
 
 # generate the e-mail subject
@@ -183,6 +226,7 @@
 
   :global EitherOr;
   :global IfThenElse;
+  :global Translate;
   :global NotificationEMailSignature;
   :global NotificationEMailSubject;
   :global SymbolForNotification;
@@ -209,7 +253,7 @@
       [ $IfThenElse ([ :len ($Notification->"link") ] > 0) \
           ("\n" . [ $SymbolForNotification "link" ] . ($Notification->"link")) ] . \
       [ $IfThenElse ($Truncated = true) ("\n" . [ $SymbolForNotification "scissors" ] . \
-          "The message was too long and has been truncated!") ] . \
+          [ $Translate "notification-email.truncated" ]) ] . \
       [ $IfThenElse ([ :len $Signature ] > 0) ("\n-- \n" . $Signature) "" ]);
   :set ($EmailQueue->[ :len $EmailQueue ]) {
     to=$To; cc=$Cc;
@@ -218,7 +262,7 @@
     attach=($Notification->"attach"); remove-attach=($Notification->"remove-attach") };
   :if ([ :len [ /system/scheduler/find where name="_FlushEmailQueue" ] ] = 0) do={
     /system/scheduler/add name="_FlushEmailQueue" interval=1s start-time=startup \
-      comment="Queuing new mail..." on-event=(":global FlushEmailQueue; \$FlushEmailQueue;");
+      comment=[ $Translate "notification-email.queuing" ] on-event=(":global FlushEmailQueue; \$FlushEmailQueue;");
   }
 }
 

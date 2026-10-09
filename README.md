@@ -162,7 +162,7 @@ date and time is set correctly!
 
 Now let's download the main scripts and add them in configuration on the fly.
 
-    :foreach Script in={ "global-config"; "global-config-overlay"; "global-functions" } do={ /system/script/add name=$Script owner=$Script source=([ /tool/fetch check-certificate=yes-without-crl ("https://rsc.eworm.de/main/" . $Script . ".rsc") output=user as-value ]->"data"); };
+    :foreach Script in={ "global-config"; "global-config-overlay"; "global-functions.d/core-extra"; "global-functions" } do={ /system/script/add name=$Script owner=$Script source=([ /tool/fetch check-certificate=yes-without-crl ("https://rsc.eworm.de/main/" . $Script . ".rsc") output=user as-value ]->"data"); };
 
 ![screenshot: import scripts](README.d/04-import-scripts.avif)
 
@@ -210,6 +210,11 @@ the overlay as well:
 ![screenshot: apply configuration](README.d/08-apply-configuration.avif)
 
 This last step is required when ever you make changes to your configuration.
+
+English is the default notification language. See [Languages](doc/languages.md)
+to select another language or contribute translations. Runtime notifications,
+diagnostics, display labels, shared helpers, and configuration change notices
+use catalogs; English remains available offline.
 
 > ℹ️ **Info**: It is recommended to edit the configuration using the command
 > line interface. If using Winbox on Windows OS, the line endings may be

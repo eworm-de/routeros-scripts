@@ -1,0 +1,12 @@
+{
+  "language": "hi",
+  "messages": {
+    "notification-ntfy.offline": "सिस्टम पूरी तरह से कनेक्ट नहीं है, फ्लशिंग नहीं हो रही है।",
+    "notification-ntfy.queue.empty": "शेड्यूलर से Ntfy संदेशों को फ्लश किया जा रहा है, लेकिन कतार खाली है।",
+    "notification-ntfy.queue.failed": "कतारबद्ध Ntfy संदेश भेजना विफल: {error}",
+    "notification-ntfy.send.failed": "ntfy अधिसूचना भेजने में विफल: {error} - कतारबद्ध...",
+    "notification-ntfy.certificate.failed": "आवश्यक प्रमाणपत्र डाउनलोड करना विफल रहा.",
+    "notification-ntfy.queued": "यह संदेश {date} {time} से कतारबद्ध था और अप्रचलित हो सकता है।"
+  },
+  "schema": "6734a9715e6b789bb7ff475fdc9f2b11391a7dcbd94aaef3413d695b035d493e"
+}

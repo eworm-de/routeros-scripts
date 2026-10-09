@@ -1,0 +1,22 @@
+{
+  "language": "ar-EG",
+  "messages": {
+    "backup-upload.partition": "الجهاز شغّال من قسم النسخة الاحتياطية، مش هننفّذ أي إجراء.",
+    "backup-upload.directory": "ماقدرناش نعمل مجلد!",
+    "backup-upload.options": "تم تكوينه بحيث لا يرسل النسخ الاحتياطي ولا تصدير التكوين.",
+    "backup-upload.none": "مفيش",
+    "backup-upload.label.backup": "ملف النسخ الاحتياطي",
+    "backup-upload.label.export": "تصدير الملف",
+    "backup-upload.label.config": "ملف التكوين",
+    "backup-upload.upload.backup.failed": "فشل تحميل ملف النسخ الاحتياطي: {error}",
+    "backup-upload.upload.export.failed": "فشل تحميل تصدير التكوين: {error}",
+    "backup-upload.upload.config.failed": "فشل تحميل global-config-overlay: {error}",
+    "backup-upload.subject": "النسخ الاحتياطي وتحميل التكوين",
+    "backup-upload.subject.failed": "النسخ الاحتياطي وتحميل التكوين مع الفشل",
+    "backup-upload.message": "تحميل النسخ الاحتياطي وتصدير التكوين لـ {identity}.\n\n{device}\n\n{details}",
+    "backup-upload.failed": "فشل",
+    "backup-upload.label.name": "    اسم",
+    "backup-upload.label.size": "    الحجم"
+  },
+  "schema": "ac3b0aa1324d76ce3ef1515ba46a556bd27200aeea4ad75af6d1e26fd41bf67d"
+}

@@ -1,0 +1,12 @@
+{
+  "language": "ur",
+  "messages": {
+    "log-forward.limited": "عمل میں شرح کی حد، لاگز فارورڈنگ نہیں، اگر کوئی ہے!",
+    "log-forward.subject": "لاگ فارورڈنگ",
+    "log-forward.duplicates": " متعدد بار بار آنے والے پیغامات کو چھوڑ دیا گیا ہے۔",
+    "log-forward.delaying": "\nکارروائی میں شرح کی حد، آگے بڑھانے میں تاخیر۔",
+    "log-forward.message.single": "{identity} پر لاگ ان {uptime} اپ ٹائم کے بعد اس پیغام پر مشتمل ہے۔{duplicates}{delay}\n{messages}",
+    "log-forward.message.multiple": "{identity} پر لاگ ان {count} پیغامات پر مشتمل ہے {uptime} اپ ٹائم کے بعد۔{duplicates}{delay}\n{messages}"
+  },
+  "schema": "295a2441ccf8e06593a7eedcf16e2ac316badd8c4111d4dab8823ac3b329473c"
+}

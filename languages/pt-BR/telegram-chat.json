@@ -1,0 +1,30 @@
+{
+  "language": "pt-BR",
+  "messages": {
+    "telegram-chat.certificate.failed": "Falha ao baixar o certificado necessário.",
+    "telegram-chat.fetch.failed": "Falha no download, tentativa {count}: {error}",
+    "telegram-chat.updates.failed": "Falha ao obter atualizações.",
+    "telegram-chat.update": "Atualização {id}: {update}",
+    "telegram-chat.notice": "Enviando aviso para a atualização {id}.",
+    "telegram-chat.subject": "Conversa pelo Telegram",
+    "telegram-chat.greeting": "Olá {name}!\n\n",
+    "telegram-chat.directory.failed": "Falha ao criar diretório!",
+    "telegram-chat.command.running": "Executando comando da atualização {id}: {command}",
+    "telegram-chat.command.background": "O comando não terminou; continua em execução em segundo plano.\n\n",
+    "telegram-chat.command.failed": "O comando falhou com um erro!\n\n",
+    "telegram-chat.command": "Comando:\n{command}\n\n",
+    "telegram-chat.output": "Saída:\n{output}",
+    "telegram-chat.output.empty": "Nenhuma saída.",
+    "telegram-chat.command.syntax": "A sintaxe do comando da atualização {id} é inválida!",
+    "telegram-chat.command.syntax.message": "A sintaxe do comando é inválida!",
+    "telegram-chat.untrusted.message": "Você não é um contato confiável.",
+    "telegram-chat.update.handled": "A atualização {id} já foi processada.",
+    "telegram-chat.online.passive": "Online, aguardando seus comandos!",
+    "telegram-chat.online.active": "Online (e ativo!), aguardando seus comandos!",
+    "telegram-chat.state.active": "Agora ativo a partir da atualização {id}!",
+    "telegram-chat.state.passive": "Agora passivo a partir da atualização {id}!",
+    "telegram-chat.untrusted.unnamed": "Recebida uma mensagem de contato não confiável sem nome de usuário (ID {contact}) na atualização {id}!",
+    "telegram-chat.untrusted.named": "Recebida uma mensagem do contato não confiável '{username}' (ID {contact}) na atualização {id}!"
+  },
+  "schema": "23866b98057d30494867d66d781c3555fc2f373d9af75cb1aac34c965ee3bd54"
+}

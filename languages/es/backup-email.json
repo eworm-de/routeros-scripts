@@ -1,0 +1,18 @@
+{
+  "language": "es",
+  "messages": {
+    "backup-email.partition": "Huyendo desde la partición de respaldo, negándose a actuar.",
+    "backup-email.directory": "¡Error al crear el directorio!",
+    "backup-email.options": "Configurado para no enviar copias de seguridad ni exportar configuraciones.",
+    "backup-email.none": "ninguno",
+    "backup-email.label.backup": "Archivo de copia de seguridad",
+    "backup-email.label.export": "Exportar archivo",
+    "backup-email.label.config": "Archivo de configuración",
+    "backup-email.email.unavailable": "El módulo de envío de notificaciones por correo electrónico no está instalado.",
+    "backup-email.email.failed": "Los archivos aún están disponibles, falló el envío del correo electrónico.",
+    "backup-email.subject": "Copia de seguridad y configuración",
+    "backup-email.message": "Consulte los archivos adjuntos para realizar copias de seguridad y exportar configuraciones para {identity}.\n\n{device}\n\n{details}",
+    "backup-email.files.available": "Los archivos todavía están disponibles."
+  },
+  "schema": "d64d6ec60b1db0d5105ecd3ee2f9ce710886b1860f5d2ef971c4aa2adcdf6722"
+}

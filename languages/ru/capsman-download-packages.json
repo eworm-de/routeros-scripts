@@ -1,0 +1,10 @@
+{
+  "language": "ru",
+  "messages": {
+    "capsman-download-packages.path.undefined": "Путь к пакету CAPsMAN не определен, невозможно загрузить пакеты.",
+    "capsman-download-packages.directory.failed": "Не удалось создать каталог по пути к пакету CAPsMAN ({path})!",
+    "capsman-download-packages.directory.created": "Создан каталог по пути к пакету CAPsMAN ({path}). Пожалуйста, разместите свои посылки!",
+    "capsman-download-packages.defaults": "Доступных пакетов нет, загружается набор по умолчанию."
+  },
+  "schema": "59f845c7f49406ecd939f7b0cebfb7f994f70400db30d8b136359720c88ab147"
+}

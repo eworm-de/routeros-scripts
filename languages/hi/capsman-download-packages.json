@@ -1,0 +1,10 @@
+{
+  "language": "hi",
+  "messages": {
+    "capsman-download-packages.path.undefined": "CAPsMAN पैकेज पथ परिभाषित नहीं है, पैकेज डाउनलोड नहीं किया जा सकता।",
+    "capsman-download-packages.directory.failed": "CAPsMAN पैकेज पथ ({path}) पर निर्देशिका बनाना विफल रहा!",
+    "capsman-download-packages.directory.created": "CAPsMAN पैकेज पथ ({path}) पर निर्देशिका बनाई गई। कृपया अपना पैकेज रखें!",
+    "capsman-download-packages.defaults": "कोई पैकेज उपलब्ध नहीं है, डाउनलोडिंग डिफ़ॉल्ट सेट है।"
+  },
+  "schema": "59f845c7f49406ecd939f7b0cebfb7f994f70400db30d8b136359720c88ab147"
+}

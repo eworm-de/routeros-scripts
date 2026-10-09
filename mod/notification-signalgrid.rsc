@@ -10,6 +10,23 @@
 # send notifications via Signalgrid (signalgrid.co)
 # https://rsc.eworm.de/doc/mod/notification-signalgrid.md
 
+# BEGIN GENERATED LANGUAGE DATA
+# language, name=notification-signalgrid, schema=128aca9359451217298096f284f1811957b4079d0693132dbe948f2ced909a78
+:global LanguageEnglish;
+:if ([ :typeof $LanguageEnglish ] != "array") do={ :set LanguageEnglish ({}); }
+:set ($LanguageEnglish->"notification-signalgrid.certificate.failed") "Downloading required certificate failed.";
+:set ($LanguageEnglish->"notification-signalgrid.empty") "Flushing Signalgrid messages from scheduler, but queue is empty.";
+:set ($LanguageEnglish->"notification-signalgrid.offline") "System is not fully connected, not flushing.";
+:set ($LanguageEnglish->"notification-signalgrid.queue.failed") "Sending queued Signalgrid notification failed: {error}";
+:set ($LanguageEnglish->"notification-signalgrid.queued") "This message was queued since {date} {time} and may be obsolete.";
+:set ($LanguageEnglish->"notification-signalgrid.sending.failed") "Failed sending Signalgrid notification: {error} - Queuing...";
+:set ($LanguageEnglish->"global-config.not.ready") "Global config and/or functions not ready.";
+:global GlobalNotReadyMessage;
+:if ([ :typeof $GlobalNotReadyMessage ] != "str") do={
+  :set GlobalNotReadyMessage ($LanguageEnglish->"global-config.not.ready");
+}
+# END GENERATED LANGUAGE DATA
+
 :global FlushSignalgridQueue;
 :global NotificationFunctions;
 :global PurgeSignalgridQueue;
@@ -22,9 +39,10 @@
 
   :global IsFullyConnected;
   :global LogPrint;
+  :global Translate;
 
   :if ([ $IsFullyConnected ] = false) do={
-    $LogPrint debug $0 ("System is not fully connected, not flushing.");
+    $LogPrint debug $0 [ $Translate "notification-signalgrid.offline" ];
     :return false;
   }
 
@@ -32,7 +50,7 @@
   :local QueueLen [ :len $SignalgridQueue ];
 
   :if ([ :len [ /system/scheduler/find where name="_FlushSignalgridQueue" ] ] > 0 && $QueueLen = 0) do={
-    $LogPrint warning $0 ("Flushing Signalgrid messages from scheduler, but queue is empty.");
+    $LogPrint warning $0 [ $Translate "notification-signalgrid.empty" ];
   }
 
   :foreach Id,Request in=$SignalgridQueue do={
@@ -43,7 +61,7 @@
           "https://api.signalgrid.co/v1/push" as-value;
         :set ($SignalgridQueue->$Id);
       } do={
-        $LogPrint debug $0 ("Sending queued Signalgrid notification failed: " . $Err);
+        $LogPrint debug $0 [ $Translate "notification-signalgrid.queue.failed" ({ error=$Err }) ];
         :set AllDone false;
       }
     }
@@ -74,6 +92,7 @@
   :global FetchUserAgentStr;
   :global IfThenElse;
   :global LogPrint;
+  :global Translate;
   :global SymbolForNotification;
 
   :local ClientKey [ $EitherOr ($SignalgridClientKeyOverride->($Notification->"origin")) \
@@ -102,21 +121,20 @@
 
   :onerror Err {
     :if ([ $CertificateAvailable "Root YE" "fetch" ] = false) do={
-      $LogPrint warning $0 ("Downloading required certificate failed.");
+      $LogPrint warning $0 [ $Translate "notification-signalgrid.certificate.failed" ];
       :error false;
     }
     /tool/fetch check-certificate=yes-without-crl output=none http-method=post \
       http-header-field=$Headers http-data=($Data . "&body=" . [ :convert $Body to=url ]) \
       "https://api.signalgrid.co/v1/push" as-value;
   } do={
-    $LogPrint info $0 ("Failed sending Signalgrid notification: " . $Err . " - Queuing...");
+    $LogPrint info $0 [ $Translate "notification-signalgrid.sending.failed" ({ error=$Err }) ];
 
     :if ([ :typeof $SignalgridQueue ] = "nothing") do={
       :set SignalgridQueue ({});
     }
     :set Body ($Body . "\n" . [ $SymbolForNotification "alarm-clock" ] . \
-      "This message was queued since " . [ /system/clock/get date ] . " " . \
-      [ /system/clock/get time ] . " and may be obsolete.");
+      [ $Translate "notification-signalgrid.queued" ({ date=[ /system/clock/get date ]; time=[ /system/clock/get time ] }) ]);
     :set ($SignalgridQueue->[ :len $SignalgridQueue ]) \
      { headers=$Headers; data=($Data . "&body=" . [ :convert $Body to=url ]) };
     :if ([ :len [ /system/scheduler/find where name="_FlushSignalgridQueue" ] ] = 0) do={

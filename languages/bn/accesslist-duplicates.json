@@ -1,0 +1,8 @@
+{
+  "language": "bn",
+  "messages": {
+    "accesslist-duplicates.remove.prompt": "\nসাংখ্যিক আইডি মুছে ফেলতে হবে, কোন কী এড়িয়ে যেতে হবে!",
+    "accesslist-duplicates.removing": "সাংখ্যিক আইডি {id} সরানো হচ্ছে...\n"
+  },
+  "schema": "11c6e77afe0e5ea39b260eb21e4693aeb7b69299435563d0469b3c22651fdc8c"
+}

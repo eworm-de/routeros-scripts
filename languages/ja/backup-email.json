@@ -1,0 +1,18 @@
+{
+  "language": "ja",
+  "messages": {
+    "backup-email.partition": "バックアップ パーティションから実行され、動作を拒否します。",
+    "backup-email.directory": "ディレクトリの作成に失敗しました!",
+    "backup-email.options": "バックアップも構成エクスポートも送信しないように構成されています。",
+    "backup-email.none": "なし",
+    "backup-email.label.backup": "バックアップファイル",
+    "backup-email.label.export": "エクスポートファイル",
+    "backup-email.label.config": "設定ファイル",
+    "backup-email.email.unavailable": "電子メールで通知を送信するためのモジュールがインストールされていません。",
+    "backup-email.email.failed": "ファイルはまだ利用可能ですが、電子メールの送信に失敗しました。",
+    "backup-email.subject": "バックアップと設定",
+    "backup-email.message": "{identity} のバックアップと構成のエクスポートについては、添付ファイルを参照してください。\n\n{device}\n\n{details}",
+    "backup-email.files.available": "ファイルはまだ利用可能です。"
+  },
+  "schema": "d64d6ec60b1db0d5105ecd3ee2f9ce710886b1860f5d2ef971c4aa2adcdf6722"
+}

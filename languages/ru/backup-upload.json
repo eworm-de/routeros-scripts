@@ -1,0 +1,22 @@
+{
+  "language": "ru",
+  "messages": {
+    "backup-upload.partition": "Запуск из резервного раздела, отказывается действовать.",
+    "backup-upload.directory": "Не удалось создать каталог!",
+    "backup-upload.options": "Настроен на отправку ни резервной копии, ни экспорта конфигурации.",
+    "backup-upload.none": "нет",
+    "backup-upload.label.backup": "Резервный файл",
+    "backup-upload.label.export": "Экспортировать файл",
+    "backup-upload.label.config": "Конфигурационный файл",
+    "backup-upload.upload.backup.failed": "Не удалось загрузить файл резервной копии: {error}.",
+    "backup-upload.upload.export.failed": "Не удалось загрузить экспорт конфигурации: {error}.",
+    "backup-upload.upload.config.failed": "Не удалось загрузить global-config-overlay: {error}.",
+    "backup-upload.subject": "Резервное копирование и загрузка конфигурации",
+    "backup-upload.subject.failed": "Загрузка резервной копии и конфигурации завершилась неудачей",
+    "backup-upload.message": "Загрузка резервной копии и экспорта конфигурации для {identity}.\n\n{device}\n\n{details}",
+    "backup-upload.failed": "не удалось",
+    "backup-upload.label.name": "    имя",
+    "backup-upload.label.size": "    размер"
+  },
+  "schema": "ac3b0aa1324d76ce3ef1515ba46a556bd27200aeea4ad75af6d1e26fd41bf67d"
+}

@@ -1,0 +1,30 @@
+{
+  "language": "ja",
+  "messages": {
+    "netwatch-notify.type.host": "ホスト",
+    "netwatch-notify.type.service": "サービス",
+    "netwatch-notify.state.up": "上",
+    "netwatch-notify.state.down": "下",
+    "netwatch-notify.state.pre-down": "プレダウン",
+    "netwatch-notify.hook.failed": "{type} '{name}' の {state} フックの実行に失敗しました: {error}",
+    "netwatch-notify.hook.failed.message": "フックの実行に失敗しました。",
+    "netwatch-notify.hook.syntax": "{type} '{name}' の {state} フックが構文検証に失敗しました。",
+    "netwatch-notify.hook.syntax.message": "フックは構文検証に失敗しました。",
+    "netwatch-notify.hook.ran": "{type} '{name}' {state}: {hook} でフックを実行しました",
+    "netwatch-notify.hook.ran.message": "ランフック:\n{hook}",
+    "netwatch-notify.resolve.updated": "名前「{resolve}」は別のアドレス {address} に解決され、更新されます。",
+    "netwatch-notify.resolve.named.updated": "{type} の名前 '{resolve}' '{name}' は別のアドレス {address} に解決され、更新されます。",
+    "netwatch-notify.resolve.failed": "名前「{resolve}」の解決が 3 回目に失敗しました: {error}",
+    "netwatch-notify.resolve.named.failed": "{type} '{name}' の名前 '{resolve}' の解決が 3 回目に失敗しました: {error}",
+    "netwatch-notify.up": "{type}「{name}」({details})が登場しました。",
+    "netwatch-notify.up.message": "{type} 「{name}」 ({details}) は {since} から登場しました。\n{down_since} 以降、{count} チェックでダウンしていました。",
+    "netwatch-notify.note": "注:\n{note}",
+    "netwatch-notify.up.subject": "Netwatch 通知: {name} アップ",
+    "netwatch-notify.down.subject": "Netwatch 通知: {name} ダウン",
+    "netwatch-notify.down.waiting": "{type} '{name}' ({details}) は {count} チェックのためにダウンしており、{remaining} は残ります。",
+    "netwatch-notify.down.notified": "{type} '{name}' ({details}) は {count} チェックのためにダウンしています。すでに通知されています。",
+    "netwatch-notify.down.parent": "{type} '{name}' ({details}) は {count} チェックのためにダウンしており、親 {type} {parent} はダウンしています。",
+    "netwatch-notify.down.message": "{type} 「{name}」 ({details}) は、{since} 以来ダウンしています。"
+  },
+  "schema": "7599eb0829fe6e5e2de9cf05b5bf721fd5b4cd7ce0726daf8735d47e695d7240"
+}

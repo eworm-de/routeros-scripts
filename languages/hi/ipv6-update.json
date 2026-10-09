@@ -1,0 +1,14 @@
+{
+  "language": "hi",
+  "messages": {
+    "ipv6-update.address.ignored": "एक पता ({address}) प्राप्त किया गया था, कोई उपसर्ग नहीं। नजरअंदाज करना.",
+    "ipv6-update.context.invalid": "यह स्क्रिप्ट आईपीवी6 डीएचसीपी-क्लाइंट से चलने वाली है।",
+    "ipv6-update.prefix.invalid": "उपसर्ग {prefix} अब मान्य नहीं है. नजरअंदाज करना.",
+    "ipv6-update.list.added": "IPv6-पूल-{pool} के लिए डायनामिक IPv6 पता सूची प्रविष्टि जोड़ी गई",
+    "ipv6-update.prefix.updating": "नए IPv6 उपसर्ग {prefix} के साथ IPv6 पता सूची अपडेट कर रहा है",
+    "ipv6-update.host.updating": "इंटरफ़ेस {interface} से नए IPv6 होस्ट पते {address} के साथ IPv6 पता सूची अपडेट कर रहा है",
+    "ipv6-update.interface.prefix.updating": "इंटरफ़ेस {interface} से नए IPv6 उपसर्ग {prefix} के साथ IPv6 पता सूची अपडेट कर रहा है",
+    "ipv6-update.dns.updating": "{name}{regexp} के लिए DNS रिकॉर्ड को {address} में अपडेट किया जा रहा है"
+  },
+  "schema": "d502241c31fb73e9c3245e499a026333b5c7b5265d927b18a2a24bf7948fb823"
+}

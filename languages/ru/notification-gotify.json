@@ -1,0 +1,11 @@
+{
+  "language": "ru",
+  "messages": {
+    "notification-gotify.offline": "Система не полностью подключена, не промывается.",
+    "notification-gotify.queue.empty": "Сброс сообщений Gotify из планировщика, но очередь пуста.",
+    "notification-gotify.queue.failed": "Ошибка отправки сообщения Gotify в очереди: {error}",
+    "notification-gotify.send.failed": "Не удалось отправить уведомление Gotify: {error} — очередь...",
+    "notification-gotify.queued": "Это сообщение было в очереди с {date} {time} и может устареть."
+  },
+  "schema": "3ca0bb174dd4fcbe639af5145d66a280408096f7c34f9d1dd0565c5061427859"
+}

@@ -1,0 +1,22 @@
+{
+  "language": "hi",
+  "messages": {
+    "check-lte-firmware-upgrade.fetch.failed": "इंटरफ़ेस {interface} के लिए नवीनतम LTE फ़र्मवेयर संस्करण प्राप्त नहीं हो सका: {error}",
+    "check-lte-firmware-upgrade.version.empty": "खाली स्ट्रिंग वैध संस्करण नहीं है.",
+    "check-lte-firmware-upgrade.current": "LTE इंटरफ़ेस {interface} के लिए कोई फर्मवेयर अपग्रेड उपलब्ध नहीं है।",
+    "check-lte-firmware-upgrade.prompt": "क्या आप इंटरफ़ेस {interface} के लिए अनअटेंडेड एलटीई फर्मवेयर अपग्रेड शुरू करना चाहते हैं? [y/N]",
+    "check-lte-firmware-upgrade.scheduled": "इंटरफ़ेस {interface} के लिए अनुसूचित एलटीई फ़र्मवेयर अपग्रेड...",
+    "check-lte-firmware-upgrade.canceled": "रद्द किया गया...",
+    "check-lte-firmware-upgrade.already.sent": "संस्करण {version} के लिए LTE फ़र्मवेयर अपग्रेड अधिसूचना पहले ही भेज दी गई है।",
+    "check-lte-firmware-upgrade.available.log": "LTE इंटरफ़ेस {interface} के लिए एक नया फर्मवेयर संस्करण {version} उपलब्ध है।",
+    "check-lte-firmware-upgrade.subject": "एलटीई फर्मवेयर अपग्रेड",
+    "check-lte-firmware-upgrade.message": "{identity} पर LTE इंटरफ़ेस {interface} के लिए एक नया फर्मवेयर संस्करण {version} उपलब्ध है।\n\n{details}",
+    "check-lte-firmware-upgrade.label.manufacturer": "निर्माता",
+    "check-lte-firmware-upgrade.label.model": "मॉडल",
+    "check-lte-firmware-upgrade.label.revision": "संशोधन",
+    "check-lte-firmware-upgrade.label.firmware": "फ़र्मवेयर संस्करण:\n",
+    "check-lte-firmware-upgrade.label.installed": "    स्थापित",
+    "check-lte-firmware-upgrade.label.available": "    उपलब्ध"
+  },
+  "schema": "48481740f1c9bb358194e5fc7b620f4ae430d0a89771919bb68cf54ad8f44eee"
+}

@@ -1,0 +1,26 @@
+{
+  "language": "ja",
+  "messages": {
+    "packages-update.scheduler.exists": "再起動のスケジューラはすでに存在します。",
+    "packages-update.scheduled": "現地時間 {time} ({timezone}) に更新のためのスケジュールされた再起動。",
+    "packages-update.license.expired": "The license expired, upgrade is blocked.",
+    "packages-update.backup.partition": "バックアップ パーティションから実行され、動作を拒否します。",
+    "packages-update.version.unknown": "最新バージョンは不明です。",
+    "packages-update.version.installed": "バージョン {version} はすでにインストールされています。",
+    "packages-update.backup.running": "更新前にバックアップ スクリプト {name} を実行します。",
+    "packages-update.backup.failed": "更新前にバックアップ スクリプト {name} を実行できませんでした。",
+    "packages-update.continue.prompt": "それでも続けますか? [y/N]",
+    "packages-update.continue": "ユーザーはとにかく続行を要求しました。",
+    "packages-update.canceled.update": "更新をキャンセルしました...",
+    "packages-update.canceled.noninteractive": "非対話型アップデートがキャンセルされました。",
+    "packages-update.downgrade.prompt": "最新バージョンはインストールされているバージョンよりも古いです。ダウングレードしたいですか? [y/N]",
+    "packages-update.canceled": "キャンセルされました...",
+    "packages-update.downgrade.refused": "ダウングレードが自動的にインストールされない。",
+    "packages-update.download.failed": "パッケージ {name} のダウンロードが失敗し、更新が中止されました。",
+    "packages-update.downgrade.reboot": "ダウングレードのため再起動中です。",
+    "packages-update.reboot.prompt": "再起動を予約しますか (s)、それとも今すぐ再起動しますか (r)？ [s/R]",
+    "packages-update.update.reboot": "更新のため再起動中です。",
+    "packages-update.scheduled.deferred": "{time} 現地時間 ({timezone}) での更新のためのスケジュールされた再起動は、{interval} によって延期されました。"
+  },
+  "schema": "77f3f83454477a8d375bfb399dd18ea210e50ceaf290213460a2f613ac47abd1"
+}

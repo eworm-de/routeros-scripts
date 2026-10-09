@@ -1,0 +1,16 @@
+{
+  "language": "fr",
+  "messages": {
+    "backup-partition.copied": "RouterOS copié dans la partition « {name} ».",
+    "backup-partition.copy.failed": "Échec de la copie de RouterOS sur la partition « {name} » : {error}",
+    "backup-partition.partition": "S'exécutant à partir de la partition de sauvegarde, refusant d'agir.",
+    "backup-partition.unavailable": "L'appareil ne dispose pas de partition de secours.",
+    "backup-partition.inactive": "Le périphérique ne s'exécute pas à partir de la partition active.",
+    "backup-partition.fallback.missing": "Il n'existe aucune partition inactive nommée « {name} ».",
+    "backup-partition.prompt": "Les partitions ont différentes versions de RouterOS. Copier vers « {name} » ? [y/N]",
+    "backup-partition.saved": "Configuration enregistrée sur la partition « {name} ».",
+    "backup-partition.save.failed": "Échec de l'enregistrement de la configuration sur la partition « {name} » : {error}",
+    "backup-partition.running": "Exécuté à partir de la partition « {name} » !"
+  },
+  "schema": "d37495d3faf22763093e64eb8145eb90d29a006fb0503cc939337741dfd80681"
+}

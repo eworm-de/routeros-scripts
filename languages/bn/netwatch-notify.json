@@ -1,0 +1,30 @@
+{
+  "language": "bn",
+  "messages": {
+    "netwatch-notify.type.host": "হোস্ট",
+    "netwatch-notify.type.service": "সেবা",
+    "netwatch-notify.state.up": "আপ",
+    "netwatch-notify.state.down": "নিচে",
+    "netwatch-notify.state.pre-down": "প্রি-ডাউন",
+    "netwatch-notify.hook.failed": "{type} '{name}'-এর জন্য {state}-হুক চালানো যায়নি: {error}",
+    "netwatch-notify.hook.failed.message": "হুক দৌড়াতে ব্যর্থ হয়েছে।",
+    "netwatch-notify.hook.syntax": "{state}-হুক {type} '{name}' সিনট্যাক্স যাচাইকরণ ব্যর্থ হয়েছে৷",
+    "netwatch-notify.hook.syntax.message": "হুক সিনট্যাক্স যাচাইকরণ ব্যর্থ হয়েছে৷",
+    "netwatch-notify.hook.ran": "{type} '{name}' {state}: {hook}-এ হুক চালান",
+    "netwatch-notify.hook.ran.message": "রান হুক:\n{hook}",
+    "netwatch-notify.resolve.updated": "নাম '{resolve}' ভিন্ন ঠিকানা {address}, আপডেট করা হচ্ছে।",
+    "netwatch-notify.resolve.named.updated": "{type} এর জন্য '{resolve}' নাম '{name}' ভিন্ন ঠিকানা {address}, আপডেট করা হচ্ছে।",
+    "netwatch-notify.resolve.failed": "'{resolve}' নামটি সমাধান করা তৃতীয়বার ব্যর্থ হয়েছে: {error}",
+    "netwatch-notify.resolve.named.failed": "{type} '{name}'-এর জন্য '{resolve}' নামটি সমাধান করা তৃতীয়বার ব্যর্থ হয়েছে: {error}",
+    "netwatch-notify.up": "{type} '{name}' ({details}) উঠে গেছে।",
+    "netwatch-notify.up.message": "{type} '{name}' ({details}) {since} থেকে শেষ হয়েছে৷\n{down_since} থেকে {count} চেকের জন্য এটি বন্ধ ছিল।",
+    "netwatch-notify.note": "\n\nদ্রষ্টব্য:\n{note}",
+    "netwatch-notify.up.subject": "Netwatch বিজ্ঞপ্তি: {name} আপ",
+    "netwatch-notify.down.subject": "Netwatch বিজ্ঞপ্তি: {name} নিচে",
+    "netwatch-notify.down.waiting": "{type} '{name}' ({details}) {count} চেক করার জন্য, {remaining} যেতে হবে।",
+    "netwatch-notify.down.notified": "{type} '{name}' ({details}) {count} চেকের জন্য বন্ধ রয়েছে, ইতিমধ্যেই বিজ্ঞপ্তি দেওয়া হয়েছে৷",
+    "netwatch-notify.down.parent": "{type} '{name}' ({details}) {count} চেকের জন্য নিচে আছে, প্যারেন্ট {type} {parent} নিচে আছে।",
+    "netwatch-notify.down.message": "{type} '{name}' ({details}) {since} থেকে কমে গেছে।"
+  },
+  "schema": "7599eb0829fe6e5e2de9cf05b5bf721fd5b4cd7ce0726daf8735d47e695d7240"
+}

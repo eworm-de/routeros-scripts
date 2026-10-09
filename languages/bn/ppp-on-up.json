@@ -1,0 +1,10 @@
+{
+  "language": "bn",
+  "messages": {
+    "ppp-on-up.context.invalid": "এই স্ক্রিপ্টটি পিপিপি অন-আপ স্ক্রিপ্ট হুক থেকে চালানোর কথা।",
+    "ppp-on-up.up": "PPP ইন্টারফেস {interface} আপ হয়েছে।",
+    "ppp-on-up.script.running": "চলমান স্ক্রিপ্ট: {name}",
+    "ppp-on-up.script.failed": "চলমান স্ক্রিপ্ট '{name}' ব্যর্থ হয়েছে!"
+  },
+  "schema": "948ef5fc1bb267e734267f57a5d70df419d106197075fec109f206534ce4493c"
+}

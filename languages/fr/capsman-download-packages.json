@@ -1,0 +1,10 @@
+{
+  "language": "fr",
+  "messages": {
+    "capsman-download-packages.path.undefined": "Le chemin du package CAPsMAN n’est pas défini, impossible de télécharger les packages.",
+    "capsman-download-packages.directory.failed": "La création du répertoire sur le chemin du package CAPsMAN ({path}) a échoué !",
+    "capsman-download-packages.directory.created": "Répertoire créé sur le chemin du package CAPsMAN ({path}). Merci de déposer vos colis !",
+    "capsman-download-packages.defaults": "Aucun package disponible, téléchargement de l'ensemble par défaut."
+  },
+  "schema": "59f845c7f49406ecd939f7b0cebfb7f994f70400db30d8b136359720c88ab147"
+}

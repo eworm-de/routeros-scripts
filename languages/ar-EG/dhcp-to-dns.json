@@ -1,0 +1,21 @@
+{
+  "language": "ar-EG",
+  "messages": {
+    "dhcp-to-dns.marker.added": "اتضاف سجل DNS الثابت المعطل بالاسم \"{name}\".",
+    "dhcp-to-dns.lease.exists": "لا يزال عقد الإيجار لـ {lease} ({name}) موجودًا. عدم حذف السجل.",
+    "dhcp-to-dns.lease.expired": "انتهت صلاحية عقد الإيجار لـ {lease}، مما أدى إلى حذف السجل ({name}).",
+    "dhcp-to-dns.leases.multiple": "تم العثور على عقود إيجار متعددة مرتبطة بعنوان mac {mac}!",
+    "dhcp-to-dns.lease.vanished": "لقد اختفى عقد الإيجار للتو، متجاهلاً.",
+    "dhcp-to-dns.address.missing": "مفيش عنوان متاح... جارٍ التجاهل.",
+    "dhcp-to-dns.lease.ignored": "تم تجاهل عقد إيجار {mac}... تخطي.",
+    "dhcp-to-dns.record.current": "لا يحتاج السجل A الخاص بـ {lease} ({name}) إلى التحديث.",
+    "dhcp-to-dns.record.updating": "تحديث سجل لـ {lease} ({name} -> {address}).",
+    "dhcp-to-dns.cname.deleting": "حذف سجل CNAME الذي يحتوي على بيانات خاطئة لـ {lease}.",
+    "dhcp-to-dns.cname.adding": "إضافة سجل CNAME لـ {lease} ({name} -> {target}).",
+    "dhcp-to-dns.record.adding": "إضافة سجل لـ {lease} ({name} -> {address}).",
+    "dhcp-to-dns.records.multiple": "الاسم '{name}' ظهر في أكثر من تسجيل!",
+    "dhcp-to-dns.lease.label": "{mac} في {server}",
+    "dhcp-to-dns.lease.label.current": "{mac} في {server}"
+  },
+  "schema": "96d193afd6225330e8e948bff1c489f075720758d514a6288540b978f27c8e6d"
+}

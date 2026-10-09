@@ -1,0 +1,9 @@
+{
+  "language": "id",
+  "messages": {
+    "sms-action.context": "Skrip ini seharusnya dijalankan dari SMS hook dengan action=...",
+    "sms-action.running": "Bertindak pada tindakan SMS '{action}': {code}",
+    "sms-action.syntax": "Kode untuk tindakan '{action}' gagal dalam validasi sintaksis!"
+  },
+  "schema": "91ff5010d0d869687a0bb1c0989668afd4c77fed76f0d8728bca83f00940d48e"
+}

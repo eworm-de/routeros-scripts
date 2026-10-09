@@ -1,0 +1,22 @@
+{
+  "language": "es",
+  "messages": {
+    "check-lte-firmware-upgrade.fetch.failed": "No se pudo obtener la última versión del firmware LTE para la interfaz {interface}: {error}",
+    "check-lte-firmware-upgrade.version.empty": "Una cadena vacía no es una versión válida.",
+    "check-lte-firmware-upgrade.current": "No hay actualización de firmware disponible para la interfaz LTE {interface}.",
+    "check-lte-firmware-upgrade.prompt": "¿Quiere iniciar la actualización del firmware LTE desatendida para la interfaz {interface}? [y/N]",
+    "check-lte-firmware-upgrade.scheduled": "Actualización de firmware LTE programada para la interfaz {interface}...",
+    "check-lte-firmware-upgrade.canceled": "Cancelado...",
+    "check-lte-firmware-upgrade.already.sent": "Ya se envió la notificación de actualización del firmware LTE para la versión {version}.",
+    "check-lte-firmware-upgrade.available.log": "Hay disponible una nueva versión de firmware {version} para la interfaz LTE {interface}.",
+    "check-lte-firmware-upgrade.subject": "Actualización de firmware LTE",
+    "check-lte-firmware-upgrade.message": "Hay disponible una nueva versión de firmware {version} para la interfaz LTE {interface} en {identity}.\n\n{details}",
+    "check-lte-firmware-upgrade.label.manufacturer": "Fabricante",
+    "check-lte-firmware-upgrade.label.model": "modelo",
+    "check-lte-firmware-upgrade.label.revision": "Revisión",
+    "check-lte-firmware-upgrade.label.firmware": "Versión de firmware:\n",
+    "check-lte-firmware-upgrade.label.installed": "    Instalado",
+    "check-lte-firmware-upgrade.label.available": "    Disponible"
+  },
+  "schema": "48481740f1c9bb358194e5fc7b620f4ae430d0a89771919bb68cf54ad8f44eee"
+}

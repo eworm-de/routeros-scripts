@@ -1,0 +1,10 @@
+{
+  "language": "ar-EG",
+  "messages": {
+    "capsman-download-packages.path.undefined": "مااتعملش تعريف مسار حزمة CAPsMAN، وماينفعش تنزيل الحزم.",
+    "capsman-download-packages.directory.failed": "فشل إنشاء الدليل في مسار حزمة CAPsMAN ({path})!",
+    "capsman-download-packages.directory.created": "اتعمل الدليل في مسار حزمة CAPsMAN ({path}). من فضلك وضع الطرود الخاصة بك!",
+    "capsman-download-packages.defaults": "مفيش حزم متاحة، جارٍ تنزيل المجموعة الافتراضية."
+  },
+  "schema": "59f845c7f49406ecd939f7b0cebfb7f994f70400db30d8b136359720c88ab147"
+}

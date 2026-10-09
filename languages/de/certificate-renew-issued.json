@@ -1,0 +1,9 @@
+{
+  "language": "de",
+  "messages": {
+    "certificate-renew-issued.exported": "Ein neues Zertifikat für „{name}“ wurde ausgestellt und nach „cert-issued/{name}.p12“ exportiert.",
+    "certificate-renew-issued.directory.failed": "Das Erstellen des Verzeichnisses ist fehlgeschlagen, das Zertifikat konnte nicht exportiert werden.",
+    "certificate-renew-issued.issued": "Ein neues Zertifikat für „{name}“ wurde ausgestellt."
+  },
+  "schema": "9048d1a3bcb148168f2785f02dea50e8de90c9f3170cedabe6b72d99bc61a2fd"
+}

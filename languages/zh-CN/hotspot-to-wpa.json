@@ -1,0 +1,8 @@
+{
+  "language": "zh-CN",
+  "messages": {
+    "hotspot-to-wpa.ignored": "{script}：忽略热点“{hotspot}”上 {mac} 的登录。",
+    "hotspot-to-wpa.lease.missing": "{script}：没有找到 {mac} 的确切租约！"
+  },
+  "schema": "82d921421b5113cc10cc742bba242aca700d0a06c7bba7435e2d6ce8faa20f74"
+}

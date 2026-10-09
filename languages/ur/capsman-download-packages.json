@@ -1,0 +1,10 @@
+{
+  "language": "ur",
+  "messages": {
+    "capsman-download-packages.path.undefined": "CAPsMAN پیکج کا راستہ متعین نہیں ہے، پیکجز ڈاؤن لوڈ نہیں کر سکتے۔",
+    "capsman-download-packages.directory.failed": "CAPsMAN پیکیج پاتھ ({path}) پر ڈائرکٹری بنانا ناکام ہو گیا!",
+    "capsman-download-packages.directory.created": "CAPsMAN پیکیج پاتھ ({path}) پر ڈائریکٹری بنائی گئی۔ براہ کرم اپنے پیکجز رکھیں!",
+    "capsman-download-packages.defaults": "کوئی پیکج دستیاب نہیں، ڈیفالٹ سیٹ ڈاؤن لوڈ ہو رہا ہے۔"
+  },
+  "schema": "59f845c7f49406ecd939f7b0cebfb7f994f70400db30d8b136359720c88ab147"
+}

@@ -1,0 +1,18 @@
+{
+  "language": "hi",
+  "messages": {
+    "sms-forward.disabled": "एसएमएस प्राप्त करना सक्षम नहीं है.",
+    "sms-forward.interface.stopped": "LTE इंटरफ़ेस चालू स्थिति में नहीं है, स्किपिंग।",
+    "sms-forward.command.removed": "एसएमएस को हटाया जा रहा है, जिससे एक स्क्रिप्ट शुरू हुई।",
+    "sms-forward.remove.failed": "संदेश हटाने में विफल: {error}",
+    "sms-forward.received": "{timestamp} पर {type} टाइप करें:\n{message}",
+    "sms-forward.hook.running": "रनिंग हुक '{match}': {command}",
+    "sms-forward.hook.ran": "\n\nरैन हुक '{match}':\n{command}",
+    "sms-forward.hook.failed": "हुक '{match}' के लिए कोड चलने में विफल: {error}",
+    "sms-forward.hook.syntax": "हुक '{match}' के लिए कोड सिंटैक्स सत्यापन विफल रहा!",
+    "sms-forward.subject": "{phone} से एसएमएस अग्रेषण",
+    "sms-forward.message.one": "यह संदेश {identity} द्वारा {phone}:{messages} से प्राप्त हुआ",
+    "sms-forward.message.many": "ये {count} संदेश {identity} द्वारा {phone}:{messages} से प्राप्त हुए"
+  },
+  "schema": "b605613f43230d212520e682ee06789fe9ebdb37a25f5c21ba93719a7923e2a1"
+}

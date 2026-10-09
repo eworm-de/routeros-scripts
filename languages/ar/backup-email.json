@@ -1,0 +1,18 @@
+{
+  "language": "ar",
+  "messages": {
+    "backup-email.partition": "تشغيل من قسم النسخ الاحتياطي، ورفض التصرف.",
+    "backup-email.directory": "فشل إنشاء الدليل!",
+    "backup-email.options": "تم تكوينه بحيث لا يرسل النسخ الاحتياطي ولا تصدير التكوين.",
+    "backup-email.none": "لا شيء",
+    "backup-email.label.backup": "ملف النسخ الاحتياطي",
+    "backup-email.label.export": "تصدير الملف",
+    "backup-email.label.config": "ملف التكوين",
+    "backup-email.email.unavailable": "لم يتم تثبيت وحدة إرسال الإشعارات عبر البريد الإلكتروني.",
+    "backup-email.email.failed": "الملفات لا تزال متاحة، فشل إرسال البريد الإلكتروني.",
+    "backup-email.subject": "النسخ الاحتياطي والتكوين",
+    "backup-email.message": "راجع الملفات المرفقة للنسخ الاحتياطي وتصدير التكوين لـ {identity}.\n\n{device}\n\n{details}",
+    "backup-email.files.available": "الملفات لا تزال متاحة."
+  },
+  "schema": "d64d6ec60b1db0d5105ecd3ee2f9ce710886b1860f5d2ef971c4aa2adcdf6722"
+}

@@ -1,0 +1,22 @@
+{
+  "language": "fr",
+  "messages": {
+    "backup-upload.partition": "S'exécutant à partir de la partition de sauvegarde, refusant d'agir.",
+    "backup-upload.directory": "Échec de la création du répertoire !",
+    "backup-upload.options": "Configuré pour envoyer ni sauvegarde ni exportation de configuration.",
+    "backup-upload.none": "aucun",
+    "backup-upload.label.backup": "Fichier de sauvegarde",
+    "backup-upload.label.export": "Exporter le fichier",
+    "backup-upload.label.config": "Fichier de configuration",
+    "backup-upload.upload.backup.failed": "Échec du téléchargement du fichier de sauvegarde : {error}",
+    "backup-upload.upload.export.failed": "Échec du téléchargement de l'exportation de la configuration : {error}",
+    "backup-upload.upload.config.failed": "Échec du téléchargement de global-config-overlay : {error}",
+    "backup-upload.subject": "Téléchargement de sauvegarde et de configuration",
+    "backup-upload.subject.failed": "Téléchargement de sauvegarde et de configuration avec échec",
+    "backup-upload.message": "Téléchargement de sauvegarde et d'exportation de configuration pour {identity}.\n\n{device}\n\n{details}",
+    "backup-upload.failed": "échoué",
+    "backup-upload.label.name": "    nom",
+    "backup-upload.label.size": "    taille"
+  },
+  "schema": "ac3b0aa1324d76ce3ef1515ba46a556bd27200aeea4ad75af6d1e26fd41bf67d"
+}

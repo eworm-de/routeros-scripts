@@ -1,0 +1,13 @@
+{
+  "language": "ru",
+  "messages": {
+    "bridge-port-vlan.client.enabled": "Отключение порта моста для интерфейса {interface}, включение DHCP-клиента.",
+    "bridge-port-vlan.interfaces.enabled": "Повторное включение интерфейсов...",
+    "bridge-port-vlan.vlan.missing": "Не удалось найти VLAN «{vlan}» для интерфейса {interface}!",
+    "bridge-port-vlan.vlan.enabled": "Включение порта моста для интерфейса {interface}, изменение на {config} vlan {vlan}{name}, отключение DHCP-клиента.",
+    "bridge-port-vlan.vlan.connected": "Интерфейс {interface} уже подключен к виртуальной локальной сети {config} {vlan}.",
+    "bridge-port-vlan.client.missing": "Отсутствует конфигурация клиента DHCP для интерфейса {interface}!",
+    "bridge-port-vlan.client.duplicate": "Дублирующая конфигурация клиента DHCP для интерфейса {interface}!"
+  },
+  "schema": "ca51ecefefa0a1bcad40eb3a3ad65db37300e7e3b0f7f3f5abe49a021f6dfda1"
+}

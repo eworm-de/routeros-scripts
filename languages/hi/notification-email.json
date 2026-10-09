@@ -1,0 +1,21 @@
+{
+  "language": "hi",
+  "messages": {
+    "notification-email.from": "{identity} राउटरोस-स्क्रिप्ट के माध्यम से <{address}>",
+    "notification-email.queue.empty": "शेड्यूलर से ई-मेल संदेशों को फ्लश किया जा रहा है, लेकिन कतार खाली है।",
+    "notification-email.checking": "प्रारंभिक जाँच कर रहा हूँ...",
+    "notification-email.scheduler.gone": "शेड्यूलर चला गया है, निरस्त कर रहा है।",
+    "notification-email.sending.busy": "वर्तमान में मेल भेजने का कार्य प्रगति पर है, फ्लश नहीं किया जा रहा है।",
+    "notification-email.time.unsynced": "समय समन्वयित नहीं है, फ्लशिंग नहीं है।",
+    "notification-email.dns.failed": "सर्वर पता एक DNS नाम है और समाधान विफल हो जाता है, फ्लशिंग नहीं।",
+    "notification-email.certificate.failed": "आवश्यक प्रमाणपत्र डाउनलोड करना विफल रहा.",
+    "notification-email.sending": "भेजा जा रहा है...",
+    "notification-email.attach.missing": "फ़ाइल '{file}' मौजूद नहीं है, संलग्न नहीं की जा सकती।",
+    "notification-email.send.failed": "पंक्तिबद्ध मेल भेजना विफल: {error}",
+    "notification-email.queue.purged": "कतार मिटा दी गई? बाहर निकलना.",
+    "notification-email.retry.waiting": "पुनः प्रयास की प्रतीक्षा की जा रही है...",
+    "notification-email.truncated": "संदेश बहुत लंबा था और उसे छोटा कर दिया गया है!",
+    "notification-email.queuing": "नये मेल कतारबद्ध किये जा रहे हैं..."
+  },
+  "schema": "5a6236090c5b7c3f80f50b70e58e9489c8100e4505c9ddc4ee72854e4de47c20"
+}

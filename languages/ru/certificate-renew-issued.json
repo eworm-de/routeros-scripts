@@ -1,0 +1,9 @@
+{
+  "language": "ru",
+  "messages": {
+    "certificate-renew-issued.exported": "Выпущен новый сертификат для «{name}», экспортированный в «cert-issued/{name}.p12».",
+    "certificate-renew-issued.directory.failed": "Не удалось создать каталог, но не экспортировать сертификат.",
+    "certificate-renew-issued.issued": "Выдан новый сертификат для «{name}»."
+  },
+  "schema": "9048d1a3bcb148168f2785f02dea50e8de90c9f3170cedabe6b72d99bc61a2fd"
+}

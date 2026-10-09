@@ -1,0 +1,9 @@
+{
+  "language": "zh-CN",
+  "messages": {
+    "dhcpv6-client-lease.context.invalid": "该脚本应该从 ipv6 dhcp-client 运行。",
+    "dhcpv6-client-lease.script.running": "运行命令为 {order} 的脚本：{name}",
+    "dhcpv6-client-lease.script.failed": "运行脚本“{name}”失败：{error}"
+  },
+  "schema": "6945e4d13819da10f471d905a5fc37284b6cf1e482d9a7b526483b754951e02a"
+}

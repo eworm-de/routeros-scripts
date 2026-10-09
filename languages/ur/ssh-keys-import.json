@@ -1,0 +1,16 @@
+{
+  "language": "ur",
+  "messages": {
+    "ssh-keys-import.arguments.key": "غائب دلیل (زبانیں)، براہ کرم کلید اور صارف کو پاس کریں!",
+    "ssh-keys-import.user.missing": "صارف '{user}' موجود نہیں ہے۔",
+    "ssh-keys-import.type.unsupported": "'{type}' قسم کی SSH کلید تعاون یافتہ نہیں ہے۔",
+    "ssh-keys-import.key.exists": "ssh عوامی کلید (MD5:{fingerprint}) پہلے سے ہی صارف '{user}' کے لیے دستیاب ہے۔",
+    "ssh-keys-import.directory.failed": "'tmpfs/ssh-keys-import' ڈائریکٹری بنانا ناکام ہو گیا!",
+    "ssh-keys-import.imported": "صارف '{user}' کے لیے درآمد شدہ ssh عوامی کلید ({name}, {type}, MD5:{fingerprint})۔",
+    "ssh-keys-import.import.failed": "کلید درآمد کرنے میں ناکام: {error}",
+    "ssh-keys-import.arguments.file": "گمشدہ دلیل (زبانیں)، براہ کرم فائل کا نام اور صارف پاس کریں!",
+    "ssh-keys-import.file.missing": "فائل '{file}' موجود نہیں ہے۔",
+    "ssh-keys-import.user.import.failed": "صارف '{user}' کے لیے کلید درآمد کرنے میں ناکام۔"
+  },
+  "schema": "54cdcab8a420cb935136ec8a624f3eeceed166b6b96d7dd67b4ef7d0dcd74ea7"
+}

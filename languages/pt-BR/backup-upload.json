@@ -1,0 +1,22 @@
+{
+  "language": "pt-BR",
+  "schema": "ac3b0aa1324d76ce3ef1515ba46a556bd27200aeea4ad75af6d1e26fd41bf67d",
+  "messages": {
+    "backup-upload.partition": "Executando a partir da partição de backup; operação recusada.",
+    "backup-upload.directory": "Falha ao criar o diretório!",
+    "backup-upload.options": "A configuração não permite enviar backup nem exportação da configuração.",
+    "backup-upload.none": "nenhum",
+    "backup-upload.label.backup": "Arquivo de backup",
+    "backup-upload.label.export": "Arquivo de exportação",
+    "backup-upload.label.config": "Arquivo de configuração",
+    "backup-upload.upload.backup.failed": "Falha ao enviar o arquivo de backup: {error}",
+    "backup-upload.upload.export.failed": "Falha ao enviar a exportação da configuração: {error}",
+    "backup-upload.upload.config.failed": "Falha ao enviar global-config-overlay: {error}",
+    "backup-upload.subject": "Envio de backup e configuração",
+    "backup-upload.subject.failed": "Envio de backup e configuração com falha",
+    "backup-upload.message": "Envio de backup e exportação da configuração de {identity}.\n\n{device}\n\n{details}",
+    "backup-upload.failed": "falhou",
+    "backup-upload.label.name": "    nome",
+    "backup-upload.label.size": "    tamanho"
+  }
+}

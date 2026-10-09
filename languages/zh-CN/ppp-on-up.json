@@ -1,0 +1,10 @@
+{
+  "language": "zh-CN",
+  "messages": {
+    "ppp-on-up.context.invalid": "该脚本应该从 ppp on-up 脚本挂钩运行。",
+    "ppp-on-up.up": "PPP 接口 {interface} 已打开。",
+    "ppp-on-up.script.running": "运行脚本：{name}",
+    "ppp-on-up.script.failed": "运行脚本“{name}”失败！"
+  },
+  "schema": "948ef5fc1bb267e734267f57a5d70df419d106197075fec109f206534ce4493c"
+}

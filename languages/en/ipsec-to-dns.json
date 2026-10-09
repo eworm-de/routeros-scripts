@@ -1,0 +1,12 @@
+{
+  "language": "en",
+  "messages": {
+    "ipsec-to-dns.marker.added": "Added disabled static dns record with name '{name}'.",
+    "ipsec-to-dns.peer.exists": "Peer {peer} ({name}) still exists. Not deleting DNS entry.",
+    "ipsec-to-dns.peer.gone": "Peer {peer} ({name}) has gone, deleting DNS entry.",
+    "ipsec-to-dns.current": "DNS entry for {name} does not need updating.",
+    "ipsec-to-dns.replacing": "Replacing DNS entry for {name}, new address is {address}.",
+    "ipsec-to-dns.adding": "Adding new DNS entry for {name}, address is {address}."
+  },
+  "schema": "ed1c281155d118ad0f626106c929affb97ffffbf416dd87053f0becd389012dc"
+}

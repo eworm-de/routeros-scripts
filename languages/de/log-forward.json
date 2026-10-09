@@ -1,0 +1,12 @@
+{
+  "language": "de",
+  "messages": {
+    "log-forward.limited": "Ratenbegrenzung in Aktion, keine Weiterleitung von Protokollen, falls vorhanden!",
+    "log-forward.subject": "Protokollweiterleitung",
+    "log-forward.duplicates": " Mehrfach wiederholte Nachrichten wurden übersprungen.",
+    "log-forward.delaying": "\nRatenbegrenzung in Aktion, Verzögerung der Weiterleitung.",
+    "log-forward.message.single": "Das Protokoll auf {identity} enthält diese Meldung nach {uptime} uptime.{duplicates}{delay}\n{messages}",
+    "log-forward.message.multiple": "Das Protokoll auf {identity} enthält diese {count}-Meldungen nach der {uptime}-Betriebszeit.{duplicates}{delay}\n{messages}"
+  },
+  "schema": "295a2441ccf8e06593a7eedcf16e2ac316badd8c4111d4dab8823ac3b329473c"
+}

@@ -1,0 +1,13 @@
+{
+  "language": "en",
+  "messages": {
+    "bridge-port-vlan.client.enabled": "Disabling bridge port for interface {interface}, enabling dhcp client.",
+    "bridge-port-vlan.interfaces.enabled": "Re-enabling interfaces...",
+    "bridge-port-vlan.vlan.missing": "Could not find VLAN '{vlan}' for interface {interface}!",
+    "bridge-port-vlan.vlan.enabled": "Enabling bridge port for interface {interface}, changing to {config} vlan {vlan}{name}, disabling dhcp client.",
+    "bridge-port-vlan.vlan.connected": "Interface {interface} already connected to {config} vlan {vlan}.",
+    "bridge-port-vlan.client.missing": "Missing dhcp client configuration for interface {interface}!",
+    "bridge-port-vlan.client.duplicate": "Duplicate dhcp client configuration for interface {interface}!"
+  },
+  "schema": "ca51ecefefa0a1bcad40eb3a3ad65db37300e7e3b0f7f3f5abe49a021f6dfda1"
+}

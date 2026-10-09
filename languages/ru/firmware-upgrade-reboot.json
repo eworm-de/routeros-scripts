@@ -1,0 +1,10 @@
+{
+  "language": "ru",
+  "messages": {
+    "firmware-upgrade-reboot.current": "Текущая и обновленная прошивка соответствуют версии {version}.",
+    "firmware-upgrade-reboot.downgrade": "Доступна другая версия прошивки, но это более ранняя версия. Игнорирование.",
+    "firmware-upgrade-reboot.upgrade": "Доступна версия прошивки {version}, обновляемся.",
+    "firmware-upgrade-reboot.reboot": "Обновление прошивки прошло успешно, перезагружаемся."
+  },
+  "schema": "6029d1d4da514989c7a64a3ae717c2ca8f5f42f295ad0d203b8343cf7a2944a5"
+}

@@ -1,0 +1,30 @@
+{
+  "language": "ru",
+  "messages": {
+    "telegram-chat.certificate.failed": "Не удалось загрузить необходимый сертификат.",
+    "telegram-chat.fetch.failed": "Не удалось получить данные, {count}. попробуйте: {error}",
+    "telegram-chat.updates.failed": "Не удалось получить обновления.",
+    "telegram-chat.update": "Обновление {id}: {update}",
+    "telegram-chat.notice": "Отправка уведомления об обновлении {id}.",
+    "telegram-chat.subject": "Telegram Чат",
+    "telegram-chat.greeting": "Привет {name}!\n\n",
+    "telegram-chat.directory.failed": "Не удалось создать каталог!",
+    "telegram-chat.command.running": "Запуск команды из обновления {id}: {command}",
+    "telegram-chat.command.background": "Команда не завершилась и все еще выполняется в фоновом режиме.\n\n",
+    "telegram-chat.command.failed": "Команда завершилась с ошибкой!\n\n",
+    "telegram-chat.command": "Команда:\n{command}\n\n",
+    "telegram-chat.output": "Выход:\n{output}",
+    "telegram-chat.output.empty": "Нет выхода.",
+    "telegram-chat.command.syntax": "Команда из обновления {id} не прошла проверку синтаксиса!",
+    "telegram-chat.command.syntax.message": "Команда не прошла проверку синтаксиса!",
+    "telegram-chat.untrusted.message": "Вам не доверяют.",
+    "telegram-chat.update.handled": "Уже обработано обновление {id}.",
+    "telegram-chat.online.passive": "Онлайн, ждём ваших команд!",
+    "telegram-chat.online.active": "Онлайн (и активен!), ждёт ваших команд!",
+    "telegram-chat.state.active": "Теперь активно с обновления {id}!",
+    "telegram-chat.state.passive": "Теперь пассив после обновления {id}!",
+    "telegram-chat.untrusted.unnamed": "Получил сообщение от недоверенного контакта без имени пользователя (ID {contact}) в обновлении {id}!",
+    "telegram-chat.untrusted.named": "Получено сообщение от ненадежного контакта «{username}» (ID {contact}) в обновлении {id}!"
+  },
+  "schema": "23866b98057d30494867d66d781c3555fc2f373d9af75cb1aac34c965ee3bd54"
+}

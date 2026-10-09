@@ -8,15 +8,31 @@
 # renew locally issued certificates
 # https://rsc.eworm.de/doc/certificate-renew-issued.md
 
+# BEGIN GENERATED LANGUAGE DATA
+# language, name=certificate-renew-issued, schema=9048d1a3bcb148168f2785f02dea50e8de90c9f3170cedabe6b72d99bc61a2fd
+:global LanguageEnglish;
+:if ([ :typeof $LanguageEnglish ] != "array") do={ :set LanguageEnglish ({}); }
+:set ($LanguageEnglish->"certificate-renew-issued.directory.failed") "Failed creating directory, not exporting certificate.";
+:set ($LanguageEnglish->"certificate-renew-issued.exported") "Issued a new certificate for '{name}', exported to 'cert-issued/{name}.p12'.";
+:set ($LanguageEnglish->"certificate-renew-issued.issued") "Issued a new certificate for '{name}'.";
+:set ($LanguageEnglish->"global-config.not.ready") "Global config and/or functions not ready.";
+:global GlobalNotReadyMessage;
+:if ([ :typeof $GlobalNotReadyMessage ] != "str") do={
+  :set GlobalNotReadyMessage ($LanguageEnglish->"global-config.not.ready");
+}
+# END GENERATED LANGUAGE DATA
+
 :onerror Err {
   :global GlobalConfigReady; :global GlobalFunctionsReady;
+  :global GlobalNotReadyMessage;
   :retry { :if ($GlobalConfigReady != true || $GlobalFunctionsReady != true) \
-      do={ :error ("Global config and/or functions not ready."); }; } delay=500ms max=50;
+      do={ :error $GlobalNotReadyMessage; }; } delay=500ms max=50;
   :local ScriptName [ :jobname ];
 
   :global CertIssuedExportPass;
 
   :global LogPrint;
+  :global Translate;
   :global MkDir;
   :global ScriptLock;
 
@@ -36,13 +52,14 @@
         /certificate/export-certificate ($CertVal->"name") type=pkcs12 \
             file-name=("cert-issued/" . $CertVal->"common-name") \
             export-passphrase=($CertIssuedExportPass->($CertVal->"common-name"));
-        $LogPrint info $ScriptName ("Issued a new certificate for '" . $CertVal->"common-name" . \
-          "', exported to 'cert-issued/" . $CertVal->"common-name" . ".p12'.");
+        $LogPrint info $ScriptName [ $Translate "certificate-renew-issued.exported" \
+            ({ name=($CertVal->"common-name") }) ];
       } else={
-        $LogPrint warning $ScriptName ("Failed creating directory, not exporting certificate.");
+        $LogPrint warning $ScriptName [ $Translate "certificate-renew-issued.directory.failed" ];
       }
     } else={
-      $LogPrint info $ScriptName ("Issued a new certificate for '" . $CertVal->"common-name" . "'.");
+      $LogPrint info $ScriptName [ $Translate "certificate-renew-issued.issued" \
+          ({ name=($CertVal->"common-name") }) ];
     }
   }
 } do={

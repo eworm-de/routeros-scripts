@@ -1,0 +1,26 @@
+{
+  "language": "pcm",
+  "messages": {
+    "packages-update.scheduler.exists": "Scheduler for reboot don already dey.",
+    "packages-update.scheduled": "Don schedule reboot for update at {time} local time ({timezone}).",
+    "packages-update.license.expired": "Licence don expire; upgrade no fit go through.",
+    "packages-update.backup.partition": "Device dey run from backup partition; we no go do anything.",
+    "packages-update.version.unknown": "Latest version no dey known.",
+    "packages-update.version.installed": "Version {version} don already installed.",
+    "packages-update.backup.running": "Dey run backup script {name} before update.",
+    "packages-update.backup.failed": "Dey run backup script {name} before update no work!",
+    "packages-update.continue.prompt": "You still wan continue? [y/N]",
+    "packages-update.continue": "User say make we still continue.",
+    "packages-update.canceled.update": "Don cancel the update...",
+    "packages-update.canceled.noninteractive": "Don cancel update wey no need user input.",
+    "packages-update.downgrade.prompt": "Latest version dey old pass installed one. You wan downgrade? [y/N]",
+    "packages-update.canceled": "Don cancel...",
+    "packages-update.downgrade.refused": "We no go install downgrade automatically.",
+    "packages-update.download.failed": "Download for package {name} no work; we don stop update.",
+    "packages-update.downgrade.reboot": "Dey reboot for downgrade.",
+    "packages-update.reboot.prompt": "You wan schedule reboot (s) or reboot now (r)? [s/R]",
+    "packages-update.update.reboot": "Dey reboot for update.",
+    "packages-update.scheduled.deferred": "Don schedule reboot for update at {time} local time ({timezone}) deferred by {interval}."
+  },
+  "schema": "77f3f83454477a8d375bfb399dd18ea210e50ceaf290213460a2f613ac47abd1"
+}

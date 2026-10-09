@@ -1,0 +1,10 @@
+{
+  "language": "id",
+  "messages": {
+    "global-config.overlay.failed": "Memuat konfigurasi dari overlay atau cuplikan {script} gagal: {error}",
+    "global-config.hello.subject": "Halo...",
+    "global-config.hello.message": "Halo dunia, panggilan {identity}!",
+    "global-config.not.ready": "Konfigurasi global dan/atau fungsi belum siap."
+  },
+  "schema": "4dea7b8ee007cfceb44462e476d61a9ea4a4066a05150bd7d29153c38e31666f"
+}

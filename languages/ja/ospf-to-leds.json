@@ -1,0 +1,8 @@
+{
+  "language": "ja",
+  "messages": {
+    "ospf-to-leds.on": "OSPF インスタンス {name} には {count} ネイバーがあり、点灯しています。",
+    "ospf-to-leds.off": "OSPF インスタンス {name} にはネイバーがないため、オフになりました。"
+  },
+  "schema": "3ae94f59ba09e39d125716de2e5770c50637c8553a2b9dcfe750e4b2f06ecb8e"
+}

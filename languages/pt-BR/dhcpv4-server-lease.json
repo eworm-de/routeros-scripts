@@ -1,0 +1,12 @@
+{
+  "language": "pt-BR",
+  "messages": {
+    "dhcpv4-server-lease.context.invalid": "Este script deve ser executado pelo servidor DHCP IPv4.",
+    "dhcpv4-server-lease.script.running": "Executando script com ordem {order}: {name}",
+    "dhcpv4-server-lease.script.failed": "Falha ao executar o script '{name}': {error}",
+    "dhcpv4-server-lease.waiting": "Há outras invocações aguardando; encerrando antecipadamente.",
+    "dhcpv4-server-lease.assigned": "O servidor DHCP {server} atribuiu a concessão {address} a {mac}",
+    "dhcpv4-server-lease.deassigned": "O servidor DHCP {server} retirou a concessão {address} de {mac}"
+  },
+  "schema": "e8bd70cbac2cb60d46fce97c5cd6f4d6f35e4039991ffa0fb5fd3e1e1ac986c3"
+}

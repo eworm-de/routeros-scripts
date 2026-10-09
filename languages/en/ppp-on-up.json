@@ -1,0 +1,10 @@
+{
+  "language": "en",
+  "messages": {
+    "ppp-on-up.context.invalid": "This script is supposed to run from ppp on-up script hook.",
+    "ppp-on-up.up": "PPP interface {interface} is up.",
+    "ppp-on-up.script.running": "Running script: {name}",
+    "ppp-on-up.script.failed": "Running script '{name}' failed!"
+  },
+  "schema": "948ef5fc1bb267e734267f57a5d70df419d106197075fec109f206534ce4493c"
+}

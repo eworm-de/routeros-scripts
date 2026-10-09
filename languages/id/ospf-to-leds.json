@@ -1,0 +1,8 @@
+{
+  "language": "id",
+  "messages": {
+    "ospf-to-leds.on": "Contoh OSPF {name} memiliki tetangga {count}, teruskan!",
+    "ospf-to-leds.off": "Contoh OSPF {name} tidak memiliki tetangga, dipimpin!"
+  },
+  "schema": "3ae94f59ba09e39d125716de2e5770c50637c8553a2b9dcfe750e4b2f06ecb8e"
+}

@@ -1,0 +1,13 @@
+{
+  "language": "de",
+  "messages": {
+    "bridge-port-vlan.client.enabled": "Deaktivieren des Bridge-Ports für die Schnittstelle {interface}, Aktivieren des DHCP-Clients.",
+    "bridge-port-vlan.interfaces.enabled": "Schnittstellen werden wieder aktiviert...",
+    "bridge-port-vlan.vlan.missing": "VLAN „{vlan}“ für Schnittstelle {interface} konnte nicht gefunden werden!",
+    "bridge-port-vlan.vlan.enabled": "Aktivieren des Bridge-Ports für die Schnittstelle {interface}, Wechsel zu {config} vlan {vlan}{name}, Deaktivieren des DHCP-Clients.",
+    "bridge-port-vlan.vlan.connected": "Schnittstelle {interface} bereits mit {config} vlan {vlan} verbunden.",
+    "bridge-port-vlan.client.missing": "Fehlende DHCP-Client-Konfiguration für die Schnittstelle {interface}!",
+    "bridge-port-vlan.client.duplicate": "Doppelte DHCP-Client-Konfiguration für die Schnittstelle {interface}!"
+  },
+  "schema": "ca51ecefefa0a1bcad40eb3a3ad65db37300e7e3b0f7f3f5abe49a021f6dfda1"
+}

@@ -1,0 +1,16 @@
+{
+  "language": "ur",
+  "messages": {
+    "netwatch-dns.settling": "سسٹم ابھی بوٹ ہوا، نیٹ واچ {duration} کو حل کرنے کے لیے دے رہا ہے۔",
+    "netwatch-dns.dns.updating": "DNS سرورز کو اپ ڈیٹ کرنا: {servers}",
+    "netwatch-dns.dns.fallback": "DNS سرورز کو فال بیک میں اپ ڈیٹ کرنا: {servers}",
+    "netwatch-dns.doh.current": "موجودہ DoH سرور اب بھی قائم ہے اور حل ہو رہا ہے: {server}",
+    "netwatch-dns.doh.disabling": "موجودہ DoH سرور بند ہے یا حل نہیں ہو رہا، غیر فعال ہو رہا ہے: {server}",
+    "netwatch-dns.certificate.failed": "سرٹیفکیٹ '{name}' ڈاؤن لوڈ کرنے میں ناکام، بغیر کوشش کر رہا ہے۔",
+    "netwatch-dns.request.failed": "DoH سرور {server} کی درخواست ناکام ہوگئی: {error}",
+    "netwatch-dns.response.invalid": "DoH سرور سے غیر متوقع جواب موصول ہوا: {server}",
+    "netwatch-dns.crl.warning": "سی آر ایل کو استعمال کرنے کے لیے ترتیب دیا گیا، جو شدید مسئلہ کا سبب بن سکتا ہے!",
+    "netwatch-dns.doh.setting": "DoH سرور ترتیب دینا: {server}"
+  },
+  "schema": "a990191facc83c19ae4d95e097a5f7ec17573be4bce019c61e2ca3dcdffebf43"
+}

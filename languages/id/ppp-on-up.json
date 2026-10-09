@@ -1,0 +1,10 @@
+{
+  "language": "id",
+  "messages": {
+    "ppp-on-up.context.invalid": "Skrip ini seharusnya dijalankan dari kait skrip ppp on-up.",
+    "ppp-on-up.up": "Antarmuka PPP {interface} sudah habis.",
+    "ppp-on-up.script.running": "Skrip yang berjalan: {name}",
+    "ppp-on-up.script.failed": "Menjalankan skrip '{name}' gagal!"
+  },
+  "schema": "948ef5fc1bb267e734267f57a5d70df419d106197075fec109f206534ce4493c"
+}

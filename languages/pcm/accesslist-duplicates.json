@@ -1,0 +1,8 @@
+{
+  "language": "pcm",
+  "messages": {
+    "accesslist-duplicates.remove.prompt": "\nEnter number ID wey you wan remove; press any key to skip!",
+    "accesslist-duplicates.removing": "Dey remove numeric id {id}...\n"
+  },
+  "schema": "11c6e77afe0e5ea39b260eb21e4693aeb7b69299435563d0469b3c22651fdc8c"
+}

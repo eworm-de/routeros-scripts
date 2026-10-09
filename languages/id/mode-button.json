@@ -1,0 +1,8 @@
+{
+  "language": "id",
+  "messages": {
+    "mode-button.scheduler.creating": "{script}: Membuat penjadwal mode-button-scheduler, menghitung penekanan...",
+    "mode-button.scheduler.updating": "{script}: Memperbarui penjadwal mode-button-scheduler..."
+  },
+  "schema": "1b567608fb5b7d34f1710eac3a7c4e5740acbea43a5f928a6be5d5c6d189ed03"
+}

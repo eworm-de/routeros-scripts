@@ -1,0 +1,30 @@
+{
+  "language": "pcm",
+  "messages": {
+    "netwatch-notify.type.host": "host",
+    "netwatch-notify.type.service": "service",
+    "netwatch-notify.state.up": "up",
+    "netwatch-notify.state.down": "down",
+    "netwatch-notify.state.pre-down": "pre-down",
+    "netwatch-notify.hook.failed": "{state}-hook for {type} '{name}' no fit run: {error}",
+    "netwatch-notify.hook.failed.message": "hook no fit run.",
+    "netwatch-notify.hook.syntax": "{state}-hook for {type} '{name}' no pass syntax validation.",
+    "netwatch-notify.hook.syntax.message": "hook no pass syntax validation.",
+    "netwatch-notify.hook.ran": "Don run hook on {type} '{name}' {state}: {hook}",
+    "netwatch-notify.hook.ran.message": "Ran hook:\n{hook}",
+    "netwatch-notify.resolve.updated": "Name '{resolve}' give different address {address}; we dey update am.",
+    "netwatch-notify.resolve.named.updated": "Name '{resolve}' for {type} '{name}' give different address {address}; we dey update am.",
+    "netwatch-notify.resolve.failed": "We no fit resolve name '{resolve}' for the third time: {error}",
+    "netwatch-notify.resolve.named.failed": "We no fit resolve name '{resolve}' for {type} '{name}' for the third time: {error}",
+    "netwatch-notify.up": "{type} '{name}' ({details}) dey up.",
+    "netwatch-notify.up.message": "{type} '{name}' ({details}) don dey up since {since}.\nE bin dey down for {count} checks since {down_since}.",
+    "netwatch-notify.note": "\n\nNote:\n{note}",
+    "netwatch-notify.up.subject": "Netwatch Notify: {name} up",
+    "netwatch-notify.down.subject": "Netwatch Notify: {name} down",
+    "netwatch-notify.down.waiting": "{type} '{name}' ({details}) don dey down for {count} checks; {remaining} still remain.",
+    "netwatch-notify.down.notified": "{type} '{name}' ({details}) don dey down for {count} checks; we don send notice.",
+    "netwatch-notify.down.parent": "{type} '{name}' ({details}) don dey down for {count} checks; parent {type} {parent} dey down.",
+    "netwatch-notify.down.message": "{type} '{name}' ({details}) don dey down since {since}."
+  },
+  "schema": "7599eb0829fe6e5e2de9cf05b5bf721fd5b4cd7ce0726daf8735d47e695d7240"
+}

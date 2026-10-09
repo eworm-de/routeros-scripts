@@ -1,0 +1,7 @@
+{
+  "language": "pcm",
+  "messages": {
+    "dhcp-lease-comment.updating": "Dey update comment for DHCP lease {mac}: {comment}"
+  },
+  "schema": "ad1da8da95495f80f8319fac06ad159a82bd84a7d3d038d72df426a6a87b98ef"
+}
