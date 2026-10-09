@@ -8,6 +8,18 @@
 # ip address calculation
 # https://rsc.eworm.de/doc/mod/ipcalc.md
 
+# BEGIN GENERATED LANGUAGE DATA
+# language, name=ipcalc, schema=0b5dd00de254693d43a55e15ad5ad523a5ccce670aa66ac5465cd42290fd718b
+:global LanguageEnglish;
+:if ([ :typeof $LanguageEnglish ] != "array") do={ :set LanguageEnglish ({}); }
+:set ($LanguageEnglish->"ipcalc.address") "Address";
+:set ($LanguageEnglish->"ipcalc.broadcast") "Broadcast";
+:set ($LanguageEnglish->"ipcalc.hostmax") "HostMax";
+:set ($LanguageEnglish->"ipcalc.hostmin") "HostMin";
+:set ($LanguageEnglish->"ipcalc.netmask") "Netmask";
+:set ($LanguageEnglish->"ipcalc.network") "Network";
+# END GENERATED LANGUAGE DATA
+
 :global IPCalc;
 :global IPCalcReturn;
 
@@ -16,17 +28,18 @@
   :local Input [ :tostr $1 ];
 
   :global FormatLine;
+  :global Translate;
   :global IPCalcReturn;
 
   :local Values [ $IPCalcReturn $1 ];
 
   :put [ :tocrlf ( \
-    [ $FormatLine "Address" ($Values->"address") ] . "\n" . \
-    [ $FormatLine "Netmask" ($Values->"netmask") ] . "\n" . \
-    [ $FormatLine "Network" ($Values->"network") ] . "\n" . \
-    [ $FormatLine "HostMin" ($Values->"hostmin") ] . "\n" . \
-    [ $FormatLine "HostMax" ($Values->"hostmax") ] . "\n" . \
-    [ $FormatLine "Broadcast" ($Values->"broadcast") ]) ];
+    [ $FormatLine [ $Translate "ipcalc.address" ] ($Values->"address") ] . "\n" . \
+    [ $FormatLine [ $Translate "ipcalc.netmask" ] ($Values->"netmask") ] . "\n" . \
+    [ $FormatLine [ $Translate "ipcalc.network" ] ($Values->"network") ] . "\n" . \
+    [ $FormatLine [ $Translate "ipcalc.hostmin" ] ($Values->"hostmin") ] . "\n" . \
+    [ $FormatLine [ $Translate "ipcalc.hostmax" ] ($Values->"hostmax") ] . "\n" . \
+    [ $FormatLine [ $Translate "ipcalc.broadcast" ] ($Values->"broadcast") ]) ];
 } do={
   :global ExitOnError; $ExitOnError $0 $Err;
 } }

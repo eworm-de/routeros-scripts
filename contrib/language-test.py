@@ -17,6 +17,7 @@ parser.add_argument('--notifications', action='store_true', help='Test notificat
 parser.add_argument('--netwatch', action='store_true', help='Test Netwatch state transitions with simulated hosts and a local notification sink')
 parser.add_argument('--messaging', action='store_true', help='Test SMS forwarding and Telegram chat with simulated inboxes')
 parser.add_argument('--network', action='store_true', help='Test firewall list diagnostics and bridge guards with simulated reads')
+parser.add_argument('--utilities', action='store_true', help='Test translated IP calculations, variable inspection and script-run guards')
 args = parser.parse_args()
 if args.notifications:
     core = (root / 'global-functions.rsc').read_text(encoding='utf-8')
@@ -120,6 +121,23 @@ if args.network:
     translated.update(load(root / 'languages/pt-BR/fw-addr-lists.json')['messages'])
     tests += ':set LanguageMessages ([:deserialize from=json options=json.no-string-conversion ' + quote(json.dumps(translated, ensure_ascii=False)) + ']);\n'
     tests += ':global NetworkFixtureTest do={\n' + (root / 'tests/language-network.rsc').read_text(encoding='utf-8') + '\n};\n$NetworkFixtureTest;\n'
+if args.utilities:
+    core = (root / 'global-functions.rsc').read_text(encoding='utf-8')
+    for name in ('CharacterMultiply', 'CharacterReplace', 'EitherOr', 'IfThenElse', 'FormatLine', 'NetMask4', 'NetMask6'):
+        start = core.index(':set ' + name + ' do={')
+        end = core.index('\n}\n', start) + 3
+        tests += ':global ' + name + ';\n' + core[start:end] + '\n'
+    translated = {}
+    for name in ('ipcalc', 'inspectvar', 'scriptrunonce'):
+        feature = (root / 'mod' / (name + '.rsc')).read_text(encoding='utf-8')
+        if name == 'ipcalc':
+            if feature.count(':put ') != 1:
+                raise ValueError('IP calculation output fixture no longer matches')
+            feature = feature.replace(':put ', ':global UtilityFixtureOutput; :set UtilityFixtureOutput ')
+        tests += feature + '\n'
+        translated.update(load(root / 'languages/pt-BR' / (name + '.json'))['messages'])
+    tests += ':set LanguageMessages ([:deserialize from=json options=json.no-string-conversion ' + quote(json.dumps(translated, ensure_ascii=False)) + ']);\n'
+    tests += ':global UtilityFixtureTest do={\n' + (root / 'tests/language-utilities.rsc').read_text(encoding='utf-8') + '\n};\n$UtilityFixtureTest;\n'
 if args.catalogs:
     sample = {'identity': 'test-router', 'name': 'test-sensor', 'date': '2026-10-09',
               'percent': 75, 'value': 120, 'error': 'test-error', 'interface': 'lte1',

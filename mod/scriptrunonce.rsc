@@ -8,6 +8,17 @@
 # download script and run it once
 # https://rsc.eworm.de/doc/mod/scriptrunonce.md
 
+# BEGIN GENERATED LANGUAGE DATA
+# language, name=scriptrunonce, schema=60deac34267f7cfb590d500ce671562bfd8cf79337f433f8b350281561a4ae52
+:global LanguageEnglish;
+:if ([ :typeof $LanguageEnglish ] != "array") do={ :set LanguageEnglish ({}); }
+:set ($LanguageEnglish->"scriptrunonce.failed") "The script '{script}' failed to run: {error}";
+:set ($LanguageEnglish->"scriptrunonce.fetch.failed") "Failed fetching script '{script}'!";
+:set ($LanguageEnglish->"scriptrunonce.running") "Running script '{script}' now.";
+:set ($LanguageEnglish->"scriptrunonce.syntax") "The script '{script}' failed syntax validation!";
+:set ($LanguageEnglish->"scriptrunonce.url.missing") "Script '{script}' is not an url and base url is not available.";
+# END GENERATED LANGUAGE DATA
+
 :global ScriptRunOnce;
 
 # fetch and run script(s) once
@@ -19,12 +30,13 @@
 
   :global FetchHuge;
   :global LogPrint;
+  :global Translate;
   :global ValidateSyntax;
 
   :foreach Script in=$Scripts do={
     :if (!($Script ~ "^(ftp|https?|sftp)://")) do={
       :if ([ :len $ScriptRunOnceBaseUrl ] = 0) do={
-        $LogPrint warning $0 ("Script '" . $Script . "' is not an url and base url is not available.");
+        $LogPrint warning $0 [ $Translate "scriptrunonce.url.missing" ({ script=$Script }) ];
         :return false;
       }
       :set Script ($ScriptRunOnceBaseUrl . $Script . ".rsc" . $ScriptRunOnceUrlSuffix);
@@ -32,20 +44,20 @@
 
     :local Source [ $FetchHuge $0 $Script true ];
     :if ($Source = false) do={
-      $LogPrint warning $0 ("Failed fetching script '" . $Script . "'!");
+      $LogPrint warning $0 [ $Translate "scriptrunonce.fetch.failed" ({ script=$Script }) ];
       :return false;
     }
 
     :if ([ $ValidateSyntax $Source ] = false) do={
-      $LogPrint warning $0 ("The script '" . $Script . "' failed syntax validation!");
+      $LogPrint warning $0 [ $Translate "scriptrunonce.syntax" ({ script=$Script }) ];
       :return false;
     }
 
     :onerror Err {
-      $LogPrint info $0 ("Running script '" . $Script . "' now.");
+      $LogPrint info $0 [ $Translate "scriptrunonce.running" ({ script=$Script }) ];
       [ :parse $Source ];
     } do={
-      $LogPrint warning $0 ("The script '" . $Script . "' failed to run: " . $Err);
+      $LogPrint warning $0 [ $Translate "scriptrunonce.failed" ({ script=$Script; error=$Err }) ];
       :return false;
     }
 

@@ -135,6 +135,10 @@ commands, delete real SMS, or change Netwatch entries:
 python3 contrib/language-test.py --catalogs --notifications --netwatch --messaging --network > /tmp/language-tests.rsc
 ```
 
+`--utilities` checks IP calculation output and unchanged return values, recursive
+variable inspection, and script-run URL/download/syntax guards. Script fetches
+are replaced with local fixtures; no downloaded code runs.
+
 To also test actual downloads, compatible caches, offline fallback, malformed
 JSON, stale schemas, and invalid language selections, supply the HTTPS base URL
 of a published branch containing these catalogs:
@@ -219,6 +223,13 @@ failure and empty-list summaries; bridge/VLAN fixtures verified missing and
 duplicate DHCP-client diagnostics. No firewall entries, bridge ports, VLANs,
 or DHCP clients were changed. The exact log marker shared with `LogPrintOnce`
 remains a protocol string until the shared helper migration.
+
+The IP calculator, variable inspector, and script-run-once modules brought
+coverage to 461 messages. All 922 locale rendering checks and 922 native
+dictionary checks passed. The modules parsed on the VM; their behavioral tests
+verified translated output, IPv4/IPv6 calculations, recursive inspection, and
+script-run failure guards in both languages. Return keys and RouterOS type
+names were preserved.
 
 ### Remaining migration
 

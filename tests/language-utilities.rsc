@@ -1,0 +1,50 @@
+:global IPCalc;
+:global IPCalcReturn;
+:global InspectVarReturn;
+:global ScriptRunOnce;
+:global ScriptRunOnceBaseUrl "";
+:global UtilityFixtureOutput;
+:global UtilityFixtureSource;
+:global UtilityFixtureExecuted;
+:global FetchHuge do={ :global UtilityFixtureSource; :return $UtilityFixtureSource; };
+:global Captured;
+:global LogPrint do={ :global Captured; :set Captured $3; };
+:global ValidateSyntax do={ :return false; };
+:global ExitOnError do={ :error $2; };
+:global ScriptLanguage;
+:global LanguageActive;
+
+:foreach Locale in={ "en"; "pt-BR" } do={
+  :set ScriptLanguage $Locale;
+  :set LanguageActive "pt-BR";
+  :local Values [ $IPCalcReturn "192.0.2.5/24" ];
+  :if (($Values->"address") != 192.0.2.5 || ($Values->"hostmin") != 192.0.2.1 || ($Values->"hostmax") != 192.0.2.254 || ($Values->"broadcast") != 192.0.2.255) do={ :error "IP calculation values changed"; };
+  $IPCalc "192.0.2.5/24";
+  :local Expected "Address:        192.0.2.5\r\nNetmask:        255.255.255.0\r\nNetwork:        192.0.2.0/24\r\nHostMin:        192.0.2.1\r\nHostMax:        192.0.2.254\r\nBroadcast:      192.0.2.255";
+  :if ($Locale = "pt-BR") do={ :set Expected "Endere\C3\A7o:      192.0.2.5\r\nM\C3\A1scara:       255.255.255.0\r\nRede:           192.0.2.0/24\r\nHost m\C3\ADnimo:   192.0.2.1\r\nHost m\C3\A1ximo:   192.0.2.254\r\nBroadcast:      192.0.2.255"; };
+  :if ($UtilityFixtureOutput != $Expected) do={ :error "Localized IP calculation output failed"; };
+  :set Values [ $IPCalcReturn "2001:db8::5/64" ];
+  :if (($Values->"network") != "2001:db8::/64" || ($Values->"hostmin") != 2001:db8::1) do={ :error "IPv6 calculation changed"; };
+  :set Expected "-type-> str\n-len-> 4\n-value-> text";
+  :if ($Locale = "pt-BR") do={ :set Expected "-tipo-> str\n-tamanho-> 4\n-valor-> text"; };
+  :if ([ $InspectVarReturn "text" ] != $Expected) do={ :error "Localized variable inspection failed"; };
+  :set Expected "-type-> array\n  -key-> test\n    -type-> num\n    -value-> 42";
+  :if ($Locale = "pt-BR") do={ :set Expected "-tipo-> array\n  -chave-> test\n    -tipo-> num\n    -valor-> 42"; };
+  :if ([ $InspectVarReturn ({ "test"=42 }) ] != $Expected) do={ :error "Recursive variable inspection failed"; };
+
+  $ScriptRunOnce "fixture";
+  :set Expected "Script 'fixture' is not an url and base url is not available.";
+  :if ($Locale = "pt-BR") do={ :set Expected "O script 'fixture' n\C3\A3o \C3\A9 uma URL e a URL base n\C3\A3o est\C3\A1 dispon\C3\ADvel."; };
+  :if ($Captured != $Expected) do={ :error "Script-run URL guard failed"; };
+  :set UtilityFixtureSource false;
+  $ScriptRunOnce "https://example.invalid/fixture.rsc";
+  :set Expected "Failed fetching script 'https://example.invalid/fixture.rsc'!";
+  :if ($Locale = "pt-BR") do={ :set Expected "Falha ao baixar o script 'https://example.invalid/fixture.rsc'!"; };
+  :if ($Captured != $Expected) do={ :error "Script-run fetch guard failed"; };
+  :set UtilityFixtureSource "invalid code";
+  $ScriptRunOnce "https://example.invalid/fixture.rsc";
+  :set Expected "The script 'https://example.invalid/fixture.rsc' failed syntax validation!";
+  :if ($Locale = "pt-BR") do={ :set Expected "A sintaxe do script 'https://example.invalid/fixture.rsc' \C3\A9 inv\C3\A1lida!"; };
+  :if ($Captured != $Expected) do={ :error "Script-run syntax guard failed"; };
+}
+:put "Localized IP calculation, variable inspection and script-run guards passed.";
