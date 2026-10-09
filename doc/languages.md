@@ -148,6 +148,19 @@ both RouterOS function types (`array` for `do={...}`, `code` for `:parse`). The
 configuration hook runs only after the shared functions are ready. Fixtures
 replace the updater; installed scripts and configuration are not reloaded.
 
+`--core` runs the required-module bootstrap with isolated globals and a temporary
+`LanguageTestCoreExtra` script. Fetch responses are simulated. It covers missing
+dependencies, offline/CRLF startup, stale APIs, incomplete downloads, invalid
+syntax, and missing exports, then removes the temporary script.
+
+The shared helpers are split between `global-functions.rsc` and the required
+`global-functions.d/core-extra.rsc` to leave room below RouterOS's Fetch size
+limit. Initial setup installs both. Upgrading an older installation downloads
+the missing dependency from the configured script source with certificate
+verification, validates its header/API/syntax/exports, and loads it before
+optional modules. Subsequent offline startups use its installed source. The
+core remains unready if this dependency cannot initialize.
+
 To also test actual downloads, compatible caches, offline fallback, malformed
 JSON, stale schemas, and invalid language selections, supply the HTTPS base URL
 of a published branch containing these catalogs:

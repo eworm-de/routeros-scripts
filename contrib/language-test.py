@@ -10,6 +10,7 @@ from languages import load, quote, TOKEN, tokens, BEGIN, END, LOCAL_BEGIN, LOCAL
 root = Path(__file__).resolve().parent.parent
 runtime = (root / 'languages/runtime.rsc').read_text(encoding='utf-8')
 tests = (root / 'tests/languages.rsc').read_text(encoding='utf-8')
+payloads = []
 parser = argparse.ArgumentParser(description=__doc__)
 parser.add_argument('--base-url', help='HTTPS distribution URL; also run catalog download/cache tests')
 parser.add_argument('--catalogs', action='store_true', help='Test every catalog message on RouterOS')
@@ -20,6 +21,7 @@ parser.add_argument('--network', action='store_true', help='Test firewall list d
 parser.add_argument('--utilities', action='store_true', help='Test translated IP calculations, variable inspection and script-run guards')
 parser.add_argument('--standalone', action='store_true', help='Test generated local renderers with the global renderer unavailable')
 parser.add_argument('--reload', action='store_true', help='Test actual configuration and installer language-refresh hooks')
+parser.add_argument('--core', action='store_true', help='Test required core-module bootstrap with isolated scripts and simulated downloads')
 args = parser.parse_args()
 if args.notifications:
     core = (root / 'global-functions.rsc').read_text(encoding='utf-8')
@@ -173,12 +175,31 @@ if args.standalone:
 if args.reload:
     config = (root / 'global-config.rsc').read_text(encoding='utf-8')
     hook = config[config.index('# Apply language changes when an already initialized installation reloads config.'):]
-    core = (root / 'global-functions.rsc').read_text(encoding='utf-8')
+    core = (root / 'global-functions.d/core-extra.rsc').read_text(encoding='utf-8')
     start = core.index('  # Refresh translations even when no RouterOS script changed.')
     installer_hook = core[start:core.index('\n} do={', start)]
     tests += ':global ReloadFixtureConfig do={\n' + hook + '\n};\n'
     tests += ':global ReloadFixtureInstaller do={\n:global LanguageUpdate;\n' + installer_hook + '\n};\n'
     tests += ':global ReloadFixtureTest do={\n' + (root / 'tests/language-reload.rsc').read_text(encoding='utf-8') + '\n};\n$ReloadFixtureTest;\n'
+if args.core:
+    feature = (root / 'global-functions.rsc').read_text(encoding='utf-8')
+    feature = ':global CoreFixtureFetch;\n' + feature
+    feature = feature.replace('"global-functions.d/core-extra"', '"LanguageTestCoreExtra"')
+    old = '[ /tool/fetch check-certificate=yes-without-crl output=user url=$Url as-value ]'
+    if feature.count(old) != 1:
+        raise ValueError('Core-module fetch fixture no longer matches')
+    feature = feature.replace(old, '[ $CoreFixtureFetch $Url ]')
+    # Optional modules and the boot scheduler belong to the installed device.
+    feature, count = re.subn(r'\[ /system/script/find where name ~ "\^\(global-functions.*?name!=\$CoreModuleName \]', '( {})', feature)
+    if count != 1:
+        raise ValueError('Optional module fixture no longer matches')
+    start = feature.index('# add (and fix) global scripts scheduler')
+    end = feature.index('# Log success', start)
+    feature = feature[:start] + feature[end:]
+    payloads.extend([('__CORE_FIXTURE_SOURCE__', feature),
+                     ('__EXTRA_FIXTURE_SOURCE__', (root / 'global-functions.d/core-extra.rsc').read_text(encoding='utf-8'))])
+    tests += ':global CoreFixtureSource __CORE_FIXTURE_SOURCE__;\n:global CoreFixtureModuleSource __EXTRA_FIXTURE_SOURCE__;\n'
+    tests += ':global CoreFixtureTest do={\n' + (root / 'tests/language-core.rsc').read_text(encoding='utf-8') + '\n};\n$CoreFixtureTest;\n'
 if args.catalogs:
     sample = {'identity': 'test-router', 'name': 'test-sensor', 'date': '2026-10-09',
               'percent': 75, 'value': 120, 'error': 'test-error', 'interface': 'lte1',
@@ -217,10 +238,16 @@ if args.base_url:
     tests += ':global ScriptUpdatesBaseUrl ' + quote(args.base_url) + ';\n'
     tests += ':global ScriptUpdatesUrlSuffix "";\n'
     tests += (root / 'tests/language-loader.rsc').read_text(encoding='utf-8')
-variables = sorted(set(re.findall(r':global ([A-Za-z][A-Za-z0-9]*)', runtime + tests)))
+variables = sorted(set(re.findall(r':global ([A-Za-z][A-Za-z0-9]*)', runtime + tests + ''.join(body for _, body in payloads))))
 source = runtime + '\n' + tests
 for name in sorted(variables, key=len, reverse=True):
     source = re.sub(r'\b' + re.escape(name) + r'\b', 'LanguageTest' + name, source)
+for marker, body in payloads:
+    # Namespace executable payloads before quoting; \24 escapes otherwise hide
+    # variable boundaries from the isolation pass.
+    for name in sorted(variables, key=len, reverse=True):
+        body = re.sub(r'\b' + re.escape(name) + r'\b', 'LanguageTest' + name, body)
+    source = source.replace(marker, quote(body))
 cleanup = '\n'.join(f':global LanguageTest{name}; :set LanguageTest{name};' for name in variables)
 sys.stdout.buffer.write((':onerror TestError {\n' + source + '\n' + cleanup +
                         '\n} do={\n' + cleanup + '\n:error $TestError;\n}\n').encode('utf-8'))

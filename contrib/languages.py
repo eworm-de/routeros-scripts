@@ -9,6 +9,8 @@ import re
 ROOT = Path(__file__).resolve().parent.parent
 BEGIN = "# BEGIN GENERATED LANGUAGE DATA"
 END = "# END GENERATED LANGUAGE DATA"
+RUNTIME_BEGIN = "# BEGIN GENERATED LANGUAGE RUNTIME"
+RUNTIME_END = "# END GENERATED LANGUAGE RUNTIME"
 LOCAL_BEGIN = "# BEGIN GENERATED LOCAL LANGUAGE RENDERER"
 LOCAL_END = "# END GENERATED LOCAL LANGUAGE RENDERER"
 TOKEN = re.compile(r"\{([a-z][a-z0-9_]*)\}")
@@ -40,7 +42,8 @@ def load(path):
 
 def source_path(group):
     for path in (ROOT / (group + '.template.rsc'), ROOT / (group + '.rsc'),
-                 ROOT / 'mod' / (group + '.rsc')):
+                 ROOT / 'mod' / (group + '.rsc'),
+                 ROOT / 'global-functions.d' / (group + '.rsc')):
         if path.exists():
             return path
     raise FileNotFoundError(f'No RouterOS source for catalog {group}')
@@ -105,7 +108,7 @@ def render(check=False):
                             source, flags=re.S)
         outputs[target] = source
     runtime = (ROOT / 'languages/runtime.rsc').read_text(encoding='utf-8')
-    block = BEGIN + '''
+    block = RUNTIME_BEGIN + '''
 # Discover catalog schemas from installed scripts, so unused features need no downloads.
 :global LanguageSchemas ({});
 :foreach Script in=[ /system/script/find ] do={
@@ -114,11 +117,11 @@ def render(check=False):
     :set ($LanguageSchemas->($Info->"name")) ($Info->"schema");
   }
 }
-''' + runtime + END
+''' + runtime + RUNTIME_END
     core = ROOT / 'global-functions.rsc'
-    source = core.read_text(encoding='utf-8')
-    if BEGIN in source:
-        source = re.sub(re.escape(BEGIN) + r'.*?' + re.escape(END), lambda _: block, source, flags=re.S)
+    source = outputs.get(core, core.read_text(encoding='utf-8'))
+    if RUNTIME_BEGIN in source:
+        source = re.sub(re.escape(RUNTIME_BEGIN) + r'.*?' + re.escape(RUNTIME_END), lambda _: block, source, flags=re.S)
     else:
         source = source.replace('# load modules\n', block + '\n\n# load modules\n')
     if len(source.encode('utf-8')) >= 64000:
