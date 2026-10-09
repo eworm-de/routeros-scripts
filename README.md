@@ -209,9 +209,9 @@ the overlay as well:
 This last step is required when ever you make changes to your configuration.
 
 English is the default notification language. See [Languages](doc/languages.md)
-to select another language or contribute translations. Current coverage includes
-health notifications and their plugins, backups, certificates, licensing,
-update scripts, and the migrated DNS, DHCP, IPv6, GRE, tunnelbroker, and PPP scripts.
+to select another language or contribute translations. Runtime notifications,
+diagnostics, display labels, shared helpers, and configuration change notices
+use catalogs; English remains available offline.
 
 > ℹ️ **Info**: It is recommended to edit the configuration using the command
 > line interface. If using Winbox on Windows OS, the line endings may be

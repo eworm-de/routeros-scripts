@@ -49,8 +49,12 @@ DHCP-to-DNS and IPSec-to-DNS synchronization, DHCP lease dispatchers and comment
 and PPP hooks are also translated. Wireless access-list duplicate prompts,
 device collection, CAPsMAN package downloads, and OSPF-to-LED diagnostics are
 translated as well. Ntfy/Gotify queue messages and SSH-key import diagnostics
-have also been migrated. Other
-scripts and bootstrap diagnostics still use English. RouterOS-generated errors,
+have also been migrated. Coverage also includes Email/Matrix/Telegram modules,
+log forwarding, Netwatch, SMS actions/forwarding, Telegram chat, bridge/VLAN
+modules, IP calculations, variable inspection, one-time script execution, PSKs,
+Hotspot and button actions, GPS, shared helpers, installer diagnostics,
+configuration loading, startup guards, and change notifications.
+RouterOS-generated errors,
 sensor names, API fields, file paths, and internal status sentinels retain their
 original values. Interactive confirmations retain `[y/N]` because their key
 handling still expects the original responses.
@@ -68,7 +72,8 @@ and `mod/` modules use catalogs named after their feature. `contrib/languages.py
 embeds their defaults in generated blocks inside the scripts, along with
 schema identifiers. Do not edit those blocks directly. The loader discovers
 catalog schemas from installed script headers, so uninstalled features require
-no downloads. Installing or updating a translated script reloads the schema
+no downloads. The fetched changelog registers its own temporary catalog before
+rendering change notifications. Installing or updating a translated script reloads the schema
 index through the existing installer.
 
 For template families, defaults are embedded in `*.template.rsc`; regenerate
@@ -286,6 +291,17 @@ when fetched and retain the original migration code. Configuration version 146
 announces the language option and required shared module. Native tests cover
 conditional donation/storage notices and the deferred partition warning, which
 captures the selected language and safely encodes its text for startup.
+
+Final validation on RouterOS 7.24.5 (x86_64, VMware; routeros and wireless)
+parsed 71 supported sources and ran the complete behavioral suite. All 1,374
+locale rendering checks and 1,374 native parameter checks passed. Real HTTPS
+downloads verified the published core module byte-for-byte, shared catalogs,
+configuration diagnostics, and the transient changelog catalog. Offline cache,
+English reset, malformed JSON, stale schemas, and invalid locale tests passed.
+Temporary globals, files, scripts, and schedulers were removed. Ten Python
+checks and generated-artifact checks passed; platform variants were regenerated
+with the repository's shell scripts. Full `make` was unavailable because GNU
+Make and the documentation prerequisites are absent from this environment.
 
 Human-facing runtime notifications, diagnostics, and display labels are now
 catalog-backed. Comments, documentation examples, password word lists, received

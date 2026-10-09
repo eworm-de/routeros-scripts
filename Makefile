@@ -19,7 +19,7 @@ all: checksums docs rsc
 
 checksums: checksums.json
 
-checksums.json: languages contrib/checksums.sh $(ALL_RSC)
+checksums.json: rsc contrib/checksums.sh $(ALL_RSC)
 	contrib/checksums.sh > $@
 
 commitinfo: global-functions.rsc
