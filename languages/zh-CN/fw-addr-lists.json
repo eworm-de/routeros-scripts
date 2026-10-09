@@ -1,0 +1,21 @@
+{
+  "language": "zh-CN",
+  "messages": {
+    "fw-addr-lists.crash.delay": "脚本子系统可能崩溃了，可能是我们造成的。拖延！",
+    "fw-addr-lists.certificate.failed": "下载所需的证书（{list} / {url}）失败，无论如何尝试。",
+    "fw-addr-lists.download.retry": "下载列表“{list}”、{count} 失败。尝试来自：{url}",
+    "fw-addr-lists.download.failed": "无法从以下位置下载列表“{list}”：{url}",
+    "fw-addr-lists.downloaded": "从以下位置下载了列表“{list}”的 {size}B：{url}",
+    "fw-addr-lists.branch": "办理分公司：{branch}",
+    "fw-addr-lists.summary": "列表：{list} ({total}) -- 添加：{added} - 更新：{renewed} - 删除：{removed}",
+    "fw-addr-lists.ipv4.renew": "将列表“{list}”中的 IPv4 地址 {address} 更新为 {timeout}。",
+    "fw-addr-lists.ipv4.remove": "正在从列表“{list}”中删除 IPv4 地址 {address}。",
+    "fw-addr-lists.ipv4.add": "将 IPv4 地址 {address} 添加到包含 {timeout} 的列表“{list}”。",
+    "fw-addr-lists.ipv4.failed": "无法将 IPv4 地址 {address} 添加到列表“{list}”：{error}",
+    "fw-addr-lists.ipv6.renew": "将列表“{list}”中的 IPv6 地址 {address} 更新为 {timeout}。",
+    "fw-addr-lists.ipv6.remove": "正在从列表“{list}”中删除 IPv6 地址 {address}。",
+    "fw-addr-lists.ipv6.add": "将 IPv6 地址 {address} 添加到包含 {timeout} 的列表“{list}”。",
+    "fw-addr-lists.ipv6.failed": "无法将 IPv6 地址 {address} 添加到列表“{list}”：{error}"
+  },
+  "schema": "42bcfb865c10957ae21b18aa798348228d56dea78dd75c130eee6af199b03277"
+}

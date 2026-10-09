@@ -1,0 +1,10 @@
+{
+  "language": "de",
+  "messages": {
+    "firmware-upgrade-reboot.current": "Aktuelle und Upgrade-Firmware stimmen mit der Version {version} überein.",
+    "firmware-upgrade-reboot.downgrade": "Es ist eine andere Firmware-Version verfügbar, es handelt sich jedoch um ein Downgrade. Ignorieren.",
+    "firmware-upgrade-reboot.upgrade": "Die Firmware-Version {version} ist verfügbar und wird aktualisiert.",
+    "firmware-upgrade-reboot.reboot": "Firmware-Upgrade erfolgreich, Neustart."
+  },
+  "schema": "6029d1d4da514989c7a64a3ae717c2ca8f5f42f295ad0d203b8343cf7a2944a5"
+}

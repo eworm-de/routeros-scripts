@@ -1,0 +1,10 @@
+{
+  "language": "de",
+  "messages": {
+    "global-config.overlay.failed": "Das Laden der Konfiguration vom Overlay oder Snippet {script} ist fehlgeschlagen: {error}",
+    "global-config.hello.subject": "Hallo...",
+    "global-config.hello.message": "Hallo Welt, {identity} ruft!",
+    "global-config.not.ready": "Globale Konfiguration und/oder Funktionen nicht bereit."
+  },
+  "schema": "4dea7b8ee007cfceb44462e476d61a9ea4a4066a05150bd7d29153c38e31666f"
+}

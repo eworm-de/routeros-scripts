@@ -1,0 +1,8 @@
+{
+  "language": "zh-CN",
+  "messages": {
+    "capsman-rolling-upgrade.starting": "开始升级 {name} ({identity})...",
+    "capsman-rolling-upgrade.vanished": "远程 CAP 消失，跳过升级。"
+  },
+  "schema": "518c446962bfccca4b56fa763c6aedb6d6e615b691208e3ffc397bbcd2c91de8"
+}

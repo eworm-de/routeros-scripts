@@ -1,0 +1,14 @@
+{
+  "language": "id",
+  "messages": {
+    "ipv6-update.address.ignored": "Alamat ({address}) diperoleh, bukan awalan. Mengabaikan.",
+    "ipv6-update.context.invalid": "Skrip ini seharusnya dijalankan dari ipv6 dhcp-client.",
+    "ipv6-update.prefix.invalid": "Awalan {prefix} tidak berlaku lagi. Mengabaikan.",
+    "ipv6-update.list.added": "Menambahkan entri daftar alamat ipv6 dinamis untuk ipv6-pool-{pool}",
+    "ipv6-update.prefix.updating": "Memperbarui daftar alamat IPv6 dengan awalan IPv6 baru {prefix}",
+    "ipv6-update.host.updating": "Memperbarui daftar alamat IPv6 dengan alamat host IPv6 baru {address} dari antarmuka {interface}",
+    "ipv6-update.interface.prefix.updating": "Memperbarui daftar alamat IPv6 dengan awalan IPv6 baru {prefix} dari antarmuka {interface}",
+    "ipv6-update.dns.updating": "Memperbarui catatan DNS untuk {name}{regexp} ke {address}"
+  },
+  "schema": "d502241c31fb73e9c3245e499a026333b5c7b5265d927b18a2a24bf7948fb823"
+}

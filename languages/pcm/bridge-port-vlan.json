@@ -1,0 +1,13 @@
+{
+  "language": "pcm",
+  "messages": {
+    "bridge-port-vlan.client.enabled": "Dey disable bridge port for interface {interface}, enabling dhcp client.",
+    "bridge-port-vlan.interfaces.enabled": "Dey enable interfaces again...",
+    "bridge-port-vlan.vlan.missing": "No fit find VLAN '{vlan}' for interface {interface}!",
+    "bridge-port-vlan.vlan.enabled": "Dey enable bridge port for interface {interface}, changing to {config} vlan {vlan}{name}, disabling dhcp client.",
+    "bridge-port-vlan.vlan.connected": "Interface {interface} don already connected to {config} vlan {vlan}.",
+    "bridge-port-vlan.client.missing": "DHCP client config no dey for interface {interface}!",
+    "bridge-port-vlan.client.duplicate": "DHCP client config dey more than once for interface {interface}!"
+  },
+  "schema": "ca51ecefefa0a1bcad40eb3a3ad65db37300e7e3b0f7f3f5abe49a021f6dfda1"
+}

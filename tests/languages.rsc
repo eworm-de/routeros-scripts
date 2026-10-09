@@ -1,6 +1,6 @@
 #!rsc by RouterOS
 # Run after languages/runtime.rsc in an isolated RouterOS test environment.
-# Does not send notifications, change networking, or invoke LanguageUpdate.
+# Does not send notifications or change networking. Empty-schema updates do not fetch.
 :global Translate;
 :global ScriptLanguage "en";
 :global LanguageActive "pt-BR";
@@ -48,3 +48,22 @@
 :if ([ $Translate "test.message" ({ identity="router"; percent=75 }) ] != \
      "The CPU on router is at 75%!") do={ :error "Language switch fallback failed"; }
 :put "Language translation tests passed.";
+
+# Empty schemas exercise locale validation without downloading catalogs.
+:global LanguageUpdate;
+:global LanguageSchemas ({});
+:global ScriptUpdatesBaseUrl "https://example.invalid/";
+:foreach Locale in={ "en"; "pcm"; "zh-CN"; "ar-EG"; "de" } do={
+  :set ScriptLanguage $Locale;
+  $LanguageUpdate;
+  :if ($LanguageActive != $Locale) do={ :error "Valid locale rejected"; }
+}
+:foreach Locale in={ "../bad"; "pcmm"; "PCM"; "ar-eg"; "zh_CN" } do={
+  :set ScriptLanguage $Locale;
+  $LanguageUpdate;
+  :if ($LanguageActive != "de" || \
+       [ $Translate "test.single" ({ name="router" }) ] != "Hello router") do={
+    :error "Invalid locale accepted";
+  }
+}
+:put "Language locale validation tests passed.";

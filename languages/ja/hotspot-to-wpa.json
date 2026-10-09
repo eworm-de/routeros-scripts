@@ -1,0 +1,8 @@
+{
+  "language": "ja",
+  "messages": {
+    "hotspot-to-wpa.ignored": "{script}: ホットスポット「{hotspot}」での {mac} のログインを無視します。",
+    "hotspot-to-wpa.lease.missing": "{script}: {mac} のリースが 1 つだけ見つかりませんでした。"
+  },
+  "schema": "82d921421b5113cc10cc742bba242aca700d0a06c7bba7435e2d6ce8faa20f74"
+}

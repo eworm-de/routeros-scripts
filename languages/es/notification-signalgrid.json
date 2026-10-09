@@ -1,0 +1,12 @@
+{
+  "language": "es",
+  "messages": {
+    "notification-signalgrid.offline": "El sistema no está completamente conectado, no se descarga.",
+    "notification-signalgrid.empty": "Eliminando mensajes de Signalgrid del programador, pero la cola está vacía.",
+    "notification-signalgrid.queue.failed": "Error al enviar la notificación Signalgrid en cola: {error}",
+    "notification-signalgrid.certificate.failed": "Error al descargar el certificado requerido.",
+    "notification-signalgrid.sending.failed": "Error al enviar la notificación Signalgrid: {error} - En cola...",
+    "notification-signalgrid.queued": "Este mensaje estuvo en cola desde {date} {time} y puede estar obsoleto."
+  },
+  "schema": "128aca9359451217298096f284f1811957b4079d0693132dbe948f2ced909a78"
+}

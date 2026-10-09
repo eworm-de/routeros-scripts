@@ -1,0 +1,9 @@
+{
+  "language": "ar-EG",
+  "messages": {
+    "sms-action.context": "من المفترض أن يتم تشغيل السكربت ده من ربط الرسائل القصيرة مع الإجراء=...",
+    "sms-action.running": "التصرف بناءً على إجراء الرسائل القصيرة \"{action}\": {code}",
+    "sms-action.syntax": "فشل رمز الإجراء \"{action}\" في التحقق من صحة بناء الجملة!"
+  },
+  "schema": "91ff5010d0d869687a0bb1c0989668afd4c77fed76f0d8728bca83f00940d48e"
+}

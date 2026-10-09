@@ -1,0 +1,17 @@
+{
+  "language": "es",
+  "messages": {
+    "notification-telegram.offline": "El sistema no está completamente conectado, no se descarga.",
+    "notification-telegram.certificate.failed": "Error al descargar el certificado requerido.",
+    "notification-telegram.queue.empty": "Eliminando mensajes de Telegram del programador, pero la cola está vacía.",
+    "notification-telegram.queue.failed": "Error al enviar el mensaje de Telegram en cola: {error}",
+    "notification-telegram.fetch.failed": "Error al obtener datos: {error}",
+    "notification-telegram.message.none": "No se recibió ningún mensaje.",
+    "notification-telegram.chat.id": "La identificación del chat es: {id}",
+    "notification-telegram.thread.id": "La identificación del hilo es: {id}",
+    "notification-telegram.truncated": "El mensaje era demasiado largo y se truncó, ¡cortó _{percent}%_!",
+    "notification-telegram.send.failed": "Error al enviar la notificación de Telegram: {error} - En cola...",
+    "notification-telegram.queued": "Este mensaje estuvo en cola desde _{date} {time}_ y puede estar obsoleto."
+  },
+  "schema": "924e559ca736a5da1f8988a245b39db4d85bda9fd5e9d359b1d0b1ba41e16e5d"
+}

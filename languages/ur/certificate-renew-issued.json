@@ -1,0 +1,9 @@
+{
+  "language": "ur",
+  "messages": {
+    "certificate-renew-issued.exported": "'{name}' کے لیے ایک نیا سرٹیفکیٹ جاری کیا، 'cert-issued/{name}.p12' کو برآمد کیا گیا۔",
+    "certificate-renew-issued.directory.failed": "ڈائرکٹری بنانے میں ناکام، سرٹیفکیٹ برآمد نہیں کیا گیا۔",
+    "certificate-renew-issued.issued": "'{name}' کے لیے ایک نیا سرٹیفکیٹ جاری کیا۔"
+  },
+  "schema": "9048d1a3bcb148168f2785f02dea50e8de90c9f3170cedabe6b72d99bc61a2fd"
+}

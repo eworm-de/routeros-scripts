@@ -1,0 +1,12 @@
+{
+  "language": "es",
+  "messages": {
+    "ipsec-to-dns.marker.added": "Se agregó un registro DNS estático deshabilitado con el nombre '{name}'.",
+    "ipsec-to-dns.peer.exists": "El par {peer} ({name}) todavía existe. No eliminar la entrada DNS.",
+    "ipsec-to-dns.peer.gone": "El par {peer} ({name}) se ha ido, eliminando la entrada DNS.",
+    "ipsec-to-dns.current": "La entrada DNS para {name} no necesita actualización.",
+    "ipsec-to-dns.replacing": "Reemplazando la entrada DNS para {name}, la nueva dirección es {address}.",
+    "ipsec-to-dns.adding": "Agregando una nueva entrada DNS para {name}, la dirección es {address}."
+  },
+  "schema": "ed1c281155d118ad0f626106c929affb97ffffbf416dd87053f0becd389012dc"
+}

@@ -1,0 +1,16 @@
+{
+  "language": "pcm",
+  "messages": {
+    "check-perpetual-license.unsupported": "This device no get perpetual licence.",
+    "check-perpetual-license.expired.log": "Your licence don expire since {date}!",
+    "check-perpetual-license.expired.subject": "License expired!",
+    "check-perpetual-license.expired.message": "Your license expired on {date}, can no dey again update RouterOS on {identity}...",
+    "check-perpetual-license.warning.log": "Your license go expire on {date}!",
+    "check-perpetual-license.warning.subject": "License about to expire!",
+    "check-perpetual-license.warning.message": "Your license no fit renew and dey about to expire on {date} on {identity}...",
+    "check-perpetual-license.renewed.log": "Dem don renew your licence successfully.",
+    "check-perpetual-license.renewed.subject": "License renewed",
+    "check-perpetual-license.renewed.message": "Dem don renew your licence for {identity}. E go valid till {date}."
+  },
+  "schema": "32c55d22d323e366e19b8b016c5e836db00f7a8e885d0410216fa65ead84ab9d"
+}

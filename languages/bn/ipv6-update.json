@@ -1,0 +1,14 @@
+{
+  "language": "bn",
+  "messages": {
+    "ipv6-update.address.ignored": "একটি ঠিকানা ({address}) অর্জিত হয়েছে, একটি উপসর্গ নয়। উপেক্ষা করে।",
+    "ipv6-update.context.invalid": "এই স্ক্রিপ্টটি ipv6 dhcp-ক্লায়েন্ট থেকে চালানোর কথা।",
+    "ipv6-update.prefix.invalid": "উপসর্গ {prefix} আর বৈধ নয়৷ উপেক্ষা করে।",
+    "ipv6-update.list.added": "ipv6-pool-{pool} এর জন্য ডায়নামিক ipv6 ঠিকানা তালিকা এন্ট্রি যোগ করা হয়েছে",
+    "ipv6-update.prefix.updating": "নতুন IPv6 উপসর্গ {prefix} সহ IPv6 ঠিকানা তালিকা আপডেট করা হচ্ছে",
+    "ipv6-update.host.updating": "ইন্টারফেস {interface} থেকে নতুন IPv6 হোস্ট ঠিকানা {address} সহ IPv6 ঠিকানা তালিকা আপডেট করা হচ্ছে",
+    "ipv6-update.interface.prefix.updating": "ইন্টারফেস {interface} থেকে নতুন IPv6 উপসর্গ {prefix} সহ IPv6 ঠিকানা তালিকা আপডেট করা হচ্ছে",
+    "ipv6-update.dns.updating": "{name}{regexp} থেকে {address}-এর জন্য DNS রেকর্ড আপডেট করা হচ্ছে"
+  },
+  "schema": "d502241c31fb73e9c3245e499a026333b5c7b5265d927b18a2a24bf7948fb823"
+}

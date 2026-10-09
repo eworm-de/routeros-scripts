@@ -1,0 +1,8 @@
+{
+  "language": "ur",
+  "messages": {
+    "accesslist-duplicates.remove.prompt": "\nہٹانے کے لیے عددی شناخت، چھوڑنے کے لیے کوئی بھی کلید!",
+    "accesslist-duplicates.removing": "عددی id {id} کو ہٹایا جا رہا ہے...\n"
+  },
+  "schema": "11c6e77afe0e5ea39b260eb21e4693aeb7b69299435563d0469b3c22651fdc8c"
+}

@@ -1,0 +1,22 @@
+{
+  "language": "ja",
+  "messages": {
+    "check-lte-firmware-upgrade.fetch.failed": "インターフェイス {interface} の最新の LTE ファームウェア バージョンを取得できませんでした: {error}",
+    "check-lte-firmware-upgrade.version.empty": "An empty string is not a valid version.",
+    "check-lte-firmware-upgrade.current": "LTE インターフェイス {interface} にはファームウェアのアップグレードはありません。",
+    "check-lte-firmware-upgrade.prompt": "インターフェイス {interface} の無人 lte ファームウェア アップグレードを開始しますか? [y/N]",
+    "check-lte-firmware-upgrade.scheduled": "インターフェイス {interface} のスケジュールされた lte ファームウェア アップグレード...",
+    "check-lte-firmware-upgrade.canceled": "キャンセルされました...",
+    "check-lte-firmware-upgrade.already.sent": "バージョン {version} の LTE ファームウェア アップグレード通知はすでに送信されています。",
+    "check-lte-firmware-upgrade.available.log": "新しいファームウェア バージョン {version} が LTE インターフェイス {interface} で利用可能です。",
+    "check-lte-firmware-upgrade.subject": "LTEファームウェアのアップグレード",
+    "check-lte-firmware-upgrade.message": "新しいファームウェア バージョン {version} が、{identity} の LTE インターフェイス {interface} で利用可能です。\n\n{details}",
+    "check-lte-firmware-upgrade.label.manufacturer": "メーカー",
+    "check-lte-firmware-upgrade.label.model": "モデル",
+    "check-lte-firmware-upgrade.label.revision": "改訂",
+    "check-lte-firmware-upgrade.label.firmware": "ファームウェアのバージョン:\n",
+    "check-lte-firmware-upgrade.label.installed": "    インストール済み",
+    "check-lte-firmware-upgrade.label.available": "    利用可能"
+  },
+  "schema": "48481740f1c9bb358194e5fc7b620f4ae430d0a89771919bb68cf54ad8f44eee"
+}

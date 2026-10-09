@@ -1,0 +1,21 @@
+{
+  "language": "bn",
+  "messages": {
+    "fw-addr-lists.crash.delay": "স্ক্রিপ্টিং সাবসিস্টেম ক্র্যাশ হয়ে থাকতে পারে, সম্ভবত আমাদের কারণে। বিলম্বিত!",
+    "fw-addr-lists.certificate.failed": "প্রয়োজনীয় শংসাপত্র ({list} / {url}) ডাউনলোড করা ব্যর্থ হয়েছে, যাইহোক চেষ্টা করুন৷",
+    "fw-addr-lists.download.retry": "'{list}', {count} তালিকার জন্য ডাউনলোড করা ব্যর্থ হয়েছে৷ থেকে চেষ্টা করুন: {url}",
+    "fw-addr-lists.download.failed": "'{list}' তালিকা থেকে ডাউনলোড করা ব্যর্থ হয়েছে: {url}",
+    "fw-addr-lists.downloaded": "'{list}' তালিকার জন্য {size}B ডাউনলোড করা হয়েছে: {url}",
+    "fw-addr-lists.branch": "হ্যান্ডলিং শাখা: {branch}",
+    "fw-addr-lists.summary": "তালিকা: {list} ({total}) -- যোগ করা হয়েছে: {added} - পুনর্নবীকরণ করা হয়েছে: {renewed} - সরানো হয়েছে: {removed}",
+    "fw-addr-lists.ipv4.renew": "{timeout} এর সাথে '{list}' তালিকায় IPv4 ঠিকানা {address} পুনর্নবীকরণ করা হচ্ছে।",
+    "fw-addr-lists.ipv4.remove": "'{list}' তালিকা থেকে IPv4 ঠিকানা {address} সরানো হচ্ছে।",
+    "fw-addr-lists.ipv4.add": "{timeout}-এর সাথে '{list}' তালিকায় IPv4 ঠিকানা {address} যোগ করা হচ্ছে।",
+    "fw-addr-lists.ipv4.failed": "'{list}' তালিকায় IPv4 ঠিকানা {address} যোগ করতে ব্যর্থ হয়েছে: {error}",
+    "fw-addr-lists.ipv6.renew": "{timeout} এর সাথে '{list}' তালিকায় IPv6 ঠিকানা {address} পুনর্নবীকরণ করা হচ্ছে।",
+    "fw-addr-lists.ipv6.remove": "'{list}' তালিকা থেকে IPv6 ঠিকানা {address} সরানো হচ্ছে।",
+    "fw-addr-lists.ipv6.add": "{timeout}-এর সাথে '{list}' তালিকায় IPv6 ঠিকানা {address} যোগ করা হচ্ছে।",
+    "fw-addr-lists.ipv6.failed": "'{list}' তালিকায় IPv6 ঠিকানা {address} যোগ করতে ব্যর্থ হয়েছে: {error}"
+  },
+  "schema": "42bcfb865c10957ae21b18aa798348228d56dea78dd75c130eee6af199b03277"
+}

@@ -1,0 +1,9 @@
+{
+  "language": "ja",
+  "messages": {
+    "hotspot-to-wpa-cleanup.connected": "MAC アドレス {mac} のクライアントが WPA に接続され、リースが静的になります。",
+    "hotspot-to-wpa-cleanup.disconnected": "MAC アドレス {mac} のクライアントは WPA に接続できなかったため、アクセス リストから削除されました。",
+    "hotspot-to-wpa-cleanup.expired": "MAC アドレス {mac} のクライアントが {elapsed} として認識されなかったため、削除しました。"
+  },
+  "schema": "1ebc7ea0f3bc0cc65554da860eb4b0739adc55a3f127030c7d8a1c780e722a35"
+}

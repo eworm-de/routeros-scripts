@@ -1,0 +1,12 @@
+{
+  "language": "id",
+  "messages": {
+    "notification-ntfy.offline": "Sistem tidak terhubung sepenuhnya, tidak memerah.",
+    "notification-ntfy.queue.empty": "Menghapus pesan Ntfy dari penjadwal, tetapi antrian kosong.",
+    "notification-ntfy.queue.failed": "Gagal mengirim pesan Ntfy yang antri: {error}",
+    "notification-ntfy.send.failed": "Gagal mengirim notifikasi ntfy: {error} - Mengantri...",
+    "notification-ntfy.certificate.failed": "Gagal mengunduh sertifikat yang diperlukan.",
+    "notification-ntfy.queued": "Pesan ini dimasukkan dalam antrean sejak {date} {time} dan mungkin sudah usang."
+  },
+  "schema": "6734a9715e6b789bb7ff475fdc9f2b11391a7dcbd94aaef3413d695b035d493e"
+}

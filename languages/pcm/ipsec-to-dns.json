@@ -1,0 +1,12 @@
+{
+  "language": "pcm",
+  "messages": {
+    "ipsec-to-dns.marker.added": "Dem add disabled static dns record with name '{name}'.",
+    "ipsec-to-dns.peer.exists": "Peer {peer} ({name}) still dey. We no go delete DNS entry.",
+    "ipsec-to-dns.peer.gone": "Peer {peer} ({name}) get gone, deleting DNS entry.",
+    "ipsec-to-dns.current": "DNS entry for {name} dey not need updating.",
+    "ipsec-to-dns.replacing": "Replacing DNS entry for {name}, new address dey {address}.",
+    "ipsec-to-dns.adding": "Dey add new DNS entry for {name}, address dey {address}."
+  },
+  "schema": "ed1c281155d118ad0f626106c929affb97ffffbf416dd87053f0becd389012dc"
+}

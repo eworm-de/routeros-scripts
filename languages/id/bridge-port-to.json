@@ -1,0 +1,12 @@
+{
+  "language": "id",
+  "messages": {
+    "bridge-port-to.client.enabled": "Menonaktifkan port jembatan untuk antarmuka {interface}, mengaktifkan klien dhcp.",
+    "bridge-port-to.interfaces.enabled": "Mengaktifkan kembali antarmuka...",
+    "bridge-port-to.bridge.enabled": "Mengaktifkan port jembatan untuk antarmuka {interface}, mengubah ke jembatan {config} {bridge}, menonaktifkan klien dhcp.",
+    "bridge-port-to.bridge.connected": "Antarmuka {interface} sudah terhubung ke jembatan {config} {bridge}.",
+    "bridge-port-to.client.missing": "Konfigurasi klien dhcp untuk antarmuka {interface} tidak ada!",
+    "bridge-port-to.client.duplicate": "Duplikat konfigurasi klien dhcp untuk antarmuka {interface}!"
+  },
+  "schema": "9ff4cd55d43b5e48046edec247245c26cd52574d351dd5b3d5c66b36824548d6"
+}

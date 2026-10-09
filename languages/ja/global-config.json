@@ -1,0 +1,10 @@
+{
+  "language": "ja",
+  "messages": {
+    "global-config.overlay.failed": "オーバーレイまたはスニペット {script} からの構成の読み込みに失敗しました: {error}",
+    "global-config.hello.subject": "こんにちは...",
+    "global-config.hello.message": "こんにちは、{identity} です!",
+    "global-config.not.ready": "グローバル構成や機能の準備ができていません。"
+  },
+  "schema": "4dea7b8ee007cfceb44462e476d61a9ea4a4066a05150bd7d29153c38e31666f"
+}

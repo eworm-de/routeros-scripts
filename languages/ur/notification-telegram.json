@@ -1,0 +1,17 @@
+{
+  "language": "ur",
+  "messages": {
+    "notification-telegram.offline": "سسٹم مکمل طور پر منسلک نہیں ہے، فلشنگ نہیں ہے۔",
+    "notification-telegram.certificate.failed": "مطلوبہ سرٹیفکیٹ ڈاؤن لوڈ کرنا ناکام ہو گیا۔",
+    "notification-telegram.queue.empty": "شیڈیولر سے ٹیلیگرام پیغامات کو فلش کیا جا رہا ہے، لیکن قطار خالی ہے۔",
+    "notification-telegram.queue.failed": "قطار بند ٹیلیگرام پیغام بھیجنا ناکام ہو گیا: {error}",
+    "notification-telegram.fetch.failed": "ڈیٹا کی بازیافت ناکام: {error}",
+    "notification-telegram.message.none": "کوئی پیغام موصول نہیں ہوا۔",
+    "notification-telegram.chat.id": "چیٹ آئی ڈی ہے: {id}",
+    "notification-telegram.thread.id": "تھریڈ کی شناخت یہ ہے: {id}",
+    "notification-telegram.truncated": "پیغام بہت لمبا تھا اور اسے کاٹ دیا گیا ہے، _{percent}%_ کو کاٹ دیا گیا!",
+    "notification-telegram.send.failed": "ٹیلیگرام نوٹیفکیشن بھیجنے میں ناکام: {error} - قطار میں...",
+    "notification-telegram.queued": "یہ پیغام _{date} {time}_ سے قطار میں کھڑا تھا اور ہوسکتا ہے کہ متروک ہو۔"
+  },
+  "schema": "924e559ca736a5da1f8988a245b39db4d85bda9fd5e9d359b1d0b1ba41e16e5d"
+}

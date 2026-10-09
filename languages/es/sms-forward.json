@@ -1,0 +1,18 @@
+{
+  "language": "es",
+  "messages": {
+    "sms-forward.disabled": "La recepción de SMS no está habilitada.",
+    "sms-forward.interface.stopped": "La interfaz LTE no está en estado de ejecución, saltándose.",
+    "sms-forward.command.removed": "Eliminando SMS, que inició un script.",
+    "sms-forward.remove.failed": "No se pudo eliminar el mensaje: {error}",
+    "sms-forward.received": "En {timestamp} tipo {type}:\n{message}",
+    "sms-forward.hook.running": "Gancho para correr '{match}': {command}",
+    "sms-forward.hook.ran": "\n\nEjecutó el gancho '{match}':\n{command}",
+    "sms-forward.hook.failed": "No se pudo ejecutar el código para el gancho '{match}': {error}",
+    "sms-forward.hook.syntax": "¡El código para el gancho '{match}' falló en la validación de sintaxis!",
+    "sms-forward.subject": "Reenvío de SMS desde {phone}",
+    "sms-forward.message.one": "Recibí este mensaje por {identity} de {phone}:{messages}",
+    "sms-forward.message.many": "Recibí estos mensajes {count} por {identity} de {phone}:{messages}"
+  },
+  "schema": "b605613f43230d212520e682ee06789fe9ebdb37a25f5c21ba93719a7923e2a1"
+}

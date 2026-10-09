@@ -1,0 +1,8 @@
+{
+  "language": "ar-EG",
+  "messages": {
+    "accesslist-duplicates.remove.prompt": "\nمعرف رقمي لإزالة، أي مفتاح لتخطي!",
+    "accesslist-duplicates.removing": "إزالة المعرف الرقمي {id}...\n"
+  },
+  "schema": "11c6e77afe0e5ea39b260eb21e4693aeb7b69299435563d0469b3c22651fdc8c"
+}

@@ -1,0 +1,30 @@
+{
+  "language": "de",
+  "messages": {
+    "telegram-chat.certificate.failed": "Das Herunterladen des erforderlichen Zertifikats ist fehlgeschlagen.",
+    "telegram-chat.fetch.failed": "Abruf fehlgeschlagen, {count}. Versuchen Sie: {error}",
+    "telegram-chat.updates.failed": "Das Abrufen von Updates ist fehlgeschlagen.",
+    "telegram-chat.update": "Aktualisieren Sie {id}: {update}",
+    "telegram-chat.notice": "Senden einer Mitteilung zum Update {id}.",
+    "telegram-chat.subject": "Telegram-Chat",
+    "telegram-chat.greeting": "Hallo {name}!\n\n",
+    "telegram-chat.directory.failed": "Fehler beim Erstellen des Verzeichnisses!",
+    "telegram-chat.command.running": "Befehl aus Update {id} ausführen: {command}",
+    "telegram-chat.command.background": "Der Befehl wurde nicht beendet und wird weiterhin im Hintergrund ausgeführt.\n\n",
+    "telegram-chat.command.failed": "Der Befehl ist mit einem Fehler fehlgeschlagen!\n\n",
+    "telegram-chat.command": "Befehl:\n{command}\n\n",
+    "telegram-chat.output": "Ausgabe:\n{output}",
+    "telegram-chat.output.empty": "Keine Ausgabe.",
+    "telegram-chat.command.syntax": "Der Befehl von update {id} hat die Syntaxvalidierung nicht bestanden!",
+    "telegram-chat.command.syntax.message": "Die Syntaxvalidierung des Befehls ist fehlgeschlagen!",
+    "telegram-chat.untrusted.message": "Dir wird nicht vertraut.",
+    "telegram-chat.update.handled": "Update {id} wurde bereits durchgeführt.",
+    "telegram-chat.online.passive": "Online, warten auf Ihre Befehle!",
+    "telegram-chat.online.active": "Online (und aktiv!) und wartet auf Ihre Befehle!",
+    "telegram-chat.state.active": "Jetzt aktiv ab Update {id}!",
+    "telegram-chat.state.passive": "Jetzt passiv ab Update {id}!",
+    "telegram-chat.untrusted.unnamed": "Ich habe eine Nachricht von einem nicht vertrauenswürdigen Kontakt ohne Benutzernamen (ID {contact}) im Update {id} erhalten!",
+    "telegram-chat.untrusted.named": "Ich habe eine Nachricht vom nicht vertrauenswürdigen Kontakt „{username}“ (ID {contact}) im Update {id} erhalten!"
+  },
+  "schema": "23866b98057d30494867d66d781c3555fc2f373d9af75cb1aac34c965ee3bd54"
+}

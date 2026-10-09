@@ -1,0 +1,11 @@
+{
+  "language": "hi",
+  "messages": {
+    "mode-button-scheduler.scheduler.missing": "शेड्यूलर मौजूद नहीं है.",
+    "mode-button-scheduler.action.missing": "{count} मोड-बटन दबाने के लिए कोई क्रिया परिभाषित नहीं है।",
+    "mode-button-scheduler.syntax": "{count} मोड-बटन दबाने के लिए कोड सिंटैक्स सत्यापन विफल रहा!",
+    "mode-button-scheduler.acting": "{count} मोड-बटन दबाने पर कार्य करना: {code}",
+    "mode-button-scheduler.failed": "{count} मोड-बटन दबाने का कोड रनटाइम त्रुटि के साथ विफल रहा: {error}"
+  },
+  "schema": "573b86779a15979155d7ff480e677e88dbe77a77cbd92ffaba77887856e8af91"
+}

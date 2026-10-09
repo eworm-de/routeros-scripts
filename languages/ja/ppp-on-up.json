@@ -1,0 +1,10 @@
+{
+  "language": "ja",
+  "messages": {
+    "ppp-on-up.context.invalid": "このスクリプトは ppp のオンアップ スクリプト フックから実行されることになっています。",
+    "ppp-on-up.up": "PPP インターフェイス {interface} が起動しています。",
+    "ppp-on-up.script.running": "実行中のスクリプト: {name}",
+    "ppp-on-up.script.failed": "スクリプト「{name}」の実行に失敗しました。"
+  },
+  "schema": "948ef5fc1bb267e734267f57a5d70df419d106197075fec109f206534ce4493c"
+}

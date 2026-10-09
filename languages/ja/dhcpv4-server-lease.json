@@ -1,0 +1,12 @@
+{
+  "language": "ja",
+  "messages": {
+    "dhcpv4-server-lease.context.invalid": "このスクリプトは ip dhcp-server から実行されることになっています。",
+    "dhcpv4-server-lease.script.running": "命令 {order} でスクリプトを実行しています: {name}",
+    "dhcpv4-server-lease.script.failed": "スクリプト「{name}」の実行に失敗しました: {error}",
+    "dhcpv4-server-lease.waiting": "さらに多くの呼び出しが待機中であり、早期に終了します。",
+    "dhcpv4-server-lease.assigned": "DHCP サーバー {server} がリース {address} を {mac} に割り当てました",
+    "dhcpv4-server-lease.deassigned": "DHCP サーバー {server} がリース {address} を {mac} に割り当て解除しました"
+  },
+  "schema": "e8bd70cbac2cb60d46fce97c5cd6f4d6f35e4039991ffa0fb5fd3e1e1ac986c3"
+}

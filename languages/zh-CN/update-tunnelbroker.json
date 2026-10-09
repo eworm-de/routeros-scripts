@@ -1,0 +1,11 @@
+{
+  "language": "zh-CN",
+  "messages": {
+    "update-tunnelbroker.certificate.failed": "下载所需的证书失败。",
+    "update-tunnelbroker.download.failed": "下载失败：{error} - {count} 重试待定。",
+    "update-tunnelbroker.response.invalid": "无法将本地地址发送到隧道代理或意外响应！",
+    "update-tunnelbroker.address.missing": "您的设备上未配置地址 {address}。通过 ISP 进行 NAT？",
+    "update-tunnelbroker.updating": "本地地址已更改，正在更新隧道配置，地址为：{address}"
+  },
+  "schema": "a1b3554a6dc3737e590e438648393e5c28b297b740eb02023c141abd6fe84d4e"
+}

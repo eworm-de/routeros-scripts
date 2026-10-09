@@ -1,0 +1,14 @@
+{
+  "language": "zh-CN",
+  "messages": {
+    "ipv6-update.address.ignored": "获取的是地址 ({address})，而不是前缀。忽略。",
+    "ipv6-update.context.invalid": "该脚本应该从 ipv6 dhcp-client 运行。",
+    "ipv6-update.prefix.invalid": "前缀 {prefix} 不再有效。忽略。",
+    "ipv6-update.list.added": "添加了 ipv6-pool-{pool} 的动态 ipv6 地址列表条目",
+    "ipv6-update.prefix.updating": "使用新的 IPv6 前缀 {prefix} 更新 IPv6 地址列表",
+    "ipv6-update.host.updating": "从接口 {interface} 使用新的 IPv6 主机地址 {address} 更新 IPv6 地址列表",
+    "ipv6-update.interface.prefix.updating": "从接口 {interface} 使用新的 IPv6 前缀 {prefix} 更新 IPv6 地址列表",
+    "ipv6-update.dns.updating": "将 {name}{regexp} 的 DNS 记录更新为 {address}"
+  },
+  "schema": "d502241c31fb73e9c3245e499a026333b5c7b5265d927b18a2a24bf7948fb823"
+}

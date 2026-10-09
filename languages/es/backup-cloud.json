@@ -1,0 +1,17 @@
+{
+  "language": "es",
+  "messages": {
+    "backup-cloud.partition": "Huyendo desde la partición de respaldo, negándose a actuar.",
+    "backup-cloud.directory": "¡Error al crear el directorio!",
+    "backup-cloud.subject": "Copia de seguridad en la nube",
+    "backup-cloud.subject.failed": "Error en la copia de seguridad en la nube",
+    "backup-cloud.message": "Copia de seguridad cargada para {identity} en la nube.\n\n{device}\n\n{details}",
+    "backup-cloud.message.failed": "¡Error al cargar la copia de seguridad de {identity} en la nube!\n\n{device}",
+    "backup-cloud.upload.failed": "¡Error al cargar la copia de seguridad de {identity} en la nube!",
+    "backup-cloud.retry": "Vuelva a intentarlo correctamente; descarte los errores de conexión anteriores.",
+    "backup-cloud.label.name": "Nombre",
+    "backup-cloud.label.size": "Tamaño",
+    "backup-cloud.label.key": "Descargar clave"
+  },
+  "schema": "1d68cb944d178c8731db42b15cc1dc9e76c76322543a57e366c56830ef3b644d"
+}

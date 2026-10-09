@@ -1,0 +1,16 @@
+{
+  "language": "hi",
+  "messages": {
+    "backup-partition.copied": "'{name}' विभाजन के लिए RouterOS की प्रतिलिपि बनाई गई।",
+    "backup-partition.copy.failed": "'{name}' विभाजन में RouterOS की प्रतिलिपि बनाने में विफल: {error}",
+    "backup-partition.partition": "बैकअप पार्टीशन से भागना, कार्रवाई करने से इंकार करना।",
+    "backup-partition.unavailable": "डिवाइस में फ़ॉलबैक विभाजन नहीं है.",
+    "backup-partition.inactive": "डिवाइस सक्रिय विभाजन से नहीं चल रहा है.",
+    "backup-partition.fallback.missing": "'{name}' नाम का कोई निष्क्रिय विभाजन नहीं है।",
+    "backup-partition.prompt": "विभाजन के अलग-अलग RouterOS संस्करण हैं। '{name}' पर कॉपी करें? [y/N]",
+    "backup-partition.saved": "'{name}' विभाजन के लिए कॉन्फ़िगरेशन सहेजा गया।",
+    "backup-partition.save.failed": "'{name}' विभाजन के लिए कॉन्फ़िगरेशन सहेजने में विफल: {error}",
+    "backup-partition.running": "'{name}' विभाजन से चल रहा है!"
+  },
+  "schema": "d37495d3faf22763093e64eb8145eb90d29a006fb0503cc939337741dfd80681"
+}

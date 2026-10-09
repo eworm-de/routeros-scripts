@@ -1,0 +1,16 @@
+{
+  "language": "zh-CN",
+  "messages": {
+    "backup-partition.copied": "将 RouterOS 复制到分区“{name}”。",
+    "backup-partition.copy.failed": "无法将 RouterOS 复制到分区“{name}”：{error}",
+    "backup-partition.partition": "从备份分区运行，拒绝执行操作。",
+    "backup-partition.unavailable": "设备没有后备分区。",
+    "backup-partition.inactive": "设备未从活动分区运行。",
+    "backup-partition.fallback.missing": "没有名为“{name}”的非活动分区。",
+    "backup-partition.prompt": "分区具有不同的 RouterOS 版本。复制到“{name}”？ [y/N]",
+    "backup-partition.saved": "已将配置保存到分区“{name}”。",
+    "backup-partition.save.failed": "无法将配置保存到分区“{name}”：{error}",
+    "backup-partition.running": "从分区“{name}”运行！"
+  },
+  "schema": "d37495d3faf22763093e64eb8145eb90d29a006fb0503cc939337741dfd80681"
+}

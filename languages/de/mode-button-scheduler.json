@@ -1,0 +1,11 @@
+{
+  "language": "de",
+  "messages": {
+    "mode-button-scheduler.scheduler.missing": "Der Planer ist nicht vorhanden.",
+    "mode-button-scheduler.action.missing": "Für das Drücken der {count}-Modustaste ist keine Aktion definiert.",
+    "mode-button-scheduler.syntax": "Der Code für die {count}-Modustaste drückt eine fehlgeschlagene Syntaxvalidierung!",
+    "mode-button-scheduler.acting": "Wirkt auf das Drücken der {count}-Modustaste: {code}",
+    "mode-button-scheduler.failed": "Der Code für das Drücken der {count}-Modustaste ist mit dem Laufzeitfehler {error} fehlgeschlagen"
+  },
+  "schema": "573b86779a15979155d7ff480e677e88dbe77a77cbd92ffaba77887856e8af91"
+}

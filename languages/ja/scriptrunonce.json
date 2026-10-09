@@ -1,0 +1,11 @@
+{
+  "language": "ja",
+  "messages": {
+    "scriptrunonce.url.missing": "スクリプト「{script}」は URL ではないため、ベース URL は使用できません。",
+    "scriptrunonce.fetch.failed": "スクリプト「{script}」の取得に失敗しました。",
+    "scriptrunonce.syntax": "スクリプト「{script}」は構文検証に失敗しました。",
+    "scriptrunonce.running": "スクリプト「{script}」を実行中です。",
+    "scriptrunonce.failed": "スクリプト「{script}」の実行に失敗しました: {error}"
+  },
+  "schema": "60deac34267f7cfb590d500ce671562bfd8cf79337f433f8b350281561a4ae52"
+}

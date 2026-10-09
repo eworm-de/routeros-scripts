@@ -1,0 +1,12 @@
+{
+  "language": "ja",
+  "messages": {
+    "bridge-port-to.client.enabled": "インターフェイス {interface} のブリッジ ポートを無効にし、dhcp クライアントを有効にします。",
+    "bridge-port-to.interfaces.enabled": "インターフェースを再度有効にしています...",
+    "bridge-port-to.bridge.enabled": "インターフェイス {interface} のブリッジ ポートを有効にし、{config} ブリッジ {bridge} に変更し、dhcp クライアントを無効にします。",
+    "bridge-port-to.bridge.connected": "インターフェイス {interface} はすでに {config} ブリッジ {bridge} に接続されています。",
+    "bridge-port-to.client.missing": "インターフェイス {interface} の dhcp クライアント設定がありません!",
+    "bridge-port-to.client.duplicate": "インターフェイス {interface} の dhcp クライアント設定が重複しています。"
+  },
+  "schema": "9ff4cd55d43b5e48046edec247245c26cd52574d351dd5b3d5c66b36824548d6"
+}

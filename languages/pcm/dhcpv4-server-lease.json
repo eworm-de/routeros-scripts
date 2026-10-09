@@ -1,0 +1,12 @@
+{
+  "language": "pcm",
+  "messages": {
+    "dhcpv4-server-lease.context.invalid": "This script suppose run from ip dhcp-server.",
+    "dhcpv4-server-lease.script.running": "Dey run script with order {order}: {name}",
+    "dhcpv4-server-lease.script.failed": "Dey run script '{name}' no work: {error}",
+    "dhcpv4-server-lease.waiting": "Other runs dey wait; we go exit early.",
+    "dhcpv4-server-lease.assigned": "DHCP Server {server} don give lease {address} to {mac}",
+    "dhcpv4-server-lease.deassigned": "DHCP Server {server} don take lease {address} from {mac}"
+  },
+  "schema": "e8bd70cbac2cb60d46fce97c5cd6f4d6f35e4039991ffa0fb5fd3e1e1ac986c3"
+}

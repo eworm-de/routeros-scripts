@@ -1,0 +1,9 @@
+{
+  "language": "hi",
+  "messages": {
+    "gps-track.sent": "{format} प्रारूप में जीपीएस डेटा भेजना: lat: {latitude} lon: {longitude}",
+    "gps-track.failed": "जीपीएस डेटा भेजने में विफल: {error}",
+    "gps-track.invalid": "जीपीएस डेटा मान्य नहीं है."
+  },
+  "schema": "8a481e39bc7d2b2c404102ee33d70ef5d9e6f8586410be28a7438746daa9ed83"
+}

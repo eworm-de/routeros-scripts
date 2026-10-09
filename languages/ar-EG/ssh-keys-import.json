@@ -1,0 +1,16 @@
+{
+  "language": "ar-EG",
+  "messages": {
+    "ssh-keys-import.arguments.key": "الوسيطة (الحجج) مفقودة، من فضلك تمرير المفتاح والمستخدم!",
+    "ssh-keys-import.user.missing": "المستخدم \"{user}\" غير موجود.",
+    "ssh-keys-import.type.unsupported": "مفتاح SSH من النوع \"{type}\" غير مدعوم.",
+    "ssh-keys-import.key.exists": "المفتاح العام ssh (MD5:{fingerprint}) متاح بالفعل للمستخدم \"{user}\".",
+    "ssh-keys-import.directory.failed": "فشل إنشاء الدليل 'tmpfs/ssh-keys-import'!",
+    "ssh-keys-import.imported": "اتعمل استيراد مفتاح ssh العام ({name}، {type}، MD5:{fingerprint}) للمستخدم \"{user}\".",
+    "ssh-keys-import.import.failed": "فشل استيراد المفتاح: {error}",
+    "ssh-keys-import.arguments.file": "الوسيطة (الحجج) مفقودة، من فضلك تمرير اسم الملف والمستخدم!",
+    "ssh-keys-import.file.missing": "الملف '{file}' غير موجود.",
+    "ssh-keys-import.user.import.failed": "فشل استيراد المفتاح للمستخدم \"{user}\"."
+  },
+  "schema": "54cdcab8a420cb935136ec8a624f3eeceed166b6b96d7dd67b4ef7d0dcd74ea7"
+}

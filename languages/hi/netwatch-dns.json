@@ -1,0 +1,16 @@
+{
+  "language": "hi",
+  "messages": {
+    "netwatch-dns.settling": "सिस्टम अभी बूट हुआ है, नेटवॉच {duration} को व्यवस्थित होने के लिए दे रहा है।",
+    "netwatch-dns.dns.updating": "DNS सर्वर अपडेट कर रहा है: {servers}",
+    "netwatch-dns.dns.fallback": "फ़ॉलबैक के लिए DNS सर्वर अपडेट करना: {servers}",
+    "netwatch-dns.doh.current": "वर्तमान DoH सर्वर अभी भी चालू है और समाधान कर रहा है: {server}",
+    "netwatch-dns.doh.disabling": "वर्तमान DoH सर्वर डाउन है या समाधान नहीं कर रहा है, अक्षम कर रहा है: {server}",
+    "netwatch-dns.certificate.failed": "प्रमाणपत्र '{name}' डाउनलोड करना विफल रहा, बिना प्रयास किए।",
+    "netwatch-dns.request.failed": "DoH सर्वर {server} से अनुरोध विफल: {error}",
+    "netwatch-dns.response.invalid": "DoH सर्वर से अप्रत्याशित प्रतिक्रिया प्राप्त हुई: {server}",
+    "netwatch-dns.crl.warning": "सीआरएल का उपयोग करने के लिए कॉन्फ़िगर किया गया, जो गंभीर समस्या पैदा कर सकता है!",
+    "netwatch-dns.doh.setting": "DoH सर्वर सेट करना: {server}"
+  },
+  "schema": "a990191facc83c19ae4d95e097a5f7ec17573be4bce019c61e2ca3dcdffebf43"
+}

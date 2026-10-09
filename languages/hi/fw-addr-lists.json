@@ -1,0 +1,21 @@
+{
+  "language": "hi",
+  "messages": {
+    "fw-addr-lists.crash.delay": "स्क्रिप्टिंग सबसिस्टम संभवत: हमारे कारण क्रैश हो गया है। देरी हो रही है!",
+    "fw-addr-lists.certificate.failed": "आवश्यक प्रमाणपत्र ({list} / {url}) डाउनलोड करना विफल रहा, फिर भी प्रयास किया गया।",
+    "fw-addr-lists.download.retry": "सूची '{list}', {count} को डाउनलोड करने में विफल। यहां से प्रयास करें: {url}",
+    "fw-addr-lists.download.failed": "सूची '{list}' को यहां से डाउनलोड करने में विफल: {url}",
+    "fw-addr-lists.downloaded": "सूची '{list}' के लिए {size}B यहां से डाउनलोड किया गया: {url}",
+    "fw-addr-lists.branch": "हैंडलिंग शाखा: {branch}",
+    "fw-addr-lists.summary": "सूची: {list} ({total}) - जोड़ा गया: {added} - नवीनीकृत: {renewed} - हटाया गया: {removed}",
+    "fw-addr-lists.ipv4.renew": "{timeout} के साथ '{list}' सूची में IPv4 पता {address} को नवीनीकृत किया जा रहा है।",
+    "fw-addr-lists.ipv4.remove": "'{list}' सूची से IPv4 पता {address} हटाया जा रहा है।",
+    "fw-addr-lists.ipv4.add": "{timeout} के साथ '{list}' को सूचीबद्ध करने के लिए IPv4 पता {address} जोड़ा जा रहा है।",
+    "fw-addr-lists.ipv4.failed": "'{list}' सूची में IPv4 पता {address} जोड़ने में विफल: {error}",
+    "fw-addr-lists.ipv6.renew": "{timeout} के साथ '{list}' सूची में IPv6 पता {address} को नवीनीकृत किया जा रहा है।",
+    "fw-addr-lists.ipv6.remove": "'{list}' सूची से IPv6 पता {address} हटाया जा रहा है।",
+    "fw-addr-lists.ipv6.add": "{timeout} के साथ '{list}' को सूचीबद्ध करने के लिए IPv6 पता {address} जोड़ा जा रहा है।",
+    "fw-addr-lists.ipv6.failed": "'{list}' सूची में IPv6 पता {address} जोड़ने में विफल: {error}"
+  },
+  "schema": "42bcfb865c10957ae21b18aa798348228d56dea78dd75c130eee6af199b03277"
+}

@@ -1,0 +1,12 @@
+{
+  "language": "ja",
+  "messages": {
+    "notification-ntfy.offline": "システムが完全に接続されておらず、フラッシュされていません。",
+    "notification-ntfy.queue.empty": "スケジューラから Ntfy メッセージをフラッシュしていますが、キューは空です。",
+    "notification-ntfy.queue.failed": "キューに入れられた Ntfy メッセージの送信に失敗しました: {error}",
+    "notification-ntfy.send.failed": "ntfy 通知の送信に失敗しました: {error} - キュー中...",
+    "notification-ntfy.certificate.failed": "必要な証明書のダウンロードに失敗しました。",
+    "notification-ntfy.queued": "このメッセージは {date} {time} 以降キューに入れられていたため、廃止された可能性があります。"
+  },
+  "schema": "6734a9715e6b789bb7ff475fdc9f2b11391a7dcbd94aaef3413d695b035d493e"
+}

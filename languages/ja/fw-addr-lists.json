@@ -1,0 +1,21 @@
+{
+  "language": "ja",
+  "messages": {
+    "fw-addr-lists.crash.delay": "スクリプト サブシステムがクラッシュした可能性があります。これはおそらく私たちのせいです。遅れてる！",
+    "fw-addr-lists.certificate.failed": "必要な証明書 ({list} / {url}) のダウンロードに失敗しました。とにかく試行してください。",
+    "fw-addr-lists.download.retry": "リスト「{list}」、{count} のダウンロードに失敗しました。からお試しください: {url}",
+    "fw-addr-lists.download.failed": "リスト「{list}」のダウンロードに失敗しました: {url}",
+    "fw-addr-lists.downloaded": "リスト「{list}」の {size}B を次からダウンロードしました: {url}",
+    "fw-addr-lists.branch": "取扱支店：{branch}",
+    "fw-addr-lists.summary": "リスト: {list} ({total}) -- 追加: {added} - 更新: {renewed} - 削除: {removed}",
+    "fw-addr-lists.ipv4.renew": "リスト「{list}」の IPv4 アドレス {address} を {timeout} に更新します。",
+    "fw-addr-lists.ipv4.remove": "リスト '{list} から IPv4 アドレス {address} を削除しています。",
+    "fw-addr-lists.ipv4.add": "IPv4 アドレス {address} を {timeout} とともにリスト「{list}」に追加します。",
+    "fw-addr-lists.ipv4.failed": "IPv4 アドレス {address} をリスト「{list}」に追加できませんでした: {error}",
+    "fw-addr-lists.ipv6.renew": "リスト「{list}」の IPv6 アドレス {address} を {timeout} に更新します。",
+    "fw-addr-lists.ipv6.remove": "リスト '{list} から IPv6 アドレス {address} を削除しています。",
+    "fw-addr-lists.ipv6.add": "IPv6 アドレス {address} を {timeout} とともにリスト「{list}」に追加します。",
+    "fw-addr-lists.ipv6.failed": "IPv6 アドレス {address} をリスト「{list}」に追加できませんでした: {error}"
+  },
+  "schema": "42bcfb865c10957ae21b18aa798348228d56dea78dd75c130eee6af199b03277"
+}

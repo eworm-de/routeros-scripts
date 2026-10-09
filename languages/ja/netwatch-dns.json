@@ -1,0 +1,16 @@
+{
+  "language": "ja",
+  "messages": {
+    "netwatch-dns.settling": "システムが起動したばかりで、ネットウォッチ {duration} が安定します。",
+    "netwatch-dns.dns.updating": "DNS サーバーを更新しています: {servers}",
+    "netwatch-dns.dns.fallback": "DNS サーバーをフォールバックに更新しています: {servers}",
+    "netwatch-dns.doh.current": "現在の DoH サーバーはまだ稼動しており、解決中です: {server}",
+    "netwatch-dns.doh.disabling": "現在の DoH サーバーがダウンしているか、解決されていないため、無効化されています: {server}",
+    "netwatch-dns.certificate.failed": "証明書「{name}」のダウンロードに失敗しました。証明書なしで試行しました。",
+    "netwatch-dns.request.failed": "DoH サーバー {server} へのリクエストが失敗しました: {error}",
+    "netwatch-dns.response.invalid": "DoH サーバーから予期しない応答を受信しました: {server}",
+    "netwatch-dns.crl.warning": "CRL を使用するように構成されているため、重大な問題が発生する可能性があります。",
+    "netwatch-dns.doh.setting": "DoHサーバーの設定: {server}"
+  },
+  "schema": "a990191facc83c19ae4d95e097a5f7ec17573be4bce019c61e2ca3dcdffebf43"
+}

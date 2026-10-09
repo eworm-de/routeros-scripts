@@ -1,0 +1,21 @@
+{
+  "language": "ar",
+  "messages": {
+    "fw-addr-lists.crash.delay": "ربما تعطل النظام الفرعي للبرمجة النصية، وربما كان السبب من جانبنا. تأخير!",
+    "fw-addr-lists.certificate.failed": "فشل تنزيل الشهادة المطلوبة ({list} / {url})، حاول على أية حال.",
+    "fw-addr-lists.download.retry": "فشل التنزيل للقائمة \"{list}\"، {count}. حاول من: {url}",
+    "fw-addr-lists.download.failed": "فشل التنزيل للقائمة \"{list}\" من: {url}",
+    "fw-addr-lists.downloaded": "تم تنزيل {size}B للقائمة \"{list}\" من: {url}",
+    "fw-addr-lists.branch": "فرع المناولة: {branch}",
+    "fw-addr-lists.summary": "القائمة: {list} ({total}) - تمت الإضافة: {added} - تم التجديد: {renewed} - تمت الإزالة: {removed}",
+    "fw-addr-lists.ipv4.renew": "تجديد عنوان IPv4 {address} في القائمة \"{list}\" مع {timeout}.",
+    "fw-addr-lists.ipv4.remove": "إزالة عنوان IPv4 {address} من القائمة \"{list}\".",
+    "fw-addr-lists.ipv4.add": "إضافة عنوان IPv4 {address} إلى قائمة \"{list}\" مع {timeout}.",
+    "fw-addr-lists.ipv4.failed": "فشلت إضافة عنوان IPv4 {address} إلى القائمة \"{list}\": {error}",
+    "fw-addr-lists.ipv6.renew": "تجديد عنوان IPv6 {address} في القائمة \"{list}\" مع {timeout}.",
+    "fw-addr-lists.ipv6.remove": "إزالة عنوان IPv6 {address} من القائمة \"{list}\".",
+    "fw-addr-lists.ipv6.add": "إضافة عنوان IPv6 {address} إلى قائمة \"{list}\" مع {timeout}.",
+    "fw-addr-lists.ipv6.failed": "فشلت إضافة عنوان IPv6 {address} إلى القائمة \"{list}\": {error}"
+  },
+  "schema": "42bcfb865c10957ae21b18aa798348228d56dea78dd75c130eee6af199b03277"
+}

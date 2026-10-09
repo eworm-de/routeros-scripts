@@ -1,0 +1,16 @@
+{
+  "language": "hi",
+  "messages": {
+    "ssh-keys-import.arguments.key": "तर्क गुम हैं, कृपया कुंजी और उपयोगकर्ता पास करें!",
+    "ssh-keys-import.user.missing": "उपयोगकर्ता '{user}' मौजूद नहीं है.",
+    "ssh-keys-import.type.unsupported": "'{type}' प्रकार की SSH कुंजी समर्थित नहीं है।",
+    "ssh-keys-import.key.exists": "Ssh सार्वजनिक कुंजी (MD5:{fingerprint}) उपयोगकर्ता '{user}' के लिए पहले से ही उपलब्ध है।",
+    "ssh-keys-import.directory.failed": "निर्देशिका 'tmpfs/ssh-keys-import' बनाना विफल रहा!",
+    "ssh-keys-import.imported": "उपयोगकर्ता '{user}' के लिए आयातित ssh सार्वजनिक कुंजी ({name}, {type}, MD5:{fingerprint})।",
+    "ssh-keys-import.import.failed": "कुंजी आयात करने में विफल: {error}",
+    "ssh-keys-import.arguments.file": "गुम तर्क, कृपया फ़ाइल नाम और उपयोगकर्ता पास करें!",
+    "ssh-keys-import.file.missing": "फ़ाइल '{file}' मौजूद नहीं है.",
+    "ssh-keys-import.user.import.failed": "उपयोगकर्ता '{user}' के लिए कुंजी आयात करने में विफल।"
+  },
+  "schema": "54cdcab8a420cb935136ec8a624f3eeceed166b6b96d7dd67b4ef7d0dcd74ea7"
+}

@@ -1,0 +1,21 @@
+{
+  "language": "ur",
+  "messages": {
+    "fw-addr-lists.crash.delay": "اسکرپٹنگ سب سسٹم کریش ہو سکتا ہے، ممکنہ طور پر ہماری وجہ سے۔ تاخیر!",
+    "fw-addr-lists.certificate.failed": "مطلوبہ سرٹیفکیٹ ({list} / {url}) ڈاؤن لوڈ کرنا ناکام ہو گیا، بہرحال کوشش کر رہے ہیں۔",
+    "fw-addr-lists.download.retry": "فہرست '{list}' {count} کے لیے ڈاؤن لوڈ کرنے میں ناکام۔ سے کوشش کریں: {url}",
+    "fw-addr-lists.download.failed": "فہرست '{list}' کے لیے ڈاؤن لوڈ کرنے میں ناکامی از: {url}",
+    "fw-addr-lists.downloaded": "{size}B فہرست '{list}' کے لیے ڈاؤن لوڈ کیا گیا از: {url}",
+    "fw-addr-lists.branch": "ہینڈلنگ برانچ: {branch}",
+    "fw-addr-lists.summary": "فہرست: {list} ({total}) -- شامل کیا گیا: {added} - تجدید: {renewed} - ہٹا دیا گیا: {removed}",
+    "fw-addr-lists.ipv4.renew": "{timeout} کے ساتھ فہرست '{list}' میں IPv4 ایڈریس {address} کی تجدید کرنا۔",
+    "fw-addr-lists.ipv4.remove": "IPv4 ایڈریس {address} کو فہرست '{list} سے ہٹایا جا رہا ہے۔",
+    "fw-addr-lists.ipv4.add": "{timeout} کے ساتھ '{list}' کی فہرست میں IPv4 ایڈریس {address} شامل کرنا۔",
+    "fw-addr-lists.ipv4.failed": "'{list}' کی فہرست میں IPv4 ایڈریس {address} شامل کرنے میں ناکام: {error}",
+    "fw-addr-lists.ipv6.renew": "{timeout} کے ساتھ فہرست '{list}' میں IPv6 ایڈریس {address} کی تجدید کرنا۔",
+    "fw-addr-lists.ipv6.remove": "IPv6 ایڈریس {address} کو فہرست '{list} سے ہٹایا جا رہا ہے۔",
+    "fw-addr-lists.ipv6.add": "{timeout} کے ساتھ '{list}' کی فہرست میں IPv6 پتہ {address} شامل کرنا۔",
+    "fw-addr-lists.ipv6.failed": "'{list}' کی فہرست میں IPv6 ایڈریس {address} شامل کرنے میں ناکام: {error}"
+  },
+  "schema": "42bcfb865c10957ae21b18aa798348228d56dea78dd75c130eee6af199b03277"
+}

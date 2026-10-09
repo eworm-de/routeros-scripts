@@ -1,0 +1,12 @@
+{
+  "language": "ar",
+  "messages": {
+    "ipsec-to-dns.marker.added": "تمت إضافة سجل DNS الثابت المعطل بالاسم \"{name}\".",
+    "ipsec-to-dns.peer.exists": "لا يزال النظير {peer} ({name}) موجودًا. عدم حذف إدخال DNS.",
+    "ipsec-to-dns.peer.gone": "لقد اختفى النظير {peer} ({name})، مما أدى إلى حذف إدخال DNS.",
+    "ipsec-to-dns.current": "لا يحتاج إدخال DNS لـ {name} إلى التحديث.",
+    "ipsec-to-dns.replacing": "استبدال إدخال DNS لـ {name}، العنوان الجديد هو {address}.",
+    "ipsec-to-dns.adding": "إضافة إدخال DNS جديد لـ {name}، العنوان هو {address}."
+  },
+  "schema": "ed1c281155d118ad0f626106c929affb97ffffbf416dd87053f0becd389012dc"
+}

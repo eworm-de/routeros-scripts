@@ -1,0 +1,12 @@
+{
+  "language": "hi",
+  "messages": {
+    "bridge-port-to.client.enabled": "इंटरफ़ेस {interface} के लिए ब्रिज पोर्ट को अक्षम करना, dhcp क्लाइंट को सक्षम करना।",
+    "bridge-port-to.interfaces.enabled": "इंटरफ़ेस पुनः सक्षम किया जा रहा है...",
+    "bridge-port-to.bridge.enabled": "इंटरफ़ेस {interface} के लिए ब्रिज पोर्ट को सक्षम करना, {config} ब्रिज {bridge} में बदलना, dhcp क्लाइंट को अक्षम करना।",
+    "bridge-port-to.bridge.connected": "इंटरफ़ेस {interface} पहले से ही {config} ब्रिज {bridge} से जुड़ा हुआ है।",
+    "bridge-port-to.client.missing": "इंटरफ़ेस {interface} के लिए dhcp क्लाइंट कॉन्फ़िगरेशन गुम है!",
+    "bridge-port-to.client.duplicate": "इंटरफ़ेस {interface} के लिए डुप्लिकेट dhcp क्लाइंट कॉन्फ़िगरेशन!"
+  },
+  "schema": "9ff4cd55d43b5e48046edec247245c26cd52574d351dd5b3d5c66b36824548d6"
+}

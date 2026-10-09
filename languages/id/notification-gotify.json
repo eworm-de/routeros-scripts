@@ -1,0 +1,11 @@
+{
+  "language": "id",
+  "messages": {
+    "notification-gotify.offline": "Sistem tidak terhubung sepenuhnya, tidak memerah.",
+    "notification-gotify.queue.empty": "Menghapus pesan Gotify dari penjadwal, tetapi antrian kosong.",
+    "notification-gotify.queue.failed": "Gagal mengirim pesan Gotify yang antri: {error}",
+    "notification-gotify.send.failed": "Gagal mengirim pemberitahuan Gotify: {error} - Mengantri...",
+    "notification-gotify.queued": "Pesan ini dimasukkan dalam antrean sejak {date} {time} dan mungkin sudah usang."
+  },
+  "schema": "3ca0bb174dd4fcbe639af5145d66a280408096f7c34f9d1dd0565c5061427859"
+}

@@ -1,0 +1,11 @@
+{
+  "language": "ur",
+  "messages": {
+    "update-tunnelbroker.certificate.failed": "مطلوبہ سرٹیفکیٹ ڈاؤن لوڈ کرنا ناکام ہو گیا۔",
+    "update-tunnelbroker.download.failed": "ڈاؤن لوڈ کرنے میں ناکام: {error} - {count} دوبارہ کوششیں زیر التواء ہیں۔",
+    "update-tunnelbroker.response.invalid": "ٹنل بروکر کو مقامی پتہ بھیجنے میں ناکام یا غیر متوقع جواب!",
+    "update-tunnelbroker.address.missing": "پتہ {address} آپ کے آلے پر کنفیگر نہیں ہے۔ NAT بذریعہ ISP؟",
+    "update-tunnelbroker.updating": "مقامی پتہ تبدیل کر دیا گیا، پتہ کے ساتھ سرنگ کی ترتیب کو اپ ڈیٹ کیا جا رہا ہے: {address}"
+  },
+  "schema": "a1b3554a6dc3737e590e438648393e5c28b297b740eb02023c141abd6fe84d4e"
+}

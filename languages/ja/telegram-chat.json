@@ -1,0 +1,30 @@
+{
+  "language": "ja",
+  "messages": {
+    "telegram-chat.certificate.failed": "必要な証明書のダウンロードに失敗しました。",
+    "telegram-chat.fetch.failed": "フェッチに失敗しました。{count}。試してください: {error}",
+    "telegram-chat.updates.failed": "アップデートの取得に失敗しました。",
+    "telegram-chat.update": "{id} を更新: {update}",
+    "telegram-chat.notice": "{id} アップデートの通知を送信します。",
+    "telegram-chat.subject": "電報チャット",
+    "telegram-chat.greeting": "こんにちは、{name}!",
+    "telegram-chat.directory.failed": "ディレクトリの作成に失敗しました!",
+    "telegram-chat.command.running": "アップデート {id} からのコマンドの実行: {command}",
+    "telegram-chat.command.background": "コマンドは完了せず、まだバックグラウンドで実行されています。",
+    "telegram-chat.command.failed": "コマンドがエラーで失敗しました。",
+    "telegram-chat.command": "コマンド:\n{command}",
+    "telegram-chat.output": "出力:\n{output}",
+    "telegram-chat.output.empty": "出力はありません。",
+    "telegram-chat.command.syntax": "アップデート {id} のコマンドが構文検証に失敗しました。",
+    "telegram-chat.command.syntax.message": "コマンドの構文検証に失敗しました。",
+    "telegram-chat.untrusted.message": "あなたは信頼されていません。",
+    "telegram-chat.update.handled": "アップデート {id} はすでに処理されています。",
+    "telegram-chat.online.passive": "オンラインで、あなたのコマンドを待っています!",
+    "telegram-chat.online.active": "オンライン (そしてアクティブ!) で、あなたのコマンドを待っています!",
+    "telegram-chat.state.active": "アップデート {id} から有効になりました!",
+    "telegram-chat.state.passive": "アップデート {id} からパッシブになりました!",
+    "telegram-chat.untrusted.unnamed": "アップデート {id} で、信頼できない連絡先からユーザー名 (ID {contact}) のないメッセージを受信しました。",
+    "telegram-chat.untrusted.named": "アップデート {id} で信頼できない連絡先「{username}」 (ID {contact}) からメッセージを受信しました。"
+  },
+  "schema": "23866b98057d30494867d66d781c3555fc2f373d9af75cb1aac34c965ee3bd54"
+}

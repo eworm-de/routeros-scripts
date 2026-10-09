@@ -1,0 +1,22 @@
+{
+  "language": "id",
+  "messages": {
+    "check-lte-firmware-upgrade.fetch.failed": "Tidak bisa mendapatkan versi firmware LTE terbaru untuk antarmuka {interface}: {error}",
+    "check-lte-firmware-upgrade.version.empty": "String kosong bukan versi yang valid.",
+    "check-lte-firmware-upgrade.current": "Tidak ada peningkatan firmware yang tersedia untuk antarmuka LTE {interface}.",
+    "check-lte-firmware-upgrade.prompt": "Apakah Anda ingin memulai peningkatan firmware LTE tanpa pengawasan untuk antarmuka {interface}? [y/N]",
+    "check-lte-firmware-upgrade.scheduled": "Pembaruan firmware LTE terjadwal untuk antarmuka {interface}...",
+    "check-lte-firmware-upgrade.canceled": "Dibatalkan...",
+    "check-lte-firmware-upgrade.already.sent": "Sudah mengirimkan notifikasi upgrade firmware LTE untuk versi {version}.",
+    "check-lte-firmware-upgrade.available.log": "Versi firmware baru {version} tersedia untuk antarmuka LTE {interface}.",
+    "check-lte-firmware-upgrade.subject": "Peningkatan firmware LTE",
+    "check-lte-firmware-upgrade.message": "Versi firmware baru {version} tersedia untuk antarmuka LTE {interface} di {identity}.\n\n{details}",
+    "check-lte-firmware-upgrade.label.manufacturer": "Pabrikan",
+    "check-lte-firmware-upgrade.label.model": "Model",
+    "check-lte-firmware-upgrade.label.revision": "Revisi",
+    "check-lte-firmware-upgrade.label.firmware": "Versi perangkat tegar:\n",
+    "check-lte-firmware-upgrade.label.installed": "    Dipasang",
+    "check-lte-firmware-upgrade.label.available": "    Tersedia"
+  },
+  "schema": "48481740f1c9bb358194e5fc7b620f4ae430d0a89771919bb68cf54ad8f44eee"
+}

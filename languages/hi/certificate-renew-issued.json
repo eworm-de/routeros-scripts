@@ -1,0 +1,9 @@
+{
+  "language": "hi",
+  "messages": {
+    "certificate-renew-issued.exported": "'{name}' के लिए एक नया प्रमाणपत्र जारी किया गया, जिसे 'cert-issued/{name}.p12' पर निर्यात किया गया।",
+    "certificate-renew-issued.directory.failed": "निर्देशिका बनाने में विफल, प्रमाणपत्र निर्यात नहीं हो रहा।",
+    "certificate-renew-issued.issued": "'{name}' के लिए एक नया प्रमाणपत्र जारी किया गया।"
+  },
+  "schema": "9048d1a3bcb148168f2785f02dea50e8de90c9f3170cedabe6b72d99bc61a2fd"
+}

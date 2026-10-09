@@ -1,0 +1,9 @@
+{
+  "language": "ur",
+  "messages": {
+    "hotspot-to-wpa-cleanup.connected": "میک ایڈریس کے ساتھ کلائنٹ {mac} WPA سے منسلک ہے، لیز کو جامد بنا رہا ہے۔",
+    "hotspot-to-wpa-cleanup.disconnected": "میک ایڈریس {mac} والا کلائنٹ رسائی کی فہرست سے ہٹاتے ہوئے WPA سے منسلک نہیں ہوا۔",
+    "hotspot-to-wpa-cleanup.expired": "میک ایڈریس کے ساتھ کلائنٹ {mac} {elapsed} کے لیے نہیں دیکھا گیا، ہٹا رہا ہے۔"
+  },
+  "schema": "1ebc7ea0f3bc0cc65554da860eb4b0739adc55a3f127030c7d8a1c780e722a35"
+}

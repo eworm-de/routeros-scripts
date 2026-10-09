@@ -1,0 +1,22 @@
+{
+  "language": "fr",
+  "messages": {
+    "check-lte-firmware-upgrade.fetch.failed": "Impossible d'obtenir la dernière version du micrologiciel LTE pour l'interface {interface} : {error}",
+    "check-lte-firmware-upgrade.version.empty": "Une chaîne vide n'est pas une version valide.",
+    "check-lte-firmware-upgrade.current": "Aucune mise à niveau du micrologiciel disponible pour l'interface LTE {interface}.",
+    "check-lte-firmware-upgrade.prompt": "Voulez-vous démarrer la mise à niveau sans surveillance du micrologiciel LTE pour l'interface {interface} ? [y/N]",
+    "check-lte-firmware-upgrade.scheduled": "Mise à niveau programmée du micrologiciel LTE pour l'interface {interface}...",
+    "check-lte-firmware-upgrade.canceled": "Annulé...",
+    "check-lte-firmware-upgrade.already.sent": "Déjà envoyé la notification de mise à niveau du micrologiciel LTE pour la version {version}.",
+    "check-lte-firmware-upgrade.available.log": "Une nouvelle version du firmware {version} est disponible pour l'interface LTE {interface}.",
+    "check-lte-firmware-upgrade.subject": "Mise à niveau du micrologiciel LTE",
+    "check-lte-firmware-upgrade.message": "Une nouvelle version du firmware {version} est disponible pour l'interface LTE {interface} sur {identity}.\n\n{details}",
+    "check-lte-firmware-upgrade.label.manufacturer": "Fabricant",
+    "check-lte-firmware-upgrade.label.model": "Modèle",
+    "check-lte-firmware-upgrade.label.revision": "Révision",
+    "check-lte-firmware-upgrade.label.firmware": "Version du micrologiciel :\n",
+    "check-lte-firmware-upgrade.label.installed": "    Installé",
+    "check-lte-firmware-upgrade.label.available": "    Disponible"
+  },
+  "schema": "48481740f1c9bb358194e5fc7b620f4ae430d0a89771919bb68cf54ad8f44eee"
+}

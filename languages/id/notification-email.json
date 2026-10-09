@@ -1,0 +1,21 @@
+{
+  "language": "id",
+  "messages": {
+    "notification-email.from": "{identity} melalui skrip routeros <{address}>",
+    "notification-email.queue.empty": "Menghapus pesan E-Mail dari penjadwal, tetapi antrian kosong.",
+    "notification-email.checking": "Melakukan pemeriksaan awal...",
+    "notification-email.scheduler.gone": "Penjadwalnya hilang, dibatalkan.",
+    "notification-email.sending.busy": "Pengiriman email saat ini sedang berlangsung, belum diproses.",
+    "notification-email.time.unsynced": "Waktu tidak disinkronkan, tidak memerah.",
+    "notification-email.dns.failed": "Alamat server adalah nama DNS dan penyelesaiannya gagal, bukan pembilasan.",
+    "notification-email.certificate.failed": "Gagal mengunduh sertifikat yang diperlukan.",
+    "notification-email.sending": "Mengirim...",
+    "notification-email.attach.missing": "File '{file}' tidak ada, tidak dapat dilampirkan.",
+    "notification-email.send.failed": "Gagal mengirim email dalam antrean: {error}",
+    "notification-email.queue.purged": "Antrean dibersihkan? Keluar.",
+    "notification-email.retry.waiting": "Menunggu percobaan ulang...",
+    "notification-email.truncated": "Pesannya terlalu panjang dan terpotong!",
+    "notification-email.queuing": "Mengantri email baru..."
+  },
+  "schema": "5a6236090c5b7c3f80f50b70e58e9489c8100e4505c9ddc4ee72854e4de47c20"
+}

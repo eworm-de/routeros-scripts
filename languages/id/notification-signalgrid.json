@@ -1,0 +1,12 @@
+{
+  "language": "id",
+  "messages": {
+    "notification-signalgrid.offline": "Sistem tidak terhubung sepenuhnya, tidak memerah.",
+    "notification-signalgrid.empty": "Menghapus pesan Signalgrid dari penjadwal, tetapi antrian kosong.",
+    "notification-signalgrid.queue.failed": "Gagal mengirim notifikasi Signalgrid yang antri: {error}",
+    "notification-signalgrid.certificate.failed": "Gagal mengunduh sertifikat yang diperlukan.",
+    "notification-signalgrid.sending.failed": "Gagal mengirim pemberitahuan Signalgrid: {error} - Mengantri...",
+    "notification-signalgrid.queued": "Pesan ini dimasukkan dalam antrean sejak {date} {time} dan mungkin sudah usang."
+  },
+  "schema": "128aca9359451217298096f284f1811957b4079d0693132dbe948f2ced909a78"
+}

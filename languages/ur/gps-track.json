@@ -1,0 +1,9 @@
+{
+  "language": "ur",
+  "messages": {
+    "gps-track.sent": "{format} فارمیٹ میں GPS ڈیٹا بھیجنا: lat: {latitude} lon: {longitude}",
+    "gps-track.failed": "GPS ڈیٹا بھیجنے میں ناکام: {error}",
+    "gps-track.invalid": "GPS ڈیٹا درست نہیں ہے۔"
+  },
+  "schema": "8a481e39bc7d2b2c404102ee33d70ef5d9e6f8586410be28a7438746daa9ed83"
+}

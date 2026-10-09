@@ -1,0 +1,9 @@
+{
+  "language": "bn",
+  "messages": {
+    "gps-track.sent": "{format} ফর্ম্যাটে GPS ডেটা পাঠানো হচ্ছে: ল্যাট: {latitude} lon: {longitude}",
+    "gps-track.failed": "GPS ডেটা পাঠাতে ব্যর্থ হয়েছে: {error}",
+    "gps-track.invalid": "GPS ডেটা বৈধ নয়।"
+  },
+  "schema": "8a481e39bc7d2b2c404102ee33d70ef5d9e6f8586410be28a7438746daa9ed83"
+}

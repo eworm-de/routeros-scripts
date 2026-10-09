@@ -1,0 +1,21 @@
+{
+  "language": "ar",
+  "messages": {
+    "notification-email.from": "{identity} عبر البرامج النصية لجهاز التوجيه <{address}>",
+    "notification-email.queue.empty": "جارٍ مسح رسائل البريد الإلكتروني من المجدول، لكن قائمة الانتظار فارغة.",
+    "notification-email.checking": "إجراء الفحوصات الأولية...",
+    "notification-email.scheduler.gone": "ذهب المجدول، إحباط.",
+    "notification-email.sending.busy": "إرسال البريد قيد التقدم حاليًا، ولا يتم مسحه.",
+    "notification-email.time.unsynced": "لا تتم مزامنة الوقت، وليس التنظيف.",
+    "notification-email.dns.failed": "عنوان الخادم هو اسم DNS وقد فشل الحل، وليس التنظيف.",
+    "notification-email.certificate.failed": "فشل تنزيل الشهادة المطلوبة.",
+    "notification-email.sending": "جارٍ الإرسال...",
+    "notification-email.attach.missing": "الملف \"{file}\" غير موجود، ولا يمكن إرفاقه.",
+    "notification-email.send.failed": "فشل إرسال البريد في قائمة الانتظار: {error}",
+    "notification-email.queue.purged": "تم تطهير قائمة الانتظار؟ الخروج.",
+    "notification-email.retry.waiting": "في انتظار إعادة المحاولة...",
+    "notification-email.truncated": "كانت الرسالة طويلة جدًا وتم اقتطاعها!",
+    "notification-email.queuing": "انتظار البريد الجديد..."
+  },
+  "schema": "5a6236090c5b7c3f80f50b70e58e9489c8100e4505c9ddc4ee72854e4de47c20"
+}

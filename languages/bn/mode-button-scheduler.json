@@ -1,0 +1,11 @@
+{
+  "language": "bn",
+  "messages": {
+    "mode-button-scheduler.scheduler.missing": "সময়সূচী বিদ্যমান নেই.",
+    "mode-button-scheduler.action.missing": "{count} মোড-বোতাম প্রেসের জন্য কোন ক্রিয়া সংজ্ঞায়িত করা হয়নি।",
+    "mode-button-scheduler.syntax": "{count} মোড-বোতাম প্রেসের জন্য কোড সিনট্যাক্স যাচাইকরণ ব্যর্থ হয়েছে!",
+    "mode-button-scheduler.acting": "{count} মোড-বোতাম টিপে কাজ করা: {code}",
+    "mode-button-scheduler.failed": "{count} মোড-বোতাম প্রেসের জন্য কোড রানটাইম ত্রুটির সাথে ব্যর্থ হয়েছে: {error}"
+  },
+  "schema": "573b86779a15979155d7ff480e677e88dbe77a77cbd92ffaba77887856e8af91"
+}

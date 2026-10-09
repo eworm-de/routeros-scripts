@@ -1,0 +1,22 @@
+{
+  "language": "zh-CN",
+  "messages": {
+    "check-lte-firmware-upgrade.fetch.failed": "无法获取接口 {interface} 的最新 LTE 固件版本：{error}",
+    "check-lte-firmware-upgrade.version.empty": "空字符串不是有效版本。",
+    "check-lte-firmware-upgrade.current": "LTE 接口 {interface} 没有可用的固件升级。",
+    "check-lte-firmware-upgrade.prompt": "您想开始{interface}接口的无人值守LTE固件升级吗？ [y/N]",
+    "check-lte-firmware-upgrade.scheduled": "计划对接口 {interface} 进行 LTE 固件升级...",
+    "check-lte-firmware-upgrade.canceled": "取消...",
+    "check-lte-firmware-upgrade.already.sent": "已发送{version}版本的LTE固件升级通知。",
+    "check-lte-firmware-upgrade.available.log": "新固件版本 {version} 可用于 LTE 接口 {interface}。",
+    "check-lte-firmware-upgrade.subject": "LTE固件升级",
+    "check-lte-firmware-upgrade.message": "新固件版本 {version} 可用于 {identity} 上的 LTE 接口 {interface}。\n\n{details}",
+    "check-lte-firmware-upgrade.label.manufacturer": "制造商",
+    "check-lte-firmware-upgrade.label.model": "型号",
+    "check-lte-firmware-upgrade.label.revision": "修订版",
+    "check-lte-firmware-upgrade.label.firmware": "固件版本：\n",
+    "check-lte-firmware-upgrade.label.installed": "    已安装",
+    "check-lte-firmware-upgrade.label.available": "    可用"
+  },
+  "schema": "48481740f1c9bb358194e5fc7b620f4ae430d0a89771919bb68cf54ad8f44eee"
+}

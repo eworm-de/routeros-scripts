@@ -1,0 +1,9 @@
+{
+  "language": "id",
+  "messages": {
+    "hotspot-to-wpa-lease.marker.added": "Menambahkan entri daftar akses yang dinonaktifkan dengan komentar '--- hotspot-to-wpa di atas ---'.",
+    "hotspot-to-wpa-lease.template.added": "Menambahkan templat di daftar akses untuk hotspot '{hotspot}'.",
+    "hotspot-to-wpa-lease.entry.updated": "Menambah/memperbarui entri daftar akses untuk alamat mac {mac} (pengguna {user})."
+  },
+  "schema": "f78d5db29b04af55a757a12886dca285667ff1378c2d7cd29bc37009f14f5ce8"
+}

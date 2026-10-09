@@ -300,6 +300,16 @@ if args.base_url:
     groups = ('global-config', 'global-functions', 'core-extra', 'news-and-changes')
     extra_schemas = {group: load(root / 'languages/en' / (group + '.json'))['schema'] for group in groups}
     tests += ':global LoaderFixtureSchemas ([:deserialize from=json options=json.no-string-conversion ' + quote(json.dumps(extra_schemas)) + ']);\n'
+    expected = {}
+    for directory in sorted((root / 'languages').iterdir()):
+        if directory.is_dir() and directory.name != 'en':
+            messages = load(directory / 'check-health.json')['messages']
+            expected[directory.name] = {
+                'subject': messages['check-health.cpu.warning.subject'],
+                'message': messages['check-health.cpu.warning.message'].replace('{identity}', 'test-router').replace('{percent}', '75'),
+            }
+    tests += ':global LoaderFixtureLocales ([:deserialize from=json options=json.no-string-conversion ' + quote(json.dumps(expected, ensure_ascii=False)) + ']);\n'
+    tests += ':global LoaderFixtureHealthSchema ' + quote(catalog['schema']) + ';\n'
     for group in groups:
         for key, text in load(root / 'languages/en' / (group + '.json'))['messages'].items():
             tests += f':set ($LanguageEnglish->{quote(key)}) {quote(text)};\n'

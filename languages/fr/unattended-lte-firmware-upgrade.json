@@ -1,0 +1,13 @@
+{
+  "language": "fr",
+  "messages": {
+    "unattended-lte-firmware-upgrade.query.failed": "Impossible d'obtenir la dernière version du micrologiciel LTE pour l'interface {interface} : {error}",
+    "unattended-lte-firmware-upgrade.scheduling": "Planification de la mise à niveau du micrologiciel LTE pour l'interface {interface}.",
+    "unattended-lte-firmware-upgrade.finished": "La mise à niveau du micrologiciel LTE sur « {interface} » est terminée, en attente de réinitialisation.",
+    "unattended-lte-firmware-upgrade.different": "Les versions du micrologiciel LTE diffèrent toujours. La mise à niveau a quand même échoué ?",
+    "unattended-lte-firmware-upgrade.failed": "La mise à niveau du micrologiciel LTE sur « {interface} » a échoué : {error}",
+    "unattended-lte-firmware-upgrade.current": "Le firmware LTE est à jour sur l'interface {interface}.",
+    "unattended-lte-firmware-upgrade.missing": "Aucune information sur le micrologiciel LTE disponible pour l'interface {interface}."
+  },
+  "schema": "f231d0e80dd157d0022fa102e5293133b9d7d9cc5d18785151ff81e3434c0c7b"
+}

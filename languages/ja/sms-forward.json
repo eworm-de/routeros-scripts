@@ -1,0 +1,18 @@
+{
+  "language": "ja",
+  "messages": {
+    "sms-forward.disabled": "SMSの受信が有効になっていません。",
+    "sms-forward.interface.stopped": "LTE インターフェイスは実行状態ではなく、スキップしています。",
+    "sms-forward.command.removed": "スクリプトを開始した SMS を削除します。",
+    "sms-forward.remove.failed": "メッセージを削除できませんでした: {error}",
+    "sms-forward.received": "{timestamp} では、「{type}」と入力します。\n{message}",
+    "sms-forward.hook.running": "ランニングフック「{match}」: {command}",
+    "sms-forward.hook.ran": "フック「{match}」を実行しました:\n{command}",
+    "sms-forward.hook.failed": "フック「{match}」のコードの実行に失敗しました: {error}",
+    "sms-forward.hook.syntax": "フック「{match}」のコードが構文検証に失敗しました。",
+    "sms-forward.subject": "{phone} からの SMS 転送",
+    "sms-forward.message.one": "{identity} から {phone}:{messages} によってこのメッセージを受信しました",
+    "sms-forward.message.many": "{phone}:{messages} から {identity} によってこれらの {count} メッセージを受信しました"
+  },
+  "schema": "b605613f43230d212520e682ee06789fe9ebdb37a25f5c21ba93719a7923e2a1"
+}

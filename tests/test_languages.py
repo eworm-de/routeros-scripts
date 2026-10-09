@@ -14,6 +14,36 @@ spec.loader.exec_module(languages)
 
 
 class CatalogTests(unittest.TestCase):
+    def test_top_fifteen_locales_are_complete(self):
+        locales = ('en', 'zh-CN', 'hi', 'es', 'ar', 'fr', 'bn', 'pt-BR',
+                   'id', 'ur', 'ru', 'de', 'ja', 'pcm', 'ar-EG')
+        english_paths = sorted((ROOT / 'languages/en').glob('*.json'))
+        for locale in locales:
+            directory = ROOT / 'languages' / locale
+            self.assertEqual({path.name for path in directory.glob('*.json')},
+                             {path.name for path in english_paths})
+            for path in english_paths:
+                with self.subTest(locale=locale, catalog=path.name):
+                    messages = languages.load(directory / path.name)['messages']
+                    self.assertEqual(set(messages), set(languages.load(path)['messages']))
+                    for text in messages.values():
+                        self.assertNotRegex(text, r'ZXQ|QXZ|⟦\d{4}⟧')
+
+    def test_interactive_answer_keys_are_preserved(self):
+        for path in (ROOT / 'languages/en').glob('*.json'):
+            english = languages.load(path)['messages']
+            for directory in (ROOT / 'languages').iterdir():
+                if not directory.is_dir() or not (directory / path.name).exists():
+                    continue
+                translated = languages.load(directory / path.name)['messages']
+                for key, text in english.items():
+                    for marker in ('[y/N]', '[s/R]', '(s)', '(r)'):
+                        if marker in ('(s)', '(r)') and '[s/R]' not in text:
+                            continue
+                        if marker in text:
+                            with self.subTest(locale=directory.name, key=key, marker=marker):
+                                self.assertIn(marker, translated.get(key, text))
+
     def setUp(self):
         self.english = languages.load(ROOT / 'languages/en/check-health.json')
 

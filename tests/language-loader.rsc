@@ -8,6 +8,8 @@
 :global LanguageMessages;
 :global LanguageActive;
 :global LoaderFixtureSchemas;
+:global LoaderFixtureLocales;
+:global LoaderFixtureHealthSchema;
 :global GlobalNotReadyMessage;
 :local PublishedBaseUrl $ScriptUpdatesBaseUrl;
 :local ExtraCaches ({});
@@ -93,6 +95,27 @@
     :error "English bootstrap diagnostic reset failed";
   }
   :foreach Name in=$ExtraCaches do={ /file/remove [ find where name=$Name ]; }
+  :set ExtraCaches ({});
+  :set ScriptUpdatesBaseUrl $PublishedBaseUrl;
+  :set LanguageSchemas ({ "check-health"=$LoaderFixtureHealthSchema });
+  :foreach Locale,Expected in=$LoaderFixtureLocales do={
+    :local Name ($Prefix . "language-" . $Locale . "-check-health.json");
+    :if ([ :len [ /file/find where name=$Name ] ] > 0) do={ :error "Locale test cache already exists"; }
+    :set ExtraCaches ($ExtraCaches, $Name);
+    :set ScriptLanguage $Locale;
+    $LanguageUpdate;
+    :if ($LanguageActive != $Locale || \
+         [ $Translate "check-health.cpu.warning.subject" ] != ($Expected->"subject") || \
+         [ $Translate "check-health.cpu.warning.message" ({ identity="test-router"; percent=75 }) ] != ($Expected->"message")) do={
+      :error ("Locale HTTPS download/render failed: " . $Locale);
+    }
+    :if ([ :len [ /file/find where name=$Name ] ] != 1) do={ :error "Locale catalog cache missing"; }
+    /file/remove [ find where name=$Name ];
+    :set ExtraCaches ({});
+  }
+  :set ScriptLanguage "en";
+  $LanguageUpdate;
+  :put ("Language HTTPS tests passed for " . [ :len $LoaderFixtureLocales ] . " non-English locales.");
   :put "Language download/cache tests passed.";
 } do={
   /file/remove [ find where name=$Cache ];

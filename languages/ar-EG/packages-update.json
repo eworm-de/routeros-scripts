@@ -1,0 +1,26 @@
+{
+  "language": "ar-EG",
+  "messages": {
+    "packages-update.scheduler.exists": "جدولة إعادة التشغيل موجودة بالفعل.",
+    "packages-update.scheduled": "إعادة التشغيل المجدولة للتحديث في التوقيت المحلي {time} ({timezone}).",
+    "packages-update.license.expired": "انتهت صلاحية الترخيص، وتم حظر الترقية.",
+    "packages-update.backup.partition": "الجهاز شغّال من قسم النسخة الاحتياطية، مش هننفّذ أي إجراء.",
+    "packages-update.version.unknown": "أحدث إصدار مش معروف.",
+    "packages-update.version.installed": "الإصدار {version} مثبت بالفعل.",
+    "packages-update.backup.running": "تشغيل البرنامج النصي الاحتياطي {name} قبل التحديث.",
+    "packages-update.backup.failed": "تشغيل البرنامج النصي الاحتياطي {name} قبل فشل التحديث!",
+    "packages-update.continue.prompt": "عايز تكمل برضه؟ [y/N]",
+    "packages-update.continue": "طلب المستخدم الاستمرار على أي حال.",
+    "packages-update.canceled.update": "اتلغى التحديث...",
+    "packages-update.canceled.noninteractive": "اتلغى التحديث غير التفاعلي.",
+    "packages-update.downgrade.prompt": "الإصدار الأحدث أقدم من الإصدار المثبت. تريد خفض مستوى؟ [y/N]",
+    "packages-update.canceled": "اتلغى...",
+    "packages-update.downgrade.refused": "عدم تثبيت الرجوع إلى إصدار سابق تلقائيًا.",
+    "packages-update.download.failed": "فشل تنزيل الحزمة {name}، وتم إحباط التحديث.",
+    "packages-update.downgrade.reboot": "إعادة التشغيل للرجوع إلى إصدار أقدم.",
+    "packages-update.reboot.prompt": "عايز تجدول إعادة التشغيل (s) ولا تعيد التشغيل دلوقتي (r)؟ [s/R]",
+    "packages-update.update.reboot": "إعادة التشغيل للتحديث.",
+    "packages-update.scheduled.deferred": "تم تأجيل إعادة التشغيل المجدولة للتحديث في التوقيت المحلي {time} ({timezone}) بواسطة {interval}."
+  },
+  "schema": "77f3f83454477a8d375bfb399dd18ea210e50ceaf290213460a2f613ac47abd1"
+}

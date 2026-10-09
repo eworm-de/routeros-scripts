@@ -1,0 +1,17 @@
+{
+  "language": "fr",
+  "messages": {
+    "notification-telegram.offline": "Le système n’est pas entièrement connecté et ne se rince pas.",
+    "notification-telegram.certificate.failed": "Le téléchargement du certificat requis a échoué.",
+    "notification-telegram.queue.empty": "Vidage des messages Telegram du planificateur, mais la file d'attente est vide.",
+    "notification-telegram.queue.failed": "Échec de l'envoi du message Telegram en file d'attente : {error}",
+    "notification-telegram.fetch.failed": "Échec de la récupération des données : {error}",
+    "notification-telegram.message.none": "Aucun message reçu.",
+    "notification-telegram.chat.id": "L'identifiant du chat est : {id}",
+    "notification-telegram.thread.id": "L'identifiant du fil est : {id}",
+    "notification-telegram.truncated": "Le message était trop long et a été tronqué, coupé _{percent}%_ !",
+    "notification-telegram.send.failed": "Échec de l'envoi de la notification Telegram : {error} - Mise en file d'attente...",
+    "notification-telegram.queued": "Ce message a été mis en file d'attente depuis _{date} {time}_ et est peut-être obsolète."
+  },
+  "schema": "924e559ca736a5da1f8988a245b39db4d85bda9fd5e9d359b1d0b1ba41e16e5d"
+}

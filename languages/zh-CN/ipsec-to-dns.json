@@ -1,0 +1,12 @@
+{
+  "language": "zh-CN",
+  "messages": {
+    "ipsec-to-dns.marker.added": "添加了名为“{name}”的禁用静态 DNS 记录。",
+    "ipsec-to-dns.peer.exists": "对等点 {peer} ({name}) 仍然存在。不删除 DNS 条目。",
+    "ipsec-to-dns.peer.gone": "对等点 {peer} ({name}) 已消失，正在删除 DNS 条目。",
+    "ipsec-to-dns.current": "{name} 的 DNS 条目不需要更新。",
+    "ipsec-to-dns.replacing": "替换 {name} 的 DNS 条目，新地址为 {address}。",
+    "ipsec-to-dns.adding": "为 {name} 添加新的 DNS 条目，地址为 {address}。"
+  },
+  "schema": "ed1c281155d118ad0f626106c929affb97ffffbf416dd87053f0becd389012dc"
+}

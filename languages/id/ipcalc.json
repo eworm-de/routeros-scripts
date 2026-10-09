@@ -1,0 +1,12 @@
+{
+  "language": "id",
+  "messages": {
+    "ipcalc.address": "Alamat",
+    "ipcalc.netmask": "masker jaringan",
+    "ipcalc.network": "Jaringan",
+    "ipcalc.hostmin": "HostMin",
+    "ipcalc.hostmax": "HostMax",
+    "ipcalc.broadcast": "Siaran"
+  },
+  "schema": "0b5dd00de254693d43a55e15ad5ad523a5ccce670aa66ac5465cd42290fd718b"
+}

@@ -1,0 +1,25 @@
+{
+  "language": "id",
+  "messages": {
+    "collect-wireless-mac.marker.added": "Menambahkan entri daftar akses yang dinonaktifkan dengan komentar '--- dikumpulkan di atas ---'.",
+    "collect-wireless-mac.device.gone": "Perangkat sudah hilang... Mengabaikan.",
+    "collect-wireless-mac.lease.missing": "tidak ada sewa dhcp",
+    "collect-wireless-mac.hostname.missing": "tidak ada nama host",
+    "collect-wireless-mac.dns.missing": "tidak ada nama DNS",
+    "collect-wireless-mac.first.seen": "Alamat MAC {mac} ({vendor}, {hostname}) pertama kali terlihat di {date} terhubung ke SSID {ssid}, antarmuka {interface}",
+    "collect-wireless-mac.subject": "{mac} terhubung ke {ssid}",
+    "collect-wireless-mac.message": "Perangkat dengan alamat MAC tidak diketahui terhubung ke {ssid} di {identity}.\n\n",
+    "collect-wireless-mac.mac.missing": "Tidak ada alamat mac yang tersedia... Mengabaikan.",
+    "collect-wireless-mac.label.controller": "Pengendali",
+    "collect-wireless-mac.label.interface": "Antarmuka",
+    "collect-wireless-mac.label.ssid": "SSID",
+    "collect-wireless-mac.label.mac": "MAC",
+    "collect-wireless-mac.label.vendor": "Penjual",
+    "collect-wireless-mac.label.hostname": "Nama host",
+    "collect-wireless-mac.label.address": "Alamat",
+    "collect-wireless-mac.label.dns": "nama DNS",
+    "collect-wireless-mac.label.date": "Tanggal",
+    "collect-wireless-mac.known": "Alamat MAC {mac} sudah diketahui: {comment}"
+  },
+  "schema": "70ad56ad671ad178315877f3d03eaddd505e04060e94d4c635cd2ebab32adee9"
+}

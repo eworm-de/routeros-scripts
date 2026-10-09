@@ -1,0 +1,11 @@
+{
+  "language": "zh-CN",
+  "messages": {
+    "notification-gotify.offline": "系统未完全连接，未冲洗。",
+    "notification-gotify.queue.empty": "从调度程序中刷新 Gotify 消息，但队列为空。",
+    "notification-gotify.queue.failed": "发送排队的 Gotify 消息失败：{error}",
+    "notification-gotify.send.failed": "发送 Gotify 通知失败：{error} - 正在排队...",
+    "notification-gotify.queued": "此消息自 {date} {time} 起排队，可能已过时。"
+  },
+  "schema": "3ca0bb174dd4fcbe639af5145d66a280408096f7c34f9d1dd0565c5061427859"
+}

@@ -1,0 +1,13 @@
+{
+  "language": "ur",
+  "messages": {
+    "bridge-port-vlan.client.enabled": "انٹرفیس {interface} کے لیے پل پورٹ کو غیر فعال کرنا، dhcp کلائنٹ کو فعال کرنا۔",
+    "bridge-port-vlan.interfaces.enabled": "انٹرفیس کو دوبارہ فعال کیا جا رہا ہے...",
+    "bridge-port-vlan.vlan.missing": "انٹرفیس {interface} کے لیے VLAN '{vlan}' نہیں مل سکا!",
+    "bridge-port-vlan.vlan.enabled": "{interface} انٹرفیس کے لیے پل پورٹ کو فعال کرنا، {config} vlan {vlan}{name} میں تبدیل، dhcp کلائنٹ کو غیر فعال کرنا۔",
+    "bridge-port-vlan.vlan.connected": "انٹرفیس {interface} پہلے سے ہی {config} vlan {vlan} سے منسلک ہے۔",
+    "bridge-port-vlan.client.missing": "انٹرفیس {interface} کے لیے dhcp کلائنٹ کنفیگریشن غائب ہے!",
+    "bridge-port-vlan.client.duplicate": "انٹرفیس {interface} کے لیے ڈپلیکیٹ dhcp کلائنٹ کنفیگریشن!"
+  },
+  "schema": "ca51ecefefa0a1bcad40eb3a3ad65db37300e7e3b0f7f3f5abe49a021f6dfda1"
+}

@@ -1,0 +1,11 @@
+{
+  "language": "hi",
+  "messages": {
+    "daily-psk.updating": "'{ssid}' के लिए दैनिक PSK को '{psk}' में अपडेट किया जा रहा है (यह '{previous}' था)",
+    "daily-psk.sent": "SSID {ssid} के लिए पहले ही एक मेल भेजा जा चुका है, स्किपिंग।",
+    "daily-psk.subject": "दैनिक PSK {ssid}",
+    "daily-psk.message": "यह {identity} पर दैनिक PSK है:\n\n{ssid}\n{psk}\n{date}\n\nक्लाइंट डिवाइस विशिष्ट नियम मौजूद नहीं होना चाहिए!",
+    "daily-psk.date": "दिनांक"
+  },
+  "schema": "64d2ff049c113163d9a5b4847306ad5ac276859115f25bfe3d397cc8b24a1ea0"
+}

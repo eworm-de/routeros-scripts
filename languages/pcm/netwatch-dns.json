@@ -1,0 +1,16 @@
+{
+  "language": "pcm",
+  "messages": {
+    "netwatch-dns.settling": "System just boot; we go give netwatch {duration} to settle.",
+    "netwatch-dns.dns.updating": "Dey update DNS servers: {servers}",
+    "netwatch-dns.dns.fallback": "Dey update DNS servers to fallback: {servers}",
+    "netwatch-dns.doh.current": "Current DoH server dey still up and resolving: {server}",
+    "netwatch-dns.doh.disabling": "Current DoH server dey down or not resolving, disabling: {server}",
+    "netwatch-dns.certificate.failed": "Dey download certificate '{name}' failed, trying without.",
+    "netwatch-dns.request.failed": "Request to DoH server {server} no work: {error}",
+    "netwatch-dns.response.invalid": "We receive unexpected response from DoH server: {server}",
+    "netwatch-dns.crl.warning": "Config say make we to use CRL, that can cause severe issue!",
+    "netwatch-dns.doh.setting": "Dey set DoH server: {server}"
+  },
+  "schema": "a990191facc83c19ae4d95e097a5f7ec17573be4bce019c61e2ca3dcdffebf43"
+}

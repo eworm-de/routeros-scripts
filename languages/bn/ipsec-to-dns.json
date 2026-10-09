@@ -1,0 +1,12 @@
+{
+  "language": "bn",
+  "messages": {
+    "ipsec-to-dns.marker.added": "'{name}' নামের অক্ষম স্ট্যাটিক ডিএনএস রেকর্ড যোগ করা হয়েছে।",
+    "ipsec-to-dns.peer.exists": "পিয়ার {peer} ({name}) এখনও বিদ্যমান। DNS এন্ট্রি মোছা হচ্ছে না।",
+    "ipsec-to-dns.peer.gone": "পিয়ার {peer} ({name}) চলে গেছে, DNS এন্ট্রি মুছে ফেলা হচ্ছে।",
+    "ipsec-to-dns.current": "{name} এর জন্য DNS এন্ট্রি আপডেট করার প্রয়োজন নেই।",
+    "ipsec-to-dns.replacing": "{name} এর জন্য DNS এন্ট্রি প্রতিস্থাপন করা হচ্ছে, নতুন ঠিকানা হল {address}।",
+    "ipsec-to-dns.adding": "{name}-এর জন্য নতুন DNS এন্ট্রি যোগ করা হচ্ছে, ঠিকানা হল {address}।"
+  },
+  "schema": "ed1c281155d118ad0f626106c929affb97ffffbf416dd87053f0becd389012dc"
+}

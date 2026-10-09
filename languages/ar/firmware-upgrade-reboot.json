@@ -1,0 +1,10 @@
+{
+  "language": "ar",
+  "messages": {
+    "firmware-upgrade-reboot.current": "تتطابق البرامج الثابتة الحالية والترقية مع الإصدار {version}.",
+    "firmware-upgrade-reboot.downgrade": "يتوفر إصدار مختلف من البرامج الثابتة، ولكنه إصدار أقدم. تجاهل.",
+    "firmware-upgrade-reboot.upgrade": "يتوفر إصدار البرنامج الثابت {version}، ويتم ترقيته.",
+    "firmware-upgrade-reboot.reboot": "تمت ترقية البرامج الثابتة بنجاح، وتمت إعادة التشغيل."
+  },
+  "schema": "6029d1d4da514989c7a64a3ae717c2ca8f5f42f295ad0d203b8343cf7a2944a5"
+}

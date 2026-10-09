@@ -1,0 +1,9 @@
+{
+  "language": "hi",
+  "messages": {
+    "hotspot-to-wpa-cleanup.connected": "मैक पते {mac} वाला क्लाइंट WPA से जुड़ा है, जिससे लीज स्थिर हो गई है।",
+    "hotspot-to-wpa-cleanup.disconnected": "मैक पते {mac} वाला क्लाइंट WPA से कनेक्ट नहीं हुआ, उसे एक्सेस सूची से हटा दिया गया।",
+    "hotspot-to-wpa-cleanup.expired": "मैक पते {mac} वाला क्लाइंट {elapsed} के लिए नहीं देखा गया, हटाया जा रहा है।"
+  },
+  "schema": "1ebc7ea0f3bc0cc65554da860eb4b0739adc55a3f127030c7d8a1c780e722a35"
+}

@@ -1,0 +1,11 @@
+{
+  "language": "ar",
+  "messages": {
+    "scriptrunonce.url.missing": "البرنامج النصي \"{script}\" ليس عنوان url وعنوان url الأساسي غير متاح.",
+    "scriptrunonce.fetch.failed": "فشل جلب البرنامج النصي \"{script}\"!",
+    "scriptrunonce.syntax": "فشل البرنامج النصي \"{script}\" في التحقق من صحة بناء الجملة!",
+    "scriptrunonce.running": "تشغيل البرنامج النصي \"{script}\" الآن.",
+    "scriptrunonce.failed": "فشل تشغيل البرنامج النصي \"{script}\": {error}"
+  },
+  "schema": "60deac34267f7cfb590d500ce671562bfd8cf79337f433f8b350281561a4ae52"
+}

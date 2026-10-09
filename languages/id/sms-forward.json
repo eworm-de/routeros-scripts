@@ -1,0 +1,18 @@
+{
+  "language": "id",
+  "messages": {
+    "sms-forward.disabled": "Penerimaan SMS tidak diaktifkan.",
+    "sms-forward.interface.stopped": "Antarmuka LTE tidak dalam keadaan berjalan, dilewati.",
+    "sms-forward.command.removed": "Menghapus SMS yang memulai skrip.",
+    "sms-forward.remove.failed": "Gagal menghapus pesan: {error}",
+    "sms-forward.received": "Pada {timestamp} ketik {type}:\n{message}",
+    "sms-forward.hook.running": "Kait lari '{match}': {command}",
+    "sms-forward.hook.ran": "\n\nJalankan kait '{match}':\n{command}",
+    "sms-forward.hook.failed": "Kode untuk hook '{match}' gagal dijalankan: {error}",
+    "sms-forward.hook.syntax": "Kode untuk validasi sintaksis hook '{match}' gagal!",
+    "sms-forward.subject": "Penerusan SMS dari {phone}",
+    "sms-forward.message.one": "Menerima pesan ini oleh {identity} dari {phone}:{messages}",
+    "sms-forward.message.many": "Menerima pesan {count} ini oleh {identity} dari {phone}:{messages}"
+  },
+  "schema": "b605613f43230d212520e682ee06789fe9ebdb37a25f5c21ba93719a7923e2a1"
+}

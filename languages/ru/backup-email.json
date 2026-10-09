@@ -1,0 +1,18 @@
+{
+  "language": "ru",
+  "messages": {
+    "backup-email.partition": "Запуск из резервного раздела, отказывается действовать.",
+    "backup-email.directory": "Не удалось создать каталог!",
+    "backup-email.options": "Настроен на отправку ни резервной копии, ни экспорта конфигурации.",
+    "backup-email.none": "нет",
+    "backup-email.label.backup": "Резервный файл",
+    "backup-email.label.export": "Экспортировать файл",
+    "backup-email.label.config": "Конфигурационный файл",
+    "backup-email.email.unavailable": "Модуль отправки уведомлений по электронной почте не установлен.",
+    "backup-email.email.failed": "Файлы все еще доступны, отправка электронного письма не удалась.",
+    "backup-email.subject": "Резервное копирование и настройка",
+    "backup-email.message": "См. прикрепленные файлы для резервного копирования и экспорта конфигурации для {identity}.\n\n{device}\n\n{details}",
+    "backup-email.files.available": "Файлы все еще доступны."
+  },
+  "schema": "d64d6ec60b1db0d5105ecd3ee2f9ce710886b1860f5d2ef971c4aa2adcdf6722"
+}

@@ -1,0 +1,16 @@
+{
+  "language": "es",
+  "messages": {
+    "ssh-keys-import.arguments.key": "Faltan argumentos. ¡Pase la clave y el usuario!",
+    "ssh-keys-import.user.missing": "El usuario '{user}' no existe.",
+    "ssh-keys-import.type.unsupported": "No se admite la clave SSH del tipo '{type}'.",
+    "ssh-keys-import.key.exists": "La clave pública ssh (MD5:{fingerprint}) ya está disponible para el usuario '{user}'.",
+    "ssh-keys-import.directory.failed": "¡Error al crear el directorio 'tmpfs/ssh-keys-import'!",
+    "ssh-keys-import.imported": "Clave pública ssh importada ({name}, {type}, MD5:{fingerprint}) para el usuario '{user}'.",
+    "ssh-keys-import.import.failed": "Clave de importación fallida: {error}",
+    "ssh-keys-import.arguments.file": "Faltan argumentos. ¡Pase el nombre del archivo y el usuario!",
+    "ssh-keys-import.file.missing": "El archivo '{file}' no existe.",
+    "ssh-keys-import.user.import.failed": "Error al importar la clave para el usuario '{user}'."
+  },
+  "schema": "54cdcab8a420cb935136ec8a624f3eeceed166b6b96d7dd67b4ef7d0dcd74ea7"
+}

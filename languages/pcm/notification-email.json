@@ -1,0 +1,21 @@
+{
+  "language": "pcm",
+  "messages": {
+    "notification-email.from": "{identity} via routeros-scripts <{address}>",
+    "notification-email.queue.empty": "Dey clear E-Mail messages from scheduler, but queue no get anything.",
+    "notification-email.checking": "Dey do initial checks...",
+    "notification-email.scheduler.gone": "Scheduler no dey again; we dey stop.",
+    "notification-email.sending.busy": "Dey send mail dey currently in progress, we no go clear queue.",
+    "notification-email.time.unsynced": "Time no be synced, we no go clear queue.",
+    "notification-email.dns.failed": "Server address dey a DNS name and resolving fails, we no go clear queue.",
+    "notification-email.certificate.failed": "Dey download wey we need certificate no work.",
+    "notification-email.sending": "Dey send...",
+    "notification-email.attach.missing": "File '{file}' no exist, no fit attach.",
+    "notification-email.send.failed": "Dey send queued mail no work: {error}",
+    "notification-email.queue.purged": "Dem don clear the queue? We dey exit.",
+    "notification-email.retry.waiting": "Dey wait for retry...",
+    "notification-email.truncated": "Message too long; dem don cut am short!",
+    "notification-email.queuing": "Dey put for queue new mail..."
+  },
+  "schema": "5a6236090c5b7c3f80f50b70e58e9489c8100e4505c9ddc4ee72854e4de47c20"
+}

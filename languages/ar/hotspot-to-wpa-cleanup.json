@@ -1,0 +1,9 @@
+{
+  "language": "ar",
+  "messages": {
+    "hotspot-to-wpa-cleanup.connected": "العميل بعنوان mac {mac} متصل بـ WPA، مما يجعل الإيجار ثابتًا.",
+    "hotspot-to-wpa-cleanup.disconnected": "لم يتصل العميل بعنوان mac {mac} بـ WPA، مما أدى إلى إزالته من قائمة الوصول.",
+    "hotspot-to-wpa-cleanup.expired": "لم تتم رؤية العميل الذي يحمل عنوان mac {mac} لـ {elapsed}، وتمت إزالته."
+  },
+  "schema": "1ebc7ea0f3bc0cc65554da860eb4b0739adc55a3f127030c7d8a1c780e722a35"
+}

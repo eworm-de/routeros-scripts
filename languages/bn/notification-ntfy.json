@@ -1,0 +1,12 @@
+{
+  "language": "bn",
+  "messages": {
+    "notification-ntfy.offline": "সিস্টেম সম্পূর্ণরূপে সংযুক্ত নয়, ফ্লাশিং নয়।",
+    "notification-ntfy.queue.empty": "সময়সূচী থেকে Ntfy বার্তাগুলি ফ্লাশ করা হচ্ছে, কিন্তু সারি খালি।",
+    "notification-ntfy.queue.failed": "সারিবদ্ধ Ntfy বার্তা পাঠানো ব্যর্থ হয়েছে: {error}",
+    "notification-ntfy.send.failed": "ntfy বিজ্ঞপ্তি পাঠানো ব্যর্থ হয়েছে: {error} - সারিবদ্ধ...",
+    "notification-ntfy.certificate.failed": "প্রয়োজনীয় শংসাপত্র ডাউনলোড করা ব্যর্থ হয়েছে৷",
+    "notification-ntfy.queued": "এই বার্তাটি {date} {time} থেকে সারিবদ্ধ ছিল এবং অপ্রচলিত হতে পারে৷"
+  },
+  "schema": "6734a9715e6b789bb7ff475fdc9f2b11391a7dcbd94aaef3413d695b035d493e"
+}

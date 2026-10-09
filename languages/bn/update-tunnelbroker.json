@@ -1,0 +1,11 @@
+{
+  "language": "bn",
+  "messages": {
+    "update-tunnelbroker.certificate.failed": "প্রয়োজনীয় শংসাপত্র ডাউনলোড করা ব্যর্থ হয়েছে৷",
+    "update-tunnelbroker.download.failed": "ডাউনলোড করা ব্যর্থ হয়েছে: {error} - {count} পুনরায় চেষ্টা মুলতুবি আছে।",
+    "update-tunnelbroker.response.invalid": "টানেলব্রোকারকে স্থানীয় ঠিকানা পাঠাতে ব্যর্থ হয়েছে বা অপ্রত্যাশিত প্রতিক্রিয়া!",
+    "update-tunnelbroker.address.missing": "ঠিকানা {address} আপনার ডিভাইসে কনফিগার করা নেই। ISP দ্বারা NAT?",
+    "update-tunnelbroker.updating": "স্থানীয় ঠিকানা পরিবর্তিত হয়েছে, ঠিকানা সহ টানেল কনফিগারেশন আপডেট করা হচ্ছে: {address}"
+  },
+  "schema": "a1b3554a6dc3737e590e438648393e5c28b297b740eb02023c141abd6fe84d4e"
+}

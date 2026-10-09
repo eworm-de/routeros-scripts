@@ -1,0 +1,9 @@
+{
+  "language": "ar-EG",
+  "messages": {
+    "dhcpv6-client-lease.context.invalid": "من المفترض أن يتم تشغيل السكربت ده من عميل IPv6 dhcp.",
+    "dhcpv6-client-lease.script.running": "تشغيل البرنامج النصي بالأمر {order}: {name}",
+    "dhcpv6-client-lease.script.failed": "فشل تشغيل البرنامج النصي \"{name}\": {error}"
+  },
+  "schema": "6945e4d13819da10f471d905a5fc37284b6cf1e482d9a7b526483b754951e02a"
+}

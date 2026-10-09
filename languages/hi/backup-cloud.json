@@ -1,0 +1,17 @@
+{
+  "language": "hi",
+  "messages": {
+    "backup-cloud.partition": "बैकअप पार्टीशन से भागना, कार्रवाई करने से इंकार करना।",
+    "backup-cloud.directory": "निर्देशिका बनाने में विफल!",
+    "backup-cloud.subject": "क्लाउड बैकअप",
+    "backup-cloud.subject.failed": "क्लाउड बैकअप विफल रहा",
+    "backup-cloud.message": "{identity} के लिए क्लाउड पर बैकअप अपलोड किया गया।\n\n{device}\n\n{details}",
+    "backup-cloud.message.failed": "{identity} के लिए क्लाउड पर बैकअप अपलोड करने में विफल!\n\n{device}",
+    "backup-cloud.upload.failed": "{identity} के लिए क्लाउड पर बैकअप अपलोड करने में विफल!",
+    "backup-cloud.retry": "पुनः प्रयास सफल, कृपया पिछली कनेक्शन त्रुटियों को त्यागें।",
+    "backup-cloud.label.name": "नाम",
+    "backup-cloud.label.size": "आकार",
+    "backup-cloud.label.key": "कुंजी डाउनलोड करें"
+  },
+  "schema": "1d68cb944d178c8731db42b15cc1dc9e76c76322543a57e366c56830ef3b644d"
+}

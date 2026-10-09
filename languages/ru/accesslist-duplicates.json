@@ -1,0 +1,8 @@
+{
+  "language": "ru",
+  "messages": {
+    "accesslist-duplicates.remove.prompt": "\nЧисловой идентификатор, который нужно удалить, любую клавишу, которую нужно пропустить!",
+    "accesslist-duplicates.removing": "Удаление числового идентификатора {id}...\n"
+  },
+  "schema": "11c6e77afe0e5ea39b260eb21e4693aeb7b69299435563d0469b3c22651fdc8c"
+}

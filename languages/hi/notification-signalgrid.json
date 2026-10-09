@@ -1,0 +1,12 @@
+{
+  "language": "hi",
+  "messages": {
+    "notification-signalgrid.offline": "सिस्टम पूरी तरह से कनेक्ट नहीं है, फ्लशिंग नहीं हो रही है।",
+    "notification-signalgrid.empty": "शेड्यूलर से सिग्नलग्रिड संदेशों को फ्लश किया जा रहा है, लेकिन कतार खाली है।",
+    "notification-signalgrid.queue.failed": "कतारबद्ध सिग्नलग्रिड अधिसूचना भेजना विफल: {error}",
+    "notification-signalgrid.certificate.failed": "आवश्यक प्रमाणपत्र डाउनलोड करना विफल रहा.",
+    "notification-signalgrid.sending.failed": "सिग्नलग्रिड अधिसूचना भेजने में विफल: {error} - कतारबद्ध...",
+    "notification-signalgrid.queued": "यह संदेश {date} {time} से कतारबद्ध था और अप्रचलित हो सकता है।"
+  },
+  "schema": "128aca9359451217298096f284f1811957b4079d0693132dbe948f2ced909a78"
+}

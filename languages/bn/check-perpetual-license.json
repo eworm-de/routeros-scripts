@@ -1,0 +1,16 @@
+{
+  "language": "bn",
+  "messages": {
+    "check-perpetual-license.unsupported": "এই ডিভাইসের একটি চিরস্থায়ী লাইসেন্স নেই.",
+    "check-perpetual-license.expired.log": "আপনার লাইসেন্সের মেয়াদ {date} এ শেষ হয়ে গেছে!",
+    "check-perpetual-license.expired.subject": "লাইসেন্সের মেয়াদ শেষ!",
+    "check-perpetual-license.expired.message": "{date}-এ আপনার লাইসেন্সের মেয়াদ শেষ হয়েছে, {identity}-এ আর RouterOS আপডেট করা যাবে না...",
+    "check-perpetual-license.warning.log": "আপনার লাইসেন্সের মেয়াদ {date} এ শেষ হবে!",
+    "check-perpetual-license.warning.subject": "লাইসেন্সের মেয়াদ শেষ হতে চলেছে!",
+    "check-perpetual-license.warning.message": "আপনার লাইসেন্স পুনর্নবীকরণ করতে ব্যর্থ হয়েছে এবং {identity}-এ {date}-এ মেয়াদ শেষ হতে চলেছে...",
+    "check-perpetual-license.renewed.log": "আপনার লাইসেন্স সফলভাবে নবায়ন করা হয়েছে.",
+    "check-perpetual-license.renewed.subject": "লাইসেন্স নবায়ন করা হয়েছে",
+    "check-perpetual-license.renewed.message": "আপনার লাইসেন্স {identity} এ সফলভাবে নবায়ন করা হয়েছে। এটি এখন {date} পর্যন্ত বৈধ।"
+  },
+  "schema": "32c55d22d323e366e19b8b016c5e836db00f7a8e885d0410216fa65ead84ab9d"
+}

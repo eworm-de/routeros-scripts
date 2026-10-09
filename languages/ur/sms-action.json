@@ -1,0 +1,9 @@
+{
+  "language": "ur",
+  "messages": {
+    "sms-action.context": "سمجھا جاتا ہے کہ یہ اسکرپٹ ایس ایم ایس ہک سے کارروائی کے ساتھ چلنا ہے=...",
+    "sms-action.running": "ایس ایم ایس ایکشن '{action}' پر عمل کرنا: {code}",
+    "sms-action.syntax": "کوڈ برائے کارروائی '{action}' نحو کی توثیق میں ناکام!"
+  },
+  "schema": "91ff5010d0d869687a0bb1c0989668afd4c77fed76f0d8728bca83f00940d48e"
+}

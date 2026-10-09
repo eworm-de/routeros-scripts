@@ -1,0 +1,12 @@
+{
+  "language": "ur",
+  "messages": {
+    "notification-signalgrid.offline": "سسٹم مکمل طور پر منسلک نہیں ہے، فلشنگ نہیں ہے۔",
+    "notification-signalgrid.empty": "شیڈولر سے سگنل گرڈ پیغامات کو فلش کیا جا رہا ہے، لیکن قطار خالی ہے۔",
+    "notification-signalgrid.queue.failed": "قطار بند سگنل گرڈ اطلاع بھیجنا ناکام ہو گیا: {error}",
+    "notification-signalgrid.certificate.failed": "مطلوبہ سرٹیفکیٹ ڈاؤن لوڈ کرنا ناکام ہو گیا۔",
+    "notification-signalgrid.sending.failed": "سگنل گرڈ نوٹیفکیشن بھیجنے میں ناکام: {error} - قطار میں...",
+    "notification-signalgrid.queued": "یہ پیغام {date} {time} سے قطار میں کھڑا تھا اور ہوسکتا ہے کہ متروک ہو۔"
+  },
+  "schema": "128aca9359451217298096f284f1811957b4079d0693132dbe948f2ced909a78"
+}

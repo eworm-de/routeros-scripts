@@ -1,0 +1,12 @@
+{
+  "language": "id",
+  "messages": {
+    "ipsec-to-dns.marker.added": "Menambahkan catatan dns statis yang dinonaktifkan dengan nama '{name}'.",
+    "ipsec-to-dns.peer.exists": "Rekan {peer} ({name}) masih ada. Tidak menghapus entri DNS.",
+    "ipsec-to-dns.peer.gone": "Rekan {peer} ({name}) telah hilang, menghapus entri DNS.",
+    "ipsec-to-dns.current": "Entri DNS untuk {name} tidak perlu diperbarui.",
+    "ipsec-to-dns.replacing": "Mengganti entri DNS untuk {name}, alamat baru adalah {address}.",
+    "ipsec-to-dns.adding": "Menambahkan entri DNS baru untuk {name}, alamatnya adalah {address}."
+  },
+  "schema": "ed1c281155d118ad0f626106c929affb97ffffbf416dd87053f0becd389012dc"
+}

@@ -1,0 +1,13 @@
+{
+  "language": "ru",
+  "messages": {
+    "unattended-lte-firmware-upgrade.query.failed": "Не удалось получить последнюю версию прошивки LTE для интерфейса {interface}: {error}.",
+    "unattended-lte-firmware-upgrade.scheduling": "Планируем обновление прошивки LTE для интерфейса {interface}.",
+    "unattended-lte-firmware-upgrade.finished": "Обновление прошивки LTE на «{interface}» завершено, ожидается сброс.",
+    "unattended-lte-firmware-upgrade.different": "Версии прошивок LTE по-прежнему различаются. Обновление все равно не удалось?",
+    "unattended-lte-firmware-upgrade.failed": "Обновление прошивки LTE на «{interface}» не удалось: {error}",
+    "unattended-lte-firmware-upgrade.current": "Прошивка LTE на интерфейсе {interface} обновлена.",
+    "unattended-lte-firmware-upgrade.missing": "Информация о прошивке LTE для интерфейса {interface} отсутствует."
+  },
+  "schema": "f231d0e80dd157d0022fa102e5293133b9d7d9cc5d18785151ff81e3434c0c7b"
+}

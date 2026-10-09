@@ -1,0 +1,10 @@
+{
+  "language": "id",
+  "messages": {
+    "firmware-upgrade-reboot.current": "Firmware saat ini dan peningkatan cocok dengan versi {version}.",
+    "firmware-upgrade-reboot.downgrade": "Tersedia versi firmware yang berbeda, tetapi ini merupakan downgrade. Mengabaikan.",
+    "firmware-upgrade-reboot.upgrade": "Versi firmware {version} tersedia, ditingkatkan.",
+    "firmware-upgrade-reboot.reboot": "Peningkatan firmware berhasil, reboot."
+  },
+  "schema": "6029d1d4da514989c7a64a3ae717c2ca8f5f42f295ad0d203b8343cf7a2944a5"
+}

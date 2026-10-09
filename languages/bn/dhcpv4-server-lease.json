@@ -1,0 +1,12 @@
+{
+  "language": "bn",
+  "messages": {
+    "dhcpv4-server-lease.context.invalid": "এই স্ক্রিপ্টটি ip dhcp-server থেকে চালানোর কথা।",
+    "dhcpv4-server-lease.script.running": "{order} অর্ডার সহ স্ক্রিপ্ট চলছে: {name}",
+    "dhcpv4-server-lease.script.failed": "চলমান স্ক্রিপ্ট '{name}' ব্যর্থ হয়েছে: {error}",
+    "dhcpv4-server-lease.waiting": "আরো আহবান অপেক্ষা করছে, তাড়াতাড়ি প্রস্থান করছে।",
+    "dhcpv4-server-lease.assigned": "DHCP সার্ভার {server} {address} কে {mac} ইজারা দেওয়া হয়েছে",
+    "dhcpv4-server-lease.deassigned": "DHCP সার্ভার {server} বরাদ্দকৃত ইজারা {address} থেকে {mac}"
+  },
+  "schema": "e8bd70cbac2cb60d46fce97c5cd6f4d6f35e4039991ffa0fb5fd3e1e1ac986c3"
+}

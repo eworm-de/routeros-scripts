@@ -1,0 +1,18 @@
+{
+  "language": "id",
+  "messages": {
+    "backup-email.partition": "Berjalan dari partisi cadangan, menolak untuk bertindak.",
+    "backup-email.directory": "Gagal membuat direktori!",
+    "backup-email.options": "Dikonfigurasi untuk tidak mengirim cadangan atau ekspor konfigurasi.",
+    "backup-email.none": "tidak ada",
+    "backup-email.label.backup": "berkas cadangan",
+    "backup-email.label.export": "Ekspor berkas",
+    "backup-email.label.config": "File konfigurasi",
+    "backup-email.email.unavailable": "Modul untuk mengirim notifikasi melalui email belum diinstal.",
+    "backup-email.email.failed": "File masih tersedia, pengiriman email gagal.",
+    "backup-email.subject": "Cadangan & Konfigurasi",
+    "backup-email.message": "Lihat file terlampir untuk cadangan dan konfigurasi ekspor untuk {identity}.\n\n{device}\n\n{details}",
+    "backup-email.files.available": "File masih tersedia."
+  },
+  "schema": "d64d6ec60b1db0d5105ecd3ee2f9ce710886b1860f5d2ef971c4aa2adcdf6722"
+}

@@ -1,0 +1,17 @@
+{
+  "language": "id",
+  "messages": {
+    "notification-telegram.offline": "Sistem tidak terhubung sepenuhnya, tidak memerah.",
+    "notification-telegram.certificate.failed": "Gagal mengunduh sertifikat yang diperlukan.",
+    "notification-telegram.queue.empty": "Menghapus pesan Telegram dari penjadwal, tetapi antrian kosong.",
+    "notification-telegram.queue.failed": "Gagal mengirim pesan Telegram antrean: {error}",
+    "notification-telegram.fetch.failed": "Gagal mengambil data: {error}",
+    "notification-telegram.message.none": "Tidak ada pesan yang diterima.",
+    "notification-telegram.chat.id": "Id obrolannya adalah: {id}",
+    "notification-telegram.thread.id": "Id utasnya adalah: {id}",
+    "notification-telegram.truncated": "Pesannya terlalu panjang dan terpotong, terpotong _{percent}%_!",
+    "notification-telegram.send.failed": "Gagal mengirim notifikasi Telegram: {error} - Mengantri...",
+    "notification-telegram.queued": "Pesan ini dimasukkan dalam antrean sejak _{date} {time}_ dan mungkin sudah usang."
+  },
+  "schema": "924e559ca736a5da1f8988a245b39db4d85bda9fd5e9d359b1d0b1ba41e16e5d"
+}

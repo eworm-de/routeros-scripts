@@ -1,0 +1,21 @@
+{
+  "language": "fr",
+  "messages": {
+    "notification-email.from": "{identity} via les scripts routeros <{address}>",
+    "notification-email.queue.empty": "Vidage des messages électroniques du planificateur, mais la file d'attente est vide.",
+    "notification-email.checking": "Effectuer les premières vérifications...",
+    "notification-email.scheduler.gone": "Le planificateur a disparu et a abandonné.",
+    "notification-email.sending.busy": "L'envoi du courrier est actuellement en cours, pas de vidage.",
+    "notification-email.time.unsynced": "Le temps n'est pas synchronisé, pas de rinçage.",
+    "notification-email.dns.failed": "L'adresse du serveur est un nom DNS et la résolution échoue, pas le vidage.",
+    "notification-email.certificate.failed": "Le téléchargement du certificat requis a échoué.",
+    "notification-email.sending": "Envoi...",
+    "notification-email.attach.missing": "Le fichier « {file} » n'existe pas et ne peut pas être joint.",
+    "notification-email.send.failed": "Échec de l'envoi du courrier en file d'attente : {error}",
+    "notification-email.queue.purged": "La file d'attente a été purgée ? Sortir.",
+    "notification-email.retry.waiting": "En attente d'une nouvelle tentative...",
+    "notification-email.truncated": "Le message était trop long et a été tronqué !",
+    "notification-email.queuing": "Mise en file d'attente des nouveaux messages..."
+  },
+  "schema": "5a6236090c5b7c3f80f50b70e58e9489c8100e4505c9ddc4ee72854e4de47c20"
+}

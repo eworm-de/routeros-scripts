@@ -1,0 +1,9 @@
+{
+  "language": "de",
+  "messages": {
+    "sms-action.context": "Dieses Skript soll vom SMS-Hook mit action=... ausgeführt werden.",
+    "sms-action.running": "Reaktion auf SMS-Aktion „{action}“: {code}",
+    "sms-action.syntax": "Der Code für die Aktion „{action}“ hat die Syntaxvalidierung nicht bestanden!"
+  },
+  "schema": "91ff5010d0d869687a0bb1c0989668afd4c77fed76f0d8728bca83f00940d48e"
+}

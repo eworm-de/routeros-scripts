@@ -1,0 +1,11 @@
+{
+  "language": "ja",
+  "messages": {
+    "daily-psk.updating": "「{ssid}」の PSK を毎日「{psk}」に更新します (以前は「{previous}」でした)",
+    "daily-psk.sent": "SSID {ssid} のメールは送信済みです。スキップします。",
+    "daily-psk.subject": "日次 PSK {ssid}",
+    "daily-psk.message": "これは {identity} の毎日の PSK です。\n\n{ssid}\n{psk}\n{date}\n\nクライアントデバイス固有のルールは存在してはなりません。",
+    "daily-psk.date": "日付"
+  },
+  "schema": "64d2ff049c113163d9a5b4847306ad5ac276859115f25bfe3d397cc8b24a1ea0"
+}

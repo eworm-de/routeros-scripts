@@ -1,0 +1,8 @@
+{
+  "language": "de",
+  "messages": {
+    "mode-button.scheduler.creating": "{script}: Scheduler erstellen mode-button-scheduler, Pressen zählen...",
+    "mode-button.scheduler.updating": "{script}: Aktualisierungsplaner mode-button-scheduler..."
+  },
+  "schema": "1b567608fb5b7d34f1710eac3a7c4e5740acbea43a5f928a6be5d5c6d189ed03"
+}

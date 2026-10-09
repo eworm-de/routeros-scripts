@@ -1,0 +1,26 @@
+{
+  "language": "es",
+  "messages": {
+    "packages-update.scheduler.exists": "El programador de reinicio ya existe.",
+    "packages-update.scheduled": "Reinicio programado para actualización a las horas locales {time} ({timezone}).",
+    "packages-update.license.expired": "La licencia expiró, la actualización está bloqueada.",
+    "packages-update.backup.partition": "Huyendo desde la partición de respaldo, negándose a actuar.",
+    "packages-update.version.unknown": "Se desconoce la última versión.",
+    "packages-update.version.installed": "La versión {version} ya está instalada.",
+    "packages-update.backup.running": "Ejecutando el script de respaldo {name} antes de la actualización.",
+    "packages-update.backup.failed": "¡Error al ejecutar el script de respaldo {name} antes de la actualización!",
+    "packages-update.continue.prompt": "¿Quieres continuar de todos modos? [y/N]",
+    "packages-update.continue": "El usuario solicitó continuar de todos modos.",
+    "packages-update.canceled.update": "Actualización cancelada...",
+    "packages-update.canceled.noninteractive": "Actualización no interactiva cancelada.",
+    "packages-update.downgrade.prompt": "La última versión es anterior a la instalada. ¿Quieres bajar de categoría? [y/N]",
+    "packages-update.canceled": "Cancelado...",
+    "packages-update.downgrade.refused": "No instalar la degradación automáticamente.",
+    "packages-update.download.failed": "Error en la descarga del paquete {name}, actualización cancelada.",
+    "packages-update.downgrade.reboot": "Reiniciando para bajar de categoría.",
+    "packages-update.reboot.prompt": "¿Desea programar el reinicio (s) o reiniciar ahora (r)? [s/R]",
+    "packages-update.update.reboot": "Reiniciando para actualizar.",
+    "packages-update.scheduled.deferred": "Reinicio programado para la actualización a la hora local {time} ({timezone}) diferida por {interval}."
+  },
+  "schema": "77f3f83454477a8d375bfb399dd18ea210e50ceaf290213460a2f613ac47abd1"
+}

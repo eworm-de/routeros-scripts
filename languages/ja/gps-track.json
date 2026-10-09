@@ -1,0 +1,9 @@
+{
+  "language": "ja",
+  "messages": {
+    "gps-track.sent": "GPS データを {format} 形式で送信します: 緯度: {latitude} 経度: {longitude}",
+    "gps-track.failed": "GPS データの送信に失敗しました: {error}",
+    "gps-track.invalid": "GPS データが無効です。"
+  },
+  "schema": "8a481e39bc7d2b2c404102ee33d70ef5d9e6f8586410be28a7438746daa9ed83"
+}

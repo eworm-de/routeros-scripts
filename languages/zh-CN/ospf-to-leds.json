@@ -1,0 +1,8 @@
+{
+  "language": "zh-CN",
+  "messages": {
+    "ospf-to-leds.on": "OSPF实例{name}有{count}邻居，导致！",
+    "ospf-to-leds.off": "OSPF实例{name}没有邻居，导致关闭！"
+  },
+  "schema": "3ae94f59ba09e39d125716de2e5770c50637c8553a2b9dcfe750e4b2f06ecb8e"
+}

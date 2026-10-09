@@ -40,6 +40,37 @@ reload to return to English without downloading any catalog.
 
 ## Current coverage
 
+All 15 locales contain the same 693 messages:
+
+| Language | `ScriptLanguage` |
+| --- | --- |
+| English (default) | `en` |
+| Mandarin Chinese (Simplified) | `zh-CN` |
+| Hindi | `hi` |
+| Spanish | `es` |
+| Modern Standard Arabic | `ar` |
+| French | `fr` |
+| Bengali | `bn` |
+| Brazilian Portuguese | `pt-BR` |
+| Indonesian | `id` |
+| Urdu | `ur` |
+| Russian | `ru` |
+| German | `de` |
+| Japanese | `ja` |
+| Nigerian Pidgin | `pcm` |
+| Egyptian Arabic | `ar-EG` |
+
+Locale codes use two or three lowercase letters, optionally followed by a
+hyphen and two uppercase region letters. For example, set
+`:global ScriptLanguage "pcm";` and reload configuration to select Pidgin.
+
+The 13 newly added locales are initial assisted translations. Nigerian Pidgin
+and Egyptian Arabic include manual drafting and dialect adaptation. Native
+speakers should review terminology and naturalness before treating these
+catalogs as final. Technical validation checks coverage, UTF-8, schemas and
+parameters; it does not establish linguistic accuracy. Keep script names,
+configuration identifiers and `{parameters}` unchanged when reviewing texts.
+
 The migrated scripts translate `check-health` notifications and diagnostics
 (including state, temperature, and voltage plugins), the four backup scripts,
 certificate checks and local issuance, perpetual-license checks, LTE firmware
@@ -177,8 +208,9 @@ of a published branch containing these catalogs:
 python3 contrib/language-test.py --base-url https://example.com/scripts/ > /tmp/language-tests.rsc
 ```
 
-The download test temporarily creates `language-pt-BR-check-health.json`, removes
-it afterwards, and refuses to overwrite an existing cache. It never executes
+The download test fetches and renders `check-health` in every non-English locale,
+temporarily creates each `language-<locale>-check-health.json` cache, and removes
+it afterwards. It refuses to overwrite existing caches. It never executes
 downloaded catalog text or sends notifications.
 
 ### Initial validation

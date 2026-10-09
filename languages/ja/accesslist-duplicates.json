@@ -1,0 +1,8 @@
+{
+  "language": "ja",
+  "messages": {
+    "accesslist-duplicates.remove.prompt": "\n削除する数値 ID、スキップする任意のキー!",
+    "accesslist-duplicates.removing": "数値 ID {id} を削除しています...\n"
+  },
+  "schema": "11c6e77afe0e5ea39b260eb21e4693aeb7b69299435563d0469b3c22651fdc8c"
+}

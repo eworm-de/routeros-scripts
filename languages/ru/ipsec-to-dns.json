@@ -1,0 +1,12 @@
+{
+  "language": "ru",
+  "messages": {
+    "ipsec-to-dns.marker.added": "Добавлена отключенная статическая DNS-запись с именем «{name}».",
+    "ipsec-to-dns.peer.exists": "Пир {peer} ({name}) все еще существует. Не удалять запись DNS.",
+    "ipsec-to-dns.peer.gone": "Узел {peer} ({name}) исчез, удалив запись DNS.",
+    "ipsec-to-dns.current": "Запись DNS для {name} не требует обновления.",
+    "ipsec-to-dns.replacing": "Замена записи DNS для {name}, новый адрес — {address}.",
+    "ipsec-to-dns.adding": "Добавляем новую запись DNS для {name}, адрес: {address}."
+  },
+  "schema": "ed1c281155d118ad0f626106c929affb97ffffbf416dd87053f0becd389012dc"
+}

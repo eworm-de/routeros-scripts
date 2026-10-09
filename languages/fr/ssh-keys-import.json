@@ -1,0 +1,16 @@
+{
+  "language": "fr",
+  "messages": {
+    "ssh-keys-import.arguments.key": "Argument(s) manquant(s), veuillez transmettre la clé et l'utilisateur !",
+    "ssh-keys-import.user.missing": "L'utilisateur '{user}' n'existe pas.",
+    "ssh-keys-import.type.unsupported": "La clé SSH de type « {type} » n'est pas prise en charge.",
+    "ssh-keys-import.key.exists": "La clé publique ssh (MD5:{fingerprint}) est déjà disponible pour l'utilisateur « {user} ».",
+    "ssh-keys-import.directory.failed": "La création du répertoire 'tmpfs/ssh-keys-import' a échoué !",
+    "ssh-keys-import.imported": "Clé publique ssh importée ({name}, {type}, MD5:{fingerprint}) pour l'utilisateur « {user} ».",
+    "ssh-keys-import.import.failed": "Échec de l'importation de la clé : {error}",
+    "ssh-keys-import.arguments.file": "Argument(s) manquant(s), veuillez transmettre le nom du fichier et l'utilisateur !",
+    "ssh-keys-import.file.missing": "Le fichier « {file} » n'existe pas.",
+    "ssh-keys-import.user.import.failed": "Échec de l'importation de la clé pour l'utilisateur « {user} »."
+  },
+  "schema": "54cdcab8a420cb935136ec8a624f3eeceed166b6b96d7dd67b4ef7d0dcd74ea7"
+}

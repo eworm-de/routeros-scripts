@@ -1617,7 +1617,7 @@
       :set LanguageUpdateRunning false;
       :return true;
     }
-    :if (!($Locale ~ "^[a-z][a-z](-[A-Z][A-Z])?\$")) do={
+    :if (!($Locale ~ "^[a-z][a-z][a-z]?(-[A-Z][A-Z])?\$")) do={
       :error [ $Translate "global-functions.language.invalid" ];
     }
     :if ([ :pick $ScriptUpdatesBaseUrl 0 8 ] != "https://") do={

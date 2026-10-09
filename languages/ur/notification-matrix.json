@@ -1,0 +1,21 @@
+{
+  "language": "ur",
+  "messages": {
+    "notification-matrix.offline": "سسٹم مکمل طور پر منسلک نہیں ہے، فلشنگ نہیں ہے۔",
+    "notification-matrix.queue.empty": "شیڈولر سے میٹرکس کے پیغامات کو فلش کیا جا رہا ہے، لیکن قطار خالی ہے۔",
+    "notification-matrix.queue.failed": "قطار والا میٹرکس پیغام بھیجنا ناکام ہو گیا: {error}",
+    "notification-matrix.send.failed": "میٹرکس نوٹیفکیشن بھیجنے میں ناکام: {error} - قطار میں...",
+    "notification-matrix.home.server": "ہوم سرور ہے: {server}",
+    "notification-matrix.home.failed": "ہوم سرور حاصل کرنے میں ناکام: {error}",
+    "notification-matrix.access.token": "رسائی ٹوکن ہے: {token}",
+    "notification-matrix.login.failed": "لاگ ان کرنے میں ناکام (اور رسائی کا ٹوکن حاصل کرنا): {error}",
+    "notification-matrix.snippet.added": "کنفیگریشن کا ٹکڑا شامل کر دیا گیا۔ اب ایک کمرہ بنائیں اور اس میں شامل ہوں، براہ کرم!",
+    "notification-matrix.snippet.failed": "کنفیگریشن کا ٹکڑا شامل کرنے میں ناکام: {error}",
+    "notification-matrix.room.joined": "کمرے میں شامل ہوا۔",
+    "notification-matrix.room.failed": "کمرے میں شامل ہونے میں ناکام: {error}",
+    "notification-matrix.snippet.appended": "کنفیگریشن کے ٹکڑوں میں کنفیگریشن شامل کر دی گئی۔ براہ کرم جائزہ لیں!",
+    "notification-matrix.snippet.append.failed": "اسنیپٹ میں کنفیگریشن شامل کرنے میں ناکام: {error}",
+    "notification-matrix.queued": "یہ پیغام {date} سے قطار میں کھڑا تھا اور ہوسکتا ہے کہ متروک ہو۔"
+  },
+  "schema": "f843ad08937ad96c091b0aa66edd949e6e467c336607c9c73ff0270be3b95839"
+}

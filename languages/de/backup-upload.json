@@ -1,0 +1,22 @@
+{
+  "language": "de",
+  "messages": {
+    "backup-upload.partition": "Wird von der Backup-Partition ausgeführt und weigert sich zu handeln.",
+    "backup-upload.directory": "Fehler beim Erstellen des Verzeichnisses!",
+    "backup-upload.options": "Konfiguriert, um weder Backup noch Konfigurationsexport zu senden.",
+    "backup-upload.none": "keine",
+    "backup-upload.label.backup": "Sicherungsdatei",
+    "backup-upload.label.export": "Datei exportieren",
+    "backup-upload.label.config": "Konfigurationsdatei",
+    "backup-upload.upload.backup.failed": "Das Hochladen der Sicherungsdatei ist fehlgeschlagen: {error}",
+    "backup-upload.upload.export.failed": "Das Hochladen des Konfigurationsexports ist fehlgeschlagen: {error}",
+    "backup-upload.upload.config.failed": "Das Hochladen von global-config-overlay ist fehlgeschlagen: {error}",
+    "backup-upload.subject": "Backup- und Konfigurations-Upload",
+    "backup-upload.subject.failed": "Backup- und Konfigurations-Upload mit Fehler",
+    "backup-upload.message": "Backup- und Konfigurationsexport-Upload für {identity}.\n\n{device}\n\n{details}",
+    "backup-upload.failed": "gescheitert",
+    "backup-upload.label.name": "    Namen",
+    "backup-upload.label.size": "    Größe"
+  },
+  "schema": "ac3b0aa1324d76ce3ef1515ba46a556bd27200aeea4ad75af6d1e26fd41bf67d"
+}

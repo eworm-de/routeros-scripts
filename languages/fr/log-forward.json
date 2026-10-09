@@ -1,0 +1,12 @@
+{
+  "language": "fr",
+  "messages": {
+    "log-forward.limited": "Limite de débit en action, pas de transfert de journaux, le cas échéant !",
+    "log-forward.subject": "Transfert de journaux",
+    "log-forward.duplicates": " Les messages répétés à plusieurs reprises ont été ignorés.",
+    "log-forward.delaying": "\nLimite de débit en action, retardant le transfert.",
+    "log-forward.message.single": "Le journal sur {identity} contient ce message après la disponibilité de {uptime}.{duplicates}{delay}\n{messages}",
+    "log-forward.message.multiple": "Le journal sur {identity} contient ces messages {count} après la disponibilité de {uptime}.{duplicates}{delay}\n{messages}"
+  },
+  "schema": "295a2441ccf8e06593a7eedcf16e2ac316badd8c4111d4dab8823ac3b329473c"
+}

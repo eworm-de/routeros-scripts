@@ -1,0 +1,10 @@
+{
+  "language": "ja",
+  "messages": {
+    "capsman-download-packages.path.undefined": "CAPsMAN パッケージ パスが定義されていないため、パッケージをダウンロードできません。",
+    "capsman-download-packages.directory.failed": "CAPsMAN パッケージ パス ({path}) でのディレクトリの作成に失敗しました。",
+    "capsman-download-packages.directory.created": "CAPsMAN パッケージ パス ({path}) にディレクトリが作成されました。荷物を置いてください！",
+    "capsman-download-packages.defaults": "利用可能なパッケージがありません。デフォルトのセットをダウンロードしています。"
+  },
+  "schema": "59f845c7f49406ecd939f7b0cebfb7f994f70400db30d8b136359720c88ab147"
+}

@@ -1,0 +1,8 @@
+{
+  "language": "ja",
+  "messages": {
+    "mode-button.scheduler.creating": "{script}: スケジューラ mode-button-scheduler を作成し、プレスをカウントしています...",
+    "mode-button.scheduler.updating": "{script}: スケジューラ mode-button-scheduler を更新しています..."
+  },
+  "schema": "1b567608fb5b7d34f1710eac3a7c4e5740acbea43a5f928a6be5d5c6d189ed03"
+}

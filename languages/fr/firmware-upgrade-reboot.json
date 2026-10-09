@@ -1,0 +1,10 @@
+{
+  "language": "fr",
+  "messages": {
+    "firmware-upgrade-reboot.current": "Le micrologiciel actuel et mis à niveau correspond à la version {version}.",
+    "firmware-upgrade-reboot.downgrade": "Différentes versions du micrologiciel sont disponibles, mais il s'agit d'une mise à niveau inférieure. Ignorer.",
+    "firmware-upgrade-reboot.upgrade": "La version du micrologiciel {version} est disponible, mise à niveau.",
+    "firmware-upgrade-reboot.reboot": "Mise à niveau du micrologiciel réussie, redémarrage."
+  },
+  "schema": "6029d1d4da514989c7a64a3ae717c2ca8f5f42f295ad0d203b8343cf7a2944a5"
+}

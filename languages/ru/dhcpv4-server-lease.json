@@ -1,0 +1,12 @@
+{
+  "language": "ru",
+  "messages": {
+    "dhcpv4-server-lease.context.invalid": "Этот скрипт должен запускаться с ip dhcp-сервера.",
+    "dhcpv4-server-lease.script.running": "Запуск скрипта с заказом {order}: {name}",
+    "dhcpv4-server-lease.script.failed": "Не удалось выполнить сценарий «{name}»: {error}.",
+    "dhcpv4-server-lease.waiting": "Ожидаются новые вызовы, завершающиеся раньше.",
+    "dhcpv4-server-lease.assigned": "DHCP-сервер {server} назначил аренду {address} {mac}",
+    "dhcpv4-server-lease.deassigned": "DHCP-сервер {server} переназначил аренду {address} на {mac}"
+  },
+  "schema": "e8bd70cbac2cb60d46fce97c5cd6f4d6f35e4039991ffa0fb5fd3e1e1ac986c3"
+}

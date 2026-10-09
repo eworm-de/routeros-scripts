@@ -1,0 +1,12 @@
+{
+  "language": "hi",
+  "messages": {
+    "log-forward.limited": "कार्रवाई में दर सीमा, लॉग अग्रेषित नहीं करना, यदि कोई हो!",
+    "log-forward.subject": "लॉग अग्रेषण",
+    "log-forward.duplicates": " कई बार दोहराए गए संदेशों को छोड़ दिया गया है.",
+    "log-forward.delaying": "\nकार्रवाई में दर सीमा, अग्रेषण में देरी।",
+    "log-forward.message.single": "{identity} पर लॉग में {uptime} अपटाइम के बाद यह संदेश है।{duplicates}{delay}\n{messages}",
+    "log-forward.message.multiple": "{identity} पर लॉग में {uptime} अपटाइम के बाद ये {count} संदेश शामिल हैं।{duplicates}{delay}\n{messages}"
+  },
+  "schema": "295a2441ccf8e06593a7eedcf16e2ac316badd8c4111d4dab8823ac3b329473c"
+}

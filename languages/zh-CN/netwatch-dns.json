@@ -1,0 +1,16 @@
+{
+  "language": "zh-CN",
+  "messages": {
+    "netwatch-dns.settling": "系统刚刚启动，让netwatch {duration} 解决。",
+    "netwatch-dns.dns.updating": "更新 DNS 服务器：{servers}",
+    "netwatch-dns.dns.fallback": "将 DNS 服务器更新为后备：{servers}",
+    "netwatch-dns.doh.current": "当前 DoH 服务器仍在运行并正在解析：{server}",
+    "netwatch-dns.doh.disabling": "当前 DoH 服务器已关闭或未解析，禁用：{server}",
+    "netwatch-dns.certificate.failed": "下载证书“{name}”失败，尝试不使用。",
+    "netwatch-dns.request.failed": "向 DoH 服务器 {server} 的请求失败：{error}",
+    "netwatch-dns.response.invalid": "从 DoH 服务器收到意外响应：{server}",
+    "netwatch-dns.crl.warning": "配置为使用 CRL，这可能会导致严重问题！",
+    "netwatch-dns.doh.setting": "设置DoH服务器：{server}"
+  },
+  "schema": "a990191facc83c19ae4d95e097a5f7ec17573be4bce019c61e2ca3dcdffebf43"
+}

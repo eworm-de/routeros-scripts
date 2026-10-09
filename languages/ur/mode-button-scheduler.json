@@ -1,0 +1,11 @@
+{
+  "language": "ur",
+  "messages": {
+    "mode-button-scheduler.scheduler.missing": "شیڈولر موجود نہیں ہے۔",
+    "mode-button-scheduler.action.missing": "{count} موڈ بٹن دبانے کے لیے کوئی کارروائی متعین نہیں ہے۔",
+    "mode-button-scheduler.syntax": "{count} موڈ بٹن دبانے کا کوڈ نحو کی توثیق میں ناکام ہوگیا!",
+    "mode-button-scheduler.acting": "{count} موڈ بٹن دبانے پر عمل کرنا: {code}",
+    "mode-button-scheduler.failed": "{count} موڈ بٹن دبانے کا کوڈ رن ٹائم کی خرابی کے ساتھ ناکام ہو گیا: {error}"
+  },
+  "schema": "573b86779a15979155d7ff480e677e88dbe77a77cbd92ffaba77887856e8af91"
+}

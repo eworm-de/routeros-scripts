@@ -1,0 +1,14 @@
+{
+  "language": "ru",
+  "messages": {
+    "ipv6-update.address.ignored": "Был получен адрес ({address}), а не префикс. Игнорирование.",
+    "ipv6-update.context.invalid": "Этот скрипт должен запускаться из dhcp-клиента ipv6.",
+    "ipv6-update.prefix.invalid": "Префикс {prefix} больше не действителен. Игнорирование.",
+    "ipv6-update.list.added": "Добавлена запись в динамический список адресов IPv6 для ipv6-pool-{pool}.",
+    "ipv6-update.prefix.updating": "Обновление списка адресов IPv6 новым префиксом IPv6 {prefix}",
+    "ipv6-update.host.updating": "Обновление списка адресов IPv6 новым адресом хоста IPv6 {address} из интерфейса {interface}",
+    "ipv6-update.interface.prefix.updating": "Обновление списка адресов IPv6 новым префиксом IPv6 {prefix} из интерфейса {interface}",
+    "ipv6-update.dns.updating": "Обновление DNS-записи для {name}{regexp} на {address}"
+  },
+  "schema": "d502241c31fb73e9c3245e499a026333b5c7b5265d927b18a2a24bf7948fb823"
+}

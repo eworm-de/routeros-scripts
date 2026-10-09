@@ -1,0 +1,30 @@
+{
+  "language": "hi",
+  "messages": {
+    "telegram-chat.certificate.failed": "आवश्यक प्रमाणपत्र डाउनलोड करना विफल रहा.",
+    "telegram-chat.fetch.failed": "फ़ेच विफल, {count}. प्रयास करें: {error}",
+    "telegram-chat.updates.failed": "अपडेट प्राप्त करने में विफल.",
+    "telegram-chat.update": "अद्यतन {id}: {update}",
+    "telegram-chat.notice": "अद्यतन {id} के लिए सूचना भेजी जा रही है।",
+    "telegram-chat.subject": "टेलीग्राम चैट",
+    "telegram-chat.greeting": "नमस्ते {name}!\n\n",
+    "telegram-chat.directory.failed": "निर्देशिका बनाने में विफल!",
+    "telegram-chat.command.running": "अद्यतन {id} से कमांड चला रहा है: {command}",
+    "telegram-chat.command.background": "आदेश समाप्त नहीं हुआ, अभी भी पृष्ठभूमि में चल रहा है।\n\n",
+    "telegram-chat.command.failed": "आदेश एक त्रुटि के साथ विफल रहा!\n\n",
+    "telegram-chat.command": "आदेश:\n{command}\n\n",
+    "telegram-chat.output": "आउटपुट:\n{output}",
+    "telegram-chat.output.empty": "कोई आउटपुट नहीं.",
+    "telegram-chat.command.syntax": "अद्यतन {id} से कमांड सिंटैक्स सत्यापन विफल रहा!",
+    "telegram-chat.command.syntax.message": "आदेश सिंटैक्स सत्यापन विफल रहा!",
+    "telegram-chat.untrusted.message": "आप पर भरोसा नहीं है.",
+    "telegram-chat.update.handled": "अद्यतन {id} पहले ही संभाला जा चुका है।",
+    "telegram-chat.online.passive": "ऑनलाइन, आपके आदेशों की प्रतीक्षा में!",
+    "telegram-chat.online.active": "ऑनलाइन (और सक्रिय!), आपके आदेशों की प्रतीक्षा में!",
+    "telegram-chat.state.active": "अब अद्यतन {id} से सक्रिय!",
+    "telegram-chat.state.passive": "अद्यतन {id} से अब निष्क्रिय!",
+    "telegram-chat.untrusted.unnamed": "अद्यतन {id} में उपयोगकर्ता नाम (आईडी {contact}) के बिना अविश्वसनीय संपर्क से एक संदेश प्राप्त हुआ!",
+    "telegram-chat.untrusted.named": "अद्यतन {id} में अविश्वसनीय संपर्क '{username}' (आईडी {contact}) से एक संदेश प्राप्त हुआ!"
+  },
+  "schema": "23866b98057d30494867d66d781c3555fc2f373d9af75cb1aac34c965ee3bd54"
+}
