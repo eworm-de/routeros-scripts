@@ -9,6 +9,15 @@
 # track gps data by sending json data to http server
 # https://rsc.eworm.de/doc/gps-track.md
 
+# BEGIN GENERATED LANGUAGE DATA
+# language, name=gps-track, schema=8a481e39bc7d2b2c404102ee33d70ef5d9e6f8586410be28a7438746daa9ed83
+:global LanguageEnglish;
+:if ([ :typeof $LanguageEnglish ] != "array") do={ :set LanguageEnglish ({}); }
+:set ($LanguageEnglish->"gps-track.failed") "Failed sending GPS data: {error}";
+:set ($LanguageEnglish->"gps-track.invalid") "GPS data not valid.";
+:set ($LanguageEnglish->"gps-track.sent") "Sending GPS data in {format} format: lat: {latitude} lon: {longitude}";
+# END GENERATED LANGUAGE DATA
+
 :onerror Err {
   :global GlobalConfigReady; :global GlobalFunctionsReady;
   :retry { :if ($GlobalConfigReady != true || $GlobalFunctionsReady != true) \
@@ -20,6 +29,7 @@
 
   :global FetchUserAgentStr;
   :global LogPrint;
+  :global Translate;
   :global ScriptLock;
   :global WaitFullyConnected;
 
@@ -37,14 +47,12 @@
         http-header-field=({ [ $FetchUserAgentStr $ScriptName ]; "Content-Type: application/json" }) \
         http-data=[ :serialize to=json { "identity"=$Identity; \
         "lat"=($Gps->"latitude"); "lon"=($Gps->"longitude") } ] $GpsTrackUrl as-value;
-      $LogPrint debug $ScriptName ("Sending GPS data in " . $CoordinateFormat . " format: " . \
-        "lat: " . ($Gps->"latitude") . " " . \
-        "lon: " . ($Gps->"longitude"));
+      $LogPrint debug $ScriptName [ $Translate "gps-track.sent" ({ format=$CoordinateFormat; latitude=($Gps->"latitude"); longitude=($Gps->"longitude") }) ];
     } do={
-      $LogPrint warning $ScriptName ("Failed sending GPS data: " . $Err);
+      $LogPrint warning $ScriptName [ $Translate "gps-track.failed" ({ error=$Err }) ];
     }
   } else={
-    $LogPrint debug $ScriptName ("GPS data not valid.");
+    $LogPrint debug $ScriptName [ $Translate "gps-track.invalid" ];
   }
 } do={
   :global ExitOnError; $ExitOnError [ :jobname ] $Err;

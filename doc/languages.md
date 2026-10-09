@@ -244,10 +244,16 @@ unavailable, including the deferred LTE scheduler copy. These standalone entry
 points retain offline English during initialization. Tests did not change PSKs,
 Hotspot leases, button schedulers, or LTE firmware.
 
+GPS tracking brought coverage to 491 messages. Its source parsed on the VM,
+and all 982 rendering checks and 982 native dictionary checks passed. The
+invalid-data diagnostic passed in both locales with simulated GPS reads;
+coordinates were not uploaded. Valid GPS hardware and HTTP delivery still
+require integration validation.
+
 ### Remaining migration
 
-The full migration is still in progress. Remaining groups include GPS output,
-configuration examples, and shared helper diagnostics. Bootstrap
+The full migration is still in progress. Remaining groups include configuration
+examples and shared helper diagnostics. Bootstrap
 messages and machine-readable strings
 need individual classification before changes. One upstream pull request will
 be opened after the full migration and its validation are complete.

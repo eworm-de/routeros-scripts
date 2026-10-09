@@ -1,4 +1,9 @@
 :global IPCalc;
+:global GlobalConfigReady true;
+:global GlobalFunctionsReady true;
+:global ScriptLock do={ :return true; };
+:global WaitFullyConnected do={};
+:global UtilityFixtureGpsRun;
 :global IPCalcReturn;
 :global InspectVarReturn;
 :global ScriptRunOnce;
@@ -46,5 +51,9 @@
   :set Expected "The script 'https://example.invalid/fixture.rsc' failed syntax validation!";
   :if ($Locale = "pt-BR") do={ :set Expected "A sintaxe do script 'https://example.invalid/fixture.rsc' \C3\A9 inv\C3\A1lida!"; };
   :if ($Captured != $Expected) do={ :error "Script-run syntax guard failed"; };
+  $UtilityFixtureGpsRun;
+  :set Expected "GPS data not valid.";
+  :if ($Locale = "pt-BR") do={ :set Expected "Os dados de GPS n\C3\A3o s\C3\A3o v\C3\A1lidos."; };
+  :if ($Captured != $Expected) do={ :error "GPS invalid-data guard failed"; };
 }
-:put "Localized IP calculation, variable inspection and script-run guards passed.";
+:put "Localized utility output, script-run and GPS guards passed.";

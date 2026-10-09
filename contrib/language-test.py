@@ -137,6 +137,14 @@ if args.utilities:
             feature = feature.replace(':put ', ':global UtilityFixtureOutput; :set UtilityFixtureOutput ')
         tests += feature + '\n'
         translated.update(load(root / 'languages/pt-BR' / (name + '.json'))['messages'])
+    feature = (root / 'gps-track.rsc').read_text(encoding='utf-8')
+    for old, new in {'[ /system/gps/get coordinate-format ]': '"dd"',
+                     '[ /system/gps/monitor once as-value ]': '{ "valid"=false }'}.items():
+        if feature.count(old) != 1:
+            raise ValueError('GPS fixture read no longer matches: ' + old)
+        feature = feature.replace(old, new)
+    tests += ':global UtilityFixtureGpsRun do={\n' + feature + '\n};\n'
+    translated.update(load(root / 'languages/pt-BR/gps-track.json')['messages'])
     tests += ':set LanguageMessages ([:deserialize from=json options=json.no-string-conversion ' + quote(json.dumps(translated, ensure_ascii=False)) + ']);\n'
     tests += ':global UtilityFixtureTest do={\n' + (root / 'tests/language-utilities.rsc').read_text(encoding='utf-8') + '\n};\n$UtilityFixtureTest;\n'
 if args.standalone:

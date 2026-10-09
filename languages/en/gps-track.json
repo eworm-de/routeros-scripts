@@ -1,0 +1,9 @@
+{
+  "language": "en",
+  "messages": {
+    "gps-track.sent": "Sending GPS data in {format} format: lat: {latitude} lon: {longitude}",
+    "gps-track.failed": "Failed sending GPS data: {error}",
+    "gps-track.invalid": "GPS data not valid."
+  },
+  "schema": "8a481e39bc7d2b2c404102ee33d70ef5d9e6f8586410be28a7438746daa9ed83"
+}
