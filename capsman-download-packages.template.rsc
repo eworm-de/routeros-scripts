@@ -12,6 +12,16 @@
 # !! This is just a template to generate the real script!
 # !! Pattern '%TEMPL%' is replaced, paths are filtered.
 
+# BEGIN GENERATED LANGUAGE DATA
+# language, name=capsman-download-packages, schema=59f845c7f49406ecd939f7b0cebfb7f994f70400db30d8b136359720c88ab147
+:global LanguageEnglish;
+:if ([ :typeof $LanguageEnglish ] != "array") do={ :set LanguageEnglish ({}); }
+:set ($LanguageEnglish->"capsman-download-packages.defaults") "No packages available, downloading default set.";
+:set ($LanguageEnglish->"capsman-download-packages.directory.created") "Created directory at CAPsMAN package path ({path}). Please place your packages!";
+:set ($LanguageEnglish->"capsman-download-packages.directory.failed") "Creating directory at CAPsMAN package path ({path}) failed!";
+:set ($LanguageEnglish->"capsman-download-packages.path.undefined") "The CAPsMAN package path is not defined, can not download packages.";
+# END GENERATED LANGUAGE DATA
+
 :onerror Err {
   :global GlobalConfigReady; :global GlobalFunctionsReady;
   :retry { :if ($GlobalConfigReady != true || $GlobalFunctionsReady != true) \
@@ -22,6 +32,7 @@
   :global DownloadPackage;
   :global FileGet;
   :global LogPrint;
+  :global Translate;
   :global MkDir;
   :global RmFile;
   :global ScriptLock;
@@ -38,18 +49,18 @@
   :local Updated false;
 
   :if ([ :len $PackagePath ] = 0) do={
-    $LogPrint warning $ScriptName ("The CAPsMAN package path is not defined, can not download packages.");
+    $LogPrint warning $ScriptName [ $Translate "capsman-download-packages.path.undefined" ];
     :exit;
   }
 
   :if ([ $FileGet $PackagePath ] = false) do={
     :if ([ $MkDir $PackagePath ] = false) do={
-      $LogPrint warning $ScriptName ("Creating directory at CAPsMAN package path (" . \
-        $PackagePath . ") failed!");
+      $LogPrint warning $ScriptName [ $Translate "capsman-download-packages.directory.failed" \
+          ({ path=$PackagePath }) ];
       :exit;
     }
-    $LogPrint info $ScriptName ("Created directory at CAPsMAN package path (" . $PackagePath . \
-      "). Please place your packages!");
+    $LogPrint info $ScriptName [ $Translate "capsman-download-packages.directory.created" \
+        ({ path=$PackagePath }) ];
   }
 
   :foreach Package in=[ /file/find where type="package" \
@@ -66,7 +77,7 @@
   }
 
   :if ([ :len [ /file/find where type="package" name~("^" . $PackagePath) ] ] = 0) do={
-    $LogPrint info $ScriptName ("No packages available, downloading default set.");
+    $LogPrint info $ScriptName [ $Translate "capsman-download-packages.defaults" ];
 # NOT /interface/wifi/ #
     :foreach Arch in={ "arm"; "mipsbe" } do={
       :foreach Package in={ "routeros"; "wireless" } do={

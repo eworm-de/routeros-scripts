@@ -46,7 +46,9 @@ certificate checks and local issuance, perpetual-license checks, LTE firmware
 checks, RouterOS and package updates, RouterBOARD firmware upgrades, and rolling
 CAPsMAN upgrades. GRE and tunnelbroker updates, IPv6 updates, DNS/DoH management,
 DHCP-to-DNS and IPSec-to-DNS synchronization, DHCP lease dispatchers and comments,
-and PPP hooks are also translated. Other
+and PPP hooks are also translated. Wireless access-list duplicate prompts,
+device collection, CAPsMAN package downloads, and OSPF-to-LED diagnostics are
+translated as well. Other
 scripts and bootstrap diagnostics still use English. RouterOS-generated errors,
 sensor names, API fields, file paths, and internal status sentinels retain their
 original values. Interactive confirmations retain `[y/N]` because their key
@@ -112,7 +114,8 @@ running health checks or changing the installed configuration.
 
 Add `--catalogs` to check every message in every available locale on RouterOS,
 including accented characters, multiline text, numeric parameters, and literal
-braces in parameter values:
+braces in parameter values. Each message is checked with both JSON parameters
+and native dictionary literals:
 
 ```sh
 python3 contrib/language-test.py --catalogs > /tmp/language-tests.rsc
@@ -162,6 +165,12 @@ checks). Its sources and supported generated variants parsed on the VM.
 Guarded DHCP, IPv6, PPP, and tunnelbroker diagnostics passed in both locales
 using isolated globals; no network configuration was changed. Optional IPv6
 display fields are converted to strings so absent values render as empty text.
+
+The wireless and OSPF phase brought coverage to 287 messages. All 574 locale
+rendering checks and 574 native dictionary checks passed. The local-wireless
+and CAPsMAN variants parsed on the VM; WiFi variants require the WiFi package.
+Tests did not remove access-list entries, collect clients, download RouterOS
+packages, or change LEDs.
 
 ### Remaining migration
 

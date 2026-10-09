@@ -33,8 +33,14 @@ if args.catalogs:
                 text = translated.get(key, default)
                 expected = TOKEN.sub(lambda m: str(params[m.group(1)]), text)
                 tests += ':if ([ $Translate ' + quote(key) + ' ([:deserialize from=json options=json.no-string-conversion ' + quote(json.dumps(params)) + ']) ] != ' + quote(expected) + ') do={ :error ' + quote(locale.name + ': ' + key) + '; };\n'
+                # Exercise the literal dictionary syntax used by feature scripts,
+                # as well as JSON. A trailing semicolon can discard a single item.
+                native = '({ ' + '; '.join(quote(name) + '=' + quote(str(value))
+                                            for name, value in sorted(params.items())) + ' })'
+                tests += ':if ([ $Translate ' + quote(key) + ' ' + native + ' ] != ' + quote(expected) + ') do={ :error ' + quote(locale.name + ': native parameters: ' + key) + '; };\n'
                 count += 1
     tests += ':put ' + quote(f'{count} catalog rendering tests passed.') + ';\n'
+    tests += ':put ' + quote(f'{count} native parameter dictionary tests passed.') + ';\n'
 if args.base_url:
     if not args.base_url.startswith('https://') or not args.base_url.endswith('/'):
         parser.error('--base-url must be an HTTPS URL ending with /')
