@@ -33,6 +33,9 @@ docs: $(HTML)
 
 rsc: languages $(GEN_RSC)
 
+# Template generation must follow language embedding, including under make -j.
+$(GEN_RSC): | languages
+
 languages:
 	$(PYTHON) contrib/languages.py
 

@@ -23,7 +23,7 @@ class CatalogTests(unittest.TestCase):
     def test_all_call_sites_have_english_defaults(self):
         for catalog in sorted((ROOT / 'languages/en').glob('*.json')):
             messages = languages.load(catalog)['messages']
-            paths = [ROOT / (catalog.stem + '.rsc')]
+            paths = [languages.source_path(catalog.stem)]
             extensions = ROOT / (catalog.stem + '.d')
             if extensions.exists():
                 paths.extend(sorted(extensions.glob('*.rsc')))

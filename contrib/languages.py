@@ -36,6 +36,11 @@ def load(path):
     return json.loads(path.read_text(encoding="utf-8"), object_pairs_hook=unique)
 
 
+def source_path(group):
+    template = ROOT / (group + '.template.rsc')
+    return template if template.exists() else ROOT / (group + '.rsc')
+
+
 def render(check=False):
     schemas = {}
     outputs = {}
@@ -71,7 +76,7 @@ def render(check=False):
         for key, text in sorted(messages.items()):
             block += f':set ($LanguageEnglish->{quote(key)}) {quote(text)};\n'
         block += END
-        target = ROOT / (group + '.rsc')
+        target = source_path(group)
         source = target.read_text(encoding='utf-8')
         if BEGIN in source:
             source = re.sub(re.escape(BEGIN) + r'.*?' + re.escape(END), lambda _: block, source, flags=re.S)

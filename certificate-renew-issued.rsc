@@ -8,6 +8,15 @@
 # renew locally issued certificates
 # https://rsc.eworm.de/doc/certificate-renew-issued.md
 
+# BEGIN GENERATED LANGUAGE DATA
+# language, name=certificate-renew-issued, schema=9048d1a3bcb148168f2785f02dea50e8de90c9f3170cedabe6b72d99bc61a2fd
+:global LanguageEnglish;
+:if ([ :typeof $LanguageEnglish ] != "array") do={ :set LanguageEnglish ({}); }
+:set ($LanguageEnglish->"certificate-renew-issued.directory.failed") "Failed creating directory, not exporting certificate.";
+:set ($LanguageEnglish->"certificate-renew-issued.exported") "Issued a new certificate for '{name}', exported to 'cert-issued/{name}.p12'.";
+:set ($LanguageEnglish->"certificate-renew-issued.issued") "Issued a new certificate for '{name}'.";
+# END GENERATED LANGUAGE DATA
+
 :onerror Err {
   :global GlobalConfigReady; :global GlobalFunctionsReady;
   :retry { :if ($GlobalConfigReady != true || $GlobalFunctionsReady != true) \
@@ -17,6 +26,7 @@
   :global CertIssuedExportPass;
 
   :global LogPrint;
+  :global Translate;
   :global MkDir;
   :global ScriptLock;
 
@@ -36,13 +46,14 @@
         /certificate/export-certificate ($CertVal->"name") type=pkcs12 \
             file-name=("cert-issued/" . $CertVal->"common-name") \
             export-passphrase=($CertIssuedExportPass->($CertVal->"common-name"));
-        $LogPrint info $ScriptName ("Issued a new certificate for '" . $CertVal->"common-name" . \
-          "', exported to 'cert-issued/" . $CertVal->"common-name" . ".p12'.");
+        $LogPrint info $ScriptName [ $Translate "certificate-renew-issued.exported" \
+            ({ name=($CertVal->"common-name"); }) ];
       } else={
-        $LogPrint warning $ScriptName ("Failed creating directory, not exporting certificate.");
+        $LogPrint warning $ScriptName [ $Translate "certificate-renew-issued.directory.failed" ];
       }
     } else={
-      $LogPrint info $ScriptName ("Issued a new certificate for '" . $CertVal->"common-name" . "'.");
+      $LogPrint info $ScriptName [ $Translate "certificate-renew-issued.issued" \
+          ({ name=($CertVal->"common-name"); }) ];
     }
   }
 } do={

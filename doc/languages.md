@@ -40,9 +40,11 @@ reload to return to English without downloading any catalog.
 
 ## Current coverage
 
-The first three phases translate `check-health` notifications and diagnostics
+The migrated scripts translate `check-health` notifications and diagnostics
 (including state, temperature, and voltage plugins), the four backup scripts,
-certificate checks, perpetual-license checks, and LTE firmware checks. Other
+certificate checks and local issuance, perpetual-license checks, LTE firmware
+checks, RouterOS and package updates, RouterBOARD firmware upgrades, and rolling
+CAPsMAN upgrades. Other
 scripts and bootstrap diagnostics still use English. RouterOS-generated errors,
 sensor names, API fields, file paths, and internal status sentinels retain their
 original values. Interactive confirmations retain `[y/N]` because their key
@@ -62,6 +64,10 @@ schema identifiers. Do not edit those blocks directly. The loader discovers
 catalog schemas from installed script headers, so uninstalled features require
 no downloads. Installing or updating a translated script reloads the schema
 index through the existing installer.
+
+For template families, defaults are embedded in `*.template.rsc`; regenerate
+the platform variants with `make rsc` after updating catalogs. Both CAPsMAN
+variants share the `capsman-rolling-upgrade` catalog.
 
 ```sh
 python3 contrib/languages.py
@@ -135,10 +141,18 @@ VM. All 144 catalog messages passed rendering checks in English and Brazilian
 Portuguese (288 checks). These rendering tests exercise the RouterOS helper;
 they do not perform certificate renewal, partition copies, or firmware upgrades.
 
+The update and issuance phase parsed successfully on the VM, including the
+CAPsMAN variant supported by its wireless package. All 201 messages passed
+rendering in both locales (402 checks). RouterOS and package-update scripts
+also produced the expected backup-partition refusal diagnostics in both
+languages with isolated globals and a temporary disabled scheduler. Tests
+did not install packages, reboot, renew certificates, or upgrade CAPs. The
+WiFi variant still requires validation on a device with the WiFi package.
+
 ### Remaining migration
 
-The full migration is still in progress. Next groups include certificate issuance,
-upgrade scripts, network and DNS scripts, wireless templates, notification
+The full migration is still in progress. Next groups include unattended LTE
+upgrades, network and DNS scripts, other wireless templates, notification
 modules, SMS and Telegram output, and shared helper diagnostics. Bootstrap
 messages and machine-readable strings
 need individual classification before changes. One upstream pull request will

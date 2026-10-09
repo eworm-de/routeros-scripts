@@ -13,6 +13,14 @@
 # !! This is just a template to generate the real script!
 # !! Pattern '%TEMPL%' is replaced, paths are filtered.
 
+# BEGIN GENERATED LANGUAGE DATA
+# language, name=capsman-rolling-upgrade, schema=518c446962bfccca4b56fa763c6aedb6d6e615b691208e3ffc397bbcd2c91de8
+:global LanguageEnglish;
+:if ([ :typeof $LanguageEnglish ] != "array") do={ :set LanguageEnglish ({}); }
+:set ($LanguageEnglish->"capsman-rolling-upgrade.starting") "Starting upgrade for {name} ({identity})...";
+:set ($LanguageEnglish->"capsman-rolling-upgrade.vanished") "Remote CAP vanished, skipping upgrade.";
+# END GENERATED LANGUAGE DATA
+
 :onerror Err {
   :global GlobalConfigReady; :global GlobalFunctionsReady;
   :retry { :if ($GlobalConfigReady != true || $GlobalFunctionsReady != true) \
@@ -20,6 +28,7 @@
   :local ScriptName [ :jobname ];
 
   :global LogPrint;
+  :global Translate;
   :global ScriptLock;
 
   :if ([ $ScriptLock $ScriptName ] = false) do={
@@ -41,12 +50,13 @@
 # NOT /caps-man/ #
         :set ($RemoteCapVal->"name") ($RemoteCapVal->"common-name");
 # NOT /caps-man/ #
-        $LogPrint info $ScriptName ("Starting upgrade for " . $RemoteCapVal->"name" . \
-          " (" . $RemoteCapVal->"identity" . ")...");
+        $LogPrint info $ScriptName [ $Translate "capsman-rolling-upgrade.starting" \
+            ({ name=($RemoteCapVal->"name"); \
+            identity=($RemoteCapVal->"identity"); }) ];
         /caps-man/remote-cap/upgrade $RemoteCap;
         /interface/wifi/capsman/remote-cap/upgrade $RemoteCap;
       } else={
-        $LogPrint warning $ScriptName ("Remote CAP vanished, skipping upgrade.");
+        $LogPrint warning $ScriptName [ $Translate "capsman-rolling-upgrade.vanished" ];
       }
       :delay ($Delay . "s");
     }
