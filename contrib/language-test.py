@@ -153,7 +153,7 @@ if args.utilities:
 if args.standalone:
     tests += ':local SavedTranslate $Translate; :set Translate;\n'
     count = 0
-    for group in ('mode-button', 'hotspot-to-wpa', 'unattended-lte-firmware-upgrade'):
+    for group in ('global-config', 'mode-button', 'hotspot-to-wpa', 'unattended-lte-firmware-upgrade'):
         feature = source_path(group).read_text(encoding='utf-8')
         defaults = re.search(re.escape(BEGIN) + r'.*?' + re.escape(END), feature, re.S)[0]
         english = load(root / 'languages/en' / (group + '.json'))['messages']
@@ -182,8 +182,38 @@ if args.reload:
     tests += ':global ReloadFixtureInstaller do={\n:global LanguageUpdate;\n' + installer_hook + '\n};\n'
     tests += ':global ReloadFixtureTest do={\n' + (root / 'tests/language-reload.rsc').read_text(encoding='utf-8') + '\n};\n$ReloadFixtureTest;\n'
 if args.core:
+    core = (root / 'global-functions.rsc').read_text(encoding='utf-8')
+    extra = (root / 'global-functions.d/core-extra.rsc').read_text(encoding='utf-8')
+    for group in ('global-functions', 'core-extra'):
+        source = source_path(group).read_text(encoding='utf-8')
+        tests += re.search(re.escape(BEGIN) + r'.*?' + re.escape(END), source, re.S)[0] + '\n'
+    for name, source in (('LogPrintOnce', core), ('DeviceInfo', extra), ('GetMacVendor', extra)):
+        start = source.index(':set ' + name + ' do={')
+        body = source[start:source.index('\n}\n', start) + 3]
+        if name == 'LogPrintOnce':
+            body = body.replace('[ /log/find where message=($Name . ": " . $Message) ]', '{ "existing" }')
+        if name == 'DeviceInfo':
+            for old, new in {'[ /system/license/get ]': '{ "level"="1" }',
+                             '[ /system/resource/get ]': '{ "board-name"="VM"; "architecture-name"="x86_64" }',
+                             '[[ :parse "/system/routerboard/get" ]]': '{ "routerboard"=false }',
+                             '[ /snmp/get ]': '{ "location"="Lab"; "contact"="Admin" }',
+                             '[ /system/package/update/get ]': '{ "channel"="stable"; "installed-version"="7.24.5" }'}.items():
+                body = body.replace(old, new)
+        tests += ':global ' + name + ';\n' + body + '\n'
+    fw = (root / 'fw-addr-lists.rsc').read_text(encoding='utf-8')
+    guard = fw[fw.index('  # Include legacy English logs'):fw.index('  :if ($CrashDetected = true)')]
+    guard = re.sub(r'\[ /log/find where.*?\]', '[ $SharedFixtureFind ("\\$LogPrintOnce: " . $Alert) ]', guard, flags=re.S)
+    tests += ':global SharedFixtureDetect do={\n:global LanguageEnglish; :global LogPrintOnceCrashMessages; :global SharedFixtureFind;\n' + guard + '\n:return $CrashDetected;\n};\n'
+    translated = {}
+    for group in ('global-functions', 'core-extra'):
+        translated.update(load(root / 'languages/pt-BR' / (group + '.json'))['messages'])
+    tests += ':global SharedFixturePortuguese ([:deserialize from=json options=json.no-string-conversion ' + quote(json.dumps(translated, ensure_ascii=False)) + ']);\n'
+    tests += ':global SharedFixtureTest do={\n' + (root / 'tests/language-shared.rsc').read_text(encoding='utf-8') + '\n};\n$SharedFixtureTest;\n'
     feature = (root / 'global-functions.rsc').read_text(encoding='utf-8')
     feature = ':global CoreFixtureFetch;\n' + feature
+    for name in ('DeviceInfo', 'DownloadPackage', 'GetMacVendor', 'ScriptInstallUpdate',
+                 'SymbolByUnicodeName', 'SymbolForNotification'):
+        feature = feature.replace('"' + name + '"', '"LanguageTest' + name + '"')
     feature = feature.replace('"global-functions.d/core-extra"', '"LanguageTestCoreExtra"')
     old = '[ /tool/fetch check-certificate=yes-without-crl output=user url=$Url as-value ]'
     if feature.count(old) != 1:
@@ -231,22 +261,28 @@ if args.base_url:
     if not args.base_url.startswith('https://') or not args.base_url.endswith('/'):
         parser.error('--base-url must be an HTTPS URL ending with /')
     catalog = load(root / 'languages/en/check-health.json')
+    diagnostics = load(root / 'languages/en/global-functions.json')
     tests += '\n:global LanguageEnglish ({});\n'
     tests += ''.join(f':set ($LanguageEnglish->{quote(key)}) {quote(text)};\n'
-                     for key, text in catalog['messages'].items())
+                     for key, text in (catalog['messages'] | diagnostics['messages']).items())
     tests += ':global LanguageSchemas { "check-health"=' + quote(catalog['schema']) + ' };\n'
     tests += ':global ScriptUpdatesBaseUrl ' + quote(args.base_url) + ';\n'
     tests += ':global ScriptUpdatesUrlSuffix "";\n'
     tests += (root / 'tests/language-loader.rsc').read_text(encoding='utf-8')
 variables = sorted(set(re.findall(r':global ([A-Za-z][A-Za-z0-9]*)', runtime + tests + ''.join(body for _, body in payloads))))
+def namespace(body):
+    for name in sorted(variables, key=len, reverse=True):
+        # Rename executable references and declarations, preserving text that
+        # happens to mention a configuration identifier (e.g. ScriptLanguage).
+        body = re.sub(r'(?:(?<=\$)|(?<=:global )|(?<=:local )|(?<=:set ))' + re.escape(name) + r'\b',
+                      'LanguageTest' + name, body)
+    return body
 source = runtime + '\n' + tests
-for name in sorted(variables, key=len, reverse=True):
-    source = re.sub(r'\b' + re.escape(name) + r'\b', 'LanguageTest' + name, source)
+source = namespace(source)
 for marker, body in payloads:
     # Namespace executable payloads before quoting; \24 escapes otherwise hide
     # variable boundaries from the isolation pass.
-    for name in sorted(variables, key=len, reverse=True):
-        body = re.sub(r'\b' + re.escape(name) + r'\b', 'LanguageTest' + name, body)
+    body = namespace(body)
     source = source.replace(marker, quote(body))
 cleanup = '\n'.join(f':global LanguageTest{name}; :set LanguageTest{name};' for name in variables)
 sys.stdout.buffer.write((':onerror TestError {\n' + source + '\n' + cleanup +

@@ -29,8 +29,10 @@ class CatalogTests(unittest.TestCase):
                 paths.extend(sorted(extensions.glob('*.rsc')))
             used = set()
             for path in paths:
-                source = path.read_text(encoding='utf-8')
-                used.update(re.findall(r'\$Translate "([^"]+)"', source))
+                source = path.read_text(encoding='utf-8').replace('\\"', '"').replace('\\$', '$')
+                # Extensions may ship their own catalog, as core-extra does.
+                used.update(key for key in re.findall(r'\$Translate "([^"]+)"', source)
+                            if key.startswith(catalog.stem + '.'))
             with self.subTest(catalog=catalog.name):
                 self.assertEqual(set(messages), used)
 

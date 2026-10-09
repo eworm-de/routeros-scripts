@@ -11,6 +11,77 @@
 # Required shared helpers, loaded by global-functions before optional modules.
 # https://rsc.eworm.de/
 
+# BEGIN GENERATED LANGUAGE DATA
+# language, name=core-extra, schema=67d39fba079bc1dcdbafde9bd6a295652dbd34893844fb9b69e4a5b36ee72e93
+:global LanguageEnglish;
+:if ([ :typeof $LanguageEnglish ] != "array") do={ :set LanguageEnglish ({}); }
+:set ($LanguageEnglish->"core-extra.certificate.failed") "Downloading required certificate failed.";
+:set ($LanguageEnglish->"core-extra.certificate.fallback") "Downloading certificate failed, trying without.";
+:set ($LanguageEnglish->"core-extra.checksums.failed") "Failed downloading checksums: {error}";
+:set ($LanguageEnglish->"core-extra.checksums.fetch") "Fetching checksums from url: {url}";
+:set ($LanguageEnglish->"core-extra.config.downgrade") "The configuration version decreased from {before} to {version}. Installed an older version?";
+:set ($LanguageEnglish->"core-extra.config.increased") "The configuration version on {identity} increased to {version}, current configuration may need modification. Please review and update global-config-overlay, then re-run global-config.";
+:set ($LanguageEnglish->"core-extra.config.reload") "Reloading global configuration and functions.";
+:set ($LanguageEnglish->"core-extra.config.reload.failed") "Reloading global configuration and functions failed! {error}";
+:set ($LanguageEnglish->"core-extra.device.arch") "    Arch";
+:set ($LanguageEnglish->"core-extra.device.available") "    Available";
+:set ($LanguageEnglish->"core-extra.device.board") "    Board";
+:set ($LanguageEnglish->"core-extra.device.channel") "    Channel";
+:set ($LanguageEnglish->"core-extra.device.commit") "    Commit";
+:set ($LanguageEnglish->"core-extra.device.contact") "Contact";
+:set ($LanguageEnglish->"core-extra.device.firmware") "    Firmware";
+:set ($LanguageEnglish->"core-extra.device.hardware") "Hardware:\0A";
+:set ($LanguageEnglish->"core-extra.device.hostname") "Hostname";
+:set ($LanguageEnglish->"core-extra.device.installed") "    Installed";
+:set ($LanguageEnglish->"core-extra.device.level") "level {level}";
+:set ($LanguageEnglish->"core-extra.device.license") "    License";
+:set ($LanguageEnglish->"core-extra.device.location") "Location";
+:set ($LanguageEnglish->"core-extra.device.model") "    Model";
+:set ($LanguageEnglish->"core-extra.device.serial") "    Serial";
+:set ($LanguageEnglish->"core-extra.device.version") "    Version";
+:set ($LanguageEnglish->"core-extra.migration.apply") "Applying migration for change {change}: {code}";
+:set ($LanguageEnglish->"core-extra.migration.failed") "Migration code for change {change} failed to run: {error}";
+:set ($LanguageEnglish->"core-extra.migration.missing") "Migration code for change {change} is not available.";
+:set ($LanguageEnglish->"core-extra.migration.syntax") "Migration code for change {change} failed syntax validation!";
+:set ($LanguageEnglish->"core-extra.news.change") "Change {number}: {change}";
+:set ($LanguageEnglish->"core-extra.news.changes") "\0A\0AChanges:";
+:set ($LanguageEnglish->"core-extra.news.donation") "\0A\0A==== donation hint ====\0AThis project is developed in private spare time and usage is free of charge for you. If you like the scripts and think this is of value for you or your business please consider a donation.";
+:set ($LanguageEnglish->"core-extra.news.failed") "Failed fetching news, changes and migration: {error}";
+:set ($LanguageEnglish->"core-extra.news.fetch") "Fetching news, changes and migration: {url}";
+:set ($LanguageEnglish->"core-extra.news.run.failed") "The changelog failed to run: {error}";
+:set ($LanguageEnglish->"core-extra.news.subject") "News and configuration changes";
+:set ($LanguageEnglish->"core-extra.news.syntax") "The changelog failed syntax validation!";
+:set ($LanguageEnglish->"core-extra.news.unavailable") "\0A\0ANews and changes are not available.";
+:set ($LanguageEnglish->"core-extra.package.directory") "Failed creating directory, not downloading package.";
+:set ($LanguageEnglish->"core-extra.package.downloading") "Downloading package file '{package}'...";
+:set ($LanguageEnglish->"core-extra.package.exists") "Package file {package} already exists.";
+:set ($LanguageEnglish->"core-extra.package.failed") "Downloading package file '{package}' failed: {error}";
+:set ($LanguageEnglish->"core-extra.package.invalid") "Downloaded file is not a package, removing.";
+:set ($LanguageEnglish->"core-extra.package.url") "... from url: {url}";
+:set ($LanguageEnglish->"core-extra.script.add") "Adding new script: {script}";
+:set ($LanguageEnglish->"core-extra.script.checksum") "Checksum for script '{script}' matches, ignoring.";
+:set ($LanguageEnglish->"core-extra.script.device.mode") "The script '{script}' requires disabled device-mode features ({features}). Ignoring!";
+:set ($LanguageEnglish->"core-extra.script.dummy") "Removing dummy. Typo on installation?";
+:set ($LanguageEnglish->"core-extra.script.exists") "Requested to add script '{script}', but that exists already!";
+:set ($LanguageEnglish->"core-extra.script.fetch") "Fetching script '{script}' from url: {url}";
+:set ($LanguageEnglish->"core-extra.script.fetch.failed") "Failed fetching script '{script}': {error}";
+:set ($LanguageEnglish->"core-extra.script.ignore") "Ignoring script '{script}', as requested.";
+:set ($LanguageEnglish->"core-extra.script.invalid") "Looks like new script '{script}' is not valid (missing shebang). Ignoring!";
+:set ($LanguageEnglish->"core-extra.script.manual") "Added the script manually? Skip updates with 'ignore=true' in comment.";
+:set ($LanguageEnglish->"core-extra.script.no.update") "No update for script '{script}'.";
+:set ($LanguageEnglish->"core-extra.script.permissions") "Setting dont-require-permissions for script '{script}'.";
+:set ($LanguageEnglish->"core-extra.script.policy") "New policy for script '{script}': {policy}";
+:set ($LanguageEnglish->"core-extra.script.syntax") "Syntax validation for script '{script}' failed! Ignoring!";
+:set ($LanguageEnglish->"core-extra.script.unchanged") "Script '{script}' did not change.";
+:set ($LanguageEnglish->"core-extra.script.update") "Updating script: {script}";
+:set ($LanguageEnglish->"core-extra.script.version") "The script '{script}' requires RouterOS {version}, which is not met by your installation. Ignoring!";
+:set ($LanguageEnglish->"core-extra.symbol.missing") "No symbol available for name '{name}'!";
+:set ($LanguageEnglish->"core-extra.vendor.failed") "Failed getting mac vendor: {error}";
+:set ($LanguageEnglish->"core-extra.vendor.local") "locally administered";
+:set ($LanguageEnglish->"core-extra.vendor.missing") "The mac vendor is not known in database.";
+:set ($LanguageEnglish->"core-extra.vendor.unknown") "unknown vendor";
+# END GENERATED LANGUAGE DATA
+
 :global DeviceInfo;
 :global DownloadPackage;
 :global GetMacVendor;
@@ -26,6 +97,7 @@
   :global CommitBrief;
   :global IfThenElse;
   :global FormatLine;
+  :global Translate;
 
   :local License [ /system/license/get ];
   :local Resource [ /system/resource/get ];
@@ -37,35 +109,35 @@
   :local Update [ /system/package/update/get ];
 
   :return ( \
-    [ $FormatLine "Hostname" $Identity ] . "\n" . \
+    [ $FormatLine [ $Translate "core-extra.device.hostname" ] $Identity ] . "\n" . \
     [ $IfThenElse ([ :len ($Snmp->"location") ] > 0) \
-      ([ $FormatLine "Location" ($Snmp->"location") ] . "\n") ] . \
+      ([ $FormatLine [ $Translate "core-extra.device.location" ] ($Snmp->"location") ] . "\n") ] . \
     [ $IfThenElse ([ :len ($Snmp->"contact") ] > 0) \
-      ([ $FormatLine "Contact" ($Snmp->"contact") ] . "\n") ] . \
-    "Hardware:\n" . \
-    [ $FormatLine "    Board" ($Resource->"board-name") ] . "\n" . \
-    [ $FormatLine "    Arch" ($Resource->"architecture-name") ] . "\n" . \
+      ([ $FormatLine [ $Translate "core-extra.device.contact" ] ($Snmp->"contact") ] . "\n") ] . \
+    [ $Translate "core-extra.device.hardware" ] . \
+    [ $FormatLine [ $Translate "core-extra.device.board" ] ($Resource->"board-name") ] . "\n" . \
+    [ $FormatLine [ $Translate "core-extra.device.arch" ] ($Resource->"architecture-name") ] . "\n" . \
     [ $IfThenElse ($RouterBoard->"routerboard" = true) \
-      ([ $FormatLine "    Model" ($RouterBoard->"model") ] . \
+      ([ $FormatLine [ $Translate "core-extra.device.model" ] ($RouterBoard->"model") ] . \
        [ $IfThenElse ([ :len ($RouterBoard->"revision") ] > 0) \
            (" " . $RouterBoard->"revision") ] . "\n" . \
-       [ $FormatLine "    Serial" ($RouterBoard->"serial-number") ] . "\n") ] . \
+       [ $FormatLine [ $Translate "core-extra.device.serial" ] ($RouterBoard->"serial-number") ] . "\n") ] . \
     [ $IfThenElse ([ :len ($License->"nlevel") ] > 0) \
-      ([ $FormatLine "    License" ("level " . ($License->"nlevel")) ] . "\n") ] . \
+      ([ $FormatLine [ $Translate "core-extra.device.license" ] [ $Translate "core-extra.device.level" ({ level=($License->"nlevel") }) ] ] . "\n") ] . \
     "RouterOS:\n" . \
     [ $IfThenElse ([ :len ($License->"level") ] > 0) \
-      ([ $FormatLine "    License" ("level " . ($License->"level")) ] . "\n") ] . \
-    [ $FormatLine "    Channel" ($Update->"channel") ] . "\n" . \
-    [ $FormatLine "    Installed" ($Update->"installed-version") ] . "\n" . \
+      ([ $FormatLine [ $Translate "core-extra.device.license" ] [ $Translate "core-extra.device.level" ({ level=($License->"level") }) ] ] . "\n") ] . \
+    [ $FormatLine [ $Translate "core-extra.device.channel" ] ($Update->"channel") ] . "\n" . \
+    [ $FormatLine [ $Translate "core-extra.device.installed" ] ($Update->"installed-version") ] . "\n" . \
     [ $IfThenElse ([ :typeof ($Update->"latest-version") ] != "nothing" && \
         $Update->"installed-version" != $Update->"latest-version") \
-      ([ $FormatLine "    Available" ($Update->"latest-version") ] . "\n") ] . \
+      ([ $FormatLine [ $Translate "core-extra.device.available" ] ($Update->"latest-version") ] . "\n") ] . \
     [ $IfThenElse ($RouterBoard->"routerboard" = true && \
         $RouterBoard->"current-firmware" != $RouterBoard->"upgrade-firmware") \
-      ([ $FormatLine "    Firmware" ($RouterBoard->"current-firmware") ] . "\n") ] . \
+      ([ $FormatLine [ $Translate "core-extra.device.firmware" ] ($RouterBoard->"current-firmware") ] . "\n") ] . \
     "RouterOS-Scripts:\n" . \
-    [ $FormatLine "    Commit" [ $CommitBrief ] ] . "\n" . \
-    [ $FormatLine "    Version" $ExpectedConfigVersion ]);
+    [ $FormatLine [ $Translate "core-extra.device.commit" ] [ $CommitBrief ] ] . "\n" . \
+    [ $FormatLine [ $Translate "core-extra.device.version" ] $ExpectedConfigVersion ]);
 }
 
 # download package from upgrade server
@@ -79,6 +151,7 @@
   :global CleanFilePath;
   :global FileExists;
   :global LogPrint;
+  :global Translate;
   :global MkDir;
   :global RmFile;
   :global WaitForFile;
@@ -94,34 +167,34 @@
   :local PkgDest [ $CleanFilePath ($PkgDir . "/" . $PkgFile) ];
 
   :if ([ $MkDir $PkgDir ] = false) do={
-    $LogPrint warning $0 ("Failed creating directory, not downloading package.");
+    $LogPrint warning $0 [ $Translate "core-extra.package.directory" ];
     :return false;
   }
 
   :if ([ $FileExists $PkgDest "package" ] = true) do={
-    $LogPrint info $0 ("Package file " . $PkgName . " already exists.");
+    $LogPrint info $0 [ $Translate "core-extra.package.exists" ({ package=$PkgName }) ];
     :return true;
   }
 
   :if ([ $CertificateAvailable "Root YE" "fetch" ] = false) do={
-    $LogPrint error $0 ("Downloading required certificate failed.");
+    $LogPrint error $0 [ $Translate "core-extra.certificate.failed" ];
     :return false;
   }
 
   :local Url ("https://upgrade.mikrotik.com/routeros/" . $PkgVer . "/" . $PkgFile);
-  $LogPrint info $0 ("Downloading package file '" . $PkgName . "'...");
-  $LogPrint debug $0 ("... from url: " . $Url);
+  $LogPrint info $0 [ $Translate "core-extra.package.downloading" ({ package=$PkgName }) ];
+  $LogPrint debug $0 [ $Translate "core-extra.package.url" ({ url=$Url }) ];
 
   :onerror Err {
     /tool/fetch check-certificate=yes-without-crl $Url dst-path=$PkgDest;
     $WaitForFile $PkgDest;
   } do={
-    $LogPrint warning $0 ("Downloading package file '" . $PkgName . "' failed: " . $Err);
+    $LogPrint warning $0 [ $Translate "core-extra.package.failed" ({ package=$PkgName; error=$Err }) ];
     :return false;
   }
 
   :if ([ $FileExists $PkgDest "package" ] = false) do={
-    $LogPrint warning $0 ("Downloaded file is not a package, removing.");
+    $LogPrint warning $0 [ $Translate "core-extra.package.invalid" ];
     $RmFile $PkgDest;
     :return false;
   }
@@ -136,14 +209,15 @@
   :global CertificateAvailable;
   :global IsMacLocallyAdministered;
   :global LogPrint;
+  :global Translate;
 
   :if ([ $IsMacLocallyAdministered $Mac ] = true) do={
-    :return "locally administered";
+    :return [ $Translate "core-extra.vendor.local" ];
   }
 
   :do {
     :if ([ $CertificateAvailable "GTS Root R4" "fetch" ] = false) do={
-      $LogPrint warning $0 ("Downloading required certificate failed.");
+      $LogPrint warning $0 [ $Translate "core-extra.certificate.failed" ];
       :error false;
     }
     :local Vendor ([ /tool/fetch check-certificate=yes-without-crl \
@@ -153,11 +227,11 @@
     :onerror Err {
       /tool/fetch check-certificate=yes-without-crl ("https://api.macvendors.com/") \
         output=none as-value;
-      $LogPrint debug $0 ("The mac vendor is not known in database.");
+      $LogPrint debug $0 [ $Translate "core-extra.vendor.missing" ];
     } do={
-      $LogPrint warning $0 ("Failed getting mac vendor: " . $Err);
+      $LogPrint warning $0 [ $Translate "core-extra.vendor.failed" ({ error=$Err }) ];
     }
-    :return "unknown vendor";
+    :return [ $Translate "core-extra.vendor.unknown" ];
   }
 }
 
@@ -184,6 +258,7 @@
   :global Grep;
   :global IfThenElse;
   :global LogPrint;
+  :global Translate;
   :global LogPrintOnce;
   :global ParseKeyValueStore;
   :global RequiredRouterOS;
@@ -193,14 +268,14 @@
   :global LanguageUpdate;
 
   :if ([ $CertificateAvailable "Root YE" "fetch" ] = false) do={
-    $LogPrint warning $0 ("Downloading certificate failed, trying without.");
+    $LogPrint warning $0 [ $Translate "core-extra.certificate.fallback" ];
   }
 
   :foreach Script in=$Scripts do={
     :if ([ :len [ /system/script/find where name=$Script ] ] > 0) do={
-      $LogPrint info $0 ("Requested to add script '" . $Script . "', but that exists already!");
+      $LogPrint info $0 [ $Translate "core-extra.script.exists" ({ script=$Script }) ];
     } else={
-      $LogPrint info $0 ("Adding new script: " . $Script);
+      $LogPrint info $0 [ $Translate "core-extra.script.add" ({ script=$Script }) ];
       /system/script/add name=$Script owner=$Script source="#!rsc by RouterOS\n" comment=$NewComment;
     }
   }
@@ -215,11 +290,11 @@
        $ScriptUpdatesCheckSums = true) do={
     :onerror Err {
       :local Url ($ScriptUpdatesBaseUrl . "checksums.json" . $ScriptUpdatesUrlSuffix);
-      $LogPrint debug $0 ("Fetching checksums from url: " . $Url);
+      $LogPrint debug $0 [ $Translate "core-extra.checksums.fetch" ({ url=$Url }) ];
       :set CheckSums [ :deserialize from=json ([ /tool/fetch check-certificate=yes-without-crl \
         http-header-field=({ [ $FetchUserAgentStr $0 ] }) $Url output=user as-value ]->"data") ];
     } do={
-      $LogPrint warning $0 ("Failed downloading checksums: " . $Err);
+      $LogPrint warning $0 [ $Translate "core-extra.checksums.failed" ({ error=$Err }) ];
     }
   }
 
@@ -229,20 +304,20 @@
     :local SourceNew;
 
     :if ($ScriptInfo->"ignore" = true) do={
-      $LogPrint debug $0 ("Ignoring script '" . $ScriptVal->"name" . "', as requested.");
+      $LogPrint debug $0 [ $Translate "core-extra.script.ignore" ({ script=($ScriptVal->"name") }) ];
       :continue;
     }
 
     :local CheckSum ($CheckSums->($ScriptVal->"name"));
     :if ([ :len ($ScriptInfo->"base-url") ] = 0 && [ :len ($ScriptInfo->"url-suffix") ] = 0 && \
          [ :convert transform=md5 to=hex [ :tolf ($ScriptVal->"source") ] ] = $CheckSum) do={
-      $LogPrint debug $0 ("Checksum for script '" . $ScriptVal->"name" . "' matches, ignoring.");
+      $LogPrint debug $0 [ $Translate "core-extra.script.checksum" ({ script=($ScriptVal->"name") }) ];
       :continue;
     }
 
     :if ([ :len ($ScriptInfo->"certificate") ] > 0) do={
       :if ([ $CertificateAvailable ($ScriptInfo->"certificate") "fetch" ] = false) do={
-        $LogPrint warning $0 ("Downloading certificate failed, trying without.");
+        $LogPrint warning $0 [ $Translate "core-extra.certificate.fallback" ];
       }
     }
 
@@ -250,52 +325,50 @@
       :local BaseUrl [ $EitherOr ($ScriptInfo->"base-url") $ScriptUpdatesBaseUrl ];
       :local UrlSuffix [ $EitherOr ($ScriptInfo->"url-suffix") $ScriptUpdatesUrlSuffix ];
       :local Url ($BaseUrl . $ScriptVal->"name" . ".rsc" . $UrlSuffix);
-      $LogPrint debug $0 ("Fetching script '" . $ScriptVal->"name" . "' from url: " . $Url);
+      $LogPrint debug $0 [ $Translate "core-extra.script.fetch" ({ script=($ScriptVal->"name"); url=$Url }) ];
       :local Result [ /tool/fetch check-certificate=yes-without-crl \
         http-header-field=({ [ $FetchUserAgentStr $0 ] }) $Url output=user as-value ];
       :if ($Result->"status" = "finished") do={
         :set SourceNew [ :tolf ($Result->"data") ];
       }
     } do={
-      $LogPrint warning $0 ("Failed fetching script '" . $ScriptVal->"name" . "': " . $Err);
+      $LogPrint warning $0 [ $Translate "core-extra.script.fetch.failed" ({ script=($ScriptVal->"name"); error=$Err }) ];
       :if ($Err != "Fetch failed with status 404") do={
         :continue;
       }
 
       :if ($ScriptVal->"source" = "#!rsc by RouterOS\n") do={
-        $LogPrint warning $0 ("Removing dummy. Typo on installation?");
+        $LogPrint warning $0 [ $Translate "core-extra.script.dummy" ];
         /system/script/remove $Script;
         :continue;
       }
       :if ([ :len ($ScriptInfo->"base-url") ] = 0 && [ :len ($ScriptInfo->"url-suffix") ] = 0 && \
            [ :len $CheckSum ] = 0) do={
         $LogPrintOnce warning $0 \
-            ("Added the script manually? Skip updates with 'ignore=true' in comment.");
+            [ $Translate "core-extra.script.manual" ];
       }
       :continue;
     }
 
     :if ([ :len $SourceNew ] = 0) do={
-      $LogPrint debug $0 ("No update for script '" . $ScriptVal->"name" . "'.");
+      $LogPrint debug $0 [ $Translate "core-extra.script.no.update" ({ script=($ScriptVal->"name") }) ];
       :continue;
     }
 
     :local SourceCRLF [ :tocrlf $SourceNew ];
     :if ($SourceNew = $ScriptVal->"source" || $SourceCRLF = $ScriptVal->"source") do={
-      $LogPrint debug $0 ("Script '" .  $ScriptVal->"name" . "' did not change.");
+      $LogPrint debug $0 [ $Translate "core-extra.script.unchanged" ({ script=($ScriptVal->"name") }) ];
       :continue;
     }
 
     :if ([ :pick $SourceNew 0 18 ] != "#!rsc by RouterOS\n") do={
-      $LogPrint warning $0 ("Looks like new script '" . $ScriptVal->"name" . \
-          "' is not valid (missing shebang). Ignoring!");
+      $LogPrint warning $0 [ $Translate "core-extra.script.invalid" ({ script=($ScriptVal->"name") }) ];
       :continue;
     }
 
     :local RequiredROS ([ $ParseKeyValueStore [ $Grep $SourceNew ("\23 requires RouterOS, ") ] ]->"version");
     :if ([ $RequiredRouterOS $0 [ $EitherOr $RequiredROS "0.0" ] false ] = false) do={
-      $LogPrintOnce warning $0 ("The script '" . $ScriptVal->"name" . "' requires RouterOS " . \
-          $RequiredROS . ", which is not met by your installation. Ignoring!");
+      $LogPrintOnce warning $0 [ $Translate "core-extra.script.version" ({ script=($ScriptVal->"name"); version=$RequiredROS }) ];
       :continue;
     }
 
@@ -307,28 +380,26 @@
       }
     }
     :if ([ :len $MissingDM ] > 0) do={
-      $LogPrintOnce warning $0 ("The script '" . $ScriptVal->"name" . "' requires disabled " . \
-          "device-mode features (" . [ :tostr $MissingDM ] . "). Ignoring!");
+      $LogPrintOnce warning $0 [ $Translate "core-extra.script.device.mode" ({ script=($ScriptVal->"name"); features=[ :tostr $MissingDM ] }) ];
       :continue;
     }
 
     :if ([ $ValidateSyntax $SourceNew ] = false) do={
-      $LogPrint warning $0 ("Syntax validation for script '" . $ScriptVal->"name" . "' failed! Ignoring!");
+      $LogPrint warning $0 [ $Translate "core-extra.script.syntax" ({ script=($ScriptVal->"name") }) ];
       :continue;
     }
 
     :local ReqPolicy [ $ParseKeyValueStore [ $Grep $SourceNew ("\23 requires policy, ") ] ];
     :if ([ :len ($ReqPolicy->"policy") ] > 0) do={
       :set ($ScriptVal->"policy") [ :toarray delimiter=";" ($ReqPolicy->"policy") ];
-      $LogPrint debug $0 ("New policy for script '" . $ScriptVal->"name" . \
-          "': " . ($ReqPolicy->"policy"));
+      $LogPrint debug $0 [ $Translate "core-extra.script.policy" ({ script=($ScriptVal->"name"); policy=($ReqPolicy->"policy") }) ];
     }
     :if ([ :len ($ReqPolicy->"dont-require-permissions") ] > 0) do={
       :set ($ScriptVal->"dont-require-permissions") ($ReqPolicy->"dont-require-permissions");
-      $LogPrint debug $0 ("Setting dont-require-permissions for script '" . $ScriptVal->"name" . "'.");
+      $LogPrint debug $0 [ $Translate "core-extra.script.permissions" ({ script=($ScriptVal->"name") }) ];
     }
 
-    $LogPrint info $0 ("Updating script: " . $ScriptVal->"name");
+    $LogPrint info $0 [ $Translate "core-extra.script.update" ({ script=($ScriptVal->"name") }) ];
     /system/script/set owner=($ScriptVal->"name") policy=($ScriptVal->"policy") \
         dont-require-permissions=($ScriptVal->"dont-require-permissions") \
         source=[ $IfThenElse ($ScriptUpdatesCRLF = true) $SourceCRLF $SourceNew ] $Script;
@@ -339,7 +410,7 @@
   }
 
   :if ($ReloadGlobal = true) do={
-    $LogPrint info $0 ("Reloading global configuration and functions.");
+    $LogPrint info $0 [ $Translate "core-extra.config.reload" ];
     :set GlobalConfigReady false;
     :set GlobalFunctionsReady false;
     :delay 1s;
@@ -348,14 +419,12 @@
       /system/script/run global-config;
       /system/script/run global-functions;
     } do={
-      $LogPrint error $0 ("Reloading global configuration and functions failed! " . $Err);
+      $LogPrint error $0 [ $Translate "core-extra.config.reload.failed" ({ error=$Err }) ];
     }
   }
 
   :if ($ExpectedConfigVersionBefore > $ExpectedConfigVersion) do={
-    $LogPrint warning $0 ("The configuration version decreased from " . \
-      $ExpectedConfigVersionBefore . " to " . $ExpectedConfigVersion . \
-      ". Installed an older version?");
+    $LogPrint warning $0 [ $Translate "core-extra.config.downgrade" ({ before=$ExpectedConfigVersionBefore; version=$ExpectedConfigVersion }) ];
   }
 
   :if ($ExpectedConfigVersionBefore < $ExpectedConfigVersion) do={
@@ -365,14 +434,14 @@
 
     :onerror Err {
       :local Url ($ScriptUpdatesBaseUrl . "news-and-changes.rsc" . $ScriptUpdatesUrlSuffix);
-      $LogPrint debug $0 ("Fetching news, changes and migration: " . $Url);
+      $LogPrint debug $0 [ $Translate "core-extra.news.fetch" ({ url=$Url }) ];
       :local Result [ /tool/fetch check-certificate=yes-without-crl \
         http-header-field=({ [ $FetchUserAgentStr $0 ] }) $Url output=user as-value ];
       :if ($Result->"status" = "finished") do={
         :set ChangeLogCode ($Result->"data");
       }
     } do={
-      $LogPrint warning $0 ("Failed fetching news, changes and migration: " . $Err);
+      $LogPrint warning $0 [ $Translate "core-extra.news.failed" ({ error=$Err }) ];
     }
 
     :if ([ :len $ChangeLogCode ] > 0) do={
@@ -380,10 +449,10 @@
         :onerror Err {
           [ :parse $ChangeLogCode ];
         } do={
-          $LogPrint warning $0 ("The changelog failed to run: " . $Err);
+          $LogPrint warning $0 [ $Translate "core-extra.news.run.failed" ({ error=$Err }) ];
         }
       } else={
-        $LogPrint warning $0 ("The changelog failed syntax validation!");
+        $LogPrint warning $0 [ $Translate "core-extra.news.syntax" ];
       }
     }
 
@@ -392,55 +461,50 @@
         :local Migration ($GlobalConfigMigration->[ :tostr $I ]);
         :do {
           :if ([ :typeof $Migration ] != "str") do={
-            $LogPrint debug $0 ("Migration code for change " . $I . " is not available.");
+            $LogPrint debug $0 [ $Translate "core-extra.migration.missing" ({ change=$I }) ];
             :error false;
           }
 
           :if ([ $ValidateSyntax $Migration ] = false) do={
-            $LogPrint warning $0 ("Migration code for change " . $I . " failed syntax validation!");
+            $LogPrint warning $0 [ $Translate "core-extra.migration.syntax" ({ change=$I }) ];
             :error false;
           }
 
-          $LogPrint info $0 ("Applying migration for change " . $I . ": " . $Migration);
+          $LogPrint info $0 [ $Translate "core-extra.migration.apply" ({ change=$I; code=$Migration }) ];
           :onerror Err {
             [ :parse $Migration ];
           } do={
-            $LogPrint warning $0 ("Migration code for change " . $I . " failed to run: " . $Err);
+            $LogPrint warning $0 [ $Translate "core-extra.migration.failed" ({ change=$I; error=$Err }) ];
           }
         } on-error={ }
       }
     }
 
-    :local NotificationMessage ("The configuration version on " . $Identity . " increased " . \
-       "to " . $ExpectedConfigVersion . ", current configuration may need modification. " . \
-       "Please review and update global-config-overlay, then re-run global-config.");
+    :local NotificationMessage [ $Translate "core-extra.config.increased" ({ identity=$Identity; version=$ExpectedConfigVersion }) ];
     $LogPrint info $0 ($NotificationMessage);
 
     :if ([ :len $GlobalConfigChanges ] > 0) do={
-      :set NotificationMessage ($NotificationMessage . "\n\nChanges:");
+      :set NotificationMessage ($NotificationMessage . [ $Translate "core-extra.news.changes" ]);
       :for I from=($ExpectedConfigVersionBefore + 1) to=$ExpectedConfigVersion do={
         :local Change ($GlobalConfigChanges->[ :tostr $I ]);
         :set NotificationMessage ($NotificationMessage . "\n " . \
             [ $SymbolForNotification "pushpin" "*" ] . $Change);
-        $LogPrint info $0 ("Change " . $I . ": " . $Change);
+        $LogPrint info $0 [ $Translate "core-extra.news.change" ({ number=$I; change=$Change }) ];
       }
     } else={
-      :set NotificationMessage ($NotificationMessage . "\n\nNews and changes are not available.");
+      :set NotificationMessage ($NotificationMessage . [ $Translate "core-extra.news.unavailable" ]);
     }
 
     :if ($NoNewsAndChangesNotification != true) do={
       :local Link;
       :if ($IDonate != true) do={
         :set NotificationMessage ($NotificationMessage . \
-          "\n\n==== donation hint ====\n" . \
-          "This project is developed in private spare time and usage is " . \
-          "free of charge for you. If you like the scripts and think this is " . \
-          "of value for you or your business please consider a donation.");
+          [ $Translate "core-extra.news.donation" ]);
         :set Link "https://rsc.eworm.de/#donate";
       }
 
       $SendNotification2 ({ origin=$0; \
-        subject=([ $SymbolForNotification "pushpin" ] . "News and configuration changes"); \
+        subject=([ $SymbolForNotification "pushpin" ] . [ $Translate "core-extra.news.subject" ]); \
         message=$NotificationMessage; link=$Link });
     }
 
@@ -459,6 +523,7 @@
 
   :global EitherOr;
   :global LogPrintOnce;
+  :global Translate;
 
   :global SymbolsExtra;
 
@@ -508,7 +573,7 @@
     "large-red-circle-04-01"="\F0\9F\8D\92" };
 
   :if ([ :len ($Symbols->$Name) ] = 0) do={
-    $LogPrintOnce warning $0 ("No symbol available for name '" . $Name . "'!");
+    $LogPrintOnce warning $0 [ $Translate "core-extra.symbol.missing" ({ name=$Name }) ];
     :return "";
   }
 

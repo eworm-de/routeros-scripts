@@ -152,6 +152,9 @@ replace the updater; installed scripts and configuration are not reloaded.
 `LanguageTestCoreExtra` script. Fetch responses are simulated. It covers missing
 dependencies, offline/CRLF startup, stale APIs, incomplete downloads, invalid
 syntax, and missing exports, then removes the temporary script.
+It also tests shared diagnostics, device-info labels, locally administered MAC
+labels, duplicate-log suppression, and firewall crash detection across language
+changes. Device reads are simulated and logs are captured locally.
 
 The shared helpers are split between `global-functions.rsc` and the required
 `global-functions.d/core-extra.rsc` to leave room below RouterOS's Fetch size
@@ -243,8 +246,9 @@ Firewall lists and bridge/VLAN modules brought coverage to 446 messages. All
 three sources parsed on the VM. Simulated firewall reads verified certificate
 failure and empty-list summaries; bridge/VLAN fixtures verified missing and
 duplicate DHCP-client diagnostics. No firewall entries, bridge ports, VLANs,
-or DHCP clients were changed. The exact log marker shared with `LogPrintOnce`
-remains a protocol string until the shared helper migration.
+or DHCP clients were changed. The shared helper migration subsequently made
+crash warnings translatable while retaining detection of legacy English logs
+and warnings emitted before a language change.
 
 The IP calculator, variable inspector, and script-run-once modules brought
 coverage to 461 messages. All 922 locale rendering checks and 922 native
@@ -268,11 +272,17 @@ invalid-data diagnostic passed in both locales with simulated GPS reads;
 coordinates were not uploaded. Valid GPS hardware and HTTP delivery still
 require integration validation.
 
+Shared helpers, the installer, language-loader diagnostics, and configuration
+notifications brought coverage to 628 messages. All 1,256 rendering checks and
+1,256 native dictionary checks passed on RouterOS 7.24.5, together with the full
+behavioral suite above. Core/configuration sources parsed; five local renderer
+copies passed without the global helper. Tests did not download packages,
+execute migration code, send notifications, or modify device settings.
+
 ### Remaining migration
 
-The full migration is still in progress. Remaining groups include configuration
-examples and shared helper diagnostics. Bootstrap
-messages and machine-readable strings
+The full migration is still in progress. Remaining groups include historical
+change notifications. Bootstrap messages and machine-readable strings
 need individual classification before changes. One upstream pull request will
 be opened after the full migration and its validation are complete.
 

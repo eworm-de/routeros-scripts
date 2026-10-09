@@ -67,6 +67,7 @@
 
 # Load a cached catalog before fetching. Never run downloaded text as code.
 :set LanguageUpdate do={
+  :global Translate;
   :global ScriptLanguage;
   :global ScriptUpdatesBaseUrl;
   :global ScriptUpdatesUrlSuffix;
@@ -86,26 +87,27 @@
       :return true;
     }
     :if (!($Locale ~ "^[a-z][a-z](-[A-Z][A-Z])?\$")) do={
-      :error "Invalid ScriptLanguage; using English.";
+      :error [ $Translate "global-functions.language.invalid" ];
     }
     :if ([ :pick $ScriptUpdatesBaseUrl 0 8 ] != "https://") do={
-      :error "Language downloads require HTTPS.";
+      :error [ $Translate "global-functions.language.https" ];
     }
     :local ReadCatalog do={
+      :global Translate;
       :local Body $1;
       :local Schema $2;
       :local Locale $3;
       :local Group $4;
-      :if ([ :len $Body ] > 50000) do={ :error "Language catalog exceeds size limit."; }
+      :if ([ :len $Body ] > 50000) do={ :error [ $Translate "global-functions.language.size" ]; }
       :local Catalog [ :deserialize from=json options=json.no-string-conversion $Body ];
       :if (($Catalog->"schema") != $Schema || ($Catalog->"language") != $Locale || \
            [ :typeof ($Catalog->"messages") ] != "array") do={
-        :error "Incompatible language catalog.";
+        :error [ $Translate "global-functions.language.incompatible" ];
       }
       :foreach Key,Value in=($Catalog->"messages") do={
         :if ([ :typeof $Value ] != "str" || \
              [ :pick $Key 0 ([ :len $Group ] + 1) ] != ($Group . ".")) do={
-          :error "Invalid language message.";
+          :error [ $Translate "global-functions.language.message.invalid" ];
         }
       }
       :return ($Catalog->"messages");
@@ -133,7 +135,7 @@
       :onerror FetchErr {
         :local Url ($ScriptUpdatesBaseUrl . "languages/" . $Locale . "/" . $Group . ".json" . $ScriptUpdatesUrlSuffix);
         :local Response [ /tool/fetch url=$Url check-certificate=yes-without-crl output=user as-value ];
-        :if (($Response->"status") != "finished") do={ :error "Language download incomplete."; }
+        :if (($Response->"status") != "finished") do={ :error [ $Translate "global-functions.language.incomplete" ]; }
         :local Body ($Response->"data");
         :local NewMessages [ $ReadCatalog $Body $Schema $Locale $Group ];
         :set Messages $NewMessages;
@@ -142,10 +144,10 @@
             :if ([ :len $Files ] = 0) do={
               /file/add name=$Cache contents=$Body;
             } else={ /file/set $Files contents=$Body; }
-          } on-error={ :log warning "Could not cache language catalog; using it in memory."; }
+          } on-error={ :log warning [ $Translate "global-functions.language.cache.failed" ]; }
         }
       } do={
-        :log warning ("Language catalog " . $Group . ": " . $FetchErr . " Using cached translations or English.");
+        :log warning [ $Translate "global-functions.language.fetch.failed" ({ group=$Group; error=$FetchErr }) ];
       }
       :foreach Key,Value in=$Messages do={ :set ($AllMessages->$Key) $Value; }
     }
@@ -153,7 +155,7 @@
       :set LanguageMessages $AllMessages;
       :set LanguageActive $Locale;
     }
-  } do={ :log warning ("Language update: " . $Err); }
+  } do={ :log warning [ $Translate "global-functions.language.update.failed" ({ error=$Err }) ]; }
   :set LanguageUpdateRunning false;
   :return true;
 }

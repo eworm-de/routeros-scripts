@@ -6,6 +6,76 @@
 # global configuration
 # https://rsc.eworm.de/
 
+# BEGIN GENERATED LANGUAGE DATA
+# language, name=global-config, schema=709bfa8672b065ec747512a6a80aa591516e18d275521641f54158062d478f54
+:global LanguageEnglish;
+:if ([ :typeof $LanguageEnglish ] != "array") do={ :set LanguageEnglish ({}); }
+:set ($LanguageEnglish->"global-config.hello.message") "Hello world, {identity} calling!";
+:set ($LanguageEnglish->"global-config.hello.subject") "Hello...";
+:set ($LanguageEnglish->"global-config.overlay.failed") "Loading configuration from overlay or snippet {script} failed: {error}";
+# END GENERATED LANGUAGE DATA
+
+# BEGIN GENERATED LOCAL LANGUAGE RENDERER
+:local Translate do={
+  :local Key [ :tostr $1 ];
+  :local Params $2;
+  :global ScriptLanguage;
+  :global LanguageEnglish;
+  :global LanguageMessages;
+  :global LanguageActive;
+
+  :local English ($LanguageEnglish->$Key);
+  :if ([ :typeof $English ] != "str") do={ :return $Key; }
+  :local Text $English;
+  :if ($LanguageActive = $ScriptLanguage && [ :typeof ($LanguageMessages->$Key) ] = "str") do={
+    :set Text ($LanguageMessages->$Key);
+  }
+  :local Tokens do={
+    :local Text $1;
+    :local Names ({});
+    :while ([ :len $Text ] > 0) do={
+      :local Start [ :find $Text "{" ];
+      :if ([ :typeof $Start ] = "nil") do={
+        :if ([ :typeof [ :find $Text "}" ] ] != "nil") do={ :return false; }
+        :return $Names;
+      }
+      :local End [ :find $Text "}" $Start ];
+      :if ([ :typeof $End ] = "nil") do={ :return false; }
+      :if ([ :typeof [ :find [ :pick $Text 0 $Start ] "}" ] ] != "nil") do={ :return false; }
+      :local Name [ :pick $Text ($Start + 1) $End ];
+      :if (!($Name ~ "^[a-z][a-z0-9_]*\$")) do={ :return false; }
+      :set ($Names->$Name) true;
+      :set Text [ :pick $Text ($End + 1) [ :len $Text ] ];
+    }
+    :return $Names;
+  }
+  :local EnglishTokens [ $Tokens $English ];
+  :local TranslatedTokens [ $Tokens $Text ];
+  :local Valid false;
+  :if ([ :typeof $TranslatedTokens ] = "array" && \
+       [ :len $EnglishTokens ] = [ :len $TranslatedTokens ]) do={
+    :set Valid true;
+    :foreach Name,Unused in=$EnglishTokens do={
+      :if (($TranslatedTokens->$Name) != true) do={ :set Valid false; }
+    }
+  }
+  :if ($Valid != true) do={ :set Text $English; }
+  :local Result "";
+  :while ([ :len $Text ] > 0) do={
+    :local Start [ :find $Text "{" ];
+    :if ([ :typeof $Start ] = "nil") do={ :return ($Result . $Text); }
+    :local End [ :find $Text "}" $Start ];
+    :if ([ :typeof $End ] = "nil") do={ :return $English; }
+    :local Name [ :pick $Text ($Start + 1) $End ];
+    :if ([ :typeof ($Params->$Name) ] = "nothing" || \
+         [ :typeof ($Params->$Name) ] = "nil") do={ :return $English; }
+    :set Result ($Result . [ :pick $Text 0 $Start ] . [ :tostr ($Params->$Name) ]);
+    :set Text [ :pick $Text ($End + 1) [ :len $Text ] ];
+  }
+  :return $Result;
+}
+# END GENERATED LOCAL LANGUAGE RENDERER
+
 # Warning: Do *NOT* copy this line to overlay!
 :global GlobalConfigReady false;
 #   ||   ... but
@@ -209,7 +279,7 @@
 # Run different commands with multiple mode-button presses.
 :global ModeButton {
   1="/system/leds/settings/set all-leds-off=(({ \"never\"=\"immediate\"; \"immediate\"=\"never\" })->[ get all-leds-off ]);";
-  2=":global Identity; :global SendNotification; :global SymbolForNotification; \$SendNotification ([ \$SymbolForNotification \"earth\" ] . \"Hello...\") (\"Hello world, \" . \$Identity . \" calling!\");";
+  2=":global Identity; :global SendNotification; :global SymbolForNotification; :global Translate; \$SendNotification ([ \$SymbolForNotification \"earth\" ] . [ \$Translate \"global-config.hello.subject\" ]) [ \$Translate \"global-config.hello.message\" ({ identity=\$Identity }) ];";
   3="/system/shutdown;";
   4="/system/reboot;";
   5=":global BridgePortVlan; \$BridgePortVlan alt;";
@@ -288,8 +358,7 @@
   :onerror Err {
     /system/script/run $Script;
   } do={
-    :log error ("Loading configuration from overlay or snippet " . \
-        [ /system/script/get $Script name ] . " failed: " . $Err);
+    :log error [ $Translate "global-config.overlay.failed" ({ script=[ /system/script/get $Script name ]; error=$Err }) ];
   }
 }
 

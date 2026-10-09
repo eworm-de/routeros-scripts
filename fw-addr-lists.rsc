@@ -37,6 +37,8 @@
 
   :global FwAddrLists;
   :global FwAddrListTimeOut;
+  :global LanguageEnglish;
+  :global LogPrintOnceCrashMessages;
 
   :global CertificateAvailable;
   :global EitherOr;
@@ -71,8 +73,22 @@
   }
   $WaitFullyConnected;
 
-  :if ([ :len [ /log/find where topics=({"script"; "warning"}) \
-      message=("\$LogPrintOnce: The message is already in log, scripting subsystem may have crashed before!") ] ] > 0) do={
+  # Include legacy English logs and messages emitted before a language change.
+  :local CrashAlerts ({});
+  :local EnglishAlert ($LanguageEnglish->"global-functions.log.once.crash");
+  :if ([ :typeof $EnglishAlert ] = "str") do={ :set ($CrashAlerts->$EnglishAlert) true; }
+  :if ([ :typeof $LogPrintOnceCrashMessages ] = "array") do={
+    :foreach Alert,Unused in=$LogPrintOnceCrashMessages do={ :set ($CrashAlerts->$Alert) true; }
+  }
+  :local CrashDetected false;
+  :foreach Alert,Unused in=$CrashAlerts do={
+    :if ([ :len [ /log/find where topics=({"script"; "warning"}) \
+        message=("\$LogPrintOnce: " . $Alert) ] ] > 0) do={
+      :set CrashDetected true;
+      :break;
+    }
+  }
+  :if ($CrashDetected = true) do={
     $LogPrintOnce warning $ScriptName [ $Translate "fw-addr-lists.crash.delay" ];
     :delay 5m;
   }
