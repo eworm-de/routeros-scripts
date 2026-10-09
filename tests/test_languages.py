@@ -61,6 +61,15 @@ class CatalogTests(unittest.TestCase):
         self.assertEqual(self.english['messages']['check-health.voltage.jumped'],
                          'The {name} on {identity} jumped more than {percent}%.\n\n{details}')
 
+    def test_bootstrap_diagnostics_use_shared_message(self):
+        for path in ROOT.glob('*.rsc'):
+            source = path.read_text(encoding='utf-8')
+            if ':retry { :if ($GlobalConfigReady' in source:
+                with self.subTest(path=path.name):
+                    self.assertIn(':global GlobalNotReadyMessage;', source)
+                    self.assertIn(':error $GlobalNotReadyMessage', source)
+                    self.assertNotIn(':error ("Global config and/or functions not ready.")', source)
+
     def test_routeros_quote_escapes_code_and_unicode(self):
         self.assertEqual(languages.quote('"$\\\n°'), '"\\22\\24\\5C\\0A\\C2\\B0"')
 

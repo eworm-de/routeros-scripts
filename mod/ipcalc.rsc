@@ -18,6 +18,11 @@
 :set ($LanguageEnglish->"ipcalc.hostmin") "HostMin";
 :set ($LanguageEnglish->"ipcalc.netmask") "Netmask";
 :set ($LanguageEnglish->"ipcalc.network") "Network";
+:set ($LanguageEnglish->"global-config.not.ready") "Global config and/or functions not ready.";
+:global GlobalNotReadyMessage;
+:if ([ :typeof $GlobalNotReadyMessage ] != "str") do={
+  :set GlobalNotReadyMessage ($LanguageEnglish->"global-config.not.ready");
+}
 # END GENERATED LANGUAGE DATA
 
 :global IPCalc;

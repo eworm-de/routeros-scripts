@@ -2,6 +2,76 @@
 # Copyright (c) 2019-2026 Christian Hesse <mail@eworm.de>
 # https://rsc.eworm.de/COPYING.md
 
+# BEGIN GENERATED LANGUAGE DATA
+# language, name=news-and-changes, schema=2e25b801e4b90bcf886ba005a32f80dcc797dc68362ef86b70e199a40ba83474
+:global LanguageEnglish;
+:if ([ :typeof $LanguageEnglish ] != "array") do={ :set LanguageEnglish ({}); }
+:set ($LanguageEnglish->"news-and-changes.100") "The script 'ssh-keys-import' became a module 'mod/ssh-keys-import' with enhanced functionality.";
+:set ($LanguageEnglish->"news-and-changes.101") "Introduced new script 'fw-addr-lists' to download, import and update firewall address-lists.";
+:set ($LanguageEnglish->"news-and-changes.102") "Modified 'hotspot-to-wpa' to support non-local (radius) users.";
+:set ($LanguageEnglish->"news-and-changes.103") "Dropped hard-coded name and timeout from 'hotspot-to-wpa-cleanup', instead a comment is required for dhcp server now.";
+:set ($LanguageEnglish->"news-and-changes.104") "All relevant scripts were ported to new wifiwave2 and are available for AX devices now!";
+:set ($LanguageEnglish->"news-and-changes.105") "Extended 'check-routeros-update' to support automatic update from specific neighbor(s).";
+:set ($LanguageEnglish->"news-and-changes.106") "Modified 'telegram-chat' to make it act on message replies, without activation. Also made it answer a single question mark with a short notice.";
+:set ($LanguageEnglish->"news-and-changes.107") "Dropped support for non-fixed width font in Telegram notifications.";
+:set ($LanguageEnglish->"news-and-changes.108") "Enhanced 'log-forward' to list log messages with colorful bullets to indicate severity.";
+:set ($LanguageEnglish->"news-and-changes.109") "Added support to send notifications via Ntfy (ntfy.sh).";
+:set ($LanguageEnglish->"news-and-changes.110") "Dropped support for loading scripts from local storage.";
+:set ($LanguageEnglish->"news-and-changes.111") "Modified 'dhcp-to-dns' to allow multiple records for one mac address.";
+:set ($LanguageEnglish->"news-and-changes.112") "Enhanced 'mod/ssh-keys-import' to record the fingerprint of keys.";
+:set ($LanguageEnglish->"news-and-changes.113") "Added helper functions for easier setup to Matrix notification module.";
+:set ($LanguageEnglish->"news-and-changes.114") "All relevant scripts were ported to new wifi package for RouterOS 7.13 and later. Migration is complex and thus not done automatically!";
+:set ($LanguageEnglish->"news-and-changes.115") "Celebrating {before}1.000 stars {after}on Github! Please continue starring...";
+:set ($LanguageEnglish->"news-and-changes.116") "... and also please keep in mind that it takes a huge amount of time maintaining these scripts. {thanks}";
+:set ($LanguageEnglish->"news-and-changes.117") "Enhanced 'packages-update' to support deferred reboot on automatically installed updates.";
+:set ($LanguageEnglish->"news-and-changes.118") "RouterOS packages increase in size with each release. This becomes a problem for devices with 16MB storage and below. {device}Huge configuration and lots of scripts give an extra risk. Take care!";
+:set ($LanguageEnglish->"news-and-changes.119") "Added support for IPv6 to script 'fw-addr-lists'.";
+:set ($LanguageEnglish->"news-and-changes.120") "Implemented a workaround in 'backup-cloud'. Now script should no longer just crash, but send notification with error.";
+:set ($LanguageEnglish->"news-and-changes.121") "The 'wifiwave2' scripts are finally gone. Development continues with 'wifi' in RouterOS 7.13 and later.";
+:set ($LanguageEnglish->"news-and-changes.122") "The global configuration was enhanced to support loading snippets. Configuration can be split off to scripts where name starts with 'global-config-overlay.d/'.";
+:set ($LanguageEnglish->"news-and-changes.123") "Introduced new function '\24LogPrint', and deprecated '\24LogPrintExit2'. Please update custom scripts if you use it.";
+:set ($LanguageEnglish->"news-and-changes.124") "Added support for links in 'netwatch-notify', these are added below the formatted notification text.";
+:set ($LanguageEnglish->"news-and-changes.125") "April's Fool! {party}Well, you missed it... - no charge nor fees. (Anyway... Donations are much appreciated, {smile}thanks!)";
+:set ($LanguageEnglish->"news-and-changes.126") "Made 'telegram-chat' capable of handling large command output. Telegram messages still limit the size, so it is truncated now.";
+:set ($LanguageEnglish->"news-and-changes.127") "Added support for authentication to Ntfy notification module.";
+:set ($LanguageEnglish->"news-and-changes.128") "Added another list from blocklist.de to default configuration for 'fw-addr-lists'.";
+:set ($LanguageEnglish->"news-and-changes.129") "Extended 'backup-partition' to support RouterOS copy-over - interactively or before feature update.";
+:set ($LanguageEnglish->"news-and-changes.130") "Dropped intermediate certificates, depending on just root certificates now.";
+:set ($LanguageEnglish->"news-and-changes.131") "Enhanced certificate download to fallback to mkcert.org, so all (commonly trusted) root certificates are available now.";
+:set ($LanguageEnglish->"news-and-changes.132") "Split off plugins from 'check-health', so the script works on all devices to monitor CPU and RAM. The supported plugins for sensors in hardware are installed automatically.";
+:set ($LanguageEnglish->"news-and-changes.133") "Updated the default configuration for 'fw-addr-lists', deprecated lists were removed, a collective list was added.";
+:set ($LanguageEnglish->"news-and-changes.134") "Enhanced 'mod/notification-telegram' and 'telegram-chat' to support topics in groups.";
+:set ($LanguageEnglish->"news-and-changes.135") "Introduced helper function '\24GetTelegramChatId' for 'mod/notification-telegram' which helps retrieve information.";
+:set ($LanguageEnglish->"news-and-changes.136") "Introduced script 'check-perpetual-license' to check for license state on CHR.";
+:set ($LanguageEnglish->"news-and-changes.137") "Added support to send notifications via Gotify (gotify.net).";
+:set ($LanguageEnglish->"news-and-changes.138") "RouterOS 7.19 is suffering an issue with certificate store. Fixing trust state for all certificates...";
+:set ($LanguageEnglish->"news-and-changes.139") "Certificate Authorities will reduce the leaf certificate validity times soon. Thus the defaults for renewal and warning in 'check-certificates' were decreased.";
+:set ($LanguageEnglish->"news-and-changes.140") "The scripts 'lease-script' was renamed to 'dhcpv4-server-lease', configuration was updated automatically.";
+:set ($LanguageEnglish->"news-and-changes.141") "Introduced script 'dhcpv6-client-lease' to run several scripts on IPv6 DHCP client lease.";
+:set ($LanguageEnglish->"news-and-changes.142") "Added a setting for 'mod/notification-email' to check availability of certificate chain.";
+:set ($LanguageEnglish->"news-and-changes.143") "Made backup scripts 'backup-email' and 'backup-upload' support date & time in filenames.";
+:set ($LanguageEnglish->"news-and-changes.144") "Split and reworked 'mode-button' for compatibility with RouterOS 7.24, configuration was updated automatically.";
+:set ($LanguageEnglish->"news-and-changes.145") "Split and reworked 'hotspot-to-wpa' for compatibility with RouterOS 7.24, configuration was updated automatically.";
+:set ($LanguageEnglish->"news-and-changes.146") "Added multilingual notifications and diagnostics. Set ScriptLanguage in global-config-overlay to select a language; English remains available offline. Shared helpers now require global-functions.d/core-extra, installed automatically on update.";
+:set ($LanguageEnglish->"news-and-changes.96") "Added support for notes in 'netwatch-notify', these are included verbatim into the notification.";
+:set ($LanguageEnglish->"news-and-changes.97") "Modified 'dhcp-to-dns' to always add A records for names with mac address, and optionally add CNAME records if the host name is available.";
+:set ($LanguageEnglish->"news-and-changes.98") "Extended 'check-certificates' to download new certificate by SubjectAltNames if download by CommonName fails.";
+:set ($LanguageEnglish->"news-and-changes.99") "Modified 'dhcp-to-dns', which dropped global configuration. Settings moved to dhcp server's network definitions.";
+:set ($LanguageEnglish->"news-and-changes.below") "below";
+:set ($LanguageEnglish->"news-and-changes.device.affected") "Your {board} is specifically affected! ";
+:set ($LanguageEnglish->"news-and-changes.device.unaffected") "(Your {board} does not suffer this issue.) ";
+:set ($LanguageEnglish->"news-and-changes.donation.request") "Following the donation hint {arrow}to keep me motivated is much appreciated. Thanks!";
+:set ($LanguageEnglish->"news-and-changes.donation.thanks") "Looks like you did donate already. {heart}Much appreciated, thanks!";
+:set ($LanguageEnglish->"global-config.not.ready") "Global config and/or functions not ready.";
+:global GlobalNotReadyMessage;
+:if ([ :typeof $GlobalNotReadyMessage ] != "str") do={
+  :set GlobalNotReadyMessage ($LanguageEnglish->"global-config.not.ready");
+}
+:global LanguageSchemas;
+:if ([ :typeof $LanguageSchemas ] != "array") do={ :set LanguageSchemas ({}); }
+:set ($LanguageSchemas->"news-and-changes") "2e25b801e4b90bcf886ba005a32f80dcc797dc68362ef86b70e199a40ba83474";
+# END GENERATED LANGUAGE DATA
+
 :global IDonate;
 
 :global IfThenElse;
@@ -13,63 +83,69 @@
 # News, changes and migration up to change 95:
 # https://git.eworm.de/cgit/routeros-scripts/plain/global-config.changes?h=change-95
 
+:global Translate;
+:global LanguageUpdate;
+# Register the fetched changelog catalog before rendering notification text.
+$LanguageUpdate;
+
+:local DeviceNotice "";
+:if ($Resource->"total-hdd-space" < 16000000) do={ :set DeviceNotice [ $Translate "news-and-changes.device.affected" ({ board=($Resource->"board-name") }) ]; } else={
+  :if ($Resource->"free-hdd-space" > 4000000) do={ :set DeviceNotice [ $Translate "news-and-changes.device.unaffected" ({ board=($Resource->"board-name") }) ]; };
+}
+
 # Changes for global-config to be added to notification on script updates
 :global GlobalConfigChanges {
-  96="Added support for notes in 'netwatch-notify', these are included verbatim into the notification.";
-  97="Modified 'dhcp-to-dns' to always add A records for names with mac address, and optionally add CNAME records if the host name is available.";
-  98="Extended 'check-certificates' to download new certificate by SubjectAltNames if download by CommonName fails.";
-  99="Modified 'dhcp-to-dns', which dropped global configuration. Settings moved to dhcp server's network definitions.";
-  100="The script 'ssh-keys-import' became a module 'mod/ssh-keys-import' with enhanced functionality.";
-  101="Introduced new script 'fw-addr-lists' to download, import and update firewall address-lists.";
-  102="Modified 'hotspot-to-wpa' to support non-local (radius) users.";
-  103="Dropped hard-coded name and timeout from 'hotspot-to-wpa-cleanup', instead a comment is required for dhcp server now.";
-  104="All relevant scripts were ported to new wifiwave2 and are available for AX devices now!";
-  105="Extended 'check-routeros-update' to support automatic update from specific neighbor(s).";
-  106="Modified 'telegram-chat' to make it act on message replies, without activation. Also made it answer a single question mark with a short notice.";
-  107="Dropped support for non-fixed width font in Telegram notifications.";
-  108="Enhanced 'log-forward' to list log messages with colorful bullets to indicate severity.";
-  109="Added support to send notifications via Ntfy (ntfy.sh).";
-  110="Dropped support for loading scripts from local storage.";
-  111="Modified 'dhcp-to-dns' to allow multiple records for one mac address.";
-  112="Enhanced 'mod/ssh-keys-import' to record the fingerprint of keys.";
-  113="Added helper functions for easier setup to Matrix notification module.";
-  114="All relevant scripts were ported to new wifi package for RouterOS 7.13 and later. Migration is complex and thus not done automatically!";
-  115=("Celebrating " . [ $SymbolForNotification "sparkles,star" ] . "1.000 stars " . [ $SymbolForNotification "star,sparkles" ] . "on Github! Please continue starring...");
-  116=("... and also please keep in mind that it takes a huge amount of time maintaining these scripts. " . [ $IfThenElse ($IDonate != true) \
-        ("Following the donation hint " . [ $SymbolForNotification "arrow-down" "below" ] . "to keep me motivated is much appreciated. Thanks!") \
-        ("Looks like you did donate already. " . [ $SymbolForNotification "heart" "<3" ] . "Much appreciated, thanks!") ]);
-  117="Enhanced 'packages-update' to support deferred reboot on automatically installed updates.";
-  118=("RouterOS packages increase in size with each release. This becomes a problem for devices with 16MB storage and below. " . \
-        [ $IfThenElse ($Resource->"total-hdd-space" < 16000000) ("Your " . $Resource->"board-name" . " is specifically affected! ") \
-        [ $IfThenElse ($Resource->"free-hdd-space" > 4000000) ("(Your " . $Resource->"board-name" . " does not suffer this issue.) ") ] ] . \
-        "Huge configuration and lots of scripts give an extra risk. Take care!");
-  119="Added support for IPv6 to script 'fw-addr-lists'.";
-  120="Implemented a workaround in 'backup-cloud'. Now script should no longer just crash, but send notification with error.";
-  121="The 'wifiwave2' scripts are finally gone. Development continues with 'wifi' in RouterOS 7.13 and later.";
-  122="The global configuration was enhanced to support loading snippets. Configuration can be split off to scripts where name starts with 'global-config-overlay.d/'.";
-  123="Introduced new function '\$LogPrint', and deprecated '\$LogPrintExit2'. Please update custom scripts if you use it.";
-  124="Added support for links in 'netwatch-notify', these are added below the formatted notification text.";
-  125=("April's Fool! " . [ $SymbolForNotification "smiley-partying-face" ] . "Well, you missed it... - no charge nor fees. (Anyway... Donations are much appreciated, " . [ $SymbolForNotification "smiley-smiling-face" ] . "thanks!)");
-  126="Made 'telegram-chat' capable of handling large command output. Telegram messages still limit the size, so it is truncated now.";
-  127="Added support for authentication to Ntfy notification module.";
-  128="Added another list from blocklist.de to default configuration for 'fw-addr-lists'.";
-  129="Extended 'backup-partition' to support RouterOS copy-over - interactively or before feature update.";
-  130="Dropped intermediate certificates, depending on just root certificates now.";
-  131="Enhanced certificate download to fallback to mkcert.org, so all (commonly trusted) root certificates are available now.";
-  132="Split off plugins from 'check-health', so the script works on all devices to monitor CPU and RAM. The supported plugins for sensors in hardware are installed automatically.";
-  133="Updated the default configuration for 'fw-addr-lists', deprecated lists were removed, a collective list was added.";
-  134="Enhanced 'mod/notification-telegram' and 'telegram-chat' to support topics in groups.";
-  135="Introduced helper function '\$GetTelegramChatId' for 'mod/notification-telegram' which helps retrieve information.";
-  136="Introduced script 'check-perpetual-license' to check for license state on CHR.";
-  137="Added support to send notifications via Gotify (gotify.net).";
-  138="RouterOS 7.19 is suffering an issue with certificate store. Fixing trust state for all certificates...";
-  139="Certificate Authorities will reduce the leaf certificate validity times soon. Thus the defaults for renewal and warning in 'check-certificates' were decreased.";
-  140="The scripts 'lease-script' was renamed to 'dhcpv4-server-lease', configuration was updated automatically.";
-  141="Introduced script 'dhcpv6-client-lease' to run several scripts on IPv6 DHCP client lease.";
-  142="Added a setting for 'mod/notification-email' to check availability of certificate chain.";
-  143="Made backup scripts 'backup-email' and 'backup-upload' support date & time in filenames.";
-  144="Split and reworked 'mode-button' for compatibility with RouterOS 7.24, configuration was updated automatically.";
-  145="Split and reworked 'hotspot-to-wpa' for compatibility with RouterOS 7.24, configuration was updated automatically.";
+  96=[ $Translate "news-and-changes.96" ];
+  97=[ $Translate "news-and-changes.97" ];
+  98=[ $Translate "news-and-changes.98" ];
+  99=[ $Translate "news-and-changes.99" ];
+  100=[ $Translate "news-and-changes.100" ];
+  101=[ $Translate "news-and-changes.101" ];
+  102=[ $Translate "news-and-changes.102" ];
+  103=[ $Translate "news-and-changes.103" ];
+  104=[ $Translate "news-and-changes.104" ];
+  105=[ $Translate "news-and-changes.105" ];
+  106=[ $Translate "news-and-changes.106" ];
+  107=[ $Translate "news-and-changes.107" ];
+  108=[ $Translate "news-and-changes.108" ];
+  109=[ $Translate "news-and-changes.109" ];
+  110=[ $Translate "news-and-changes.110" ];
+  111=[ $Translate "news-and-changes.111" ];
+  112=[ $Translate "news-and-changes.112" ];
+  113=[ $Translate "news-and-changes.113" ];
+  114=[ $Translate "news-and-changes.114" ];
+  115=[ $Translate "news-and-changes.115" ({ before=[ $SymbolForNotification "sparkles,star" ]; after=[ $SymbolForNotification "star,sparkles" ] }) ];
+  116=[ $Translate "news-and-changes.116" ({ thanks=[ $IfThenElse ($IDonate != true) [ $Translate "news-and-changes.donation.request" ({ arrow=[ $SymbolForNotification "arrow-down" [ $Translate "news-and-changes.below" ] ] }) ] [ $Translate "news-and-changes.donation.thanks" ({ heart=[ $SymbolForNotification "heart" "<3" ] }) ] ] }) ];
+  117=[ $Translate "news-and-changes.117" ];
+  118=[ $Translate "news-and-changes.118" ({ device=$DeviceNotice }) ];
+  119=[ $Translate "news-and-changes.119" ];
+  120=[ $Translate "news-and-changes.120" ];
+  121=[ $Translate "news-and-changes.121" ];
+  122=[ $Translate "news-and-changes.122" ];
+  123=[ $Translate "news-and-changes.123" ];
+  124=[ $Translate "news-and-changes.124" ];
+  125=[ $Translate "news-and-changes.125" ({ party=[ $SymbolForNotification "smiley-partying-face" ]; smile=[ $SymbolForNotification "smiley-smiling-face" ] }) ];
+  126=[ $Translate "news-and-changes.126" ];
+  127=[ $Translate "news-and-changes.127" ];
+  128=[ $Translate "news-and-changes.128" ];
+  129=[ $Translate "news-and-changes.129" ];
+  130=[ $Translate "news-and-changes.130" ];
+  131=[ $Translate "news-and-changes.131" ];
+  132=[ $Translate "news-and-changes.132" ];
+  133=[ $Translate "news-and-changes.133" ];
+  134=[ $Translate "news-and-changes.134" ];
+  135=[ $Translate "news-and-changes.135" ];
+  136=[ $Translate "news-and-changes.136" ];
+  137=[ $Translate "news-and-changes.137" ];
+  138=[ $Translate "news-and-changes.138" ];
+  139=[ $Translate "news-and-changes.139" ];
+  140=[ $Translate "news-and-changes.140" ];
+  141=[ $Translate "news-and-changes.141" ];
+  142=[ $Translate "news-and-changes.142" ];
+  143=[ $Translate "news-and-changes.143" ];
+  144=[ $Translate "news-and-changes.144" ];
+  145=[ $Translate "news-and-changes.145" ];
+  146=[ $Translate "news-and-changes.146" ];
 };
 
 # Migration steps to be applied on script updates

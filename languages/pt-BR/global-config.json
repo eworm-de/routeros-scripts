@@ -3,7 +3,8 @@
   "messages": {
     "global-config.overlay.failed": "Falha ao carregar configuração do overlay ou trecho {script}: {error}",
     "global-config.hello.subject": "Olá...",
-    "global-config.hello.message": "Olá, mundo, {identity} chamando!"
+    "global-config.hello.message": "Olá, mundo, {identity} chamando!",
+    "global-config.not.ready": "Configuração e/ou funções globais não estão prontas."
   },
-  "schema": "709bfa8672b065ec747512a6a80aa591516e18d275521641f54158062d478f54"
+  "schema": "4dea7b8ee007cfceb44462e476d61a9ea4a4066a05150bd7d29153c38e31666f"
 }

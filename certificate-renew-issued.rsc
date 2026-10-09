@@ -15,12 +15,18 @@
 :set ($LanguageEnglish->"certificate-renew-issued.directory.failed") "Failed creating directory, not exporting certificate.";
 :set ($LanguageEnglish->"certificate-renew-issued.exported") "Issued a new certificate for '{name}', exported to 'cert-issued/{name}.p12'.";
 :set ($LanguageEnglish->"certificate-renew-issued.issued") "Issued a new certificate for '{name}'.";
+:set ($LanguageEnglish->"global-config.not.ready") "Global config and/or functions not ready.";
+:global GlobalNotReadyMessage;
+:if ([ :typeof $GlobalNotReadyMessage ] != "str") do={
+  :set GlobalNotReadyMessage ($LanguageEnglish->"global-config.not.ready");
+}
 # END GENERATED LANGUAGE DATA
 
 :onerror Err {
   :global GlobalConfigReady; :global GlobalFunctionsReady;
+  :global GlobalNotReadyMessage;
   :retry { :if ($GlobalConfigReady != true || $GlobalFunctionsReady != true) \
-      do={ :error ("Global config and/or functions not ready."); }; } delay=500ms max=50;
+      do={ :error $GlobalNotReadyMessage; }; } delay=500ms max=50;
   :local ScriptName [ :jobname ];
 
   :global CertIssuedExportPass;

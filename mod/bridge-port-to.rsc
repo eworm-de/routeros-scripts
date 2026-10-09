@@ -18,6 +18,11 @@
 :set ($LanguageEnglish->"bridge-port-to.client.enabled") "Disabling bridge port for interface {interface}, enabling dhcp client.";
 :set ($LanguageEnglish->"bridge-port-to.client.missing") "Missing dhcp client configuration for interface {interface}!";
 :set ($LanguageEnglish->"bridge-port-to.interfaces.enabled") "Re-enabling interfaces...";
+:set ($LanguageEnglish->"global-config.not.ready") "Global config and/or functions not ready.";
+:global GlobalNotReadyMessage;
+:if ([ :typeof $GlobalNotReadyMessage ] != "str") do={
+  :set GlobalNotReadyMessage ($LanguageEnglish->"global-config.not.ready");
+}
 # END GENERATED LANGUAGE DATA
 
 :global BridgePortTo;

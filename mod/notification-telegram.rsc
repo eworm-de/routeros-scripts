@@ -24,6 +24,11 @@
 :set ($LanguageEnglish->"notification-telegram.send.failed") "Failed sending Telegram notification: {error} - Queuing...";
 :set ($LanguageEnglish->"notification-telegram.thread.id") "The thread id is: {id}";
 :set ($LanguageEnglish->"notification-telegram.truncated") "The message was too long and has been truncated, cut off _{percent}%_!";
+:set ($LanguageEnglish->"global-config.not.ready") "Global config and/or functions not ready.";
+:global GlobalNotReadyMessage;
+:if ([ :typeof $GlobalNotReadyMessage ] != "str") do={
+  :set GlobalNotReadyMessage ($LanguageEnglish->"global-config.not.ready");
+}
 # END GENERATED LANGUAGE DATA
 
 :global FlushTelegramQueue;

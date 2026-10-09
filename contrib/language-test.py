@@ -2,6 +2,7 @@
 """Print a RouterOS test bundle with globals isolated from installed scripts."""
 from pathlib import Path
 import argparse
+import hashlib
 import json
 import re
 import sys
@@ -172,6 +173,22 @@ if args.standalone:
                 tests += ':if ([ $' + name + ' ] != ' + quote(expected) + ') do={ :error "Standalone local renderer failed"; };\n'
             count += 1
     tests += ':set Translate $SavedTranslate;\n:put ' + quote(f'{count} standalone renderers passed in both languages without global helpers.') + ';\n'
+    backup = (root / 'backup-partition.rsc').read_text(encoding='utf-8')
+    defaults = re.search(re.escape(BEGIN) + r'.*?' + re.escape(END), backup, re.S)[0]
+    start = backup.index('        on-event=(') + len('        on-event=')
+    expression = backup[start:backup.index(';\n    /partitions/save-config-to', start)]
+    expression = expression.replace(':local Name [ /partitions/get [ find where running ] name ];',
+                                    ':global BackupFixtureName; :local Name \\$BackupFixtureName;')
+    expression = expression.replace(':log warning', ':return')
+    tests += ':global BackupFixtureBuild do={\n:global Translate;\n' + defaults + '\n:return ' + expression + ';\n};\n'
+    translated = load(root / 'languages/pt-BR/backup-partition.json')['messages']
+    tests += ':set LanguageMessages ([:deserialize from=json options=json.no-string-conversion ' + quote(json.dumps(translated, ensure_ascii=False)) + ']);\n'
+    tests += ':global BackupFixtureName "backup \\22partition\\22 {name}";\n'
+    tests += ':foreach Locale in={ "en"; "pt-BR" } do={\n:set ScriptLanguage $Locale; :set LanguageActive "pt-BR";\n'
+    tests += ':local Code [ $BackupFixtureBuild ]; :local Expected "Running from partition \'backup \\22partition\\22 {name}\'!";\n'
+    tests += ':if ($Locale = "pt-BR") do={ :set Expected ' + quote("Executando a partir da partição 'backup \"partition\" {name}'!") + '; };\n'
+    tests += ':if ([[ :parse $Code ]] != $Expected) do={ :error "Deferred partition message failed"; };\n}\n'
+    tests += ':put "Deferred backup-partition warning passed without core helpers.";\n'
 if args.reload:
     config = (root / 'global-config.rsc').read_text(encoding='utf-8')
     hook = config[config.index('# Apply language changes when an already initialized installation reloads config.'):]
@@ -229,7 +246,18 @@ if args.core:
     payloads.extend([('__CORE_FIXTURE_SOURCE__', feature),
                      ('__EXTRA_FIXTURE_SOURCE__', (root / 'global-functions.d/core-extra.rsc').read_text(encoding='utf-8'))])
     tests += ':global CoreFixtureSource __CORE_FIXTURE_SOURCE__;\n:global CoreFixtureModuleSource __EXTRA_FIXTURE_SOURCE__;\n'
+    if args.base_url:
+        tests += ':global CoreFixtureLiveUrl ' + quote(args.base_url + 'global-functions.d/core-extra.rsc') + ';\n'
+        digest = hashlib.md5((root / 'global-functions.d/core-extra.rsc').read_text(encoding='utf-8').encode('utf-8')).hexdigest()
+        tests += ':global CoreFixtureLiveDigest ' + quote(digest) + ';\n'
     tests += ':global CoreFixtureTest do={\n' + (root / 'tests/language-core.rsc').read_text(encoding='utf-8') + '\n};\n$CoreFixtureTest;\n'
+    news = (root / 'news-and-changes.rsc').read_text(encoding='utf-8')
+    news = news[:news.index('# Migration steps to be applied')]
+    news = news.replace('[ /system/resource/get ]', '$NewsFixtureResource')
+    tests += ':global NewsFixtureRun do={\n:global NewsFixtureResource;\n' + news + '\n};\n'
+    translated = load(root / 'languages/pt-BR/news-and-changes.json')['messages']
+    tests += ':global NewsFixturePortuguese ([:deserialize from=json options=json.no-string-conversion ' + quote(json.dumps(translated, ensure_ascii=False)) + ']);\n'
+    tests += ':global NewsFixtureTest do={\n' + (root / 'tests/language-news.rsc').read_text(encoding='utf-8') + '\n};\n$NewsFixtureTest;\n'
 if args.catalogs:
     sample = {'identity': 'test-router', 'name': 'test-sensor', 'date': '2026-10-09',
               'percent': 75, 'value': 120, 'error': 'test-error', 'interface': 'lte1',
@@ -261,13 +289,20 @@ if args.base_url:
     if not args.base_url.startswith('https://') or not args.base_url.endswith('/'):
         parser.error('--base-url must be an HTTPS URL ending with /')
     catalog = load(root / 'languages/en/check-health.json')
-    diagnostics = load(root / 'languages/en/global-functions.json')
+    diagnostics = load(root / 'languages/en/global-functions.json')['messages']
+    diagnostics.update(load(root / 'languages/en/global-config.json')['messages'])
     tests += '\n:global LanguageEnglish ({});\n'
     tests += ''.join(f':set ($LanguageEnglish->{quote(key)}) {quote(text)};\n'
-                     for key, text in (catalog['messages'] | diagnostics['messages']).items())
+                     for key, text in (catalog['messages'] | diagnostics).items())
     tests += ':global LanguageSchemas { "check-health"=' + quote(catalog['schema']) + ' };\n'
     tests += ':global ScriptUpdatesBaseUrl ' + quote(args.base_url) + ';\n'
     tests += ':global ScriptUpdatesUrlSuffix "";\n'
+    groups = ('global-config', 'global-functions', 'core-extra', 'news-and-changes')
+    extra_schemas = {group: load(root / 'languages/en' / (group + '.json'))['schema'] for group in groups}
+    tests += ':global LoaderFixtureSchemas ([:deserialize from=json options=json.no-string-conversion ' + quote(json.dumps(extra_schemas)) + ']);\n'
+    for group in groups:
+        for key, text in load(root / 'languages/en' / (group + '.json'))['messages'].items():
+            tests += f':set ($LanguageEnglish->{quote(key)}) {quote(text)};\n'
     tests += (root / 'tests/language-loader.rsc').read_text(encoding='utf-8')
 variables = sorted(set(re.findall(r':global ([A-Za-z][A-Za-z0-9]*)', runtime + tests + ''.join(body for _, body in payloads))))
 def namespace(body):

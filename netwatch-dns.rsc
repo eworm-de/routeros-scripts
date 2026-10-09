@@ -23,12 +23,18 @@
 :set ($LanguageEnglish->"netwatch-dns.request.failed") "Request to DoH server {server} failed: {error}";
 :set ($LanguageEnglish->"netwatch-dns.response.invalid") "Received unexpected response from DoH server: {server}";
 :set ($LanguageEnglish->"netwatch-dns.settling") "System just booted, giving netwatch {duration} to settle.";
+:set ($LanguageEnglish->"global-config.not.ready") "Global config and/or functions not ready.";
+:global GlobalNotReadyMessage;
+:if ([ :typeof $GlobalNotReadyMessage ] != "str") do={
+  :set GlobalNotReadyMessage ($LanguageEnglish->"global-config.not.ready");
+}
 # END GENERATED LANGUAGE DATA
 
 :onerror Err {
   :global GlobalConfigReady; :global GlobalFunctionsReady;
+  :global GlobalNotReadyMessage;
   :retry { :if ($GlobalConfigReady != true || $GlobalFunctionsReady != true) \
-      do={ :error ("Global config and/or functions not ready."); }; } delay=500ms max=50;
+      do={ :error $GlobalNotReadyMessage; }; } delay=500ms max=50;
   :local ScriptName [ :jobname ];
 
   :global CertificateAvailable;

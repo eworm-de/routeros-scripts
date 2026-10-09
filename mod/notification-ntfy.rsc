@@ -19,6 +19,11 @@
 :set ($LanguageEnglish->"notification-ntfy.queue.failed") "Sending queued Ntfy message failed: {error}";
 :set ($LanguageEnglish->"notification-ntfy.queued") "This message was queued since {date} {time} and may be obsolete.";
 :set ($LanguageEnglish->"notification-ntfy.send.failed") "Failed sending ntfy notification: {error} - Queuing...";
+:set ($LanguageEnglish->"global-config.not.ready") "Global config and/or functions not ready.";
+:global GlobalNotReadyMessage;
+:if ([ :typeof $GlobalNotReadyMessage ] != "str") do={
+  :set GlobalNotReadyMessage ($LanguageEnglish->"global-config.not.ready");
+}
 # END GENERATED LANGUAGE DATA
 
 :global FlushNtfyQueue;

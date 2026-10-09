@@ -16,6 +16,11 @@
 :if ([ :typeof $LanguageEnglish ] != "array") do={ :set LanguageEnglish ({}); }
 :set ($LanguageEnglish->"mode-button.scheduler.creating") "{script}: Creating scheduler mode-button-scheduler, counting presses...";
 :set ($LanguageEnglish->"mode-button.scheduler.updating") "{script}: Updating scheduler mode-button-scheduler...";
+:set ($LanguageEnglish->"global-config.not.ready") "Global config and/or functions not ready.";
+:global GlobalNotReadyMessage;
+:if ([ :typeof $GlobalNotReadyMessage ] != "str") do={
+  :set GlobalNotReadyMessage ($LanguageEnglish->"global-config.not.ready");
+}
 # END GENERATED LANGUAGE DATA
 
 # BEGIN GENERATED LOCAL LANGUAGE RENDERER

@@ -10,12 +10,13 @@
 # https://rsc.eworm.de/doc/backup-email.md
 
 # BEGIN GENERATED LANGUAGE DATA
-# language, name=backup-email, schema=6201857c577c64cf3f19c5400167dd34edce408ca3fdce8c115ad4f9c88a12ee
+# language, name=backup-email, schema=d64d6ec60b1db0d5105ecd3ee2f9ce710886b1860f5d2ef971c4aa2adcdf6722
 :global LanguageEnglish;
 :if ([ :typeof $LanguageEnglish ] != "array") do={ :set LanguageEnglish ({}); }
 :set ($LanguageEnglish->"backup-email.directory") "Failed creating directory!";
 :set ($LanguageEnglish->"backup-email.email.failed") "Files are still available, sending e-mail failed.";
 :set ($LanguageEnglish->"backup-email.email.unavailable") "The module for sending notifications via e-mail is not installed.";
+:set ($LanguageEnglish->"backup-email.files.available") "Files are still available.";
 :set ($LanguageEnglish->"backup-email.label.backup") "Backup file";
 :set ($LanguageEnglish->"backup-email.label.config") "Config file";
 :set ($LanguageEnglish->"backup-email.label.export") "Export file";
@@ -24,12 +25,18 @@
 :set ($LanguageEnglish->"backup-email.options") "Configured to send neither backup nor config export.";
 :set ($LanguageEnglish->"backup-email.partition") "Running from backup partition, refusing to act.";
 :set ($LanguageEnglish->"backup-email.subject") "Backup & Config";
+:set ($LanguageEnglish->"global-config.not.ready") "Global config and/or functions not ready.";
+:global GlobalNotReadyMessage;
+:if ([ :typeof $GlobalNotReadyMessage ] != "str") do={
+  :set GlobalNotReadyMessage ($LanguageEnglish->"global-config.not.ready");
+}
 # END GENERATED LANGUAGE DATA
 
 :onerror Err {
   :global GlobalConfigReady; :global GlobalFunctionsReady;
+  :global GlobalNotReadyMessage;
   :retry { :if ($GlobalConfigReady != true || $GlobalFunctionsReady != true) \
-      do={ :error ("Global config and/or functions not ready."); }; } delay=500ms max=50;
+      do={ :error $GlobalNotReadyMessage; }; } delay=500ms max=50;
   :local ScriptName [ :jobname ];
 
   :global BackupFileNameDate;
@@ -143,7 +150,7 @@
       :if ([ $FileExists ($FilePath . ".conf") ".conf file" ] = true || \
            [ $FileExists ($FilePath . ".backup") "backup" ] = true || \
            [ $FileExists ($FilePath . ".rsc") "script" ] = true) do={
-        :error "Files are still available.";
+        :error [ $Translate "backup-email.files.available" ];
       }
     } delay=1s max=120;
   } on-error={

@@ -20,6 +20,11 @@
 :set ($LanguageEnglish->"unattended-lte-firmware-upgrade.missing") "No LTE firmware information available for interface {interface}.";
 :set ($LanguageEnglish->"unattended-lte-firmware-upgrade.query.failed") "Could not get latest LTE firmware version for interface {interface}: {error}";
 :set ($LanguageEnglish->"unattended-lte-firmware-upgrade.scheduling") "Scheduling LTE firmware upgrade for interface {interface}.";
+:set ($LanguageEnglish->"global-config.not.ready") "Global config and/or functions not ready.";
+:global GlobalNotReadyMessage;
+:if ([ :typeof $GlobalNotReadyMessage ] != "str") do={
+  :set GlobalNotReadyMessage ($LanguageEnglish->"global-config.not.ready");
+}
 # END GENERATED LANGUAGE DATA
 
 # BEGIN GENERATED LOCAL LANGUAGE RENDERER

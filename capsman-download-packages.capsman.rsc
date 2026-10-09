@@ -19,12 +19,18 @@
 :set ($LanguageEnglish->"capsman-download-packages.directory.created") "Created directory at CAPsMAN package path ({path}). Please place your packages!";
 :set ($LanguageEnglish->"capsman-download-packages.directory.failed") "Creating directory at CAPsMAN package path ({path}) failed!";
 :set ($LanguageEnglish->"capsman-download-packages.path.undefined") "The CAPsMAN package path is not defined, can not download packages.";
+:set ($LanguageEnglish->"global-config.not.ready") "Global config and/or functions not ready.";
+:global GlobalNotReadyMessage;
+:if ([ :typeof $GlobalNotReadyMessage ] != "str") do={
+  :set GlobalNotReadyMessage ($LanguageEnglish->"global-config.not.ready");
+}
 # END GENERATED LANGUAGE DATA
 
 :onerror Err {
   :global GlobalConfigReady; :global GlobalFunctionsReady;
+  :global GlobalNotReadyMessage;
   :retry { :if ($GlobalConfigReady != true || $GlobalFunctionsReady != true) \
-      do={ :error ("Global config and/or functions not ready."); }; } delay=500ms max=50;
+      do={ :error $GlobalNotReadyMessage; }; } delay=500ms max=50;
   :local ScriptName [ :jobname ];
 
   :global CleanFilePath;

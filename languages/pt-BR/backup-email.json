@@ -1,6 +1,6 @@
 {
   "language": "pt-BR",
-  "schema": "6201857c577c64cf3f19c5400167dd34edce408ca3fdce8c115ad4f9c88a12ee",
+  "schema": "d64d6ec60b1db0d5105ecd3ee2f9ce710886b1860f5d2ef971c4aa2adcdf6722",
   "messages": {
     "backup-email.partition": "Executando a partir da partição de backup; operação recusada.",
     "backup-email.directory": "Falha ao criar o diretório!",
@@ -12,6 +12,7 @@
     "backup-email.email.unavailable": "O módulo de notificações por e-mail não está instalado.",
     "backup-email.email.failed": "Os arquivos ainda estão disponíveis; o envio por e-mail falhou.",
     "backup-email.subject": "Backup e configuração",
-    "backup-email.message": "Consulte os arquivos anexos para o backup e a exportação da configuração de {identity}.\n\n{device}\n\n{details}"
+    "backup-email.message": "Consulte os arquivos anexos para o backup e a exportação da configuração de {identity}.\n\n{device}\n\n{details}",
+    "backup-email.files.available": "Os arquivos ainda estão disponíveis."
   }
 }

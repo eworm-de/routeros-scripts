@@ -18,6 +18,11 @@
 :if ([ :typeof $LanguageEnglish ] != "array") do={ :set LanguageEnglish ({}); }
 :set ($LanguageEnglish->"hotspot-to-wpa.ignored") "{script}: Ignoring login for {mac} on hotspot '{hotspot}'.";
 :set ($LanguageEnglish->"hotspot-to-wpa.lease.missing") "{script}: Did not find exactly one lease for {mac}!";
+:set ($LanguageEnglish->"global-config.not.ready") "Global config and/or functions not ready.";
+:global GlobalNotReadyMessage;
+:if ([ :typeof $GlobalNotReadyMessage ] != "str") do={
+  :set GlobalNotReadyMessage ($LanguageEnglish->"global-config.not.ready");
+}
 # END GENERATED LANGUAGE DATA
 
 # BEGIN GENERATED LOCAL LANGUAGE RENDERER

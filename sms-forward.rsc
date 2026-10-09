@@ -25,12 +25,18 @@
 :set ($LanguageEnglish->"sms-forward.received") "On {timestamp} type {type}:\0A{message}";
 :set ($LanguageEnglish->"sms-forward.remove.failed") "Failed to remove message: {error}";
 :set ($LanguageEnglish->"sms-forward.subject") "SMS Forwarding from {phone}";
+:set ($LanguageEnglish->"global-config.not.ready") "Global config and/or functions not ready.";
+:global GlobalNotReadyMessage;
+:if ([ :typeof $GlobalNotReadyMessage ] != "str") do={
+  :set GlobalNotReadyMessage ($LanguageEnglish->"global-config.not.ready");
+}
 # END GENERATED LANGUAGE DATA
 
 :onerror Err {
   :global GlobalConfigReady; :global GlobalFunctionsReady;
+  :global GlobalNotReadyMessage;
   :retry { :if ($GlobalConfigReady != true || $GlobalFunctionsReady != true) \
-      do={ :error ("Global config and/or functions not ready."); }; } delay=500ms max=50;
+      do={ :error $GlobalNotReadyMessage; }; } delay=500ms max=50;
   :local ScriptName [ :jobname ];
 
   :global Identity;

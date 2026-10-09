@@ -19,6 +19,11 @@
 :set ($LanguageEnglish->"bridge-port-vlan.vlan.connected") "Interface {interface} already connected to {config} vlan {vlan}.";
 :set ($LanguageEnglish->"bridge-port-vlan.vlan.enabled") "Enabling bridge port for interface {interface}, changing to {config} vlan {vlan}{name}, disabling dhcp client.";
 :set ($LanguageEnglish->"bridge-port-vlan.vlan.missing") "Could not find VLAN '{vlan}' for interface {interface}!";
+:set ($LanguageEnglish->"global-config.not.ready") "Global config and/or functions not ready.";
+:global GlobalNotReadyMessage;
+:if ([ :typeof $GlobalNotReadyMessage ] != "str") do={
+  :set GlobalNotReadyMessage ($LanguageEnglish->"global-config.not.ready");
+}
 # END GENERATED LANGUAGE DATA
 
 :global BridgePortVlan;

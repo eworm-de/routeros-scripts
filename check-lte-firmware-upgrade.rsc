@@ -28,12 +28,18 @@
 :set ($LanguageEnglish->"check-lte-firmware-upgrade.scheduled") "Scheduled lte firmware upgrade for interface {interface}...";
 :set ($LanguageEnglish->"check-lte-firmware-upgrade.subject") "LTE firmware upgrade";
 :set ($LanguageEnglish->"check-lte-firmware-upgrade.version.empty") "An empty string is not a valid version.";
+:set ($LanguageEnglish->"global-config.not.ready") "Global config and/or functions not ready.";
+:global GlobalNotReadyMessage;
+:if ([ :typeof $GlobalNotReadyMessage ] != "str") do={
+  :set GlobalNotReadyMessage ($LanguageEnglish->"global-config.not.ready");
+}
 # END GENERATED LANGUAGE DATA
 
 :onerror Err {
   :global GlobalConfigReady; :global GlobalFunctionsReady;
+  :global GlobalNotReadyMessage;
   :retry { :if ($GlobalConfigReady != true || $GlobalFunctionsReady != true) \
-      do={ :error ("Global config and/or functions not ready."); }; } delay=500ms max=50;
+      do={ :error $GlobalNotReadyMessage; }; } delay=500ms max=50;
   :local ScriptName [ :jobname ];
 
   :global SentLteFirmwareUpgradeNotification;

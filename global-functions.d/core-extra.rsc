@@ -80,6 +80,11 @@
 :set ($LanguageEnglish->"core-extra.vendor.local") "locally administered";
 :set ($LanguageEnglish->"core-extra.vendor.missing") "The mac vendor is not known in database.";
 :set ($LanguageEnglish->"core-extra.vendor.unknown") "unknown vendor";
+:set ($LanguageEnglish->"global-config.not.ready") "Global config and/or functions not ready.";
+:global GlobalNotReadyMessage;
+:if ([ :typeof $GlobalNotReadyMessage ] != "str") do={
+  :set GlobalNotReadyMessage ($LanguageEnglish->"global-config.not.ready");
+}
 # END GENERATED LANGUAGE DATA
 
 :global DeviceInfo;

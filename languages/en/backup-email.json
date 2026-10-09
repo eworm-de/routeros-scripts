@@ -1,6 +1,6 @@
 {
   "language": "en",
-  "schema": "6201857c577c64cf3f19c5400167dd34edce408ca3fdce8c115ad4f9c88a12ee",
+  "schema": "d64d6ec60b1db0d5105ecd3ee2f9ce710886b1860f5d2ef971c4aa2adcdf6722",
   "messages": {
     "backup-email.partition": "Running from backup partition, refusing to act.",
     "backup-email.directory": "Failed creating directory!",
@@ -12,6 +12,7 @@
     "backup-email.email.unavailable": "The module for sending notifications via e-mail is not installed.",
     "backup-email.email.failed": "Files are still available, sending e-mail failed.",
     "backup-email.subject": "Backup & Config",
-    "backup-email.message": "See attached files for backup and config export for {identity}.\n\n{device}\n\n{details}"
+    "backup-email.message": "See attached files for backup and config export for {identity}.\n\n{device}\n\n{details}",
+    "backup-email.files.available": "Files are still available."
   }
 }

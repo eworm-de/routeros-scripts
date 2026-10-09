@@ -19,6 +19,11 @@
 :set ($LanguageEnglish->"notification-gotify.queue.failed") "Sending queued Gotify message failed: {error}";
 :set ($LanguageEnglish->"notification-gotify.queued") "This message was queued since {date} {time} and may be obsolete.";
 :set ($LanguageEnglish->"notification-gotify.send.failed") "Failed sending Gotify notification: {error} - Queuing...";
+:set ($LanguageEnglish->"global-config.not.ready") "Global config and/or functions not ready.";
+:global GlobalNotReadyMessage;
+:if ([ :typeof $GlobalNotReadyMessage ] != "str") do={
+  :set GlobalNotReadyMessage ($LanguageEnglish->"global-config.not.ready");
+}
 # END GENERATED LANGUAGE DATA
 
 :global FlushGotifyQueue;

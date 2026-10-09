@@ -18,12 +18,18 @@
 :set ($LanguageEnglish->"dhcpv4-server-lease.script.failed") "Running script '{name}' failed: {error}";
 :set ($LanguageEnglish->"dhcpv4-server-lease.script.running") "Running script with order {order}: {name}";
 :set ($LanguageEnglish->"dhcpv4-server-lease.waiting") "More invocations are waiting, exiting early.";
+:set ($LanguageEnglish->"global-config.not.ready") "Global config and/or functions not ready.";
+:global GlobalNotReadyMessage;
+:if ([ :typeof $GlobalNotReadyMessage ] != "str") do={
+  :set GlobalNotReadyMessage ($LanguageEnglish->"global-config.not.ready");
+}
 # END GENERATED LANGUAGE DATA
 
 :onerror Err {
   :global GlobalConfigReady; :global GlobalFunctionsReady;
+  :global GlobalNotReadyMessage;
   :retry { :if ($GlobalConfigReady != true || $GlobalFunctionsReady != true) \
-      do={ :error ("Global config and/or functions not ready."); }; } delay=500ms max=50;
+      do={ :error $GlobalNotReadyMessage; }; } delay=500ms max=50;
   :local ScriptName [ :jobname ];
 
   :global Grep;

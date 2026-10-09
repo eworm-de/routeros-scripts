@@ -5,11 +5,24 @@
 :global CoreFixtureBody;
 :global CoreFixtureFetchCount 0;
 :global CoreFixtureOffline false;
+:global CoreFixtureLiveUrl;
+:global CoreFixtureLiveDigest;
 :global CoreFixtureFetch do={
   :global CoreFixtureBody; :global CoreFixtureStatus;
   :global CoreFixtureFetchCount; :global CoreFixtureOffline;
+  :global CoreFixtureLiveUrl; :global CoreFixtureLiveDigest;
   :set CoreFixtureFetchCount ($CoreFixtureFetchCount + 1);
   :if ($CoreFixtureOffline = true) do={ :error "Fixture is offline"; };
+  # On the first install, optionally fetch the published module over real TLS.
+  # Verify its bytes, then use the identical module with isolated global names.
+  :if ($CoreFixtureFetchCount = 1 && [ :len $CoreFixtureLiveUrl ] > 0) do={
+    :local Response [ /tool/fetch url=$CoreFixtureLiveUrl check-certificate=yes-without-crl output=user as-value ];
+    :if (($Response->"status") != "finished" || \
+        [ :convert transform=md5 to=hex ($Response->"data") ] != $CoreFixtureLiveDigest) do={
+      :error "Published required-module bytes differed";
+    }
+    :put "Published required module downloaded with verified TLS and matching bytes.";
+  }
   :return { "status"=$CoreFixtureStatus; "data"=$CoreFixtureBody };
 }
 :global ScriptLanguage "en";

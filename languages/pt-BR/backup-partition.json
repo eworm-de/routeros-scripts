@@ -1,6 +1,6 @@
 {
   "language": "pt-BR",
-  "schema": "feb856d096790e5ec8f023c6343b50c61883ec9c090854363a9cfbe685d906ef",
+  "schema": "d37495d3faf22763093e64eb8145eb90d29a006fb0503cc939337741dfd80681",
   "messages": {
     "backup-partition.copied": "RouterOS copiado para a partição '{name}'.",
     "backup-partition.copy.failed": "Falha ao copiar o RouterOS para a partição '{name}': {error}",
@@ -10,6 +10,7 @@
     "backup-partition.fallback.missing": "Não existe uma partição inativa chamada '{name}'.",
     "backup-partition.prompt": "As partições possuem versões diferentes do RouterOS. Copiar para '{name}'? [y/N]",
     "backup-partition.saved": "Configuração salva na partição '{name}'.",
-    "backup-partition.save.failed": "Falha ao salvar a configuração na partição '{name}': {error}"
+    "backup-partition.save.failed": "Falha ao salvar a configuração na partição '{name}': {error}",
+    "backup-partition.running": "Executando a partir da partição '{name}'!"
   }
 }

@@ -41,12 +41,18 @@
 :set ($LanguageEnglish->"check-routeros-update.update.subject") "RouterOS update: {version}";
 :set ($LanguageEnglish->"check-routeros-update.version.empty") "Received an empty version string from server.";
 :set ($LanguageEnglish->"check-routeros-update.version.invalid") "The version '{version}' is not a valid version.";
+:set ($LanguageEnglish->"global-config.not.ready") "Global config and/or functions not ready.";
+:global GlobalNotReadyMessage;
+:if ([ :typeof $GlobalNotReadyMessage ] != "str") do={
+  :set GlobalNotReadyMessage ($LanguageEnglish->"global-config.not.ready");
+}
 # END GENERATED LANGUAGE DATA
 
 :onerror Err {
   :global GlobalConfigReady; :global GlobalFunctionsReady;
+  :global GlobalNotReadyMessage;
   :retry { :if ($GlobalConfigReady != true || $GlobalFunctionsReady != true) \
-      do={ :error ("Global config and/or functions not ready."); }; } delay=500ms max=50;
+      do={ :error $GlobalNotReadyMessage; }; } delay=500ms max=50;
   :local ScriptName [ :jobname ];
 
   :global Identity;

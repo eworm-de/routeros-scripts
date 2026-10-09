@@ -83,6 +83,11 @@
 :set ($LanguageEnglish->"global-functions.version.function") "This function '{caller}' (at least specific functionality) requires RouterOS {version}. Please update!";
 :set ($LanguageEnglish->"global-functions.version.invalid") "No valid RouterOS version: {version}";
 :set ($LanguageEnglish->"global-functions.version.script") "This script '{caller}' (at least specific functionality) requires RouterOS {version}. Please update!";
+:set ($LanguageEnglish->"global-config.not.ready") "Global config and/or functions not ready.";
+:global GlobalNotReadyMessage;
+:if ([ :typeof $GlobalNotReadyMessage ] != "str") do={
+  :set GlobalNotReadyMessage ($LanguageEnglish->"global-config.not.ready");
+}
 # END GENERATED LANGUAGE DATA
 
 :local ScriptName [ :jobname ];
@@ -90,7 +95,7 @@
 # Git commit id & info, expected configuration version
 :global CommitId "unknown";
 :global CommitInfo "unknown";
-:global ExpectedConfigVersion 145;
+:global ExpectedConfigVersion 146;
 
 # global variables not to be changed by user
 :global GlobalFunctionsReady false;
@@ -1587,6 +1592,7 @@
 # Load a cached catalog before fetching. Never run downloaded text as code.
 :set LanguageUpdate do={
   :global Translate;
+  :global GlobalNotReadyMessage;
   :global ScriptLanguage;
   :global ScriptUpdatesBaseUrl;
   :global ScriptUpdatesUrlSuffix;
@@ -1602,6 +1608,7 @@
     :if ($Locale = "en") do={
       :set LanguageMessages ({});
       :set LanguageActive "en";
+      :set GlobalNotReadyMessage [ $Translate "global-config.not.ready" ];
       :set LanguageUpdateRunning false;
       :return true;
     }
@@ -1675,6 +1682,7 @@
       :set LanguageActive $Locale;
     }
   } do={ :log warning [ $Translate "global-functions.language.update.failed" ({ error=$Err }) ]; }
+  :set GlobalNotReadyMessage [ $Translate "global-config.not.ready" ];
   :set LanguageUpdateRunning false;
   :return true;
 }

@@ -15,12 +15,18 @@
 :set ($LanguageEnglish->"sms-action.context") "This script is supposed to run from SMS hook with action=...";
 :set ($LanguageEnglish->"sms-action.running") "Acting on SMS action '{action}': {code}";
 :set ($LanguageEnglish->"sms-action.syntax") "The code for action '{action}' failed syntax validation!";
+:set ($LanguageEnglish->"global-config.not.ready") "Global config and/or functions not ready.";
+:global GlobalNotReadyMessage;
+:if ([ :typeof $GlobalNotReadyMessage ] != "str") do={
+  :set GlobalNotReadyMessage ($LanguageEnglish->"global-config.not.ready");
+}
 # END GENERATED LANGUAGE DATA
 
 :onerror Err {
   :global GlobalConfigReady; :global GlobalFunctionsReady;
+  :global GlobalNotReadyMessage;
   :retry { :if ($GlobalConfigReady != true || $GlobalFunctionsReady != true) \
-      do={ :error ("Global config and/or functions not ready."); }; } delay=500ms max=50;
+      do={ :error $GlobalNotReadyMessage; }; } delay=500ms max=50;
   :local ScriptName [ :jobname ];
 
   :global SmsAction;

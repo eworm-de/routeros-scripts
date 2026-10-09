@@ -11,7 +11,7 @@
 # https://rsc.eworm.de/doc/backup-partition.md
 
 # BEGIN GENERATED LANGUAGE DATA
-# language, name=backup-partition, schema=feb856d096790e5ec8f023c6343b50c61883ec9c090854363a9cfbe685d906ef
+# language, name=backup-partition, schema=d37495d3faf22763093e64eb8145eb90d29a006fb0503cc939337741dfd80681
 :global LanguageEnglish;
 :if ([ :typeof $LanguageEnglish ] != "array") do={ :set LanguageEnglish ({}); }
 :set ($LanguageEnglish->"backup-partition.copied") "Copied RouterOS to partition '{name}'.";
@@ -20,15 +20,22 @@
 :set ($LanguageEnglish->"backup-partition.inactive") "Device is not running from active partition.";
 :set ($LanguageEnglish->"backup-partition.partition") "Running from backup partition, refusing to act.";
 :set ($LanguageEnglish->"backup-partition.prompt") "The partitions have different RouterOS versions. Copy over to '{name}'? [y/N]";
+:set ($LanguageEnglish->"backup-partition.running") "Running from partition '{name}'!";
 :set ($LanguageEnglish->"backup-partition.save.failed") "Failed saving configuration to partition '{name}': {error}";
 :set ($LanguageEnglish->"backup-partition.saved") "Saved configuration to partition '{name}'.";
 :set ($LanguageEnglish->"backup-partition.unavailable") "Device does not have a fallback partition.";
+:set ($LanguageEnglish->"global-config.not.ready") "Global config and/or functions not ready.";
+:global GlobalNotReadyMessage;
+:if ([ :typeof $GlobalNotReadyMessage ] != "str") do={
+  :set GlobalNotReadyMessage ($LanguageEnglish->"global-config.not.ready");
+}
 # END GENERATED LANGUAGE DATA
 
 :onerror Err {
   :global GlobalConfigReady; :global GlobalFunctionsReady;
+  :global GlobalNotReadyMessage;
   :retry { :if ($GlobalConfigReady != true || $GlobalFunctionsReady != true) \
-      do={ :error ("Global config and/or functions not ready."); }; } delay=500ms max=50;
+      do={ :error $GlobalNotReadyMessage; }; } delay=500ms max=50;
   :local ScriptName [ :jobname ];
 
   :global BackupPartitionCopyBeforeFeatureUpdate;
@@ -132,10 +139,19 @@
     }
   }
 
+  # Capture the chosen language; this startup warning runs before core helpers.
+  # Hex encoding keeps catalog text inert inside the deferred scheduler source.
   :onerror Err {
     /system/scheduler/add start-time=startup name="running-from-backup-partition" \
-        on-event=(":log warning (\"Running from partition '\" . " . \
-        "[ /partitions/get [ find where running ] name ] . \"'!\")");
+        on-event=(":local Text [ :convert from=hex to=raw \"" . \
+        [ :convert from=raw to=hex [ $Translate "backup-partition.running" ({ name="__PARTITION_NAME__" }) ] ] . \
+        "\" ]; :local Name [ /partitions/get [ find where running ] name ]; " . \
+        ":local Message \"\"; :local Start [ :find \$Text \"__PARTITION_NAME__\" ]; " . \
+        ":while ([ :typeof \$Start ] = \"num\") do={ " . \
+        ":set Message (\$Message . [ :pick \$Text 0 \$Start ] . \$Name); " . \
+        ":set Text [ :pick \$Text (\$Start + 18) [ :len \$Text ] ]; " . \
+        ":set Start [ :find \$Text \"__PARTITION_NAME__\" ]; }; " . \
+        ":log warning (\$Message . \$Text);");
     /partitions/save-config-to $FallbackTo;
     /system/scheduler/remove "running-from-backup-partition";
     $LogPrint info $ScriptName ([ $Translate "backup-partition.saved" ({ name=($FallbackToVal->"name") }) ]);

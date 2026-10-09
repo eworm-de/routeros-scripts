@@ -279,12 +279,18 @@ behavioral suite above. Core/configuration sources parsed; five local renderer
 copies passed without the global helper. Tests did not download packages,
 execute migration code, send notifications, or modify device settings.
 
-### Remaining migration
+The final text migration brought coverage to 687 messages. Startup guards use
+a shared translated variable, with generated English defaults available before
+the renderer starts. Historical change notifications register their catalog
+when fetched and retain the original migration code. Configuration version 146
+announces the language option and required shared module. Native tests cover
+conditional donation/storage notices and the deferred partition warning, which
+captures the selected language and safely encodes its text for startup.
 
-The full migration is still in progress. Remaining groups include historical
-change notifications. Bootstrap messages and machine-readable strings
-need individual classification before changes. One upstream pull request will
-be opened after the full migration and its validation are complete.
+Human-facing runtime notifications, diagnostics, and display labels are now
+catalog-backed. Comments, documentation examples, password word lists, received
+commands, API fields/statuses, certificate names, configuration identifiers, and
+native RouterOS log/error patterns retain their original values.
 
 The minimum supported version (7.22), hardware sensor paths, and persistence
 across an actual reboot still need validation. Clearing the translation globals

@@ -29,6 +29,11 @@
 :set ($LanguageEnglish->"notification-matrix.snippet.append.failed") "Failed appending configuration to snippet: {error}";
 :set ($LanguageEnglish->"notification-matrix.snippet.appended") "Appended configuration to configuration snippet. Please review!";
 :set ($LanguageEnglish->"notification-matrix.snippet.failed") "Failed adding configuration snippet: {error}";
+:set ($LanguageEnglish->"global-config.not.ready") "Global config and/or functions not ready.";
+:global GlobalNotReadyMessage;
+:if ([ :typeof $GlobalNotReadyMessage ] != "str") do={
+  :set GlobalNotReadyMessage ($LanguageEnglish->"global-config.not.ready");
+}
 # END GENERATED LANGUAGE DATA
 
 :global FlushMatrixQueue;

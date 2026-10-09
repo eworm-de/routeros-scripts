@@ -84,6 +84,20 @@ def render(check=False):
         block += ':if ([ :typeof $LanguageEnglish ] != "array") do={ :set LanguageEnglish ({}); }\n'
         for key, text in sorted(messages.items()):
             block += f':set ($LanguageEnglish->{quote(key)}) {quote(text)};\n'
+        bootstrap = ROOT / 'languages/en/global-config.json'
+        if bootstrap.exists() and 'global-config.not.ready' in load(bootstrap)['messages']:
+            text = load(bootstrap)['messages']['global-config.not.ready']
+            if group != 'global-config':
+                block += f':set ($LanguageEnglish->"global-config.not.ready") {quote(text)};\n'
+            block += ':global GlobalNotReadyMessage;\n'
+            block += ':if ([ :typeof $GlobalNotReadyMessage ] != "str") do={\n'
+            block += '  :set GlobalNotReadyMessage ($LanguageEnglish->"global-config.not.ready");\n}\n'
+        if group == 'news-and-changes':
+            # The changelog is fetched and parsed, rather than installed as a
+            # script, so installed-source discovery cannot find its schema.
+            block += ':global LanguageSchemas;\n'
+            block += ':if ([ :typeof $LanguageSchemas ] != "array") do={ :set LanguageSchemas ({}); }\n'
+            block += f':set ($LanguageSchemas->"news-and-changes") {quote(schema)};\n'
         block += END
         target = source_path(group)
         source = target.read_text(encoding='utf-8')

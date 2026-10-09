@@ -22,6 +22,11 @@
 :set ($LanguageEnglish->"ssh-keys-import.type.unsupported") "SSH key of type '{type}' is not supported.";
 :set ($LanguageEnglish->"ssh-keys-import.user.import.failed") "Failed importing key for user '{user}'.";
 :set ($LanguageEnglish->"ssh-keys-import.user.missing") "User '{user}' does not exist.";
+:set ($LanguageEnglish->"global-config.not.ready") "Global config and/or functions not ready.";
+:global GlobalNotReadyMessage;
+:if ([ :typeof $GlobalNotReadyMessage ] != "str") do={
+  :set GlobalNotReadyMessage ($LanguageEnglish->"global-config.not.ready");
+}
 # END GENERATED LANGUAGE DATA
 
 :global SSHKeysImport;

@@ -36,12 +36,18 @@
 :set ($LanguageEnglish->"netwatch-notify.up") "The {type} '{name}' ({details}) is up.";
 :set ($LanguageEnglish->"netwatch-notify.up.message") "The {type} '{name}' ({details}) is up since {since}.\0AIt was down for {count} checks since {down_since}.";
 :set ($LanguageEnglish->"netwatch-notify.up.subject") "Netwatch Notify: {name} up";
+:set ($LanguageEnglish->"global-config.not.ready") "Global config and/or functions not ready.";
+:global GlobalNotReadyMessage;
+:if ([ :typeof $GlobalNotReadyMessage ] != "str") do={
+  :set GlobalNotReadyMessage ($LanguageEnglish->"global-config.not.ready");
+}
 # END GENERATED LANGUAGE DATA
 
 :onerror Err {
   :global GlobalConfigReady; :global GlobalFunctionsReady;
+  :global GlobalNotReadyMessage;
   :retry { :if ($GlobalConfigReady != true || $GlobalFunctionsReady != true) \
-      do={ :error ("Global config and/or functions not ready."); }; } delay=500ms max=50;
+      do={ :error $GlobalNotReadyMessage; }; } delay=500ms max=50;
   :local ScriptName [ :jobname ];
 
   :global NetwatchNotify;

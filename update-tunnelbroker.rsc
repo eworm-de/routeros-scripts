@@ -20,12 +20,18 @@
 :set ($LanguageEnglish->"update-tunnelbroker.download.failed") "Failed downloading: {error} - {count} retries pending.";
 :set ($LanguageEnglish->"update-tunnelbroker.response.invalid") "Failed sending the local address to tunnelbroker or unexpected response!";
 :set ($LanguageEnglish->"update-tunnelbroker.updating") "Local address changed, updating tunnel configuration with address: {address}";
+:set ($LanguageEnglish->"global-config.not.ready") "Global config and/or functions not ready.";
+:global GlobalNotReadyMessage;
+:if ([ :typeof $GlobalNotReadyMessage ] != "str") do={
+  :set GlobalNotReadyMessage ($LanguageEnglish->"global-config.not.ready");
+}
 # END GENERATED LANGUAGE DATA
 
 :onerror Err {
   :global GlobalConfigReady; :global GlobalFunctionsReady;
+  :global GlobalNotReadyMessage;
   :retry { :if ($GlobalConfigReady != true || $GlobalFunctionsReady != true) \
-      do={ :error ("Global config and/or functions not ready."); }; } delay=500ms max=50;
+      do={ :error $GlobalNotReadyMessage; }; } delay=500ms max=50;
   :local ScriptName [ :jobname ];
 
   :global CertificateAvailable;

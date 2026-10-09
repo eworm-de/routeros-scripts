@@ -28,6 +28,11 @@
 :set ($LanguageEnglish->"notification-email.sending.busy") "Sending mail is currently in progress, not flushing.";
 :set ($LanguageEnglish->"notification-email.time.unsynced") "Time is not synced, not flushing.";
 :set ($LanguageEnglish->"notification-email.truncated") "The message was too long and has been truncated!";
+:set ($LanguageEnglish->"global-config.not.ready") "Global config and/or functions not ready.";
+:global GlobalNotReadyMessage;
+:if ([ :typeof $GlobalNotReadyMessage ] != "str") do={
+  :set GlobalNotReadyMessage ($LanguageEnglish->"global-config.not.ready");
+}
 # END GENERATED LANGUAGE DATA
 
 :global EMailGenerateFrom;

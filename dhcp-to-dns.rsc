@@ -28,12 +28,18 @@
 :set ($LanguageEnglish->"dhcp-to-dns.record.current") "The A record for {lease} ({name}) does not need updating.";
 :set ($LanguageEnglish->"dhcp-to-dns.record.updating") "Updating A record for {lease} ({name} -> {address}).";
 :set ($LanguageEnglish->"dhcp-to-dns.records.multiple") "The name '{name}' appeared in more than one A record!";
+:set ($LanguageEnglish->"global-config.not.ready") "Global config and/or functions not ready.";
+:global GlobalNotReadyMessage;
+:if ([ :typeof $GlobalNotReadyMessage ] != "str") do={
+  :set GlobalNotReadyMessage ($LanguageEnglish->"global-config.not.ready");
+}
 # END GENERATED LANGUAGE DATA
 
 :onerror Err {
   :global GlobalConfigReady; :global GlobalFunctionsReady;
+  :global GlobalNotReadyMessage;
   :retry { :if ($GlobalConfigReady != true || $GlobalFunctionsReady != true) \
-      do={ :error ("Global config and/or functions not ready."); }; } delay=500ms max=50;
+      do={ :error $GlobalNotReadyMessage; }; } delay=500ms max=50;
   :local ScriptName [ :jobname ];
 
   :global Domain;

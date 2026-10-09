@@ -7,12 +7,17 @@
 # https://rsc.eworm.de/
 
 # BEGIN GENERATED LANGUAGE DATA
-# language, name=global-config, schema=709bfa8672b065ec747512a6a80aa591516e18d275521641f54158062d478f54
+# language, name=global-config, schema=4dea7b8ee007cfceb44462e476d61a9ea4a4066a05150bd7d29153c38e31666f
 :global LanguageEnglish;
 :if ([ :typeof $LanguageEnglish ] != "array") do={ :set LanguageEnglish ({}); }
 :set ($LanguageEnglish->"global-config.hello.message") "Hello world, {identity} calling!";
 :set ($LanguageEnglish->"global-config.hello.subject") "Hello...";
+:set ($LanguageEnglish->"global-config.not.ready") "Global config and/or functions not ready.";
 :set ($LanguageEnglish->"global-config.overlay.failed") "Loading configuration from overlay or snippet {script} failed: {error}";
+:global GlobalNotReadyMessage;
+:if ([ :typeof $GlobalNotReadyMessage ] != "str") do={
+  :set GlobalNotReadyMessage ($LanguageEnglish->"global-config.not.ready");
+}
 # END GENERATED LANGUAGE DATA
 
 # BEGIN GENERATED LOCAL LANGUAGE RENDERER
@@ -364,6 +369,8 @@
 
 # signal we are ready
 :set GlobalConfigReady true;
+
+:global GlobalNotReadyMessage [ $Translate "global-config.not.ready" ];
 
 # Apply language changes when an already initialized installation reloads config.
 :global GlobalFunctionsReady;

@@ -21,12 +21,18 @@
 :set ($LanguageEnglish->"ipv6-update.list.added") "Added dynamic ipv6 address list entry for ipv6-pool-{pool}";
 :set ($LanguageEnglish->"ipv6-update.prefix.invalid") "The prefix {prefix} is no longer valid. Ignoring.";
 :set ($LanguageEnglish->"ipv6-update.prefix.updating") "Updating IPv6 address list with new IPv6 prefix {prefix}";
+:set ($LanguageEnglish->"global-config.not.ready") "Global config and/or functions not ready.";
+:global GlobalNotReadyMessage;
+:if ([ :typeof $GlobalNotReadyMessage ] != "str") do={
+  :set GlobalNotReadyMessage ($LanguageEnglish->"global-config.not.ready");
+}
 # END GENERATED LANGUAGE DATA
 
 :onerror Err {
   :global GlobalConfigReady; :global GlobalFunctionsReady;
+  :global GlobalNotReadyMessage;
   :retry { :if ($GlobalConfigReady != true || $GlobalFunctionsReady != true) \
-      do={ :error ("Global config and/or functions not ready."); }; } delay=500ms max=50;
+      do={ :error $GlobalNotReadyMessage; }; } delay=500ms max=50;
   :local ScriptName [ :jobname ];
 
   :global EitherOr;

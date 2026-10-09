@@ -16,6 +16,11 @@
 :set ($LanguageEnglish->"inspectvar.len") "len";
 :set ($LanguageEnglish->"inspectvar.type") "type";
 :set ($LanguageEnglish->"inspectvar.value") "value";
+:set ($LanguageEnglish->"global-config.not.ready") "Global config and/or functions not ready.";
+:global GlobalNotReadyMessage;
+:if ([ :typeof $GlobalNotReadyMessage ] != "str") do={
+  :set GlobalNotReadyMessage ($LanguageEnglish->"global-config.not.ready");
+}
 # END GENERATED LANGUAGE DATA
 
 :global InspectVar;

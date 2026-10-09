@@ -17,6 +17,11 @@
 :set ($LanguageEnglish->"scriptrunonce.running") "Running script '{script}' now.";
 :set ($LanguageEnglish->"scriptrunonce.syntax") "The script '{script}' failed syntax validation!";
 :set ($LanguageEnglish->"scriptrunonce.url.missing") "Script '{script}' is not an url and base url is not available.";
+:set ($LanguageEnglish->"global-config.not.ready") "Global config and/or functions not ready.";
+:global GlobalNotReadyMessage;
+:if ([ :typeof $GlobalNotReadyMessage ] != "str") do={
+  :set GlobalNotReadyMessage ($LanguageEnglish->"global-config.not.ready");
+}
 # END GENERATED LANGUAGE DATA
 
 :global ScriptRunOnce;

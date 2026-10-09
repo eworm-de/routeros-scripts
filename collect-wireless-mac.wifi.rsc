@@ -34,12 +34,18 @@
 :set ($LanguageEnglish->"collect-wireless-mac.marker.added") "Added disabled access-list entry with comment '--- collected above ---'.";
 :set ($LanguageEnglish->"collect-wireless-mac.message") "A device with unknown MAC address connected to {ssid} on {identity}.\0A\0A";
 :set ($LanguageEnglish->"collect-wireless-mac.subject") "{mac} connected to {ssid}";
+:set ($LanguageEnglish->"global-config.not.ready") "Global config and/or functions not ready.";
+:global GlobalNotReadyMessage;
+:if ([ :typeof $GlobalNotReadyMessage ] != "str") do={
+  :set GlobalNotReadyMessage ($LanguageEnglish->"global-config.not.ready");
+}
 # END GENERATED LANGUAGE DATA
 
 :onerror Err {
   :global GlobalConfigReady; :global GlobalFunctionsReady;
+  :global GlobalNotReadyMessage;
   :retry { :if ($GlobalConfigReady != true || $GlobalFunctionsReady != true) \
-      do={ :error ("Global config and/or functions not ready."); }; } delay=500ms max=50;
+      do={ :error $GlobalNotReadyMessage; }; } delay=500ms max=50;
   :local ScriptName [ :jobname ];
 
   :global Identity;
