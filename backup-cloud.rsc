@@ -104,13 +104,13 @@
 
     :local Cloud [ /system/backup/cloud/get ([ find ]->0) ];
 
-    $SendNotification2 ({ origin=$ScriptName; \
+    $SendNotification2 ({ origin=$ScriptName;  silent=true; \
       subject=([ $SymbolForNotification "floppy-disk,cloud" ] . [ $Translate "backup-cloud.subject" ]); \
       message=([ $Translate "backup-cloud.message" ({ identity=$Identity; device=[ $DeviceInfo ]; details=([ $FormatLine [ $Translate "backup-cloud.label.name" ] ($Cloud->"name") ] . "\n" . \
         [ $FormatLine [ $Translate "backup-cloud.label.size" ] ([ $HumanReadableNum ($Cloud->"size") 1024 ] . "B") ] . "\n" . \
-        [ $FormatLine [ $Translate "backup-cloud.label.key" ] ($Cloud->"secret-download-key") ]) }) ]); silent=true });
+        [ $FormatLine [ $Translate "backup-cloud.label.key" ] ($Cloud->"secret-download-key") ]) }) ]) });
   } else={
-    $SendNotification2 ({ origin=$ScriptName; \
+    $SendNotification2 ({ origin=$ScriptName;  silent=false; \
       subject=([ $SymbolForNotification "floppy-disk,warning-sign" ] . [ $Translate "backup-cloud.subject.failed" ]); \
       message=([ $Translate "backup-cloud.message.failed" ({ identity=$Identity; device=[ $DeviceInfo ] }) ]) });
     $LogPrint error $ScriptName ([ $Translate "backup-cloud.upload.failed" ({ identity=$Identity }) ]);

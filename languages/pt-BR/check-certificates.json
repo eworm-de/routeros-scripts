@@ -1,6 +1,6 @@
 {
   "language": "pt-BR",
-  "schema": "470ef2fd806d0e33ea04acd3af97465171413917bd9d674c28b1a80d68cf7953",
+  "schema": "cf8bd9082b93740e8208559666fe2c7daccaad59f7b3406a63f0a6820adf7baf",
   "messages": {
     "check-certificates.download.try": "Tentando o tipo '{type}' para '{name}' (arquivo '{file}')...",
     "check-certificates.download.failed": "Falha ao baixar o certificado por '{name}': {error}",
@@ -17,7 +17,6 @@
     "check-certificates.status.available": "disponível",
     "check-certificates.status.missing": "ausente",
     "check-certificates.label.fingerprint": "Impressão digital",
-    "check-certificates.label.key": "ID da chave do titular",
     "check-certificates.label.issuer": "Emissor",
     "check-certificates.label.chain": "Cadeia de emissores",
     "check-certificates.label.validity": "Validade:\n",

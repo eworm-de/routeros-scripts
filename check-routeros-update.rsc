@@ -146,14 +146,13 @@
     :if ($SafeUpdateAll ~ "^YES,? ?PLEASE!?\$") do={
       $LogPrint info $ScriptName [ $Translate "check-routeros-update.all.log" \
           ({ version=($Update->"latest-version") }) ];
-      $SendNotification2 ({ origin=$ScriptName; \
+      $SendNotification2 ({ origin=$ScriptName; silent=false; \
         subject=([ $SymbolForNotification "sparkles" ] . [ $Translate "check-routeros-update.update.subject" \
             ({ version=($Update->"latest-version") }) ]); \
         message=[ $Translate "check-routeros-update.all.message" \
             ({ version=($Update->"latest-version"); \
             identity=$Identity }) ]; \
-            link=$Link; \
-            silent=true });
+            link=$Link });
       $DoUpdate $ScriptName;
       :exit;
     }
@@ -161,15 +160,14 @@
     :if ($SafeUpdatePatch = true && $NumInstalledFeature = $NumLatestFeature) do={
       $LogPrint info $ScriptName [ $Translate "check-routeros-update.patch.log" \
           ({ version=($Update->"latest-version") }) ];
-      $SendNotification2 ({ origin=$ScriptName; \
+      $SendNotification2 ({ origin=$ScriptName; silent=true; \
         subject=([ $SymbolForNotification "sparkles" ] . [ $Translate "check-routeros-update.update.subject" \
             ({ version=($Update->"latest-version") }) ]); \
         message=[ $Translate "check-routeros-update.patch.message" \
             ({ version=($Update->"latest-version"); \
             channel=($Update->"channel"); \
             identity=$Identity }) ]; \
-            link=$Link; \
-            silent=true });
+            link=$Link });
       $DoUpdate $ScriptName;
       :exit;
     }
@@ -183,7 +181,7 @@
             ({ neighbor=$Neighbor; \
             version=($Update->"latest-version"); \
             channel=($Update->"channel") }) ];
-        $SendNotification2 ({ origin=$ScriptName; \
+        $SendNotification2 ({ origin=$ScriptName; silent=true; \
           subject=([ $SymbolForNotification "sparkles" ] . [ $Translate "check-routeros-update.update.subject" \
               ({ version=($Update->"latest-version") }) ]); \
           message=[ $Translate "check-routeros-update.neighbor.message" \
@@ -191,8 +189,7 @@
               version=($Update->"latest-version"); \
               channel=($Update->"channel"); \
               identity=$Identity }) ]; \
-              link=$Link; \
-              silent=true });
+              link=$Link });
         $DoUpdate $ScriptName;
         :exit;
       }
@@ -213,15 +210,14 @@
       :if ($Result->"status" = "finished" && $Result->"data" = $Update->"latest-version") do={
         $LogPrint info $ScriptName [ $Translate "check-routeros-update.safe.log" \
             ({ version=($Update->"latest-version") }) ];
-        $SendNotification2 ({ origin=$ScriptName; \
+        $SendNotification2 ({ origin=$ScriptName; silent=true; \
           subject=([ $SymbolForNotification "sparkles" ] . [ $Translate "check-routeros-update.update.subject" \
               ({ version=($Update->"latest-version") }) ]); \
           message=[ $Translate "check-routeros-update.safe.message" \
               ({ version=($Update->"latest-version"); \
               channel=($Update->"channel"); \
               identity=$Identity }) ]; \
-              link=$Link; \
-              silent=true });
+              link=$Link });
         $DoUpdate $ScriptName;
         :exit;
       }
@@ -252,15 +248,14 @@
       :exit;
     }
 
-    $SendNotification2 ({ origin=$ScriptName; \
+    $SendNotification2 ({ origin=$ScriptName; silent=true; \
       subject=([ $SymbolForNotification "sparkles" ] . [ $Translate "check-routeros-update.update.subject" \
           ({ version=($Update->"latest-version") }) ]); \
       message=[ $Translate "check-routeros-update.update.message" \
           ({ version=($Update->"latest-version"); \
           identity=$Identity; \
           device=[ $DeviceInfo ] }) ]; \
-          link=$Link; \
-          silent=true });
+          link=$Link });
     :set SentRouterosUpdateNotification ($Update->"latest-version");
   }
 
@@ -271,15 +266,14 @@
       :exit;
     }
 
-    $SendNotification2 ({ origin=$ScriptName; \
+    $SendNotification2 ({ origin=$ScriptName; silent=false; \
       subject=([ $SymbolForNotification "warning-sign" ] . [ $Translate "check-routeros-update.downgrade.subject" \
           ({ version=($Update->"latest-version") }) ]); \
       message=[ $Translate "check-routeros-update.downgrade.message" \
           ({ version=($Update->"latest-version"); \
           identity=$Identity; \
           device=[ $DeviceInfo ] }) ]; \
-          link=$Link; \
-          silent=true });
+          link=$Link });
     $LogPrint info $ScriptName [ $Translate "check-routeros-update.downgrade.log" \
         ({ version=($Update->"latest-version") }) ];
     :set SentRouterosUpdateNotification ($Update->"latest-version");

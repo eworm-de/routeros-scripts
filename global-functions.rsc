@@ -11,7 +11,7 @@
 # https://rsc.eworm.de/
 
 # BEGIN GENERATED LANGUAGE DATA
-# language, name=global-functions, schema=1e38c611410696c20e339d1768aaec030c8b124ec4d56c3f9e0a319ca96fc8c8
+# language, name=global-functions, schema=11ec766b1c116091e098b19755e3efe320ce083797063fbd31e6880667418d65
 :global LanguageEnglish;
 :if ([ :typeof $LanguageEnglish ] != "array") do={ :set LanguageEnglish ({}); }
 :set ($LanguageEnglish->"global-functions.certificate.chain") "Certificate chain for '{name}' is incomplete, missing '{issuer}'.";
@@ -19,8 +19,8 @@
 :set ($LanguageEnglish->"global-functions.certificate.failed") "Failed downloading certificate with CommonName '{name}'!";
 :set ($LanguageEnglish->"global-functions.certificate.fallback") "Failed downloading certificate with CommonName '{name}' from repository! Trying fallback to mkcert.org...";
 :set ($LanguageEnglish->"global-functions.certificate.flash.low") "This system has low free flash space but is configured to download certificate CRLs to system!";
-:set ($LanguageEnglish->"global-functions.certificate.match.missing") "No matching certificate found.";
-:set ($LanguageEnglish->"global-functions.certificate.match.multiple") "Too many matching certificates found.";
+:set ($LanguageEnglish->"global-functions.certificate.match.missing") "No matching certificate found for pattern '{pattern}'.";
+:set ($LanguageEnglish->"global-functions.certificate.match.multiple") "Too many matching certificates found for pattern '{pattern}'.";
 :set ($LanguageEnglish->"global-functions.certificate.multiple") "There are several certificates with CommonName '{name}'. Should be ok.";
 :set ($LanguageEnglish->"global-functions.certificate.name.missing") "No CommonName given!";
 :set ($LanguageEnglish->"global-functions.certificate.required") "Required certificate is not available.";
@@ -95,7 +95,7 @@
 # Git commit id & info, expected configuration version
 :global CommitId "unknown";
 :global CommitInfo "unknown";
-:global ExpectedConfigVersion 146;
+:global ExpectedConfigVersion 147;
 
 # global variables not to be changed by user
 :global GlobalFunctionsReady false;
@@ -210,6 +210,8 @@
 
   :local CertSettings [ /certificate/settings/get ];
   :if ((($CertSettings->"builtin-trust-store") ~ $UseFor || \
+        (($CertSettings->"builtin-trust-store") = "default" && \
+         ($CertSettings->"current-defaults") ~ $UseFor) || \
         ($CertSettings->"builtin-trust-store") = "all") && \
        [ :len [ /certificate/builtin/find where common-name=$CommonName or unit=$CommonName ] ] > 0) do={
     :return true;
@@ -275,6 +277,8 @@
       :local CertSettings [ /certificate/settings/get ];
       :if ([ :len [ /certificate/find where common-name="Root YE" ] ] = 0 && \
            !((($CertSettings->"builtin-trust-store") ~ "fetch" || \
+              (($CertSettings->"builtin-trust-store") = "default" && \
+               ($CertSettings->"current-defaults") ~ "fetch") || \
               ($CertSettings->"builtin-trust-store") = "all") && \
              [ :len [ /certificate/builtin/find where common-name="Root YE" ] ] > 0)) do={
         $LogPrint error $0 [ $Translate "global-functions.certificate.required" ];
@@ -327,14 +331,15 @@
     :return true;
   }
 
-  :set Cert [ /certificate/find where common-name=$Match or fingerprint=$Match or name=$Match or skid=$Match ];
+  :set Cert [ /certificate/find where common-name=$Match or fingerprint=$Match or \
+      name=$Match or (!(skid="") skid=$Match) ];
   :if ([ :len $Cert ] > 1) do={
-    $LogPrint warning $0 [ $Translate "global-functions.certificate.match.multiple" ];
+    $LogPrint warning $0 [ $Translate "global-functions.certificate.match.multiple" ({ pattern=$Match }) ];
     :return false;
   }
 
   :if ([ :len $Cert ] = 0) do={
-    $LogPrint warning $0 [ $Translate "global-functions.certificate.match.missing" ];
+    $LogPrint warning $0 [ $Translate "global-functions.certificate.match.missing" ({ pattern=$Match }) ];
     :return false;
   }
 

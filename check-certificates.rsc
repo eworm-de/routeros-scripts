@@ -10,7 +10,7 @@
 # https://rsc.eworm.de/doc/check-certificates.md
 
 # BEGIN GENERATED LANGUAGE DATA
-# language, name=check-certificates, schema=470ef2fd806d0e33ea04acd3af97465171413917bd9d674c28b1a80d68cf7953
+# language, name=check-certificates, schema=cf8bd9082b93740e8208559666fe2c7daccaad59f7b3406a63f0a6820adf7baf
 :global LanguageEnglish;
 :if ([ :typeof $LanguageEnglish ] != "array") do={ :set LanguageEnglish ({}); }
 :set ($LanguageEnglish->"check-certificates.chain.incomplete") " (possibly incomplete!)";
@@ -27,7 +27,6 @@
 :set ($LanguageEnglish->"check-certificates.label.fingerprint") "Fingerprint";
 :set ($LanguageEnglish->"check-certificates.label.from") "    from";
 :set ($LanguageEnglish->"check-certificates.label.issuer") "Issuer";
-:set ($LanguageEnglish->"check-certificates.label.key") "Subject Key Id";
 :set ($LanguageEnglish->"check-certificates.label.left") "    time left";
 :set ($LanguageEnglish->"check-certificates.label.name") "Name";
 :set ($LanguageEnglish->"check-certificates.label.private") "Private key";
@@ -202,7 +201,6 @@
       [ $IfThenElse ([ :len ($CertVal->"subject-alt-name") ] > 0) ([ $FormatMultiLines [ $Translate "check-certificates.label.alternatives" ] ($CertVal->"subject-alt-name") ] . "\n") ] . \
       [ $FormatLine [ $Translate "check-certificates.label.private" ] [ $IfThenElse (($CertVal->"private-key") = true) [ $Translate "check-certificates.status.available" ] [ $Translate "check-certificates.status.missing" ] ] ] . "\n" . \
       [ $FormatLine [ $Translate "check-certificates.label.fingerprint" ] ($CertVal->"fingerprint") ] . "\n" . \
-      [ $FormatLine [ $Translate "check-certificates.label.key" ] ($CertVal->"skid") ] . "\n" . \
       [ $IfThenElse ([ :len ($CertVal->"ca") ] > 0) [ $FormatLine [ $Translate "check-certificates.label.issuer" ] ($CertVal->"ca") ] [ $FormatLine [ $Translate "check-certificates.label.chain" ] [ $FormatCertChain $Cert ] ] ] . "\n" . \
       [ $Translate "check-certificates.label.validity" ] . \
       [ $FormatLine [ $Translate "check-certificates.label.days" ] ($CertVal->"days-valid") ] . "\n" . \
@@ -306,7 +304,7 @@
     } else={
       :local State [ $IfThenElse (($CertVal->"expired") = true) [ $Translate "check-certificates.status.expired" ] [ $Translate "check-certificates.status.expiring" ] ];
 
-      $SendNotification2 ({ origin=$ScriptName; \
+      $SendNotification2 ({ origin=$ScriptName; silent=false; \
         subject=([ $SymbolForNotification "lock-with-ink-pen,warning-sign" ] . [ $Translate "check-certificates.warning.subject" ({ name=($CertVal->"name") }) ]); \
         message=([ $Translate "check-certificates.warning.message" ({ identity=$Identity; state=$State; details=[ $FormatInfo $Cert ] }) ]) });
       $LogPrint info $ScriptName ([ $Translate "check-certificates.warning.log" ({ name=($CertVal->"name"); state=$State; date=($CertVal->"invalid-after") }) ]);

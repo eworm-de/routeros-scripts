@@ -113,6 +113,9 @@ least, but make sure not to drop other targets:
 
 ![screenshot: builtin trust store](README.d/00-builtin-trust-store.avif)
 
+Alternatively setting `builtin-trust-store=default` should be a reasonable
+choice, including all values that may be required.
+
 You can skip the steps regarding *download and import certificate* and
 jump to [installation of scripts](#installation-of-scripts) now.
 
@@ -324,6 +327,7 @@ Available modules
 * [Send notifications via Gotify](doc/mod/notification-gotify.md) (`mod/notification-gotify`)
 * [Send notifications via Matrix](doc/mod/notification-matrix.md) (`mod/notification-matrix`)
 * [Send notifications via Ntfy](doc/mod/notification-ntfy.md) (`mod/notification-ntfy`)
+* [Send notifications via Signalgrid](doc/mod/notification-signalgrid.md) (`mod/notification-signalgrid`)
 * [Send notifications via Telegram](doc/mod/notification-telegram.md) (`mod/notification-telegram`)
 * [Download script and run it once](doc/mod/scriptrunonce.md) (`mod/scriptrunonce`)
 * [Import ssh keys for public key authentication](doc/mod/ssh-keys-import.md) (`mod/ssh-keys-import`)

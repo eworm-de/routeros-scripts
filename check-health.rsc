@@ -86,13 +86,13 @@
 
   :set CheckHealthCPUUtilization (($CheckHealthCPUUtilization * 4 + ($Resource->"cpu-load") * 10) / 5);
   :if ($CheckHealthCPUUtilization > 750 && $CheckHealthCPUUtilizationNotified != true) do={
-    $SendNotification2 ({ origin=$ScriptName; \
+    $SendNotification2 ({ origin=$ScriptName; silent=false; \
       subject=([ $SymbolForNotification "abacus,chart-increasing" ] . [ $Translate "check-health.cpu.warning.subject" ]); \
       message=([ $Translate "check-health.cpu.warning.message" ({ identity=$Identity; percent=($CheckHealthCPUUtilization / 10) }) ]) });
     :set CheckHealthCPUUtilizationNotified true;
   }
   :if ($CheckHealthCPUUtilization < 650 && $CheckHealthCPUUtilizationNotified = true) do={
-    $SendNotification2 ({ origin=$ScriptName; \
+    $SendNotification2 ({ origin=$ScriptName; silent=true; \
       subject=([ $SymbolForNotification "abacus,chart-decreasing" ] . [ $Translate "check-health.cpu.recovery.subject" ]); \
       message=([ $Translate "check-health.cpu.recovery.message" ({ identity=$Identity; percent=($CheckHealthCPUUtilization / 10) }) ]) });
     :set CheckHealthCPUUtilizationNotified false;
@@ -100,7 +100,7 @@
 
   :local CheckHealthRAMUtilization (($Resource->"total-memory" - $Resource->"free-memory") * 100 / $Resource->"total-memory");
   :if ($CheckHealthRAMUtilization >=80 && $CheckHealthRAMUtilizationNotified != true) do={
-    $SendNotification2 ({ origin=$ScriptName; \
+    $SendNotification2 ({ origin=$ScriptName; silent=false; \
       subject=([ $SymbolForNotification "card-file-box,chart-increasing" ] . [ $Translate "check-health.ram.warning.subject" ]); \
       message=([ $Translate "check-health.ram.warning.message" ({ identity=$Identity; percent=$CheckHealthRAMUtilization; details=([ $FormatLine [ $Translate "check-health.ram.total" ] ([ $HumanReadableNum ($Resource->"total-memory") 1024 ] . "B") 8 ] . "\n" . \
       [ $FormatLine [ $Translate "check-health.ram.used" ] ([ $HumanReadableNum ($Resource->"total-memory" - $Resource->"free-memory") 1024 ] . "B") 8 ] . "\n" . \
@@ -108,7 +108,7 @@
     :set CheckHealthRAMUtilizationNotified true;
   }
   :if ($CheckHealthRAMUtilization < 70 && $CheckHealthRAMUtilizationNotified = true) do={
-    $SendNotification2 ({ origin=$ScriptName; \
+    $SendNotification2 ({ origin=$ScriptName; silent=true; \
       subject=([ $SymbolForNotification "card-file-box,chart-decreasing" ] . [ $Translate "check-health.ram.recovery.subject" ]); \
       message=([ $Translate "check-health.ram.recovery.message" ({ identity=$Identity; percent=$CheckHealthRAMUtilization }) ]) });
     :set CheckHealthRAMUtilizationNotified false;

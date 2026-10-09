@@ -49,6 +49,7 @@
   :set Expected "Netwatch Notify: test-host up";
   :if ($Locale = "pt-BR") do={ :set Expected "Notifica\C3\A7\C3\A3o Netwatch: test-host ativo"; };
   :if (($NetwatchFixtureMessage->"subject") != $Expected) do={ :error "Netwatch recovery subject failed"; };
+  :if (($NetwatchFixtureMessage->"silent") != true) do={ :error "Netwatch recovery silence changed"; };
 
   # A parent outage suppresses the child notification.
   :set NetwatchFixtureMessage ({});

@@ -187,13 +187,13 @@
         [ $FormatLine $Name [ $IfThenElse ($File = "none") [ $Translate "backup-upload.none" ] [ $IfThenElse ($File = "failed") [ $Translate "backup-upload.failed" ] $File ] ] ] ];
   }
 
-  $SendNotification2 ({ origin=$ScriptName; \
+  $SendNotification2 ({ origin=$ScriptName; silent=[ $IfThenElse ($Failed > 0) false true ]; \
     subject=[ $IfThenElse ($Failed > 0) \
       ([ $SymbolForNotification "floppy-disk,warning-sign" ] . [ $Translate "backup-upload.subject.failed" ]) \
       ([ $SymbolForNotification "floppy-disk,arrow-up" ] . [ $Translate "backup-upload.subject" ]) ]; \
     message=([ $Translate "backup-upload.message" ({ identity=$Identity; device=[ $DeviceInfo ]; details=([ $FileInfo [ $Translate "backup-upload.label.backup" ] $BackupFile ] . "\n" . \
       [ $FileInfo [ $Translate "backup-upload.label.export" ] $ExportFile ] . "\n" . \
-      [ $FileInfo [ $Translate "backup-upload.label.config" ] $ConfigFile ]) }) ]); silent=true });
+      [ $FileInfo [ $Translate "backup-upload.label.config" ] $ConfigFile ]) }) ]) });
 
   :if ($Failed = 1) do={
     :set PackagesUpdateBackupFailure true;

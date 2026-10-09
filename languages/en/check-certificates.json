@@ -1,6 +1,6 @@
 {
   "language": "en",
-  "schema": "470ef2fd806d0e33ea04acd3af97465171413917bd9d674c28b1a80d68cf7953",
+  "schema": "cf8bd9082b93740e8208559666fe2c7daccaad59f7b3406a63f0a6820adf7baf",
   "messages": {
     "check-certificates.download.try": "Trying type '{type}' for '{name}' (file '{file}')...",
     "check-certificates.download.failed": "Failed fetching certificate by '{name}': {error}",
@@ -17,7 +17,6 @@
     "check-certificates.status.available": "available",
     "check-certificates.status.missing": "missing",
     "check-certificates.label.fingerprint": "Fingerprint",
-    "check-certificates.label.key": "Subject Key Id",
     "check-certificates.label.issuer": "Issuer",
     "check-certificates.label.chain": "Issuer chain",
     "check-certificates.label.validity": "Validity:\n",

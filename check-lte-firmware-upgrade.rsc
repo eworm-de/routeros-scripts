@@ -110,14 +110,14 @@
     }
 
     $LogPrint info $ScriptName ([ $Translate "check-lte-firmware-upgrade.available.log" ({ version=($Firmware->"latest"); interface=$IntName }) ]);
-    $SendNotification2 ({ origin=$ScriptName; \
+    $SendNotification2 ({ origin=$ScriptName; silent=true; \
       subject=([ $SymbolForNotification "sparkles" ] . [ $Translate "check-lte-firmware-upgrade.subject" ]); \
       message=([ $Translate "check-lte-firmware-upgrade.message" ({ version=($Firmware->"latest"); interface=$IntName; identity=$Identity; details=([ $IfThenElse ([ :len ($Info->"manufacturer") ] > 0) ([ $FormatLine [ $Translate "check-lte-firmware-upgrade.label.manufacturer" ] ($Info->"manufacturer") ] . "\n") ] . \
         [ $IfThenElse ([ :len ($Info->"model") ] > 0) ([ $FormatLine [ $Translate "check-lte-firmware-upgrade.label.model" ] ($Info->"model") ] . "\n") ] . \
         [ $IfThenElse ([ :len ($Info->"revision") ] > 0) ([ $FormatLine [ $Translate "check-lte-firmware-upgrade.label.revision" ] ($Info->"revision") ] . "\n") ] . \
         [ $Translate "check-lte-firmware-upgrade.label.firmware" ] . \
         [ $FormatLine [ $Translate "check-lte-firmware-upgrade.label.installed" ] ($Firmware->"installed") ] . "\n" . \
-        [ $FormatLine [ $Translate "check-lte-firmware-upgrade.label.available" ] ($Firmware->"latest") ]) }) ]); silent=true });
+        [ $FormatLine [ $Translate "check-lte-firmware-upgrade.label.available" ] ($Firmware->"latest") ]) }) ]) });
     :set ($SentLteFirmwareUpgradeNotification->$IntName) ($Firmware->"latest");
   }
 

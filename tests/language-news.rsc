@@ -27,7 +27,7 @@
       :if ($Space != "small") do={ :set ($NewsFixtureResource->"total-hdd-space") 100000000; }
       :if ($Space = "large") do={ :set ($NewsFixtureResource->"free-hdd-space") 5000000; }
       $NewsFixtureRun;
-      :if ([ :len $GlobalConfigChanges ] != 51) do={ :error "Changelog entry count changed"; }
+      :if ([ :len $GlobalConfigChanges ] != 52) do={ :error "Changelog entry count changed"; }
       :local Prefix "RouterOS packages increase in size";
       :local Affected "Your VM is specifically affected! ";
       :local Unaffected "(Your VM does not suffer this issue.) ";
@@ -49,7 +49,7 @@
       :local Donation ($GlobalConfigChanges->"116");
       :if ($Donates != ([ :typeof [ :find $Donation $Thanks ] ] = "num")) do={ :error "Donation thanks changed"; }
       :if ((!$Donates) != ([ :typeof [ :find $Donation $Request ] ] = "num")) do={ :error "Donation request changed"; }
-      :if ([ :find ($GlobalConfigChanges->"146") $Latest ] != 0) do={ :error "New multilingual change note failed"; }
+      :if ([ :find ($GlobalConfigChanges->"147") $Latest ] != 0) do={ :error "New multilingual change note failed"; }
     }
   }
 }

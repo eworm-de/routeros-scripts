@@ -78,7 +78,7 @@
   :if ([ $Translate "core-extra.news.subject" ] != "Novidades e alterações de configuração") do={
     :error "Shared catalog download failed";
   }
-  :if ([ :find [ $Translate "news-and-changes.146" ] "Adicionadas notificações" ] != 0) do={
+  :if ([ :find [ $Translate "news-and-changes.147" ] "Adicionadas notificações" ] != 0) do={
     :error "Transient changelog catalog download failed";
   }
   :set ScriptUpdatesBaseUrl "https://127.0.0.1:1/";

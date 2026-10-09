@@ -207,7 +207,7 @@
             :set Message ($Message . "\n\n" . [ $NetwatchNotifyHook $ScriptName $Name $Type "up" \
                 ($HostInfo->"up-hook") ]);
           }
-          $SendNotification2 ({ origin=[ $EitherOr ($HostInfo->"origin") $ScriptName ]; silent=($HostInfo->"silent"); \
+          $SendNotification2 ({ origin=[ $EitherOr ($HostInfo->"origin") $ScriptName ]; silent=true; \
             subject=([ $SymbolForNotification "white-heavy-check-mark" ] . [ $Translate "netwatch-notify.up.subject" \
                 ({ name=$Name }) ]); \
             message=$Message; link=($HostInfo->"link") });

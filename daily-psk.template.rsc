@@ -111,7 +111,7 @@
         } else={
           :local Link ($DailyPskQrCodeUrl . \
               "?scale=8&level=1&ssid=" . [ :convert to=url $Ssid ] . "&pass=" . [ :convert to=url $NewPsk ]);
-          $SendNotification2 ({ origin=$ScriptName; \
+          $SendNotification2 ({ origin=$ScriptName; silent=true; \
             subject=([ $SymbolForNotification "calendar" ] . [ $Translate "daily-psk.subject" \
                 ({ ssid=$Ssid }) ]); \
             message=([ $Translate "daily-psk.message" \

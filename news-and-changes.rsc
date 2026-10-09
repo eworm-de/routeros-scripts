@@ -3,7 +3,7 @@
 # https://rsc.eworm.de/COPYING.md
 
 # BEGIN GENERATED LANGUAGE DATA
-# language, name=news-and-changes, schema=2e25b801e4b90bcf886ba005a32f80dcc797dc68362ef86b70e199a40ba83474
+# language, name=news-and-changes, schema=114885afc5e14458ee208338514b9ecb09a966d3b9edc4b7cce82562880ce02d
 :global LanguageEnglish;
 :if ([ :typeof $LanguageEnglish ] != "array") do={ :set LanguageEnglish ({}); }
 :set ($LanguageEnglish->"news-and-changes.100") "The script 'ssh-keys-import' became a module 'mod/ssh-keys-import' with enhanced functionality.";
@@ -52,7 +52,8 @@
 :set ($LanguageEnglish->"news-and-changes.143") "Made backup scripts 'backup-email' and 'backup-upload' support date & time in filenames.";
 :set ($LanguageEnglish->"news-and-changes.144") "Split and reworked 'mode-button' for compatibility with RouterOS 7.24, configuration was updated automatically.";
 :set ($LanguageEnglish->"news-and-changes.145") "Split and reworked 'hotspot-to-wpa' for compatibility with RouterOS 7.24, configuration was updated automatically.";
-:set ($LanguageEnglish->"news-and-changes.146") "Added multilingual notifications and diagnostics. Set ScriptLanguage in global-config-overlay to select a language; English remains available offline. Shared helpers now require global-functions.d/core-extra, installed automatically on update.";
+:set ($LanguageEnglish->"news-and-changes.146") "Added support to send notifications via Signalgrid (signalgrid.co).";
+:set ($LanguageEnglish->"news-and-changes.147") "Added multilingual notifications and diagnostics. Set ScriptLanguage in global-config-overlay to select a language; English remains available offline. Shared helpers now require global-functions.d/core-extra, installed automatically on update.";
 :set ($LanguageEnglish->"news-and-changes.96") "Added support for notes in 'netwatch-notify', these are included verbatim into the notification.";
 :set ($LanguageEnglish->"news-and-changes.97") "Modified 'dhcp-to-dns' to always add A records for names with mac address, and optionally add CNAME records if the host name is available.";
 :set ($LanguageEnglish->"news-and-changes.98") "Extended 'check-certificates' to download new certificate by SubjectAltNames if download by CommonName fails.";
@@ -69,7 +70,7 @@
 }
 :global LanguageSchemas;
 :if ([ :typeof $LanguageSchemas ] != "array") do={ :set LanguageSchemas ({}); }
-:set ($LanguageSchemas->"news-and-changes") "2e25b801e4b90bcf886ba005a32f80dcc797dc68362ef86b70e199a40ba83474";
+:set ($LanguageSchemas->"news-and-changes") "114885afc5e14458ee208338514b9ecb09a966d3b9edc4b7cce82562880ce02d";
 # END GENERATED LANGUAGE DATA
 
 :global IDonate;
@@ -146,6 +147,7 @@ $LanguageUpdate;
   144=[ $Translate "news-and-changes.144" ];
   145=[ $Translate "news-and-changes.145" ];
   146=[ $Translate "news-and-changes.146" ];
+  147=[ $Translate "news-and-changes.147" ];
 };
 
 # Migration steps to be applied on script updates

@@ -12,8 +12,8 @@
     "global-functions.certificate.required": "Required certificate is not available.",
     "global-functions.certificate.failed": "Failed downloading certificate with CommonName '{name}'!",
     "global-functions.certificate.still.unavailable": "Certificate with CommonName '{name}' still unavailable!",
-    "global-functions.certificate.match.multiple": "Too many matching certificates found.",
-    "global-functions.certificate.match.missing": "No matching certificate found.",
+    "global-functions.certificate.match.multiple": "Too many matching certificates found for pattern '{pattern}'.",
+    "global-functions.certificate.match.missing": "No matching certificate found for pattern '{pattern}'.",
     "global-functions.fetch.directory.failed": "Failed creating directory!",
     "global-functions.fetch.failed": "Failed downloading from {url} - {error}",
     "global-functions.fetch.file.missing": "The file downloaded from {url} did not show up.",
@@ -71,5 +71,5 @@
     "global-functions.language.fetch.failed": "Language catalog {group}: {error} Using cached translations or English.",
     "global-functions.language.update.failed": "Language update: {error}"
   },
-  "schema": "1e38c611410696c20e339d1768aaec030c8b124ec4d56c3f9e0a319ca96fc8c8"
+  "schema": "11ec766b1c116091e098b19755e3efe320ce083797063fbd31e6880667418d65"
 }

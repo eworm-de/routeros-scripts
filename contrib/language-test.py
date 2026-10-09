@@ -32,7 +32,7 @@ if args.notifications:
         end = core.index('\n}\n', start) + 3
         modules += ':global ' + name + ';\n' + core[start:end] + '\n'
     translated = {}
-    for name in ('notification-email', 'notification-matrix', 'notification-telegram'):
+    for name in ('notification-email', 'notification-matrix', 'notification-telegram', 'notification-signalgrid'):
         modules += (root / 'mod' / (name + '.rsc')).read_text(encoding='utf-8') + '\n'
         translated.update(load(root / 'languages/pt-BR' / (name + '.json'))['messages'])
     tests += '\n' + modules

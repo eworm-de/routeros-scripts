@@ -56,7 +56,8 @@
     "news-and-changes.below": "below",
     "news-and-changes.device.affected": "Your {board} is specifically affected! ",
     "news-and-changes.device.unaffected": "(Your {board} does not suffer this issue.) ",
-    "news-and-changes.146": "Added multilingual notifications and diagnostics. Set ScriptLanguage in global-config-overlay to select a language; English remains available offline. Shared helpers now require global-functions.d/core-extra, installed automatically on update."
+    "news-and-changes.147": "Added multilingual notifications and diagnostics. Set ScriptLanguage in global-config-overlay to select a language; English remains available offline. Shared helpers now require global-functions.d/core-extra, installed automatically on update.",
+    "news-and-changes.146": "Added support to send notifications via Signalgrid (signalgrid.co)."
   },
-  "schema": "2e25b801e4b90bcf886ba005a32f80dcc797dc68362ef86b70e199a40ba83474"
+  "schema": "114885afc5e14458ee208338514b9ecb09a966d3b9edc4b7cce82562880ce02d"
 }

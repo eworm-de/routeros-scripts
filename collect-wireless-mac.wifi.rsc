@@ -109,7 +109,7 @@
             ({ mac=($RegVal->"mac-address"); vendor=[ :tostr $Vendor ]; hostname=$HostName; date=$DateTime; ssid=[ :tostr ($RegVal->"ssid") ]; interface=($RegVal->"interface") }) ];
         $LogPrint info $ScriptName $Message;
         /interface/wifi/access-list/add place-before=$PlaceBefore comment=$Message mac-address=($RegVal->"mac-address") disabled=yes;
-        $SendNotification2 ({ origin=$ScriptName; \
+        $SendNotification2 ({ origin=$ScriptName; silent=false; \
           subject=([ $SymbolForNotification "mobile-phone" ] . [ $Translate "collect-wireless-mac.subject" \
               ({ mac=($RegVal->"mac-address"); ssid=[ :tostr ($RegVal->"ssid") ] }) ]); \
           message=([ $Translate "collect-wireless-mac.message" \

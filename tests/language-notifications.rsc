@@ -5,6 +5,11 @@
 :global EscapeForRegEx;
 :global FlushMatrixQueue;
 :global FlushTelegramQueue;
+:global FlushSignalgridQueue;
+:global SignalgridClientKey "";
+:global SignalgridChannel "";
+:global SendSignalgrid2;
+:global NotificationFunctions;
 :global GetTelegramChatId;
 :global Identity "test-router";
 :global IdentityExtra "";
@@ -31,6 +36,12 @@
   :if ($Captured != $Expected) do={ :error "Matrix guard failed"; }
   $FlushTelegramQueue;
   :if ($Captured != $Expected) do={ :error "Telegram guard failed"; }
+  $FlushSignalgridQueue;
+  :if ($Captured != $Expected) do={ :error "Signalgrid offline guard failed"; }
+  :local SignalgridHandler ($NotificationFunctions->"signalgrid");
+  :if ([ $SignalgridHandler ({ origin="fixture"; subject="fixture"; message="fixture"; silent=false }) ] != false) do={
+    :error "Signalgrid configuration guard failed";
+  }
   $GetTelegramChatId;
   :if ($Captured != [ $Translate "notification-telegram.certificate.failed" ]) do={
     :error "Telegram certificate guard failed";

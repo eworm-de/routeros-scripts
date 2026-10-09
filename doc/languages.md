@@ -284,10 +284,11 @@ behavioral suite above. Core/configuration sources parsed; five local renderer
 copies passed without the global helper. Tests did not download packages,
 execute migration code, send notifications, or modify device settings.
 
-The final text migration brought coverage to 687 messages. Startup guards use
+The final text migration brought coverage to 693 messages, including the newly
+added upstream Signalgrid module. Startup guards use
 a shared translated variable, with generated English defaults available before
 the renderer starts. Historical change notifications register their catalog
-when fetched and retain the original migration code. Configuration version 146
+when fetched and retain the original migration code. Configuration version 147
 announces the language option and required shared module. Native tests cover
 conditional donation/storage notices and the deferred partition warning, which
 captures the selected language and safely encodes its text for startup.

@@ -127,7 +127,7 @@
           duplicates=$DuplicateNotice; delay=$DelayNotice; messages=$Messages }) ];
     }
 
-    $SendNotification2 ({ origin=$ScriptName; \
+    $SendNotification2 ({ origin=$ScriptName; silent=(!($Warning)); \
       subject=([ $SymbolForNotification ("memo" . [ $IfThenElse ($Warning = true) ",warning-sign" ]) ] . \
         $Subject); \
       message=$Summary });

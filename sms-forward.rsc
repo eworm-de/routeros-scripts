@@ -123,7 +123,7 @@
           ({ count=$Count; identity=$Identity; phone=$Phone; messages=$Messages }) ];
       :if ($Count = 1) do={ :set Summary [ $Translate "sms-forward.message.one" \
           ({ identity=$Identity; phone=$Phone; messages=$Messages }) ]; };
-      $SendNotification2 ({ origin=$ScriptName; \
+      $SendNotification2 ({ origin=$ScriptName; silent=false; \
         subject=([ $SymbolForNotification "incoming-envelope" ] . [ $Translate "sms-forward.subject" \
             ({ phone=$Phone }) ]); \
         message=$Summary });

@@ -61,7 +61,7 @@
   :if ([ :len ($License->"next-renewal-at") ] = 0 && ($License->"limited-upgrades") = true) do={
     $LogPrint warning $ScriptName ([ $Translate "check-perpetual-license.expired.log" ({ date=($License->"deadline-at") }) ]);
     :if ($SentCertificateNotification != "expired") do={
-      $SendNotification2 ({ origin=$ScriptName; \
+      $SendNotification2 ({ origin=$ScriptName; silent=false; \
         subject=([ $SymbolForNotification "scroll,cross-mark" ] . [ $Translate "check-perpetual-license.expired.subject" ]); \
         message=([ $Translate "check-perpetual-license.expired.message" ({ date=($License->"deadline-at"); identity=$Identity }) ]) });
       :set SentCertificateNotification "expired";
@@ -72,7 +72,7 @@
   :if ([ :totime ($License->"deadline-at") ] - 3w < [ :timestamp ]) do={
     $LogPrint warning $ScriptName ([ $Translate "check-perpetual-license.warning.log" ({ date=($License->"deadline-at") }) ]);
     :if ($SentCertificateNotification != "warning") do={
-      $SendNotification2 ({ origin=$ScriptName; \
+      $SendNotification2 ({ origin=$ScriptName; silent=false; \
         subject=([ $SymbolForNotification "scroll,warning-sign" ] . [ $Translate "check-perpetual-license.warning.subject" ]); \
         message=([ $Translate "check-perpetual-license.warning.message" ({ date=($License->"deadline-at"); identity=$Identity }) ]) });
       :set SentCertificateNotification "warning";
@@ -83,7 +83,7 @@
   :if ([ :typeof $SentCertificateNotification ] = "str" && \
        [ :totime ($License->"deadline-at") ] - 4w > [ :timestamp ]) do={
     $LogPrint info $ScriptName ([ $Translate "check-perpetual-license.renewed.log" ]);
-    $SendNotification2 ({ origin=$ScriptName; \
+    $SendNotification2 ({ origin=$ScriptName; silent=true; \
       subject=([ $SymbolForNotification "scroll,white-heavy-check-mark" ] . [ $Translate "check-perpetual-license.renewed.subject" ]); \
       message=([ $Translate "check-perpetual-license.renewed.message" ({ identity=$Identity; date=($License->"deadline-at") }) ]) });
     :set SentCertificateNotification;

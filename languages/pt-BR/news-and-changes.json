@@ -56,7 +56,8 @@
     "news-and-changes.below": "abaixo",
     "news-and-changes.device.affected": "Seu {board} é especificamente afetado! ",
     "news-and-changes.device.unaffected": "(Seu {board} não apresenta esse problema.) ",
-    "news-and-changes.146": "Adicionadas notificações e diagnósticos em vários idiomas. Defina ScriptLanguage em global-config-overlay para selecionar um idioma; o inglês continua disponível offline. Os auxiliares compartilhados agora requerem global-functions.d/core-extra, instalado automaticamente na atualização."
+    "news-and-changes.147": "Adicionadas notificações e diagnósticos em vários idiomas. Defina ScriptLanguage em global-config-overlay para selecionar um idioma; o inglês continua disponível offline. Os auxiliares compartilhados agora requerem global-functions.d/core-extra, instalado automaticamente na atualização.",
+    "news-and-changes.146": "Adicionado suporte a notificações via Signalgrid (signalgrid.co)."
   },
-  "schema": "2e25b801e4b90bcf886ba005a32f80dcc797dc68362ef86b70e199a40ba83474"
+  "schema": "114885afc5e14458ee208338514b9ecb09a966d3b9edc4b7cce82562880ce02d"
 }

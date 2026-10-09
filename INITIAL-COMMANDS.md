@@ -24,6 +24,8 @@ Run the complete base installation:
       :local CertSettings [ /certificate/settings/get ];
       :if ([ :len [ /certificate/find where skid=$CertSKID ] ] = 0 && \
            !((($CertSettings->"builtin-trust-store") ~ "fetch" || \
+              (($CertSettings->"builtin-trust-store") = "default" && \
+               ($CertSettings->"current-defaults") ~ "fetch") || \
               ($CertSettings->"builtin-trust-store") = "all") && \
              [ :len [ /certificate/builtin/find where skid=$CertSKID ] ] > 0)) do={
         :put "Importing certificate...";
