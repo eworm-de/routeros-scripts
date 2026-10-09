@@ -89,3 +89,27 @@ python3 contrib/language-test.py > /tmp/language-tests.rsc
 
 Import that file on the test device. It tests the translation helper without
 running health checks or changing the installed configuration.
+
+To also test actual downloads, compatible caches, offline fallback, malformed
+JSON, stale schemas, and invalid language selections, supply the HTTPS base URL
+of a published branch containing these catalogs:
+
+```sh
+python3 contrib/language-test.py --base-url https://example.com/scripts/ > /tmp/language-tests.rsc
+```
+
+The download test temporarily creates `language-pt-BR-check-health.json`, removes
+it afterwards, and refuses to overwrite an existing cache. It never executes
+downloaded catalog text or sends notifications.
+
+### Initial validation
+
+The translation helper and download/cache tests passed on RouterOS 7.24.5
+(x86 VMware VM). All changed RouterOS sources parsed successfully. Running
+`check-health` with an isolated notification sink produced the expected CPU
+warning subjects and bodies in English and Brazilian Portuguese, including
+accented characters. No external notifications were sent.
+
+The minimum supported version (7.22), hardware sensor paths, and persistence
+across an actual reboot still need validation. Clearing the translation globals
+and loading from a compatible on-device cache was tested.

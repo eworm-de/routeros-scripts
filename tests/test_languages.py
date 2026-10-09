@@ -28,6 +28,14 @@ class CatalogTests(unittest.TestCase):
             used.update(re.findall(r'\$Translate "([^"]+)"', source))
         self.assertEqual(set(messages), used)
 
+    def test_dictionary_function_arguments_are_parenthesized(self):
+        # RouterOS rejects a bare dictionary following a positional argument.
+        for path in [ROOT / 'check-health.rsc', ROOT / 'tests/languages.rsc',
+                     *sorted((ROOT / 'check-health.d').glob('*.rsc'))]:
+            with self.subTest(path=path.name):
+                self.assertIsNone(re.search(r'\$Translate "[^"]+"\s+\{',
+                                            path.read_text(encoding='utf-8')))
+
     def test_english_preserves_health_messages(self):
         self.assertEqual(self.english['messages']['check-health.cpu.warning.message'],
                          'The average CPU utilization on {identity} is at {percent}%!')
