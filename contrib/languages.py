@@ -9,6 +9,8 @@ import re
 ROOT = Path(__file__).resolve().parent.parent
 BEGIN = "# BEGIN GENERATED LANGUAGE DATA"
 END = "# END GENERATED LANGUAGE DATA"
+LOCAL_BEGIN = "# BEGIN GENERATED LOCAL LANGUAGE RENDERER"
+LOCAL_END = "# END GENERATED LOCAL LANGUAGE RENDERER"
 TOKEN = re.compile(r"\{([a-z][a-z0-9_]*)\}")
 
 
@@ -47,6 +49,7 @@ def source_path(group):
 def render(check=False):
     schemas = {}
     outputs = {}
+    local_renderer = None
     for path in sorted((ROOT / 'languages/en').glob('*.json')):
         group = path.stem
         english = load(path)
@@ -85,7 +88,21 @@ def render(check=False):
             source = re.sub(re.escape(BEGIN) + r'.*?' + re.escape(END), lambda _: block, source, flags=re.S)
         else:
             pos = re.search(r'(?m)^:[a-z]', source).start()
+            if LOCAL_BEGIN in source:
+                pos = min(pos, source.index(LOCAL_BEGIN))
             source = source[:pos] + block + '\n\n' + source[pos:]
+        # Standalone entry points retain translation without waiting for core
+        # initialization. Reuse the exact same renderer, scoped to that script.
+        if LOCAL_BEGIN in source:
+            if local_renderer is None:
+                runtime = (ROOT / 'languages/runtime.rsc').read_text(encoding='utf-8')
+                start = runtime.index(':set Translate do={')
+                end = runtime.index('\n}\n', start) + 3
+                local_renderer = runtime[start:end].replace(':set Translate do={', ':local Translate do={', 1).rstrip()
+            source = re.sub(r'(?m)^( *)' + re.escape(LOCAL_BEGIN) + r'.*?' + re.escape(LOCAL_END),
+                            lambda m: '\n'.join(m[1] + line if line else '' for line in
+                                                (LOCAL_BEGIN + '\n' + local_renderer + '\n' + LOCAL_END).splitlines()),
+                            source, flags=re.S)
         outputs[target] = source
     runtime = (ROOT / 'languages/runtime.rsc').read_text(encoding='utf-8')
     block = BEGIN + '''

@@ -13,6 +13,15 @@
 # !! This is just a template to generate the real script!
 # !! Pattern '%TEMPL%' is replaced, paths are filtered.
 
+# BEGIN GENERATED LANGUAGE DATA
+# language, name=hotspot-to-wpa-lease, schema=f78d5db29b04af55a757a12886dca285667ff1378c2d7cd29bc37009f14f5ce8
+:global LanguageEnglish;
+:if ([ :typeof $LanguageEnglish ] != "array") do={ :set LanguageEnglish ({}); }
+:set ($LanguageEnglish->"hotspot-to-wpa-lease.entry.updated") "Adding/updating access-list entry for mac address {mac} (user {user}).";
+:set ($LanguageEnglish->"hotspot-to-wpa-lease.marker.added") "Added disabled access-list entry with comment '--- hotspot-to-wpa above ---'.";
+:set ($LanguageEnglish->"hotspot-to-wpa-lease.template.added") "Added template in access-list for hotspot '{hotspot}'.";
+# END GENERATED LANGUAGE DATA
+
 :onerror Err {
   :global GlobalConfigReady; :global GlobalFunctionsReady;
   :retry { :if ($GlobalConfigReady != true || $GlobalFunctionsReady != true) \
@@ -21,6 +30,7 @@
 
   :global EitherOr;
   :global LogPrint;
+  :global Translate;
   :global ParseKeyValueStore;
   :global ScriptLock;
 
@@ -32,7 +42,7 @@
   :if ([ :len [ /interface/wifi/access-list/find where comment="--- hotspot-to-wpa above ---" disabled ] ] = 0) do={
     /caps-man/access-list/add comment="--- hotspot-to-wpa above ---" disabled=yes;
     /interface/wifi/access-list/add comment="--- hotspot-to-wpa above ---" disabled=yes;
-    $LogPrint warning $ScriptName ("Added disabled access-list entry with comment '--- hotspot-to-wpa above ---'.");
+    $LogPrint warning $ScriptName [ $Translate "hotspot-to-wpa-lease.marker.added" ];
   }
   :local PlaceBefore ([ /caps-man/access-list/find where comment="--- hotspot-to-wpa above ---" disabled ]->0);
   :local PlaceBefore ([ /interface/wifi/access-list/find where comment="--- hotspot-to-wpa above ---" disabled ]->0);
@@ -57,14 +67,15 @@
         comment=("hotspot-to-wpa template " . $LeaseVal->"hotspot") disabled ] ] = 0) do={
       /caps-man/access-list/add comment=("hotspot-to-wpa template " . $LeaseVal->"hotspot") disabled=yes place-before=$PlaceBefore;
       /interface/wifi/access-list/add comment=("hotspot-to-wpa template " . $LeaseVal->"hotspot") disabled=yes place-before=$PlaceBefore;
-      $LogPrint warning $ScriptName ("Added template in access-list for hotspot '" . $LeaseVal->"hotspot" . "'.");
+      $LogPrint warning $ScriptName [ $Translate "hotspot-to-wpa-lease.template.added" \
+          ({ hotspot=($LeaseVal->"hotspot") }) ];
     }
     :local Template [ /caps-man/access-list/get ([ find where \
     :local Template [ /interface/wifi/access-list/get ([ find where \
         comment=("hotspot-to-wpa template " . $LeaseVal->"hotspot") disabled ]->0) ];
 
-    $LogPrint info $ScriptName ("Adding/updating access-list entry for mac address " . $LeaseVal->"mac-address" . \
-      " (user " . $LeaseVal->"username" . ").");
+    $LogPrint info $ScriptName [ $Translate "hotspot-to-wpa-lease.entry.updated" \
+        ({ mac=($LeaseVal->"mac-address"); user=[ :tostr ($LeaseVal->"username") ] }) ];
     /caps-man/access-list/remove [ find where mac-address=($LeaseVal->"mac-address") comment~"^hotspot-to-wpa: " ];
     /interface/wifi/access-list/remove [ find where mac-address=($LeaseVal->"mac-address") comment~"^hotspot-to-wpa: " ];
     /caps-man/access-list/add private-passphrase=($UserVal->"password") ssid-regexp="-wpa\$" \

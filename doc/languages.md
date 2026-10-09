@@ -139,6 +139,10 @@ python3 contrib/language-test.py --catalogs --notifications --netwatch --messagi
 variable inspection, and script-run URL/download/syntax guards. Script fetches
 are replaced with local fixtures; no downloaded code runs.
 
+`--standalone` checks the generated local renderers used by early-starting
+scripts, with the global translation helper unavailable. It tests both locales
+without running button actions, Hotspot login changes, or LTE upgrades.
+
 To also test actual downloads, compatible caches, offline fallback, malformed
 JSON, stale schemas, and invalid language selections, supply the HTTPS base URL
 of a published branch containing these catalogs:
@@ -231,11 +235,19 @@ verified translated output, IPv4/IPv6 calculations, recursive inspection, and
 script-run failure guards in both languages. Return keys and RouterOS type
 names were preserved.
 
+Daily PSKs, Hotspot-to-WPA, mode buttons, and unattended LTE scheduling brought
+coverage to 488 messages. All 976 locale rendering checks and 976 native
+dictionary checks passed. Supported CAPsMAN/local variants and the button/LTE
+sources parsed on the VM; regenerated WiFi variants need a WiFi device. Four
+generated local renderers passed in both locales with the global renderer
+unavailable, including the deferred LTE scheduler copy. These standalone entry
+points retain offline English during initialization. Tests did not change PSKs,
+Hotspot leases, button schedulers, or LTE firmware.
+
 ### Remaining migration
 
-The full migration is still in progress. Next groups include unattended LTE
-upgrades, remaining network scripts and wireless templates, and shared helper
-diagnostics. Bootstrap
+The full migration is still in progress. Remaining groups include GPS output,
+configuration examples, and shared helper diagnostics. Bootstrap
 messages and machine-readable strings
 need individual classification before changes. One upstream pull request will
 be opened after the full migration and its validation are complete.

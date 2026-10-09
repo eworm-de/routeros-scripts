@@ -9,6 +9,17 @@
 # act on multiple mode and reset button presses
 # https://rsc.eworm.de/doc/mode-button.md
 
+# BEGIN GENERATED LANGUAGE DATA
+# language, name=mode-button-scheduler, schema=573b86779a15979155d7ff480e677e88dbe77a77cbd92ffaba77887856e8af91
+:global LanguageEnglish;
+:if ([ :typeof $LanguageEnglish ] != "array") do={ :set LanguageEnglish ({}); }
+:set ($LanguageEnglish->"mode-button-scheduler.acting") "Acting on {count} mode-button presses: {code}";
+:set ($LanguageEnglish->"mode-button-scheduler.action.missing") "No action defined for {count} mode-button presses.";
+:set ($LanguageEnglish->"mode-button-scheduler.failed") "The code for {count} mode-button presses failed with runtime error: {error}";
+:set ($LanguageEnglish->"mode-button-scheduler.scheduler.missing") "Scheduler does not exist.";
+:set ($LanguageEnglish->"mode-button-scheduler.syntax") "The code for {count} mode-button presses failed syntax validation!";
+# END GENERATED LANGUAGE DATA
+
 :onerror Err {
   :global GlobalConfigReady; :global GlobalFunctionsReady;
   :retry { :if ($GlobalConfigReady != true || $GlobalFunctionsReady != true) \
@@ -18,6 +29,7 @@
   :global ModeButton;
 
   :global LogPrint;
+  :global Translate;
   :global ModeButtonScheduler;
   :global ValidateSyntax;
 
@@ -37,7 +49,7 @@
   :local Scheduler [ /system/scheduler/find where name="mode-button-scheduler" ];
 
   :if ([ :len $Scheduler ] = 0) do={
-    $LogPrint error $ScriptName ("Scheduler does not exist.");
+    $LogPrint error $ScriptName [ $Translate "mode-button-scheduler.scheduler.missing" ];
     :exit;
   }
   
@@ -47,17 +59,20 @@
   /system/scheduler/remove $Scheduler;
 
   :if ([ :len $Code ] = 0) do={
-    $LogPrint info $ScriptName ("No action defined for " . $Count . " mode-button presses.");
+    $LogPrint info $ScriptName [ $Translate "mode-button-scheduler.action.missing" \
+        ({ count=$Count }) ];
     :exit;
   }
 
   :if ([ $ValidateSyntax $Code ] = false) do={
     $LogPrint warning $ScriptName \
-        ("The code for " . $Count . " mode-button presses failed syntax validation!");
+        [ $Translate "mode-button-scheduler.syntax" \
+            ({ count=$Count }) ];
     :exit;
   }
 
-  $LogPrint info $ScriptName ("Acting on " . $Count . " mode-button presses: " . $Code);
+  $LogPrint info $ScriptName [ $Translate "mode-button-scheduler.acting" \
+      ({ count=$Count; code=$Code }) ];
 
   :for I from=1 to=$Count do={
     $LEDInvert;
@@ -73,7 +88,8 @@
     [ :parse $Code ];
   } do={
     $LogPrint warning $ScriptName \
-        ("The code for " . $Count . " mode-button presses failed with runtime error: " . $Err);
+        [ $Translate "mode-button-scheduler.failed" \
+            ({ count=$Count; error=$Err }) ];
   }
 } do={
   :global ExitOnError; $ExitOnError [ :jobname ] $Err;

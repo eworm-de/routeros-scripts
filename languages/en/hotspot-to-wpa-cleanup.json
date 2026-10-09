@@ -1,0 +1,9 @@
+{
+  "language": "en",
+  "messages": {
+    "hotspot-to-wpa-cleanup.connected": "Client with mac address {mac} connected to WPA, making lease static.",
+    "hotspot-to-wpa-cleanup.disconnected": "Client with mac address {mac} did not connect to WPA, removing from access list.",
+    "hotspot-to-wpa-cleanup.expired": "Client with mac address {mac} was not seen for {elapsed}, removing."
+  },
+  "schema": "1ebc7ea0f3bc0cc65554da860eb4b0739adc55a3f127030c7d8a1c780e722a35"
+}

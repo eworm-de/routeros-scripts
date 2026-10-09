@@ -5,7 +5,7 @@ import argparse
 import json
 import re
 import sys
-from languages import load, quote, TOKEN, tokens
+from languages import load, quote, TOKEN, tokens, BEGIN, END, LOCAL_BEGIN, LOCAL_END, source_path
 
 root = Path(__file__).resolve().parent.parent
 runtime = (root / 'languages/runtime.rsc').read_text(encoding='utf-8')
@@ -18,6 +18,7 @@ parser.add_argument('--netwatch', action='store_true', help='Test Netwatch state
 parser.add_argument('--messaging', action='store_true', help='Test SMS forwarding and Telegram chat with simulated inboxes')
 parser.add_argument('--network', action='store_true', help='Test firewall list diagnostics and bridge guards with simulated reads')
 parser.add_argument('--utilities', action='store_true', help='Test translated IP calculations, variable inspection and script-run guards')
+parser.add_argument('--standalone', action='store_true', help='Test generated local renderers with the global renderer unavailable')
 args = parser.parse_args()
 if args.notifications:
     core = (root / 'global-functions.rsc').read_text(encoding='utf-8')
@@ -138,6 +139,28 @@ if args.utilities:
         translated.update(load(root / 'languages/pt-BR' / (name + '.json'))['messages'])
     tests += ':set LanguageMessages ([:deserialize from=json options=json.no-string-conversion ' + quote(json.dumps(translated, ensure_ascii=False)) + ']);\n'
     tests += ':global UtilityFixtureTest do={\n' + (root / 'tests/language-utilities.rsc').read_text(encoding='utf-8') + '\n};\n$UtilityFixtureTest;\n'
+if args.standalone:
+    tests += ':local SavedTranslate $Translate; :set Translate;\n'
+    count = 0
+    for group in ('mode-button', 'hotspot-to-wpa', 'unattended-lte-firmware-upgrade'):
+        feature = source_path(group).read_text(encoding='utf-8')
+        defaults = re.search(re.escape(BEGIN) + r'.*?' + re.escape(END), feature, re.S)[0]
+        english = load(root / 'languages/en' / (group + '.json'))['messages']
+        translated = load(root / 'languages/pt-BR' / (group + '.json'))['messages']
+        # Test both top-level and deferred scheduler copies of the local renderer.
+        for renderer in re.findall(re.escape(LOCAL_BEGIN) + r'.*?' + re.escape(LOCAL_END), feature, re.S):
+            key = sorted(english)[0]
+            params = {name: 'fixture-value' for name in tokens(english[key])}
+            native = '({ ' + '; '.join(quote(name) + '=' + quote(value) for name, value in sorted(params.items())) + ' })'
+            name = 'StandaloneFixture' + str(count)
+            tests += ':global ' + name + ' do={\n' + defaults + '\n' + renderer + '\n:return [ $Translate ' + quote(key) + ' ' + native + ' ];\n};\n'
+            tests += ':set LanguageMessages ([:deserialize from=json options=json.no-string-conversion ' + quote(json.dumps(translated, ensure_ascii=False)) + ']);\n'
+            for locale, text in (('en', english[key]), ('pt-BR', translated[key])):
+                expected = TOKEN.sub(lambda m: params[m.group(1)], text)
+                tests += ':set ScriptLanguage ' + quote(locale) + '; :set LanguageActive "pt-BR";\n'
+                tests += ':if ([ $' + name + ' ] != ' + quote(expected) + ') do={ :error "Standalone local renderer failed"; };\n'
+            count += 1
+    tests += ':set Translate $SavedTranslate;\n:put ' + quote(f'{count} standalone renderers passed in both languages without global helpers.') + ';\n'
 if args.catalogs:
     sample = {'identity': 'test-router', 'name': 'test-sensor', 'date': '2026-10-09',
               'percent': 75, 'value': 120, 'error': 'test-error', 'interface': 'lte1',
