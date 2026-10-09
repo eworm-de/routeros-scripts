@@ -126,10 +126,12 @@ python3 contrib/language-test.py --catalogs > /tmp/language-tests.rsc
 Add `--notifications` to exercise queue guards and the email log-forwarding loop
 filter. Add `--netwatch` to exercise actual Netwatch state transitions with
 simulated hosts, a local notification sink, parent suppression, and invalid
-hooks. These tests do not send notifications or change Netwatch entries:
+hooks. Add `--messaging` to exercise SMS grouping and Telegram authorization
+with simulated inboxes. These tests do not send notifications, execute chat
+commands, delete real SMS, or change Netwatch entries:
 
 ```sh
-python3 contrib/language-test.py --catalogs --notifications --netwatch > /tmp/language-tests.rsc
+python3 contrib/language-test.py --catalogs --notifications --netwatch --messaging > /tmp/language-tests.rsc
 ```
 
 To also test actual downloads, compatible caches, offline fallback, malformed
@@ -200,11 +202,20 @@ guards passed without sending messages. Matrix HTML delivery, DNS-driven
 Netwatch updates, and real notification services still require integration
 validation.
 
+SMS forwarding, SMS actions, and Telegram chat brought coverage to 418
+messages. All 836 locale rendering checks and 836 native dictionary checks
+passed, and the three sources parsed on the VM. Simulated inbox tests verified
+singular/plural SMS grouping, literal braces in message content, Telegram
+activation/deactivation, replies, command syntax rejection, untrusted-contact
+rejection, and update offsets in both languages. They did not contact Telegram,
+execute received commands, or delete SMS from a device. LTE hardware paths and
+successful command/hook execution still require integration validation.
+
 ### Remaining migration
 
 The full migration is still in progress. Next groups include unattended LTE
-upgrades, remaining network scripts and wireless templates, SMS and Telegram
-output, and shared helper diagnostics. Bootstrap
+upgrades, remaining network scripts and wireless templates, and shared helper
+diagnostics. Bootstrap
 messages and machine-readable strings
 need individual classification before changes. One upstream pull request will
 be opened after the full migration and its validation are complete.

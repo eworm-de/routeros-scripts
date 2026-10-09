@@ -15,6 +15,7 @@ parser.add_argument('--base-url', help='HTTPS distribution URL; also run catalog
 parser.add_argument('--catalogs', action='store_true', help='Test every catalog message on RouterOS')
 parser.add_argument('--notifications', action='store_true', help='Test notification guards and the email loop filter without sending')
 parser.add_argument('--netwatch', action='store_true', help='Test Netwatch state transitions with simulated hosts and a local notification sink')
+parser.add_argument('--messaging', action='store_true', help='Test SMS forwarding and Telegram chat with simulated inboxes')
 args = parser.parse_args()
 if args.notifications:
     core = (root / 'global-functions.rsc').read_text(encoding='utf-8')
@@ -51,6 +52,40 @@ if args.netwatch:
     translated = load(root / 'languages/pt-BR/netwatch-notify.json')['messages']
     tests += ':set LanguageMessages ([:deserialize from=json options=json.no-string-conversion ' + quote(json.dumps(translated, ensure_ascii=False)) + ']);\n'
     tests += ':global NetwatchFixtureTest do={\n' + (root / 'tests/language-netwatch.rsc').read_text(encoding='utf-8') + '\n};\n$NetwatchFixtureTest;\n'
+if args.messaging:
+    core = (root / 'global-functions.rsc').read_text(encoding='utf-8')
+    for name in ('EitherOr', 'IfThenElse', 'CharacterMultiply', 'EscapeForRegEx', 'MAX', 'MIN'):
+        start = core.index(':set ' + name + ' do={')
+        end = core.index('\n}\n', start) + 3
+        tests += ':global ' + name + ';\n' + core[start:end] + '\n'
+    feature = (root / 'telegram-chat.rsc').read_text(encoding='utf-8')
+    start = feature.index('      :set Data ([ /tool/fetch')
+    end = feature.index('\n      :set TelegramRandomDelay', start)
+    feature = feature[:start] + '      :set Data [ :serialize to=json $ChatFixtureUpdates ];' + feature[end:]
+    tests += ':global ChatFixtureRun do={\n:global ChatFixtureUpdates;\n' + feature + '\n};\n'
+    feature = (root / 'sms-forward.rsc').read_text(encoding='utf-8')
+    replacements = {
+        '[ /tool/sms/get receive-enabled ]': 'true',
+        '[ /tool/sms/get ]': '$SmsFixtureSettings',
+        '[ /interface/lte/get ($Settings->"port") running ]': 'true',
+        '[ /tool/sms/inbox/find ]': '$SmsFixtureIds',
+        '[ /tool/sms/inbox/get ([ find ]->0) phone ]': '"test-phone"',
+        '[ /tool/sms/inbox/find where phone=$Phone ]': '$SmsFixtureIds',
+        '[ /tool/sms/inbox/get $Sms ]': '($SmsFixtureMessages->$Sms)',
+        '/tool/sms/inbox/remove $Sms;': ':set SmsFixtureIds [ :pick $SmsFixtureIds 1 [ :len $SmsFixtureIds ] ];',
+    }
+    for old, new in replacements.items():
+        if old not in feature:
+            raise ValueError('SMS fixture read no longer matches: ' + old)
+        feature = feature.replace(old, new)
+    if '/tool/sms/' in feature or '/tool/sms/get' in feature or '/interface/lte/get' in feature:
+        raise ValueError('An SMS fixture still accesses the device')
+    tests += ':global SmsFixtureRun do={\n:global SmsFixtureSettings; :global SmsFixtureIds; :global SmsFixtureMessages;\n' + feature + '\n};\n'
+    translated = {}
+    for name in ('sms-forward', 'telegram-chat'):
+        translated.update(load(root / 'languages/pt-BR' / (name + '.json'))['messages'])
+    tests += ':set LanguageMessages ([:deserialize from=json options=json.no-string-conversion ' + quote(json.dumps(translated, ensure_ascii=False)) + ']);\n'
+    tests += ':global MessagingFixtureTest do={\n' + (root / 'tests/language-messaging.rsc').read_text(encoding='utf-8') + '\n};\n$MessagingFixtureTest;\n'
 if args.catalogs:
     sample = {'identity': 'test-router', 'name': 'test-sensor', 'date': '2026-10-09',
               'percent': 75, 'value': 120, 'error': 'test-error', 'interface': 'lte1',
