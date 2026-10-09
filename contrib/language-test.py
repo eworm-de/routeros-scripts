@@ -16,6 +16,7 @@ parser.add_argument('--catalogs', action='store_true', help='Test every catalog 
 parser.add_argument('--notifications', action='store_true', help='Test notification guards and the email loop filter without sending')
 parser.add_argument('--netwatch', action='store_true', help='Test Netwatch state transitions with simulated hosts and a local notification sink')
 parser.add_argument('--messaging', action='store_true', help='Test SMS forwarding and Telegram chat with simulated inboxes')
+parser.add_argument('--network', action='store_true', help='Test firewall list diagnostics and bridge guards with simulated reads')
 args = parser.parse_args()
 if args.notifications:
     core = (root / 'global-functions.rsc').read_text(encoding='utf-8')
@@ -86,6 +87,39 @@ if args.messaging:
         translated.update(load(root / 'languages/pt-BR' / (name + '.json'))['messages'])
     tests += ':set LanguageMessages ([:deserialize from=json options=json.no-string-conversion ' + quote(json.dumps(translated, ensure_ascii=False)) + ']);\n'
     tests += ':global MessagingFixtureTest do={\n' + (root / 'tests/language-messaging.rsc').read_text(encoding='utf-8') + '\n};\n$MessagingFixtureTest;\n'
+if args.network:
+    core = (root / 'global-functions.rsc').read_text(encoding='utf-8')
+    for name in ('EitherOr', 'IfThenElse', 'HumanReadableNum'):
+        start = core.index(':set ' + name + ' do={')
+        end = core.index('\n}\n', start) + 3
+        tests += ':global ' + name + ';\n' + core[start:end] + '\n'
+    translated = {}
+    for name in ('bridge-port-to', 'bridge-port-vlan'):
+        feature = (root / 'mod' / (name + '.rsc')).read_text(encoding='utf-8')
+        replacements = {
+            '[ /interface/bridge/port/find where !(comment=[]) ]': '{ "fixture" }',
+            '[ /interface/bridge/port/get $BridgePort ]': '$BridgeFixturePort',
+            '[ /ip/dhcp-client/find where interface=$BridgePortVal->"interface" comment="toggle with bridge port" ]': '$BridgeFixtureClients',
+        }
+        for old, new in replacements.items():
+            if feature.count(old) != 1:
+                raise ValueError('Bridge fixture read no longer matches: ' + old)
+            feature = feature.replace(old, new)
+        # Fixture config always selects DHCP-client mode; guards return before writes.
+        feature = feature.replace(':global ParseKeyValueStore;', ':global ParseKeyValueStore;\n  :global BridgeFixturePort; :global BridgeFixtureClients;')
+        tests += feature + '\n'
+        translated.update(load(root / 'languages/pt-BR' / (name + '.json'))['messages'])
+    feature = (root / 'fw-addr-lists.rsc').read_text(encoding='utf-8')
+    feature, count = re.subn(r'\[ /log/find where.*?\]', '( {})', feature, flags=re.S)
+    if count != 1:
+        raise ValueError('Firewall crash-marker fixture no longer matches')
+    feature, count = re.subn(r'\[ /(?:ip|ipv6)/firewall/address-list/find where\s+\\\s+list=\$FwListName comment=\$ListComment \]', '( {})', feature)
+    if count != 2:
+        raise ValueError('Firewall fixture reads no longer match')
+    tests += ':global FirewallFixtureRun do={\n' + feature + '\n};\n'
+    translated.update(load(root / 'languages/pt-BR/fw-addr-lists.json')['messages'])
+    tests += ':set LanguageMessages ([:deserialize from=json options=json.no-string-conversion ' + quote(json.dumps(translated, ensure_ascii=False)) + ']);\n'
+    tests += ':global NetworkFixtureTest do={\n' + (root / 'tests/language-network.rsc').read_text(encoding='utf-8') + '\n};\n$NetworkFixtureTest;\n'
 if args.catalogs:
     sample = {'identity': 'test-router', 'name': 'test-sensor', 'date': '2026-10-09',
               'percent': 75, 'value': 120, 'error': 'test-error', 'interface': 'lte1',

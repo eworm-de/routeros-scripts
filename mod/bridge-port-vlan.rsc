@@ -8,6 +8,19 @@
 # manage VLANs on bridge ports
 # https://rsc.eworm.de/doc/mod/bridge-port-vlan.md
 
+# BEGIN GENERATED LANGUAGE DATA
+# language, name=bridge-port-vlan, schema=ca51ecefefa0a1bcad40eb3a3ad65db37300e7e3b0f7f3f5abe49a021f6dfda1
+:global LanguageEnglish;
+:if ([ :typeof $LanguageEnglish ] != "array") do={ :set LanguageEnglish ({}); }
+:set ($LanguageEnglish->"bridge-port-vlan.client.duplicate") "Duplicate dhcp client configuration for interface {interface}!";
+:set ($LanguageEnglish->"bridge-port-vlan.client.enabled") "Disabling bridge port for interface {interface}, enabling dhcp client.";
+:set ($LanguageEnglish->"bridge-port-vlan.client.missing") "Missing dhcp client configuration for interface {interface}!";
+:set ($LanguageEnglish->"bridge-port-vlan.interfaces.enabled") "Re-enabling interfaces...";
+:set ($LanguageEnglish->"bridge-port-vlan.vlan.connected") "Interface {interface} already connected to {config} vlan {vlan}.";
+:set ($LanguageEnglish->"bridge-port-vlan.vlan.enabled") "Enabling bridge port for interface {interface}, changing to {config} vlan {vlan}{name}, disabling dhcp client.";
+:set ($LanguageEnglish->"bridge-port-vlan.vlan.missing") "Could not find VLAN '{vlan}' for interface {interface}!";
+# END GENERATED LANGUAGE DATA
+
 :global BridgePortVlan;
 
 :global BridgePortVlan do={ :onerror Err {
@@ -15,6 +28,7 @@
 
   :global IfThenElse;
   :global LogPrint;
+  :global Translate;
   :global ParseKeyValueStore;
 
   :local InterfaceReEnable ({});
@@ -26,14 +40,18 @@
 
         :if ($Vlan = "dhcp-client") do={
           :if ([ :len $DHCPClient ] != 1) do={
-            $LogPrint warning $0 ([ $IfThenElse ([ :len $DHCPClient ] = 0) "Missing" "Duplicate" ] . \
-                " dhcp client configuration for interface " . $BridgePortVal->"interface" . "!");
+            :local Diagnostic [ $Translate "bridge-port-vlan.client.duplicate" \
+                ({ interface=($BridgePortVal->"interface") }) ];
+            :if ([ :len $DHCPClient ] = 0) do={ :set Diagnostic [ $Translate "bridge-port-vlan.client.missing" \
+                ({ interface=($BridgePortVal->"interface") }) ]; };
+            $LogPrint warning $0 $Diagnostic;
             :return false;
           }
           :local DHCPClientDisabled [ /ip/dhcp-client/get $DHCPClient disabled ];
 
           :if ($BridgePortVal->"disabled" = false || $DHCPClientDisabled = true) do={
-            $LogPrint info $0 ("Disabling bridge port for interface " . $BridgePortVal->"interface" . ", enabling dhcp client.");
+            $LogPrint info $0 [ $Translate "bridge-port-vlan.client.enabled" \
+                ({ interface=($BridgePortVal->"interface") }) ];
             /interface/bridge/port/disable $BridgePort;
             :delay 200ms;
             /ip/dhcp-client/enable $DHCPClient;
@@ -44,13 +62,14 @@
             :do {
               :set $Vlan ([ /interface/bridge/vlan/get [ find where comment=$Vlan ] vlan-ids ]->0);
             } on-error={
-              $LogPrint warning $0 ("Could not find VLAN '" . $Vlan . "' for interface " . $BridgePortVal->"interface" . "!");
+              $LogPrint warning $0 [ $Translate "bridge-port-vlan.vlan.missing" \
+                  ({ vlan=$Vlan; interface=($BridgePortVal->"interface") }) ];
               :return false;
             }
           }
           :if ($BridgePortVal->"disabled" = true || $Vlan != $BridgePortVal->"pvid") do={
-            $LogPrint info $0 ("Enabling bridge port for interface " . $BridgePortVal->"interface" . ", changing to " . $ConfigTo . \
-                " vlan " . $Vlan . [ $IfThenElse ($Vlan != $VlanName) (" (" . $VlanName . ")") ] . ", disabling dhcp client.");
+            $LogPrint info $0 [ $Translate "bridge-port-vlan.vlan.enabled" \
+                ({ interface=($BridgePortVal->"interface"); config=$ConfigTo; vlan=$Vlan; name=[ $IfThenElse ($Vlan != $VlanName) (" (" . $VlanName . ")") "" ] }) ];
             :if ([ :len $DHCPClient ] = 1) do={
               /ip/dhcp-client/disable $DHCPClient;
               :delay 200ms;
@@ -62,8 +81,8 @@
             }
             /interface/bridge/port/set disabled=no pvid=$Vlan $BridgePort;
           } else={
-            $LogPrint debug $0 ("Interface " . $BridgePortVal->"interface" . " already connected to " . $ConfigTo . \
-                " vlan " . $Vlan . ".");
+            $LogPrint debug $0 [ $Translate "bridge-port-vlan.vlan.connected" \
+                ({ interface=($BridgePortVal->"interface"); config=$ConfigTo; vlan=$Vlan }) ];
           }
         }
       }
@@ -71,7 +90,7 @@
   }
   :if ([ :len $InterfaceReEnable ] > 0) do={
     :delay 5s;
-    $LogPrint info $0 ("Re-enabling interfaces...");
+    $LogPrint info $0 [ $Translate "bridge-port-vlan.interfaces.enabled" ];
     /interface/ethernet/enable $InterfaceReEnable;
   }
 } do={

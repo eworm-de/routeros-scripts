@@ -8,6 +8,27 @@
 # download, import and update firewall address-lists
 # https://rsc.eworm.de/doc/fw-addr-lists.md
 
+# BEGIN GENERATED LANGUAGE DATA
+# language, name=fw-addr-lists, schema=42bcfb865c10957ae21b18aa798348228d56dea78dd75c130eee6af199b03277
+:global LanguageEnglish;
+:if ([ :typeof $LanguageEnglish ] != "array") do={ :set LanguageEnglish ({}); }
+:set ($LanguageEnglish->"fw-addr-lists.branch") "Handling branch: {branch}";
+:set ($LanguageEnglish->"fw-addr-lists.certificate.failed") "Downloading required certificate ({list} / {url}) failed, trying anyway.";
+:set ($LanguageEnglish->"fw-addr-lists.crash.delay") "Scripting subsystem may have crashed, possibly caused by us. Delaying!";
+:set ($LanguageEnglish->"fw-addr-lists.download.failed") "Failed downloading for list '{list}' from: {url}";
+:set ($LanguageEnglish->"fw-addr-lists.download.retry") "Failed downloading for list '{list}', {count}. try from: {url}";
+:set ($LanguageEnglish->"fw-addr-lists.downloaded") "Downloaded {size}B for list '{list}' from: {url}";
+:set ($LanguageEnglish->"fw-addr-lists.ipv4.add") "Adding IPv4 address {address} to list '{list}' with {timeout}.";
+:set ($LanguageEnglish->"fw-addr-lists.ipv4.failed") "Failed to add IPv4 address {address} to list '{list}': {error}";
+:set ($LanguageEnglish->"fw-addr-lists.ipv4.remove") "Removing IPv4 address {address} from list '{list}.";
+:set ($LanguageEnglish->"fw-addr-lists.ipv4.renew") "Renewing IPv4 address {address} in list '{list}' with {timeout}.";
+:set ($LanguageEnglish->"fw-addr-lists.ipv6.add") "Adding IPv6 address {address} to list '{list}' with {timeout}.";
+:set ($LanguageEnglish->"fw-addr-lists.ipv6.failed") "Failed to add IPv6 address {address} to list '{list}': {error}";
+:set ($LanguageEnglish->"fw-addr-lists.ipv6.remove") "Removing IPv6 address {address} from list '{list}.";
+:set ($LanguageEnglish->"fw-addr-lists.ipv6.renew") "Renewing IPv6 address {address} in list '{list}' with {timeout}.";
+:set ($LanguageEnglish->"fw-addr-lists.summary") "list: {list} ({total}) -- added: {added} - renewed: {renewed} - removed: {removed}";
+# END GENERATED LANGUAGE DATA
+
 :onerror Err {
   :global GlobalConfigReady; :global GlobalFunctionsReady;
   :retry { :if ($GlobalConfigReady != true || $GlobalFunctionsReady != true) \
@@ -23,6 +44,7 @@
   :global HumanReadableNum;
   :global IfThenElse;
   :global LogPrint;
+  :global Translate;
   :global LogPrintOnce;
   :global LogPrintVerbose;
   :global NetMask4;
@@ -51,7 +73,7 @@
 
   :if ([ :len [ /log/find where topics=({"script"; "warning"}) \
       message=("\$LogPrintOnce: The message is already in log, scripting subsystem may have crashed before!") ] ] > 0) do={
-    $LogPrintOnce warning $ScriptName ("Scripting subsystem may have crashed, possibly caused by us. Delaying!");
+    $LogPrintOnce warning $ScriptName [ $Translate "fw-addr-lists.crash.delay" ];
     :delay 5m;
   }
 
@@ -74,8 +96,8 @@
         :if ([ :len ($Cert) ] > 0) do={
           :set CheckCertificate true;
           :if ([ $CertificateAvailable $Cert "fetch" ] = false) do={
-            $LogPrint warning $ScriptName ("Downloading required certificate (" . $FwListName . \
-                " / " . $List->"url" . ") failed, trying anyway.");
+            $LogPrint warning $ScriptName [ $Translate "fw-addr-lists.certificate.failed" \
+                ({ list=$FwListName; url=($List->"url") }) ];
           }
         }
       }
@@ -85,8 +107,8 @@
           :set Data [ :tolf [ $FetchHuge $ScriptName ($List->"url") $CheckCertificate ] ];
           :if ($Data = false) do={
             :if ($I < 5) do={
-              $LogPrint debug $ScriptName ("Failed downloading for list '" . $FwListName . \
-                  "', " . $I . ". try from: " . $List->"url");
+              $LogPrint debug $ScriptName [ $Translate "fw-addr-lists.download.retry" \
+                  ({ list=$FwListName; count=$I; url=($List->"url") }) ];
               :delay (($I * $I) . "s");
             }
           }
@@ -96,11 +118,11 @@
       :if ($Data = false) do={
         :set Data "";
         :set Failure true;
-        $LogPrint warning $ScriptName ("Failed downloading for list '" . $FwListName . \
-            "' from: " . $List->"url");
+        $LogPrint warning $ScriptName [ $Translate "fw-addr-lists.download.failed" \
+            ({ list=$FwListName; url=($List->"url") }) ];
       } else={
-        $LogPrint debug $ScriptName ("Downloaded " . [ $HumanReadableNum [ :len $Data ] 1024 ] . \
-            "B for list '" . $FwListName . "' from: " . $List->"url");
+        $LogPrint debug $ScriptName [ $Translate "fw-addr-lists.downloaded" \
+            ({ size=[ $HumanReadableNum [ :len $Data ] 1024 ]; list=$FwListName; url=($List->"url") }) ];
       }
 
       :foreach Line in=[ :deserialize $Data delimiter="\n" from=dsv options=dsv.plain ] do={
@@ -156,15 +178,15 @@
       :local Branch [ $GetBranch $Address ];
       :local TimeOut ($IPv4Addresses->$Branch->$Address);
       :if ([ :typeof $TimeOut ] = "time") do={
-        $LogPrintVerbose debug $ScriptName ("Renewing IPv4 address " . $Address . \
-            " in list '" . $FwListName . "' with " . $TimeOut . ".");
+        $LogPrintVerbose debug $ScriptName [ $Translate "fw-addr-lists.ipv4.renew" \
+            ({ address=$Address; list=$FwListName; timeout=$TimeOut }) ];
         /ip/firewall/address-list/set $Entry timeout=$TimeOut;
         :set ($IPv4Addresses->$Branch->$Address);
         :set CntRenew ($CntRenew + 1);
       } else={
         :if ($Failure = false) do={
-          $LogPrintVerbose debug $ScriptName ("Removing IPv4 address " . $Address . \
-              " from list '" . $FwListName . ".");
+          $LogPrintVerbose debug $ScriptName [ $Translate "fw-addr-lists.ipv4.remove" \
+              ({ address=$Address; list=$FwListName }) ];
           /ip/firewall/address-list/remove $Entry;
           :set CntRemove ($CntRemove + 1);
         }
@@ -177,15 +199,15 @@
       :local Branch [ $GetBranch $Address ];
       :local TimeOut ($IPv6Addresses->$Branch->$Address);
       :if ([ :typeof $TimeOut ] = "time") do={
-        $LogPrintVerbose debug $ScriptName ("Renewing IPv6 address " . $Address . \
-            " in list '" . $FwListName . "' with " . $TimeOut . ".");
+        $LogPrintVerbose debug $ScriptName [ $Translate "fw-addr-lists.ipv6.renew" \
+            ({ address=$Address; list=$FwListName; timeout=$TimeOut }) ];
         /ipv6/firewall/address-list/set $Entry timeout=$TimeOut;
         :set ($IPv6Addresses->$Branch->$Address);
         :set CntRenew ($CntRenew + 1);
       } else={
         :if ($Failure = false) do={
-          $LogPrintVerbose debug $ScriptName ("Removing IPv6 address " . $Address . \
-              " from list '" . $FwListName .".");
+          $LogPrintVerbose debug $ScriptName [ $Translate "fw-addr-lists.ipv6.remove" \
+              ({ address=$Address; list=$FwListName }) ];
           /ipv6/firewall/address-list/remove $Entry;
           :set CntRemove ($CntRemove + 1);
         }
@@ -193,42 +215,41 @@
     }
 
     :foreach BranchName,Branch in=$IPv4Addresses do={
-      $LogPrintVerbose debug $ScriptName ("Handling branch: " . $BranchName);
+      $LogPrintVerbose debug $ScriptName [ $Translate "fw-addr-lists.branch" \
+          ({ branch=$BranchName }) ];
       :foreach Address,Timeout in=$Branch do={
-        $LogPrintVerbose debug $ScriptName ("Adding IPv4 address " . $Address . \
-            " to list '" . $FwListName . "' with " . $Timeout . ".");
+        $LogPrintVerbose debug $ScriptName [ $Translate "fw-addr-lists.ipv4.add" \
+            ({ address=$Address; list=$FwListName; timeout=$Timeout }) ];
         :onerror Err {
           /ip/firewall/address-list/add list=$FwListName comment=$ListComment \
               address=$Address timeout=$Timeout;
           :set CntAdd ($CntAdd + 1);
         } do={
-          $LogPrint warning $ScriptName ("Failed to add IPv4 address " . $Address . \
-              " to list '" . $FwListName . "': " . $Err);
+          $LogPrint warning $ScriptName [ $Translate "fw-addr-lists.ipv4.failed" \
+              ({ address=$Address; list=$FwListName; error=$Err }) ];
         }
       }
     }
 
     :foreach BranchName,Branch in=$IPv6Addresses do={
-      $LogPrintVerbose debug $ScriptName ("Handling branch: " . $BranchName);
+      $LogPrintVerbose debug $ScriptName [ $Translate "fw-addr-lists.branch" \
+          ({ branch=$BranchName }) ];
       :foreach Address,Timeout in=$Branch do={
-        $LogPrintVerbose debug $ScriptName ("Adding IPv6 address " . $Address . \
-            " to list '" . $FwListName . "' with " . $Timeout . ".");
+        $LogPrintVerbose debug $ScriptName [ $Translate "fw-addr-lists.ipv6.add" \
+            ({ address=$Address; list=$FwListName; timeout=$Timeout }) ];
         :onerror Err {
           /ipv6/firewall/address-list/add list=$FwListName comment=$ListComment \
               address=$Address timeout=$Timeout;
           :set CntAdd ($CntAdd + 1);
         } do={
-          $LogPrint warning $ScriptName ("Failed to add IPv6 address " . $Address . \
-              " to list '" . $FwListName . "': " . $Err);
+          $LogPrint warning $ScriptName [ $Translate "fw-addr-lists.ipv6.failed" \
+              ({ address=$Address; list=$FwListName; error=$Err }) ];
         }
       }
     }
 
-    $LogPrint info $ScriptName ("list: " . $FwListName . \
-        " (" . [ $HumanReadableNum ($CntAdd + $CntRenew) 1000 ] . ")" . \
-        " -- added: " . [ $HumanReadableNum $CntAdd 1000 ] . \
-        " - renewed: " . [ $HumanReadableNum $CntRenew 1000 ] . \
-        " - removed: " . [ $HumanReadableNum $CntRemove 1000 ]);
+    $LogPrint info $ScriptName [ $Translate "fw-addr-lists.summary" \
+        ({ list=$FwListName; total=[ $HumanReadableNum ($CntAdd + $CntRenew) 1000 ]; added=[ $HumanReadableNum $CntAdd 1000 ]; renewed=[ $HumanReadableNum $CntRenew 1000 ]; removed=[ $HumanReadableNum $CntRemove 1000 ] }) ];
   }
 } do={
   :global ExitOnError; $ExitOnError [ :jobname ] $Err;

@@ -8,6 +8,18 @@
 # reset bridge ports to default bridge
 # https://rsc.eworm.de/doc/mod/bridge-port-to.md
 
+# BEGIN GENERATED LANGUAGE DATA
+# language, name=bridge-port-to, schema=9ff4cd55d43b5e48046edec247245c26cd52574d351dd5b3d5c66b36824548d6
+:global LanguageEnglish;
+:if ([ :typeof $LanguageEnglish ] != "array") do={ :set LanguageEnglish ({}); }
+:set ($LanguageEnglish->"bridge-port-to.bridge.connected") "Interface {interface} already connected to {config} bridge {bridge}.";
+:set ($LanguageEnglish->"bridge-port-to.bridge.enabled") "Enabling bridge port for interface {interface}, changing to {config} bridge {bridge}, disabling dhcp client.";
+:set ($LanguageEnglish->"bridge-port-to.client.duplicate") "Duplicate dhcp client configuration for interface {interface}!";
+:set ($LanguageEnglish->"bridge-port-to.client.enabled") "Disabling bridge port for interface {interface}, enabling dhcp client.";
+:set ($LanguageEnglish->"bridge-port-to.client.missing") "Missing dhcp client configuration for interface {interface}!";
+:set ($LanguageEnglish->"bridge-port-to.interfaces.enabled") "Re-enabling interfaces...";
+# END GENERATED LANGUAGE DATA
+
 :global BridgePortTo;
 
 :set BridgePortTo do={ :onerror Err {
@@ -15,6 +27,7 @@
 
   :global IfThenElse;
   :global LogPrint;
+  :global Translate;
   :global ParseKeyValueStore;
 
   :local InterfaceReEnable ({});
@@ -26,22 +39,26 @@
 
         :if ($BridgeDefault = "dhcp-client") do={
           :if ([ :len $DHCPClient ] != 1) do={
-            $LogPrint warning $0 ([ $IfThenElse ([ :len $DHCPClient ] = 0) "Missing" "Duplicate" ] . \
-                " dhcp client configuration for interface " . $BridgePortVal->"interface" . "!");
+            :local Diagnostic [ $Translate "bridge-port-to.client.duplicate" \
+                ({ interface=($BridgePortVal->"interface") }) ];
+            :if ([ :len $DHCPClient ] = 0) do={ :set Diagnostic [ $Translate "bridge-port-to.client.missing" \
+                ({ interface=($BridgePortVal->"interface") }) ]; };
+            $LogPrint warning $0 $Diagnostic;
             :return false;
           }
           :local DHCPClientDisabled [ /ip/dhcp-client/get $DHCPClient disabled ];
 
           :if ($BridgePortVal->"disabled" = false || $DHCPClientDisabled = true) do={
-            $LogPrint info $0 ("Disabling bridge port for interface " . $BridgePortVal->"interface" . ", enabling dhcp client.");
+            $LogPrint info $0 [ $Translate "bridge-port-to.client.enabled" \
+                ({ interface=($BridgePortVal->"interface") }) ];
             /interface/bridge/port/disable $BridgePort;
             :delay 200ms;
             /ip/dhcp-client/enable $DHCPClient;
           }
         } else={
           :if ($BridgePortVal->"disabled" = true || $BridgeDefault != $BridgePortVal->"bridge") do={
-            $LogPrint info $0 ("Enabling bridge port for interface " . $BridgePortVal->"interface" . ", changing to " . $BridgePortTo . \
-                " bridge " . $BridgeDefault . ", disabling dhcp client.");
+            $LogPrint info $0 [ $Translate "bridge-port-to.bridge.enabled" \
+                ({ interface=($BridgePortVal->"interface"); config=$BridgePortTo; bridge=$BridgeDefault }) ];
             :if ([ :len $DHCPClient ] = 1) do={
               /ip/dhcp-client/disable $DHCPClient;
               :delay 200ms;
@@ -53,8 +70,8 @@
             }
             /interface/bridge/port/set disabled=no bridge=$BridgeDefault $BridgePort;
           } else={
-            $LogPrint debug $0 ("Interface " . $BridgePortVal->"interface" . " already connected to " . $BridgePortTo . \
-                " bridge " . $BridgeDefault . ".");
+            $LogPrint debug $0 [ $Translate "bridge-port-to.bridge.connected" \
+                ({ interface=($BridgePortVal->"interface"); config=$BridgePortTo; bridge=$BridgeDefault }) ];
           }
         }
       }
@@ -62,7 +79,7 @@
   }
   :if ([ :len $InterfaceReEnable ] > 0) do={
     :delay 5s;
-    $LogPrint info $0 ("Re-enabling interfaces...");
+    $LogPrint info $0 [ $Translate "bridge-port-to.interfaces.enabled" ];
     /interface/ethernet/enable $InterfaceReEnable;
   }
 } do={

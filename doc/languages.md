@@ -127,11 +127,12 @@ Add `--notifications` to exercise queue guards and the email log-forwarding loop
 filter. Add `--netwatch` to exercise actual Netwatch state transitions with
 simulated hosts, a local notification sink, parent suppression, and invalid
 hooks. Add `--messaging` to exercise SMS grouping and Telegram authorization
-with simulated inboxes. These tests do not send notifications, execute chat
+with simulated inboxes, or `--network` for firewall list diagnostics and
+bridge/VLAN DHCP guards with simulated reads. These tests do not send notifications, execute chat
 commands, delete real SMS, or change Netwatch entries:
 
 ```sh
-python3 contrib/language-test.py --catalogs --notifications --netwatch --messaging > /tmp/language-tests.rsc
+python3 contrib/language-test.py --catalogs --notifications --netwatch --messaging --network > /tmp/language-tests.rsc
 ```
 
 To also test actual downloads, compatible caches, offline fallback, malformed
@@ -210,6 +211,14 @@ activation/deactivation, replies, command syntax rejection, untrusted-contact
 rejection, and update offsets in both languages. They did not contact Telegram,
 execute received commands, or delete SMS from a device. LTE hardware paths and
 successful command/hook execution still require integration validation.
+
+Firewall lists and bridge/VLAN modules brought coverage to 446 messages. All
+892 locale rendering checks and 892 native dictionary checks passed, and the
+three sources parsed on the VM. Simulated firewall reads verified certificate
+failure and empty-list summaries; bridge/VLAN fixtures verified missing and
+duplicate DHCP-client diagnostics. No firewall entries, bridge ports, VLANs,
+or DHCP clients were changed. The exact log marker shared with `LogPrintOnce`
+remains a protocol string until the shared helper migration.
 
 ### Remaining migration
 
