@@ -80,10 +80,10 @@
         on-event=("/system/scheduler/remove \"_RebootForUpdate\"; " . \
         ":global RebootForUpdate; \$RebootForUpdate;");
     :local Message [ $Translate "packages-update.scheduled" ({ time=$StartTime; \
-        timezone=[ /system/clock/get time-zone-name ]; }) ];
+        timezone=[ /system/clock/get time-zone-name ] }) ];
     :if ($Interval > 1d) do={
       :set Message [ $Translate "packages-update.scheduled.deferred" ({ time=$StartTime; \
-          timezone=[ /system/clock/get time-zone-name ]; interval=$Interval; }) ];
+          timezone=[ /system/clock/get time-zone-name ]; interval=$Interval }) ];
     }
     $LogPrint info $ScriptName $Message;
     :return true;
@@ -112,7 +112,7 @@
 
   :if ($Update->"installed-version" = $Update->"latest-version") do={
     $LogPrint info $ScriptName [ $Translate "packages-update.version.installed" \
-        ({ version=($Update->"latest-version"); }) ];
+        ({ version=($Update->"latest-version") }) ];
     :exit;
   }
 
@@ -129,7 +129,7 @@
     :set BackupRandomDelay 0;
     :set PackagesUpdateBackupFailure false;
     :do {
-      $LogPrint info $ScriptName [ $Translate "packages-update.backup.running" ({ name=$Script; }) ];
+      $LogPrint info $ScriptName [ $Translate "packages-update.backup.running" ({ name=$Script }) ];
       /system/script/run $Script;
     } on-error={
       :set PackagesUpdateBackupFailure true;
@@ -137,7 +137,7 @@
     :set BackupRandomDelay $BackupRandomDelayBefore;
 
     :if ($PackagesUpdateBackupFailure = true) do={
-      $LogPrint warning $ScriptName [ $Translate "packages-update.backup.failed" ({ name=$Script; }) ];
+      $LogPrint warning $ScriptName [ $Translate "packages-update.backup.failed" ({ name=$Script }) ];
       :if ([ $ScriptFromTerminal $ScriptName ] = true) do={
         :put [ $Translate "packages-update.continue.prompt" ];
         :if (([ /terminal/inkey timeout=60 ] % 32) = 25) do={
@@ -174,7 +174,7 @@
   :foreach Package in=[ /system/package/find where !bundle !available ] do={
     :local PkgName [ /system/package/get $Package name ];
     :if ([ $DownloadPackage $PkgName ($Update->"latest-version") ] = false) do={
-      $LogPrint error $ScriptName [ $Translate "packages-update.download.failed" ({ name=$PkgName; }) ];
+      $LogPrint error $ScriptName [ $Translate "packages-update.download.failed" ({ name=$PkgName }) ];
       :exit;
     }
   }

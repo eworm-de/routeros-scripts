@@ -36,7 +36,7 @@
   :local RouterBoard [ /system/routerboard/get ];
   :if ($RouterBoard->"current-firmware" = $RouterBoard->"upgrade-firmware") do={
     $LogPrint info $ScriptName [ $Translate "firmware-upgrade-reboot.current" \
-        ({ version=($RouterBoard->"current-firmware"); }) ];
+        ({ version=($RouterBoard->"current-firmware") }) ];
     :exit;
   }
   :if ([ $VersionToNum ($RouterBoard->"current-firmware") ] > [ $VersionToNum ($RouterBoard->"upgrade-firmware") ]) do={
@@ -46,7 +46,7 @@
 
   :if ([ /system/routerboard/settings/get auto-upgrade ] = false) do={
     $LogPrint info $ScriptName [ $Translate "firmware-upgrade-reboot.upgrade" \
-        ({ version=($RouterBoard->"upgrade-firmware"); }) ];
+        ({ version=($RouterBoard->"upgrade-firmware") }) ];
     /system/routerboard/upgrade;
   }
 

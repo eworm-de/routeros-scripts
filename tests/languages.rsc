@@ -8,6 +8,7 @@
   "test.message"="The CPU on {identity} is at {percent}%!";
   "test.empty"="";
   "test.literal"="Hello";
+  "test.single"="Hello {name}";
 };
 :global LanguageMessages {
   "test.message"="{percent}% de CPU em {identity}!";
@@ -16,6 +17,14 @@
 :if ([ $Translate "test.message" ({ identity="router"; percent=75 }) ] != \
      "The CPU on router is at 75%!") do={ :error "English default failed"; }
 :set ScriptLanguage "pt-BR";
+:if (true) do={
+  :local Name "router";
+  :if ([ $Translate "test.single" ({ name=$Name }) ] != "Hello router") do={
+    :error "Single dictionary parameter failed";
+  }
+}
+:if ([ $Translate "test.message" ({ identity=""; percent=75 }) ] != \
+     "75% de CPU em !") do={ :error "Empty parameter failed"; }
 :if ([ $Translate "test.message" ({ identity="roteador"; percent=75 }) ] != \
      "75% de CPU em roteador!") do={ :error "Translation/reordered parameters failed"; }
 :if ([ $Translate "test.literal" ] != "Hello") do={ :error "Missing key fallback failed"; }

@@ -52,7 +52,7 @@
 # NOT /caps-man/ #
         $LogPrint info $ScriptName [ $Translate "capsman-rolling-upgrade.starting" \
             ({ name=($RemoteCapVal->"name"); \
-            identity=($RemoteCapVal->"identity"); }) ];
+            identity=($RemoteCapVal->"identity") }) ];
         /caps-man/remote-cap/upgrade $RemoteCap;
         /interface/wifi/capsman/remote-cap/upgrade $RemoteCap;
       } else={

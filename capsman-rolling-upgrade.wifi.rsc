@@ -46,7 +46,7 @@
         :set ($RemoteCapVal->"name") ($RemoteCapVal->"common-name");
         $LogPrint info $ScriptName [ $Translate "capsman-rolling-upgrade.starting" \
             ({ name=($RemoteCapVal->"name"); \
-            identity=($RemoteCapVal->"identity"); }) ];
+            identity=($RemoteCapVal->"identity") }) ];
         /interface/wifi/capsman/remote-cap/upgrade $RemoteCap;
       } else={
         $LogPrint warning $ScriptName [ $Translate "capsman-rolling-upgrade.vanished" ];

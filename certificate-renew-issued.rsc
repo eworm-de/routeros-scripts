@@ -47,13 +47,13 @@
             file-name=("cert-issued/" . $CertVal->"common-name") \
             export-passphrase=($CertIssuedExportPass->($CertVal->"common-name"));
         $LogPrint info $ScriptName [ $Translate "certificate-renew-issued.exported" \
-            ({ name=($CertVal->"common-name"); }) ];
+            ({ name=($CertVal->"common-name") }) ];
       } else={
         $LogPrint warning $ScriptName [ $Translate "certificate-renew-issued.directory.failed" ];
       }
     } else={
       $LogPrint info $ScriptName [ $Translate "certificate-renew-issued.issued" \
-          ({ name=($CertVal->"common-name"); }) ];
+          ({ name=($CertVal->"common-name") }) ];
     }
   }
 } do={
