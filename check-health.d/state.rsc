@@ -35,14 +35,14 @@
       :if ($CheckHealthLast->$Name = "ok" && \
            $Value != "ok") do={
         $SendNotification2 ({ origin=$ScriptName; \
-          subject=([ $SymbolForNotification "cross-mark" ] . [ $Translate "check-health.warning.subject" { name=$Name } ]); \
-          message=([ $Translate "check-health.state.failed" { name=$Name; identity=$Identity } ]) });
+          subject=([ $SymbolForNotification "cross-mark" ] . [ $Translate "check-health.warning.subject" ({ name=$Name }) ]); \
+          message=([ $Translate "check-health.state.failed" ({ name=$Name; identity=$Identity }) ]) });
       }
       :if ($CheckHealthLast->$Name != "ok" && \
            $Value = "ok") do={
         $SendNotification2 ({ origin=$ScriptName; \
-          subject=([ $SymbolForNotification "white-heavy-check-mark" ] . [ $Translate "check-health.recovery.subject" { name=$Name } ]); \
-          message=([ $Translate "check-health.state.recovered" { name=$Name; identity=$Identity } ]) });
+          subject=([ $SymbolForNotification "white-heavy-check-mark" ] . [ $Translate "check-health.recovery.subject" ({ name=$Name }) ]); \
+          message=([ $Translate "check-health.state.recovered" ({ name=$Name; identity=$Identity }) ]) });
       }
     }
     :set ($CheckHealthLast->$Name) $Value;

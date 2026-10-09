@@ -46,7 +46,7 @@
 
     :if ([ :typeof ($CheckHealthLast->$Name) ] != "nothing") do={
       :if ([ :typeof ($CheckHealthTemperature->$Name) ] != "num" ) do={
-        $LogPrint info $FuncName ([ $Translate "check-health.temperature.threshold" { name=$Name } ]);
+        $LogPrint info $FuncName ([ $Translate "check-health.temperature.threshold" ({ name=$Name }) ]);
         :set ($CheckHealthTemperature->$Name) 50;
       }
       :local Validate [ /system/health/get [ find where name=$Name ] value ];
@@ -57,15 +57,15 @@
       :if ($Value > $CheckHealthTemperature->$Name && \
            $CheckHealthTemperatureNotified->$Name != true) do={
         $SendNotification2 ({ origin=$ScriptName; \
-          subject=([ $SymbolForNotification "fire" ] . [ $Translate "check-health.warning.subject" { name=$Name } ]); \
-          message=([ $Translate "check-health.temperature.high" { name=$Name; identity=$Identity; value=$Value; percent=($CheckHealthCPUUtilization / 10) } ]) });
+          subject=([ $SymbolForNotification "fire" ] . [ $Translate "check-health.warning.subject" ({ name=$Name }) ]); \
+          message=([ $Translate "check-health.temperature.high" ({ name=$Name; identity=$Identity; value=$Value; percent=($CheckHealthCPUUtilization / 10) }) ]) });
         :set ($CheckHealthTemperatureNotified->$Name) true;
       }
       :if ($Value <= ($CheckHealthTemperature->$Name - $CheckHealthTemperatureDeviation) && \
            $CheckHealthTemperatureNotified->$Name = true) do={
         $SendNotification2 ({ origin=$ScriptName; \
-          subject=([ $SymbolForNotification "white-heavy-check-mark" ] . [ $Translate "check-health.recovery.subject" { name=$Name } ]); \
-          message=([ $Translate "check-health.temperature.recovered" { name=$Name; identity=$Identity; value=$Value; percent=($CheckHealthCPUUtilization / 10) } ]) });
+          subject=([ $SymbolForNotification "white-heavy-check-mark" ] . [ $Translate "check-health.recovery.subject" ({ name=$Name }) ]); \
+          message=([ $Translate "check-health.temperature.recovered" ({ name=$Name; identity=$Identity; value=$Value; percent=($CheckHealthCPUUtilization / 10) }) ]) });
         :set ($CheckHealthTemperatureNotified->$Name) false;
       }
     }

@@ -43,19 +43,19 @@
            $NumLast * 100 > $NumCurr * (100 + $CheckHealthVoltagePercent)) do={
         $SendNotification2 ({ origin=$ScriptName; \
           subject=([ $SymbolForNotification ("high-voltage-sign,chart-" . [ $IfThenElse ($NumLast < \
-            $NumCurr) "in" "de" ] . "creasing") ] . [ $Translate "check-health.warning.subject" { name=$Name } ]); \
-          message=([ $Translate "check-health.voltage.jumped" { name=$Name; identity=$Identity; percent=$CheckHealthVoltagePercent; details=([ $FormatLine [ $Translate "check-health.voltage.old" ] ($CheckHealthLast->$Name . " V") 12 ] . "\n" . \
-            [ $FormatLine [ $Translate "check-health.voltage.new" ] ($Value . " V") 12 ]) } ]) });
+            $NumCurr) "in" "de" ] . "creasing") ] . [ $Translate "check-health.warning.subject" ({ name=$Name }) ]); \
+          message=([ $Translate "check-health.voltage.jumped" ({ name=$Name; identity=$Identity; percent=$CheckHealthVoltagePercent; details=([ $FormatLine [ $Translate "check-health.voltage.old" ] ($CheckHealthLast->$Name . " V") 12 ] . "\n" . \
+            [ $FormatLine [ $Translate "check-health.voltage.new" ] ($Value . " V") 12 ]) }) ]) });
       } else={
         :if ($NumCurr <= $CheckHealthVoltageLow && $NumLast > $CheckHealthVoltageLow) do={
           $SendNotification2 ({ origin=$ScriptName; \
-            subject=([ $SymbolForNotification "high-voltage-sign,chart-decreasing" ] . [ $Translate "check-health.voltage.low.subject" { name=$Name } ]); \
-            message=([ $Translate "check-health.voltage.low.message" { name=$Name; identity=$Identity; value=$Value } ]) });
+            subject=([ $SymbolForNotification "high-voltage-sign,chart-decreasing" ] . [ $Translate "check-health.voltage.low.subject" ({ name=$Name }) ]); \
+            message=([ $Translate "check-health.voltage.low.message" ({ name=$Name; identity=$Identity; value=$Value }) ]) });
         }
         :if ($NumCurr > $CheckHealthVoltageLow && $NumLast <= $CheckHealthVoltageLow) do={
           $SendNotification2 ({ origin=$ScriptName; \
-            subject=([ $SymbolForNotification "high-voltage-sign,chart-increasing" ] . [ $Translate "check-health.voltage.recovery.subject" { name=$Name } ]); \
-            message=([ $Translate "check-health.voltage.recovery.message" { name=$Name; identity=$Identity; value=$Value } ]) });
+            subject=([ $SymbolForNotification "high-voltage-sign,chart-increasing" ] . [ $Translate "check-health.voltage.recovery.subject" ({ name=$Name }) ]); \
+            message=([ $Translate "check-health.voltage.recovery.message" ({ name=$Name; identity=$Identity; value=$Value }) ]) });
         }
       }
     }

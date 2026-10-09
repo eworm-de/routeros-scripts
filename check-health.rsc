@@ -81,13 +81,13 @@
   :if ($CheckHealthCPUUtilization > 750 && $CheckHealthCPUUtilizationNotified != true) do={
     $SendNotification2 ({ origin=$ScriptName; \
       subject=([ $SymbolForNotification "abacus,chart-increasing" ] . [ $Translate "check-health.cpu.warning.subject" ]); \
-      message=([ $Translate "check-health.cpu.warning.message" { identity=$Identity; percent=($CheckHealthCPUUtilization / 10) } ]) });
+      message=([ $Translate "check-health.cpu.warning.message" ({ identity=$Identity; percent=($CheckHealthCPUUtilization / 10) }) ]) });
     :set CheckHealthCPUUtilizationNotified true;
   }
   :if ($CheckHealthCPUUtilization < 650 && $CheckHealthCPUUtilizationNotified = true) do={
     $SendNotification2 ({ origin=$ScriptName; \
       subject=([ $SymbolForNotification "abacus,chart-decreasing" ] . [ $Translate "check-health.cpu.recovery.subject" ]); \
-      message=([ $Translate "check-health.cpu.recovery.message" { identity=$Identity; percent=($CheckHealthCPUUtilization / 10) } ]) });
+      message=([ $Translate "check-health.cpu.recovery.message" ({ identity=$Identity; percent=($CheckHealthCPUUtilization / 10) }) ]) });
     :set CheckHealthCPUUtilizationNotified false;
   }
 
@@ -95,15 +95,15 @@
   :if ($CheckHealthRAMUtilization >=80 && $CheckHealthRAMUtilizationNotified != true) do={
     $SendNotification2 ({ origin=$ScriptName; \
       subject=([ $SymbolForNotification "card-file-box,chart-increasing" ] . [ $Translate "check-health.ram.warning.subject" ]); \
-      message=([ $Translate "check-health.ram.warning.message" { identity=$Identity; percent=$CheckHealthRAMUtilization; details=([ $FormatLine [ $Translate "check-health.ram.total" ] ([ $HumanReadableNum ($Resource->"total-memory") 1024 ] . "B") 8 ] . "\n" . \
+      message=([ $Translate "check-health.ram.warning.message" ({ identity=$Identity; percent=$CheckHealthRAMUtilization; details=([ $FormatLine [ $Translate "check-health.ram.total" ] ([ $HumanReadableNum ($Resource->"total-memory") 1024 ] . "B") 8 ] . "\n" . \
       [ $FormatLine [ $Translate "check-health.ram.used" ] ([ $HumanReadableNum ($Resource->"total-memory" - $Resource->"free-memory") 1024 ] . "B") 8 ] . "\n" . \
-      [ $FormatLine [ $Translate "check-health.ram.free" ] ([ $HumanReadableNum ($Resource->"free-memory") 1024 ] . "B") 8 ]) } ]) });
+      [ $FormatLine [ $Translate "check-health.ram.free" ] ([ $HumanReadableNum ($Resource->"free-memory") 1024 ] . "B") 8 ]) }) ]) });
     :set CheckHealthRAMUtilizationNotified true;
   }
   :if ($CheckHealthRAMUtilization < 70 && $CheckHealthRAMUtilizationNotified = true) do={
     $SendNotification2 ({ origin=$ScriptName; \
       subject=([ $SymbolForNotification "card-file-box,chart-decreasing" ] . [ $Translate "check-health.ram.recovery.subject" ]); \
-      message=([ $Translate "check-health.ram.recovery.message" { identity=$Identity; percent=$CheckHealthRAMUtilization } ]) });
+      message=([ $Translate "check-health.ram.recovery.message" ({ identity=$Identity; percent=$CheckHealthRAMUtilization }) ]) });
     :set CheckHealthRAMUtilizationNotified false;
   }
 
@@ -124,10 +124,10 @@
       :onerror Err {
         /system/script/run $Plugin;
       } do={
-        $LogPrint error $ScriptName ([ $Translate "check-health.plugins.failed" { name=($PluginVal->"name"); error=$Err } ]);
+        $LogPrint error $ScriptName ([ $Translate "check-health.plugins.failed" ({ name=($PluginVal->"name"); error=$Err }) ]);
       }
     } else={
-      $LogPrint error $ScriptName ([ $Translate "check-health.plugins.syntax" { name=($PluginVal->"name") } ]);
+      $LogPrint error $ScriptName ([ $Translate "check-health.plugins.syntax" ({ name=($PluginVal->"name") }) ]);
     }
   }
 
