@@ -1,0 +1,12 @@
+{
+  "language": "pt-BR",
+  "messages": {
+    "notification-ntfy.offline": "O sistema não está totalmente conectado; a fila não será processada.",
+    "notification-ntfy.queue.empty": "Processando mensagens do Ntfy pelo agendador, mas a fila está vazia.",
+    "notification-ntfy.queue.failed": "Falha ao enviar mensagem do Ntfy na fila: {error}",
+    "notification-ntfy.send.failed": "Falha ao enviar notificação do Ntfy: {error} - Adicionando à fila...",
+    "notification-ntfy.certificate.failed": "Falha ao baixar o certificado necessário.",
+    "notification-ntfy.queued": "Esta mensagem está na fila desde {date} {time} e pode estar desatualizada."
+  },
+  "schema": "6734a9715e6b789bb7ff475fdc9f2b11391a7dcbd94aaef3413d695b035d493e"
+}

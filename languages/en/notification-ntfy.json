@@ -1,0 +1,12 @@
+{
+  "language": "en",
+  "messages": {
+    "notification-ntfy.offline": "System is not fully connected, not flushing.",
+    "notification-ntfy.queue.empty": "Flushing Ntfy messages from scheduler, but queue is empty.",
+    "notification-ntfy.queue.failed": "Sending queued Ntfy message failed: {error}",
+    "notification-ntfy.send.failed": "Failed sending ntfy notification: {error} - Queuing...",
+    "notification-ntfy.certificate.failed": "Downloading required certificate failed.",
+    "notification-ntfy.queued": "This message was queued since {date} {time} and may be obsolete."
+  },
+  "schema": "6734a9715e6b789bb7ff475fdc9f2b11391a7dcbd94aaef3413d695b035d493e"
+}

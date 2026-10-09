@@ -9,6 +9,18 @@
 # send notifications via Ntfy (ntfy.sh)
 # https://rsc.eworm.de/doc/mod/notification-ntfy.md
 
+# BEGIN GENERATED LANGUAGE DATA
+# language, name=notification-ntfy, schema=6734a9715e6b789bb7ff475fdc9f2b11391a7dcbd94aaef3413d695b035d493e
+:global LanguageEnglish;
+:if ([ :typeof $LanguageEnglish ] != "array") do={ :set LanguageEnglish ({}); }
+:set ($LanguageEnglish->"notification-ntfy.certificate.failed") "Downloading required certificate failed.";
+:set ($LanguageEnglish->"notification-ntfy.offline") "System is not fully connected, not flushing.";
+:set ($LanguageEnglish->"notification-ntfy.queue.empty") "Flushing Ntfy messages from scheduler, but queue is empty.";
+:set ($LanguageEnglish->"notification-ntfy.queue.failed") "Sending queued Ntfy message failed: {error}";
+:set ($LanguageEnglish->"notification-ntfy.queued") "This message was queued since {date} {time} and may be obsolete.";
+:set ($LanguageEnglish->"notification-ntfy.send.failed") "Failed sending ntfy notification: {error} - Queuing...";
+# END GENERATED LANGUAGE DATA
+
 :global FlushNtfyQueue;
 :global NotificationFunctions;
 :global PurgeNtfyQueue;
@@ -21,9 +33,10 @@
 
   :global IsFullyConnected;
   :global LogPrint;
+  :global Translate;
 
   :if ([ $IsFullyConnected ] = false) do={
-    $LogPrint debug $0 ("System is not fully connected, not flushing.");
+    $LogPrint debug $0 [ $Translate "notification-ntfy.offline" ];
     :return false;
   }
 
@@ -31,7 +44,7 @@
   :local QueueLen [ :len $NtfyQueue ];
 
   :if ([ :len [ /system/scheduler/find where name="_FlushNtfyQueue" ] ] > 0 && $QueueLen = 0) do={
-    $LogPrint warning $0 ("Flushing Ntfy messages from scheduler, but queue is empty.");
+    $LogPrint warning $0 [ $Translate "notification-ntfy.queue.empty" ];
   }
 
   :foreach Id,Message in=$NtfyQueue do={
@@ -42,7 +55,8 @@
           ($Message->"url") as-value;
         :set ($NtfyQueue->$Id);
       } do={
-        $LogPrint debug $0 ("Sending queued Ntfy message failed: " . $Err);
+        $LogPrint debug $0 [ $Translate "notification-ntfy.queue.failed" \
+            ({ error=$Err }) ];
         :set AllDone false;
       }
     }
@@ -79,6 +93,7 @@
   :global FetchUserAgentStr;
   :global IfThenElse;
   :global LogPrint;
+  :global Translate;
   :global SymbolForNotification;
 
   :local Server [ $EitherOr ($NtfyServerOverride->($Notification->"origin")) $NtfyServer ];
@@ -109,21 +124,22 @@
   :onerror Err {
     :if ($Server = "ntfy.sh") do={
       :if ([ $CertificateAvailable "Root YR" "fetch" ] = false) do={
-        $LogPrint warning $0 ("Downloading required certificate failed.");
+        $LogPrint warning $0 [ $Translate "notification-ntfy.certificate.failed" ];
         :error false;
       }
     }
     /tool/fetch check-certificate=yes-without-crl output=none http-method=post \
       http-header-field=$Headers http-data=$Text $Url as-value;
   } do={
-    $LogPrint info $0 ("Failed sending ntfy notification: " . $Err . " - Queuing...");
+    $LogPrint info $0 [ $Translate "notification-ntfy.send.failed" \
+        ({ error=$Err }) ];
 
     :if ([ :typeof $NtfyQueue ] = "nothing") do={
       :set NtfyQueue ({});
     }
     :set Text ($Text . "\n" . [ $SymbolForNotification "alarm-clock" ] . \
-      "This message was queued since " . [ /system/clock/get date ] . " " . \
-      [ /system/clock/get time ] . " and may be obsolete.");
+      [ $Translate "notification-ntfy.queued" \
+          ({ date=[ /system/clock/get date ]; time=[ /system/clock/get time ] }) ]);
     :set ($NtfyQueue->[ :len $NtfyQueue ]) \
       { url=$Url; headers=$Headers; text=$Text };
     :if ([ :len [ /system/scheduler/find where name="_FlushNtfyQueue" ] ] = 0) do={

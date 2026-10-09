@@ -48,7 +48,8 @@ CAPsMAN upgrades. GRE and tunnelbroker updates, IPv6 updates, DNS/DoH management
 DHCP-to-DNS and IPSec-to-DNS synchronization, DHCP lease dispatchers and comments,
 and PPP hooks are also translated. Wireless access-list duplicate prompts,
 device collection, CAPsMAN package downloads, and OSPF-to-LED diagnostics are
-translated as well. Other
+translated as well. Ntfy/Gotify queue messages and SSH-key import diagnostics
+have also been migrated. Other
 scripts and bootstrap diagnostics still use English. RouterOS-generated errors,
 sensor names, API fields, file paths, and internal status sentinels retain their
 original values. Interactive confirmations retain `[y/N]` because their key
@@ -62,7 +63,8 @@ placeholders such as `{identity}`; their order may change. Partial catalogs
 are supported. Do not put RouterOS expressions in translations: catalog text
 is parsed only as JSON and is never executed.
 
-English catalogs are the editable source of truth. `contrib/languages.py`
+English catalogs are the editable source of truth. Root scripts, templates,
+and `mod/` modules use catalogs named after their feature. `contrib/languages.py`
 embeds their defaults in generated blocks inside the scripts, along with
 schema identifiers. Do not edit those blocks directly. The loader discovers
 catalog schemas from installed script headers, so uninstalled features require
@@ -171,6 +173,12 @@ rendering checks and 574 native dictionary checks passed. The local-wireless
 and CAPsMAN variants parsed on the VM; WiFi variants require the WiFi package.
 Tests did not remove access-list entries, collect clients, download RouterOS
 packages, or change LEDs.
+
+The first module phase brought coverage to 308 messages. All 616 locale
+rendering checks and 616 native dictionary checks passed, and the three modules
+parsed on the VM. Ntfy/Gotify offline queue guards and SSH import argument guards
+produced the expected diagnostics in both locales with isolated globals. These
+tests did not send notifications or import SSH keys.
 
 ### Remaining migration
 

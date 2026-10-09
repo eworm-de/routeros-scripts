@@ -37,8 +37,11 @@ def load(path):
 
 
 def source_path(group):
-    template = ROOT / (group + '.template.rsc')
-    return template if template.exists() else ROOT / (group + '.rsc')
+    for path in (ROOT / (group + '.template.rsc'), ROOT / (group + '.rsc'),
+                 ROOT / 'mod' / (group + '.rsc')):
+        if path.exists():
+            return path
+    raise FileNotFoundError(f'No RouterOS source for catalog {group}')
 
 
 def render(check=False):
@@ -81,8 +84,8 @@ def render(check=False):
         if BEGIN in source:
             source = re.sub(re.escape(BEGIN) + r'.*?' + re.escape(END), lambda _: block, source, flags=re.S)
         else:
-            pos = source.index('\n:onerror')
-            source = source[:pos] + '\n' + block + '\n' + source[pos:]
+            pos = re.search(r'(?m)^:[a-z]', source).start()
+            source = source[:pos] + block + '\n\n' + source[pos:]
         outputs[target] = source
     runtime = (ROOT / 'languages/runtime.rsc').read_text(encoding='utf-8')
     block = BEGIN + '''
