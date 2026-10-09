@@ -9,6 +9,7 @@
 # https://rsc.eworm.de/doc/check-health.md
 
 # BEGIN GENERATED LANGUAGE DATA
+# language, name=check-health, schema=46a1c96fc663c6ec3c3f676c07e02aedf8dc2b606ec48848159b601ed88bf852
 :global LanguageEnglish;
 :if ([ :typeof $LanguageEnglish ] != "array") do={ :set LanguageEnglish ({}); }
 :set ($LanguageEnglish->"check-health.cpu.recovery.message") "The average CPU utilization on {identity} decreased to {percent}%.";

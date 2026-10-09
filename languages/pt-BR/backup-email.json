@@ -1,0 +1,17 @@
+{
+  "language": "pt-BR",
+  "schema": "6201857c577c64cf3f19c5400167dd34edce408ca3fdce8c115ad4f9c88a12ee",
+  "messages": {
+    "backup-email.partition": "Executando a partir da partição de backup; operação recusada.",
+    "backup-email.directory": "Falha ao criar o diretório!",
+    "backup-email.options": "A configuração não permite enviar backup nem exportação da configuração.",
+    "backup-email.none": "nenhum",
+    "backup-email.label.backup": "Arquivo de backup",
+    "backup-email.label.export": "Arquivo de exportação",
+    "backup-email.label.config": "Arquivo de configuração",
+    "backup-email.email.unavailable": "O módulo de notificações por e-mail não está instalado.",
+    "backup-email.email.failed": "Os arquivos ainda estão disponíveis; o envio por e-mail falhou.",
+    "backup-email.subject": "Backup e configuração",
+    "backup-email.message": "Consulte os arquivos anexos para o backup e a exportação da configuração de {identity}.\n\n{device}\n\n{details}"
+  }
+}

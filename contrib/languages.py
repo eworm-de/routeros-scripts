@@ -66,7 +66,7 @@ def render(check=False):
             if len(body.encode('utf-8')) > 50000:
                 raise ValueError(f"Catalog too large: {translated}")
             outputs[translated] = body
-        block = BEGIN + '\n:global LanguageEnglish;\n'
+        block = BEGIN + f'\n# language, name={group}, schema={schema}\n:global LanguageEnglish;\n'
         block += ':if ([ :typeof $LanguageEnglish ] != "array") do={ :set LanguageEnglish ({}); }\n'
         for key, text in sorted(messages.items()):
             block += f':set ($LanguageEnglish->{quote(key)}) {quote(text)};\n'
@@ -80,9 +80,16 @@ def render(check=False):
             source = source[:pos] + '\n' + block + '\n' + source[pos:]
         outputs[target] = source
     runtime = (ROOT / 'languages/runtime.rsc').read_text(encoding='utf-8')
-    block = BEGIN + '\n:global LanguageSchemas {\n'
-    block += ''.join(f'  {quote(group)}={quote(schema)};\n' for group, schema in sorted(schemas.items()))
-    block += '};\n' + runtime + END
+    block = BEGIN + '''
+# Discover catalog schemas from installed scripts, so unused features need no downloads.
+:global LanguageSchemas ({});
+:foreach Script in=[ /system/script/find ] do={
+  :local Info [ $ParseKeyValueStore [ $Grep [ /system/script/get $Script source ] "# language, " ] ];
+  :if ([ :len ($Info->"schema") ] = 64 && ($Info->"name") ~ "^[a-z0-9-]+\\$") do={
+    :set ($LanguageSchemas->($Info->"name")) ($Info->"schema");
+  }
+}
+''' + runtime + END
     core = ROOT / 'global-functions.rsc'
     source = core.read_text(encoding='utf-8')
     if BEGIN in source:

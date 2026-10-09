@@ -1,0 +1,17 @@
+{
+  "language": "pt-BR",
+  "schema": "1d68cb944d178c8731db42b15cc1dc9e76c76322543a57e366c56830ef3b644d",
+  "messages": {
+    "backup-cloud.partition": "Executando a partir da partição de backup; operação recusada.",
+    "backup-cloud.directory": "Falha ao criar o diretório!",
+    "backup-cloud.subject": "Backup na nuvem",
+    "backup-cloud.subject.failed": "Falha no backup na nuvem",
+    "backup-cloud.message": "Backup de {identity} enviado para a nuvem.\n\n{device}\n\n{details}",
+    "backup-cloud.message.failed": "Falha ao enviar o backup de {identity} para a nuvem!\n\n{device}",
+    "backup-cloud.upload.failed": "Falha ao enviar o backup de {identity} para a nuvem!",
+    "backup-cloud.retry": "Nova tentativa bem-sucedida; desconsidere os erros de conexão anteriores.",
+    "backup-cloud.label.name": "Nome",
+    "backup-cloud.label.size": "Tamanho",
+    "backup-cloud.label.key": "Chave de download"
+  }
+}

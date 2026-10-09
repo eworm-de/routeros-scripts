@@ -209,8 +209,8 @@ the overlay as well:
 This last step is required when ever you make changes to your configuration.
 
 English is the default notification language. See [Languages](doc/languages.md)
-to select another language or contribute translations. The initial localization
-phase covers health notifications and their plugins.
+to select another language or contribute translations. Current coverage includes
+health notifications and their plugins, plus cloud, email, and upload backups.
 
 > ℹ️ **Info**: It is recommended to edit the configuration using the command
 > line interface. If using Winbox on Windows OS, the line endings may be

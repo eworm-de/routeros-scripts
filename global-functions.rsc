@@ -1398,7 +1398,8 @@
     /system/script/set owner=($ScriptVal->"name") policy=($ScriptVal->"policy") \
         dont-require-permissions=($ScriptVal->"dont-require-permissions") \
         source=[ $IfThenElse ($ScriptUpdatesCRLF = true) $SourceCRLF $SourceNew ] $Script;
-    :if ($ScriptVal->"name" ~ ("^(global-config|global-functions(\\.d/.+)?|mod/.+)\$")) do={
+    :if ($ScriptVal->"name" ~ ("^(global-config|global-functions(\\.d/.+)?|mod/.+)\$") || \
+         [ :len [ $Grep $SourceNew "# language, " ] ] > 0) do={
       :set ReloadGlobal true;
     }
   }
@@ -1878,9 +1879,14 @@
 }
 
 # BEGIN GENERATED LANGUAGE DATA
-:global LanguageSchemas {
-  "check-health"="46a1c96fc663c6ec3c3f676c07e02aedf8dc2b606ec48848159b601ed88bf852";
-};
+# Discover catalog schemas from installed scripts, so unused features need no downloads.
+:global LanguageSchemas ({});
+:foreach Script in=[ /system/script/find ] do={
+  :local Info [ $ParseKeyValueStore [ $Grep [ /system/script/get $Script source ] "# language, " ] ];
+  :if ([ :len ($Info->"schema") ] = 64 && ($Info->"name") ~ "^[a-z0-9-]+\$") do={
+    :set ($LanguageSchemas->($Info->"name")) ($Info->"schema");
+  }
+}
 # Translation helpers. Embedded in global-functions.rsc by contrib/languages.py.
 :global Translate;
 :global LanguageUpdate;

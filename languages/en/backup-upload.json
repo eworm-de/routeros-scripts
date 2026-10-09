@@ -1,0 +1,22 @@
+{
+  "language": "en",
+  "schema": "ac3b0aa1324d76ce3ef1515ba46a556bd27200aeea4ad75af6d1e26fd41bf67d",
+  "messages": {
+    "backup-upload.partition": "Running from backup partition, refusing to act.",
+    "backup-upload.directory": "Failed creating directory!",
+    "backup-upload.options": "Configured to send neither backup nor config export.",
+    "backup-upload.none": "none",
+    "backup-upload.label.backup": "Backup file",
+    "backup-upload.label.export": "Export file",
+    "backup-upload.label.config": "Config file",
+    "backup-upload.upload.backup.failed": "Uploading backup file failed: {error}",
+    "backup-upload.upload.export.failed": "Uploading configuration export failed: {error}",
+    "backup-upload.upload.config.failed": "Uploading global-config-overlay failed: {error}",
+    "backup-upload.subject": "Backup & Config upload",
+    "backup-upload.subject.failed": "Backup & Config upload with failure",
+    "backup-upload.message": "Backup and config export upload for {identity}.\n\n{device}\n\n{details}",
+    "backup-upload.failed": "failed",
+    "backup-upload.label.name": "    name",
+    "backup-upload.label.size": "    size"
+  }
+}

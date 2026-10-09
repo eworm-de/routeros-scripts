@@ -9,6 +9,23 @@
 # create and email backup and config file
 # https://rsc.eworm.de/doc/backup-email.md
 
+# BEGIN GENERATED LANGUAGE DATA
+# language, name=backup-email, schema=6201857c577c64cf3f19c5400167dd34edce408ca3fdce8c115ad4f9c88a12ee
+:global LanguageEnglish;
+:if ([ :typeof $LanguageEnglish ] != "array") do={ :set LanguageEnglish ({}); }
+:set ($LanguageEnglish->"backup-email.directory") "Failed creating directory!";
+:set ($LanguageEnglish->"backup-email.email.failed") "Files are still available, sending e-mail failed.";
+:set ($LanguageEnglish->"backup-email.email.unavailable") "The module for sending notifications via e-mail is not installed.";
+:set ($LanguageEnglish->"backup-email.label.backup") "Backup file";
+:set ($LanguageEnglish->"backup-email.label.config") "Config file";
+:set ($LanguageEnglish->"backup-email.label.export") "Export file";
+:set ($LanguageEnglish->"backup-email.message") "See attached files for backup and config export for {identity}.\0A\0A{device}\0A\0A{details}";
+:set ($LanguageEnglish->"backup-email.none") "none";
+:set ($LanguageEnglish->"backup-email.options") "Configured to send neither backup nor config export.";
+:set ($LanguageEnglish->"backup-email.partition") "Running from backup partition, refusing to act.";
+:set ($LanguageEnglish->"backup-email.subject") "Backup & Config";
+# END GENERATED LANGUAGE DATA
+
 :onerror Err {
   :global GlobalConfigReady; :global GlobalFunctionsReady;
   :retry { :if ($GlobalConfigReady != true || $GlobalFunctionsReady != true) \
@@ -28,7 +45,9 @@
   :global CleanName;
   :global DeviceInfo;
   :global FileExists;
+  :global IfThenElse;
   :global FormatLine;
+  :global Translate;
   :global LogPrint;
   :global MkDir;
   :global RandomDelay;
@@ -40,13 +59,13 @@
   :global WaitFullyConnected;
 
   :if ([ :typeof $SendEMail2 ] = "nothing") do={
-    $LogPrint error $ScriptName ("The module for sending notifications via e-mail is not installed.");
+    $LogPrint error $ScriptName ([ $Translate "backup-email.email.unavailable" ]);
     :exit;
   }
 
   :if ($BackupSendBinary != true && \
        $BackupSendExport != true) do={
-    $LogPrint error $ScriptName ("Configured to send neither backup nor config export.");
+    $LogPrint error $ScriptName ([ $Translate "backup-email.options" ]);
     :exit;
   }
 
@@ -56,7 +75,7 @@
   }
 
   :if ([ :len [ /system/scheduler/find where name="running-from-backup-partition" ] ] > 0) do={
-    $LogPrint warning $ScriptName ("Running from backup partition, refusing to act.");
+    $LogPrint warning $ScriptName ([ $Translate "backup-email.partition" ]);
     :set PackagesUpdateBackupFailure true;
     :exit;
   }
@@ -79,7 +98,7 @@
   :local Attach ({});
 
   :if ([ $MkDir $DirName ] = false) do={
-    $LogPrint error $ScriptName ("Failed creating directory!");
+    $LogPrint error $ScriptName ([ $Translate "backup-email.directory" ]);
     :exit;
   }
 
@@ -112,13 +131,10 @@
   # send email with status and files
   $SendEMail2 ({ origin=$ScriptName; \
     subject=([ $SymbolForNotification "floppy-disk,incoming-envelope" ] . \
-      "Backup & Config"); \
-    message=("See attached files for backup and config export for " . \
-      $Identity . ".\n\n" . \
-      [ $DeviceInfo ] . "\n\n" . \
-      [ $FormatLine "Backup file" $BackupFile ] . "\n" . \
-      [ $FormatLine "Export file" $ExportFile ] . "\n" . \
-      [ $FormatLine "Config file" $ConfigFile ]); \
+      [ $Translate "backup-email.subject" ]); \
+    message=([ $Translate "backup-email.message" ({ identity=$Identity; device=[ $DeviceInfo ]; details=([ $FormatLine [ $Translate "backup-email.label.backup" ] [ $IfThenElse ($BackupFile = "none") [ $Translate "backup-email.none" ] $BackupFile ] ] . "\n" . \
+      [ $FormatLine [ $Translate "backup-email.label.export" ] [ $IfThenElse ($ExportFile = "none") [ $Translate "backup-email.none" ] $ExportFile ] ] . "\n" . \
+      [ $FormatLine [ $Translate "backup-email.label.config" ] [ $IfThenElse ($ConfigFile = "none") [ $Translate "backup-email.none" ] $ConfigFile ] ]) }) ]); \
     attach=$Attach; remove-attach=true });
 
   # wait for the mail to be sent
@@ -131,7 +147,7 @@
       }
     } delay=1s max=120;
   } on-error={
-    $LogPrint warning $ScriptName ("Files are still available, sending e-mail failed.");
+    $LogPrint warning $ScriptName ([ $Translate "backup-email.email.failed" ]);
     :set PackagesUpdateBackupFailure true;
   }
   # do not remove the files here, as the mail is still queued!

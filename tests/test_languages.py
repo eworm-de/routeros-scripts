@@ -21,12 +21,18 @@ class CatalogTests(unittest.TestCase):
         languages.render(check=True)
 
     def test_all_call_sites_have_english_defaults(self):
-        messages = self.english['messages']
-        used = set()
-        for path in [ROOT / 'check-health.rsc', *sorted((ROOT / 'check-health.d').glob('*.rsc'))]:
-            source = path.read_text(encoding='utf-8')
-            used.update(re.findall(r'\$Translate "([^"]+)"', source))
-        self.assertEqual(set(messages), used)
+        for catalog in sorted((ROOT / 'languages/en').glob('*.json')):
+            messages = languages.load(catalog)['messages']
+            paths = [ROOT / (catalog.stem + '.rsc')]
+            extensions = ROOT / (catalog.stem + '.d')
+            if extensions.exists():
+                paths.extend(sorted(extensions.glob('*.rsc')))
+            used = set()
+            for path in paths:
+                source = path.read_text(encoding='utf-8')
+                used.update(re.findall(r'\$Translate "([^"]+)"', source))
+            with self.subTest(catalog=catalog.name):
+                self.assertEqual(set(messages), used)
 
     def test_dictionary_function_arguments_are_parenthesized(self):
         # RouterOS rejects a bare dictionary following a positional argument.

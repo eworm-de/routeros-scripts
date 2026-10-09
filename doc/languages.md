@@ -40,10 +40,11 @@ reload to return to English without downloading any catalog.
 
 ## Current coverage
 
-The initial phase translates `check-health` notifications and diagnostics,
-including the state, temperature, and voltage plugins. Other scripts and
-bootstrap diagnostics still use English. RouterOS-generated errors, sensor
-names, API fields, and units retain their original values.
+The first two phases translate `check-health` notifications and diagnostics
+(including state, temperature, and voltage plugins), plus `backup-cloud`,
+`backup-email`, and `backup-upload`. Other scripts and bootstrap diagnostics
+still use English. RouterOS-generated errors, sensor names, API fields,
+file paths, and internal status sentinels retain their original values.
 
 ## Contribute a translation
 
@@ -55,7 +56,10 @@ is parsed only as JSON and is never executed.
 
 English catalogs are the editable source of truth. `contrib/languages.py`
 embeds their defaults in generated blocks inside the scripts, along with
-schema identifiers. Do not edit those blocks directly.
+schema identifiers. Do not edit those blocks directly. The loader discovers
+catalog schemas from installed script headers, so uninstalled features require
+no downloads. Installing or updating a translated script reloads the schema
+index through the existing installer.
 
 ```sh
 python3 contrib/languages.py
@@ -109,6 +113,21 @@ The translation helper and download/cache tests passed on RouterOS 7.24.5
 `check-health` with an isolated notification sink produced the expected CPU
 warning subjects and bodies in English and Brazilian Portuguese, including
 accented characters. No external notifications were sent.
+
+The three translated backup scripts parsed successfully and their guarded
+failure diagnostics passed in both languages with isolated globals. These
+tests stopped before creating backups, sending mail, or uploading files.
+Catalog discovery was also tested against a temporary installed script; all
+temporary scripts, files, and globals were removed afterwards.
+
+### Remaining migration
+
+The full migration is still in progress. Next groups include remaining backup
+and upgrade scripts, certificate and licensing notifications, network and DNS
+scripts, wireless templates, notification modules, SMS and Telegram output,
+and shared helper diagnostics. Bootstrap messages and machine-readable strings
+need individual classification before changes. One upstream pull request will
+be opened after the full migration and its validation are complete.
 
 The minimum supported version (7.22), hardware sensor paths, and persistence
 across an actual reboot still need validation. Clearing the translation globals
