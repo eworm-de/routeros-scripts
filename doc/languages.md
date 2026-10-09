@@ -294,8 +294,8 @@ conditional donation/storage notices and the deferred partition warning, which
 captures the selected language and safely encodes its text for startup.
 
 Final validation on RouterOS 7.24.5 (x86_64, VMware; routeros and wireless)
-parsed 71 supported sources and ran the complete behavioral suite. All 1,374
-locale rendering checks and 1,374 native parameter checks passed. Real HTTPS
+parsed 72 supported sources and ran the complete behavioral suite. All 1,386
+locale rendering checks and 1,386 native parameter checks passed. Real HTTPS
 downloads verified the published core module byte-for-byte, shared catalogs,
 configuration diagnostics, and the transient changelog catalog. Offline cache,
 English reset, malformed JSON, stale schemas, and invalid locale tests passed.
