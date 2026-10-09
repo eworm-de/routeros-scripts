@@ -299,6 +299,6 @@
 # Apply language changes when an already initialized installation reloads config.
 :global GlobalFunctionsReady;
 :global LanguageUpdate;
-:if ($GlobalFunctionsReady = true && [ :typeof $LanguageUpdate ] = "code") do={
+:if ($GlobalFunctionsReady = true && [ :typeof $LanguageUpdate ] ~ "^(array|code)\$") do={
   :execute { :global LanguageUpdate; $LanguageUpdate; };
 }

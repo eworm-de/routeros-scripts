@@ -19,6 +19,7 @@ parser.add_argument('--messaging', action='store_true', help='Test SMS forwardin
 parser.add_argument('--network', action='store_true', help='Test firewall list diagnostics and bridge guards with simulated reads')
 parser.add_argument('--utilities', action='store_true', help='Test translated IP calculations, variable inspection and script-run guards')
 parser.add_argument('--standalone', action='store_true', help='Test generated local renderers with the global renderer unavailable')
+parser.add_argument('--reload', action='store_true', help='Test actual configuration and installer language-refresh hooks')
 args = parser.parse_args()
 if args.notifications:
     core = (root / 'global-functions.rsc').read_text(encoding='utf-8')
@@ -169,6 +170,15 @@ if args.standalone:
                 tests += ':if ([ $' + name + ' ] != ' + quote(expected) + ') do={ :error "Standalone local renderer failed"; };\n'
             count += 1
     tests += ':set Translate $SavedTranslate;\n:put ' + quote(f'{count} standalone renderers passed in both languages without global helpers.') + ';\n'
+if args.reload:
+    config = (root / 'global-config.rsc').read_text(encoding='utf-8')
+    hook = config[config.index('# Apply language changes when an already initialized installation reloads config.'):]
+    core = (root / 'global-functions.rsc').read_text(encoding='utf-8')
+    start = core.index('  # Refresh translations even when no RouterOS script changed.')
+    installer_hook = core[start:core.index('\n} do={', start)]
+    tests += ':global ReloadFixtureConfig do={\n' + hook + '\n};\n'
+    tests += ':global ReloadFixtureInstaller do={\n:global LanguageUpdate;\n' + installer_hook + '\n};\n'
+    tests += ':global ReloadFixtureTest do={\n' + (root / 'tests/language-reload.rsc').read_text(encoding='utf-8') + '\n};\n$ReloadFixtureTest;\n'
 if args.catalogs:
     sample = {'identity': 'test-router', 'name': 'test-sensor', 'date': '2026-10-09',
               'percent': 75, 'value': 120, 'error': 'test-error', 'interface': 'lte1',

@@ -1514,7 +1514,7 @@
     :set GlobalConfigMigration;
   }
   # Refresh translations even when no RouterOS script changed.
-  :if ([ :typeof $LanguageUpdate ] = "code") do={ $LanguageUpdate; }
+  :if ([ :typeof $LanguageUpdate ] ~ "^(array|code)\$") do={ $LanguageUpdate; }
 } do={
   :global ExitOnError; $ExitOnError $0 $Err;
 } }

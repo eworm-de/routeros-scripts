@@ -143,6 +143,11 @@ are replaced with local fixtures; no downloaded code runs.
 scripts, with the global translation helper unavailable. It tests both locales
 without running button actions, Hotspot login changes, or LTE upgrades.
 
+`--reload` exercises the real configuration and installer refresh hooks with
+both RouterOS function types (`array` for `do={...}`, `code` for `:parse`). The
+configuration hook runs only after the shared functions are ready. Fixtures
+replace the updater; installed scripts and configuration are not reloaded.
+
 To also test actual downloads, compatible caches, offline fallback, malformed
 JSON, stale schemas, and invalid language selections, supply the HTTPS base URL
 of a published branch containing these catalogs:
