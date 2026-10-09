@@ -8,6 +8,18 @@
 # forward log messages via notification
 # https://rsc.eworm.de/doc/log-forward.md
 
+# BEGIN GENERATED LANGUAGE DATA
+# language, name=log-forward, schema=295a2441ccf8e06593a7eedcf16e2ac316badd8c4111d4dab8823ac3b329473c
+:global LanguageEnglish;
+:if ([ :typeof $LanguageEnglish ] != "array") do={ :set LanguageEnglish ({}); }
+:set ($LanguageEnglish->"log-forward.delaying") "\0ARate limit in action, delaying forwarding.";
+:set ($LanguageEnglish->"log-forward.duplicates") " Multi-repeated messages have been skipped.";
+:set ($LanguageEnglish->"log-forward.limited") "Rate limit in action, not forwarding logs, if any!";
+:set ($LanguageEnglish->"log-forward.message.multiple") "The log on {identity} contains these {count} messages after {uptime} uptime.{duplicates}{delay}\0A{messages}";
+:set ($LanguageEnglish->"log-forward.message.single") "The log on {identity} contains this message after {uptime} uptime.{duplicates}{delay}\0A{messages}";
+:set ($LanguageEnglish->"log-forward.subject") "Log Forwarding";
+# END GENERATED LANGUAGE DATA
+
 :onerror Err {
   :global GlobalConfigReady; :global GlobalFunctionsReady;
   :retry { :if ($GlobalConfigReady != true || $GlobalFunctionsReady != true) \
@@ -26,6 +38,7 @@
   :global IfThenElse;
   :global LogForwardFilterLogForwarding;
   :global LogPrint;
+  :global Translate;
   :global MAX;
   :global ScriptLock;
   :global SendNotification2;
@@ -45,7 +58,7 @@
 
   :if ($LogForwardRateLimit > 30) do={
     :set LogForwardRateLimit ($LogForwardRateLimit - 1);
-    $LogPrint info $ScriptName ("Rate limit in action, not forwarding logs, if any!");
+    $LogPrint info $ScriptName [ $Translate "log-forward.limited" ];
     :exit;
   }
 
@@ -63,7 +76,8 @@
 
   :local LogAll [ /log/find ];
   :local Max ($LogAll->([ :len $LogAll ] - 1));
-  :local LogForwardFilterLogForwardingCached [ $EitherOr [ $LogForwardFilterLogForwarding ] ("\$^") ];
+  :local Subject [ $Translate "log-forward.subject" ];
+  :local LogForwardFilterLogForwardingCached [ $EitherOr [ $LogForwardFilterLogForwarding $Subject ] ("\$^") ];
 
   :foreach Message in=[ /log/find where .id>$LogForwardLast and .id<=$Max and \
       ((!(message="") and !(message~$LogForwardFilterLogForwardingCached) and \
@@ -94,14 +108,23 @@
   :if ($Count > 0) do={
     :set LogForwardRateLimit ($LogForwardRateLimit + 10);
 
+    :local DuplicateNotice "";
+    :local DelayNotice "";
+    :if ($Duplicates = true) do={ :set DuplicateNotice [ $Translate "log-forward.duplicates" ]; }
+    :if ($LogForwardRateLimit > 30) do={ :set DelayNotice [ $Translate "log-forward.delaying" ]; }
+    :local Summary [ $Translate "log-forward.message.multiple" \
+        ({ identity=$Identity; count=$Count; uptime=[ /system/resource/get uptime ]; \
+        duplicates=$DuplicateNotice; delay=$DelayNotice; messages=$Messages }) ];
+    :if ($Count = 1) do={
+      :set Summary [ $Translate "log-forward.message.single" \
+          ({ identity=$Identity; uptime=[ /system/resource/get uptime ]; \
+          duplicates=$DuplicateNotice; delay=$DelayNotice; messages=$Messages }) ];
+    }
+
     $SendNotification2 ({ origin=$ScriptName; \
       subject=([ $SymbolForNotification ("memo" . [ $IfThenElse ($Warning = true) ",warning-sign" ]) ] . \
-        "Log Forwarding"); \
-      message=("The log on " . $Identity . " contains " . [ $IfThenElse ($Count = 1) "this message" \
-        ("these " . $Count . " messages") ] . " after " . [ /system/resource/get uptime ] . " uptime." . \
-        [ $IfThenElse ($Duplicates = true) (" Multi-repeated messages have been skipped.") ] . \
-        [ $IfThenElse ($LogForwardRateLimit > 30) ("\nRate limit in action, delaying forwarding.") ] . \
-        "\n" . $Messages) });
+        $Subject); \
+      message=$Summary });
   } else={
     :set LogForwardRateLimit [ $MAX 0 ($LogForwardRateLimit - 1) ];
   }

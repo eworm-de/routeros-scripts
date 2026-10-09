@@ -48,6 +48,10 @@ class CatalogTests(unittest.TestCase):
                 # into an empty array when the expression occurs in a block.
                 self.assertIsNone(re.search(r'\$Translate "[^"]+"[^\n]*(?:\\\n\s*)?\(\{[^{}]*;\s*\}\)',
                                             path.read_text(encoding='utf-8')))
+                # RouterOS accepts unquoted underscore keys syntactically but
+                # does not pass them as the intended dictionary entry.
+                self.assertIsNone(re.search(r'\$Translate "[^"]+"[^\n]*(?:\\\n\s*)?\(\{[^{}]*\b[a-z]+_[a-z_]+=',
+                                            path.read_text(encoding='utf-8')))
 
     def test_english_preserves_health_messages(self):
         self.assertEqual(self.english['messages']['check-health.cpu.warning.message'],

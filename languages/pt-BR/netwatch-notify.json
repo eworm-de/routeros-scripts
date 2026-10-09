@@ -1,0 +1,30 @@
+{
+  "language": "pt-BR",
+  "messages": {
+    "netwatch-notify.type.host": "host",
+    "netwatch-notify.type.service": "serviço",
+    "netwatch-notify.state.up": "ativo",
+    "netwatch-notify.state.down": "inativo",
+    "netwatch-notify.state.pre-down": "pré-inatividade",
+    "netwatch-notify.hook.failed": "Falha ao executar o hook de estado {state} para {type} '{name}': {error}",
+    "netwatch-notify.hook.failed.message": "Falha ao executar o hook.",
+    "netwatch-notify.hook.syntax": "A sintaxe do hook de estado {state} para {type} '{name}' é inválida.",
+    "netwatch-notify.hook.syntax.message": "A sintaxe do hook é inválida.",
+    "netwatch-notify.hook.ran": "Hook executado em {type} '{name}' no estado {state}: {hook}",
+    "netwatch-notify.hook.ran.message": "Hook executado:\n{hook}",
+    "netwatch-notify.resolve.updated": "O nome '{resolve}' resolve para outro endereço, {address}; atualizando.",
+    "netwatch-notify.resolve.named.updated": "O nome '{resolve}' para {type} '{name}' resolve para outro endereço, {address}; atualizando.",
+    "netwatch-notify.resolve.failed": "A resolução do nome '{resolve}' falhou pela terceira vez: {error}",
+    "netwatch-notify.resolve.named.failed": "A resolução do nome '{resolve}' para {type} '{name}' falhou pela terceira vez: {error}",
+    "netwatch-notify.up": "O {type} '{name}' ({details}) está ativo.",
+    "netwatch-notify.up.message": "O {type} '{name}' ({details}) está ativo desde {since}.\nFicou inativo por {count} verificações desde {down_since}.",
+    "netwatch-notify.note": "\n\nNota:\n{note}",
+    "netwatch-notify.up.subject": "Notificação Netwatch: {name} ativo",
+    "netwatch-notify.down.subject": "Notificação Netwatch: {name} inativo",
+    "netwatch-notify.down.waiting": "O {type} '{name}' ({details}) está inativo há {count} verificações; faltam {remaining}.",
+    "netwatch-notify.down.notified": "O {type} '{name}' ({details}) está inativo há {count} verificações; a notificação já foi enviada.",
+    "netwatch-notify.down.parent": "O {type} '{name}' ({details}) está inativo há {count} verificações; o {type} pai {parent} está inativo.",
+    "netwatch-notify.down.message": "O {type} '{name}' ({details}) está inativo desde {since}."
+  },
+  "schema": "7599eb0829fe6e5e2de9cf05b5bf721fd5b4cd7ce0726daf8735d47e695d7240"
+}

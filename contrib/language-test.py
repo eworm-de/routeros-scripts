@@ -13,7 +13,44 @@ tests = (root / 'tests/languages.rsc').read_text(encoding='utf-8')
 parser = argparse.ArgumentParser(description=__doc__)
 parser.add_argument('--base-url', help='HTTPS distribution URL; also run catalog download/cache tests')
 parser.add_argument('--catalogs', action='store_true', help='Test every catalog message on RouterOS')
+parser.add_argument('--notifications', action='store_true', help='Test notification guards and the email loop filter without sending')
+parser.add_argument('--netwatch', action='store_true', help='Test Netwatch state transitions with simulated hosts and a local notification sink')
 args = parser.parse_args()
+if args.notifications:
+    core = (root / 'global-functions.rsc').read_text(encoding='utf-8')
+    modules = ':global NotificationFunctions ({});\n'
+    for name in ('CharacterMultiply', 'EscapeForRegEx'):
+        start = core.index(':set ' + name + ' do={')
+        end = core.index('\n}\n', start) + 3
+        modules += ':global ' + name + ';\n' + core[start:end] + '\n'
+    translated = {}
+    for name in ('notification-email', 'notification-matrix', 'notification-telegram'):
+        modules += (root / 'mod' / (name + '.rsc')).read_text(encoding='utf-8') + '\n'
+        translated.update(load(root / 'languages/pt-BR' / (name + '.json'))['messages'])
+    tests += '\n' + modules
+    tests += ':set LanguageMessages ([:deserialize from=json options=json.no-string-conversion ' + quote(json.dumps(translated, ensure_ascii=False)) + ']);\n'
+    tests += (root / 'tests/language-notifications.rsc').read_text(encoding='utf-8')
+if args.netwatch:
+    core = (root / 'global-functions.rsc').read_text(encoding='utf-8')
+    for name in ('EitherOr', 'IfThenElse'):
+        start = core.index(':set ' + name + ' do={')
+        end = core.index('\n}\n', start) + 3
+        tests += ':global ' + name + ';\n' + core[start:end] + '\n'
+    feature = (root / 'netwatch-notify.rsc').read_text(encoding='utf-8')
+    # Replace only device reads; the actual state and rendering logic runs intact.
+    replacements = {
+        '[ /tool/netwatch/find where comment~"\\\\bnotify\\\\b" !disabled status!="unknown" ]': '{ "fixture" }',
+        '[ /tool/netwatch/get $Host ]': '$NetwatchFixtureHost',
+        '[ $ParseKeyValueStore ($HostVal->"comment") ]': '$NetwatchFixtureInfo',
+    }
+    for old, new in replacements.items():
+        if feature.count(old) != 1:
+            raise ValueError('Netwatch fixture read no longer matches: ' + old)
+        feature = feature.replace(old, new)
+    tests += ':global NetwatchFixtureRun do={\n:global NetwatchFixtureHost; :global NetwatchFixtureInfo;\n' + feature + '\n};\n'
+    translated = load(root / 'languages/pt-BR/netwatch-notify.json')['messages']
+    tests += ':set LanguageMessages ([:deserialize from=json options=json.no-string-conversion ' + quote(json.dumps(translated, ensure_ascii=False)) + ']);\n'
+    tests += ':global NetwatchFixtureTest do={\n' + (root / 'tests/language-netwatch.rsc').read_text(encoding='utf-8') + '\n};\n$NetwatchFixtureTest;\n'
 if args.catalogs:
     sample = {'identity': 'test-router', 'name': 'test-sensor', 'date': '2026-10-09',
               'percent': 75, 'value': 120, 'error': 'test-error', 'interface': 'lte1',

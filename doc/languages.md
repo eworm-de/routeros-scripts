@@ -123,6 +123,15 @@ and native dictionary literals:
 python3 contrib/language-test.py --catalogs > /tmp/language-tests.rsc
 ```
 
+Add `--notifications` to exercise queue guards and the email log-forwarding loop
+filter. Add `--netwatch` to exercise actual Netwatch state transitions with
+simulated hosts, a local notification sink, parent suppression, and invalid
+hooks. These tests do not send notifications or change Netwatch entries:
+
+```sh
+python3 contrib/language-test.py --catalogs --notifications --netwatch > /tmp/language-tests.rsc
+```
+
 To also test actual downloads, compatible caches, offline fallback, malformed
 JSON, stale schemas, and invalid language selections, supply the HTTPS base URL
 of a published branch containing these catalogs:
@@ -180,11 +189,22 @@ parsed on the VM. Ntfy/Gotify offline queue guards and SSH import argument guard
 produced the expected diagnostics in both locales with isolated globals. These
 tests did not send notifications or import SSH keys.
 
+The remaining notification modules, log forwarding, and Netwatch brought
+coverage to 379 messages. All 758 locale rendering checks and 758 native
+dictionary checks passed on the VM, together with syntax checks for the five
+sources. Email filtering recognized translated and historical encoded subjects,
+including punctuation and Unicode, and rejected unrelated subjects. Netwatch
+thresholds, duplicate suppression, recovery, parent suppression, and invalid
+hooks passed in both languages using simulated host reads. Notification queue
+guards passed without sending messages. Matrix HTML delivery, DNS-driven
+Netwatch updates, and real notification services still require integration
+validation.
+
 ### Remaining migration
 
 The full migration is still in progress. Next groups include unattended LTE
-upgrades, Netwatch notifications, remaining network scripts and wireless templates, notification
-modules, SMS and Telegram output, and shared helper diagnostics. Bootstrap
+upgrades, remaining network scripts and wireless templates, SMS and Telegram
+output, and shared helper diagnostics. Bootstrap
 messages and machine-readable strings
 need individual classification before changes. One upstream pull request will
 be opened after the full migration and its validation are complete.
