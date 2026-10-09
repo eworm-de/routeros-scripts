@@ -150,14 +150,20 @@ python3 contrib/language-test.py > /tmp/language-tests.rsc
 Import that file on the test device. It tests the translation helper without
 running health checks or changing the installed configuration.
 
-Add `--catalogs` to check every message in every available locale on RouterOS,
+Add `--catalogs --locale <code>` to check every message in a locale on RouterOS,
 including accented characters, multiline text, numeric parameters, and literal
 braces in parameter values. Each message is checked with both JSON parameters
 and native dictionary literals:
 
 ```sh
-python3 contrib/language-test.py --catalogs > /tmp/language-tests.rsc
+python3 contrib/language-test.py --catalogs --locale ja > /tmp/language-tests.rsc
 ```
+
+Repeat generation and import for each locale in the table above. Repeat
+`--locale` to combine selected locales. Omitting it builds one bundle for all
+locales, currently about 9 MB; the test VM restarted during that import.
+Use one locale per import on devices with limited memory. This size belongs to
+the development fixtures; individual production catalogs are below 17 KB.
 
 Add `--notifications` to exercise queue guards and the email log-forwarding loop
 filter. Add `--netwatch` to exercise actual Netwatch state transitions with
@@ -168,7 +174,7 @@ bridge/VLAN DHCP guards with simulated reads. These tests do not send notificati
 commands, delete real SMS, or change Netwatch entries:
 
 ```sh
-python3 contrib/language-test.py --catalogs --notifications --netwatch --messaging --network > /tmp/language-tests.rsc
+python3 contrib/language-test.py --notifications --netwatch --messaging --network > /tmp/language-tests.rsc
 ```
 
 `--utilities` checks IP calculation output and unchanged return values, recursive
@@ -340,6 +346,14 @@ Human-facing runtime notifications, diagnostics, and display labels are now
 catalog-backed. Comments, documentation examples, password word lists, received
 commands, API fields/statuses, certificate names, configuration identifiers, and
 native RouterOS log/error patterns retain their original values.
+
+The expansion to 15 locales passed 10,395 rendering checks and 10,395 native
+dictionary checks on the same RouterOS 7.24.5 VM, importing one locale per
+bundle. Real verified HTTPS downloads and health-message rendering passed for
+all 14 non-English locales. The complete behavioral suite, cache/fallback tests,
+locale validation (including `pcm`), and 12 Python checks passed. All temporary
+test globals, files, scripts and schedulers were removed. Native linguistic
+review remains pending for the new assisted translations.
 
 The minimum supported version (7.22), hardware sensor paths, and persistence
 across an actual reboot still need validation. Clearing the translation globals

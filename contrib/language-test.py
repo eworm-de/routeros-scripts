@@ -15,6 +15,7 @@ payloads = []
 parser = argparse.ArgumentParser(description=__doc__)
 parser.add_argument('--base-url', help='HTTPS distribution URL; also run catalog download/cache tests')
 parser.add_argument('--catalogs', action='store_true', help='Test every catalog message on RouterOS')
+parser.add_argument('--locale', action='append', help='Limit catalog rendering to this locale; repeat to select several (requires --catalogs)')
 parser.add_argument('--notifications', action='store_true', help='Test notification guards and the email loop filter without sending')
 parser.add_argument('--netwatch', action='store_true', help='Test Netwatch state transitions with simulated hosts and a local notification sink')
 parser.add_argument('--messaging', action='store_true', help='Test SMS forwarding and Telegram chat with simulated inboxes')
@@ -24,6 +25,12 @@ parser.add_argument('--standalone', action='store_true', help='Test generated lo
 parser.add_argument('--reload', action='store_true', help='Test actual configuration and installer language-refresh hooks')
 parser.add_argument('--core', action='store_true', help='Test required core-module bootstrap with isolated scripts and simulated downloads')
 args = parser.parse_args()
+if args.locale:
+    if not args.catalogs:
+        parser.error('--locale requires --catalogs')
+    for locale in args.locale:
+        if locale not in {path.name for path in (root / 'languages').iterdir() if path.is_dir()}:
+            parser.error('Unknown locale: ' + locale)
 if args.notifications:
     core = (root / 'global-functions.rsc').read_text(encoding='utf-8')
     modules = ':global NotificationFunctions ({});\n'
@@ -267,6 +274,8 @@ if args.catalogs:
         english = load(path)['messages']
         tests += '\n:set LanguageEnglish ([:deserialize from=json options=json.no-string-conversion ' + quote(json.dumps(english, ensure_ascii=False)) + ']);\n'
         for locale in sorted((root / 'languages').iterdir()):
+            if args.locale and locale.name not in args.locale:
+                continue
             if not locale.is_dir() or not (locale / path.name).exists():
                 continue
             translated = load(locale / path.name)['messages']
