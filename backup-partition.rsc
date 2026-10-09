@@ -10,6 +10,21 @@
 # save configuration to fallback partition
 # https://rsc.eworm.de/doc/backup-partition.md
 
+# BEGIN GENERATED LANGUAGE DATA
+# language, name=backup-partition, schema=feb856d096790e5ec8f023c6343b50c61883ec9c090854363a9cfbe685d906ef
+:global LanguageEnglish;
+:if ([ :typeof $LanguageEnglish ] != "array") do={ :set LanguageEnglish ({}); }
+:set ($LanguageEnglish->"backup-partition.copied") "Copied RouterOS to partition '{name}'.";
+:set ($LanguageEnglish->"backup-partition.copy.failed") "Failed copying RouterOS to partition '{name}': {error}";
+:set ($LanguageEnglish->"backup-partition.fallback.missing") "There is no inactive partition named '{name}'.";
+:set ($LanguageEnglish->"backup-partition.inactive") "Device is not running from active partition.";
+:set ($LanguageEnglish->"backup-partition.partition") "Running from backup partition, refusing to act.";
+:set ($LanguageEnglish->"backup-partition.prompt") "The partitions have different RouterOS versions. Copy over to '{name}'? [y/N]";
+:set ($LanguageEnglish->"backup-partition.save.failed") "Failed saving configuration to partition '{name}': {error}";
+:set ($LanguageEnglish->"backup-partition.saved") "Saved configuration to partition '{name}'.";
+:set ($LanguageEnglish->"backup-partition.unavailable") "Device does not have a fallback partition.";
+# END GENERATED LANGUAGE DATA
+
 :onerror Err {
   :global GlobalConfigReady; :global GlobalFunctionsReady;
   :retry { :if ($GlobalConfigReady != true || $GlobalFunctionsReady != true) \
@@ -19,6 +34,7 @@
   :global BackupPartitionCopyBeforeFeatureUpdate;
   :global PackagesUpdateBackupFailure;
 
+  :global Translate;
   :global LogPrint;
   :global ScriptFromTerminal;
   :global ScriptLock;
@@ -29,13 +45,14 @@
     :local FallbackTo [ :toid  $2 ];
     :local PartName   [ :tostr $3 ];
 
+    :global Translate;
     :global LogPrint;
 
     :onerror Err {
       /partitions/copy-to $FallbackTo;
-      $LogPrint info $ScriptName ("Copied RouterOS to partition '" . $PartName . "'.");
+      $LogPrint info $ScriptName ([ $Translate "backup-partition.copied" ({ name=$PartName }) ]);
     } do={
-      $LogPrint error $ScriptName ("Failed copying RouterOS to partition '" . $PartName . "': " . $Err);
+      $LogPrint error $ScriptName ([ $Translate "backup-partition.copy.failed" ({ name=$PartName; error=$Err }) ]);
       :return false;
     }
     :return true;
@@ -47,13 +64,13 @@
   }
 
   :if ([ :len [ /system/scheduler/find where name="running-from-backup-partition" ] ] > 0) do={
-    $LogPrint warning $ScriptName ("Running from backup partition, refusing to act.");
+    $LogPrint warning $ScriptName ([ $Translate "backup-partition.partition" ]);
     :set PackagesUpdateBackupFailure true;
     :exit;
   }
 
   :if ([ :len [ /partitions/find ] ] < 2) do={
-    $LogPrint error $ScriptName ("Device does not have a fallback partition.");
+    $LogPrint error $ScriptName ([ $Translate "backup-partition.unavailable" ]);
     :set PackagesUpdateBackupFailure true;
     :exit;
   }
@@ -61,7 +78,7 @@
   :local ActiveRunning [ /partitions/find where active running ];
 
   :if ([ :len $ActiveRunning ] < 1) do={
-    $LogPrint error $ScriptName ("Device is not running from active partition.");
+    $LogPrint error $ScriptName ([ $Translate "backup-partition.inactive" ]);
     :set PackagesUpdateBackupFailure true;
     :exit;
   }
@@ -70,7 +87,7 @@
   :local FallbackTo [ /partition/find where name=($ActiveRunningVal->"fallback-to") !active ];
 
   :if ([ :len $FallbackTo ] < 1) do={
-    $LogPrint error $ScriptName ("There is no inactive partition named '" . ($ActiveRunningVal->"fallback-to") . "'.");
+    $LogPrint error $ScriptName ([ $Translate "backup-partition.fallback.missing" ({ name=($ActiveRunningVal->"fallback-to") }) ]);
     :set PackagesUpdateBackupFailure true;
     :exit;
   }
@@ -91,7 +108,7 @@
       }
 
       :if ([ $ScriptFromTerminal $ScriptName ] = true) do={
-        :put ("The partitions have different RouterOS versions. Copy over to '" . ($FallbackToVal->"name") . "'? [y/N]");
+        :put ([ $Translate "backup-partition.prompt" ({ name=($FallbackToVal->"name") }) ]);
         :if (([ /terminal/inkey timeout=60 ] % 32) = 25) do={
           :if ([ $CopyTo $ScriptName $FallbackTo ($FallbackToVal->"name") ] = false) do={
             :set PackagesUpdateBackupFailure true;
@@ -121,11 +138,10 @@
         "[ /partitions/get [ find where running ] name ] . \"'!\")");
     /partitions/save-config-to $FallbackTo;
     /system/scheduler/remove "running-from-backup-partition";
-    $LogPrint info $ScriptName ("Saved configuration to partition '" . ($FallbackToVal->"name") . "'.");
+    $LogPrint info $ScriptName ([ $Translate "backup-partition.saved" ({ name=($FallbackToVal->"name") }) ]);
   } do={
     /system/scheduler/remove [ find where name="running-from-backup-partition" ];
-    $LogPrint error $ScriptName ("Failed saving configuration to partition '" . \
-        ($FallbackToVal->"name") . "': " . $Err);
+    $LogPrint error $ScriptName ([ $Translate "backup-partition.save.failed" ({ name=($FallbackToVal->"name"); error=$Err }) ]);
     :set PackagesUpdateBackupFailure true;
     :exit;
   }

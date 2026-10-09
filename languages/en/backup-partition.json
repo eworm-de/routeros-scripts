@@ -1,0 +1,15 @@
+{
+  "language": "en",
+  "schema": "feb856d096790e5ec8f023c6343b50c61883ec9c090854363a9cfbe685d906ef",
+  "messages": {
+    "backup-partition.copied": "Copied RouterOS to partition '{name}'.",
+    "backup-partition.copy.failed": "Failed copying RouterOS to partition '{name}': {error}",
+    "backup-partition.partition": "Running from backup partition, refusing to act.",
+    "backup-partition.unavailable": "Device does not have a fallback partition.",
+    "backup-partition.inactive": "Device is not running from active partition.",
+    "backup-partition.fallback.missing": "There is no inactive partition named '{name}'.",
+    "backup-partition.prompt": "The partitions have different RouterOS versions. Copy over to '{name}'? [y/N]",
+    "backup-partition.saved": "Saved configuration to partition '{name}'.",
+    "backup-partition.save.failed": "Failed saving configuration to partition '{name}': {error}"
+  }
+}

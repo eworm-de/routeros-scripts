@@ -9,6 +9,52 @@
 # check for certificate validity
 # https://rsc.eworm.de/doc/check-certificates.md
 
+# BEGIN GENERATED LANGUAGE DATA
+# language, name=check-certificates, schema=470ef2fd806d0e33ea04acd3af97465171413917bd9d674c28b1a80d68cf7953
+:global LanguageEnglish;
+:if ([ :typeof $LanguageEnglish ] != "array") do={ :set LanguageEnglish ({}); }
+:set ($LanguageEnglish->"check-certificates.chain.incomplete") " (possibly incomplete!)";
+:set ($LanguageEnglish->"check-certificates.chain.missing") "The certificate chain is not available!";
+:set ($LanguageEnglish->"check-certificates.chain.self") "self-signed";
+:set ($LanguageEnglish->"check-certificates.decryption.failed") "Decryption failed for certificate file '{file}'.";
+:set ($LanguageEnglish->"check-certificates.download.failed") "Failed fetching certificate by '{name}': {error}";
+:set ($LanguageEnglish->"check-certificates.download.try") "Trying type '{type}' for '{name}' (file '{file}')...";
+:set ($LanguageEnglish->"check-certificates.download.unavailable") "Could not download certificate file '{file}'.";
+:set ($LanguageEnglish->"check-certificates.label.alternatives") "SubjectAltNames";
+:set ($LanguageEnglish->"check-certificates.label.chain") "Issuer chain";
+:set ($LanguageEnglish->"check-certificates.label.common") "CommonName";
+:set ($LanguageEnglish->"check-certificates.label.days") "    days";
+:set ($LanguageEnglish->"check-certificates.label.fingerprint") "Fingerprint";
+:set ($LanguageEnglish->"check-certificates.label.from") "    from";
+:set ($LanguageEnglish->"check-certificates.label.issuer") "Issuer";
+:set ($LanguageEnglish->"check-certificates.label.key") "Subject Key Id";
+:set ($LanguageEnglish->"check-certificates.label.left") "    time left";
+:set ($LanguageEnglish->"check-certificates.label.name") "Name";
+:set ($LanguageEnglish->"check-certificates.label.private") "Private key";
+:set ($LanguageEnglish->"check-certificates.label.to") "    to";
+:set ($LanguageEnglish->"check-certificates.label.validity") "Validity:\0A";
+:set ($LanguageEnglish->"check-certificates.passphrase.try") "Trying {index}. passphrase... ";
+:set ($LanguageEnglish->"check-certificates.renew.failed") "Could not renew certificate '{name}'.";
+:set ($LanguageEnglish->"check-certificates.renew.key.missing") "Old certificate '{name}' has a private key, new certificate does not. Aborting renew.";
+:set ($LanguageEnglish->"check-certificates.renew.log") "The certificate '{name}' has been renewed.";
+:set ($LanguageEnglish->"check-certificates.renew.message") "A certificate on {identity} has been renewed.\0A\0A{details}";
+:set ($LanguageEnglish->"check-certificates.renew.older") "Old certificate is newer than the new one. Aborting renew.";
+:set ($LanguageEnglish->"check-certificates.renew.replaced") "Certificate '{name}' was not updated, but replaced.";
+:set ($LanguageEnglish->"check-certificates.renew.subject") "Certificate renewed: {name}";
+:set ($LanguageEnglish->"check-certificates.renew.try") "Attempting to renew certificate '{name}'.";
+:set ($LanguageEnglish->"check-certificates.renew.updated") "Certificate '{name}' was updated in place.";
+:set ($LanguageEnglish->"check-certificates.renew.url.missing") "No CertRenewUrl given.";
+:set ($LanguageEnglish->"check-certificates.scep") "Certificate '{name}' is handled by SCEP, skipping.";
+:set ($LanguageEnglish->"check-certificates.status.available") "available";
+:set ($LanguageEnglish->"check-certificates.status.expired") "expired";
+:set ($LanguageEnglish->"check-certificates.status.expiring") "is about to expire";
+:set ($LanguageEnglish->"check-certificates.status.missing") "missing";
+:set ($LanguageEnglish->"check-certificates.success") "Success!";
+:set ($LanguageEnglish->"check-certificates.warning.log") "The certificate '{name}' {state}, it is invalid after {date}.";
+:set ($LanguageEnglish->"check-certificates.warning.message") "A certificate on {identity} {state}.\0A\0A{details}";
+:set ($LanguageEnglish->"check-certificates.warning.subject") "Certificate warning: {name}";
+# END GENERATED LANGUAGE DATA
+
 :onerror Err {
   :global GlobalConfigReady; :global GlobalFunctionsReady;
   :retry { :if ($GlobalConfigReady != true || $GlobalFunctionsReady != true) \
@@ -23,6 +69,7 @@
   :global CertificateAvailable;
   :global EscapeForRegEx;
   :global IfThenElse;
+  :global Translate;
   :global LogPrint;
   :global LogPrintOnce;
   :global ParseKeyValueStore;
@@ -42,14 +89,14 @@
     :global CertificateNameByCN;
     :global EscapeForRegEx;
     :global FetchUserAgentStr;
+    :global Translate;
     :global LogPrint;
     :global RmFile;
     :global WaitForFile;
 
     :foreach Type in={ "p12"; "pem" } do={
       :local CertFileName ([ :convert to=url $FetchName ] . "." . $Type);
-      $LogPrint debug $ScriptName ("Trying type '" . $Type . "' for '" . $CertName . \
-          "' (file '" . $CertFileName . "')...");
+      $LogPrint debug $ScriptName ([ $Translate "check-certificates.download.try" ({ type=$Type; name=$CertName; file=$CertFileName }) ]);
 
       :do {
         :onerror Err {
@@ -58,19 +105,19 @@
               ($CertRenewUrl . $CertFileName) dst-path=$CertFileName as-value;
         } do={
           :if (!($Err ~ "[Ss]tatus 404")) do={
-            $LogPrint warning $0 ("Failed fetching certificate by '" . $FetchName . "': " . $Err);
+            $LogPrint warning $0 ([ $Translate "check-certificates.download.failed" ({ name=$FetchName; error=$Err }) ]);
           }
           :error false;
         }
-        $WaitForFile $CertFileName;  
+        $WaitForFile $CertFileName;
 
         :local DecryptionFailed true;
         :foreach I,PassPhrase in=$CertRenewPass do={
           :do {
-            $LogPrint debug $ScriptName ("Trying " . $I . ". passphrase... ");
+            $LogPrint debug $ScriptName ([ $Translate "check-certificates.passphrase.try" ({ index=$I }) ]);
             :local Result [ /certificate/import file-name=$CertFileName passphrase=$PassPhrase as-value ];
             :if ($Result->"decryption-failures" = 0) do={
-              $LogPrint debug $ScriptName ("Success!");
+              $LogPrint debug $ScriptName ([ $Translate "check-certificates.success" ]);
               :set DecryptionFailed false;
             }
           } on-error={ }
@@ -78,7 +125,7 @@
         $RmFile $CertFileName;
 
         :if ($DecryptionFailed = true) do={
-          $LogPrint warning $ScriptName ("Decryption failed for certificate file '" . $CertFileName . "'.");
+          $LogPrint warning $ScriptName ([ $Translate "check-certificates.decryption.failed" ({ file=$CertFileName }) ]);
         }
 
         :foreach CertInChain in=[ /certificate/find where common-name!=$CertName !private-key \
@@ -90,7 +137,7 @@
 
         :return true;
       } on-error={
-        $LogPrint debug $ScriptName ("Could not download certificate file '" . $CertFileName . "'.");
+        $LogPrint debug $ScriptName ([ $Translate "check-certificates.download.unavailable" ({ file=$CertFileName }) ]);
       }
     }
 
@@ -98,6 +145,7 @@
   }
 
   :local FormatInfo do={
+    :global Translate;
     :local Cert $1;
 
     :global FormatLine;
@@ -110,6 +158,7 @@
     }
 
     :local FormatCertChain do={
+      :global Translate;
       :local Cert $1;
 
       :global ParseKeyValueStore;
@@ -117,7 +166,7 @@
       :local CertVal [ /certificate/get $Cert ];
 
       :if ([ :typeof ($CertVal->"issuer") ] = "nothing") do={
-        :return "self-signed";
+        :return [ $Translate "check-certificates.chain.self" ];
       }
 
       :local Return "";
@@ -129,7 +178,7 @@
         :do {
           :set CertVal [ /certificate/get [ find where skid=($CertVal->"akid") ] ];
         } on-error={
-          :return ($Return . " (possibly incomplete!)");
+          :return ($Return . [ $Translate "check-certificates.chain.incomplete" ]);
         }
         :if (($CertVal->"akid") = "" || ($CertVal->"akid") = ($CertVal->"skid")) do={
           :return $Return;
@@ -142,18 +191,18 @@
     :local CertVal [ /certificate/get $Cert ];
 
     :return ( \
-      [ $FormatLine "Name" ($CertVal->"name") ] . "\n" . \
-      [ $IfThenElse ([ :len ($CertVal->"common-name") ] > 0) ([ $FormatLine "CommonName" ($CertVal->"common-name") ] . "\n") ] . \
-      [ $IfThenElse ([ :len ($CertVal->"subject-alt-name") ] > 0) ([ $FormatMultiLines "SubjectAltNames" ($CertVal->"subject-alt-name") ] . "\n") ] . \
-      [ $FormatLine "Private key" [ $IfThenElse (($CertVal->"private-key") = true) "available" "missing" ] ] . "\n" . \
-      [ $FormatLine "Fingerprint" ($CertVal->"fingerprint") ] . "\n" . \
-      [ $FormatLine "Subject Key Id" ($CertVal->"skid") ] . "\n" . \
-      [ $IfThenElse ([ :len ($CertVal->"ca") ] > 0) [ $FormatLine "Issuer" ($CertVal->"ca") ] [ $FormatLine "Issuer chain" [ $FormatCertChain $Cert ] ] ] . "\n" . \
-      "Validity:\n" . \
-      [ $FormatLine "    days" ($CertVal->"days-valid") ] . "\n" . \
-      [ $FormatLine "    from" ($CertVal->"invalid-before") ] . "\n" . \
-      [ $FormatLine "    to" ($CertVal->"invalid-after") ] . "\n" . \
-      [ $FormatLine "    time left" [ $IfThenElse (($CertVal->"expired") = true) "expired" [ $FormatExpire ($CertVal->"expires-after") ] ] ]);
+      [ $FormatLine [ $Translate "check-certificates.label.name" ] ($CertVal->"name") ] . "\n" . \
+      [ $IfThenElse ([ :len ($CertVal->"common-name") ] > 0) ([ $FormatLine [ $Translate "check-certificates.label.common" ] ($CertVal->"common-name") ] . "\n") ] . \
+      [ $IfThenElse ([ :len ($CertVal->"subject-alt-name") ] > 0) ([ $FormatMultiLines [ $Translate "check-certificates.label.alternatives" ] ($CertVal->"subject-alt-name") ] . "\n") ] . \
+      [ $FormatLine [ $Translate "check-certificates.label.private" ] [ $IfThenElse (($CertVal->"private-key") = true) [ $Translate "check-certificates.status.available" ] [ $Translate "check-certificates.status.missing" ] ] ] . "\n" . \
+      [ $FormatLine [ $Translate "check-certificates.label.fingerprint" ] ($CertVal->"fingerprint") ] . "\n" . \
+      [ $FormatLine [ $Translate "check-certificates.label.key" ] ($CertVal->"skid") ] . "\n" . \
+      [ $IfThenElse ([ :len ($CertVal->"ca") ] > 0) [ $FormatLine [ $Translate "check-certificates.label.issuer" ] ($CertVal->"ca") ] [ $FormatLine [ $Translate "check-certificates.label.chain" ] [ $FormatCertChain $Cert ] ] ] . "\n" . \
+      [ $Translate "check-certificates.label.validity" ] . \
+      [ $FormatLine [ $Translate "check-certificates.label.days" ] ($CertVal->"days-valid") ] . "\n" . \
+      [ $FormatLine [ $Translate "check-certificates.label.from" ] ($CertVal->"invalid-before") ] . "\n" . \
+      [ $FormatLine [ $Translate "check-certificates.label.to" ] ($CertVal->"invalid-after") ] . "\n" . \
+      [ $FormatLine [ $Translate "check-certificates.label.left" ] [ $IfThenElse (($CertVal->"expired") = true) [ $Translate "check-certificates.status.expired" ] [ $FormatExpire ($CertVal->"expires-after") ] ] ]);
   }
 
   :if ([ $ScriptLock $ScriptName ] = false) do={
@@ -169,10 +218,10 @@
 
     :do {
       :if ([ :len $CertRenewUrl ] = 0) do={
-        $LogPrintOnce info $ScriptName ("No CertRenewUrl given.");
+        $LogPrintOnce info $ScriptName ([ $Translate "check-certificates.renew.url.missing" ]);
         :break;
       }
-      $LogPrint info $ScriptName ("Attempting to renew certificate '" . ($CertVal->"name") . "'.");
+      $LogPrint info $ScriptName ([ $Translate "check-certificates.renew.try" ({ name=($CertVal->"name") }) ]);
 
       :local ImportSuccess false;
       :if ([ :len ($CertVal->"common-name") ] > 0) do={
@@ -194,10 +243,10 @@
       :if ($ImportSuccess = false) do={ :error false; }
 
       :if ([ :len ($CertVal->"fingerprint") ] > 0 && $CertVal->"fingerprint" != [ /certificate/get $Cert fingerprint ]) do={
-        $LogPrint debug $ScriptName ("Certificate '" . $CertVal->"name" . "' was updated in place.");
+        $LogPrint debug $ScriptName ([ $Translate "check-certificates.renew.updated" ({ name=($CertVal->"name") }) ]);
         :set CertVal [ /certificate/get $Cert ];
       } else={
-        $LogPrint debug $ScriptName ("Certificate '" . $CertVal->"name" . "' was not updated, but replaced.");
+        $LogPrint debug $ScriptName ([ $Translate "check-certificates.renew.replaced" ({ name=($CertVal->"name") }) ]);
 
         :local CertNew [ /certificate/find where name~("^" . [ $EscapeForRegEx [ :convert to=url $FetchName ] ] . "\\.(p12|pem)_[0-9]+\$") \
           (common-name=($CertVal->"common-name") or subject-alt-name~("(^|\\W)(DNS|IP):" . [ $EscapeForRegEx $LastName ] . "(\\W|\$)")) \
@@ -206,18 +255,18 @@
 
         :if (($CertVal->"expires-after") > ($CertNewVal->"expires-after")) do={
           /certificate/remove $CertNew;
-          $LogPrint warning $ScriptName ("Old certificate is newer than the new one. Aborting renew.");
+          $LogPrint warning $ScriptName ([ $Translate "check-certificates.renew.older" ]);
           :error false;
         }
 
         :if (($CertVal->"private-key") = true && ($CertVal->"private-key") != ($CertNewVal->"private-key")) do={
           /certificate/remove $CertNew;
-          $LogPrint warning $ScriptName ("Old certificate '" . ($CertVal->"name") . "' has a private key, new certificate does not. Aborting renew.");
+          $LogPrint warning $ScriptName ([ $Translate "check-certificates.renew.key.missing" ({ name=($CertVal->"name") }) ]);
           :error false;
         }
 
         :if ([ $CertificateAvailable ([ $ParseKeyValueStore ($CertNewVal->"issuer") ]->"CN") "fetch" ] = false) do={
-          $LogPrint warning $ScriptName ("The certificate chain is not available!");
+          $LogPrint warning $ScriptName ([ $Translate "check-certificates.chain.missing" ]);
         }
 
         /ip/service/set certificate=($CertNewVal->"name") [ find where certificate=($CertVal->"name") ];
@@ -234,11 +283,11 @@
       }
 
       $SendNotification2 ({ origin=$ScriptName; silent=true; \
-        subject=([ $SymbolForNotification "lock-with-ink-pen" ] . "Certificate renewed: " . ($CertVal->"name")); \
-        message=("A certificate on " . $Identity . " has been renewed.\n\n" . [ $FormatInfo $Cert ]) });
-      $LogPrint info $ScriptName ("The certificate '" . ($CertVal->"name") . "' has been renewed.");
+        subject=([ $SymbolForNotification "lock-with-ink-pen" ] . [ $Translate "check-certificates.renew.subject" ({ name=($CertVal->"name") }) ]); \
+        message=([ $Translate "check-certificates.renew.message" ({ identity=$Identity; details=[ $FormatInfo $Cert ] }) ]) });
+      $LogPrint info $ScriptName ([ $Translate "check-certificates.renew.log" ({ name=($CertVal->"name") }) ]);
     } on-error={
-      $LogPrint debug $ScriptName ("Could not renew certificate '" . ($CertVal->"name") . "'.");
+      $LogPrint debug $ScriptName ([ $Translate "check-certificates.renew.failed" ({ name=($CertVal->"name") }) ]);
     }
   }
 
@@ -247,15 +296,14 @@
     :local CertVal [ /certificate/get $Cert ];
 
     :if ([ :len [ /certificate/scep-server/find where ca-cert=($CertVal->"ca") ] ] > 0) do={
-      $LogPrint debug $ScriptName ("Certificate '" . ($CertVal->"name") . "' is handled by SCEP, skipping.");
+      $LogPrint debug $ScriptName ([ $Translate "check-certificates.scep" ({ name=($CertVal->"name") }) ]);
     } else={
-      :local State [ $IfThenElse (($CertVal->"expired") = true) "expired" "is about to expire" ];
+      :local State [ $IfThenElse (($CertVal->"expired") = true) [ $Translate "check-certificates.status.expired" ] [ $Translate "check-certificates.status.expiring" ] ];
 
       $SendNotification2 ({ origin=$ScriptName; \
-        subject=([ $SymbolForNotification "lock-with-ink-pen,warning-sign" ] . "Certificate warning: " . ($CertVal->"name")); \
-        message=("A certificate on " . $Identity . " " . $State . ".\n\n" . [ $FormatInfo $Cert ]) });
-      $LogPrint info $ScriptName ("The certificate '" . ($CertVal->"name") . "' " . $State . \
-          ", it is invalid after " . ($CertVal->"invalid-after") . ".");
+        subject=([ $SymbolForNotification "lock-with-ink-pen,warning-sign" ] . [ $Translate "check-certificates.warning.subject" ({ name=($CertVal->"name") }) ]); \
+        message=([ $Translate "check-certificates.warning.message" ({ identity=$Identity; state=$State; details=[ $FormatInfo $Cert ] }) ]) });
+      $LogPrint info $ScriptName ([ $Translate "check-certificates.warning.log" ({ name=($CertVal->"name"); state=$State; date=($CertVal->"invalid-after") }) ]);
     }
   }
 } do={

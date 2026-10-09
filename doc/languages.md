@@ -40,11 +40,13 @@ reload to return to English without downloading any catalog.
 
 ## Current coverage
 
-The first two phases translate `check-health` notifications and diagnostics
-(including state, temperature, and voltage plugins), plus `backup-cloud`,
-`backup-email`, and `backup-upload`. Other scripts and bootstrap diagnostics
-still use English. RouterOS-generated errors, sensor names, API fields,
-file paths, and internal status sentinels retain their original values.
+The first three phases translate `check-health` notifications and diagnostics
+(including state, temperature, and voltage plugins), the four backup scripts,
+certificate checks, perpetual-license checks, and LTE firmware checks. Other
+scripts and bootstrap diagnostics still use English. RouterOS-generated errors,
+sensor names, API fields, file paths, and internal status sentinels retain their
+original values. Interactive confirmations retain `[y/N]` because their key
+handling still expects the original responses.
 
 ## Contribute a translation
 
@@ -94,6 +96,14 @@ python3 contrib/language-test.py > /tmp/language-tests.rsc
 Import that file on the test device. It tests the translation helper without
 running health checks or changing the installed configuration.
 
+Add `--catalogs` to check every message in every available locale on RouterOS,
+including accented characters, multiline text, numeric parameters, and literal
+braces in parameter values:
+
+```sh
+python3 contrib/language-test.py --catalogs > /tmp/language-tests.rsc
+```
+
 To also test actual downloads, compatible caches, offline fallback, malformed
 JSON, stale schemas, and invalid language selections, supply the HTTPS base URL
 of a published branch containing these catalogs:
@@ -120,12 +130,17 @@ tests stopped before creating backups, sending mail, or uploading files.
 Catalog discovery was also tested against a temporary installed script; all
 temporary scripts, files, and globals were removed afterwards.
 
+The partition, license, LTE, and certificate-check sources also parsed on the
+VM. All 144 catalog messages passed rendering checks in English and Brazilian
+Portuguese (288 checks). These rendering tests exercise the RouterOS helper;
+they do not perform certificate renewal, partition copies, or firmware upgrades.
+
 ### Remaining migration
 
-The full migration is still in progress. Next groups include remaining backup
-and upgrade scripts, certificate and licensing notifications, network and DNS
-scripts, wireless templates, notification modules, SMS and Telegram output,
-and shared helper diagnostics. Bootstrap messages and machine-readable strings
+The full migration is still in progress. Next groups include certificate issuance,
+upgrade scripts, network and DNS scripts, wireless templates, notification
+modules, SMS and Telegram output, and shared helper diagnostics. Bootstrap
+messages and machine-readable strings
 need individual classification before changes. One upstream pull request will
 be opened after the full migration and its validation are complete.
 
