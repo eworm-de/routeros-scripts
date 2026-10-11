@@ -225,6 +225,10 @@ Notes
 
     /save mod/notification-ntfy Send notifications via Ntfy with [mod/notification-ntfy](https://rsc.eworm.de/doc/mod/notification-ntfy.md).
 
+#### mod/notification-signalgrid
+
+    /save mod/notification-signalgrid Send notifications via Signalgrid with [mod/notification-signalgrid](https://rsc.eworm.de/doc/mod/notification-signalgrid.md).
+
 #### mod/notification-telegram
 
     /save mod/notification-telegram Send notifications via Telegram with [mod/notification-telegram](https://rsc.eworm.de/doc/mod/notification-telegram.md).
