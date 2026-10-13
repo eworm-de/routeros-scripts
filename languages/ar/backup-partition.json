@@ -1,0 +1,16 @@
+{
+  "language": "ar",
+  "messages": {
+    "backup-partition.copied": "تم نسخ RouterOS إلى القسم \"{name}\".",
+    "backup-partition.copy.failed": "فشل نسخ RouterOS إلى القسم \"{name}\": {error}",
+    "backup-partition.partition": "تشغيل من قسم النسخ الاحتياطي، ورفض التصرف.",
+    "backup-partition.unavailable": "لا يحتوي الجهاز على قسم احتياطي.",
+    "backup-partition.inactive": "الجهاز لا يعمل من القسم النشط.",
+    "backup-partition.fallback.missing": "لا يوجد قسم غير نشط باسم \"{name}\".",
+    "backup-partition.prompt": "تحتوي الأقسام على إصدارات مختلفة من RouterOS. انسخ إلى \"{name}\"؟ [y/N]",
+    "backup-partition.saved": "تم حفظ التكوين في القسم \"{name}\".",
+    "backup-partition.save.failed": "فشل حفظ التكوين في القسم \"{name}\": {error}",
+    "backup-partition.running": "يعمل من القسم \"{name}\"!"
+  },
+  "schema": "d37495d3faf22763093e64eb8145eb90d29a006fb0503cc939337741dfd80681"
+}

@@ -1,0 +1,18 @@
+{
+  "language": "bn",
+  "messages": {
+    "backup-email.partition": "ব্যাকআপ পার্টিশন থেকে দৌড়াচ্ছে, কাজ করতে অস্বীকার করছে।",
+    "backup-email.directory": "ডিরেক্টরি তৈরি করতে ব্যর্থ হয়েছে!",
+    "backup-email.options": "ব্যাকআপ বা কনফিগার এক্সপোর্ট পাঠাতে কনফিগার করা হয়েছে।",
+    "backup-email.none": "কোনটি",
+    "backup-email.label.backup": "ব্যাকআপ ফাইল",
+    "backup-email.label.export": "ফাইল রপ্তানি করুন",
+    "backup-email.label.config": "কনফিগারেশন ফাইল",
+    "backup-email.email.unavailable": "ই-মেইলের মাধ্যমে বিজ্ঞপ্তি পাঠানোর জন্য মডিউল ইনস্টল করা নেই।",
+    "backup-email.email.failed": "ফাইল এখনও উপলব্ধ, ই-মেইল পাঠানো ব্যর্থ হয়েছে.",
+    "backup-email.subject": "ব্যাকআপ এবং কনফিগারেশন",
+    "backup-email.message": "{identity} এর জন্য ব্যাকআপ এবং কনফিগার এক্সপোর্টের জন্য সংযুক্ত ফাইলগুলি দেখুন৷\n\n{device}\n\n{details}",
+    "backup-email.files.available": "ফাইল এখনও উপলব্ধ."
+  },
+  "schema": "d64d6ec60b1db0d5105ecd3ee2f9ce710886b1860f5d2ef971c4aa2adcdf6722"
+}

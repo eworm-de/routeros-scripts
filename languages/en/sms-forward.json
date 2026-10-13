@@ -1,0 +1,18 @@
+{
+  "language": "en",
+  "messages": {
+    "sms-forward.disabled": "Receiving of SMS is not enabled.",
+    "sms-forward.interface.stopped": "The LTE interface is not in running state, skipping.",
+    "sms-forward.command.removed": "Removing SMS, which started a script.",
+    "sms-forward.remove.failed": "Failed to remove message: {error}",
+    "sms-forward.received": "On {timestamp} type {type}:\n{message}",
+    "sms-forward.hook.running": "Running hook '{match}': {command}",
+    "sms-forward.hook.ran": "\n\nRan hook '{match}':\n{command}",
+    "sms-forward.hook.failed": "The code for hook '{match}' failed to run: {error}",
+    "sms-forward.hook.syntax": "The code for hook '{match}' failed syntax validation!",
+    "sms-forward.subject": "SMS Forwarding from {phone}",
+    "sms-forward.message.one": "Received this message by {identity} from {phone}:{messages}",
+    "sms-forward.message.many": "Received these {count} messages by {identity} from {phone}:{messages}"
+  },
+  "schema": "b605613f43230d212520e682ee06789fe9ebdb37a25f5c21ba93719a7923e2a1"
+}

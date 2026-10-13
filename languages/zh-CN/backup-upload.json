@@ -1,0 +1,22 @@
+{
+  "language": "zh-CN",
+  "messages": {
+    "backup-upload.partition": "从备份分区运行，拒绝执行操作。",
+    "backup-upload.directory": "创建目录失败！",
+    "backup-upload.options": "配置为既不发送备份也不发送配置导出。",
+    "backup-upload.none": "无",
+    "backup-upload.label.backup": "备份文件",
+    "backup-upload.label.export": "导出文件",
+    "backup-upload.label.config": "配置文件",
+    "backup-upload.upload.backup.failed": "上传备份文件失败：{error}",
+    "backup-upload.upload.export.failed": "上传配置导出失败：{error}",
+    "backup-upload.upload.config.failed": "上传 global-config-overlay 失败：{error}",
+    "backup-upload.subject": "备份和配置上传",
+    "backup-upload.subject.failed": "备份和配置上传失败",
+    "backup-upload.message": "{identity} 的备份和配置导出上传。\n\n{device}\n\n{details}",
+    "backup-upload.failed": "失败了",
+    "backup-upload.label.name": "    姓名",
+    "backup-upload.label.size": "    尺寸"
+  },
+  "schema": "ac3b0aa1324d76ce3ef1515ba46a556bd27200aeea4ad75af6d1e26fd41bf67d"
+}

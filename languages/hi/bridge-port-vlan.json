@@ -1,0 +1,13 @@
+{
+  "language": "hi",
+  "messages": {
+    "bridge-port-vlan.client.enabled": "इंटरफ़ेस {interface} के लिए ब्रिज पोर्ट को अक्षम करना, dhcp क्लाइंट को सक्षम करना।",
+    "bridge-port-vlan.interfaces.enabled": "इंटरफ़ेस पुनः सक्षम किया जा रहा है...",
+    "bridge-port-vlan.vlan.missing": "इंटरफ़ेस {interface} के लिए VLAN '{vlan}' नहीं मिल सका!",
+    "bridge-port-vlan.vlan.enabled": "इंटरफ़ेस {interface} के लिए ब्रिज पोर्ट को सक्षम करना, {config} vlan {vlan}{name} में बदलना, dhcp क्लाइंट को अक्षम करना।",
+    "bridge-port-vlan.vlan.connected": "इंटरफ़ेस {interface} पहले से ही {config} vlan {vlan} से जुड़ा हुआ है।",
+    "bridge-port-vlan.client.missing": "इंटरफ़ेस {interface} के लिए dhcp क्लाइंट कॉन्फ़िगरेशन गुम है!",
+    "bridge-port-vlan.client.duplicate": "इंटरफ़ेस {interface} के लिए डुप्लिकेट dhcp क्लाइंट कॉन्फ़िगरेशन!"
+  },
+  "schema": "ca51ecefefa0a1bcad40eb3a3ad65db37300e7e3b0f7f3f5abe49a021f6dfda1"
+}

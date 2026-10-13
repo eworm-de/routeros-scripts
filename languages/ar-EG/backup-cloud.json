@@ -1,0 +1,17 @@
+{
+  "language": "ar-EG",
+  "messages": {
+    "backup-cloud.partition": "الجهاز شغّال من قسم النسخة الاحتياطية، مش هننفّذ أي إجراء.",
+    "backup-cloud.directory": "ماقدرناش نعمل مجلد!",
+    "backup-cloud.subject": "النسخ الاحتياطي السحابي",
+    "backup-cloud.subject.failed": "فشل النسخ الاحتياطي السحابي",
+    "backup-cloud.message": "تم تحميل النسخة الاحتياطية لـ {identity} إلى السحابة.\n\n{device}\n\n{details}",
+    "backup-cloud.message.failed": "فشل تحميل النسخة الاحتياطية لـ {identity} إلى السحابة!\n\n{device}",
+    "backup-cloud.upload.failed": "فشل تحميل النسخة الاحتياطية لـ {identity} إلى السحابة!",
+    "backup-cloud.retry": "تمت إعادة المحاولة بنجاح، من فضلك تجاهل أخطاء الاتصال السابقة.",
+    "backup-cloud.label.name": "الاسم",
+    "backup-cloud.label.size": "الحجم",
+    "backup-cloud.label.key": "مفتاح التحميل"
+  },
+  "schema": "1d68cb944d178c8731db42b15cc1dc9e76c76322543a57e366c56830ef3b644d"
+}

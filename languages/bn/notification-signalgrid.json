@@ -1,0 +1,12 @@
+{
+  "language": "bn",
+  "messages": {
+    "notification-signalgrid.offline": "সিস্টেম সম্পূর্ণরূপে সংযুক্ত নয়, ফ্লাশিং নয়।",
+    "notification-signalgrid.empty": "শিডিউলার থেকে সিগন্যালগ্রিড বার্তা ফ্লাশ করা হচ্ছে, কিন্তু সারি খালি।",
+    "notification-signalgrid.queue.failed": "সারিবদ্ধ সিগন্যালগ্রিড বিজ্ঞপ্তি পাঠানো ব্যর্থ হয়েছে: {error}",
+    "notification-signalgrid.certificate.failed": "প্রয়োজনীয় শংসাপত্র ডাউনলোড করা ব্যর্থ হয়েছে৷",
+    "notification-signalgrid.sending.failed": "সিগন্যালগ্রিড বিজ্ঞপ্তি পাঠানো ব্যর্থ হয়েছে: {error} - সারিবদ্ধ...",
+    "notification-signalgrid.queued": "এই বার্তাটি {date} {time} থেকে সারিবদ্ধ ছিল এবং অপ্রচলিত হতে পারে৷"
+  },
+  "schema": "128aca9359451217298096f284f1811957b4079d0693132dbe948f2ced909a78"
+}

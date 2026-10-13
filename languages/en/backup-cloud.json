@@ -1,0 +1,17 @@
+{
+  "language": "en",
+  "schema": "1d68cb944d178c8731db42b15cc1dc9e76c76322543a57e366c56830ef3b644d",
+  "messages": {
+    "backup-cloud.partition": "Running from backup partition, refusing to act.",
+    "backup-cloud.directory": "Failed creating directory!",
+    "backup-cloud.subject": "Cloud backup",
+    "backup-cloud.subject.failed": "Cloud backup failed",
+    "backup-cloud.message": "Uploaded backup for {identity} to cloud.\n\n{device}\n\n{details}",
+    "backup-cloud.message.failed": "Failed uploading backup for {identity} to cloud!\n\n{device}",
+    "backup-cloud.upload.failed": "Failed uploading backup for {identity} to cloud!",
+    "backup-cloud.retry": "Retry successful, please discard previous connection errors.",
+    "backup-cloud.label.name": "Name",
+    "backup-cloud.label.size": "Size",
+    "backup-cloud.label.key": "Download key"
+  }
+}

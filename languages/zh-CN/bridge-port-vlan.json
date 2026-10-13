@@ -1,0 +1,13 @@
+{
+  "language": "zh-CN",
+  "messages": {
+    "bridge-port-vlan.client.enabled": "禁用接口 {interface} 的桥接端口，启用 dhcp 客户端。",
+    "bridge-port-vlan.interfaces.enabled": "重新启用接口...",
+    "bridge-port-vlan.vlan.missing": "找不到接口 {interface} 的 VLAN“{vlan}”！",
+    "bridge-port-vlan.vlan.enabled": "启用接口{interface}的桥接端口，更改为{config} vlan {vlan}{name}，禁用dhcp客户端。",
+    "bridge-port-vlan.vlan.connected": "接口 {interface} 已连接到 {config} vlan {vlan}。",
+    "bridge-port-vlan.client.missing": "缺少接口 {interface} 的 dhcp 客户端配置！",
+    "bridge-port-vlan.client.duplicate": "接口 {interface} 的 dhcp 客户端配置重复！"
+  },
+  "schema": "ca51ecefefa0a1bcad40eb3a3ad65db37300e7e3b0f7f3f5abe49a021f6dfda1"
+}

@@ -1,0 +1,10 @@
+{
+  "language": "ja",
+  "messages": {
+    "firmware-upgrade-reboot.current": "現在のファームウェアとアップグレード後のファームウェアは、バージョン {version} と一致します。",
+    "firmware-upgrade-reboot.downgrade": "異なるファームウェア バージョンが利用可能ですが、これはダウングレードです。無視する。",
+    "firmware-upgrade-reboot.upgrade": "ファームウェアバージョン {version} が利用可能になり、アップグレードされます。",
+    "firmware-upgrade-reboot.reboot": "ファームウェアのアップグレードが成功しました。再起動しています。"
+  },
+  "schema": "6029d1d4da514989c7a64a3ae717c2ca8f5f42f295ad0d203b8343cf7a2944a5"
+}

@@ -1,0 +1,21 @@
+{
+  "language": "pcm",
+  "messages": {
+    "fw-addr-lists.crash.delay": "Scripting subsystem fit don crash, possibly caused by us. Delaying!",
+    "fw-addr-lists.certificate.failed": "Dey download wey we need certificate ({list} / {url}) failed, trying anyway.",
+    "fw-addr-lists.download.retry": "No fit download for list '{list}', {count}. try from: {url}",
+    "fw-addr-lists.download.failed": "No fit download for list '{list}' from: {url}",
+    "fw-addr-lists.downloaded": "Don download {size}B for list '{list}' from: {url}",
+    "fw-addr-lists.branch": "Handling branch: {branch}",
+    "fw-addr-lists.summary": "list: {list} ({total}) -- don add: {added} - don renew: {renewed} - don remove: {removed}",
+    "fw-addr-lists.ipv4.renew": "Dey renew IPv4 address {address} for list '{list}' with {timeout}.",
+    "fw-addr-lists.ipv4.remove": "Dey remove IPv4 address {address} from list '{list}.",
+    "fw-addr-lists.ipv4.add": "Dey add IPv4 address {address} to list '{list}' with {timeout}.",
+    "fw-addr-lists.ipv4.failed": "No fit add IPv4 address {address} to list '{list}': {error}",
+    "fw-addr-lists.ipv6.renew": "Dey renew IPv6 address {address} for list '{list}' with {timeout}.",
+    "fw-addr-lists.ipv6.remove": "Dey remove IPv6 address {address} from list '{list}.",
+    "fw-addr-lists.ipv6.add": "Dey add IPv6 address {address} to list '{list}' with {timeout}.",
+    "fw-addr-lists.ipv6.failed": "No fit add IPv6 address {address} to list '{list}': {error}"
+  },
+  "schema": "42bcfb865c10957ae21b18aa798348228d56dea78dd75c130eee6af199b03277"
+}

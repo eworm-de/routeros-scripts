@@ -1,0 +1,11 @@
+{
+  "language": "pt-BR",
+  "messages": {
+    "notification-gotify.offline": "O sistema não está totalmente conectado; a fila não será processada.",
+    "notification-gotify.queue.empty": "Processando mensagens do Gotify pelo agendador, mas a fila está vazia.",
+    "notification-gotify.queue.failed": "Falha ao enviar mensagem do Gotify na fila: {error}",
+    "notification-gotify.send.failed": "Falha ao enviar notificação do Gotify: {error} - Adicionando à fila...",
+    "notification-gotify.queued": "Esta mensagem está na fila desde {date} {time} e pode estar desatualizada."
+  },
+  "schema": "3ca0bb174dd4fcbe639af5145d66a280408096f7c34f9d1dd0565c5061427859"
+}

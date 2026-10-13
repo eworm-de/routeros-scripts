@@ -1,0 +1,17 @@
+{
+  "language": "bn",
+  "messages": {
+    "backup-cloud.partition": "ব্যাকআপ পার্টিশন থেকে দৌড়াচ্ছে, কাজ করতে অস্বীকার করছে।",
+    "backup-cloud.directory": "ডিরেক্টরি তৈরি করতে ব্যর্থ হয়েছে!",
+    "backup-cloud.subject": "ক্লাউড ব্যাকআপ",
+    "backup-cloud.subject.failed": "ক্লাউড ব্যাকআপ ব্যর্থ হয়েছে৷",
+    "backup-cloud.message": "ক্লাউডে {identity} এর জন্য ব্যাকআপ আপলোড করা হয়েছে।\n\n{device}\n\n{details}",
+    "backup-cloud.message.failed": "ক্লাউডে {identity} এর ব্যাকআপ আপলোড করা ব্যর্থ হয়েছে!\n\n{device}",
+    "backup-cloud.upload.failed": "ক্লাউডে {identity} এর ব্যাকআপ আপলোড করা ব্যর্থ হয়েছে!",
+    "backup-cloud.retry": "পুনরায় চেষ্টা সফল হয়েছে, অনুগ্রহ করে পূর্ববর্তী সংযোগ ত্রুটিগুলি বাতিল করুন৷",
+    "backup-cloud.label.name": "নাম",
+    "backup-cloud.label.size": "আকার",
+    "backup-cloud.label.key": "ডাউনলোড কী"
+  },
+  "schema": "1d68cb944d178c8731db42b15cc1dc9e76c76322543a57e366c56830ef3b644d"
+}

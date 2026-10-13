@@ -1,0 +1,16 @@
+{
+  "language": "ur",
+  "messages": {
+    "backup-partition.copied": "RouterOS کو پارٹیشن '{name}' میں کاپی کیا گیا۔",
+    "backup-partition.copy.failed": "RouterOS کو پارٹیشن '{name}' میں کاپی کرنے میں ناکام: {error}",
+    "backup-partition.partition": "بیک اپ پارٹیشن سے بھاگنا، عمل کرنے سے انکار کرنا۔",
+    "backup-partition.unavailable": "ڈیوائس میں فال بیک پارٹیشن نہیں ہے۔",
+    "backup-partition.inactive": "آلہ فعال تقسیم سے نہیں چل رہا ہے۔",
+    "backup-partition.fallback.missing": "'{name}' نام کا کوئی غیر فعال پارٹیشن نہیں ہے۔",
+    "backup-partition.prompt": "پارٹیشنز کے مختلف RouterOS ورژن ہیں۔ '{name}' پر کاپی کریں؟ [y/N]",
+    "backup-partition.saved": "'{name}' پارٹیشن میں کنفیگریشن کو محفوظ کر لیا گیا۔",
+    "backup-partition.save.failed": "پارٹیشن '{name}' میں کنفیگریشن کو محفوظ کرنے میں ناکام: {error}",
+    "backup-partition.running": "پارٹیشن '{name}' سے چل رہا ہے!"
+  },
+  "schema": "d37495d3faf22763093e64eb8145eb90d29a006fb0503cc939337741dfd80681"
+}

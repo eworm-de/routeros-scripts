@@ -1,0 +1,8 @@
+{
+  "language": "hi",
+  "messages": {
+    "mode-button.scheduler.creating": "{script}: शेड्यूलर mode-button-scheduler बनाना, प्रेस गिनना...",
+    "mode-button.scheduler.updating": "{script}: शेड्यूलर mode-button-scheduler अपडेट हो रहा है..."
+  },
+  "schema": "1b567608fb5b7d34f1710eac3a7c4e5740acbea43a5f928a6be5d5c6d189ed03"
+}

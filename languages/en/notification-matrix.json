@@ -1,0 +1,21 @@
+{
+  "language": "en",
+  "messages": {
+    "notification-matrix.offline": "System is not fully connected, not flushing.",
+    "notification-matrix.queue.empty": "Flushing Matrix messages from scheduler, but queue is empty.",
+    "notification-matrix.queue.failed": "Sending queued Matrix message failed: {error}",
+    "notification-matrix.send.failed": "Failed sending Matrix notification: {error} - Queuing...",
+    "notification-matrix.home.server": "Home server is: {server}",
+    "notification-matrix.home.failed": "Failed getting home server: {error}",
+    "notification-matrix.access.token": "Access token is: {token}",
+    "notification-matrix.login.failed": "Failed logging in (and getting access token): {error}",
+    "notification-matrix.snippet.added": "Added configuration snippet. Now create and join a room, please!",
+    "notification-matrix.snippet.failed": "Failed adding configuration snippet: {error}",
+    "notification-matrix.room.joined": "Joined the room.",
+    "notification-matrix.room.failed": "Failed joining the room: {error}",
+    "notification-matrix.snippet.appended": "Appended configuration to configuration snippet. Please review!",
+    "notification-matrix.snippet.append.failed": "Failed appending configuration to snippet: {error}",
+    "notification-matrix.queued": "This message was queued since {date} and may be obsolete."
+  },
+  "schema": "f843ad08937ad96c091b0aa66edd949e6e467c336607c9c73ff0270be3b95839"
+}

@@ -1,0 +1,13 @@
+{
+  "language": "ur",
+  "messages": {
+    "unattended-lte-firmware-upgrade.query.failed": "انٹرفیس {interface}: {error} کے لیے LTE فرم ویئر کا تازہ ترین ورژن حاصل نہیں ہو سکا",
+    "unattended-lte-firmware-upgrade.scheduling": "{interface} انٹرفیس کے لیے LTE فرم ویئر اپ گریڈ کو شیڈول کرنا۔",
+    "unattended-lte-firmware-upgrade.finished": "'{interface}' پر LTE فرم ویئر اپ گریڈ مکمل ہو گیا، ری سیٹ کا انتظار۔",
+    "unattended-lte-firmware-upgrade.different": "LTE فرم ویئر ورژن اب بھی مختلف ہیں۔ اپ گریڈ ویسے بھی ناکام ہو گیا؟",
+    "unattended-lte-firmware-upgrade.failed": "'{interface}' پر LTE فرم ویئر اپ گریڈ ناکام ہوگیا: {error}",
+    "unattended-lte-firmware-upgrade.current": "LTE فرم ویئر {interface} انٹرفیس پر اپ ٹو ڈیٹ ہے۔",
+    "unattended-lte-firmware-upgrade.missing": "انٹرفیس {interface} کے لیے کوئی LTE فرم ویئر کی معلومات دستیاب نہیں ہے۔"
+  },
+  "schema": "f231d0e80dd157d0022fa102e5293133b9d7d9cc5d18785151ff81e3434c0c7b"
+}

@@ -1,0 +1,21 @@
+{
+  "language": "ru",
+  "messages": {
+    "fw-addr-lists.crash.delay": "Возможно, произошел сбой подсистемы сценариев, возможно, по нашей вине. Задержка!",
+    "fw-addr-lists.certificate.failed": "Загрузка необходимого сертификата ({list}/{url}) не удалась, все равно попытаюсь.",
+    "fw-addr-lists.download.retry": "Не удалось загрузить список «{list}», {count}. попробуйте из: {url}",
+    "fw-addr-lists.download.failed": "Не удалось загрузить список «{list}» из: {url}.",
+    "fw-addr-lists.downloaded": "Загружен {size}B для списка «{list}» из: {url}.",
+    "fw-addr-lists.branch": "Обработка филиала: {branch}",
+    "fw-addr-lists.summary": "список: {list} ({total}) -- добавлено: {added} - обновлено: {renewed} - удалено: {removed}",
+    "fw-addr-lists.ipv4.renew": "Обновление IPv4-адреса {address} в списке «{list}» на {timeout}.",
+    "fw-addr-lists.ipv4.remove": "Удаление IPv4-адреса {address} из списка «{list}.",
+    "fw-addr-lists.ipv4.add": "Добавление IPv4-адреса {address} в список «{list}» с {timeout}.",
+    "fw-addr-lists.ipv4.failed": "Не удалось добавить IPv4-адрес {address} в список «{list}»: {error}.",
+    "fw-addr-lists.ipv6.renew": "Обновление IPv6-адреса {address} в списке «{list}» на {timeout}.",
+    "fw-addr-lists.ipv6.remove": "Удаление IPv6-адреса {address} из списка «{list}.",
+    "fw-addr-lists.ipv6.add": "Добавление IPv6-адреса {address} в список «{list}» с {timeout}.",
+    "fw-addr-lists.ipv6.failed": "Не удалось добавить IPv6-адрес {address} в список «{list}»: {error}."
+  },
+  "schema": "42bcfb865c10957ae21b18aa798348228d56dea78dd75c130eee6af199b03277"
+}

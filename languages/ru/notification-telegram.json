@@ -1,0 +1,17 @@
+{
+  "language": "ru",
+  "messages": {
+    "notification-telegram.offline": "Система не полностью подключена, не промывается.",
+    "notification-telegram.certificate.failed": "Не удалось загрузить необходимый сертификат.",
+    "notification-telegram.queue.empty": "Сбрасываются сообщения Telegram из планировщика, но очередь пуста.",
+    "notification-telegram.queue.failed": "Не удалось отправить сообщение Telegram в очереди: {error}.",
+    "notification-telegram.fetch.failed": "Не удалось получить данные: {error}.",
+    "notification-telegram.message.none": "Сообщение не получено.",
+    "notification-telegram.chat.id": "Идентификатор чата: {id}.",
+    "notification-telegram.thread.id": "Идентификатор темы: {id}.",
+    "notification-telegram.truncated": "Сообщение было слишком длинным и было обрезано, обрезано _{percent}%_!",
+    "notification-telegram.send.failed": "Не удалось отправить уведомление Telegram: {error} — В очереди...",
+    "notification-telegram.queued": "Это сообщение было в очереди с _{date} {time}_ и может устареть."
+  },
+  "schema": "924e559ca736a5da1f8988a245b39db4d85bda9fd5e9d359b1d0b1ba41e16e5d"
+}

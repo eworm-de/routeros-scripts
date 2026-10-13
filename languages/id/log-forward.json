@@ -1,0 +1,12 @@
+{
+  "language": "id",
+  "messages": {
+    "log-forward.limited": "Batasan nilai dalam tindakan, bukan penerusan log, jika ada!",
+    "log-forward.subject": "Penerusan Log",
+    "log-forward.duplicates": " Pesan berulang-ulang telah dilewati.",
+    "log-forward.delaying": "\nBatasan kecepatan dalam tindakan, menunda penerusan.",
+    "log-forward.message.single": "Log masuk {identity} berisi pesan ini setelah waktu aktif {uptime}.{duplicates}{delay}\n{messages}",
+    "log-forward.message.multiple": "Log masuk {identity} berisi pesan {count} ini setelah waktu aktif {uptime}.{duplicates}{delay}\n{messages}"
+  },
+  "schema": "295a2441ccf8e06593a7eedcf16e2ac316badd8c4111d4dab8823ac3b329473c"
+}

@@ -1,0 +1,30 @@
+{
+  "language": "id",
+  "messages": {
+    "netwatch-notify.type.host": "tuan rumah",
+    "netwatch-notify.type.service": "layanan",
+    "netwatch-notify.state.up": "naik",
+    "netwatch-notify.state.down": "turun",
+    "netwatch-notify.state.pre-down": "pra-turun",
+    "netwatch-notify.hook.failed": "Kait {state} untuk {type} '{name}' gagal dijalankan: {error}",
+    "netwatch-notify.hook.failed.message": "Pengaitnya gagal dijalankan.",
+    "netwatch-notify.hook.syntax": "Kait {state} untuk validasi sintaksis {type} '{name}' gagal.",
+    "netwatch-notify.hook.syntax.message": "Validasi sintaksis hook gagal.",
+    "netwatch-notify.hook.ran": "Jalankan kait pada {type} '{name}' {state}: {hook}",
+    "netwatch-notify.hook.ran.message": "Kait lari:\n{hook}",
+    "netwatch-notify.resolve.updated": "Nama '{resolve}' ditetapkan ke alamat berbeda {address}, sedang diperbarui.",
+    "netwatch-notify.resolve.named.updated": "Nama '{resolve}' untuk {type} '{name}' memutuskan ke alamat yang berbeda {address}, memperbarui.",
+    "netwatch-notify.resolve.failed": "Penyelesaian nama '{resolve}' gagal ketiga kalinya: {error}",
+    "netwatch-notify.resolve.named.failed": "Penyelesaian nama '{resolve}' untuk {type} '{name}' gagal ketiga kalinya: {error}",
+    "netwatch-notify.up": "{type} '{name}' ({details}) sudah habis.",
+    "netwatch-notify.up.message": "{type} '{name}' ({details}) naik sejak {since}.\nItu tidak aktif untuk pemeriksaan {count} sejak {down_since}.",
+    "netwatch-notify.note": "\n\nCatatan:\n{note}",
+    "netwatch-notify.up.subject": "Beritahu Netwatch: {name} naik",
+    "netwatch-notify.down.subject": "Beritahu Netwatch: {name} mati",
+    "netwatch-notify.down.waiting": "{type} '{name}' ({details}) tidak aktif untuk pemeriksaan {count}, {remaining} lagi.",
+    "netwatch-notify.down.notified": "{type} '{name}' ({details}) tidak aktif untuk pemeriksaan {count}, sudah diberitahukan.",
+    "netwatch-notify.down.parent": "{type} '{name}' ({details}) tidak aktif untuk pemeriksaan {count}, induk {type} {parent} tidak aktif.",
+    "netwatch-notify.down.message": "{type} '{name}' ({details}) turun sejak {since}."
+  },
+  "schema": "7599eb0829fe6e5e2de9cf05b5bf721fd5b4cd7ce0726daf8735d47e695d7240"
+}

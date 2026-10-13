@@ -1,0 +1,10 @@
+{
+  "language": "zh-CN",
+  "messages": {
+    "firmware-upgrade-reboot.current": "当前和升级固件与版本 {version} 匹配。",
+    "firmware-upgrade-reboot.downgrade": "可以使用不同的固件版本，但它是降级版本。忽略。",
+    "firmware-upgrade-reboot.upgrade": "固件版本{version}可用，正在升级。",
+    "firmware-upgrade-reboot.reboot": "固件升级成功，正在重启。"
+  },
+  "schema": "6029d1d4da514989c7a64a3ae717c2ca8f5f42f295ad0d203b8343cf7a2944a5"
+}

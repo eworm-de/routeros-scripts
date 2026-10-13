@@ -1,0 +1,11 @@
+{
+  "language": "fr",
+  "messages": {
+    "daily-psk.updating": "Mise à jour quotidienne du PSK pour « {ssid} » vers « {psk} » (auparavant « {previous} »)",
+    "daily-psk.sent": "J'ai déjà envoyé un e-mail pour le SSID {ssid}, ignoré.",
+    "daily-psk.subject": "quotidien PSK {ssid}",
+    "daily-psk.message": "Voici le PSK quotidien sur {identity} :\n\n{ssid}\n{psk}\n{date}\n\nUne règle spécifique à l’appareil client ne doit pas exister !",
+    "daily-psk.date": "Date"
+  },
+  "schema": "64d2ff049c113163d9a5b4847306ad5ac276859115f25bfe3d397cc8b24a1ea0"
+}

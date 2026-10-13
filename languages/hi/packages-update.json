@@ -1,0 +1,26 @@
+{
+  "language": "hi",
+  "messages": {
+    "packages-update.scheduler.exists": "रीबूट के लिए शेड्यूलर पहले से मौजूद है।",
+    "packages-update.scheduled": "{time} स्थानीय समय ({timezone}) पर अद्यतन के लिए शेड्यूल किया गया रीबूट।",
+    "packages-update.license.expired": "लाइसेंस समाप्त हो गया है, अपग्रेड अवरुद्ध है।",
+    "packages-update.backup.partition": "बैकअप पार्टीशन से भागना, कार्रवाई करने से इंकार करना।",
+    "packages-update.version.unknown": "नवीनतम संस्करण ज्ञात नहीं है.",
+    "packages-update.version.installed": "संस्करण {version} पहले से ही स्थापित है।",
+    "packages-update.backup.running": "अद्यतन से पहले बैकअप स्क्रिप्ट {name} चला रहा है।",
+    "packages-update.backup.failed": "अद्यतन विफल होने से पहले बैकअप स्क्रिप्ट {name} चला रहा हूँ!",
+    "packages-update.continue.prompt": "क्या आप फिर भी जारी रखना चाहते हैं? [y/N]",
+    "packages-update.continue": "उपयोगकर्ता ने फिर भी जारी रखने का अनुरोध किया।",
+    "packages-update.canceled.update": "अद्यतन रद्द किया गया...",
+    "packages-update.canceled.noninteractive": "गैर-संवादात्मक अद्यतन रद्द किया गया.",
+    "packages-update.downgrade.prompt": "नवीनतम संस्करण स्थापित संस्करण से पुराना है। डाउनग्रेड करना चाहते हैं? [y/N]",
+    "packages-update.canceled": "रद्द किया गया...",
+    "packages-update.downgrade.refused": "डाउनग्रेड स्वचालित रूप से इंस्टॉल नहीं हो रहा है.",
+    "packages-update.download.failed": "पैकेज {name} के लिए डाउनलोड विफल, अपडेट निरस्त।",
+    "packages-update.downgrade.reboot": "डाउनग्रेड के लिए रिबूटिंग।",
+    "packages-update.reboot.prompt": "क्या आप रीबूट शेड्यूल करना चाहते हैं (s) या अभी रीबूट करना चाहते हैं (r)? [s/R]",
+    "packages-update.update.reboot": "अद्यतन के लिए रीबूट किया जा रहा है।",
+    "packages-update.scheduled.deferred": "{time} स्थानीय समय ({timezone}) पर अपडेट के लिए शेड्यूल किया गया रीबूट {interval} द्वारा स्थगित कर दिया गया।"
+  },
+  "schema": "77f3f83454477a8d375bfb399dd18ea210e50ceaf290213460a2f613ac47abd1"
+}

@@ -1,0 +1,22 @@
+{
+  "language": "de",
+  "messages": {
+    "check-lte-firmware-upgrade.fetch.failed": "Die neueste LTE-Firmware-Version für die Schnittstelle {interface}: {error} konnte nicht abgerufen werden",
+    "check-lte-firmware-upgrade.version.empty": "Eine leere Zeichenfolge ist keine gültige Version.",
+    "check-lte-firmware-upgrade.current": "Für die LTE-Schnittstelle {interface} ist kein Firmware-Upgrade verfügbar.",
+    "check-lte-firmware-upgrade.prompt": "Möchten Sie ein unbeaufsichtigtes LTE-Firmware-Upgrade für die Schnittstelle {interface} starten? [y/N]",
+    "check-lte-firmware-upgrade.scheduled": "Geplantes LTE-Firmware-Upgrade für die Schnittstelle {interface}...",
+    "check-lte-firmware-upgrade.canceled": "Abgesagt...",
+    "check-lte-firmware-upgrade.already.sent": "Die LTE-Firmware-Upgrade-Benachrichtigung für die Version {version} wurde bereits gesendet.",
+    "check-lte-firmware-upgrade.available.log": "Für die LTE-Schnittstelle {interface} ist eine neue Firmware-Version {version} verfügbar.",
+    "check-lte-firmware-upgrade.subject": "LTE-Firmware-Upgrade",
+    "check-lte-firmware-upgrade.message": "Für die LTE-Schnittstelle {interface} auf {identity} ist eine neue Firmware-Version {version} verfügbar.\n\n{details}",
+    "check-lte-firmware-upgrade.label.manufacturer": "Hersteller",
+    "check-lte-firmware-upgrade.label.model": "Modell",
+    "check-lte-firmware-upgrade.label.revision": "Überarbeitung",
+    "check-lte-firmware-upgrade.label.firmware": "Firmware-Version:\n",
+    "check-lte-firmware-upgrade.label.installed": "    Installiert",
+    "check-lte-firmware-upgrade.label.available": "    Verfügbar"
+  },
+  "schema": "48481740f1c9bb358194e5fc7b620f4ae430d0a89771919bb68cf54ad8f44eee"
+}

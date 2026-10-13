@@ -1,0 +1,21 @@
+{
+  "language": "fr",
+  "messages": {
+    "fw-addr-lists.crash.delay": "Le sous-système de script est peut-être tombé en panne, probablement à cause de nous. Dilatoire!",
+    "fw-addr-lists.certificate.failed": "Le téléchargement du certificat requis ({list} / {url}) a échoué, j'ai quand même essayé.",
+    "fw-addr-lists.download.retry": "Échec du téléchargement de la liste « {list} », {count}. essayez depuis : {url}",
+    "fw-addr-lists.download.failed": "Échec du téléchargement de la liste « {list} » à partir de : {url}",
+    "fw-addr-lists.downloaded": "{size}B téléchargé pour la liste « {list} » à partir de : {url}",
+    "fw-addr-lists.branch": "Branche de manutention : {branch}",
+    "fw-addr-lists.summary": "liste : {list} ({total}) -- ajouté : {added} - renouvelé : {renewed} - supprimé : {removed}",
+    "fw-addr-lists.ipv4.renew": "Renouvellement de l'adresse IPv4 {address} dans la liste '{list}' par {timeout}.",
+    "fw-addr-lists.ipv4.remove": "Suppression de l'adresse IPv4 {address} de la liste « {list}.",
+    "fw-addr-lists.ipv4.add": "Ajout de l'adresse IPv4 {address} à la liste « {list} » avec {timeout}.",
+    "fw-addr-lists.ipv4.failed": "Échec de l'ajout de l'adresse IPv4 {address} à la liste « {list} » : {error}",
+    "fw-addr-lists.ipv6.renew": "Renouvellement de l'adresse IPv6 {address} dans la liste '{list}' par {timeout}.",
+    "fw-addr-lists.ipv6.remove": "Suppression de l'adresse IPv6 {address} de la liste « {list}.",
+    "fw-addr-lists.ipv6.add": "Ajout de l'adresse IPv6 {address} à la liste « {list} » avec {timeout}.",
+    "fw-addr-lists.ipv6.failed": "Échec de l'ajout de l'adresse IPv6 {address} à la liste « {list} » : {error}"
+  },
+  "schema": "42bcfb865c10957ae21b18aa798348228d56dea78dd75c130eee6af199b03277"
+}

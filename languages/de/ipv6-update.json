@@ -1,0 +1,14 @@
+{
+  "language": "de",
+  "messages": {
+    "ipv6-update.address.ignored": "Es wurde eine Adresse ({address}) erfasst, kein Präfix. Ignorieren.",
+    "ipv6-update.context.invalid": "Dieses Skript soll vom IPv6-DHCP-Client ausgeführt werden.",
+    "ipv6-update.prefix.invalid": "Das Präfix {prefix} ist nicht mehr gültig. Ignorieren.",
+    "ipv6-update.list.added": "Dynamischer IPv6-Adresslisteneintrag für ipv6-pool-{pool} hinzugefügt",
+    "ipv6-update.prefix.updating": "Aktualisierung der IPv6-Adressliste mit dem neuen IPv6-Präfix {prefix}",
+    "ipv6-update.host.updating": "Aktualisierung der IPv6-Adressliste mit der neuen IPv6-Hostadresse {address} über die Schnittstelle {interface}",
+    "ipv6-update.interface.prefix.updating": "Aktualisierung der IPv6-Adressliste mit dem neuen IPv6-Präfix {prefix} von der Schnittstelle {interface}",
+    "ipv6-update.dns.updating": "DNS-Eintrag für {name}{regexp} wird auf {address} aktualisiert"
+  },
+  "schema": "d502241c31fb73e9c3245e499a026333b5c7b5265d927b18a2a24bf7948fb823"
+}

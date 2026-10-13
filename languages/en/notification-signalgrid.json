@@ -1,0 +1,12 @@
+{
+  "language": "en",
+  "messages": {
+    "notification-signalgrid.offline": "System is not fully connected, not flushing.",
+    "notification-signalgrid.empty": "Flushing Signalgrid messages from scheduler, but queue is empty.",
+    "notification-signalgrid.queue.failed": "Sending queued Signalgrid notification failed: {error}",
+    "notification-signalgrid.certificate.failed": "Downloading required certificate failed.",
+    "notification-signalgrid.sending.failed": "Failed sending Signalgrid notification: {error} - Queuing...",
+    "notification-signalgrid.queued": "This message was queued since {date} {time} and may be obsolete."
+  },
+  "schema": "128aca9359451217298096f284f1811957b4079d0693132dbe948f2ced909a78"
+}

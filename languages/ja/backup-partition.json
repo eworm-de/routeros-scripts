@@ -1,0 +1,16 @@
+{
+  "language": "ja",
+  "messages": {
+    "backup-partition.copied": "RouterOS をパーティション「{name}」にコピーしました。",
+    "backup-partition.copy.failed": "RouterOS をパーティション '{name}' にコピーできませんでした: {error}",
+    "backup-partition.partition": "バックアップ パーティションから実行され、動作を拒否します。",
+    "backup-partition.unavailable": "デバイスにはフォールバック パーティションがありません。",
+    "backup-partition.inactive": "デバイスはアクティブなパーティションから実行されていません。",
+    "backup-partition.fallback.missing": "「{name}」という名前の非アクティブなパーティションはありません。",
+    "backup-partition.prompt": "パーティションには異なる RouterOS バージョンがあります。 「{name}」にコピーしますか? [y/N]",
+    "backup-partition.saved": "構成をパーティション「{name}」に保存しました。",
+    "backup-partition.save.failed": "パーティション「{name}」への構成の保存に失敗しました: {error}",
+    "backup-partition.running": "パーティション「{name}」から実行中です!"
+  },
+  "schema": "d37495d3faf22763093e64eb8145eb90d29a006fb0503cc939337741dfd80681"
+}

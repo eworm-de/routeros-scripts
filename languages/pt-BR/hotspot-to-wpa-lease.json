@@ -1,0 +1,9 @@
+{
+  "language": "pt-BR",
+  "messages": {
+    "hotspot-to-wpa-lease.marker.added": "Adicionada uma entrada desabilitada à lista de acesso com o comentário '--- hotspot-to-wpa above ---'.",
+    "hotspot-to-wpa-lease.template.added": "Adicionado um modelo à lista de acesso para o hotspot '{hotspot}'.",
+    "hotspot-to-wpa-lease.entry.updated": "Adicionando/atualizando a entrada da lista de acesso para o endereço MAC {mac} (usuário {user})."
+  },
+  "schema": "f78d5db29b04af55a757a12886dca285667ff1378c2d7cd29bc37009f14f5ce8"
+}

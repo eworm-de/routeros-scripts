@@ -1,0 +1,10 @@
+{
+  "language": "zh-CN",
+  "messages": {
+    "inspectvar.type": "类型",
+    "inspectvar.key": "钥匙",
+    "inspectvar.len": "伦",
+    "inspectvar.value": "值"
+  },
+  "schema": "2cbc53e8cc3687bd7d014271c8fdb7251bcf5b16476385468b3e5d11dc9dd5c4"
+}

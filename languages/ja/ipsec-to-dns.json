@@ -1,0 +1,12 @@
+{
+  "language": "ja",
+  "messages": {
+    "ipsec-to-dns.marker.added": "「{name}」という名前の無効な静的 DNS レコードを追加しました。",
+    "ipsec-to-dns.peer.exists": "ピア {peer} ({name}) はまだ存在します。 DNS エントリを削除しません。",
+    "ipsec-to-dns.peer.gone": "ピア {peer} ({name}) が失われ、DNS エントリが削除されました。",
+    "ipsec-to-dns.current": "{name} の DNS エントリは更新する必要はありません。",
+    "ipsec-to-dns.replacing": "{name} の DNS エントリを置き換えると、新しいアドレスは {address} になります。",
+    "ipsec-to-dns.adding": "{name} の新しい DNS エントリを追加すると、アドレスは {address} になります。"
+  },
+  "schema": "ed1c281155d118ad0f626106c929affb97ffffbf416dd87053f0becd389012dc"
+}

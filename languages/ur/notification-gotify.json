@@ -1,0 +1,11 @@
+{
+  "language": "ur",
+  "messages": {
+    "notification-gotify.offline": "سسٹم مکمل طور پر منسلک نہیں ہے، فلشنگ نہیں ہے۔",
+    "notification-gotify.queue.empty": "شیڈولر سے Gotify پیغامات کو فلش کیا جا رہا ہے، لیکن قطار خالی ہے۔",
+    "notification-gotify.queue.failed": "قطار بند Gotify پیغام بھیجنا ناکام ہو گیا: {error}",
+    "notification-gotify.send.failed": "Gotify اطلاع بھیجنے میں ناکام: {error} - قطار میں...",
+    "notification-gotify.queued": "یہ پیغام {date} {time} سے قطار میں کھڑا تھا اور ہوسکتا ہے کہ متروک ہو۔"
+  },
+  "schema": "3ca0bb174dd4fcbe639af5145d66a280408096f7c34f9d1dd0565c5061427859"
+}

@@ -1,0 +1,11 @@
+{
+  "language": "pt-BR",
+  "messages": {
+    "update-tunnelbroker.certificate.failed": "Falha ao baixar o certificado necessário.",
+    "update-tunnelbroker.download.failed": "Falha ao baixar: {error} - {count} tentativas restantes.",
+    "update-tunnelbroker.response.invalid": "Falha ao enviar o endereço local ao tunnelbroker ou resposta inesperada!",
+    "update-tunnelbroker.address.missing": "O endereço {address} não está configurado no dispositivo. NAT pelo provedor?",
+    "update-tunnelbroker.updating": "O endereço local mudou; atualizando a configuração do túnel com o endereço: {address}"
+  },
+  "schema": "a1b3554a6dc3737e590e438648393e5c28b297b740eb02023c141abd6fe84d4e"
+}

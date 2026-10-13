@@ -1,0 +1,11 @@
+{
+  "language": "ar",
+  "messages": {
+    "update-tunnelbroker.certificate.failed": "فشل تنزيل الشهادة المطلوبة.",
+    "update-tunnelbroker.download.failed": "فشل التنزيل: {error} - إعادة المحاولة {count} معلقة.",
+    "update-tunnelbroker.response.invalid": "فشل إرسال العنوان المحلي إلى Tunnelbroker أو استجابة غير متوقعة!",
+    "update-tunnelbroker.address.missing": "لم يتم تكوين العنوان {address} على جهازك. NAT بواسطة ISP؟",
+    "update-tunnelbroker.updating": "تم تغيير العنوان المحلي، وتحديث تكوين النفق بالعنوان: {address}"
+  },
+  "schema": "a1b3554a6dc3737e590e438648393e5c28b297b740eb02023c141abd6fe84d4e"
+}

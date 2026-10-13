@@ -1,0 +1,8 @@
+{
+  "language": "id",
+  "messages": {
+    "accesslist-duplicates.remove.prompt": "\nID numerik untuk dihapus, kunci apa saja untuk dilewati!",
+    "accesslist-duplicates.removing": "Menghapus id numerik {id}...\n"
+  },
+  "schema": "11c6e77afe0e5ea39b260eb21e4693aeb7b69299435563d0469b3c22651fdc8c"
+}

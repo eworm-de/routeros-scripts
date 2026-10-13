@@ -1,0 +1,12 @@
+{
+  "language": "es",
+  "messages": {
+    "notification-ntfy.offline": "El sistema no está completamente conectado, no se descarga.",
+    "notification-ntfy.queue.empty": "Eliminando mensajes Ntfy del programador, pero la cola está vacía.",
+    "notification-ntfy.queue.failed": "Error al enviar el mensaje Ntfy en cola: {error}",
+    "notification-ntfy.send.failed": "Error al enviar la notificación ntfy: {error} - En cola...",
+    "notification-ntfy.certificate.failed": "Error al descargar el certificado requerido.",
+    "notification-ntfy.queued": "Este mensaje estuvo en cola desde {date} {time} y puede estar obsoleto."
+  },
+  "schema": "6734a9715e6b789bb7ff475fdc9f2b11391a7dcbd94aaef3413d695b035d493e"
+}

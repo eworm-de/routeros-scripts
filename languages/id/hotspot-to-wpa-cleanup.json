@@ -1,0 +1,9 @@
+{
+  "language": "id",
+  "messages": {
+    "hotspot-to-wpa-cleanup.connected": "Klien dengan alamat mac {mac} terhubung ke WPA, membuat sewa menjadi statis.",
+    "hotspot-to-wpa-cleanup.disconnected": "Klien dengan alamat mac {mac} tidak terhubung ke WPA, dihapus dari daftar akses.",
+    "hotspot-to-wpa-cleanup.expired": "Klien dengan alamat mac {mac} tidak terlihat untuk {elapsed}, menghapus."
+  },
+  "schema": "1ebc7ea0f3bc0cc65554da860eb4b0739adc55a3f127030c7d8a1c780e722a35"
+}

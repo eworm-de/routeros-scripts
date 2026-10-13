@@ -1,0 +1,14 @@
+{
+  "language": "ur",
+  "messages": {
+    "ipv6-update.address.ignored": "ایک پتہ ({address}) حاصل کیا گیا تھا، کوئی سابقہ نہیں۔ نظر انداز کرنا۔",
+    "ipv6-update.context.invalid": "سمجھا جاتا ہے کہ یہ اسکرپٹ ipv6 dhcp-client سے چلتی ہے۔",
+    "ipv6-update.prefix.invalid": "سابقہ {prefix} اب درست نہیں ہے۔ نظر انداز کرنا۔",
+    "ipv6-update.list.added": "ipv6-pool-{pool} کے لیے متحرک ipv6 ایڈریس لسٹ میں شامل کیا گیا",
+    "ipv6-update.prefix.updating": "IPv6 ایڈریس لسٹ کو نئے IPv6 سابقہ {prefix} کے ساتھ اپ ڈیٹ کرنا",
+    "ipv6-update.host.updating": "انٹرفیس {interface} سے نئے IPv6 میزبان ایڈریس {address} کے ساتھ IPv6 ایڈریس لسٹ کو اپ ڈیٹ کرنا",
+    "ipv6-update.interface.prefix.updating": "انٹرفیس {interface} سے نئے IPv6 سابقہ {prefix} کے ساتھ IPv6 ایڈریس لسٹ کو اپ ڈیٹ کرنا",
+    "ipv6-update.dns.updating": "{name}{regexp} سے {address} کے لیے DNS ریکارڈ کو اپ ڈیٹ کرنا"
+  },
+  "schema": "d502241c31fb73e9c3245e499a026333b5c7b5265d927b18a2a24bf7948fb823"
+}

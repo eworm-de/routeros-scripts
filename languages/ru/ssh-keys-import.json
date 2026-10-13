@@ -1,0 +1,16 @@
+{
+  "language": "ru",
+  "messages": {
+    "ssh-keys-import.arguments.key": "Отсутствуют аргументы, передайте ключ и пользователя!",
+    "ssh-keys-import.user.missing": "Пользователь «{user}» не существует.",
+    "ssh-keys-import.type.unsupported": "Ключ SSH типа «{type}» не поддерживается.",
+    "ssh-keys-import.key.exists": "Открытый ключ ssh (MD5:{fingerprint}) уже доступен для пользователя «{user}».",
+    "ssh-keys-import.directory.failed": "Не удалось создать каталог 'tmpfs/ssh-keys-import'!",
+    "ssh-keys-import.imported": "Импортирован открытый ключ ssh ({name}, {type}, MD5:{fingerprint}) для пользователя «{user}».",
+    "ssh-keys-import.import.failed": "Не удалось импортировать ключ: {error}.",
+    "ssh-keys-import.arguments.file": "Отсутствуют аргументы, передайте имя файла и пользователя!",
+    "ssh-keys-import.file.missing": "Файл «{file}» не существует.",
+    "ssh-keys-import.user.import.failed": "Не удалось импортировать ключ для пользователя «{user}»."
+  },
+  "schema": "54cdcab8a420cb935136ec8a624f3eeceed166b6b96d7dd67b4ef7d0dcd74ea7"
+}

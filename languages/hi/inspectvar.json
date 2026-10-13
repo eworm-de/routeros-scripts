@@ -1,0 +1,10 @@
+{
+  "language": "hi",
+  "messages": {
+    "inspectvar.type": "प्रकार",
+    "inspectvar.key": "कुंजी",
+    "inspectvar.len": "लेन",
+    "inspectvar.value": "मूल्य"
+  },
+  "schema": "2cbc53e8cc3687bd7d014271c8fdb7251bcf5b16476385468b3e5d11dc9dd5c4"
+}

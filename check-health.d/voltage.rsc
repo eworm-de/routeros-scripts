@@ -21,12 +21,13 @@
 
   :global FormatLine;
   :global IfThenElse;
+  :global Translate;
   :global LogPrint;
   :global SendNotification2;
   :global SymbolForNotification;
 
   :if ([ :len [ /system/health/find where type="V" ] ] = 0) do={
-    $LogPrint debug $FuncName ("Your device does not provide any voltage health values.");
+    $LogPrint debug $FuncName ([ $Translate "check-health.voltage.unavailable" ]);
     :return false;
   }
 
@@ -42,20 +43,19 @@
            $NumLast * 100 > $NumCurr * (100 + $CheckHealthVoltagePercent)) do={
         $SendNotification2 ({ origin=$ScriptName; silent=false; \
           subject=([ $SymbolForNotification ("high-voltage-sign,chart-" . [ $IfThenElse ($NumLast < \
-            $NumCurr) "in" "de" ] . "creasing") ] . "Health warning: " . $Name); \
-          message=("The " . $Name . " on " . $Identity . " jumped more than " . $CheckHealthVoltagePercent . "%.\n\n" . \
-            [ $FormatLine "old value" ($CheckHealthLast->$Name . " V") 12 ] . "\n" . \
-            [ $FormatLine "new value" ($Value . " V") 12 ]) });
-      } else={ 
-        :if ($NumCurr <= $CheckHealthVoltageLow && $NumLast > $CheckHealthVoltageLow) do={ 
+            $NumCurr) "in" "de" ] . "creasing") ] . [ $Translate "check-health.warning.subject" ({ name=$Name }) ]); \
+          message=([ $Translate "check-health.voltage.jumped" ({ name=$Name; identity=$Identity; percent=$CheckHealthVoltagePercent; details=([ $FormatLine [ $Translate "check-health.voltage.old" ] ($CheckHealthLast->$Name . " V") 12 ] . "\n" . \
+            [ $FormatLine [ $Translate "check-health.voltage.new" ] ($Value . " V") 12 ]) }) ]) });
+      } else={
+        :if ($NumCurr <= $CheckHealthVoltageLow && $NumLast > $CheckHealthVoltageLow) do={
           $SendNotification2 ({ origin=$ScriptName; silent=false; \
-            subject=([ $SymbolForNotification "high-voltage-sign,chart-decreasing" ] . "Health warning: Low " . $Name); \ 
-            message=("The " . $Name . " on " . $Identity . " dropped to " . $Value . " V below hard limit.") }); 
-        } 
-        :if ($NumCurr > $CheckHealthVoltageLow && $NumLast <= $CheckHealthVoltageLow) do={ 
+            subject=([ $SymbolForNotification "high-voltage-sign,chart-decreasing" ] . [ $Translate "check-health.voltage.low.subject" ({ name=$Name }) ]); \
+            message=([ $Translate "check-health.voltage.low.message" ({ name=$Name; identity=$Identity; value=$Value }) ]) });
+        }
+        :if ($NumCurr > $CheckHealthVoltageLow && $NumLast <= $CheckHealthVoltageLow) do={
           $SendNotification2 ({ origin=$ScriptName; silent=true; \
-            subject=([ $SymbolForNotification "high-voltage-sign,chart-increasing" ] . "Health recovery: Low " . $Name); \ 
-            message=("The " . $Name . " on " . $Identity . " recovered to " . $Value . " V above hard limit.") }); 
+            subject=([ $SymbolForNotification "high-voltage-sign,chart-increasing" ] . [ $Translate "check-health.voltage.recovery.subject" ({ name=$Name }) ]); \
+            message=([ $Translate "check-health.voltage.recovery.message" ({ name=$Name; identity=$Identity; value=$Value }) ]) });
         }
       }
     }

@@ -1,0 +1,12 @@
+{
+  "language": "zh-CN",
+  "messages": {
+    "log-forward.limited": "速率限制生效，不转发日志（如果有）！",
+    "log-forward.subject": "日志转发",
+    "log-forward.duplicates": " 多次重复的消息已被跳过。",
+    "log-forward.delaying": "\n速率限制生效，延迟转发。",
+    "log-forward.message.single": "{identity} 上的日志在 {uptime} 正常运行时间后包含此消息。{duplicates}{delay}\n{messages}",
+    "log-forward.message.multiple": "{identity} 上的日志在 {uptime} 正常运行时间后包含这些 {count} 消息。{duplicates}{delay}\n{messages}"
+  },
+  "schema": "295a2441ccf8e06593a7eedcf16e2ac316badd8c4111d4dab8823ac3b329473c"
+}

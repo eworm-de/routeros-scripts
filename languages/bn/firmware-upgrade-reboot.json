@@ -1,0 +1,10 @@
+{
+  "language": "bn",
+  "messages": {
+    "firmware-upgrade-reboot.current": "বর্তমান এবং আপগ্রেড ফার্মওয়্যার {version} সংস্করণের সাথে মেলে।",
+    "firmware-upgrade-reboot.downgrade": "বিভিন্ন ফার্মওয়্যার সংস্করণ উপলব্ধ, কিন্তু এটি একটি ডাউনগ্রেড। উপেক্ষা করে।",
+    "firmware-upgrade-reboot.upgrade": "ফার্মওয়্যার সংস্করণ {version} উপলব্ধ, আপগ্রেড হচ্ছে৷",
+    "firmware-upgrade-reboot.reboot": "ফার্মওয়্যার আপগ্রেড সফল, রিবুট হচ্ছে।"
+  },
+  "schema": "6029d1d4da514989c7a64a3ae717c2ca8f5f42f295ad0d203b8343cf7a2944a5"
+}

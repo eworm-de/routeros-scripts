@@ -1,0 +1,17 @@
+{
+  "language": "de",
+  "messages": {
+    "notification-telegram.offline": "Das System ist nicht vollständig angeschlossen, die Spülung erfolgt nicht.",
+    "notification-telegram.certificate.failed": "Das Herunterladen des erforderlichen Zertifikats ist fehlgeschlagen.",
+    "notification-telegram.queue.empty": "Telegram-Nachrichten werden aus dem Planer gelöscht, aber die Warteschlange ist leer.",
+    "notification-telegram.queue.failed": "Das Senden der in der Warteschlange befindlichen Telegram-Nachricht ist fehlgeschlagen: {error}",
+    "notification-telegram.fetch.failed": "Das Abrufen der Daten ist fehlgeschlagen: {error}",
+    "notification-telegram.message.none": "Keine Nachricht erhalten.",
+    "notification-telegram.chat.id": "Die Chat-ID lautet: {id}",
+    "notification-telegram.thread.id": "Die Thread-ID lautet: {id}",
+    "notification-telegram.truncated": "Die Nachricht war zu lang und wurde abgeschnitten, abgeschnitten _{percent}%_!",
+    "notification-telegram.send.failed": "Das Senden der Telegram-Benachrichtigung ist fehlgeschlagen: {error} – Warteschlange...",
+    "notification-telegram.queued": "Diese Nachricht befand sich seit _{date} {time}_ in der Warteschlange und ist möglicherweise veraltet."
+  },
+  "schema": "924e559ca736a5da1f8988a245b39db4d85bda9fd5e9d359b1d0b1ba41e16e5d"
+}

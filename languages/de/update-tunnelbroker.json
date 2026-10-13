@@ -1,0 +1,11 @@
+{
+  "language": "de",
+  "messages": {
+    "update-tunnelbroker.certificate.failed": "Das Herunterladen des erforderlichen Zertifikats ist fehlgeschlagen.",
+    "update-tunnelbroker.download.failed": "Herunterladen fehlgeschlagen: {error} – {count}-Wiederholungsversuche stehen aus.",
+    "update-tunnelbroker.response.invalid": "Fehler beim Senden der lokalen Adresse an Tunnelbroker oder unerwartete Antwort!",
+    "update-tunnelbroker.address.missing": "Die Adresse {address} ist auf Ihrem Gerät nicht konfiguriert. NAT vom ISP?",
+    "update-tunnelbroker.updating": "Lokale Adresse geändert, Tunnelkonfiguration mit Adresse aktualisiert: {address}"
+  },
+  "schema": "a1b3554a6dc3737e590e438648393e5c28b297b740eb02023c141abd6fe84d4e"
+}

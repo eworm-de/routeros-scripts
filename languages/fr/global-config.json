@@ -1,0 +1,10 @@
+{
+  "language": "fr",
+  "messages": {
+    "global-config.overlay.failed": "Échec du chargement de la configuration à partir de la superposition ou de l'extrait {script} : {error}",
+    "global-config.hello.subject": "Bonjour...",
+    "global-config.hello.message": "Bonjour tout le monde, {identity} vous appelle !",
+    "global-config.not.ready": "La configuration globale et/ou les fonctions ne sont pas prêtes."
+  },
+  "schema": "4dea7b8ee007cfceb44462e476d61a9ea4a4066a05150bd7d29153c38e31666f"
+}

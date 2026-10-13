@@ -1,0 +1,12 @@
+{
+  "language": "hi",
+  "messages": {
+    "ipsec-to-dns.marker.added": "'{name}' नाम के साथ अक्षम स्थिर डीएनएस रिकॉर्ड जोड़ा गया।",
+    "ipsec-to-dns.peer.exists": "पीयर {peer} ({name}) अभी भी मौजूद है। DNS प्रविष्टि नहीं हटाई जा रही है.",
+    "ipsec-to-dns.peer.gone": "पीयर {peer} ({name}) चला गया है, DNS प्रविष्टि हटा रहा है।",
+    "ipsec-to-dns.current": "{name} के लिए DNS प्रविष्टि को अद्यतन करने की आवश्यकता नहीं है।",
+    "ipsec-to-dns.replacing": "{name} के लिए DNS प्रविष्टि को प्रतिस्थापित करते हुए, नया पता {address} है।",
+    "ipsec-to-dns.adding": "{name} के लिए नई DNS प्रविष्टि जोड़ी जा रही है, पता {address} है।"
+  },
+  "schema": "ed1c281155d118ad0f626106c929affb97ffffbf416dd87053f0becd389012dc"
+}

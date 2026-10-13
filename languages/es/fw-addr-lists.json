@@ -1,0 +1,21 @@
+{
+  "language": "es",
+  "messages": {
+    "fw-addr-lists.crash.delay": "Es posible que el subsistema de secuencias de comandos haya fallado, posiblemente causado por nosotros. ¡Retrasando!",
+    "fw-addr-lists.certificate.failed": "Error al descargar el certificado requerido ({list}/{url}), intentándolo de todos modos.",
+    "fw-addr-lists.download.retry": "Error al descargar la lista '{list}', {count}. prueba desde: {url}",
+    "fw-addr-lists.download.failed": "Error al descargar la lista '{list}' de: {url}",
+    "fw-addr-lists.downloaded": "Descargado {size}B para la lista '{list}' de: {url}",
+    "fw-addr-lists.branch": "Rama de manipulación: {branch}",
+    "fw-addr-lists.summary": "lista: {list} ({total}) - agregado: {added} - renovado: {renewed} - eliminado: {removed}",
+    "fw-addr-lists.ipv4.renew": "Renovando la dirección IPv4 {address} en la lista '{list}' con {timeout}.",
+    "fw-addr-lists.ipv4.remove": "Eliminando la dirección IPv4 {address} de la lista '{list}.",
+    "fw-addr-lists.ipv4.add": "Agregar la dirección IPv4 {address} a la lista '{list}' con {timeout}.",
+    "fw-addr-lists.ipv4.failed": "No se pudo agregar la dirección IPv4 {address} a la lista '{list}': {error}",
+    "fw-addr-lists.ipv6.renew": "Renovando la dirección IPv6 {address} en la lista '{list}' con {timeout}.",
+    "fw-addr-lists.ipv6.remove": "Eliminando la dirección IPv6 {address} de la lista '{list}.",
+    "fw-addr-lists.ipv6.add": "Agregar la dirección IPv6 {address} a la lista '{list}' con {timeout}.",
+    "fw-addr-lists.ipv6.failed": "No se pudo agregar la dirección IPv6 {address} a la lista '{list}': {error}"
+  },
+  "schema": "42bcfb865c10957ae21b18aa798348228d56dea78dd75c130eee6af199b03277"
+}

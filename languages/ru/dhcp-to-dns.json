@@ -1,0 +1,21 @@
+{
+  "language": "ru",
+  "messages": {
+    "dhcp-to-dns.marker.added": "Добавлена отключенная статическая DNS-запись с именем «{name}».",
+    "dhcp-to-dns.lease.exists": "Аренда {lease} ({name}) все еще существует. Не удаляя запись.",
+    "dhcp-to-dns.lease.expired": "Срок аренды истек для {lease}, запись ({name}) удалена.",
+    "dhcp-to-dns.leases.multiple": "Для mac-адреса {mac} обнаружено несколько связанных договоров аренды!",
+    "dhcp-to-dns.lease.vanished": "А аренда просто исчезла, проигнорировав.",
+    "dhcp-to-dns.address.missing": "Адреса нет... Игнорируем.",
+    "dhcp-to-dns.lease.ignored": "Аренда для {mac} игнорируется... Пропускаем.",
+    "dhcp-to-dns.record.current": "Запись A для {lease} ({name}) не требует обновления.",
+    "dhcp-to-dns.record.updating": "Обновление записи для {lease} ({name} -> {address}).",
+    "dhcp-to-dns.cname.deleting": "Удаление записи CNAME с неверными данными для {lease}.",
+    "dhcp-to-dns.cname.adding": "Добавление записи CNAME для {lease} ({name} -> {target}).",
+    "dhcp-to-dns.record.adding": "Добавление записи для {lease} ({name} -> {address}).",
+    "dhcp-to-dns.records.multiple": "Имя «{name}» появлялось более чем в одной записи A!",
+    "dhcp-to-dns.lease.label": "{mac} в {server}",
+    "dhcp-to-dns.lease.label.current": "{mac} в {server}"
+  },
+  "schema": "96d193afd6225330e8e948bff1c489f075720758d514a6288540b978f27c8e6d"
+}

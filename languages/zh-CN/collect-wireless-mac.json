@@ -1,0 +1,25 @@
+{
+  "language": "zh-CN",
+  "messages": {
+    "collect-wireless-mac.marker.added": "添加了禁用的访问列表条目，并带有注释“--- 以上收集 ---”。",
+    "collect-wireless-mac.device.gone": "设备已经消失了...忽略。",
+    "collect-wireless-mac.lease.missing": "无 DHCP 租用",
+    "collect-wireless-mac.hostname.missing": "没有主机名",
+    "collect-wireless-mac.dns.missing": "没有 DNS 名称",
+    "collect-wireless-mac.first.seen": "MAC 地址 {mac}（{vendor}、{hostname}）首先在连接到 SSID {ssid}、接口 {interface} 的 {date} 上看到",
+    "collect-wireless-mac.subject": "{mac} 连接到 {ssid}",
+    "collect-wireless-mac.message": "{identity} 上连接到 {ssid} 的 MAC 地址未知的设备。\n\n",
+    "collect-wireless-mac.mac.missing": "没有可用的 mac 地址...忽略。",
+    "collect-wireless-mac.label.controller": "控制器",
+    "collect-wireless-mac.label.interface": "接口",
+    "collect-wireless-mac.label.ssid": "SSID",
+    "collect-wireless-mac.label.mac": "麦克",
+    "collect-wireless-mac.label.vendor": "供应商",
+    "collect-wireless-mac.label.hostname": "主机名",
+    "collect-wireless-mac.label.address": "地址",
+    "collect-wireless-mac.label.dns": "DNS名称",
+    "collect-wireless-mac.label.date": "日期",
+    "collect-wireless-mac.known": "MAC 地址 {mac} 已知：{comment}"
+  },
+  "schema": "70ad56ad671ad178315877f3d03eaddd505e04060e94d4c635cd2ebab32adee9"
+}

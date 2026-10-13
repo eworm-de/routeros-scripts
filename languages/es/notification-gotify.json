@@ -1,0 +1,11 @@
+{
+  "language": "es",
+  "messages": {
+    "notification-gotify.offline": "El sistema no está completamente conectado, no se descarga.",
+    "notification-gotify.queue.empty": "Eliminando mensajes de Gotify del programador, pero la cola está vacía.",
+    "notification-gotify.queue.failed": "Error al enviar el mensaje de Gotify en cola: {error}",
+    "notification-gotify.send.failed": "Error al enviar la notificación de Gotify: {error} - En cola...",
+    "notification-gotify.queued": "Este mensaje estuvo en cola desde {date} {time} y puede estar obsoleto."
+  },
+  "schema": "3ca0bb174dd4fcbe639af5145d66a280408096f7c34f9d1dd0565c5061427859"
+}

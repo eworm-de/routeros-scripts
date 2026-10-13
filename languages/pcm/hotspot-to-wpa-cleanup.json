@@ -1,0 +1,9 @@
+{
+  "language": "pcm",
+  "messages": {
+    "hotspot-to-wpa-cleanup.connected": "Client wey get MAC address {mac} don connect to WPA; we dey make lease static.",
+    "hotspot-to-wpa-cleanup.disconnected": "Client with mac address {mac} don not connect to WPA, removing from access list.",
+    "hotspot-to-wpa-cleanup.expired": "Client with mac address {mac} don not seen for {elapsed}, removing."
+  },
+  "schema": "1ebc7ea0f3bc0cc65554da860eb4b0739adc55a3f127030c7d8a1c780e722a35"
+}

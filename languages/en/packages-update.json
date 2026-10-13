@@ -1,0 +1,26 @@
+{
+  "language": "en",
+  "messages": {
+    "packages-update.scheduler.exists": "Scheduler for reboot already exists.",
+    "packages-update.scheduled": "Scheduled reboot for update at {time} local time ({timezone}).",
+    "packages-update.license.expired": "The license expired, upgrade is blocked.",
+    "packages-update.backup.partition": "Running from backup partition, refusing to act.",
+    "packages-update.version.unknown": "Latest version is not known.",
+    "packages-update.version.installed": "Version {version} is already installed.",
+    "packages-update.backup.running": "Running backup script {name} before update.",
+    "packages-update.backup.failed": "Running backup script {name} before update failed!",
+    "packages-update.continue.prompt": "Do you want to continue anyway? [y/N]",
+    "packages-update.continue": "User requested to continue anyway.",
+    "packages-update.canceled.update": "Canceled update...",
+    "packages-update.canceled.noninteractive": "Canceled non-interactive update.",
+    "packages-update.downgrade.prompt": "Latest version is older than installed one. Want to downgrade? [y/N]",
+    "packages-update.canceled": "Canceled...",
+    "packages-update.downgrade.refused": "Not installing downgrade automatically.",
+    "packages-update.download.failed": "Download for package {name} failed, update aborted.",
+    "packages-update.downgrade.reboot": "Rebooting for downgrade.",
+    "packages-update.reboot.prompt": "Do you want to (s)chedule reboot or (r)eboot now? [s/R]",
+    "packages-update.update.reboot": "Rebooting for update.",
+    "packages-update.scheduled.deferred": "Scheduled reboot for update at {time} local time ({timezone}) deferred by {interval}."
+  },
+  "schema": "77f3f83454477a8d375bfb399dd18ea210e50ceaf290213460a2f613ac47abd1"
+}

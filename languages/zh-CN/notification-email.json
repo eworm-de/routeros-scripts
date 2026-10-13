@@ -1,0 +1,21 @@
+{
+  "language": "zh-CN",
+  "messages": {
+    "notification-email.from": "{identity} 通过 routeros 脚本 <{address}>",
+    "notification-email.queue.empty": "从调度程序中刷新电子邮件，但队列为空。",
+    "notification-email.checking": "正在进行初步检查...",
+    "notification-email.scheduler.gone": "调度程序消失了，正在中止。",
+    "notification-email.sending.busy": "当前正在发送邮件，而不是刷新。",
+    "notification-email.time.unsynced": "时间不同步，不刷新。",
+    "notification-email.dns.failed": "服务器地址是 DNS 名称，解析失败，而不是刷新。",
+    "notification-email.certificate.failed": "下载所需的证书失败。",
+    "notification-email.sending": "正在发送...",
+    "notification-email.attach.missing": "文件“{file}”不存在，无法附加。",
+    "notification-email.send.failed": "发送排队邮件失败：{error}",
+    "notification-email.queue.purged": "队列被清除了？退出。",
+    "notification-email.retry.waiting": "等待重试...",
+    "notification-email.truncated": "消息太长，已被截断！",
+    "notification-email.queuing": "正在排队新邮件..."
+  },
+  "schema": "5a6236090c5b7c3f80f50b70e58e9489c8100e4505c9ddc4ee72854e4de47c20"
+}

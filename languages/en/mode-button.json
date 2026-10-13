@@ -1,0 +1,8 @@
+{
+  "language": "en",
+  "messages": {
+    "mode-button.scheduler.creating": "{script}: Creating scheduler mode-button-scheduler, counting presses...",
+    "mode-button.scheduler.updating": "{script}: Updating scheduler mode-button-scheduler..."
+  },
+  "schema": "1b567608fb5b7d34f1710eac3a7c4e5740acbea43a5f928a6be5d5c6d189ed03"
+}

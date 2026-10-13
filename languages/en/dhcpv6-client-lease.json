@@ -1,0 +1,9 @@
+{
+  "language": "en",
+  "messages": {
+    "dhcpv6-client-lease.context.invalid": "This script is supposed to run from ipv6 dhcp-client.",
+    "dhcpv6-client-lease.script.running": "Running script with order {order}: {name}",
+    "dhcpv6-client-lease.script.failed": "Running script '{name}' failed: {error}"
+  },
+  "schema": "6945e4d13819da10f471d905a5fc37284b6cf1e482d9a7b526483b754951e02a"
+}

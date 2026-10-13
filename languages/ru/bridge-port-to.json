@@ -1,0 +1,12 @@
+{
+  "language": "ru",
+  "messages": {
+    "bridge-port-to.client.enabled": "Отключение порта моста для интерфейса {interface}, включение DHCP-клиента.",
+    "bridge-port-to.interfaces.enabled": "Повторное включение интерфейсов...",
+    "bridge-port-to.bridge.enabled": "Включение порта моста для интерфейса {interface}, изменение на мост {config} {bridge}, отключение клиента DHCP.",
+    "bridge-port-to.bridge.connected": "Интерфейс {interface} уже подключен к мосту {config} {bridge}.",
+    "bridge-port-to.client.missing": "Отсутствует конфигурация клиента DHCP для интерфейса {interface}!",
+    "bridge-port-to.client.duplicate": "Дублирующая конфигурация клиента DHCP для интерфейса {interface}!"
+  },
+  "schema": "9ff4cd55d43b5e48046edec247245c26cd52574d351dd5b3d5c66b36824548d6"
+}

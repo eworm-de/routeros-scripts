@@ -1,0 +1,11 @@
+{
+  "language": "ur",
+  "messages": {
+    "scriptrunonce.url.missing": "اسکرپٹ '{script}' یو آر ایل نہیں ہے اور بیس یو آر ایل دستیاب نہیں ہے۔",
+    "scriptrunonce.fetch.failed": "اسکرپٹ '{script}' بازیافت کرنے میں ناکام!",
+    "scriptrunonce.syntax": "اسکرپٹ '{script}' نحو کی توثیق میں ناکام!",
+    "scriptrunonce.running": "اسکرپٹ '{script}' ابھی چل رہا ہے۔",
+    "scriptrunonce.failed": "اسکرپٹ '{script}' چلانے میں ناکام: {error}"
+  },
+  "schema": "60deac34267f7cfb590d500ce671562bfd8cf79337f433f8b350281561a4ae52"
+}

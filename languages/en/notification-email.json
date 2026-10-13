@@ -1,0 +1,21 @@
+{
+  "language": "en",
+  "messages": {
+    "notification-email.from": "{identity} via routeros-scripts <{address}>",
+    "notification-email.queue.empty": "Flushing E-Mail messages from scheduler, but queue is empty.",
+    "notification-email.checking": "Doing initial checks...",
+    "notification-email.scheduler.gone": "The scheduler is gone, aborting.",
+    "notification-email.sending.busy": "Sending mail is currently in progress, not flushing.",
+    "notification-email.time.unsynced": "Time is not synced, not flushing.",
+    "notification-email.dns.failed": "Server address is a DNS name and resolving fails, not flushing.",
+    "notification-email.certificate.failed": "Downloading required certificate failed.",
+    "notification-email.sending": "Sending...",
+    "notification-email.attach.missing": "File '{file}' does not exist, can not attach.",
+    "notification-email.send.failed": "Sending queued mail failed: {error}",
+    "notification-email.queue.purged": "Queue was purged? Exiting.",
+    "notification-email.retry.waiting": "Waiting for retry...",
+    "notification-email.truncated": "The message was too long and has been truncated!",
+    "notification-email.queuing": "Queuing new mail..."
+  },
+  "schema": "5a6236090c5b7c3f80f50b70e58e9489c8100e4505c9ddc4ee72854e4de47c20"
+}

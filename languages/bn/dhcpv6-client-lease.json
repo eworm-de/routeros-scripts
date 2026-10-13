@@ -1,0 +1,9 @@
+{
+  "language": "bn",
+  "messages": {
+    "dhcpv6-client-lease.context.invalid": "এই স্ক্রিপ্টটি ipv6 dhcp-ক্লায়েন্ট থেকে চালানোর কথা।",
+    "dhcpv6-client-lease.script.running": "{order} অর্ডার সহ স্ক্রিপ্ট চলছে: {name}",
+    "dhcpv6-client-lease.script.failed": "চলমান স্ক্রিপ্ট '{name}' ব্যর্থ হয়েছে: {error}"
+  },
+  "schema": "6945e4d13819da10f471d905a5fc37284b6cf1e482d9a7b526483b754951e02a"
+}

@@ -1,0 +1,9 @@
+{
+  "language": "ja",
+  "messages": {
+    "hotspot-to-wpa-lease.marker.added": "コメント「--- hotspot-to-wpa Above ---」を含む無効なアクセス リスト エントリを追加しました。",
+    "hotspot-to-wpa-lease.template.added": "ホットスポット「{hotspot}」のアクセスリストにテンプレートを追加しました。",
+    "hotspot-to-wpa-lease.entry.updated": "MAC アドレス {mac} (ユーザー {user}) のアクセス リスト エントリを追加/更新します。"
+  },
+  "schema": "f78d5db29b04af55a757a12886dca285667ff1378c2d7cd29bc37009f14f5ce8"
+}

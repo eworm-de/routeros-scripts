@@ -1,0 +1,30 @@
+{
+  "language": "de",
+  "messages": {
+    "netwatch-notify.type.host": "Gastgeber",
+    "netwatch-notify.type.service": "Dienst",
+    "netwatch-notify.state.up": "auf",
+    "netwatch-notify.state.down": "unten",
+    "netwatch-notify.state.pre-down": "Pre-Down",
+    "netwatch-notify.hook.failed": "Der {state}-Hook für {type} „{name}“ konnte nicht ausgeführt werden: {error}",
+    "netwatch-notify.hook.failed.message": "Der Hook konnte nicht ausgeführt werden.",
+    "netwatch-notify.hook.syntax": "Der {state}-Hook für {type} „{name}“ schlug bei der Syntaxvalidierung fehl.",
+    "netwatch-notify.hook.syntax.message": "Die Syntaxüberprüfung des Hooks ist fehlgeschlagen.",
+    "netwatch-notify.hook.ran": "Ran Hook auf {type} '{name}' {state}: {hook}",
+    "netwatch-notify.hook.ran.message": "Ran Hook:\n{hook}",
+    "netwatch-notify.resolve.updated": "Der Name „{resolve}“ wird in eine andere Adresse {address} aufgelöst und aktualisiert.",
+    "netwatch-notify.resolve.named.updated": "Der Name „{resolve}“ für {type} „{name}“ wird in eine andere Adresse {address} aufgelöst und aktualisiert.",
+    "netwatch-notify.resolve.failed": "Das Auflösen des Namens „{resolve}“ ist beim dritten Mal fehlgeschlagen: {error}",
+    "netwatch-notify.resolve.named.failed": "Das Auflösen des Namens „{resolve}“ für {type} „{name}“ ist beim dritten Mal fehlgeschlagen: {error}",
+    "netwatch-notify.up": "Der {type} „{name}“ ({details}) ist verfügbar.",
+    "netwatch-notify.up.message": "Der {type} „{name}“ ({details}) ist seit {since} aktiv.\nEs war seit {down_since} für {count}-Prüfungen nicht mehr verfügbar.",
+    "netwatch-notify.note": "\n\nHinweis:\n{note}",
+    "netwatch-notify.up.subject": "Netwatch Notify: {name} up",
+    "netwatch-notify.down.subject": "Netwatch Notify: {name} ausgefallen",
+    "netwatch-notify.down.waiting": "Der {type} „{name}“ ({details}) ist wegen {count}-Prüfungen nicht verfügbar, {remaining} bleibt außer Betrieb.",
+    "netwatch-notify.down.notified": "Der {type} „{name}“ ({details}) ist wegen {count}-Prüfungen nicht verfügbar und wurde bereits benachrichtigt.",
+    "netwatch-notify.down.parent": "Der {type} '{name}' ({details}) ist für {count}-Prüfungen ausgefallen, der übergeordnete {type} {parent} ist ausgefallen.",
+    "netwatch-notify.down.message": "Der {type} „{name}“ ({details}) ist seit {since} nicht verfügbar."
+  },
+  "schema": "7599eb0829fe6e5e2de9cf05b5bf721fd5b4cd7ce0726daf8735d47e695d7240"
+}

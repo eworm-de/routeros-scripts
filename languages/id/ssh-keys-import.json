@@ -1,0 +1,16 @@
+{
+  "language": "id",
+  "messages": {
+    "ssh-keys-import.arguments.key": "Argumen tidak ada, harap berikan kunci dan pengguna!",
+    "ssh-keys-import.user.missing": "Pengguna '{user}' tidak ada.",
+    "ssh-keys-import.type.unsupported": "Kunci SSH jenis '{type}' tidak didukung.",
+    "ssh-keys-import.key.exists": "Kunci publik ssh (MD5:{fingerprint}) sudah tersedia untuk pengguna '{user}'.",
+    "ssh-keys-import.directory.failed": "Gagal membuat direktori 'tmpfs/ssh-keys-import'!",
+    "ssh-keys-import.imported": "Kunci publik ssh yang diimpor ({name}, {type}, MD5:{fingerprint}) untuk pengguna '{user}'.",
+    "ssh-keys-import.import.failed": "Gagal mengimpor kunci: {error}",
+    "ssh-keys-import.arguments.file": "Argumen tidak ada, harap berikan nama file dan pengguna!",
+    "ssh-keys-import.file.missing": "Berkas '{file}' tidak ada.",
+    "ssh-keys-import.user.import.failed": "Gagal mengimpor kunci untuk pengguna '{user}'."
+  },
+  "schema": "54cdcab8a420cb935136ec8a624f3eeceed166b6b96d7dd67b4ef7d0dcd74ea7"
+}

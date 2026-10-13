@@ -1,0 +1,26 @@
+{
+  "language": "de",
+  "messages": {
+    "packages-update.scheduler.exists": "Der Zeitplaner für den Neustart ist bereits vorhanden.",
+    "packages-update.scheduled": "Geplanter Neustart für die Aktualisierung zur Ortszeit {time} ({timezone}).",
+    "packages-update.license.expired": "Die Lizenz ist abgelaufen, das Upgrade ist blockiert.",
+    "packages-update.backup.partition": "Wird von der Backup-Partition ausgeführt und weigert sich zu handeln.",
+    "packages-update.version.unknown": "Die neueste Version ist nicht bekannt.",
+    "packages-update.version.installed": "Version {version} ist bereits installiert.",
+    "packages-update.backup.running": "Ausführen des Sicherungsskripts {name} vor dem Update.",
+    "packages-update.backup.failed": "Das Ausführen des Backup-Skripts {name} vor dem Update ist fehlgeschlagen!",
+    "packages-update.continue.prompt": "Möchten Sie trotzdem fortfahren? [y/N]",
+    "packages-update.continue": "Der Benutzer hat gebeten, trotzdem fortzufahren.",
+    "packages-update.canceled.update": "Update abgebrochen...",
+    "packages-update.canceled.noninteractive": "Nicht interaktives Update abgebrochen.",
+    "packages-update.downgrade.prompt": "Die neueste Version ist älter als die installierte. Möchten Sie ein Downgrade durchführen? [y/N]",
+    "packages-update.canceled": "Abgesagt...",
+    "packages-update.downgrade.refused": "Downgrade wird nicht automatisch installiert.",
+    "packages-update.download.failed": "Download für Paket {name} fehlgeschlagen, Update abgebrochen.",
+    "packages-update.downgrade.reboot": "Neustart zum Downgrade.",
+    "packages-update.reboot.prompt": "Möchten Sie den Neustart planen (s) oder jetzt neu starten (r)? [s/R]",
+    "packages-update.update.reboot": "Neustart zum Update.",
+    "packages-update.scheduled.deferred": "Geplanter Neustart für die Aktualisierung zur Ortszeit {time} ({timezone}), verschoben um {interval}."
+  },
+  "schema": "77f3f83454477a8d375bfb399dd18ea210e50ceaf290213460a2f613ac47abd1"
+}

@@ -1,0 +1,22 @@
+{
+  "language": "hi",
+  "messages": {
+    "backup-upload.partition": "बैकअप पार्टीशन से भागना, कार्रवाई करने से इंकार करना।",
+    "backup-upload.directory": "निर्देशिका बनाने में विफल!",
+    "backup-upload.options": "न तो बैकअप और न ही कॉन्फिग निर्यात भेजने के लिए कॉन्फ़िगर किया गया।",
+    "backup-upload.none": "कोई नहीं",
+    "backup-upload.label.backup": "बैकअप फ़ाइल",
+    "backup-upload.label.export": "फ़ाइल निर्यात करें",
+    "backup-upload.label.config": "कॉन्फ़िग फ़ाइल",
+    "backup-upload.upload.backup.failed": "बैकअप फ़ाइल अपलोड करना विफल: {error}",
+    "backup-upload.upload.export.failed": "कॉन्फ़िगरेशन निर्यात अपलोड करना विफल: {error}",
+    "backup-upload.upload.config.failed": "global-config-overlay अपलोड करना विफल: {error}",
+    "backup-upload.subject": "बैकअप और कॉन्फ़िग अपलोड",
+    "backup-upload.subject.failed": "विफलता के साथ बैकअप और कॉन्फ़िगरेशन अपलोड",
+    "backup-upload.message": "{identity} के लिए बैकअप और कॉन्फिग निर्यात अपलोड।\n\n{device}\n\n{details}",
+    "backup-upload.failed": "विफल",
+    "backup-upload.label.name": "    नाम",
+    "backup-upload.label.size": "    आकार"
+  },
+  "schema": "ac3b0aa1324d76ce3ef1515ba46a556bd27200aeea4ad75af6d1e26fd41bf67d"
+}

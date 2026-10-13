@@ -1,0 +1,10 @@
+{
+  "language": "de",
+  "messages": {
+    "inspectvar.type": "Typ",
+    "inspectvar.key": "Schlüssel",
+    "inspectvar.len": "len",
+    "inspectvar.value": "Wert"
+  },
+  "schema": "2cbc53e8cc3687bd7d014271c8fdb7251bcf5b16476385468b3e5d11dc9dd5c4"
+}

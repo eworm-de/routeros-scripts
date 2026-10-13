@@ -10,12 +10,92 @@
 # global functions
 # https://rsc.eworm.de/
 
+# BEGIN GENERATED LANGUAGE DATA
+# language, name=global-functions, schema=11ec766b1c116091e098b19755e3efe320ce083797063fbd31e6880667418d65
+:global LanguageEnglish;
+:if ([ :typeof $LanguageEnglish ] != "array") do={ :set LanguageEnglish ({}); }
+:set ($LanguageEnglish->"global-functions.certificate.chain") "Certificate chain for '{name}' is incomplete, missing '{issuer}'.";
+:set ($LanguageEnglish->"global-functions.certificate.download") "Downloading and importing certificate with CommonName '{name}'.";
+:set ($LanguageEnglish->"global-functions.certificate.failed") "Failed downloading certificate with CommonName '{name}'!";
+:set ($LanguageEnglish->"global-functions.certificate.fallback") "Failed downloading certificate with CommonName '{name}' from repository! Trying fallback to mkcert.org...";
+:set ($LanguageEnglish->"global-functions.certificate.flash.low") "This system has low free flash space but is configured to download certificate CRLs to system!";
+:set ($LanguageEnglish->"global-functions.certificate.match.missing") "No matching certificate found for pattern '{pattern}'.";
+:set ($LanguageEnglish->"global-functions.certificate.match.multiple") "Too many matching certificates found for pattern '{pattern}'.";
+:set ($LanguageEnglish->"global-functions.certificate.multiple") "There are several certificates with CommonName '{name}'. Should be ok.";
+:set ($LanguageEnglish->"global-functions.certificate.name.missing") "No CommonName given!";
+:set ($LanguageEnglish->"global-functions.certificate.required") "Required certificate is not available.";
+:set ($LanguageEnglish->"global-functions.certificate.still.unavailable") "Certificate with CommonName '{name}' still unavailable!";
+:set ($LanguageEnglish->"global-functions.certificate.unavailable") "Certificate with CommonName '{name}' not available.";
+:set ($LanguageEnglish->"global-functions.certificate.use.undefined") "The intended use is undefined!";
+:set ($LanguageEnglish->"global-functions.directory.creating") "Making directory: {path}";
+:set ($LanguageEnglish->"global-functions.directory.exists") "... which already exists.";
+:set ($LanguageEnglish->"global-functions.directory.failed") "Making directory '{path}' failed: {error}";
+:set ($LanguageEnglish->"global-functions.directory.remove.failed") "Removing directory '{path}' failed: {error}";
+:set ($LanguageEnglish->"global-functions.directory.removing") "Removing directory: {path}";
+:set ($LanguageEnglish->"global-functions.directory.type") "Directory '{path}' is not a directory.";
+:set ($LanguageEnglish->"global-functions.error.function") "Function '{name}' exited with error.";
+:set ($LanguageEnglish->"global-functions.error.function.detail") "Function '{name}' exited with error: {error}";
+:set ($LanguageEnglish->"global-functions.error.script") "Script '{name}' exited with error.";
+:set ($LanguageEnglish->"global-functions.error.script.detail") "Script '{name}' exited with error: {error}";
+:set ($LanguageEnglish->"global-functions.fetch.directory.failed") "Failed creating directory!";
+:set ($LanguageEnglish->"global-functions.fetch.failed") "Failed downloading from {url} - {error}";
+:set ($LanguageEnglish->"global-functions.fetch.file.missing") "The file downloaded from {url} did not show up.";
+:set ($LanguageEnglish->"global-functions.file.remove.failed") "Removing file '{file}' failed: {error}";
+:set ($LanguageEnglish->"global-functions.file.removing") "Removing file: {file}";
+:set ($LanguageEnglish->"global-functions.file.type") "File '{file}' is not a file.";
+:set ($LanguageEnglish->"global-functions.language.cache.failed") "Could not cache language catalog; using it in memory.";
+:set ($LanguageEnglish->"global-functions.language.fetch.failed") "Language catalog {group}: {error} Using cached translations or English.";
+:set ($LanguageEnglish->"global-functions.language.https") "Language downloads require HTTPS.";
+:set ($LanguageEnglish->"global-functions.language.incompatible") "Incompatible language catalog.";
+:set ($LanguageEnglish->"global-functions.language.incomplete") "Language download incomplete.";
+:set ($LanguageEnglish->"global-functions.language.invalid") "Invalid ScriptLanguage; using English.";
+:set ($LanguageEnglish->"global-functions.language.message.invalid") "Invalid language message.";
+:set ($LanguageEnglish->"global-functions.language.size") "Language catalog exceeds size limit.";
+:set ($LanguageEnglish->"global-functions.language.update.failed") "Language update: {error}";
+:set ($LanguageEnglish->"global-functions.loaded") "Loaded {commit}on {board} with RouterOS {version}.";
+:set ($LanguageEnglish->"global-functions.lock.repeated") "Script '{script}' started more than once...";
+:set ($LanguageEnglish->"global-functions.lock.script.missing") "A script named '{script}' does not exist!";
+:set ($LanguageEnglish->"global-functions.lock.script.stopped") "No script '{script}' is running!";
+:set ($LanguageEnglish->"global-functions.lock.tickets.reset") "More tickets than running scripts '{script}', resetting!";
+:set ($LanguageEnglish->"global-functions.lock.timeout") "Script '{script}' started more than once and timed out waiting for lock...";
+:set ($LanguageEnglish->"global-functions.log.once.crash") "The message is already in log, scripting subsystem may have crashed before!";
+:set ($LanguageEnglish->"global-functions.log.unknown") "<unknown>";
+:set ($LanguageEnglish->"global-functions.module.duplicate") "Duplicate required module: {module}";
+:set ($LanguageEnglish->"global-functions.module.failed") "Module '{module}' failed to run: {error}";
+:set ($LanguageEnglish->"global-functions.module.installing") "Installing required module: {module}";
+:set ($LanguageEnglish->"global-functions.module.invalid") "Required module failed validation: {module}";
+:set ($LanguageEnglish->"global-functions.module.syntax") "Module '{module}' failed syntax validation, skipping.";
+:set ($LanguageEnglish->"global-functions.module.uninitialized") "Required module did not initialize: {module}";
+:set ($LanguageEnglish->"global-functions.path.missing") "... which does not exist.";
+:set ($LanguageEnglish->"global-functions.script.nonterminal") "Script {script} NOT started from terminal.";
+:set ($LanguageEnglish->"global-functions.script.terminal") "Script {script} started from terminal.";
+:set ($LanguageEnglish->"global-functions.severity.debug") "debug";
+:set ($LanguageEnglish->"global-functions.severity.error") "error";
+:set ($LanguageEnglish->"global-functions.severity.info") "info";
+:set ($LanguageEnglish->"global-functions.severity.warning") "warning";
+:set ($LanguageEnglish->"global-functions.syntax.failed") "Valdation failed: {error}";
+:set ($LanguageEnglish->"global-functions.time.ntp.unsynced") "The ntp client is configured, but did not sync.";
+:set ($LanguageEnglish->"global-functions.time.rtc") "No ntp client configured, relying on RTC for CHR free license and x86.";
+:set ($LanguageEnglish->"global-functions.time.source.missing") "No time source configured! Returning gracefully...";
+:set ($LanguageEnglish->"global-functions.tmpfs.creating") "Creating disk of type tmpfs.";
+:set ($LanguageEnglish->"global-functions.tmpfs.enabled") "The tmpfs is disabled, enabling.";
+:set ($LanguageEnglish->"global-functions.tmpfs.failed") "Creating disk of type tmpfs failed: {error}";
+:set ($LanguageEnglish->"global-functions.version.function") "This function '{caller}' (at least specific functionality) requires RouterOS {version}. Please update!";
+:set ($LanguageEnglish->"global-functions.version.invalid") "No valid RouterOS version: {version}";
+:set ($LanguageEnglish->"global-functions.version.script") "This script '{caller}' (at least specific functionality) requires RouterOS {version}. Please update!";
+:set ($LanguageEnglish->"global-config.not.ready") "Global config and/or functions not ready.";
+:global GlobalNotReadyMessage;
+:if ([ :typeof $GlobalNotReadyMessage ] != "str") do={
+  :set GlobalNotReadyMessage ($LanguageEnglish->"global-config.not.ready");
+}
+# END GENERATED LANGUAGE DATA
+
 :local ScriptName [ :jobname ];
 
 # Git commit id & info, expected configuration version
 :global CommitId "unknown";
 :global CommitInfo "unknown";
-:global ExpectedConfigVersion 146;
+:global ExpectedConfigVersion 147;
 
 # global variables not to be changed by user
 :global GlobalFunctionsReady false;
@@ -109,22 +189,22 @@
 
   :global CertificateDownload;
   :global LogPrint;
+  :global Translate;
   :global ParseKeyValueStore;
 
   :if ([ :len $UseFor ] = 0) do={
-    $LogPrint info $0 ("The intended use is undefined!");
+    $LogPrint info $0 [ $Translate "global-functions.certificate.use.undefined" ];
     :set UseFor "undefined";
   }
 
   :if ([ /system/resource/get free-hdd-space ] < 8388608 && \
        [ /certificate/settings/get crl-download ] = true && \
        [ /certificate/settings/get crl-store ] = "system") do={
-    $LogPrint warning $0 ("This system has low free flash space but " . \
-      "is configured to download certificate CRLs to system!");
+    $LogPrint warning $0 [ $Translate "global-functions.certificate.flash.low" ];
   }
 
   :if ([ :len $CommonName ] = 0) do={
-    $LogPrint warning $0 ("No CommonName given!");
+    $LogPrint warning $0 [ $Translate "global-functions.certificate.name.missing" ];
     :return false;
   }
 
@@ -138,14 +218,16 @@
   }
 
   :if ([ :len [ /certificate/find where common-name=$CommonName or unit=$CommonName ] ] = 0) do={
-    $LogPrint info $0 ("Certificate with CommonName '" . $CommonName . "' not available.");
+    $LogPrint info $0 [ $Translate "global-functions.certificate.unavailable" \
+        ({ name=$CommonName }) ];
     :if ([ $CertificateDownload $CommonName ] = false) do={
       :return false;
     }
   }
 
   :if ([ :len [ /certificate/find where common-name=$CommonName or unit=$CommonName ] ] > 1) do={
-    $LogPrint info $0 ("There are several certificates with CommonName '" . $CommonName . "'. Should be ok.");
+    $LogPrint info $0 [ $Translate "global-functions.certificate.multiple" \
+        ({ name=$CommonName }) ];
     :return true;
   }
 
@@ -153,7 +235,8 @@
   :while (($CertVal->"akid") != "" && ($CertVal->"akid") != ($CertVal->"skid")) do={
     :if ([ :len [ /certificate/find where skid=($CertVal->"akid") ] ] = 0) do={
       :local IssuerCN ([ $ParseKeyValueStore ($CertVal->"issuer") ]->"CN");
-      $LogPrint info $0 ("Certificate chain for '" . $CommonName . "' is incomplete, missing '" . $IssuerCN . "'.");
+      $LogPrint info $0 [ $Translate "global-functions.certificate.chain" \
+          ({ name=$CommonName; issuer=[ :tostr $IssuerCN ] }) ];
       :if ([ $CertificateDownload $IssuerCN ] = false) do={
         :return false;
       }
@@ -175,11 +258,12 @@
   :global IfThenElse;
   :global FetchUserAgentStr;
   :global LogPrint;
+  :global Translate;
   :global RmFile;
   :global WaitForFile;
 
-  $LogPrint info $0 ("Downloading and importing certificate with " . \
-      "CommonName '" . $CommonName . "'.");
+  $LogPrint info $0 [ $Translate "global-functions.certificate.download" \
+      ({ name=$CommonName }) ];
   :local FileName ([ $CleanName $CommonName ] . ".pem");
   :do {
     /tool/fetch check-certificate=yes-without-crl http-header-field=({ [ $FetchUserAgentStr $0 ] }) \
@@ -187,8 +271,8 @@
       dst-path=$FileName as-value;
     $WaitForFile $FileName;
   } on-error={
-    $LogPrint warning $0 ("Failed downloading certificate with CommonName '" . $CommonName . \
-      "' from repository! Trying fallback to mkcert.org...");
+    $LogPrint warning $0 [ $Translate "global-functions.certificate.fallback" \
+        ({ name=$CommonName }) ];
     :do {
       :local CertSettings [ /certificate/settings/get ];
       :if ([ :len [ /certificate/find where common-name="Root YE" ] ] = 0 && \
@@ -197,7 +281,7 @@
                ($CertSettings->"current-defaults") ~ "fetch") || \
               ($CertSettings->"builtin-trust-store") = "all") && \
              [ :len [ /certificate/builtin/find where common-name="Root YE" ] ] > 0)) do={
-        $LogPrint error $0 ("Required certificate is not available.");
+        $LogPrint error $0 [ $Translate "global-functions.certificate.required" ];
         :return false;
       }
       /tool/fetch check-certificate=yes-without-crl http-header-field=({ [ $FetchUserAgentStr $0 ] }) \
@@ -209,7 +293,8 @@
         :error false;
       }
     } on-error={
-      $LogPrint warning $0 ("Failed downloading certificate with CommonName '" . $CommonName . "'!");
+      $LogPrint warning $0 [ $Translate "global-functions.certificate.failed" \
+          ({ name=$CommonName }) ];
       :return false;
     }
   }
@@ -220,7 +305,8 @@
 
   :if ([ :len [ /certificate/find where common-name=$CommonName or unit=$CommonName ] ] = 0) do={
     /certificate/remove [ find where name~("^" . $FileName . "_[0-9]+\$") ];
-    $LogPrint warning $0 ("Certificate with CommonName '" . $CommonName . "' still unavailable!");
+    $LogPrint warning $0 [ $Translate "global-functions.certificate.still.unavailable" \
+        ({ name=$CommonName }) ];
     :return false;
   }
 
@@ -237,6 +323,7 @@
 
   :global CleanName;
   :global LogPrint;
+  :global Translate;
 
   :local Cert [ /certificate/find where unit=$Match ];
   :if ([ :len $Cert ] = 1) do={
@@ -247,12 +334,12 @@
   :set Cert [ /certificate/find where common-name=$Match or fingerprint=$Match or \
       name=$Match or (!(skid="") skid=$Match) ];
   :if ([ :len $Cert ] > 1) do={
-    $LogPrint warning $0 ("Too many matching certificates found for pattern '" . $Match . "'.");
+    $LogPrint warning $0 [ $Translate "global-functions.certificate.match.multiple" ({ pattern=$Match }) ];
     :return false;
   }
 
   :if ([ :len $Cert ] = 0) do={
-    $LogPrint warning $0 ("No matching certificate found for pattern '" . $Match . "'.");
+    $LogPrint warning $0 [ $Translate "global-functions.certificate.match.missing" ({ pattern=$Match }) ];
     :return false;
   }
 
@@ -348,121 +435,12 @@
   :return ($CommitInfo . "/" . [ :pick $CommitId 0 8 ]);
 }
 
-# get readable device info
-:set DeviceInfo do={
-  :global ExpectedConfigVersion;
-  :global Identity;
-
-  :global CommitBrief;
-  :global IfThenElse;
-  :global FormatLine;
-
-  :local License [ /system/license/get ];
-  :local Resource [ /system/resource/get ];
-  :local RouterBoard;
-  :do {
-    :set RouterBoard [[ :parse "/system/routerboard/get" ]];
-  } on-error={ }
-  :local Snmp [ /snmp/get ];
-  :local Update [ /system/package/update/get ];
-
-  :return ( \
-    [ $FormatLine "Hostname" $Identity ] . "\n" . \
-    [ $IfThenElse ([ :len ($Snmp->"location") ] > 0) \
-      ([ $FormatLine "Location" ($Snmp->"location") ] . "\n") ] . \
-    [ $IfThenElse ([ :len ($Snmp->"contact") ] > 0) \
-      ([ $FormatLine "Contact" ($Snmp->"contact") ] . "\n") ] . \
-    "Hardware:\n" . \
-    [ $FormatLine "    Board" ($Resource->"board-name") ] . "\n" . \
-    [ $FormatLine "    Arch" ($Resource->"architecture-name") ] . "\n" . \
-    [ $IfThenElse ($RouterBoard->"routerboard" = true) \
-      ([ $FormatLine "    Model" ($RouterBoard->"model") ] . \
-       [ $IfThenElse ([ :len ($RouterBoard->"revision") ] > 0) \
-           (" " . $RouterBoard->"revision") ] . "\n" . \
-       [ $FormatLine "    Serial" ($RouterBoard->"serial-number") ] . "\n") ] . \
-    [ $IfThenElse ([ :len ($License->"nlevel") ] > 0) \
-      ([ $FormatLine "    License" ("level " . ($License->"nlevel")) ] . "\n") ] . \
-    "RouterOS:\n" . \
-    [ $IfThenElse ([ :len ($License->"level") ] > 0) \
-      ([ $FormatLine "    License" ("level " . ($License->"level")) ] . "\n") ] . \
-    [ $FormatLine "    Channel" ($Update->"channel") ] . "\n" . \
-    [ $FormatLine "    Installed" ($Update->"installed-version") ] . "\n" . \
-    [ $IfThenElse ([ :typeof ($Update->"latest-version") ] != "nothing" && \
-        $Update->"installed-version" != $Update->"latest-version") \
-      ([ $FormatLine "    Available" ($Update->"latest-version") ] . "\n") ] . \
-    [ $IfThenElse ($RouterBoard->"routerboard" = true && \
-        $RouterBoard->"current-firmware" != $RouterBoard->"upgrade-firmware") \
-      ([ $FormatLine "    Firmware" ($RouterBoard->"current-firmware") ] . "\n") ] . \
-    "RouterOS-Scripts:\n" . \
-    [ $FormatLine "    Commit" [ $CommitBrief ] ] . "\n" . \
-    [ $FormatLine "    Version" $ExpectedConfigVersion ]);
-}
 
 # convert line endings, DOS -> UNIX
 :set Dos2Unix do={
   :return [ :tolf [ :tostr $1 ] ];
 }
 
-# download package from upgrade server
-:set DownloadPackage do={
-  :local PkgName [ :tostr $1 ];
-  :local PkgVer  [ :tostr $2 ];
-  :local PkgArch [ :tostr $3 ];
-  :local PkgDir  [ :tostr $4 ];
-
-  :global CertificateAvailable;
-  :global CleanFilePath;
-  :global FileExists;
-  :global LogPrint;
-  :global MkDir;
-  :global RmFile;
-  :global WaitForFile;
-
-  :if ([ :len $PkgName ] = 0) do={ :return false; }
-  :if ([ :len $PkgVer  ] = 0) do={ :set PkgVer  [ /system/package/update/get installed-version ]; }
-  :if ([ :len $PkgArch ] = 0) do={ :set PkgArch [ /system/resource/get architecture-name ]; }
-
-  :if ($PkgName = "system") do={ :set PkgName "routeros"; }
-
-  :local PkgFile ($PkgName . "-" . $PkgVer . "-" . $PkgArch . ".npk");
-  :if ($PkgArch = "x86_64") do={ :set PkgFile ($PkgName . "-" . $PkgVer . ".npk"); }
-  :local PkgDest [ $CleanFilePath ($PkgDir . "/" . $PkgFile) ];
-
-  :if ([ $MkDir $PkgDir ] = false) do={
-    $LogPrint warning $0 ("Failed creating directory, not downloading package.");
-    :return false;
-  }
-
-  :if ([ $FileExists $PkgDest "package" ] = true) do={
-    $LogPrint info $0 ("Package file " . $PkgName . " already exists.");
-    :return true;
-  }
-
-  :if ([ $CertificateAvailable "Root YE" "fetch" ] = false) do={
-    $LogPrint error $0 ("Downloading required certificate failed.");
-    :return false;
-  }
-
-  :local Url ("https://upgrade.mikrotik.com/routeros/" . $PkgVer . "/" . $PkgFile);
-  $LogPrint info $0 ("Downloading package file '" . $PkgName . "'...");
-  $LogPrint debug $0 ("... from url: " . $Url);
-
-  :onerror Err {
-    /tool/fetch check-certificate=yes-without-crl $Url dst-path=$PkgDest;
-    $WaitForFile $PkgDest;
-  } do={
-    $LogPrint warning $0 ("Downloading package file '" . $PkgName . "' failed: " . $Err);
-    :return false;
-  }
-
-  :if ([ $FileExists $PkgDest "package" ] = false) do={
-    $LogPrint warning $0 ("Downloaded file is not a package, removing.");
-    $RmFile $PkgDest;
-    :return false;
-  }
-
-  :return true;
-}
 
 # return either first (if "true") or second
 :set EitherOr do={
@@ -507,10 +485,19 @@
 
   :global IfThenElse;
   :global LogPrint;
+  :global Translate;
 
-  $LogPrint error $Name ([ $IfThenElse ([ :pick $Name 0 1 ] = "\$") \
-      "Function" "Script" ] . " '" . $Name . "' exited with error" . \
-      [ $IfThenElse (!($Error ~ "^(|true|false)\$")) (": " . $Error) "." ]);
+  :local Message [ $Translate "global-functions.error.script" \
+      ({ name=$Name }) ];
+  :if ([ :pick $Name 0 1 ] = "\$") do={ :set Message [ $Translate "global-functions.error.function" \
+      ({ name=$Name }) ]; };
+  :if (!($Error ~ "^(|true|false)\$")) do={
+    :set Message [ $Translate "global-functions.error.script.detail" \
+        ({ name=$Name; error=$Error }) ];
+    :if ([ :pick $Name 0 1 ] = "\$") do={ :set Message [ $Translate "global-functions.error.function.detail" \
+        ({ name=$Name; error=$Error }) ]; };
+  }
+  $LogPrint error $Name $Message;
 }
 
 # fetch huge data to file, read in chunks
@@ -524,6 +511,7 @@
   :global GetRandom20CharAlNum;
   :global IfThenElse;
   :global LogPrint;
+  :global Translate;
   :global MkDir;
   :global RmDir;
   :global RmFile;
@@ -533,7 +521,7 @@
 
   :local DirName ("tmpfs/" . [ $CleanName $ScriptName ]);
   :if ([ $MkDir $DirName ] = false) do={
-    $LogPrint error $0 ("Failed creating directory!");
+    $LogPrint error $0 [ $Translate "global-functions.fetch.directory.failed" ];
     :return false;
   }
 
@@ -545,13 +533,15 @@
     :if ([ $WaitForFile $FileName 500ms ] = true) do={
       $RmFile $FileName;
     }
-    $LogPrint debug $0 ("Failed downloading from " . $Url . " - " . $Err);
+    $LogPrint debug $0 [ $Translate "global-functions.fetch.failed" \
+        ({ url=$Url; error=$Err }) ];
     $RmDir $DirName;
     :return false;
   }
 
   :if ([ $WaitForFile $FileName 5s ] = false) do={
-    $LogPrint debug $0 ("The file downloaded from " . $Url . " did not show up.");
+    $LogPrint debug $0 [ $Translate "global-functions.fetch.file.missing" \
+        ({ url=$Url }) ];
     :return false;
   }
 
@@ -665,37 +655,6 @@
   :return $Return;
 }
 
-# get MAC vendor
-:set GetMacVendor do={
-  :local Mac [ :tostr $1 ];
-
-  :global CertificateAvailable;
-  :global IsMacLocallyAdministered;
-  :global LogPrint;
-
-  :if ([ $IsMacLocallyAdministered $Mac ] = true) do={
-    :return "locally administered";
-  }
-
-  :do {
-    :if ([ $CertificateAvailable "GTS Root R4" "fetch" ] = false) do={
-      $LogPrint warning $0 ("Downloading required certificate failed.");
-      :error false;
-    }
-    :local Vendor ([ /tool/fetch check-certificate=yes-without-crl \
-        ("https://api.macvendors.com/" . [ :pick $Mac 0 8 ]) output=user as-value ]->"data");
-    :return $Vendor;
-  } on-error={
-    :onerror Err {
-      /tool/fetch check-certificate=yes-without-crl ("https://api.macvendors.com/") \
-        output=none as-value;
-      $LogPrint debug $0 ("The mac vendor is not known in database.");
-    } do={
-      $LogPrint warning $0 ("Failed getting mac vendor: " . $Err);
-    }
-    :return "unknown vendor";
-  }
-}
 
 # generate random 20 chars alphabetical (A-Z & a-z) and numerical (0-9)
 :set GetRandom20CharAlNum do={
@@ -838,6 +797,7 @@
   :global IsTimeSyncResetNtp;
 
   :global LogPrintOnce;
+  :global Translate;
 
   :if ($IsTimeSyncCached = true) do={
     :return true;
@@ -857,7 +817,7 @@
       :return false;
     }
 
-    $LogPrintOnce warning $0 ("The ntp client is configured, but did not sync.");
+    $LogPrintOnce warning $0 [ $Translate "global-functions.time.ntp.unsynced" ];
     :set IsTimeSyncResetNtp $Uptime;
     /system/ntp/client/set enabled=no;
     :delay 20ms;
@@ -867,7 +827,7 @@
 
   :if ([ /system/license/get ]->"level" = "free" || \
        [ /system/resource/get ]->"board-name" = "x86") do={
-    $LogPrintOnce debug $0 ("No ntp client configured, relying on RTC for CHR free license and x86.");
+    $LogPrintOnce debug $0 [ $Translate "global-functions.time.rtc" ];
     :return true;
   }
 
@@ -879,7 +839,7 @@
     :return false;
   }
 
-  $LogPrintOnce debug $0 ("No time source configured! Returning gracefully...");
+  $LogPrintOnce debug $0 [ $Translate "global-functions.time.source.missing" ];
   :return true;
 }
 
@@ -893,21 +853,29 @@
   :global PrintDebugOverride;
 
   :global EitherOr;
+  :global Translate;
 
   :local Debug [ $EitherOr ($PrintDebugOverride->$Name) $PrintDebug ];
 
   :local PrintSeverity do={
     :global TerminalColorOutput;
+    :global Translate;
+    :local Label $1;
+    :if ($1 = "debug") do={ :set Label [ $Translate "global-functions.severity.debug" ]; };
+    :if ($1 = "info") do={ :set Label [ $Translate "global-functions.severity.info" ]; };
+    :if ($1 = "warning") do={ :set Label [ $Translate "global-functions.severity.warning" ]; };
+    :if ($1 = "error") do={ :set Label [ $Translate "global-functions.severity.error" ]; };
+
 
     :if ($TerminalColorOutput != true) do={
-      :return $1;
+      :return $Label;
     }
 
     :local Color { debug=96; info=97; warning=93; error=91 };
-    :return ("\1B[" . $Color->$1 . "m" . $1 . "\1B[0m");
+    :return ("\1B[" . $Color->$1 . "m" . $Label . "\1B[0m");
   }
 
-  :local Log ([ $EitherOr $Name "<unknown>" ] . ": " . $Message);
+  :local Log ([ $EitherOr $Name [ $Translate "global-functions.log.unknown" ] ] . ": " . $Message);
   :if ($Severity ~ ("^(debug|error|info)\$")) do={
     :if ($Severity = "debug") do={ :log debug $Log; }
     :if ($Severity = "error") do={ :log error $Log; }
@@ -929,8 +897,10 @@
   :local Message  [ :tostr $3 ];
 
   :global LogPrint;
+  :global Translate;
 
   :global LogPrintOnceMessages;
+  :global LogPrintOnceCrashMessages;
 
   :if ([ :typeof $LogPrintOnceMessages ] = "nothing") do={
     :set LogPrintOnceMessages ({});
@@ -941,8 +911,10 @@
   }
 
   :if ([ :len [ /log/find where message=($Name . ": " . $Message) ] ] > 0) do={
-    $LogPrint warning $0 \
-      ("The message is already in log, scripting subsystem may have crashed before!");
+    :local Alert [ $Translate "global-functions.log.once.crash" ];
+    :if ([ :typeof $LogPrintOnceCrashMessages ] != "array") do={ :set LogPrintOnceCrashMessages ({}); }
+    :set ($LogPrintOnceCrashMessages->$Alert) true;
+    $LogPrint warning $0 $Alert;
   }
 
   :set ($LogPrintOnceMessages->$Message) 1;
@@ -972,29 +944,32 @@
   :global CleanFilePath;
   :global FileGet;
   :global LogPrint;
+  :global Translate;
   :global RmDir;
   :global WaitForFile;
 
   :local MkTmpfs do={
     :global LogPrint;
+    :global Translate;
     :global WaitForFile;
 
     :local TmpFs [ /disk/find where slot=tmpfs type=tmpfs ];
     :if ([ :len $TmpFs ] = 1) do={
       :if ([ /disk/get $TmpFs disabled ] = true) do={
-        $LogPrint info $0 ("The tmpfs is disabled, enabling.");
+        $LogPrint info $0 [ $Translate "global-functions.tmpfs.enabled" ];
         /disk/enable $TmpFs;
       }
       :return true;
     }
 
-    $LogPrint info $0 ("Creating disk of type tmpfs.");
+    $LogPrint info $0 [ $Translate "global-functions.tmpfs.creating" ];
     $RmDir "tmpfs";
     :onerror Err {
       /disk/add slot=tmpfs type=tmpfs tmpfs-max-size=([ /system/resource/get total-memory ] / 3);
       $WaitForFile "tmpfs";
     } do={
-      $LogPrint warning $0 ("Creating disk of type tmpfs failed: " . $Err);
+      $LogPrint warning $0 [ $Translate "global-functions.tmpfs.failed" \
+          ({ error=$Err }) ];
       :return false;
     }
     :return true;
@@ -1006,11 +981,12 @@
     :return true;
   }
 
-  $LogPrint debug $0 ("Making directory: " . $Path);
+  $LogPrint debug $0 [ $Translate "global-functions.directory.creating" \
+      ({ path=$Path }) ];
 
   :local PathVal [ $FileGet $Path ];
   :if ($PathVal->"type" = "directory") do={
-    $LogPrint debug $0 ("... which already exists.");
+    $LogPrint debug $0 [ $Translate "global-functions.directory.exists" ];
     :return true;
   }
 
@@ -1024,7 +1000,8 @@
     /file/add type="directory" name=$Path;
     $WaitForFile $Path;
   } do={
-    $LogPrint warning $0 ("Making directory '" . $Path . "' failed: " . $Err);
+    $LogPrint warning $0 [ $Translate "global-functions.directory.failed" \
+        ({ path=$Path; error=$Err }) ];
     :return false;
   }
 
@@ -1127,17 +1104,22 @@
 
   :global IfThenElse;
   :global LogPrint;
+  :global Translate;
   :global VersionToNum;
 
   :if (!($Required ~ "^\\d+\\.\\d+((alpha|beta|rc|\\.)\\d+|)\$")) do={
-    $LogPrint error $0 ("No valid RouterOS version: " . $Required);
+    $LogPrint error $0 [ $Translate "global-functions.version.invalid" \
+        ({ version=$Required }) ];
     :return false;
   }
 
   :if ([ $VersionToNum $Required ] > [ $VersionToNum [ /system/package/update/get installed-version ] ]) do={
     :if ($Warn = "true") do={
-      $LogPrint warning $0 ("This " . [ $IfThenElse ([ :pick $Caller 0 ] = ("\$")) "function" "script" ] . \
-        " '" . $Caller . "' (at least specific functionality) requires RouterOS " . $Required . ". Please update!");
+      :local Message [ $Translate "global-functions.version.script" \
+          ({ caller=$Caller; version=$Required }) ];
+      :if ([ :pick $Caller 0 ] = "\$") do={ :set Message [ $Translate "global-functions.version.function" \
+          ({ caller=$Caller; version=$Required }) ]; };
+      $LogPrint warning $0 $Message;
     }
     :return false;
   }
@@ -1150,17 +1132,20 @@
 
   :global FileGet;
   :global LogPrint;
+  :global Translate;
 
-  $LogPrint debug $0 ("Removing directory: ". $DirName);
+  $LogPrint debug $0 [ $Translate "global-functions.directory.removing" \
+      ({ path=$DirName }) ];
 
   :local DirVal [ $FileGet $DirName ];
   :if ($DirVal = false) do={
-    $LogPrint debug $0 ("... which does not exist.");
+    $LogPrint debug $0 [ $Translate "global-functions.path.missing" ];
     :return true;
   }
 
   :if ($DirVal->"type" != "directory") do={
-    $LogPrint error $0 ("Directory '" . $DirName . "' is not a directory.");
+    $LogPrint error $0 [ $Translate "global-functions.directory.type" \
+        ({ path=$DirName }) ];
     :return false;
   }
 
@@ -1168,7 +1153,8 @@
     /file/remove [ find where name=$DirName ];
   } do={
     :if (!($Err ~ "no such item")) do={
-      $LogPrint error $0 ("Removing directory '" . $DirName . "' failed: " . $Err);
+      $LogPrint error $0 [ $Translate "global-functions.directory.remove.failed" \
+          ({ path=$DirName; error=$Err }) ];
       :return false;
     }
   }
@@ -1181,17 +1167,20 @@
 
   :global FileGet;
   :global LogPrint;
+  :global Translate;
 
-  $LogPrint debug $0 ("Removing file: ". $FileName);
+  $LogPrint debug $0 [ $Translate "global-functions.file.removing" \
+      ({ file=$FileName }) ];
 
   :local FileVal [ $FileGet $FileName ];
   :if ($FileVal = false) do={
-    $LogPrint debug $0 ("... which does not exist.");
+    $LogPrint debug $0 [ $Translate "global-functions.path.missing" ];
     :return true;
   }
 
   :if ($FileVal->"type" = "directory" || $FileVal->"type" = "disk") do={
-    $LogPrint error $0 ("File '" . $FileName . "' is not a file.");
+    $LogPrint error $0 [ $Translate "global-functions.file.type" \
+        ({ file=$FileName }) ];
     :return false;
   }
 
@@ -1199,7 +1188,8 @@
     /file/remove [ find where name=$FileName ];
   } do={
     :if (!($Err ~ "no such item")) do={
-      $LogPrint error $0 ("Removing file '" . $FileName . "' failed: " . $Err);
+      $LogPrint error $0 [ $Translate "global-functions.file.remove.failed" \
+          ({ file=$FileName; error=$Err }) ];
       :return false;
     }
   }
@@ -1211,6 +1201,7 @@
   :local Script [ :tostr $1 ];
 
   :global LogPrint;
+  :global Translate;
   :global ScriptLock;
 
   :if ([ $ScriptLock $Script ] = false) do={
@@ -1223,302 +1214,17 @@
       :set Job [ /system/script/job/get [ find where .id=($Job->"parent") ] ];
     }
     :if (($Job->"type") = "login") do={
-      $LogPrint debug $0 ("Script " . $Script . " started from terminal.");
+      $LogPrint debug $0 [ $Translate "global-functions.script.terminal" \
+          ({ script=$Script }) ];
       :return true;
     }
   }
 
-  $LogPrint debug $0 ("Script " . $Script . " NOT started from terminal.");
+  $LogPrint debug $0 [ $Translate "global-functions.script.nonterminal" \
+      ({ script=$Script }) ];
   :return false;
 }
 
-# install new scripts, update existing scripts
-:set ScriptInstallUpdate do={ :onerror Err {
-  :local Scripts    [ :toarray $1 ];
-  :local NewComment [ :tostr   $2 ];
-
-  :global CommitId;
-  :global ExpectedConfigVersion;
-  :global GlobalConfigReady;
-  :global GlobalFunctionsReady;
-  :global Identity;
-  :global IDonate;
-  :global NoNewsAndChangesNotification;
-  :global ScriptUpdatesBaseUrl;
-  :global ScriptUpdatesCheckSums;
-  :global ScriptUpdatesCRLF;
-  :global ScriptUpdatesUrlSuffix;
-
-  :global CertificateAvailable;
-  :global EitherOr;
-  :global FetchUserAgentStr;
-  :global Grep;
-  :global IfThenElse;
-  :global LogPrint;
-  :global LogPrintOnce;
-  :global ParseKeyValueStore;
-  :global RequiredRouterOS;
-  :global SendNotification2;
-  :global SymbolForNotification;
-  :global ValidateSyntax;
-
-  :if ([ $CertificateAvailable "Root YE" "fetch" ] = false) do={
-    $LogPrint warning $0 ("Downloading certificate failed, trying without.");
-  }
-
-  :foreach Script in=$Scripts do={
-    :if ([ :len [ /system/script/find where name=$Script ] ] > 0) do={
-      $LogPrint info $0 ("Requested to add script '" . $Script . "', but that exists already!");
-    } else={
-      $LogPrint info $0 ("Adding new script: " . $Script);
-      /system/script/add name=$Script owner=$Script source="#!rsc by RouterOS\n" comment=$NewComment;
-    }
-  }
-
-  :local CommitIdBefore $CommitId;
-  :local ExpectedConfigVersionBefore $ExpectedConfigVersion;
-  :local ReloadGlobal false;
-  :local DeviceMode [ /system/device-mode/get ];
-
-  :local CheckSums ({});
-  :if ([ :pick $ScriptUpdatesBaseUrl 0 21 ] = "https://rsc.eworm.de/" || \
-       $ScriptUpdatesCheckSums = true) do={
-    :onerror Err {
-      :local Url ($ScriptUpdatesBaseUrl . "checksums.json" . $ScriptUpdatesUrlSuffix);
-      $LogPrint debug $0 ("Fetching checksums from url: " . $Url);
-      :set CheckSums [ :deserialize from=json ([ /tool/fetch check-certificate=yes-without-crl \
-        http-header-field=({ [ $FetchUserAgentStr $0 ] }) $Url output=user as-value ]->"data") ];
-    } do={
-      $LogPrint warning $0 ("Failed downloading checksums: " . $Err);
-    }
-  }
-
-  :foreach Script in=[ /system/script/find where source~"^#!rsc by RouterOS\r?\n" ] do={
-    :local ScriptVal [ /system/script/get $Script ];
-    :local ScriptInfo [ $ParseKeyValueStore ($ScriptVal->"comment") ];
-    :local SourceNew;
-
-    :if ($ScriptInfo->"ignore" = true) do={
-      $LogPrint debug $0 ("Ignoring script '" . $ScriptVal->"name" . "', as requested.");
-      :continue;
-    }
-
-    :local CheckSum ($CheckSums->($ScriptVal->"name"));
-    :if ([ :len ($ScriptInfo->"base-url") ] = 0 && [ :len ($ScriptInfo->"url-suffix") ] = 0 && \
-         [ :convert transform=md5 to=hex [ :tolf ($ScriptVal->"source") ] ] = $CheckSum) do={
-      $LogPrint debug $0 ("Checksum for script '" . $ScriptVal->"name" . "' matches, ignoring.");
-      :continue;
-    }
-
-    :if ([ :len ($ScriptInfo->"certificate") ] > 0) do={
-      :if ([ $CertificateAvailable ($ScriptInfo->"certificate") "fetch" ] = false) do={
-        $LogPrint warning $0 ("Downloading certificate failed, trying without.");
-      }
-    }
-
-    :onerror Err {
-      :local BaseUrl [ $EitherOr ($ScriptInfo->"base-url") $ScriptUpdatesBaseUrl ];
-      :local UrlSuffix [ $EitherOr ($ScriptInfo->"url-suffix") $ScriptUpdatesUrlSuffix ];
-      :local Url ($BaseUrl . $ScriptVal->"name" . ".rsc" . $UrlSuffix);
-      $LogPrint debug $0 ("Fetching script '" . $ScriptVal->"name" . "' from url: " . $Url);
-      :local Result [ /tool/fetch check-certificate=yes-without-crl \
-        http-header-field=({ [ $FetchUserAgentStr $0 ] }) $Url output=user as-value ];
-      :if ($Result->"status" = "finished") do={
-        :set SourceNew [ :tolf ($Result->"data") ];
-      }
-    } do={
-      $LogPrint warning $0 ("Failed fetching script '" . $ScriptVal->"name" . "': " . $Err);
-      :if ($Err != "Fetch failed with status 404") do={
-        :continue;
-      }
-
-      :if ($ScriptVal->"source" = "#!rsc by RouterOS\n") do={
-        $LogPrint warning $0 ("Removing dummy. Typo on installation?");
-        /system/script/remove $Script;
-        :continue;
-      }
-      :if ([ :len ($ScriptInfo->"base-url") ] = 0 && [ :len ($ScriptInfo->"url-suffix") ] = 0 && \
-           [ :len $CheckSum ] = 0) do={
-        $LogPrintOnce warning $0 \
-            ("Added the script manually? Skip updates with 'ignore=true' in comment.");
-      }
-      :continue;
-    }
-
-    :if ([ :len $SourceNew ] = 0) do={
-      $LogPrint debug $0 ("No update for script '" . $ScriptVal->"name" . "'.");
-      :continue;
-    }
-
-    :local SourceCRLF [ :tocrlf $SourceNew ];
-    :if ($SourceNew = $ScriptVal->"source" || $SourceCRLF = $ScriptVal->"source") do={
-      $LogPrint debug $0 ("Script '" .  $ScriptVal->"name" . "' did not change.");
-      :continue;
-    }
-
-    :if ([ :pick $SourceNew 0 18 ] != "#!rsc by RouterOS\n") do={
-      $LogPrint warning $0 ("Looks like new script '" . $ScriptVal->"name" . \
-          "' is not valid (missing shebang). Ignoring!");
-      :continue;
-    }
-
-    :local RequiredROS ([ $ParseKeyValueStore [ $Grep $SourceNew ("\23 requires RouterOS, ") ] ]->"version");
-    :if ([ $RequiredRouterOS $0 [ $EitherOr $RequiredROS "0.0" ] false ] = false) do={
-      $LogPrintOnce warning $0 ("The script '" . $ScriptVal->"name" . "' requires RouterOS " . \
-          $RequiredROS . ", which is not met by your installation. Ignoring!");
-      :continue;
-    }
-
-    :local RequiredDM [ $ParseKeyValueStore [ $Grep $SourceNew ("\23 requires device-mode, ") ] ];
-    :local MissingDM ({});
-    :foreach Feature,Value in=$RequiredDM do={
-      :if ([ :typeof ($DeviceMode->$Feature) ] = "bool" && ($DeviceMode->$Feature) = false) do={
-        :set MissingDM ($MissingDM, $Feature);
-      }
-    }
-    :if ([ :len $MissingDM ] > 0) do={
-      $LogPrintOnce warning $0 ("The script '" . $ScriptVal->"name" . "' requires disabled " . \
-          "device-mode features (" . [ :tostr $MissingDM ] . "). Ignoring!");
-      :continue;
-    }
-
-    :if ([ $ValidateSyntax $SourceNew ] = false) do={
-      $LogPrint warning $0 ("Syntax validation for script '" . $ScriptVal->"name" . "' failed! Ignoring!");
-      :continue;
-    }
-
-    :local ReqPolicy [ $ParseKeyValueStore [ $Grep $SourceNew ("\23 requires policy, ") ] ];
-    :if ([ :len ($ReqPolicy->"policy") ] > 0) do={
-      :set ($ScriptVal->"policy") [ :toarray delimiter=";" ($ReqPolicy->"policy") ];
-      $LogPrint debug $0 ("New policy for script '" . $ScriptVal->"name" . \
-          "': " . ($ReqPolicy->"policy"));
-    }
-    :if ([ :len ($ReqPolicy->"dont-require-permissions") ] > 0) do={
-      :set ($ScriptVal->"dont-require-permissions") ($ReqPolicy->"dont-require-permissions");
-      $LogPrint debug $0 ("Setting dont-require-permissions for script '" . $ScriptVal->"name" . "'.");
-    }
-
-    $LogPrint info $0 ("Updating script: " . $ScriptVal->"name");
-    /system/script/set owner=($ScriptVal->"name") policy=($ScriptVal->"policy") \
-        dont-require-permissions=($ScriptVal->"dont-require-permissions") \
-        source=[ $IfThenElse ($ScriptUpdatesCRLF = true) $SourceCRLF $SourceNew ] $Script;
-    :if ($ScriptVal->"name" ~ ("^(global-config|global-functions(\\.d/.+)?|mod/.+)\$")) do={
-      :set ReloadGlobal true;
-    }
-  }
-
-  :if ($ReloadGlobal = true) do={
-    $LogPrint info $0 ("Reloading global configuration and functions.");
-    :set GlobalConfigReady false;
-    :set GlobalFunctionsReady false;
-    :delay 1s;
-
-    :onerror Err {
-      /system/script/run global-config;
-      /system/script/run global-functions;
-    } do={
-      $LogPrint error $0 ("Reloading global configuration and functions failed! " . $Err);
-    }
-  }
-
-  :if ($ExpectedConfigVersionBefore > $ExpectedConfigVersion) do={
-    $LogPrint warning $0 ("The configuration version decreased from " . \
-      $ExpectedConfigVersionBefore . " to " . $ExpectedConfigVersion . \
-      ". Installed an older version?");
-  }
-
-  :if ($ExpectedConfigVersionBefore < $ExpectedConfigVersion) do={
-    :global GlobalConfigChanges;
-    :global GlobalConfigMigration;
-    :local ChangeLogCode;
-
-    :onerror Err {
-      :local Url ($ScriptUpdatesBaseUrl . "news-and-changes.rsc" . $ScriptUpdatesUrlSuffix);
-      $LogPrint debug $0 ("Fetching news, changes and migration: " . $Url);
-      :local Result [ /tool/fetch check-certificate=yes-without-crl \
-        http-header-field=({ [ $FetchUserAgentStr $0 ] }) $Url output=user as-value ];
-      :if ($Result->"status" = "finished") do={
-        :set ChangeLogCode ($Result->"data");
-      }
-    } do={
-      $LogPrint warning $0 ("Failed fetching news, changes and migration: " . $Err);
-    }
-
-    :if ([ :len $ChangeLogCode ] > 0) do={
-      :if ([ $ValidateSyntax $ChangeLogCode ] = true) do={
-        :onerror Err {
-          [ :parse $ChangeLogCode ];
-        } do={
-          $LogPrint warning $0 ("The changelog failed to run: " . $Err);
-        }
-      } else={
-        $LogPrint warning $0 ("The changelog failed syntax validation!");
-      }
-    }
-
-    :if ([ :len $GlobalConfigMigration ] > 0) do={
-      :for I from=($ExpectedConfigVersionBefore + 1) to=$ExpectedConfigVersion do={
-        :local Migration ($GlobalConfigMigration->[ :tostr $I ]);
-        :do {
-          :if ([ :typeof $Migration ] != "str") do={
-            $LogPrint debug $0 ("Migration code for change " . $I . " is not available.");
-            :error false;
-          }
-
-          :if ([ $ValidateSyntax $Migration ] = false) do={
-            $LogPrint warning $0 ("Migration code for change " . $I . " failed syntax validation!");
-            :error false;
-          }
-
-          $LogPrint info $0 ("Applying migration for change " . $I . ": " . $Migration);
-          :onerror Err {
-            [ :parse $Migration ];
-          } do={
-            $LogPrint warning $0 ("Migration code for change " . $I . " failed to run: " . $Err);
-          }
-        } on-error={ }
-      }
-    }
-
-    :local NotificationMessage ("The configuration version on " . $Identity . " increased " . \
-       "to " . $ExpectedConfigVersion . ", current configuration may need modification. " . \
-       "Please review and update global-config-overlay, then re-run global-config.");
-    $LogPrint info $0 ($NotificationMessage);
-
-    :if ([ :len $GlobalConfigChanges ] > 0) do={
-      :set NotificationMessage ($NotificationMessage . "\n\nChanges:");
-      :for I from=($ExpectedConfigVersionBefore + 1) to=$ExpectedConfigVersion do={
-        :local Change ($GlobalConfigChanges->[ :tostr $I ]);
-        :set NotificationMessage ($NotificationMessage . "\n " . \
-            [ $SymbolForNotification "pushpin" "*" ] . $Change);
-        $LogPrint info $0 ("Change " . $I . ": " . $Change);
-      }
-    } else={
-      :set NotificationMessage ($NotificationMessage . "\n\nNews and changes are not available.");
-    }
-
-    :if ($NoNewsAndChangesNotification != true) do={
-      :local Link;
-      :if ($IDonate != true) do={
-        :set NotificationMessage ($NotificationMessage . \
-          "\n\n==== donation hint ====\n" . \
-          "This project is developed in private spare time and usage is " . \
-          "free of charge for you. If you like the scripts and think this is " . \
-          "of value for you or your business please consider a donation.");
-        :set Link "https://rsc.eworm.de/#donate";
-      }
-
-      $SendNotification2 ({ origin=$0; \
-        subject=([ $SymbolForNotification "pushpin" ] . "News and configuration changes"); \
-        message=$NotificationMessage; link=$Link });
-    }
-
-    :set GlobalConfigChanges;
-    :set GlobalConfigMigration;
-  }
-} do={
-  :global ExitOnError; $ExitOnError $0 $Err;
-} }
 
 # lock script against multiple invocation
 :set ScriptLock do={
@@ -1528,6 +1234,7 @@
   :global GetRandom20CharAlNum;
   :global IfThenElse;
   :global LogPrint;
+  :global Translate;
 
   :global ScriptLockOrder;
   :if ([ :typeof $ScriptLockOrder ] = "nothing") do={
@@ -1617,17 +1324,20 @@
   }
 
   :if ([ :len [ /system/script/find where name=$Script ] ] = 0) do={
-    $LogPrint error $0 ("A script named '" . $Script . "' does not exist!");
+    $LogPrint error $0 [ $Translate "global-functions.lock.script.missing" \
+        ({ script=$Script }) ];
     :error false;
   }
 
   :if ([ $JobCount $Script ] = 0) do={
-    $LogPrint error $0 ("No script '" . $Script . "' is running!");
+    $LogPrint error $0 [ $Translate "global-functions.lock.script.stopped" \
+        ({ script=$Script }) ];
     :error false;
   }
 
   :if ([ $TicketCount $Script ] >= [ $JobCount $Script ]) do={
-    $LogPrint error $0 ("More tickets than running scripts '" . $Script . "', resetting!");
+    $LogPrint error $0 [ $Translate "global-functions.lock.tickets.reset" \
+        ({ script=$Script }) ];
     :set ($ScriptLockOrder->$Script) ({});
     /system/script/job/remove [ find where script=$Script ];
   }
@@ -1652,8 +1362,11 @@
   }
 
   $RemoveTicket $Script $MyTicket;
-  $LogPrint debug $0 ("Script '" . $Script . "' started more than once" . \
-    [ $IfThenElse ($WaitTime < $WaitMax) " and timed out waiting for lock" "" ] . "...");
+  :local Message [ $Translate "global-functions.lock.repeated" \
+      ({ script=$Script }) ];
+  :if ($WaitTime < $WaitMax) do={ :set Message [ $Translate "global-functions.lock.timeout" \
+      ({ script=$Script }) ]; };
+  $LogPrint debug $0 $Message;
   :return false;
 }
 
@@ -1679,83 +1392,7 @@
   }
 }
 
-# return UTF-8 symbol for unicode name
-:set SymbolByUnicodeName do={
-  :local Name [ :tostr $1 ];
 
-  :global EitherOr;
-  :global LogPrintOnce;
-
-  :global SymbolsExtra;
-
-  :local Symbols ({
-    "abacus"="\F0\9F\A7\AE";
-    "alarm-clock"="\E2\8F\B0";
-    "arrow-down"="\E2\AC\87";
-    "arrow-up"="\E2\AC\86";
-    "calendar"="\F0\9F\93\85";
-    "card-file-box"="\F0\9F\97\83";
-    "chart-decreasing"="\F0\9F\93\89";
-    "chart-increasing"="\F0\9F\93\88";
-    "cloud"="\E2\98\81";
-    "cross-mark"="\E2\9D\8C";
-    "earth"="\F0\9F\8C\8D";
-    "fire"="\F0\9F\94\A5";
-    "floppy-disk"="\F0\9F\92\BE";
-    "gear"="\E2\9A\99";
-    "heart"="\E2\99\A5";
-    "high-voltage-sign"="\E2\9A\A1";
-    "incoming-envelope"="\F0\9F\93\A8";
-    "information"="\E2\84\B9";
-    "large-orange-circle"="\F0\9F\9F\A0";
-    "large-red-circle"="\F0\9F\94\B4";
-    "link"="\F0\9F\94\97";
-    "lock-with-ink-pen"="\F0\9F\94\8F";
-    "memo"="\F0\9F\93\9D";
-    "mobile-phone"="\F0\9F\93\B1";
-    "pushpin"="\F0\9F\93\8C";
-    "scissors"="\E2\9C\82";
-    "scroll"="\F0\9F\93\9C";
-    "smiley-partying-face"="\F0\9F\A5\B3";
-    "smiley-smiling-face"="\E2\98\BA";
-    "smiley-winking-face-with-tongue"="\F0\9F\98\9C";
-    "sparkles"="\E2\9C\A8";
-    "speech-balloon"="\F0\9F\92\AC";
-    "star"="\E2\AD\90";
-    "warning-sign"="\E2\9A\A0";
-    "white-heavy-check-mark"="\E2\9C\85"
-  }, $SymbolsExtra);
-
-  :local Magic [ :pick [ /system/clock/get date ] 4 10 ];
-  :local Special {
-    "information-04-01"="\F0\9F\9A\BB";
-    "large-orange-circle-04-01"="\F0\9F\8D\8A";
-    "large-orange-circle-10-31"="\F0\9F\8E\83";
-    "large-red-circle-04-01"="\F0\9F\8D\92" };
-
-  :if ([ :len ($Symbols->$Name) ] = 0) do={
-    $LogPrintOnce warning $0 ("No symbol available for name '" . $Name . "'!");
-    :return "";
-  }
-
-  :return ([ $EitherOr ($Special->($Name . $Magic)) ($Symbols->$Name) ] . "\EF\B8\8F");
-}
-
-# return symbol for notification
-:set SymbolForNotification do={
-  :global NotificationsWithSymbols;
-  :global SymbolByUnicodeName;
-  :global IfThenElse;
-
-  :if ($NotificationsWithSymbols != true) do={
-    :return [ $IfThenElse ([ :len $2 ] > 0) ([ :tostr $2 ] . " ") "" ];
-  }
-  :local Return "";
-  :foreach Symbol in=[ :toarray $1 ] do={
-    :set Return ($Return . [ $SymbolByUnicodeName $Symbol ]);
-  }
-  :return ($Return . " ");
-}
 
 # convert line endings, UNIX -> DOS
 :set Unix2Dos do={
@@ -1767,11 +1404,13 @@
   :local Code [ :tostr $1 ];
 
   :global LogPrint;
+  :global Translate;
 
   :onerror Err {
     [ :parse (":local Validate do={\n" . $Code . "\n}") ];
   } do={
-    $LogPrint debug $0 ("Valdation failed: " . $Err);
+    $LogPrint debug $0 [ $Translate "global-functions.syntax.failed" \
+        ({ error=$Err }) ];
     :return false;
   }
   :return true;
@@ -1879,17 +1518,257 @@
   }
 }
 
+# BEGIN GENERATED LANGUAGE RUNTIME
+# Discover catalog schemas from installed scripts, so unused features need no downloads.
+:global LanguageSchemas ({});
+:foreach Script in=[ /system/script/find ] do={
+  :local Info [ $ParseKeyValueStore [ $Grep [ /system/script/get $Script source ] "# language, " ] ];
+  :if ([ :len ($Info->"schema") ] = 64 && ($Info->"name") ~ "^[a-z0-9-]+\$") do={
+    :set ($LanguageSchemas->($Info->"name")) ($Info->"schema");
+  }
+}
+# Translation helpers. Embedded in global-functions.rsc by contrib/languages.py.
+:global Translate;
+:global LanguageUpdate;
+:global LanguageEnglish;
+:global LanguageMessages;
+:global LanguageActive;
+
+# Render placeholders once; parameter values are never evaluated or re-expanded.
+:set Translate do={
+  :local Key [ :tostr $1 ];
+  :local Params $2;
+  :global ScriptLanguage;
+  :global LanguageEnglish;
+  :global LanguageMessages;
+  :global LanguageActive;
+
+  :local English ($LanguageEnglish->$Key);
+  :if ([ :typeof $English ] != "str") do={ :return $Key; }
+  :local Text $English;
+  :if ($LanguageActive = $ScriptLanguage && [ :typeof ($LanguageMessages->$Key) ] = "str") do={
+    :set Text ($LanguageMessages->$Key);
+  }
+  :local Tokens do={
+    :local Text $1;
+    :local Names ({});
+    :while ([ :len $Text ] > 0) do={
+      :local Start [ :find $Text "{" ];
+      :if ([ :typeof $Start ] = "nil") do={
+        :if ([ :typeof [ :find $Text "}" ] ] != "nil") do={ :return false; }
+        :return $Names;
+      }
+      :local End [ :find $Text "}" $Start ];
+      :if ([ :typeof $End ] = "nil") do={ :return false; }
+      :if ([ :typeof [ :find [ :pick $Text 0 $Start ] "}" ] ] != "nil") do={ :return false; }
+      :local Name [ :pick $Text ($Start + 1) $End ];
+      :if (!($Name ~ "^[a-z][a-z0-9_]*\$")) do={ :return false; }
+      :set ($Names->$Name) true;
+      :set Text [ :pick $Text ($End + 1) [ :len $Text ] ];
+    }
+    :return $Names;
+  }
+  :local EnglishTokens [ $Tokens $English ];
+  :local TranslatedTokens [ $Tokens $Text ];
+  :local Valid false;
+  :if ([ :typeof $TranslatedTokens ] = "array" && \
+       [ :len $EnglishTokens ] = [ :len $TranslatedTokens ]) do={
+    :set Valid true;
+    :foreach Name,Unused in=$EnglishTokens do={
+      :if (($TranslatedTokens->$Name) != true) do={ :set Valid false; }
+    }
+  }
+  :if ($Valid != true) do={ :set Text $English; }
+  :local Result "";
+  :while ([ :len $Text ] > 0) do={
+    :local Start [ :find $Text "{" ];
+    :if ([ :typeof $Start ] = "nil") do={ :return ($Result . $Text); }
+    :local End [ :find $Text "}" $Start ];
+    :if ([ :typeof $End ] = "nil") do={ :return $English; }
+    :local Name [ :pick $Text ($Start + 1) $End ];
+    :if ([ :typeof ($Params->$Name) ] = "nothing" || \
+         [ :typeof ($Params->$Name) ] = "nil") do={ :return $English; }
+    :set Result ($Result . [ :pick $Text 0 $Start ] . [ :tostr ($Params->$Name) ]);
+    :set Text [ :pick $Text ($End + 1) [ :len $Text ] ];
+  }
+  :return $Result;
+}
+
+# Load a cached catalog before fetching. Never run downloaded text as code.
+:set LanguageUpdate do={
+  :global Translate;
+  :global GlobalNotReadyMessage;
+  :global ScriptLanguage;
+  :global ScriptUpdatesBaseUrl;
+  :global ScriptUpdatesUrlSuffix;
+  :global LanguageSchemas;
+  :global LanguageMessages;
+  :global LanguageActive;
+  :global LanguageUpdateRunning;
+
+  :if ($LanguageUpdateRunning = true) do={ :return false; }
+  :set LanguageUpdateRunning true;
+  :local Locale $ScriptLanguage;
+  :onerror Err {
+    :if ($Locale = "en") do={
+      :set LanguageMessages ({});
+      :set LanguageActive "en";
+      :set GlobalNotReadyMessage [ $Translate "global-config.not.ready" ];
+      :set LanguageUpdateRunning false;
+      :return true;
+    }
+    :if (!($Locale ~ "^[a-z][a-z][a-z]?(-[A-Z][A-Z])?\$")) do={
+      :error [ $Translate "global-functions.language.invalid" ];
+    }
+    :if ([ :pick $ScriptUpdatesBaseUrl 0 8 ] != "https://") do={
+      :error [ $Translate "global-functions.language.https" ];
+    }
+    :local ReadCatalog do={
+      :global Translate;
+      :local Body $1;
+      :local Schema $2;
+      :local Locale $3;
+      :local Group $4;
+      :if ([ :len $Body ] > 50000) do={ :error [ $Translate "global-functions.language.size" ]; }
+      :local Catalog [ :deserialize from=json options=json.no-string-conversion $Body ];
+      :if (($Catalog->"schema") != $Schema || ($Catalog->"language") != $Locale || \
+           [ :typeof ($Catalog->"messages") ] != "array") do={
+        :error [ $Translate "global-functions.language.incompatible" ];
+      }
+      :foreach Key,Value in=($Catalog->"messages") do={
+        :if ([ :typeof $Value ] != "str" || \
+             [ :pick $Key 0 ([ :len $Group ] + 1) ] != ($Group . ".")) do={
+          :error [ $Translate "global-functions.language.message.invalid" ];
+        }
+      }
+      :return ($Catalog->"messages");
+    }
+    :local AllMessages ({});
+    :local Prefix "";
+    :if ([ :len [ /file/find where name="flash" ] ] > 0) do={ :set Prefix "flash/"; }
+    :foreach Group,Schema in=$LanguageSchemas do={
+      :local Cache ($Prefix . "language-" . $Locale . "-" . $Group . ".json");
+      :local Messages ({});
+      :local Cached "";
+      :local Files [ /file/find where name=$Cache ];
+      :if ([ :len $Files ] = 1) do={
+        :do {
+          :set Cached [ /file/get $Files contents ];
+          :set Messages [ $ReadCatalog $Cached $Schema $Locale $Group ];
+        } on-error={ :set Cached ""; }
+      }
+      # Make cached text available while the network request is in progress.
+      :foreach Key,Value in=$Messages do={ :set ($AllMessages->$Key) $Value; }
+      :if ($ScriptLanguage = $Locale) do={
+        :set LanguageMessages $AllMessages;
+        :set LanguageActive $Locale;
+      }
+      :onerror FetchErr {
+        :local Url ($ScriptUpdatesBaseUrl . "languages/" . $Locale . "/" . $Group . ".json" . $ScriptUpdatesUrlSuffix);
+        :local Response [ /tool/fetch url=$Url check-certificate=yes-without-crl output=user as-value ];
+        :if (($Response->"status") != "finished") do={ :error [ $Translate "global-functions.language.incomplete" ]; }
+        :local Body ($Response->"data");
+        :local NewMessages [ $ReadCatalog $Body $Schema $Locale $Group ];
+        :set Messages $NewMessages;
+        :if ($Body != $Cached) do={
+          :do {
+            :if ([ :len $Files ] = 0) do={
+              /file/add name=$Cache contents=$Body;
+            } else={ /file/set $Files contents=$Body; }
+          } on-error={ :log warning [ $Translate "global-functions.language.cache.failed" ]; }
+        }
+      } do={
+        :log warning [ $Translate "global-functions.language.fetch.failed" ({ group=$Group; error=$FetchErr }) ];
+      }
+      :foreach Key,Value in=$Messages do={ :set ($AllMessages->$Key) $Value; }
+    }
+    :if ($ScriptLanguage = $Locale) do={
+      :set LanguageMessages $AllMessages;
+      :set LanguageActive $Locale;
+    }
+  } do={ :log warning [ $Translate "global-functions.language.update.failed" ({ error=$Err }) ]; }
+  :set GlobalNotReadyMessage [ $Translate "global-config.not.ready" ];
+  :set LanguageUpdateRunning false;
+  :return true;
+}
+# END GENERATED LANGUAGE RUNTIME
+
+# Load the required shared helpers before optional modules. Existing installations
+# acquire the dependency here when an older installer updates global-functions.
+:local CoreModuleName "global-functions.d/core-extra";
+:local CoreExportsValid do={
+  :global Grep;
+  :foreach Name in={ "DeviceInfo"; "DownloadPackage"; "GetMacVendor"; "ScriptInstallUpdate"; \
+                    "SymbolByUnicodeName"; "SymbolForNotification" } do={
+    :if ([ :len [ $Grep $1 (":set " . $Name . " do={") ] ] = 0) do={ :return false; }
+  }
+  :return true;
+}
+:local CoreModule [ /system/script/find where name=$CoreModuleName ];
+:if ([ :len $CoreModule ] > 1) do={ :error [ $Translate "global-functions.module.duplicate" \
+    ({ module=$CoreModuleName }) ]; }
+:local CoreSource "";
+:if ([ :len $CoreModule ] = 1) do={ :set CoreSource [ :tolf [ /system/script/get $CoreModule source ] ]; }
+:local CoreInfo [ $ParseKeyValueStore [ $Grep $CoreSource "# core-module, " ] ];
+:if (($CoreInfo->"version") != "1" || [ $CoreExportsValid $CoreSource ] != true || \
+     [ $ValidateSyntax $CoreSource ] = false) do={
+  :global ScriptUpdatesBaseUrl;
+  :global ScriptUpdatesUrlSuffix;
+  :local SourceInfo ({});
+  :local Self [ /system/script/find where name=$ScriptName ];
+  :if ([ :len $Self ] = 1) do={ :set SourceInfo [ $ParseKeyValueStore [ /system/script/get $Self comment ] ]; }
+  :local BaseUrl [ $EitherOr ($SourceInfo->"base-url") $ScriptUpdatesBaseUrl ];
+  :local UrlSuffix [ $EitherOr ($SourceInfo->"url-suffix") $ScriptUpdatesUrlSuffix ];
+  :local Url ($BaseUrl . $CoreModuleName . ".rsc" . $UrlSuffix);
+  $LogPrint info $ScriptName [ $Translate "global-functions.module.installing" \
+      ({ module=$CoreModuleName }) ];
+  :local Response [ /tool/fetch check-certificate=yes-without-crl output=user url=$Url as-value ];
+  :set CoreSource [ :tolf ($Response->"data") ];
+  :set CoreInfo [ $ParseKeyValueStore [ $Grep $CoreSource "# core-module, " ] ];
+  :local RequiredROS ([ $ParseKeyValueStore [ $Grep $CoreSource "# requires RouterOS, " ] ]->"version");
+  :if (($Response->"status") != "finished" || [ :pick $CoreSource 0 18 ] != "#!rsc by RouterOS\n" || \
+       ($CoreInfo->"version") != "1" || [ $RequiredRouterOS $ScriptName $RequiredROS false ] != true || \
+       [ $CoreExportsValid $CoreSource ] != true || \
+       [ $ValidateSyntax $CoreSource ] != true) do={
+    :error [ $Translate "global-functions.module.invalid" \
+        ({ module=$CoreModuleName }) ];
+  }
+  :if ([ :len $CoreModule ] = 0) do={
+    /system/script/add name=$CoreModuleName owner=$CoreModuleName source=$CoreSource;
+    :set CoreModule [ /system/script/find where name=$CoreModuleName ];
+  } else={ /system/script/set source=$CoreSource $CoreModule; }
+}
+:set DeviceInfo; :set DownloadPackage; :set GetMacVendor;
+:set ScriptInstallUpdate; :set SymbolByUnicodeName; :set SymbolForNotification;
+/system/script/run $CoreModule;
+:if (!([ :typeof $ScriptInstallUpdate ] ~ "^(array|code)\$" && \
+       [ :typeof $SymbolForNotification ] ~ "^(array|code)\$" && \
+       [ :typeof $SymbolByUnicodeName ] ~ "^(array|code)\$" && \
+       [ :typeof $DeviceInfo ] ~ "^(array|code)\$" && \
+       [ :typeof $DownloadPackage ] ~ "^(array|code)\$" && \
+       [ :typeof $GetMacVendor ] ~ "^(array|code)\$")) do={
+  :error [ $Translate "global-functions.module.uninitialized" \
+      ({ module=$CoreModuleName }) ];
+}
+# A freshly installed dependency was absent from the initial catalog discovery.
+:local CoreLanguage [ $ParseKeyValueStore [ $Grep $CoreSource "# language, " ] ];
+:if ([ :len ($CoreLanguage->"schema") ] = 64) do={
+  :set ($LanguageSchemas->($CoreLanguage->"name")) ($CoreLanguage->"schema");
+}
+
 # load modules
-:foreach Script in=[ /system/script/find where name ~ "^(global-functions\\.d|mod)/." ] do={
+:foreach Script in=[ /system/script/find where name ~ "^(global-functions\\.d|mod)/." name!=$CoreModuleName ] do={
   :local ScriptVal [ /system/script/get $Script ];
   :if ([ $ValidateSyntax ($ScriptVal->"source") ] = true) do={
     :onerror Err {
       /system/script/run $Script;
     } do={
-      $LogPrint error $0 ("Module '" . $ScriptVal->"name" . "' failed to run: " . $Err);
+      $LogPrint error $0 [ $Translate "global-functions.module.failed" \
+          ({ module=($ScriptVal->"name"); error=$Err }) ];
     }
   } else={
-    $LogPrint error $0 ("Module '" . $ScriptVal->"name" . "' failed syntax validation, skipping.");
+    $LogPrint error $0 [ $Translate "global-functions.module.syntax" \
+        ({ module=($ScriptVal->"name") }) ];
   }
 }
 
@@ -1905,9 +1784,11 @@
 
 # Log success
 :local Resource [ /system/resource/get ];
-$LogPrintOnce info $ScriptName ("Loaded " . \
-    [ $IfThenElse ($CommitId != "unknown") ([ $CommitBrief ] . " ") ] . \
-    "on " . $Resource->"board-name" . " with RouterOS " . $Resource->"version" . ".");
+$LogPrintOnce info $ScriptName [ $Translate "global-functions.loaded" \
+    ({ commit=[ $IfThenElse ($CommitId != "unknown") ([ $CommitBrief ] . " ") "" ]; board=($Resource->"board-name"); version=($Resource->"version") }) ];
 
 # signal we are ready
 :set GlobalFunctionsReady true;
+
+# Catalog downloads must not delay readiness or require internet at startup.
+:execute { :global LanguageUpdate; $LanguageUpdate; };

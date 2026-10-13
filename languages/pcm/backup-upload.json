@@ -1,0 +1,22 @@
+{
+  "language": "pcm",
+  "messages": {
+    "backup-upload.partition": "Device dey run from backup partition; we no go do anything.",
+    "backup-upload.directory": "No fit create folder!",
+    "backup-upload.options": "Config say make we no send backup or config export.",
+    "backup-upload.none": "nothing",
+    "backup-upload.label.backup": "Backup file",
+    "backup-upload.label.export": "Export file",
+    "backup-upload.label.config": "Config file",
+    "backup-upload.upload.backup.failed": "Dey upload backup file no work: {error}",
+    "backup-upload.upload.export.failed": "Dey upload configuration export no work: {error}",
+    "backup-upload.upload.config.failed": "Dey upload global-config-overlay no work: {error}",
+    "backup-upload.subject": "Backup & Config upload",
+    "backup-upload.subject.failed": "Backup & Config upload get error",
+    "backup-upload.message": "Upload of backup and config export for {identity}.\n\n{device}\n\n{details}",
+    "backup-upload.failed": "e fail",
+    "backup-upload.label.name": "    name",
+    "backup-upload.label.size": "    size"
+  },
+  "schema": "ac3b0aa1324d76ce3ef1515ba46a556bd27200aeea4ad75af6d1e26fd41bf67d"
+}

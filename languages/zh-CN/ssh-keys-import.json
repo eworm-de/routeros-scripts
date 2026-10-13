@@ -1,0 +1,16 @@
+{
+  "language": "zh-CN",
+  "messages": {
+    "ssh-keys-import.arguments.key": "缺少参数，请传递密钥和用户！",
+    "ssh-keys-import.user.missing": "用户“{user}”不存在。",
+    "ssh-keys-import.type.unsupported": "不支持“{type}”类型的 SSH 密钥。",
+    "ssh-keys-import.key.exists": "ssh 公钥 (MD5:{fingerprint}) 已可供用户“{user}”使用。",
+    "ssh-keys-import.directory.failed": "创建目录 'tmpfs/ssh-keys-import' 失败！",
+    "ssh-keys-import.imported": "为用户“{user}”导入 ssh 公钥（{name}、{type}、MD5:{fingerprint}）。",
+    "ssh-keys-import.import.failed": "导入密钥失败：{error}",
+    "ssh-keys-import.arguments.file": "缺少参数，请传递文件名和用户！",
+    "ssh-keys-import.file.missing": "文件“{file}”不存在。",
+    "ssh-keys-import.user.import.failed": "导入用户“{user}”密钥失败。"
+  },
+  "schema": "54cdcab8a420cb935136ec8a624f3eeceed166b6b96d7dd67b4ef7d0dcd74ea7"
+}

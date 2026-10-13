@@ -1,0 +1,7 @@
+{
+  "language": "bn",
+  "messages": {
+    "update-gre-address.updating": "{interface} থেকে {address} ইন্টারফেসের জন্য দূরবর্তী ঠিকানা আপডেট করা হচ্ছে"
+  },
+  "schema": "0e2b08c61a2482826cdb76bf0519f2a4e13db3e71eb3bb4644023ef8e6cb4c86"
+}

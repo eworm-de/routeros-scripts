@@ -1,0 +1,12 @@
+{
+  "language": "fr",
+  "messages": {
+    "notification-signalgrid.offline": "Le système n’est pas entièrement connecté et ne se rince pas.",
+    "notification-signalgrid.empty": "Vidage des messages Signalgrid du planificateur, mais la file d'attente est vide.",
+    "notification-signalgrid.queue.failed": "Échec de l'envoi de la notification Signalgrid en file d'attente : {error}",
+    "notification-signalgrid.certificate.failed": "Le téléchargement du certificat requis a échoué.",
+    "notification-signalgrid.sending.failed": "Échec de l'envoi de la notification Signalgrid : {error} - Mise en file d'attente...",
+    "notification-signalgrid.queued": "Ce message a été mis en file d'attente depuis {date} {time} et est peut-être obsolète."
+  },
+  "schema": "128aca9359451217298096f284f1811957b4079d0693132dbe948f2ced909a78"
+}

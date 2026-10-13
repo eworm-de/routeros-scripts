@@ -1,0 +1,9 @@
+{
+  "language": "ru",
+  "messages": {
+    "hotspot-to-wpa-lease.marker.added": "Добавлена отключенная запись в список доступа с комментарием «--- hotspot-to-wpa выше ---».",
+    "hotspot-to-wpa-lease.template.added": "Добавлен шаблон в список доступа для точки доступа «{hotspot}».",
+    "hotspot-to-wpa-lease.entry.updated": "Добавление/обновление записи списка доступа для Mac-адреса {mac} (пользователь {user})."
+  },
+  "schema": "f78d5db29b04af55a757a12886dca285667ff1378c2d7cd29bc37009f14f5ce8"
+}

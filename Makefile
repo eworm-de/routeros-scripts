@@ -11,14 +11,15 @@ HTML		:= $(MARKDOWN:.md=.html)
 DATE		?= $(shell date --rfc-email)
 VERSION		?= $(shell git symbolic-ref --short HEAD 2>/dev/null)/$(shell git rev-list --count HEAD 2>/dev/null)/$(shell git rev-parse --short=8 HEAD 2>/dev/null)
 export DATE VERSION
+PYTHON		?= python3
 
-.PHONY: all checksums commitinfo docs rsc clean
+.PHONY: all checksums commitinfo docs rsc languages check-languages clean
 
 all: checksums docs rsc
 
 checksums: checksums.json
 
-checksums.json: contrib/checksums.sh $(ALL_RSC)
+checksums.json: rsc contrib/checksums.sh $(ALL_RSC)
 	contrib/checksums.sh > $@
 
 commitinfo: global-functions.rsc
@@ -30,7 +31,17 @@ docs: $(HTML)
 %.html: %.md general/style.css contrib/html.sh contrib/html.sh.d/head.html contrib/html.sh.d/foot.html
 	contrib/html.sh $< > $@
 
-rsc: $(GEN_RSC)
+rsc: languages $(GEN_RSC)
+
+# Template generation must follow language embedding, including under make -j.
+$(GEN_RSC): | languages
+
+languages:
+	$(PYTHON) contrib/languages.py
+
+check-languages:
+	$(PYTHON) contrib/languages.py --check
+	$(PYTHON) -m unittest discover -s tests -p 'test_languages.py'
 
 %.capsman.rsc: %.template.rsc contrib/template-capsman.sh
 	contrib/template-capsman.sh $< > $@

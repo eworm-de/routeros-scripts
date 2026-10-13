@@ -1,0 +1,13 @@
+{
+  "language": "ja",
+  "messages": {
+    "unattended-lte-firmware-upgrade.query.failed": "インターフェイス {interface} の最新の LTE ファームウェア バージョンを取得できませんでした: {error}",
+    "unattended-lte-firmware-upgrade.scheduling": "インターフェイス {interface} の LTE ファームウェア アップグレードをスケジュールしています。",
+    "unattended-lte-firmware-upgrade.finished": "「{interface}」の LTE ファームウェアのアップグレードが完了し、リセットを待っています。",
+    "unattended-lte-firmware-upgrade.different": "LTE ファームウェアのバージョンは依然として異なります。とにかくアップグレードに失敗しましたか?",
+    "unattended-lte-firmware-upgrade.failed": "「{interface}」の LTE ファームウェアのアップグレードが失敗しました: {error}",
+    "unattended-lte-firmware-upgrade.current": "インターフェイス {interface} の LTE ファームウェアは最新です。",
+    "unattended-lte-firmware-upgrade.missing": "インターフェイス {interface} で利用可能な LTE ファームウェア情報がありません。"
+  },
+  "schema": "f231d0e80dd157d0022fa102e5293133b9d7d9cc5d18785151ff81e3434c0c7b"
+}

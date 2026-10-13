@@ -1,0 +1,12 @@
+{
+  "language": "pcm",
+  "messages": {
+    "notification-ntfy.offline": "System never connect finish; we no go clear the queue.",
+    "notification-ntfy.queue.empty": "Dey clear Ntfy messages from scheduler, but queue no get anything.",
+    "notification-ntfy.queue.failed": "Dey send queued Ntfy message no work: {error}",
+    "notification-ntfy.send.failed": "No fit send ntfy notification: {error} - Queuing...",
+    "notification-ntfy.certificate.failed": "Dey download wey we need certificate no work.",
+    "notification-ntfy.queued": "This message don dey for queue since {date} {time}; e fit don old."
+  },
+  "schema": "6734a9715e6b789bb7ff475fdc9f2b11391a7dcbd94aaef3413d695b035d493e"
+}

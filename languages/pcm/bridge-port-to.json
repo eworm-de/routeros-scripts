@@ -1,0 +1,12 @@
+{
+  "language": "pcm",
+  "messages": {
+    "bridge-port-to.client.enabled": "Dey disable bridge port for interface {interface}, enabling dhcp client.",
+    "bridge-port-to.interfaces.enabled": "Dey enable interfaces again...",
+    "bridge-port-to.bridge.enabled": "Dey enable bridge port for interface {interface}, changing to {config} bridge {bridge}, disabling dhcp client.",
+    "bridge-port-to.bridge.connected": "Interface {interface} don already connected to {config} bridge {bridge}.",
+    "bridge-port-to.client.missing": "DHCP client config no dey for interface {interface}!",
+    "bridge-port-to.client.duplicate": "DHCP client config dey more than once for interface {interface}!"
+  },
+  "schema": "9ff4cd55d43b5e48046edec247245c26cd52574d351dd5b3d5c66b36824548d6"
+}

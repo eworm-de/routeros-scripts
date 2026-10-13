@@ -1,0 +1,11 @@
+{
+  "language": "en",
+  "messages": {
+    "notification-gotify.offline": "System is not fully connected, not flushing.",
+    "notification-gotify.queue.empty": "Flushing Gotify messages from scheduler, but queue is empty.",
+    "notification-gotify.queue.failed": "Sending queued Gotify message failed: {error}",
+    "notification-gotify.send.failed": "Failed sending Gotify notification: {error} - Queuing...",
+    "notification-gotify.queued": "This message was queued since {date} {time} and may be obsolete."
+  },
+  "schema": "3ca0bb174dd4fcbe639af5145d66a280408096f7c34f9d1dd0565c5061427859"
+}

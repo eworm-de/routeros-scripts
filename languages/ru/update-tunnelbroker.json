@@ -1,0 +1,11 @@
+{
+  "language": "ru",
+  "messages": {
+    "update-tunnelbroker.certificate.failed": "Не удалось загрузить необходимый сертификат.",
+    "update-tunnelbroker.download.failed": "Не удалось загрузить: {error} — ожидается повторная попытка {count}.",
+    "update-tunnelbroker.response.invalid": "Не удалось отправить локальный адрес туннельному брокеру или неожиданный ответ!",
+    "update-tunnelbroker.address.missing": "Адрес {address} не настроен на вашем устройстве. NAT от провайдера?",
+    "update-tunnelbroker.updating": "Локальный адрес изменен, конфигурация туннеля обновлена с адресом: {address}."
+  },
+  "schema": "a1b3554a6dc3737e590e438648393e5c28b297b740eb02023c141abd6fe84d4e"
+}

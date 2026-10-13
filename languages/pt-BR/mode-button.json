@@ -1,0 +1,8 @@
+{
+  "language": "pt-BR",
+  "messages": {
+    "mode-button.scheduler.creating": "{script}: Criando o agendador mode-button-scheduler; contando os acionamentos...",
+    "mode-button.scheduler.updating": "{script}: Atualizando o agendador mode-button-scheduler..."
+  },
+  "schema": "1b567608fb5b7d34f1710eac3a7c4e5740acbea43a5f928a6be5d5c6d189ed03"
+}

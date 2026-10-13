@@ -1,0 +1,16 @@
+{
+  "language": "ru",
+  "messages": {
+    "netwatch-dns.settling": "Система только что загрузилась, давая netwatch {duration} возможность установиться.",
+    "netwatch-dns.dns.updating": "Обновление DNS-серверов: {servers}",
+    "netwatch-dns.dns.fallback": "Обновление DNS-серверов до резервных: {servers}",
+    "netwatch-dns.doh.current": "Текущий сервер DoH все еще работает и разрешает: {server}",
+    "netwatch-dns.doh.disabling": "Текущий сервер DoH не работает или не разрешается, отключение: {server}",
+    "netwatch-dns.certificate.failed": "Загрузка сертификата «{name}» не удалась, попытка без него.",
+    "netwatch-dns.request.failed": "Запрос к серверу DoH {server} не выполнен: {error}",
+    "netwatch-dns.response.invalid": "Получен неожиданный ответ от сервера DoH: {server}.",
+    "netwatch-dns.crl.warning": "Настроено на использование CRL, что может вызвать серьезную проблему!",
+    "netwatch-dns.doh.setting": "Настройка сервера DoH: {server}"
+  },
+  "schema": "a990191facc83c19ae4d95e097a5f7ec17573be4bce019c61e2ca3dcdffebf43"
+}

@@ -1,0 +1,11 @@
+{
+  "language": "id",
+  "messages": {
+    "daily-psk.updating": "Memperbarui PSK harian untuk '{ssid}' menjadi '{psk}' (sebelumnya '{previous}')",
+    "daily-psk.sent": "Sudah mengirim email untuk SSID {ssid}, skipping.",
+    "daily-psk.subject": "PSK harian {ssid}",
+    "daily-psk.message": "Berikut PSK harian di {identity}:\n\n{ssid}\n{psk}\n{date}\n\nAturan khusus perangkat klien tidak boleh ada!",
+    "daily-psk.date": "Tanggal"
+  },
+  "schema": "64d2ff049c113163d9a5b4847306ad5ac276859115f25bfe3d397cc8b24a1ea0"
+}

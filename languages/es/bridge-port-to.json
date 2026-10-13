@@ -1,0 +1,12 @@
+{
+  "language": "es",
+  "messages": {
+    "bridge-port-to.client.enabled": "Deshabilitando el puerto puente para la interfaz {interface}, habilitando el cliente dhcp.",
+    "bridge-port-to.interfaces.enabled": "Reactivando interfaces...",
+    "bridge-port-to.bridge.enabled": "Habilitando el puerto puente para la interfaz {interface}, cambiando a {config} puente {bridge}, deshabilitando el cliente dhcp.",
+    "bridge-port-to.bridge.connected": "Interfaz {interface} ya conectada al puente {config} {bridge}.",
+    "bridge-port-to.client.missing": "¡Falta la configuración del cliente dhcp para la interfaz {interface}!",
+    "bridge-port-to.client.duplicate": "¡Configuración de cliente dhcp duplicada para la interfaz {interface}!"
+  },
+  "schema": "9ff4cd55d43b5e48046edec247245c26cd52574d351dd5b3d5c66b36824548d6"
+}

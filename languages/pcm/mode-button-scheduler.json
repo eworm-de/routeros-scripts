@@ -1,0 +1,11 @@
+{
+  "language": "pcm",
+  "messages": {
+    "mode-button-scheduler.scheduler.missing": "Scheduler no exist.",
+    "mode-button-scheduler.action.missing": "No action dey for {count} presses of mode-button.",
+    "mode-button-scheduler.syntax": "code for {count} mode-button presses no pass syntax validation!",
+    "mode-button-scheduler.acting": "Dey act on {count} mode-button presses: {code}",
+    "mode-button-scheduler.failed": "code for {count} mode-button presses no work with runtime error: {error}"
+  },
+  "schema": "573b86779a15979155d7ff480e677e88dbe77a77cbd92ffaba77887856e8af91"
+}

@@ -1,0 +1,12 @@
+{
+  "language": "bn",
+  "messages": {
+    "log-forward.limited": "কর্মে হার সীমা, ফরওয়ার্ডিং লগ না, যদি থাকে!",
+    "log-forward.subject": "লগ ফরোয়ার্ডিং",
+    "log-forward.duplicates": " বহু-পুনরাবৃত্ত বার্তা বাদ দেওয়া হয়েছে।",
+    "log-forward.delaying": "\nকর্মে হারের সীমা, ফরোয়ার্ডিং বিলম্বিত।",
+    "log-forward.message.single": "{identity}-এর লগে {uptime} আপটাইমের পরে এই বার্তাটি রয়েছে৷ {duplicates}{delay}\n{messages}",
+    "log-forward.message.multiple": "{identity}-এর লগে {uptime} আপটাইমের পরে এই {count} বার্তাগুলি রয়েছে৷ {duplicates}{delay}\n{messages}"
+  },
+  "schema": "295a2441ccf8e06593a7eedcf16e2ac316badd8c4111d4dab8823ac3b329473c"
+}

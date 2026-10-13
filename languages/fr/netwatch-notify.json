@@ -1,0 +1,30 @@
+{
+  "language": "fr",
+  "messages": {
+    "netwatch-notify.type.host": "hôte",
+    "netwatch-notify.type.service": "services",
+    "netwatch-notify.state.up": "vers le haut",
+    "netwatch-notify.state.down": "vers le bas",
+    "netwatch-notify.state.pre-down": "pré-down",
+    "netwatch-notify.hook.failed": "Le hook {state} pour {type} '{name}' n'a pas pu s'exécuter : {error}",
+    "netwatch-notify.hook.failed.message": "Le hook n’a pas réussi à s’exécuter.",
+    "netwatch-notify.hook.syntax": "Le hook {state} pour {type} '{name}' a échoué à la validation de la syntaxe.",
+    "netwatch-notify.hook.syntax.message": "Le hook a échoué à la validation de la syntaxe.",
+    "netwatch-notify.hook.ran": "Crochet exécuté sur {type} '{name}' {state} : {hook}",
+    "netwatch-notify.hook.ran.message": "Crochet exécuté :\n{hook}",
+    "netwatch-notify.resolve.updated": "Le nom « {resolve} » est résolu en une adresse différente {address}, mise à jour.",
+    "netwatch-notify.resolve.named.updated": "Le nom « {resolve} » pour {type} « {name} » est résolu en une adresse différente {address}, mise à jour.",
+    "netwatch-notify.resolve.failed": "La résolution du nom « {resolve} » a échoué pour la troisième fois : {error}",
+    "netwatch-notify.resolve.named.failed": "La résolution du nom « {resolve} » pour {type} « {name} » a échoué pour la troisième fois : {error}",
+    "netwatch-notify.up": "Le {type} '{name}' ({details}) est en ligne.",
+    "netwatch-notify.up.message": "Le {type} '{name}' ({details}) est en ligne depuis {since}.\nIl était en panne pour les contrôles {count} depuis {down_since}.",
+    "netwatch-notify.note": "\n\nRemarque :\n{note}",
+    "netwatch-notify.up.subject": "Netwatch Notifier : {name} en place",
+    "netwatch-notify.down.subject": "Netwatch Notify : {name} en panne",
+    "netwatch-notify.down.waiting": "Le {type} '{name}' ({details}) est en panne pour les contrôles {count}, {remaining} à emporter.",
+    "netwatch-notify.down.notified": "Le {type} '{name}' ({details}) est en panne pour les contrôles {count}, déjà notifiés.",
+    "netwatch-notify.down.parent": "Le {type} '{name}' ({details}) est en panne pour les contrôles {count}, le parent {type} {parent} est en panne.",
+    "netwatch-notify.down.message": "Le {type} '{name}' ({details}) est en panne depuis {since}."
+  },
+  "schema": "7599eb0829fe6e5e2de9cf05b5bf721fd5b4cd7ce0726daf8735d47e695d7240"
+}

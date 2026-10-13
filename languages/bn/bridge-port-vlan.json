@@ -1,0 +1,13 @@
+{
+  "language": "bn",
+  "messages": {
+    "bridge-port-vlan.client.enabled": "{interface} ইন্টারফেসের জন্য ব্রিজ পোর্ট অক্ষম করা হচ্ছে, dhcp ক্লায়েন্ট সক্রিয় করা হচ্ছে।",
+    "bridge-port-vlan.interfaces.enabled": "ইন্টারফেসগুলি পুনরায় সক্ষম করা হচ্ছে...",
+    "bridge-port-vlan.vlan.missing": "{interface} ইন্টারফেসের জন্য VLAN '{vlan}' খুঁজে পাওয়া যায়নি!",
+    "bridge-port-vlan.vlan.enabled": "{interface} ইন্টারফেসের জন্য ব্রিজ পোর্ট সক্ষম করা হচ্ছে, {config} vlan {vlan}{name} এ পরিবর্তন করা হচ্ছে, dhcp ক্লায়েন্টকে অক্ষম করা হচ্ছে।",
+    "bridge-port-vlan.vlan.connected": "ইন্টারফেস {interface} ইতিমধ্যেই {config} vlan {vlan} এর সাথে সংযুক্ত।",
+    "bridge-port-vlan.client.missing": "{interface} ইন্টারফেসের জন্য dhcp ক্লায়েন্ট কনফিগারেশন অনুপস্থিত!",
+    "bridge-port-vlan.client.duplicate": "{interface} ইন্টারফেসের জন্য ডুপ্লিকেট dhcp ক্লায়েন্ট কনফিগারেশন!"
+  },
+  "schema": "ca51ecefefa0a1bcad40eb3a3ad65db37300e7e3b0f7f3f5abe49a021f6dfda1"
+}

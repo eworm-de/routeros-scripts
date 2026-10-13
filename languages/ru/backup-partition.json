@@ -1,0 +1,16 @@
+{
+  "language": "ru",
+  "messages": {
+    "backup-partition.copied": "Скопирован RouterOS в раздел «{name}».",
+    "backup-partition.copy.failed": "Не удалось скопировать RouterOS в раздел «{name}»: {error}.",
+    "backup-partition.partition": "Запуск из резервного раздела, отказывается действовать.",
+    "backup-partition.unavailable": "На устройстве нет резервного раздела.",
+    "backup-partition.inactive": "Устройство не запускается из активного раздела.",
+    "backup-partition.fallback.missing": "Неактивного раздела с именем «{name}» нет.",
+    "backup-partition.prompt": "Разделы имеют разные версии RouterOS. Скопировать в «{name}»? [y/N]",
+    "backup-partition.saved": "Конфигурация сохранена в разделе «{name}».",
+    "backup-partition.save.failed": "Не удалось сохранить конфигурацию в разделе «{name}»: {error}.",
+    "backup-partition.running": "Запуск из раздела «{name}»!"
+  },
+  "schema": "d37495d3faf22763093e64eb8145eb90d29a006fb0503cc939337741dfd80681"
+}

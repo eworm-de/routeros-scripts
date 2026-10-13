@@ -1,0 +1,8 @@
+{
+  "language": "en",
+  "messages": {
+    "ospf-to-leds.on": "OSPF instance {name} has {count} neighbors, led on!",
+    "ospf-to-leds.off": "OSPF instance {name} has no neighbors, led off!"
+  },
+  "schema": "3ae94f59ba09e39d125716de2e5770c50637c8553a2b9dcfe750e4b2f06ecb8e"
+}

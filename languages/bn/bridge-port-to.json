@@ -1,0 +1,12 @@
+{
+  "language": "bn",
+  "messages": {
+    "bridge-port-to.client.enabled": "{interface} ইন্টারফেসের জন্য ব্রিজ পোর্ট অক্ষম করা হচ্ছে, dhcp ক্লায়েন্ট সক্রিয় করা হচ্ছে।",
+    "bridge-port-to.interfaces.enabled": "ইন্টারফেসগুলি পুনরায় সক্ষম করা হচ্ছে...",
+    "bridge-port-to.bridge.enabled": "{interface} ইন্টারফেসের জন্য ব্রিজ পোর্ট সক্ষম করা হচ্ছে, {config} ব্রিজে {bridge} পরিবর্তন করা হচ্ছে, dhcp ক্লায়েন্টকে অক্ষম করা হচ্ছে।",
+    "bridge-port-to.bridge.connected": "ইন্টারফেস {interface} ইতিমধ্যে {config} সেতু {bridge} এর সাথে সংযুক্ত।",
+    "bridge-port-to.client.missing": "{interface} ইন্টারফেসের জন্য dhcp ক্লায়েন্ট কনফিগারেশন অনুপস্থিত!",
+    "bridge-port-to.client.duplicate": "{interface} ইন্টারফেসের জন্য ডুপ্লিকেট dhcp ক্লায়েন্ট কনফিগারেশন!"
+  },
+  "schema": "9ff4cd55d43b5e48046edec247245c26cd52574d351dd5b3d5c66b36824548d6"
+}

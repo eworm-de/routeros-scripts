@@ -9,14 +9,28 @@
 # ipsec remote peer
 # https://rsc.eworm.de/doc/update-gre-address.md
 
+# BEGIN GENERATED LANGUAGE DATA
+# language, name=update-gre-address, schema=0e2b08c61a2482826cdb76bf0519f2a4e13db3e71eb3bb4644023ef8e6cb4c86
+:global LanguageEnglish;
+:if ([ :typeof $LanguageEnglish ] != "array") do={ :set LanguageEnglish ({}); }
+:set ($LanguageEnglish->"update-gre-address.updating") "Updating remote address for interface {interface} to {address}";
+:set ($LanguageEnglish->"global-config.not.ready") "Global config and/or functions not ready.";
+:global GlobalNotReadyMessage;
+:if ([ :typeof $GlobalNotReadyMessage ] != "str") do={
+  :set GlobalNotReadyMessage ($LanguageEnglish->"global-config.not.ready");
+}
+# END GENERATED LANGUAGE DATA
+
 :onerror Err {
   :global GlobalConfigReady; :global GlobalFunctionsReady;
+  :global GlobalNotReadyMessage;
   :retry { :if ($GlobalConfigReady != true || $GlobalFunctionsReady != true) \
-      do={ :error ("Global config and/or functions not ready."); }; } delay=500ms max=50;
+      do={ :error $GlobalNotReadyMessage; }; } delay=500ms max=50;
   :local ScriptName [ :jobname ];
 
   :global CharacterReplace;
   :global LogPrint;
+  :global Translate;
   :global ScriptLock; 
 
   :if ([ $ScriptLock $ScriptName ] = false) do={
@@ -33,7 +47,8 @@
       :if ([ :typeof ($PeerVal->"dynamic-address") ] = "str" && \
            ($PeerVal->"dynamic-address" != $GreIntVal->"remote-address" || \
             $GreIntVal->"disabled" = true)) do={
-        $LogPrint info $ScriptName ("Updating remote address for interface " . $GreIntVal->"name" . " to " . $PeerVal->"dynamic-address");
+        $LogPrint info $ScriptName [ $Translate "update-gre-address.updating" \
+            ({ interface=($GreIntVal->"name"); address=($PeerVal->"dynamic-address") }) ];
         /interface/gre/set remote-address=0.0.0.0 disabled=yes [ find where remote-address=$PeerVal->"dynamic-address" name!=$GreIntVal->"name" ];
         /interface/gre/set $GreInt remote-address=($PeerVal->"dynamic-address") disabled=no;
       }

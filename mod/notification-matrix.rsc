@@ -10,6 +10,32 @@
 # send notifications via Matrix
 # https://rsc.eworm.de/doc/mod/notification-matrix.md
 
+# BEGIN GENERATED LANGUAGE DATA
+# language, name=notification-matrix, schema=f843ad08937ad96c091b0aa66edd949e6e467c336607c9c73ff0270be3b95839
+:global LanguageEnglish;
+:if ([ :typeof $LanguageEnglish ] != "array") do={ :set LanguageEnglish ({}); }
+:set ($LanguageEnglish->"notification-matrix.access.token") "Access token is: {token}";
+:set ($LanguageEnglish->"notification-matrix.home.failed") "Failed getting home server: {error}";
+:set ($LanguageEnglish->"notification-matrix.home.server") "Home server is: {server}";
+:set ($LanguageEnglish->"notification-matrix.login.failed") "Failed logging in (and getting access token): {error}";
+:set ($LanguageEnglish->"notification-matrix.offline") "System is not fully connected, not flushing.";
+:set ($LanguageEnglish->"notification-matrix.queue.empty") "Flushing Matrix messages from scheduler, but queue is empty.";
+:set ($LanguageEnglish->"notification-matrix.queue.failed") "Sending queued Matrix message failed: {error}";
+:set ($LanguageEnglish->"notification-matrix.queued") "This message was queued since {date} and may be obsolete.";
+:set ($LanguageEnglish->"notification-matrix.room.failed") "Failed joining the room: {error}";
+:set ($LanguageEnglish->"notification-matrix.room.joined") "Joined the room.";
+:set ($LanguageEnglish->"notification-matrix.send.failed") "Failed sending Matrix notification: {error} - Queuing...";
+:set ($LanguageEnglish->"notification-matrix.snippet.added") "Added configuration snippet. Now create and join a room, please!";
+:set ($LanguageEnglish->"notification-matrix.snippet.append.failed") "Failed appending configuration to snippet: {error}";
+:set ($LanguageEnglish->"notification-matrix.snippet.appended") "Appended configuration to configuration snippet. Please review!";
+:set ($LanguageEnglish->"notification-matrix.snippet.failed") "Failed adding configuration snippet: {error}";
+:set ($LanguageEnglish->"global-config.not.ready") "Global config and/or functions not ready.";
+:global GlobalNotReadyMessage;
+:if ([ :typeof $GlobalNotReadyMessage ] != "str") do={
+  :set GlobalNotReadyMessage ($LanguageEnglish->"global-config.not.ready");
+}
+# END GENERATED LANGUAGE DATA
+
 :global FlushMatrixQueue;
 :global NotificationFunctions;
 :global PurgeMatrixQueue;
@@ -24,9 +50,10 @@
 
   :global IsFullyConnected;
   :global LogPrint;
+  :global Translate;
 
   :if ([ $IsFullyConnected ] = false) do={
-    $LogPrint debug $0 ("System is not fully connected, not flushing.");
+    $LogPrint debug $0 [ $Translate "notification-matrix.offline" ];
     :return false;
   }
 
@@ -34,7 +61,7 @@
   :local QueueLen [ :len $MatrixQueue ];
 
   :if ([ :len [ /system/scheduler/find where name="_FlushMatrixQueue" ] ] > 0 && $QueueLen = 0) do={
-    $LogPrint warning $0 ("Flushing Matrix messages from scheduler, but queue is empty.");
+    $LogPrint warning $0 [ $Translate "notification-matrix.queue.empty" ];
   }
 
   :foreach Id,Message in=$MatrixQueue do={
@@ -48,7 +75,8 @@
             "/send/m.room.message?access_token=" . $Message->"accesstoken") as-value;
         :set ($MatrixQueue->$Id);
       } do={
-        $LogPrint debug $0 ("Sending queued Matrix message failed: " . $Err);
+        $LogPrint debug $0 [ $Translate "notification-matrix.queue.failed" \
+            ({ error=$Err }) ];
         :set AllDone false;
       }
     }
@@ -79,7 +107,9 @@
   :global EitherOr;
   :global FetchUserAgentStr;
   :global LogPrint;
+  :global Translate;
   :global ProtocolStrip;
+  :global CharacterReplace;
   :global SymbolForNotification;
 
   :local PrepareText do={
@@ -137,17 +167,21 @@
         ("https://" . $HomeServer . "/_matrix/client/r0/rooms/" . $Room . \
         "/send/m.room.message?access_token=" . $AccessToken) as-value;
   } do={
-    $LogPrint info $0 ("Failed sending Matrix notification: " . $Err . " - Queuing...");
+    $LogPrint info $0 [ $Translate "notification-matrix.send.failed" \
+        ({ error=$Err }) ];
 
     :if ([ :typeof $MatrixQueue ] = "nothing") do={
       :set MatrixQueue ({});
     }
     :local Symbol [ $SymbolForNotification "alarm-clock" ];
     :local DateTime ([ /system/clock/get date ] . " " . [ /system/clock/get time ]);
-    :set Plain ($Plain . "\n" . $Symbol . "This message was queued since *" . \
-        $DateTime . "* and may be obsolete.");
-    :set Formatted ($Formatted . "<br/>" . $Symbol . "This message was queued since <em>" . \
-        $DateTime . "</em> and may be obsolete.");
+    :set Plain ($Plain . "\n" . $Symbol . [ $Translate "notification-matrix.queued" \
+        ({ date=("*" . $DateTime . "*") }) ]);
+    :local Queued [ $PrepareText [ $Translate "notification-matrix.queued" \
+        ({ date=$DateTime }) ] ];
+    :set Queued [ $CharacterReplace $Queued [ $PrepareText $DateTime ] \
+        ("<em>" . [ $PrepareText $DateTime ] . "</em>") ];
+    :set Formatted ($Formatted . "<br/>" . $Symbol . $Queued);
     :set ($MatrixQueue->[ :len $MatrixQueue ]) { headers=$Headers; \
         accesstoken=$AccessToken; homeserver=$HomeServer; room=$Room; \
         plain=$Plain; formatted=$Formatted };
@@ -191,6 +225,7 @@
 
   :global FetchUserAgentStr;
   :global LogPrint;
+  :global Translate;
 
   :global MatrixAccessToken;
   :global MatrixHomeServer;
@@ -201,9 +236,11 @@
         http-header-field=({ [ $FetchUserAgentStr $0 ] }) \
         ("https://" . $Domain . "/.well-known/matrix/client") as-value ]->"data");
     :set MatrixHomeServer ([ :deserialize from=json value=$Data ]->"m.homeserver"->"base_url");
-    $LogPrint debug $0 ("Home server is: " . $MatrixHomeServer);
+    $LogPrint debug $0 [ $Translate "notification-matrix.home.server" \
+        ({ server=$MatrixHomeServer }) ];
   } do={
-    $LogPrint error $0 ("Failed getting home server: " . $Err);
+    $LogPrint error $0 [ $Translate "notification-matrix.home.failed" \
+        ({ error=$Err }) ];
     :return false;
   }
 
@@ -217,9 +254,11 @@
         http-data=[ :serialize to=json { "type"="m.login.password"; "user"=$User; "password"=$Pass } ] \
         ("https://" . $MatrixHomeServer . "/_matrix/client/r0/login") as-value ]->"data");
     :set MatrixAccessToken ([ :deserialize from=json value=$Data ]->"access_token");
-    $LogPrint debug $0 ("Access token is: " . $MatrixAccessToken);
+    $LogPrint debug $0 [ $Translate "notification-matrix.access.token" \
+        ({ token=$MatrixAccessToken }) ];
   } do={
-    $LogPrint error $0 ("Failed logging in (and getting access token): " . $Err);
+    $LogPrint error $0 [ $Translate "notification-matrix.login.failed" \
+        ({ error=$Err }) ];
     :return false;
   }
 
@@ -229,9 +268,10 @@
       "# configuration snippet: mod/notification-matrix\n\n" . \
       ":global MatrixHomeServer \"" . $MatrixHomeServer . "\";\n" . \
       ":global MatrixAccessToken \"" . $MatrixAccessToken . "\";\n");
-    $LogPrint info $0 ("Added configuration snippet. Now create and join a room, please!");
+    $LogPrint info $0 [ $Translate "notification-matrix.snippet.added" ];
   } do={
-    $LogPrint error $0 ("Failed adding configuration snippet: " . $Err);
+    $LogPrint error $0 [ $Translate "notification-matrix.snippet.failed" \
+        ({ error=$Err }) ];
     :return false;
   }
 }
@@ -242,6 +282,7 @@
 
   :global FetchUserAgentStr;
   :global LogPrint;
+  :global Translate;
 
   :global MatrixAccessToken;
   :global MatrixHomeServer;
@@ -252,9 +293,10 @@
         http-header-field=({ [ $FetchUserAgentStr $0 ] }) http-method=post http-data="" \
         ("https://" . $MatrixHomeServer . "/_matrix/client/r0/rooms/" . [ :convert to=url $MatrixRoom ] . \
         "/join?access_token=" . [ :convert to=url $MatrixAccessToken ]) as-value;
-    $LogPrint debug $0 ("Joined the room.");
+    $LogPrint debug $0 [ $Translate "notification-matrix.room.joined" ];
   } do={
-    $LogPrint error $0 ("Failed joining the room: " . $Err);
+    $LogPrint error $0 [ $Translate "notification-matrix.room.failed" \
+        ({ error=$Err }) ];
     :return false;
   }
 
@@ -262,9 +304,10 @@
     :local Snippet [ /system/script/find where name="global-config-overlay.d/mod/notification-matrix" ];
     /system/script/set $Snippet source=([ get $Snippet source ] . \
       ":global MatrixRoom \"" . $MatrixRoom . "\";\n");
-    $LogPrint info $0 ("Appended configuration to configuration snippet. Please review!");
+    $LogPrint info $0 [ $Translate "notification-matrix.snippet.appended" ];
   } do={
-    $LogPrint error $0 ("Failed appending configuration to snippet: " . $Err);
+    $LogPrint error $0 [ $Translate "notification-matrix.snippet.append.failed" \
+        ({ error=$Err }) ];
     :return false;
   }
 }

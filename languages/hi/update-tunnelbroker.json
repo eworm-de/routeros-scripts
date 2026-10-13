@@ -1,0 +1,11 @@
+{
+  "language": "hi",
+  "messages": {
+    "update-tunnelbroker.certificate.failed": "आवश्यक प्रमाणपत्र डाउनलोड करना विफल रहा.",
+    "update-tunnelbroker.download.failed": "डाउनलोड करने में विफल: {error} - {count} पुनः प्रयास लंबित है।",
+    "update-tunnelbroker.response.invalid": "टनलब्रोकर को स्थानीय पता भेजने में विफल या अप्रत्याशित प्रतिक्रिया!",
+    "update-tunnelbroker.address.missing": "पता {address} आपके डिवाइस पर कॉन्फ़िगर नहीं है। ISP द्वारा NAT?",
+    "update-tunnelbroker.updating": "स्थानीय पता बदल गया, सुरंग कॉन्फ़िगरेशन को पते के साथ अपडेट किया जा रहा है: {address}"
+  },
+  "schema": "a1b3554a6dc3737e590e438648393e5c28b297b740eb02023c141abd6fe84d4e"
+}

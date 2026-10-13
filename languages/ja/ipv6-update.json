@@ -1,0 +1,14 @@
+{
+  "language": "ja",
+  "messages": {
+    "ipv6-update.address.ignored": "プレフィックスではなく、アドレス ({address}) が取得されました。無視する。",
+    "ipv6-update.context.invalid": "このスクリプトは ipv6 dhcp-client から実行されることになっています。",
+    "ipv6-update.prefix.invalid": "プレフィックス {prefix} は無効になりました。無視する。",
+    "ipv6-update.list.added": "ipv6-pool-{pool} の動的 ipv6 アドレス リスト エントリを追加しました",
+    "ipv6-update.prefix.updating": "新しい IPv6 プレフィックス {prefix} を使用して IPv6 アドレス リストを更新しています",
+    "ipv6-update.host.updating": "インターフェイス {interface} からの新しい IPv6 ホスト アドレス {address} で IPv6 アドレス リストを更新しています",
+    "ipv6-update.interface.prefix.updating": "インターフェイス {interface} から新しい IPv6 プレフィックス {prefix} を使用して IPv6 アドレス リストを更新しています",
+    "ipv6-update.dns.updating": "{name}{regexp} の DNS レコードを {address} に更新しています"
+  },
+  "schema": "d502241c31fb73e9c3245e499a026333b5c7b5265d927b18a2a24bf7948fb823"
+}

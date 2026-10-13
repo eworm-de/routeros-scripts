@@ -1,0 +1,16 @@
+{
+  "language": "es",
+  "messages": {
+    "netwatch-dns.settling": "El sistema acaba de iniciarse, lo que permite que netwatch {duration} se asiente.",
+    "netwatch-dns.dns.updating": "Actualización de servidores DNS: {servers}",
+    "netwatch-dns.dns.fallback": "Actualización de servidores DNS para reserva: {servers}",
+    "netwatch-dns.doh.current": "El servidor DoH actual todavía está activo y resolviendo: {server}",
+    "netwatch-dns.doh.disabling": "El servidor DoH actual está inactivo o no se resuelve, deshabilitando: {server}",
+    "netwatch-dns.certificate.failed": "Error al descargar el certificado '{name}', intentándolo sin él.",
+    "netwatch-dns.request.failed": "Error en la solicitud al servidor DoH {server}: {error}",
+    "netwatch-dns.response.invalid": "Se recibió una respuesta inesperada del servidor DoH: {server}",
+    "netwatch-dns.crl.warning": "Configurado para usar CRL, ¡eso puede causar problemas graves!",
+    "netwatch-dns.doh.setting": "Configuración del servidor DoH: {server}"
+  },
+  "schema": "a990191facc83c19ae4d95e097a5f7ec17573be4bce019c61e2ca3dcdffebf43"
+}

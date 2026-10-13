@@ -1,0 +1,13 @@
+{
+  "language": "ja",
+  "messages": {
+    "bridge-port-vlan.client.enabled": "インターフェイス {interface} のブリッジ ポートを無効にし、dhcp クライアントを有効にします。",
+    "bridge-port-vlan.interfaces.enabled": "インターフェースを再度有効にしています...",
+    "bridge-port-vlan.vlan.missing": "インターフェイス {interface} の VLAN '{vlan}' が見つかりませんでした。",
+    "bridge-port-vlan.vlan.enabled": "インターフェイス {interface} のブリッジ ポートを有効にし、{config} vlan {vlan}{name} に変更し、dhcp クライアントを無効にします。",
+    "bridge-port-vlan.vlan.connected": "インターフェイス {interface} はすでに {config} vlan {vlan} に接続されています。",
+    "bridge-port-vlan.client.missing": "インターフェイス {interface} の dhcp クライアント設定がありません!",
+    "bridge-port-vlan.client.duplicate": "インターフェイス {interface} の dhcp クライアント設定が重複しています。"
+  },
+  "schema": "ca51ecefefa0a1bcad40eb3a3ad65db37300e7e3b0f7f3f5abe49a021f6dfda1"
+}

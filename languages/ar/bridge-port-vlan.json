@@ -1,0 +1,13 @@
+{
+  "language": "ar",
+  "messages": {
+    "bridge-port-vlan.client.enabled": "تعطيل منفذ الجسر للواجهة {interface}، وتمكين عميل dhcp.",
+    "bridge-port-vlan.interfaces.enabled": "إعادة تمكين الواجهات...",
+    "bridge-port-vlan.vlan.missing": "تعذر العثور على VLAN '{vlan}' للواجهة {interface}!",
+    "bridge-port-vlan.vlan.enabled": "تمكين منفذ الجسر للواجهة {interface}، والتغيير إلى {config} vlan {vlan}{name}، وتعطيل عميل dhcp.",
+    "bridge-port-vlan.vlan.connected": "واجهة {interface} متصلة بالفعل بشبكة {config} vlan {vlan}.",
+    "bridge-port-vlan.client.missing": "تكوين عميل dhcp مفقود للواجهة {interface}!",
+    "bridge-port-vlan.client.duplicate": "تكوين عميل dhcp مكرر للواجهة {interface}!"
+  },
+  "schema": "ca51ecefefa0a1bcad40eb3a3ad65db37300e7e3b0f7f3f5abe49a021f6dfda1"
+}

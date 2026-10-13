@@ -1,0 +1,17 @@
+{
+  "language": "ur",
+  "messages": {
+    "backup-cloud.partition": "بیک اپ پارٹیشن سے بھاگنا، عمل کرنے سے انکار کرنا۔",
+    "backup-cloud.directory": "ڈائرکٹری بنانے میں ناکام!",
+    "backup-cloud.subject": "کلاؤڈ بیک اپ",
+    "backup-cloud.subject.failed": "کلاؤڈ بیک اپ ناکام ہو گیا۔",
+    "backup-cloud.message": "{identity} کے لیے کلاؤڈ پر بیک اپ اپ لوڈ کیا گیا۔\n\n{device}\n\n{details}",
+    "backup-cloud.message.failed": "{identity} کے لیے کلاؤڈ پر بیک اپ اپ لوڈ کرنے میں ناکام!\n\n{device}",
+    "backup-cloud.upload.failed": "{identity} کے لیے کلاؤڈ پر بیک اپ اپ لوڈ کرنے میں ناکام!",
+    "backup-cloud.retry": "دوبارہ کوشش کامیاب ہو گئی، براہ کرم پچھلی کنکشن کی خرابیوں کو رد کر دیں۔",
+    "backup-cloud.label.name": "نام",
+    "backup-cloud.label.size": "سائز",
+    "backup-cloud.label.key": "ڈاؤن لوڈ کلید"
+  },
+  "schema": "1d68cb944d178c8731db42b15cc1dc9e76c76322543a57e366c56830ef3b644d"
+}

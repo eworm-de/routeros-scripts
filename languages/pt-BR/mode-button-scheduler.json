@@ -1,0 +1,11 @@
+{
+  "language": "pt-BR",
+  "messages": {
+    "mode-button-scheduler.scheduler.missing": "O agendador não existe.",
+    "mode-button-scheduler.action.missing": "Não há ação definida para {count} acionamentos do botão de modo.",
+    "mode-button-scheduler.syntax": "A sintaxe do código para {count} acionamentos do botão de modo é inválida!",
+    "mode-button-scheduler.acting": "Executando a ação de {count} acionamentos do botão de modo: {code}",
+    "mode-button-scheduler.failed": "O código para {count} acionamentos do botão de modo falhou durante a execução: {error}"
+  },
+  "schema": "573b86779a15979155d7ff480e677e88dbe77a77cbd92ffaba77887856e8af91"
+}

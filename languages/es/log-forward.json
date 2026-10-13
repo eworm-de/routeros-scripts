@@ -1,0 +1,12 @@
+{
+  "language": "es",
+  "messages": {
+    "log-forward.limited": "Límite de velocidad en acción, sin reenviar registros, si los hay.",
+    "log-forward.subject": "Reenvío de registros",
+    "log-forward.duplicates": " Se han omitido mensajes repetidos varias veces.",
+    "log-forward.delaying": "\nLímite de tarifa en acción, retrasando el reenvío.",
+    "log-forward.message.single": "El registro en {identity} contiene este mensaje después del tiempo de actividad de {uptime}.{duplicates}{delay}\n{messages}",
+    "log-forward.message.multiple": "El registro en {identity} contiene estos mensajes {count} después del tiempo de actividad de {uptime}.{duplicates}{delay}\n{messages}"
+  },
+  "schema": "295a2441ccf8e06593a7eedcf16e2ac316badd8c4111d4dab8823ac3b329473c"
+}

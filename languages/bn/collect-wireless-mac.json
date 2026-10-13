@@ -1,0 +1,25 @@
+{
+  "language": "bn",
+  "messages": {
+    "collect-wireless-mac.marker.added": "'--- উপরে সংগৃহীত ---' মন্তব্য সহ নিষ্ক্রিয় অ্যাক্সেস-তালিকা এন্ট্রি যোগ করা হয়েছে।",
+    "collect-wireless-mac.device.gone": "ডিভাইস ইতিমধ্যে চলে গেছে... উপেক্ষা করা হচ্ছে।",
+    "collect-wireless-mac.lease.missing": "কোন dhcp ইজারা",
+    "collect-wireless-mac.hostname.missing": "কোন হোস্টনাম নেই",
+    "collect-wireless-mac.dns.missing": "কোন ডিএনএস নাম নেই",
+    "collect-wireless-mac.first.seen": "MAC ঠিকানা {mac} ({vendor}, {hostname}) SSID {ssid}, ইন্টারফেস {interface} এর সাথে সংযুক্ত {date} এ প্রথম দেখা গেছে",
+    "collect-wireless-mac.subject": "{mac} {ssid} এর সাথে সংযুক্ত",
+    "collect-wireless-mac.message": "{identity}-এ {ssid}-এর সাথে সংযুক্ত অজানা MAC ঠিকানা সহ একটি ডিভাইস।\n\n",
+    "collect-wireless-mac.mac.missing": "কোনো ম্যাক ঠিকানা উপলব্ধ নেই... উপেক্ষা করা হচ্ছে।",
+    "collect-wireless-mac.label.controller": "নিয়ন্ত্রক",
+    "collect-wireless-mac.label.interface": "ইন্টারফেস",
+    "collect-wireless-mac.label.ssid": "SSID",
+    "collect-wireless-mac.label.mac": "ম্যাক",
+    "collect-wireless-mac.label.vendor": "বিক্রেতা",
+    "collect-wireless-mac.label.hostname": "হোস্টনাম",
+    "collect-wireless-mac.label.address": "ঠিকানা",
+    "collect-wireless-mac.label.dns": "DNS নাম",
+    "collect-wireless-mac.label.date": "তারিখ",
+    "collect-wireless-mac.known": "MAC ঠিকানা {mac} ইতিমধ্যেই পরিচিত: {comment}"
+  },
+  "schema": "70ad56ad671ad178315877f3d03eaddd505e04060e94d4c635cd2ebab32adee9"
+}

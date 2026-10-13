@@ -1,0 +1,21 @@
+{
+  "language": "en",
+  "messages": {
+    "fw-addr-lists.crash.delay": "Scripting subsystem may have crashed, possibly caused by us. Delaying!",
+    "fw-addr-lists.certificate.failed": "Downloading required certificate ({list} / {url}) failed, trying anyway.",
+    "fw-addr-lists.download.retry": "Failed downloading for list '{list}', {count}. try from: {url}",
+    "fw-addr-lists.download.failed": "Failed downloading for list '{list}' from: {url}",
+    "fw-addr-lists.downloaded": "Downloaded {size}B for list '{list}' from: {url}",
+    "fw-addr-lists.branch": "Handling branch: {branch}",
+    "fw-addr-lists.summary": "list: {list} ({total}) -- added: {added} - renewed: {renewed} - removed: {removed}",
+    "fw-addr-lists.ipv4.renew": "Renewing IPv4 address {address} in list '{list}' with {timeout}.",
+    "fw-addr-lists.ipv4.remove": "Removing IPv4 address {address} from list '{list}.",
+    "fw-addr-lists.ipv4.add": "Adding IPv4 address {address} to list '{list}' with {timeout}.",
+    "fw-addr-lists.ipv4.failed": "Failed to add IPv4 address {address} to list '{list}': {error}",
+    "fw-addr-lists.ipv6.renew": "Renewing IPv6 address {address} in list '{list}' with {timeout}.",
+    "fw-addr-lists.ipv6.remove": "Removing IPv6 address {address} from list '{list}.",
+    "fw-addr-lists.ipv6.add": "Adding IPv6 address {address} to list '{list}' with {timeout}.",
+    "fw-addr-lists.ipv6.failed": "Failed to add IPv6 address {address} to list '{list}': {error}"
+  },
+  "schema": "42bcfb865c10957ae21b18aa798348228d56dea78dd75c130eee6af199b03277"
+}

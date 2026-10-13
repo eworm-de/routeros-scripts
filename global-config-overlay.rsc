@@ -9,4 +9,7 @@
 # https://rsc.eworm.de/main/global-config.rsc
 
 
+# Uncomment to use Brazilian Portuguese for translated notifications.
+#:global ScriptLanguage "pt-BR";
+
 # End of global-config-overlay

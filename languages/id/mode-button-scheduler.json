@@ -1,0 +1,11 @@
+{
+  "language": "id",
+  "messages": {
+    "mode-button-scheduler.scheduler.missing": "Penjadwal tidak ada.",
+    "mode-button-scheduler.action.missing": "Tidak ada tindakan yang ditentukan untuk penekanan tombol mode {count}.",
+    "mode-button-scheduler.syntax": "Kode untuk tombol mode {count} menekan validasi sintaksis yang gagal!",
+    "mode-button-scheduler.acting": "Bertindak pada penekanan tombol mode {count}: {code}",
+    "mode-button-scheduler.failed": "Kode untuk penekanan tombol mode {count} gagal dengan kesalahan runtime: {error}"
+  },
+  "schema": "573b86779a15979155d7ff480e677e88dbe77a77cbd92ffaba77887856e8af91"
+}

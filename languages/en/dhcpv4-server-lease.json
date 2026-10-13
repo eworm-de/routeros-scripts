@@ -1,0 +1,12 @@
+{
+  "language": "en",
+  "messages": {
+    "dhcpv4-server-lease.context.invalid": "This script is supposed to run from ip dhcp-server.",
+    "dhcpv4-server-lease.script.running": "Running script with order {order}: {name}",
+    "dhcpv4-server-lease.script.failed": "Running script '{name}' failed: {error}",
+    "dhcpv4-server-lease.waiting": "More invocations are waiting, exiting early.",
+    "dhcpv4-server-lease.assigned": "DHCP Server {server} assigned lease {address} to {mac}",
+    "dhcpv4-server-lease.deassigned": "DHCP Server {server} deassigned lease {address} to {mac}"
+  },
+  "schema": "e8bd70cbac2cb60d46fce97c5cd6f4d6f35e4039991ffa0fb5fd3e1e1ac986c3"
+}

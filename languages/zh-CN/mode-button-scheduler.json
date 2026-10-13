@@ -1,0 +1,11 @@
+{
+  "language": "zh-CN",
+  "messages": {
+    "mode-button-scheduler.scheduler.missing": "调度程序不存在。",
+    "mode-button-scheduler.action.missing": "没有为 {count} 模式按钮按下定义操作。",
+    "mode-button-scheduler.syntax": "{count} 模式按钮按下的代码语法验证失败！",
+    "mode-button-scheduler.acting": "作用于 {count} 模式按钮按下：{code}",
+    "mode-button-scheduler.failed": "{count} 模式按钮按下的代码失败，并出现运行时错误：{error}"
+  },
+  "schema": "573b86779a15979155d7ff480e677e88dbe77a77cbd92ffaba77887856e8af91"
+}

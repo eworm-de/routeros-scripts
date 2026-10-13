@@ -1,0 +1,30 @@
+{
+  "language": "ur",
+  "messages": {
+    "netwatch-notify.type.host": "میزبان",
+    "netwatch-notify.type.service": "سروس",
+    "netwatch-notify.state.up": "اوپر",
+    "netwatch-notify.state.down": "نیچے",
+    "netwatch-notify.state.pre-down": "پہلے سے نیچے",
+    "netwatch-notify.hook.failed": "{state}-ہک برائے {type} '{name}' چلانے میں ناکام: {error}",
+    "netwatch-notify.hook.failed.message": "ہک چلانے میں ناکام رہا۔",
+    "netwatch-notify.hook.syntax": "{state}-ہک برائے {type} '{name}' نحو کی توثیق ناکام ہوگئی۔",
+    "netwatch-notify.hook.syntax.message": "ہک نحو کی توثیق میں ناکام رہا۔",
+    "netwatch-notify.hook.ran": "{type} '{name}' {state} پر ہک چلایا: {hook}",
+    "netwatch-notify.hook.ran.message": "رن ہک:\n{hook}",
+    "netwatch-notify.resolve.updated": "نام '{resolve}' مختلف پتے {address} پر حل کرتا ہے، اپ ڈیٹ ہو رہا ہے۔",
+    "netwatch-notify.resolve.named.updated": "{type} کے لیے '{resolve}' کا نام '{name}' مختلف پتہ {address} پر حل کرتا ہے، اپ ڈیٹ کر رہا ہے۔",
+    "netwatch-notify.resolve.failed": "حل کرنے کا نام '{resolve}' تیسری بار ناکام ہوا: {error}",
+    "netwatch-notify.resolve.named.failed": "{type} '{name}' کے لیے نام '{resolve}' کو حل کرنا تیسری بار ناکام ہوا: {error}",
+    "netwatch-notify.up": "{type} '{name}' ({details}) اوپر ہے۔",
+    "netwatch-notify.up.message": "{type} '{name}' ({details}) {since} سے اوپر ہے۔\nیہ {down_since} سے {count} چیکس کے لیے نیچے تھا۔",
+    "netwatch-notify.note": "\n\nنوٹ:\n{note}",
+    "netwatch-notify.up.subject": "نیٹ واچ مطلع کریں: {name} اوپر",
+    "netwatch-notify.down.subject": "نیٹ واچ مطلع کریں: {name} نیچے",
+    "netwatch-notify.down.waiting": "{type} '{name}' ({details}) {count} چیک کے لیے نیچے ہے، {remaining} جانے کے لیے۔",
+    "netwatch-notify.down.notified": "{type} '{name}' ({details}) {count} چیکس کے لیے نیچے ہے، پہلے ہی مطلع کر دیا گیا ہے۔",
+    "netwatch-notify.down.parent": "{type} '{name}' ({details}) {count} چیک کے لیے نیچے ہے، پیرنٹ {type} {parent} نیچے ہے۔",
+    "netwatch-notify.down.message": "{type} '{name}' ({details}) {since} سے نیچے ہے۔"
+  },
+  "schema": "7599eb0829fe6e5e2de9cf05b5bf721fd5b4cd7ce0726daf8735d47e695d7240"
+}

@@ -1,0 +1,18 @@
+{
+  "language": "fr",
+  "messages": {
+    "backup-email.partition": "S'exécutant à partir de la partition de sauvegarde, refusant d'agir.",
+    "backup-email.directory": "Échec de la création du répertoire !",
+    "backup-email.options": "Configuré pour envoyer ni sauvegarde ni exportation de configuration.",
+    "backup-email.none": "aucun",
+    "backup-email.label.backup": "Fichier de sauvegarde",
+    "backup-email.label.export": "Exporter le fichier",
+    "backup-email.label.config": "Fichier de configuration",
+    "backup-email.email.unavailable": "Le module d'envoi de notifications par e-mail n'est pas installé.",
+    "backup-email.email.failed": "Les fichiers sont toujours disponibles, l'envoi d'e-mail a échoué.",
+    "backup-email.subject": "Sauvegarde et configuration",
+    "backup-email.message": "Voir les fichiers joints pour la sauvegarde et l'exportation de la configuration pour {identity}.\n\n{device}\n\n{details}",
+    "backup-email.files.available": "Les fichiers sont toujours disponibles."
+  },
+  "schema": "d64d6ec60b1db0d5105ecd3ee2f9ce710886b1860f5d2ef971c4aa2adcdf6722"
+}

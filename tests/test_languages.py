@@ -1,0 +1,136 @@
+"""Catalog and generated-artifact checks; RouterOS behavior is tested separately."""
+import importlib.util
+import json
+from pathlib import Path
+import re
+import tempfile
+import unittest
+from unittest.mock import patch
+
+ROOT = Path(__file__).resolve().parent.parent
+spec = importlib.util.spec_from_file_location('languages', ROOT / 'contrib/languages.py')
+languages = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(languages)
+
+
+class CatalogTests(unittest.TestCase):
+    def test_top_fifteen_locales_are_complete(self):
+        locales = ('en', 'zh-CN', 'hi', 'es', 'ar', 'fr', 'bn', 'pt-BR',
+                   'id', 'ur', 'ru', 'de', 'ja', 'pcm', 'ar-EG')
+        english_paths = sorted((ROOT / 'languages/en').glob('*.json'))
+        for locale in locales:
+            directory = ROOT / 'languages' / locale
+            self.assertEqual({path.name for path in directory.glob('*.json')},
+                             {path.name for path in english_paths})
+            for path in english_paths:
+                with self.subTest(locale=locale, catalog=path.name):
+                    messages = languages.load(directory / path.name)['messages']
+                    self.assertEqual(set(messages), set(languages.load(path)['messages']))
+                    for text in messages.values():
+                        self.assertNotRegex(text, r'ZXQ|QXZ|⟦\d{4}⟧')
+
+    def test_interactive_answer_keys_are_preserved(self):
+        for path in (ROOT / 'languages/en').glob('*.json'):
+            english = languages.load(path)['messages']
+            for directory in (ROOT / 'languages').iterdir():
+                if not directory.is_dir() or not (directory / path.name).exists():
+                    continue
+                translated = languages.load(directory / path.name)['messages']
+                for key, text in english.items():
+                    for marker in ('[y/N]', '[s/R]', '(s)', '(r)'):
+                        if marker in ('(s)', '(r)') and '[s/R]' not in text:
+                            continue
+                        if marker in text:
+                            with self.subTest(locale=directory.name, key=key, marker=marker):
+                                self.assertIn(marker, translated.get(key, text))
+
+    def setUp(self):
+        self.english = languages.load(ROOT / 'languages/en/check-health.json')
+
+    def test_generated_artifacts_match_catalogs(self):
+        languages.render(check=True)
+
+    def test_all_call_sites_have_english_defaults(self):
+        for catalog in sorted((ROOT / 'languages/en').glob('*.json')):
+            messages = languages.load(catalog)['messages']
+            paths = [languages.source_path(catalog.stem)]
+            extensions = ROOT / (catalog.stem + '.d')
+            if extensions.exists():
+                paths.extend(sorted(extensions.glob('*.rsc')))
+            used = set()
+            for path in paths:
+                source = path.read_text(encoding='utf-8').replace('\\"', '"').replace('\\$', '$')
+                # Extensions may ship their own catalog, as core-extra does.
+                used.update(key for key in re.findall(r'\$Translate "([^"]+)"', source)
+                            if key.startswith(catalog.stem + '.'))
+            with self.subTest(catalog=catalog.name):
+                self.assertEqual(set(messages), used)
+
+    def test_dictionary_function_arguments_are_parenthesized(self):
+        # RouterOS rejects a bare dictionary following a positional argument.
+        paths = [ROOT / 'tests/languages.rsc']
+        for catalog in sorted((ROOT / 'languages/en').glob('*.json')):
+            paths.append(languages.source_path(catalog.stem))
+            paths.extend(sorted((ROOT / (catalog.stem + '.d')).glob('*.rsc')))
+        for path in paths:
+            with self.subTest(path=path.name):
+                self.assertIsNone(re.search(r'\$Translate "[^"]+"\s+\{',
+                                            path.read_text(encoding='utf-8')))
+                # A trailing semicolon can turn a one-entry RouterOS dictionary
+                # into an empty array when the expression occurs in a block.
+                self.assertIsNone(re.search(r'\$Translate "[^"]+"[^\n]*(?:\\\n\s*)?\(\{[^{}]*;\s*\}\)',
+                                            path.read_text(encoding='utf-8')))
+                # RouterOS accepts unquoted underscore keys syntactically but
+                # does not pass them as the intended dictionary entry.
+                self.assertIsNone(re.search(r'\$Translate "[^"]+"[^\n]*(?:\\\n\s*)?\(\{[^{}]*\b[a-z]+_[a-z_]+=',
+                                            path.read_text(encoding='utf-8')))
+
+    def test_english_preserves_health_messages(self):
+        self.assertEqual(self.english['messages']['check-health.cpu.warning.message'],
+                         'The average CPU utilization on {identity} is at {percent}%!')
+        self.assertEqual(self.english['messages']['check-health.voltage.jumped'],
+                         'The {name} on {identity} jumped more than {percent}%.\n\n{details}')
+
+    def test_bootstrap_diagnostics_use_shared_message(self):
+        for path in ROOT.glob('*.rsc'):
+            source = path.read_text(encoding='utf-8')
+            if ':retry { :if ($GlobalConfigReady' in source:
+                with self.subTest(path=path.name):
+                    self.assertIn(':global GlobalNotReadyMessage;', source)
+                    self.assertIn(':error $GlobalNotReadyMessage', source)
+                    self.assertNotIn(':error ("Global config and/or functions not ready.")', source)
+
+    def test_routeros_quote_escapes_code_and_unicode(self):
+        self.assertEqual(languages.quote('"$\\\n°'), '"\\22\\24\\5C\\0A\\C2\\B0"')
+
+    def test_duplicate_json_keys_are_rejected(self):
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / 'bad.json'
+            path.write_text('{"a":1,"a":2}', encoding='utf-8')
+            with self.assertRaisesRegex(ValueError, 'Duplicate key'):
+                languages.load(path)
+
+    def test_invalid_placeholders_are_rejected(self):
+        for text in ('bad {identity', 'bad }', '{wrong-name}', '{{identity}}'):
+            with self.subTest(text=text), self.assertRaises(ValueError):
+                languages.tokens(text)
+
+    def test_translator_can_reorder_and_repeat_placeholders(self):
+        self.assertEqual(languages.tokens('{percent}%: {identity} ({identity})'),
+                         languages.tokens('{identity}: {percent}%'))
+
+    def test_mismatched_translation_is_rejected(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            for locale in ('en', 'pt-BR'):
+                (root / 'languages' / locale).mkdir(parents=True)
+            (root / 'languages/en/check-health.json').write_text(
+                json.dumps(self.english), encoding='utf-8')
+            bad = {'language': 'pt-BR', 'messages': {'check-health.cpu.warning.message': '{wrong}'}}
+            (root / 'languages/pt-BR/check-health.json').write_text(json.dumps(bad), encoding='utf-8')
+            with patch.object(languages, 'ROOT', root), self.assertRaisesRegex(ValueError, 'Invalid translation'):
+                languages.render()
+
+
+if __name__ == '__main__':
+    unittest.main()

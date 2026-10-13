@@ -1,0 +1,18 @@
+{
+  "language": "pt-BR",
+  "messages": {
+    "sms-forward.disabled": "O recebimento de SMS não está habilitado.",
+    "sms-forward.interface.stopped": "A interface LTE não está em funcionamento; ignorando.",
+    "sms-forward.command.removed": "Removendo o SMS que iniciou um script.",
+    "sms-forward.remove.failed": "Falha ao remover mensagem: {error}",
+    "sms-forward.received": "Em {timestamp}, tipo {type}:\n{message}",
+    "sms-forward.hook.running": "Executando o hook '{match}': {command}",
+    "sms-forward.hook.ran": "\n\nHook '{match}' executado:\n{command}",
+    "sms-forward.hook.failed": "Falha ao executar o código do hook '{match}': {error}",
+    "sms-forward.hook.syntax": "A sintaxe do código do hook '{match}' é inválida!",
+    "sms-forward.subject": "Encaminhamento de SMS de {phone}",
+    "sms-forward.message.one": "Mensagem recebida por {identity} de {phone}:{messages}",
+    "sms-forward.message.many": "{count} mensagens recebidas por {identity} de {phone}:{messages}"
+  },
+  "schema": "b605613f43230d212520e682ee06789fe9ebdb37a25f5c21ba93719a7923e2a1"
+}

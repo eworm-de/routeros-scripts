@@ -1,0 +1,9 @@
+{
+  "language": "hi",
+  "messages": {
+    "hotspot-to-wpa-lease.marker.added": "'--- हॉटस्पॉट-टू-डब्ल्यूपीए ऊपर ---' टिप्पणी के साथ अक्षम एक्सेस-सूची प्रविष्टि जोड़ी गई।",
+    "hotspot-to-wpa-lease.template.added": "हॉटस्पॉट '{hotspot}' के लिए एक्सेस-लिस्ट में टेम्पलेट जोड़ा गया।",
+    "hotspot-to-wpa-lease.entry.updated": "मैक पते {mac} (उपयोगकर्ता {user}) के लिए एक्सेस-सूची प्रविष्टि जोड़ना/अद्यतन करना।"
+  },
+  "schema": "f78d5db29b04af55a757a12886dca285667ff1378c2d7cd29bc37009f14f5ce8"
+}

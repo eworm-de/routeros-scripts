@@ -1,0 +1,9 @@
+{
+  "language": "pcm",
+  "messages": {
+    "hotspot-to-wpa-lease.marker.added": "Dem add disabled access-list entry with comment '--- hotspot-to-wpa above ---'.",
+    "hotspot-to-wpa-lease.template.added": "Dem add template in access-list for hotspot '{hotspot}'.",
+    "hotspot-to-wpa-lease.entry.updated": "Dey add/updating access-list entry for mac address {mac} (user {user})."
+  },
+  "schema": "f78d5db29b04af55a757a12886dca285667ff1378c2d7cd29bc37009f14f5ce8"
+}

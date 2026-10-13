@@ -1,0 +1,9 @@
+{
+  "language": "zh-CN",
+  "messages": {
+    "sms-action.context": "该脚本应该从带有 action=... 的 SMS 挂钩运行",
+    "sms-action.running": "执行短信操作“{action}”：{code}",
+    "sms-action.syntax": "操作“{action}”的代码语法验证失败！"
+  },
+  "schema": "91ff5010d0d869687a0bb1c0989668afd4c77fed76f0d8728bca83f00940d48e"
+}

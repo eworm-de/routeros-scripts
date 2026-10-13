@@ -1,0 +1,11 @@
+{
+  "language": "fr",
+  "messages": {
+    "mode-button-scheduler.scheduler.missing": "Le planificateur n'existe pas.",
+    "mode-button-scheduler.action.missing": "Aucune action définie pour les pressions sur le bouton de mode {count}.",
+    "mode-button-scheduler.syntax": "Le code pour les pressions sur le bouton de mode {count} a échoué à la validation de la syntaxe !",
+    "mode-button-scheduler.acting": "Action sur les pressions sur les boutons de mode {count} : {code}",
+    "mode-button-scheduler.failed": "Le code pour les pressions sur le bouton de mode {count} a échoué avec une erreur d'exécution : {error}"
+  },
+  "schema": "573b86779a15979155d7ff480e677e88dbe77a77cbd92ffaba77887856e8af91"
+}

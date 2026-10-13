@@ -1,0 +1,8 @@
+{
+  "language": "pcm",
+  "messages": {
+    "mode-button.scheduler.creating": "{script}: Dey create scheduler mode-button-scheduler, dey count presses...",
+    "mode-button.scheduler.updating": "{script}: Updating scheduler mode-button-scheduler..."
+  },
+  "schema": "1b567608fb5b7d34f1710eac3a7c4e5740acbea43a5f928a6be5d5c6d189ed03"
+}

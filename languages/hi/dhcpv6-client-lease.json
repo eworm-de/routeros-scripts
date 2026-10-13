@@ -1,0 +1,9 @@
+{
+  "language": "hi",
+  "messages": {
+    "dhcpv6-client-lease.context.invalid": "यह स्क्रिप्ट आईपीवी6 डीएचसीपी-क्लाइंट से चलने वाली है।",
+    "dhcpv6-client-lease.script.running": "आदेश {order} के साथ चल रही स्क्रिप्ट: {name}",
+    "dhcpv6-client-lease.script.failed": "रनिंग स्क्रिप्ट '{name}' विफल: {error}"
+  },
+  "schema": "6945e4d13819da10f471d905a5fc37284b6cf1e482d9a7b526483b754951e02a"
+}

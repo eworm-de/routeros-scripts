@@ -1,0 +1,21 @@
+{
+  "language": "bn",
+  "messages": {
+    "dhcp-to-dns.marker.added": "'{name}' নামের অক্ষম স্ট্যাটিক ডিএনএস রেকর্ড যোগ করা হয়েছে।",
+    "dhcp-to-dns.lease.exists": "{lease} ({name}) এর জন্য ইজারা এখনও বিদ্যমান। রেকর্ড মুছে ফেলা হচ্ছে না।",
+    "dhcp-to-dns.lease.expired": "{lease} এর জন্য লিজের মেয়াদ শেষ হয়ে গেছে, রেকর্ড মুছে ফেলা হচ্ছে ({name})।",
+    "dhcp-to-dns.leases.multiple": "ম্যাক-ঠিকানা {mac}-এর জন্য একাধিক আবদ্ধ লিজ পাওয়া গেছে!",
+    "dhcp-to-dns.lease.vanished": "একটি ইজারা শুধু অদৃশ্য হয়ে গেছে, উপেক্ষা করে।",
+    "dhcp-to-dns.address.missing": "কোনো ঠিকানা পাওয়া যাচ্ছে না... উপেক্ষা করা হচ্ছে।",
+    "dhcp-to-dns.lease.ignored": "{mac} এর জন্য ইজারা উপেক্ষা করা হয়েছে... এড়িয়ে যাচ্ছে।",
+    "dhcp-to-dns.record.current": "{lease} ({name}) এর জন্য A রেকর্ড আপডেট করার প্রয়োজন নেই।",
+    "dhcp-to-dns.record.updating": "{lease} ({name} -> {address}) এর জন্য একটি রেকর্ড আপডেট করা হচ্ছে।",
+    "dhcp-to-dns.cname.deleting": "{lease} এর জন্য ভুল ডেটা সহ CNAME রেকর্ড মুছে ফেলা হচ্ছে।",
+    "dhcp-to-dns.cname.adding": "{lease} ({name} -> {target}) এর জন্য CNAME রেকর্ড যোগ করা হচ্ছে।",
+    "dhcp-to-dns.record.adding": "{lease} ({name} -> {address}) এর জন্য একটি রেকর্ড যোগ করা হচ্ছে।",
+    "dhcp-to-dns.records.multiple": "'{name}' নামটি একাধিক A রেকর্ডে হাজির!",
+    "dhcp-to-dns.lease.label": "{mac} এ {server}",
+    "dhcp-to-dns.lease.label.current": "{mac} এ {server}"
+  },
+  "schema": "96d193afd6225330e8e948bff1c489f075720758d514a6288540b978f27c8e6d"
+}

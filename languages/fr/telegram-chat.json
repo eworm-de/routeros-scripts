@@ -1,0 +1,30 @@
+{
+  "language": "fr",
+  "messages": {
+    "telegram-chat.certificate.failed": "Le téléchargement du certificat requis a échoué.",
+    "telegram-chat.fetch.failed": "Échec de la récupération, {count}. essayez : {error}",
+    "telegram-chat.updates.failed": "Échec de l'obtention des mises à jour.",
+    "telegram-chat.update": "Mise à jour {id} : {update}",
+    "telegram-chat.notice": "Envoi d'un avis pour la mise à jour {id}.",
+    "telegram-chat.subject": "Chat par télégramme",
+    "telegram-chat.greeting": "Bonjour {name} !\n\n",
+    "telegram-chat.directory.failed": "Échec de la création du répertoire !",
+    "telegram-chat.command.running": "Exécution de la commande à partir de la mise à jour {id} : {command}",
+    "telegram-chat.command.background": "La commande ne s'est pas terminée, toujours en cours d'exécution en arrière-plan.\n\n",
+    "telegram-chat.command.failed": "La commande a échoué avec une erreur !\n\n",
+    "telegram-chat.command": "Commande :\n{command}\n\n",
+    "telegram-chat.output": "Sortie :\n{output}",
+    "telegram-chat.output.empty": "Aucune sortie.",
+    "telegram-chat.command.syntax": "La commande de la mise à jour {id} a échoué à la validation de la syntaxe !",
+    "telegram-chat.command.syntax.message": "La validation de la syntaxe de la commande a échoué !",
+    "telegram-chat.untrusted.message": "On ne vous fait pas confiance.",
+    "telegram-chat.update.handled": "Mise à jour {id} déjà gérée.",
+    "telegram-chat.online.passive": "En ligne, en attente de vos commandes !",
+    "telegram-chat.online.active": "En ligne (et actif !), en attente de vos commandes !",
+    "telegram-chat.state.active": "Désormais actif depuis la mise à jour {id} !",
+    "telegram-chat.state.passive": "Désormais passif depuis la mise à jour {id} !",
+    "telegram-chat.untrusted.unnamed": "Reçu un message d'un contact non fiable sans nom d'utilisateur (ID {contact}) dans la mise à jour {id} !",
+    "telegram-chat.untrusted.named": "J'ai reçu un message d'un contact non fiable « {username} » (ID {contact}) dans la mise à jour {id} !"
+  },
+  "schema": "23866b98057d30494867d66d781c3555fc2f373d9af75cb1aac34c965ee3bd54"
+}

@@ -1,0 +1,18 @@
+{
+  "language": "ur",
+  "messages": {
+    "sms-forward.disabled": "SMS کی وصولی فعال نہیں ہے۔",
+    "sms-forward.interface.stopped": "LTE انٹرفیس چلتی حالت میں نہیں ہے، چھوڑ رہا ہے۔",
+    "sms-forward.command.removed": "ایس ایم ایس کو ہٹانا، جس نے اسکرپٹ شروع کیا۔",
+    "sms-forward.remove.failed": "پیغام ہٹانے میں ناکام: {error}",
+    "sms-forward.received": "{timestamp} پر {type} ٹائپ کریں:\n{message}",
+    "sms-forward.hook.running": "رننگ ہک '{match}': {command}",
+    "sms-forward.hook.ran": "\n\nرن ہک '{match}':\n{command}",
+    "sms-forward.hook.failed": "ہک '{match}' کا کوڈ چلنے میں ناکام ہوگیا: {error}",
+    "sms-forward.hook.syntax": "ہک '{match}' کا کوڈ نحو کی توثیق میں ناکام!",
+    "sms-forward.subject": "{phone} سے SMS فارورڈنگ",
+    "sms-forward.message.one": "یہ پیغام {identity} کے ذریعے {phone}:{messages} سے موصول ہوا",
+    "sms-forward.message.many": "یہ {count} پیغامات {identity} کے ذریعے {phone}:{messages} سے موصول ہوئے"
+  },
+  "schema": "b605613f43230d212520e682ee06789fe9ebdb37a25f5c21ba93719a7923e2a1"
+}

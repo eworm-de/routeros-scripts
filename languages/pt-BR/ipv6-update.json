@@ -1,0 +1,14 @@
+{
+  "language": "pt-BR",
+  "messages": {
+    "ipv6-update.address.ignored": "Foi obtido um endereço ({address}), em vez de um prefixo. Ignorando.",
+    "ipv6-update.context.invalid": "Este script deve ser executado pelo cliente DHCP IPv6.",
+    "ipv6-update.prefix.invalid": "O prefixo {prefix} não é mais válido. Ignorando.",
+    "ipv6-update.list.added": "Adicionada uma entrada dinâmica à lista de endereços IPv6 para ipv6-pool-{pool}",
+    "ipv6-update.prefix.updating": "Atualizando a lista de endereços IPv6 com o novo prefixo IPv6 {prefix}",
+    "ipv6-update.host.updating": "Atualizando a lista de endereços IPv6 com o novo endereço de host IPv6 {address} da interface {interface}",
+    "ipv6-update.interface.prefix.updating": "Atualizando a lista de endereços IPv6 com o novo prefixo IPv6 {prefix} da interface {interface}",
+    "ipv6-update.dns.updating": "Atualizando o registro DNS de {name}{regexp} para {address}"
+  },
+  "schema": "d502241c31fb73e9c3245e499a026333b5c7b5265d927b18a2a24bf7948fb823"
+}

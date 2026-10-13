@@ -1,0 +1,9 @@
+{
+  "language": "ja",
+  "messages": {
+    "sms-action.context": "このスクリプトは、action=... を指定して SMS フックから実行されることになっています。",
+    "sms-action.running": "SMS アクション「{action}」に基づいて動作中: {code}",
+    "sms-action.syntax": "アクション「{action}」のコードは構文検証に失敗しました。"
+  },
+  "schema": "91ff5010d0d869687a0bb1c0989668afd4c77fed76f0d8728bca83f00940d48e"
+}

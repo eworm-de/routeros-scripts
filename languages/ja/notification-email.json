@@ -1,0 +1,21 @@
+{
+  "language": "ja",
+  "messages": {
+    "notification-email.from": "Routeros-scripts 経由の {identity} <{address}>",
+    "notification-email.queue.empty": "スケジューラから電子メール メッセージをフラッシュしていますが、キューは空です。",
+    "notification-email.checking": "初期チェックを行っています...",
+    "notification-email.scheduler.gone": "スケジューラがなくなったため、中止されます。",
+    "notification-email.sending.busy": "メールの送信は現在進行中であり、フラッシュされていません。",
+    "notification-email.time.unsynced": "時刻は同期されず、フラッシュされません。",
+    "notification-email.dns.failed": "サーバー アドレスは DNS 名であり、解決はフラッシュされずに失敗します。",
+    "notification-email.certificate.failed": "必要な証明書のダウンロードに失敗しました。",
+    "notification-email.sending": "送信中...",
+    "notification-email.attach.missing": "ファイル「{file}」が存在しないため、添付できません。",
+    "notification-email.send.failed": "キューに入れられたメールの送信に失敗しました: {error}",
+    "notification-email.queue.purged": "キューはパージされましたか?退出中。",
+    "notification-email.retry.waiting": "再試行を待っています...",
+    "notification-email.truncated": "メッセージが長すぎるため、切り詰められました。",
+    "notification-email.queuing": "新しいメールをキューに入れています..."
+  },
+  "schema": "5a6236090c5b7c3f80f50b70e58e9489c8100e4505c9ddc4ee72854e4de47c20"
+}

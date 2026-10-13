@@ -1,0 +1,12 @@
+{
+  "language": "zh-CN",
+  "messages": {
+    "notification-ntfy.offline": "系统未完全连接，未冲洗。",
+    "notification-ntfy.queue.empty": "从调度程序中刷新 Ntfy 消息，但队列为空。",
+    "notification-ntfy.queue.failed": "发送排队 Ntfy 消息失败：{error}",
+    "notification-ntfy.send.failed": "发送 ntfy 通知失败：{error} - 正在排队...",
+    "notification-ntfy.certificate.failed": "下载所需的证书失败。",
+    "notification-ntfy.queued": "此消息自 {date} {time} 起排队，可能已过时。"
+  },
+  "schema": "6734a9715e6b789bb7ff475fdc9f2b11391a7dcbd94aaef3413d695b035d493e"
+}

@@ -1,0 +1,11 @@
+{
+  "language": "ar",
+  "messages": {
+    "notification-gotify.offline": "لم يتم توصيل النظام بشكل كامل، وليس التنظيف.",
+    "notification-gotify.queue.empty": "مسح رسائل Gotify من المجدول، ولكن قائمة الانتظار فارغة.",
+    "notification-gotify.queue.failed": "فشل إرسال رسالة Gotify في قائمة الانتظار: {error}",
+    "notification-gotify.send.failed": "فشل إرسال إشعار Gotify: {error} - الانتظار...",
+    "notification-gotify.queued": "تم وضع هذه الرسالة في قائمة الانتظار منذ {date} {time} وقد تكون قديمة."
+  },
+  "schema": "3ca0bb174dd4fcbe639af5145d66a280408096f7c34f9d1dd0565c5061427859"
+}

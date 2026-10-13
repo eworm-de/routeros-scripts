@@ -1,0 +1,26 @@
+{
+  "language": "ru",
+  "messages": {
+    "packages-update.scheduler.exists": "Планировщик перезагрузки уже существует.",
+    "packages-update.scheduled": "Запланированная перезагрузка для обновления в {time} по местному времени ({timezone}).",
+    "packages-update.license.expired": "Срок действия лицензии истек, обновление заблокировано.",
+    "packages-update.backup.partition": "Запуск из резервного раздела, отказывается действовать.",
+    "packages-update.version.unknown": "Последняя версия не известна.",
+    "packages-update.version.installed": "Версия {version} уже установлена.",
+    "packages-update.backup.running": "Запуск сценария резервного копирования {name} перед обновлением.",
+    "packages-update.backup.failed": "Запуск сценария резервного копирования {name} перед сбоем обновления!",
+    "packages-update.continue.prompt": "Вы все равно хотите продолжить? [y/N]",
+    "packages-update.continue": "Пользователь все равно попросил продолжить.",
+    "packages-update.canceled.update": "Отменено обновление...",
+    "packages-update.canceled.noninteractive": "Отменено неинтерактивное обновление.",
+    "packages-update.downgrade.prompt": "Последняя версия старше установленной. Хотите понизить версию? [y/N]",
+    "packages-update.canceled": "Отменено...",
+    "packages-update.downgrade.refused": "Не устанавливается даунгрейд автоматически.",
+    "packages-update.download.failed": "Загрузка пакета {name} не удалась, обновление прервано.",
+    "packages-update.downgrade.reboot": "Перезагрузка для понижения версии.",
+    "packages-update.reboot.prompt": "Запланировать перезагрузку (s) или перезагрузить сейчас (r)? [s/R]",
+    "packages-update.update.reboot": "Перезагрузка для обновления.",
+    "packages-update.scheduled.deferred": "Запланированная перезагрузка для обновления в {time} по местному времени ({timezone}), отложенная {interval}."
+  },
+  "schema": "77f3f83454477a8d375bfb399dd18ea210e50ceaf290213460a2f613ac47abd1"
+}

@@ -1,0 +1,12 @@
+{
+  "language": "es",
+  "messages": {
+    "ipcalc.address": "Dirección",
+    "ipcalc.netmask": "máscara de red",
+    "ipcalc.network": "Red",
+    "ipcalc.hostmin": "HostMin",
+    "ipcalc.hostmax": "HostMax",
+    "ipcalc.broadcast": "Difusión"
+  },
+  "schema": "0b5dd00de254693d43a55e15ad5ad523a5ccce670aa66ac5465cd42290fd718b"
+}

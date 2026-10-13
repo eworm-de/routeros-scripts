@@ -1,0 +1,9 @@
+{
+  "language": "id",
+  "messages": {
+    "certificate-renew-issued.exported": "Menerbitkan sertifikat baru untuk '{name}', diekspor ke 'cert-issued/{name}.p12'.",
+    "certificate-renew-issued.directory.failed": "Gagal membuat direktori, tidak mengekspor sertifikat.",
+    "certificate-renew-issued.issued": "Menerbitkan sertifikat baru untuk '{name}'."
+  },
+  "schema": "9048d1a3bcb148168f2785f02dea50e8de90c9f3170cedabe6b72d99bc61a2fd"
+}

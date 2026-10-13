@@ -1,0 +1,30 @@
+{
+  "language": "ar",
+  "messages": {
+    "netwatch-notify.type.host": "host",
+    "netwatch-notify.type.service": "الخدمة",
+    "netwatch-notify.state.up": "فوق",
+    "netwatch-notify.state.down": "أسفل",
+    "netwatch-notify.state.pre-down": "قبل أسفل",
+    "netwatch-notify.hook.failed": "فشل تشغيل الخطاف {state} لـ {type} '{name}': {error}",
+    "netwatch-notify.hook.failed.message": "فشل الخطاف في التشغيل.",
+    "netwatch-notify.hook.syntax": "فشل خطاف {state} الخاص بـ {type} '{name}' في التحقق من صحة بناء الجملة.",
+    "netwatch-notify.hook.syntax.message": "فشل الخطاف في التحقق من صحة بناء الجملة.",
+    "netwatch-notify.hook.ran": "تم ربط الخطاف على {type} '{name}' {state}: {hook}",
+    "netwatch-notify.hook.ran.message": "ران هوك:\n{hook}",
+    "netwatch-notify.resolve.updated": "يتم تحويل الاسم \"{resolve}\" إلى عنوان مختلف {address}، ويتم تحديثه.",
+    "netwatch-notify.resolve.named.updated": "الاسم \"{resolve}\" لـ {type} \"{name}\" يتحول إلى عنوان مختلف {address}، ويتم تحديثه.",
+    "netwatch-notify.resolve.failed": "فشل حل الاسم \"{resolve}\" للمرة الثالثة: {error}",
+    "netwatch-notify.resolve.named.failed": "فشل حل الاسم \"{resolve}\" لـ {type} \"{name}\" للمرة الثالثة: {error}",
+    "netwatch-notify.up": "تم رفع {type} '{name}' ({details}).",
+    "netwatch-notify.up.message": "ظهر {type} '{name}' ({details}) منذ {since}.\nلقد كان معطلاً بالنسبة لفحوصات {count} منذ {down_since}.",
+    "netwatch-notify.note": "\n\nملحوظة:\n{note}",
+    "netwatch-notify.up.subject": "إشعار Netwatch: {name} لأعلى",
+    "netwatch-notify.down.subject": "إشعار Netwatch: {name} لأسفل",
+    "netwatch-notify.down.waiting": "{type} '{name}' ({details}) معطل لإجراء فحوصات {count}، {remaining} قيد التنفيذ.",
+    "netwatch-notify.down.notified": "{type} '{name}' ({details}) متوقف عن عمليات فحص {count}، وقد تم إخطاره بالفعل.",
+    "netwatch-notify.down.parent": "{type} '{name}' ({details}) معطل بالنسبة لعمليات التحقق من {count}، والأصل {type} {parent} معطل.",
+    "netwatch-notify.down.message": "{type} '{name}' ({details}) متوقف منذ {since}."
+  },
+  "schema": "7599eb0829fe6e5e2de9cf05b5bf721fd5b4cd7ce0726daf8735d47e695d7240"
+}

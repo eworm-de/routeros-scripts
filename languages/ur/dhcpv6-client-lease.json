@@ -1,0 +1,9 @@
+{
+  "language": "ur",
+  "messages": {
+    "dhcpv6-client-lease.context.invalid": "سمجھا جاتا ہے کہ یہ اسکرپٹ ipv6 dhcp-client سے چلتی ہے۔",
+    "dhcpv6-client-lease.script.running": "آرڈر {order} کے ساتھ اسکرپٹ چل رہا ہے: {name}",
+    "dhcpv6-client-lease.script.failed": "اسکرپٹ '{name}' چلانے میں ناکام: {error}"
+  },
+  "schema": "6945e4d13819da10f471d905a5fc37284b6cf1e482d9a7b526483b754951e02a"
+}

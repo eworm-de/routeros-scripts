@@ -1,0 +1,10 @@
+{
+  "language": "hi",
+  "messages": {
+    "global-config.overlay.failed": "ओवरले या स्निपेट {script} से कॉन्फ़िगरेशन लोड करना विफल: {error}",
+    "global-config.hello.subject": "नमस्ते...",
+    "global-config.hello.message": "हेलो वर्ल्ड, {identity} कॉलिंग!",
+    "global-config.not.ready": "वैश्विक कॉन्फिगरेशन और/या फ़ंक्शन तैयार नहीं हैं।"
+  },
+  "schema": "4dea7b8ee007cfceb44462e476d61a9ea4a4066a05150bd7d29153c38e31666f"
+}

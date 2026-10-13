@@ -1,0 +1,11 @@
+{
+  "language": "de",
+  "messages": {
+    "notification-gotify.offline": "Das System ist nicht vollständig angeschlossen, die Spülung erfolgt nicht.",
+    "notification-gotify.queue.empty": "Gotify-Nachrichten werden aus dem Planer gelöscht, aber die Warteschlange ist leer.",
+    "notification-gotify.queue.failed": "Das Senden der Gotify-Nachricht in der Warteschlange ist fehlgeschlagen: {error}",
+    "notification-gotify.send.failed": "Das Senden der Gotify-Benachrichtigung ist fehlgeschlagen: {error} – Warteschlange...",
+    "notification-gotify.queued": "Diese Nachricht befand sich seit {date} {time} in der Warteschlange und ist möglicherweise veraltet."
+  },
+  "schema": "3ca0bb174dd4fcbe639af5145d66a280408096f7c34f9d1dd0565c5061427859"
+}

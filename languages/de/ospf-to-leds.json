@@ -1,0 +1,8 @@
+{
+  "language": "de",
+  "messages": {
+    "ospf-to-leds.on": "Die OSPF-Instanz {name} hat {count}-Nachbarn, weiter so!",
+    "ospf-to-leds.off": "Die OSPF-Instanz {name} hat keine Nachbarn, weggeführt!"
+  },
+  "schema": "3ae94f59ba09e39d125716de2e5770c50637c8553a2b9dcfe750e4b2f06ecb8e"
+}

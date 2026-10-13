@@ -1,0 +1,8 @@
+{
+  "language": "fr",
+  "messages": {
+    "accesslist-duplicates.remove.prompt": "\nIdentifiant numérique à supprimer, n'importe quelle clé à ignorer !",
+    "accesslist-duplicates.removing": "Suppression de l'identifiant numérique {id}...\n"
+  },
+  "schema": "11c6e77afe0e5ea39b260eb21e4693aeb7b69299435563d0469b3c22651fdc8c"
+}

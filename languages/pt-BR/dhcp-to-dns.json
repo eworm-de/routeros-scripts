@@ -1,0 +1,21 @@
+{
+  "language": "pt-BR",
+  "messages": {
+    "dhcp-to-dns.marker.added": "Adicionado um registro DNS estático desativado com o nome '{name}'.",
+    "dhcp-to-dns.lease.exists": "A concessão de {lease} ({name}) ainda existe. O registro será mantido.",
+    "dhcp-to-dns.lease.expired": "A concessão de {lease} expirou; excluindo o registro ({name}).",
+    "dhcp-to-dns.leases.multiple": "Encontradas várias concessões ativas para o endereço MAC {mac}!",
+    "dhcp-to-dns.lease.vanished": "Uma concessão acabou de desaparecer; ignorando.",
+    "dhcp-to-dns.address.missing": "Nenhum endereço disponível... Ignorando.",
+    "dhcp-to-dns.lease.ignored": "A concessão de {mac} está marcada para ser ignorada... Pulando.",
+    "dhcp-to-dns.record.current": "O registro A de {lease} ({name}) não precisa de atualização.",
+    "dhcp-to-dns.record.updating": "Atualizando o registro A de {lease} ({name} -> {address}).",
+    "dhcp-to-dns.cname.deleting": "Excluindo o registro CNAME com dados incorretos de {lease}.",
+    "dhcp-to-dns.cname.adding": "Adicionando o registro CNAME de {lease} ({name} -> {target}).",
+    "dhcp-to-dns.record.adding": "Adicionando o registro A de {lease} ({name} -> {address}).",
+    "dhcp-to-dns.records.multiple": "O nome '{name}' apareceu em mais de um registro A!",
+    "dhcp-to-dns.lease.label": "{mac} em {server}",
+    "dhcp-to-dns.lease.label.current": "{mac} em {server}"
+  },
+  "schema": "96d193afd6225330e8e948bff1c489f075720758d514a6288540b978f27c8e6d"
+}

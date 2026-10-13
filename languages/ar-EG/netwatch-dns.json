@@ -1,0 +1,16 @@
+{
+  "language": "ar-EG",
+  "messages": {
+    "netwatch-dns.settling": "تم تمهيد النظام للتو، مما يمنح netwatch {duration} الاستقرار.",
+    "netwatch-dns.dns.updating": "تحديث خوادم DNS: {servers}",
+    "netwatch-dns.dns.fallback": "تحديث خوادم DNS إلى الوضع الاحتياطي: {servers}",
+    "netwatch-dns.doh.current": "خادم DoH الحالي لا يزال قيد التشغيل ويحل المشكلة: {server}",
+    "netwatch-dns.doh.disabling": "خادم DoH الحالي معطل أو لا يتم حله، مما يؤدي إلى التعطيل: {server}",
+    "netwatch-dns.certificate.failed": "فشل تنزيل الشهادة '{name}'، المحاولة بدونها.",
+    "netwatch-dns.request.failed": "فشل الطلب إلى خادم DoH {server}: {error}",
+    "netwatch-dns.response.invalid": "تم تلقي استجابة غير متوقعة من خادم DoH: {server}",
+    "netwatch-dns.crl.warning": "تم تكوينه لاستخدام CRL، مما قد يسبب مشكلة خطيرة!",
+    "netwatch-dns.doh.setting": "إعداد خادم DoH: {server}"
+  },
+  "schema": "a990191facc83c19ae4d95e097a5f7ec17573be4bce019c61e2ca3dcdffebf43"
+}

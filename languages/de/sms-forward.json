@@ -1,0 +1,18 @@
+{
+  "language": "de",
+  "messages": {
+    "sms-forward.disabled": "Der Empfang von SMS ist nicht aktiviert.",
+    "sms-forward.interface.stopped": "Die LTE-Schnittstelle befindet sich nicht im Betriebszustand und springt.",
+    "sms-forward.command.removed": "Entfernen von SMS, die ein Skript gestartet haben.",
+    "sms-forward.remove.failed": "Nachricht konnte nicht entfernt werden: {error}",
+    "sms-forward.received": "Auf {timestamp} Typ {type}:\n{message}",
+    "sms-forward.hook.running": "Laufhaken '{match}': {command}",
+    "sms-forward.hook.ran": "\n\nRan-Hook '{match}':\n{command}",
+    "sms-forward.hook.failed": "Der Code für Hook „{match}“ konnte nicht ausgeführt werden: {error}",
+    "sms-forward.hook.syntax": "Die Syntaxüberprüfung des Codes für Hook „{match}“ ist fehlgeschlagen!",
+    "sms-forward.subject": "SMS-Weiterleitung von {phone}",
+    "sms-forward.message.one": "Diese Nachricht wurde von {identity} von {phone}:{messages} erhalten",
+    "sms-forward.message.many": "Diese {count}-Nachrichten wurden von {identity} von {phone}:{messages} empfangen"
+  },
+  "schema": "b605613f43230d212520e682ee06789fe9ebdb37a25f5c21ba93719a7923e2a1"
+}

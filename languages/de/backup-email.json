@@ -1,0 +1,18 @@
+{
+  "language": "de",
+  "messages": {
+    "backup-email.partition": "Wird von der Backup-Partition ausgeführt und weigert sich zu handeln.",
+    "backup-email.directory": "Fehler beim Erstellen des Verzeichnisses!",
+    "backup-email.options": "Konfiguriert, um weder Backup noch Konfigurationsexport zu senden.",
+    "backup-email.none": "keine",
+    "backup-email.label.backup": "Sicherungsdatei",
+    "backup-email.label.export": "Datei exportieren",
+    "backup-email.label.config": "Konfigurationsdatei",
+    "backup-email.email.unavailable": "Das Modul zum Versenden von Benachrichtigungen per E-Mail ist nicht installiert.",
+    "backup-email.email.failed": "Dateien sind noch verfügbar, E-Mail-Versand fehlgeschlagen.",
+    "backup-email.subject": "Backup & Konfiguration",
+    "backup-email.message": "Siehe angehängte Dateien für Backup und Konfigurationsexport für {identity}.\n\n{device}\n\n{details}",
+    "backup-email.files.available": "Dateien sind noch verfügbar."
+  },
+  "schema": "d64d6ec60b1db0d5105ecd3ee2f9ce710886b1860f5d2ef971c4aa2adcdf6722"
+}

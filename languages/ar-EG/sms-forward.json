@@ -1,0 +1,18 @@
+{
+  "language": "ar-EG",
+  "messages": {
+    "sms-forward.disabled": "مااتعملش تمكين استقبال الرسائل القصيرة.",
+    "sms-forward.interface.stopped": "واجهة LTE مشت في حالة التشغيل، أو التخطي.",
+    "sms-forward.command.removed": "إزالة الرسائل القصيرة، التي بدأت البرنامج النصي.",
+    "sms-forward.remove.failed": "فشلت إزالة الرسالة: {error}",
+    "sms-forward.received": "على {timestamp}، اكتب {type}:\n{message}",
+    "sms-forward.hook.running": "خطاف التشغيل \"{match}\": {command}",
+    "sms-forward.hook.ran": "\n\nخطاف الركض \"{match}\":\n{command}",
+    "sms-forward.hook.failed": "فشل تشغيل رمز الخطاف \"{match}\": {error}",
+    "sms-forward.hook.syntax": "فشل رمز الخطاف \"{match}\" في التحقق من صحة بناء الجملة!",
+    "sms-forward.subject": "إعادة توجيه الرسائل القصيرة من {phone}",
+    "sms-forward.message.one": "تم استلام الرسالة دي بواسطة {identity} من {phone}:{messages}",
+    "sms-forward.message.many": "تم استلام رسائل {count} هذه بواسطة {identity} من {phone}:{messages}"
+  },
+  "schema": "b605613f43230d212520e682ee06789fe9ebdb37a25f5c21ba93719a7923e2a1"
+}

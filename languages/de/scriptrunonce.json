@@ -1,0 +1,11 @@
+{
+  "language": "de",
+  "messages": {
+    "scriptrunonce.url.missing": "Das Skript „{script}“ ist keine URL und die Basis-URL ist nicht verfügbar.",
+    "scriptrunonce.fetch.failed": "Das Abrufen des Skripts „{script}“ ist fehlgeschlagen!",
+    "scriptrunonce.syntax": "Die Syntaxüberprüfung des Skripts „{script}“ ist fehlgeschlagen!",
+    "scriptrunonce.running": "Skript „{script}“ wird jetzt ausgeführt.",
+    "scriptrunonce.failed": "Das Skript „{script}“ konnte nicht ausgeführt werden: {error}"
+  },
+  "schema": "60deac34267f7cfb590d500ce671562bfd8cf79337f433f8b350281561a4ae52"
+}

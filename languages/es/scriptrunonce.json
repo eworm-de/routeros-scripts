@@ -1,0 +1,11 @@
+{
+  "language": "es",
+  "messages": {
+    "scriptrunonce.url.missing": "El script '{script}' no es una URL y la URL base no está disponible.",
+    "scriptrunonce.fetch.failed": "¡Error al recuperar el script '{script}'!",
+    "scriptrunonce.syntax": "¡El script '{script}' falló en la validación de sintaxis!",
+    "scriptrunonce.running": "Ejecutando el script '{script}' ahora.",
+    "scriptrunonce.failed": "El script '{script}' no se pudo ejecutar: {error}"
+  },
+  "schema": "60deac34267f7cfb590d500ce671562bfd8cf79337f433f8b350281561a4ae52"
+}

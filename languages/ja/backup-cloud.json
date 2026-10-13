@@ -1,0 +1,17 @@
+{
+  "language": "ja",
+  "messages": {
+    "backup-cloud.partition": "バックアップ パーティションから実行され、動作を拒否します。",
+    "backup-cloud.directory": "ディレクトリの作成に失敗しました!",
+    "backup-cloud.subject": "クラウドバックアップ",
+    "backup-cloud.subject.failed": "クラウドバックアップに失敗しました",
+    "backup-cloud.message": "{identity} のバックアップをクラウドにアップロードしました。\n\n{device}\n\n{details}",
+    "backup-cloud.message.failed": "{identity} のバックアップをクラウドにアップロードできませんでした。\n\n{device}",
+    "backup-cloud.upload.failed": "{identity} のバックアップをクラウドにアップロードできませんでした。",
+    "backup-cloud.retry": "再試行は成功しました。以前の接続エラーを破棄してください。",
+    "backup-cloud.label.name": "名前",
+    "backup-cloud.label.size": "サイズ",
+    "backup-cloud.label.key": "ダウンロードキー"
+  },
+  "schema": "1d68cb944d178c8731db42b15cc1dc9e76c76322543a57e366c56830ef3b644d"
+}

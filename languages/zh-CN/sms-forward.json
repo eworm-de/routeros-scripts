@@ -1,0 +1,18 @@
+{
+  "language": "zh-CN",
+  "messages": {
+    "sms-forward.disabled": "未启用短信接收功能。",
+    "sms-forward.interface.stopped": "LTE接口未处于运行状态，正在跳过。",
+    "sms-forward.command.removed": "删除启动脚本的短信。",
+    "sms-forward.remove.failed": "删除消息失败：{error}",
+    "sms-forward.received": "在 {timestamp} 类型 {type} 上：\n{message}",
+    "sms-forward.hook.running": "运行钩“{match}”：{command}",
+    "sms-forward.hook.ran": "\n\n冉挂钩'{match}'：\n{command}",
+    "sms-forward.hook.failed": "挂钩“{match}”的代码无法运行：{error}",
+    "sms-forward.hook.syntax": "挂钩“{match}”的代码语法验证失败！",
+    "sms-forward.subject": "来自 {phone} 的短信转发",
+    "sms-forward.message.one": "{identity} 从 {phone} 收到此消息：{messages}",
+    "sms-forward.message.many": "{identity} 从 {phone}:{messages} 收到这些 {count} 消息"
+  },
+  "schema": "b605613f43230d212520e682ee06789fe9ebdb37a25f5c21ba93719a7923e2a1"
+}

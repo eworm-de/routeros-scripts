@@ -1,0 +1,10 @@
+{
+  "language": "bn",
+  "messages": {
+    "global-config.overlay.failed": "ওভারলে বা স্নিপেট {script} থেকে কনফিগারেশন লোড করা ব্যর্থ হয়েছে: {error}",
+    "global-config.hello.subject": "হ্যালো...",
+    "global-config.hello.message": "হ্যালো ওয়ার্ল্ড, {identity} কলিং!",
+    "global-config.not.ready": "গ্লোবাল কনফিগারেশন এবং/অথবা ফাংশন প্রস্তুত নয়।"
+  },
+  "schema": "4dea7b8ee007cfceb44462e476d61a9ea4a4066a05150bd7d29153c38e31666f"
+}

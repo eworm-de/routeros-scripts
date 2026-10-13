@@ -1,0 +1,21 @@
+{
+  "language": "es",
+  "messages": {
+    "notification-matrix.offline": "El sistema no está completamente conectado, no se descarga.",
+    "notification-matrix.queue.empty": "Eliminando mensajes de Matrix del programador, pero la cola está vacía.",
+    "notification-matrix.queue.failed": "Error al enviar el mensaje Matrix en cola: {error}",
+    "notification-matrix.send.failed": "Error al enviar la notificación Matrix: {error} - En cola...",
+    "notification-matrix.home.server": "El servidor doméstico es: {server}",
+    "notification-matrix.home.failed": "No se pudo obtener el servidor principal: {error}",
+    "notification-matrix.access.token": "El token de acceso es: {token}",
+    "notification-matrix.login.failed": "Error al iniciar sesión (y obtener el token de acceso): {error}",
+    "notification-matrix.snippet.added": "Fragmento de configuración agregado. Ahora crea y únete a una sala, ¡por favor!",
+    "notification-matrix.snippet.failed": "Error al agregar el fragmento de configuración: {error}",
+    "notification-matrix.room.joined": "Se unió a la habitación.",
+    "notification-matrix.room.failed": "No se pudo unir a la sala: {error}",
+    "notification-matrix.snippet.appended": "Configuración adjunta al fragmento de configuración. ¡Por favor revise!",
+    "notification-matrix.snippet.append.failed": "Error al agregar la configuración al fragmento: {error}",
+    "notification-matrix.queued": "Este mensaje estuvo en cola desde {date} y puede estar obsoleto."
+  },
+  "schema": "f843ad08937ad96c091b0aa66edd949e6e467c336607c9c73ff0270be3b95839"
+}

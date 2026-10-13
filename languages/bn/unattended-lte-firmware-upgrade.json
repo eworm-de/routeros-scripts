@@ -1,0 +1,13 @@
+{
+  "language": "bn",
+  "messages": {
+    "unattended-lte-firmware-upgrade.query.failed": "{interface}: {error} ইন্টারফেসের জন্য সর্বশেষ LTE ফার্মওয়্যার সংস্করণ পাওয়া যায়নি",
+    "unattended-lte-firmware-upgrade.scheduling": "{interface} ইন্টারফেসের জন্য LTE ফার্মওয়্যার আপগ্রেডের সময়সূচী।",
+    "unattended-lte-firmware-upgrade.finished": "'{interface}'-এ LTE ফার্মওয়্যার আপগ্রেড শেষ হয়েছে, রিসেটের জন্য অপেক্ষা করছে৷",
+    "unattended-lte-firmware-upgrade.different": "LTE ফার্মওয়্যার সংস্করণ এখনও ভিন্ন। আপগ্রেড যাইহোক ব্যর্থ?",
+    "unattended-lte-firmware-upgrade.failed": "'{interface}'-এ LTE ফার্মওয়্যার আপগ্রেড ব্যর্থ হয়েছে: {error}",
+    "unattended-lte-firmware-upgrade.current": "LTE ফার্মওয়্যার {interface} ইন্টারফেসে আপ টু ডেট।",
+    "unattended-lte-firmware-upgrade.missing": "{interface} ইন্টারফেসের জন্য কোনও LTE ফার্মওয়্যার তথ্য উপলব্ধ নেই৷"
+  },
+  "schema": "f231d0e80dd157d0022fa102e5293133b9d7d9cc5d18785151ff81e3434c0c7b"
+}

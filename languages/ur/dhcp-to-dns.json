@@ -1,0 +1,21 @@
+{
+  "language": "ur",
+  "messages": {
+    "dhcp-to-dns.marker.added": "'{name}' نام کے ساتھ غیر فعال جامد ڈی این ایس ریکارڈ شامل کیا گیا۔",
+    "dhcp-to-dns.lease.exists": "{lease} ({name}) کے لیے لیز اب بھی موجود ہے۔ ریکارڈ کو حذف نہیں کر رہے ہیں۔",
+    "dhcp-to-dns.lease.expired": "{lease} کے لیے لیز کی میعاد ختم ہو گئی، ریکارڈ کو حذف کرنا ({name})۔",
+    "dhcp-to-dns.leases.multiple": "میک ایڈریس {mac} کے لیے متعدد پابند لیز ملیں!",
+    "dhcp-to-dns.lease.vanished": "ایک لیز صرف نظر انداز کرتے ہوئے غائب ہو گئی۔",
+    "dhcp-to-dns.address.missing": "کوئی پتہ دستیاب نہیں... نظر انداز کیا جا رہا ہے۔",
+    "dhcp-to-dns.lease.ignored": "{mac} کے لیے لیز کو نظر انداز کر دیا گیا ہے... اسکیپنگ۔",
+    "dhcp-to-dns.record.current": "{lease} ({name}) کے A ریکارڈ کو اپ ڈیٹ کرنے کی ضرورت نہیں ہے۔",
+    "dhcp-to-dns.record.updating": "{lease} ({name} -> {address}) کے لیے ایک ریکارڈ کو اپ ڈیٹ کرنا۔",
+    "dhcp-to-dns.cname.deleting": "{lease} کے لیے غلط ڈیٹا کے ساتھ CNAME ریکارڈ کو حذف کرنا۔",
+    "dhcp-to-dns.cname.adding": "{lease} ({name} -> {target}) کے لیے CNAME ریکارڈ شامل کرنا۔",
+    "dhcp-to-dns.record.adding": "{lease} ({name} -> {address}) کے لیے ایک ریکارڈ شامل کرنا۔",
+    "dhcp-to-dns.records.multiple": "'{name}' نام ایک سے زیادہ A ریکارڈ میں ظاہر ہوا!",
+    "dhcp-to-dns.lease.label": "{mac} {server} میں",
+    "dhcp-to-dns.lease.label.current": "{mac} {server} میں"
+  },
+  "schema": "96d193afd6225330e8e948bff1c489f075720758d514a6288540b978f27c8e6d"
+}

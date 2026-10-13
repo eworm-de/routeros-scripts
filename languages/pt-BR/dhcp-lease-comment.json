@@ -1,0 +1,7 @@
+{
+  "language": "pt-BR",
+  "messages": {
+    "dhcp-lease-comment.updating": "Atualizando o comentário da concessão DHCP {mac}: {comment}"
+  },
+  "schema": "ad1da8da95495f80f8319fac06ad159a82bd84a7d3d038d72df426a6a87b98ef"
+}

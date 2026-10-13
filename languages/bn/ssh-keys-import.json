@@ -1,0 +1,16 @@
+{
+  "language": "bn",
+  "messages": {
+    "ssh-keys-import.arguments.key": "অনুপস্থিত যুক্তি(গুলি), অনুগ্রহ করে কী এবং ব্যবহারকারী পাস করুন!",
+    "ssh-keys-import.user.missing": "ব্যবহারকারী '{user}' বিদ্যমান নেই৷",
+    "ssh-keys-import.type.unsupported": "'{type}' টাইপের SSH কী সমর্থিত নয়।",
+    "ssh-keys-import.key.exists": "ssh পাবলিক কী (MD5:{fingerprint}) ইতিমধ্যেই '{user}' ব্যবহারকারীর জন্য উপলব্ধ।",
+    "ssh-keys-import.directory.failed": "'tmpfs/ssh-keys-import' ডিরেক্টরি তৈরি করা ব্যর্থ হয়েছে!",
+    "ssh-keys-import.imported": "'{user}' ব্যবহারকারীর জন্য আমদানি করা ssh পাবলিক কী ({name}, {type}, MD5:{fingerprint})।",
+    "ssh-keys-import.import.failed": "আমদানি কী ব্যর্থ হয়েছে: {error}৷",
+    "ssh-keys-import.arguments.file": "অনুপস্থিত যুক্তি(গুলি), ফাইলের নাম এবং ব্যবহারকারী পাস করুন!",
+    "ssh-keys-import.file.missing": "'{file}' ফাইলটি বিদ্যমান নেই৷",
+    "ssh-keys-import.user.import.failed": "ব্যবহারকারী '{user}'-এর জন্য কী আমদানি করতে ব্যর্থ হয়েছে৷"
+  },
+  "schema": "54cdcab8a420cb935136ec8a624f3eeceed166b6b96d7dd67b4ef7d0dcd74ea7"
+}

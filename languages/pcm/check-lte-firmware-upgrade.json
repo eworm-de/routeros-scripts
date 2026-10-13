@@ -1,0 +1,22 @@
+{
+  "language": "pcm",
+  "messages": {
+    "check-lte-firmware-upgrade.fetch.failed": "No fit get latest LTE firmware version for interface {interface}: {error}",
+    "check-lte-firmware-upgrade.version.empty": "Empty text no be correct version.",
+    "check-lte-firmware-upgrade.current": "No firmware upgrade dey for LTE interface {interface}.",
+    "check-lte-firmware-upgrade.prompt": "You wan start unattended lte firmware upgrade for interface {interface}? [y/N]",
+    "check-lte-firmware-upgrade.scheduled": "Don schedule lte firmware upgrade for interface {interface}...",
+    "check-lte-firmware-upgrade.canceled": "Don cancel...",
+    "check-lte-firmware-upgrade.already.sent": "Already sent LTE firmware upgrade notification for version {version}.",
+    "check-lte-firmware-upgrade.available.log": "A new firmware version {version} dey available for LTE interface {interface}.",
+    "check-lte-firmware-upgrade.subject": "LTE firmware upgrade",
+    "check-lte-firmware-upgrade.message": "A new firmware version {version} dey available for LTE interface {interface} on {identity}.\n\n{details}",
+    "check-lte-firmware-upgrade.label.manufacturer": "Manufacturer",
+    "check-lte-firmware-upgrade.label.model": "Model",
+    "check-lte-firmware-upgrade.label.revision": "Revision",
+    "check-lte-firmware-upgrade.label.firmware": "Firmware version:\n",
+    "check-lte-firmware-upgrade.label.installed": "    Installed",
+    "check-lte-firmware-upgrade.label.available": "    Available"
+  },
+  "schema": "48481740f1c9bb358194e5fc7b620f4ae430d0a89771919bb68cf54ad8f44eee"
+}

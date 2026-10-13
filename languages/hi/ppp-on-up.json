@@ -1,0 +1,10 @@
+{
+  "language": "hi",
+  "messages": {
+    "ppp-on-up.context.invalid": "यह स्क्रिप्ट पीपीपी ऑन-अप स्क्रिप्ट हुक से चलने वाली है।",
+    "ppp-on-up.up": "PPP इंटरफ़ेस {interface} चालू है।",
+    "ppp-on-up.script.running": "रनिंग स्क्रिप्ट: {name}",
+    "ppp-on-up.script.failed": "रनिंग स्क्रिप्ट '{name}' विफल!"
+  },
+  "schema": "948ef5fc1bb267e734267f57a5d70df419d106197075fec109f206534ce4493c"
+}

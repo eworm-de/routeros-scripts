@@ -1,0 +1,22 @@
+{
+  "language": "ar",
+  "messages": {
+    "check-lte-firmware-upgrade.fetch.failed": "تعذر الحصول على أحدث إصدار من البرنامج الثابت LTE للواجهة {interface}: {error}",
+    "check-lte-firmware-upgrade.version.empty": "السلسلة الفارغة ليست نسخة صالحة.",
+    "check-lte-firmware-upgrade.current": "لا تتوفر ترقية للبرامج الثابتة لواجهة LTE {interface}.",
+    "check-lte-firmware-upgrade.prompt": "هل تريد بدء ترقية البرامج الثابتة LTE غير المراقبة للواجهة {interface}؟ [y/N]",
+    "check-lte-firmware-upgrade.scheduled": "ترقية البرامج الثابتة LTE المجدولة للواجهة {interface}...",
+    "check-lte-firmware-upgrade.canceled": "تم الإلغاء...",
+    "check-lte-firmware-upgrade.already.sent": "تم بالفعل إرسال إشعار ترقية البرنامج الثابت LTE للإصدار {version}.",
+    "check-lte-firmware-upgrade.available.log": "يتوفر إصدار جديد من البرامج الثابتة {version} لواجهة LTE {interface}.",
+    "check-lte-firmware-upgrade.subject": "ترقية البرامج الثابتة LTE",
+    "check-lte-firmware-upgrade.message": "يتوفر إصدار جديد من البرامج الثابتة {version} لواجهة LTE {interface} على {identity}.\n\n{details}",
+    "check-lte-firmware-upgrade.label.manufacturer": "الشركة المصنعة",
+    "check-lte-firmware-upgrade.label.model": "نموذج",
+    "check-lte-firmware-upgrade.label.revision": "المراجعة",
+    "check-lte-firmware-upgrade.label.firmware": "إصدار البرامج الثابتة:\n",
+    "check-lte-firmware-upgrade.label.installed": "    تم التثبيت",
+    "check-lte-firmware-upgrade.label.available": "    متاح"
+  },
+  "schema": "48481740f1c9bb358194e5fc7b620f4ae430d0a89771919bb68cf54ad8f44eee"
+}

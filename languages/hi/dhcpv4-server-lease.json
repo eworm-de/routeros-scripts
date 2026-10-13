@@ -1,0 +1,12 @@
+{
+  "language": "hi",
+  "messages": {
+    "dhcpv4-server-lease.context.invalid": "यह स्क्रिप्ट आईपी डीएचसीपी-सर्वर से चलने वाली है।",
+    "dhcpv4-server-lease.script.running": "आदेश {order} के साथ चल रही स्क्रिप्ट: {name}",
+    "dhcpv4-server-lease.script.failed": "रनिंग स्क्रिप्ट '{name}' विफल: {error}",
+    "dhcpv4-server-lease.waiting": "अधिक आमंत्रण प्रतीक्षा कर रहे हैं, जल्दी बाहर निकल रहे हैं।",
+    "dhcpv4-server-lease.assigned": "DHCP सर्वर {server} ने {address} को {mac} को पट्टा सौंपा",
+    "dhcpv4-server-lease.deassigned": "DHCP सर्वर {server} ने {address} को {mac} को पुनः आवंटित किया"
+  },
+  "schema": "e8bd70cbac2cb60d46fce97c5cd6f4d6f35e4039991ffa0fb5fd3e1e1ac986c3"
+}

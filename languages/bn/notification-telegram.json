@@ -1,0 +1,17 @@
+{
+  "language": "bn",
+  "messages": {
+    "notification-telegram.offline": "সিস্টেম সম্পূর্ণরূপে সংযুক্ত নয়, ফ্লাশিং নয়।",
+    "notification-telegram.certificate.failed": "প্রয়োজনীয় শংসাপত্র ডাউনলোড করা ব্যর্থ হয়েছে৷",
+    "notification-telegram.queue.empty": "শিডিউলার থেকে টেলিগ্রাম মেসেজ ফ্লাশ করা হচ্ছে, কিন্তু সারি খালি।",
+    "notification-telegram.queue.failed": "সারিবদ্ধ টেলিগ্রাম বার্তা পাঠানো ব্যর্থ হয়েছে: {error}৷",
+    "notification-telegram.fetch.failed": "ডেটা আনা ব্যর্থ হয়েছে: {error}৷",
+    "notification-telegram.message.none": "কোন বার্তা পাওয়া যায়নি।",
+    "notification-telegram.chat.id": "চ্যাট আইডি হল: {id}",
+    "notification-telegram.thread.id": "থ্রেড আইডি হল: {id}",
+    "notification-telegram.truncated": "বার্তাটি খুব দীর্ঘ ছিল এবং কেটে ফেলা হয়েছে, কেটে ফেলা হয়েছে _{percent}%_!",
+    "notification-telegram.send.failed": "টেলিগ্রাম বিজ্ঞপ্তি পাঠানো ব্যর্থ হয়েছে: {error} - সারিবদ্ধ...",
+    "notification-telegram.queued": "এই বার্তাটি _{date} {time}_ থেকে সারিবদ্ধ ছিল এবং অপ্রচলিত হতে পারে৷"
+  },
+  "schema": "924e559ca736a5da1f8988a245b39db4d85bda9fd5e9d359b1d0b1ba41e16e5d"
+}

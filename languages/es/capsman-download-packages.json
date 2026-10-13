@@ -1,0 +1,10 @@
+{
+  "language": "es",
+  "messages": {
+    "capsman-download-packages.path.undefined": "La ruta del paquete CAPsMAN no está definida, no se pueden descargar paquetes.",
+    "capsman-download-packages.directory.failed": "¡Error al crear el directorio en la ruta del paquete CAPsMAN ({path})!",
+    "capsman-download-packages.directory.created": "Directorio creado en la ruta del paquete CAPsMAN ({path}). ¡Por favor coloquen sus paquetes!",
+    "capsman-download-packages.defaults": "No hay paquetes disponibles, descargando el conjunto predeterminado."
+  },
+  "schema": "59f845c7f49406ecd939f7b0cebfb7f994f70400db30d8b136359720c88ab147"
+}

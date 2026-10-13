@@ -1,0 +1,10 @@
+{
+  "language": "zh-CN",
+  "messages": {
+    "global-config.overlay.failed": "从覆盖或片段 {script} 加载配置失败：{error}",
+    "global-config.hello.subject": "你好...",
+    "global-config.hello.message": "世界你好，{identity} 来电！",
+    "global-config.not.ready": "全局配置和/或功能尚未准备好。"
+  },
+  "schema": "4dea7b8ee007cfceb44462e476d61a9ea4a4066a05150bd7d29153c38e31666f"
+}

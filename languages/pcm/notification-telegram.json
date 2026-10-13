@@ -1,0 +1,17 @@
+{
+  "language": "pcm",
+  "messages": {
+    "notification-telegram.offline": "System never connect finish; we no go clear the queue.",
+    "notification-telegram.certificate.failed": "Dey download wey we need certificate no work.",
+    "notification-telegram.queue.empty": "Dey clear Telegram messages from scheduler, but queue no get anything.",
+    "notification-telegram.queue.failed": "Dey send queued Telegram message no work: {error}",
+    "notification-telegram.fetch.failed": "Dey fetch data no work: {error}",
+    "notification-telegram.message.none": "No message reach us.",
+    "notification-telegram.chat.id": "chat id is: {id}",
+    "notification-telegram.thread.id": "thread id is: {id}",
+    "notification-telegram.truncated": "Message too long; dem don cut am short, remove _{percent}%_!",
+    "notification-telegram.send.failed": "No fit send Telegram notification: {error} - Queuing...",
+    "notification-telegram.queued": "This message don dey for queue since _{date} {time}_; e fit don old."
+  },
+  "schema": "924e559ca736a5da1f8988a245b39db4d85bda9fd5e9d359b1d0b1ba41e16e5d"
+}

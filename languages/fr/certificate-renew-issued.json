@@ -1,0 +1,9 @@
+{
+  "language": "fr",
+  "messages": {
+    "certificate-renew-issued.exported": "Émission d'un nouveau certificat pour « {name} », exporté vers « cert-issued/{name}.p12 ».",
+    "certificate-renew-issued.directory.failed": "Échec de la création du répertoire, pas d'exportation du certificat.",
+    "certificate-renew-issued.issued": "Émission d'un nouveau certificat pour « {name} »."
+  },
+  "schema": "9048d1a3bcb148168f2785f02dea50e8de90c9f3170cedabe6b72d99bc61a2fd"
+}

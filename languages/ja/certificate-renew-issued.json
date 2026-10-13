@@ -1,0 +1,9 @@
+{
+  "language": "ja",
+  "messages": {
+    "certificate-renew-issued.exported": "「{name}」の新しい証明書が発行され、「cert-issued/{name}.p12」にエクスポートされました。",
+    "certificate-renew-issued.directory.failed": "ディレクトリの作成に失敗しましたが、証明書のエクスポートに失敗しました。",
+    "certificate-renew-issued.issued": "「{name}」の新しい証明書を発行しました。"
+  },
+  "schema": "9048d1a3bcb148168f2785f02dea50e8de90c9f3170cedabe6b72d99bc61a2fd"
+}

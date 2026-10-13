@@ -1,0 +1,11 @@
+{
+  "language": "ur",
+  "messages": {
+    "daily-psk.updating": "روزانہ PSK کو '{ssid}' سے '{psk}' میں اپ ڈیٹ کرنا ('{previous}' تھا)",
+    "daily-psk.sent": "SSID {ssid} کے لیے پہلے ہی ایک میل بھیجی ہے، نظر انداز کر رہے ہیں۔",
+    "daily-psk.subject": "روزانہ PSK {ssid}",
+    "daily-psk.message": "یہ {identity} پر روزانہ PSK ہے:\n\n{ssid}\n{psk}\n{date}\n\nکلائنٹ ڈیوائس کا مخصوص اصول موجود نہیں ہونا چاہیے!",
+    "daily-psk.date": "تاریخ"
+  },
+  "schema": "64d2ff049c113163d9a5b4847306ad5ac276859115f25bfe3d397cc8b24a1ea0"
+}

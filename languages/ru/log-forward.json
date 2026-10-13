@@ -1,0 +1,12 @@
+{
+  "language": "ru",
+  "messages": {
+    "log-forward.limited": "Действует ограничение скорости, не пересылаются логи, если таковые имеются!",
+    "log-forward.subject": "Пересылка журналов",
+    "log-forward.duplicates": " Многократно повторяющиеся сообщения пропущены.",
+    "log-forward.delaying": "\nДействует ограничение скорости, задержка пересылки.",
+    "log-forward.message.single": "Журнал на {identity} содержит это сообщение после времени работы {uptime}. {duplicates}{delay}\n{messages}",
+    "log-forward.message.multiple": "Журнал {identity} содержит эти сообщения {count} после времени работы {uptime}. {duplicates}{delay}\n{messages}"
+  },
+  "schema": "295a2441ccf8e06593a7eedcf16e2ac316badd8c4111d4dab8823ac3b329473c"
+}

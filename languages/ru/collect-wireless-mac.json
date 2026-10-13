@@ -1,0 +1,25 @@
+{
+  "language": "ru",
+  "messages": {
+    "collect-wireless-mac.marker.added": "Добавлена отключенная запись в списке доступа с комментарием «--- собрано выше ---».",
+    "collect-wireless-mac.device.gone": "Устройство уже пропало... Игнорируем.",
+    "collect-wireless-mac.lease.missing": "нет аренды DHCP",
+    "collect-wireless-mac.hostname.missing": "нет имени хоста",
+    "collect-wireless-mac.dns.missing": "нет DNS-имени",
+    "collect-wireless-mac.first.seen": "MAC-адрес {mac} ({vendor}, {hostname}) впервые встречается на {date}, подключенном к SSID {ssid}, интерфейс {interface}",
+    "collect-wireless-mac.subject": "{mac} подключен к {ssid}",
+    "collect-wireless-mac.message": "Устройство с неизвестным MAC-адресом, подключенное к {ssid} на {identity}.\n\n",
+    "collect-wireless-mac.mac.missing": "Mac-адрес недоступен... Игнорируем.",
+    "collect-wireless-mac.label.controller": "Контроллер",
+    "collect-wireless-mac.label.interface": "Интерфейс",
+    "collect-wireless-mac.label.ssid": "SSID",
+    "collect-wireless-mac.label.mac": "МАК",
+    "collect-wireless-mac.label.vendor": "Продавец",
+    "collect-wireless-mac.label.hostname": "Имя хоста",
+    "collect-wireless-mac.label.address": "Адрес",
+    "collect-wireless-mac.label.dns": "DNS-имя",
+    "collect-wireless-mac.label.date": "Дата",
+    "collect-wireless-mac.known": "MAC-адрес {mac} уже известен: {comment}"
+  },
+  "schema": "70ad56ad671ad178315877f3d03eaddd505e04060e94d4c635cd2ebab32adee9"
+}

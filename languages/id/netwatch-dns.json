@@ -1,0 +1,16 @@
+{
+  "language": "id",
+  "messages": {
+    "netwatch-dns.settling": "Sistem baru saja boot, memberikan netwatch {duration} untuk diselesaikan.",
+    "netwatch-dns.dns.updating": "Memperbarui server DNS: {servers}",
+    "netwatch-dns.dns.fallback": "Memperbarui server DNS ke cadangan: {servers}",
+    "netwatch-dns.doh.current": "Server DoH saat ini masih aktif dan terselesaikan: {server}",
+    "netwatch-dns.doh.disabling": "Server DoH saat ini sedang down atau tidak teratasi, menonaktifkan: {server}",
+    "netwatch-dns.certificate.failed": "Gagal mengunduh sertifikat '{name}', mencoba tanpanya.",
+    "netwatch-dns.request.failed": "Permintaan ke server DoH {server} gagal: {error}",
+    "netwatch-dns.response.invalid": "Menerima respons tak terduga dari server DoH: {server}",
+    "netwatch-dns.crl.warning": "Dikonfigurasi untuk menggunakan CRL, yang dapat menyebabkan masalah parah!",
+    "netwatch-dns.doh.setting": "Pengaturan server DoH: {server}"
+  },
+  "schema": "a990191facc83c19ae4d95e097a5f7ec17573be4bce019c61e2ca3dcdffebf43"
+}

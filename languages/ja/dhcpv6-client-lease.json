@@ -1,0 +1,9 @@
+{
+  "language": "ja",
+  "messages": {
+    "dhcpv6-client-lease.context.invalid": "このスクリプトは ipv6 dhcp-client から実行されることになっています。",
+    "dhcpv6-client-lease.script.running": "命令 {order} でスクリプトを実行しています: {name}",
+    "dhcpv6-client-lease.script.failed": "スクリプト「{name}」の実行に失敗しました: {error}"
+  },
+  "schema": "6945e4d13819da10f471d905a5fc37284b6cf1e482d9a7b526483b754951e02a"
+}

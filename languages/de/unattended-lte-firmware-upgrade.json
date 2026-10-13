@@ -1,0 +1,13 @@
+{
+  "language": "de",
+  "messages": {
+    "unattended-lte-firmware-upgrade.query.failed": "Die neueste LTE-Firmware-Version für die Schnittstelle {interface}: {error} konnte nicht abgerufen werden",
+    "unattended-lte-firmware-upgrade.scheduling": "Planen Sie ein LTE-Firmware-Upgrade für die Schnittstelle {interface}.",
+    "unattended-lte-firmware-upgrade.finished": "LTE-Firmware-Upgrade auf „{interface}“ abgeschlossen, wartet auf Zurücksetzen.",
+    "unattended-lte-firmware-upgrade.different": "Die LTE-Firmware-Versionen unterscheiden sich immer noch. Das Upgrade ist trotzdem fehlgeschlagen?",
+    "unattended-lte-firmware-upgrade.failed": "LTE-Firmware-Upgrade auf „{interface}“ fehlgeschlagen: {error}",
+    "unattended-lte-firmware-upgrade.current": "Die LTE-Firmware ist auf der Schnittstelle {interface} aktuell.",
+    "unattended-lte-firmware-upgrade.missing": "Für die Schnittstelle {interface} sind keine LTE-Firmware-Informationen verfügbar."
+  },
+  "schema": "f231d0e80dd157d0022fa102e5293133b9d7d9cc5d18785151ff81e3434c0c7b"
+}

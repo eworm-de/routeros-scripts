@@ -1,0 +1,73 @@
+# Exercise actual Netwatch transitions without device reads or notification delivery.
+:global GlobalConfigReady true;
+:global GlobalFunctionsReady true;
+:global ScriptLock do={ :return true; };
+:global ScriptFromTerminal do={ :return false; };
+:global SymbolForNotification do={ :return ""; };
+:global NetwatchFixtureMessage;
+:global NetwatchFixtureLog;
+:global SendNotification2 do={ :global NetwatchFixtureMessage; :set NetwatchFixtureMessage $1; };
+:global LogPrint do={ :global NetwatchFixtureLog; :set NetwatchFixtureLog $3; };
+:global ExitOnError do={ :error $2; };
+:global ValidateSyntax do={ :return false; };
+:global NetwatchNotify;
+:global NetwatchFixtureHost;
+:global NetwatchFixtureInfo;
+:global NetwatchFixtureRun;
+:global Translate;
+:global ScriptLanguage;
+:global LanguageActive;
+
+:foreach Locale in={ "en"; "pt-BR" } do={
+  :set ScriptLanguage $Locale;
+  :set LanguageActive "pt-BR";
+  :set NetwatchNotify ({});
+  :set NetwatchFixtureMessage ({});
+  :set NetwatchFixtureInfo { "notify"=true; "name"="test-host"; "count"=2; "note"="fixture note" };
+  :set NetwatchFixtureHost { "host"="192.0.2.1"; "name"="fixture"; "type"="simple"; "status"="down"; "since"="2026-10-09 12:00:00" };
+  $NetwatchFixtureRun;
+  :if ([ :len $NetwatchFixtureMessage ] != 0 || ($NetwatchNotify->"test-host"->"count-down") != 1) do={ :error "Netwatch threshold failed"; };
+  :local Expected "The host 'test-host' (192.0.2.1) is down for 1 checks, 1 to go.";
+  :if ($Locale = "pt-BR") do={ :set Expected "O host 'test-host' (192.0.2.1) est\C3\A1 inativo h\C3\A1 1 verifica\C3\A7\C3\B5es; faltam 1."; };
+  :if ($NetwatchFixtureLog != $Expected) do={ :error ("Netwatch wait diagnostic: " . $NetwatchFixtureLog); };
+  $NetwatchFixtureRun;
+  :set Expected "The host 'test-host' (192.0.2.1) is down since 2026-10-09 12:00:00.\n\nNote:\nfixture note";
+  :if ($Locale = "pt-BR") do={ :set Expected "O host 'test-host' (192.0.2.1) est\C3\A1 inativo desde 2026-10-09 12:00:00.\n\nNota:\nfixture note"; };
+  :if (($NetwatchFixtureMessage->"message") != $Expected || ($NetwatchNotify->"test-host"->"notified") != true) do={ :error "Netwatch down notification failed"; };
+  :set Expected "Netwatch Notify: test-host down";
+  :if ($Locale = "pt-BR") do={ :set Expected "Notifica\C3\A7\C3\A3o Netwatch: test-host inativo"; };
+  :if (($NetwatchFixtureMessage->"subject") != $Expected) do={ :error "Netwatch down subject failed"; };
+  :set NetwatchFixtureMessage ({});
+  $NetwatchFixtureRun;
+  :if ([ :len $NetwatchFixtureMessage ] != 0) do={ :error "Netwatch repeated notification"; };
+  :set ($NetwatchFixtureHost->"status") "up";
+  :set ($NetwatchFixtureHost->"since") "2026-10-09 12:01:00";
+  $NetwatchFixtureRun;
+  :set Expected "The host 'test-host' (192.0.2.1) is up since 2026-10-09 12:01:00.\nIt was down for 3 checks since 2026-10-09 12:00:00.\n\nNote:\nfixture note";
+  :if ($Locale = "pt-BR") do={ :set Expected "O host 'test-host' (192.0.2.1) est\C3\A1 ativo desde 2026-10-09 12:01:00.\nFicou inativo por 3 verifica\C3\A7\C3\B5es desde 2026-10-09 12:00:00.\n\nNota:\nfixture note"; };
+  :if (($NetwatchFixtureMessage->"message") != $Expected || ($NetwatchNotify->"test-host"->"notified") != false) do={ :error ("Netwatch recovery failed: " . ($NetwatchFixtureMessage->"message") . " expected " . $Expected); };
+  :set Expected "Netwatch Notify: test-host up";
+  :if ($Locale = "pt-BR") do={ :set Expected "Notifica\C3\A7\C3\A3o Netwatch: test-host ativo"; };
+  :if (($NetwatchFixtureMessage->"subject") != $Expected) do={ :error "Netwatch recovery subject failed"; };
+  :if (($NetwatchFixtureMessage->"silent") != true) do={ :error "Netwatch recovery silence changed"; };
+
+  # A parent outage suppresses the child notification.
+  :set NetwatchFixtureMessage ({});
+  :set ($NetwatchFixtureInfo->"parent") "test-parent";
+  :set ($NetwatchFixtureInfo->"count") 1;
+  :set ($NetwatchFixtureHost->"status") "down";
+  :set ($NetwatchFixtureHost->"type") "tcp-conn";
+  :set ($NetwatchNotify->"test-parent") { "notified"=true; "count-up"=0 };
+  $NetwatchFixtureRun;
+  :if ([ :len $NetwatchFixtureMessage ] != 0) do={ :error "Netwatch parent suppression failed"; };
+  :local Type "service";
+  :if ($Locale = "pt-BR") do={ :set Type "servi\C3\A7o"; };
+  :set Expected [ $Translate "netwatch-notify.down.parent" ({ type=$Type; name="test-host"; details="192.0.2.1"; count=1; parent="test-parent" }) ];
+  :if ($NetwatchFixtureLog != $Expected) do={ :error "Netwatch parent diagnostic failed"; };
+  :set ($NetwatchFixtureInfo->"parent");
+  :set ($NetwatchFixtureInfo->"down-hook") "deliberately invalid hook";
+  $NetwatchFixtureRun;
+  :set Expected [ $Translate "netwatch-notify.hook.syntax.message" ];
+  :if (($NetwatchFixtureMessage->"message") ~ $Expected != true) do={ :error "Netwatch invalid hook diagnostic failed"; };
+}
+:put "Netwatch transitions, parent suppression and invalid-hook tests passed.";

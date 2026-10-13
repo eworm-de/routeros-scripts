@@ -1,0 +1,18 @@
+{
+  "language": "hi",
+  "messages": {
+    "backup-email.partition": "बैकअप पार्टीशन से भागना, कार्रवाई करने से इंकार करना।",
+    "backup-email.directory": "निर्देशिका बनाने में विफल!",
+    "backup-email.options": "न तो बैकअप और न ही कॉन्फिग निर्यात भेजने के लिए कॉन्फ़िगर किया गया।",
+    "backup-email.none": "कोई नहीं",
+    "backup-email.label.backup": "बैकअप फ़ाइल",
+    "backup-email.label.export": "फ़ाइल निर्यात करें",
+    "backup-email.label.config": "कॉन्फ़िग फ़ाइल",
+    "backup-email.email.unavailable": "ई-मेल के माध्यम से सूचनाएं भेजने का मॉड्यूल स्थापित नहीं है।",
+    "backup-email.email.failed": "फ़ाइलें अभी भी उपलब्ध हैं, ई-मेल भेजना विफल रहा।",
+    "backup-email.subject": "बैकअप और कॉन्फ़िग",
+    "backup-email.message": "{identity} के लिए बैकअप और कॉन्फिग निर्यात के लिए संलग्न फ़ाइलें देखें।\n\n{device}\n\n{details}",
+    "backup-email.files.available": "फ़ाइलें अभी भी उपलब्ध हैं."
+  },
+  "schema": "d64d6ec60b1db0d5105ecd3ee2f9ce710886b1860f5d2ef971c4aa2adcdf6722"
+}

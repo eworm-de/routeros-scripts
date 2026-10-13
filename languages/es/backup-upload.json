@@ -1,0 +1,22 @@
+{
+  "language": "es",
+  "messages": {
+    "backup-upload.partition": "Huyendo desde la partición de respaldo, negándose a actuar.",
+    "backup-upload.directory": "¡Error al crear el directorio!",
+    "backup-upload.options": "Configurado para no enviar copias de seguridad ni exportar configuraciones.",
+    "backup-upload.none": "ninguno",
+    "backup-upload.label.backup": "Archivo de copia de seguridad",
+    "backup-upload.label.export": "Exportar archivo",
+    "backup-upload.label.config": "Archivo de configuración",
+    "backup-upload.upload.backup.failed": "Error al cargar el archivo de copia de seguridad: {error}",
+    "backup-upload.upload.export.failed": "Error al cargar la exportación de configuración: {error}",
+    "backup-upload.upload.config.failed": "Error al cargar global-config-overlay: {error}",
+    "backup-upload.subject": "Carga de copia de seguridad y configuración",
+    "backup-upload.subject.failed": "Carga de copia de seguridad y configuración con error",
+    "backup-upload.message": "Carga de copia de seguridad y exportación de configuración para {identity}.\n\n{device}\n\n{details}",
+    "backup-upload.failed": "falló",
+    "backup-upload.label.name": "    nombre",
+    "backup-upload.label.size": "    tamaño"
+  },
+  "schema": "ac3b0aa1324d76ce3ef1515ba46a556bd27200aeea4ad75af6d1e26fd41bf67d"
+}

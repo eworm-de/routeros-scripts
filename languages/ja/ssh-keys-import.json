@@ -1,0 +1,16 @@
+{
+  "language": "ja",
+  "messages": {
+    "ssh-keys-import.arguments.key": "引数が不足しています。キーとユーザーを渡してください。",
+    "ssh-keys-import.user.missing": "ユーザー「{user}」は存在しません。",
+    "ssh-keys-import.type.unsupported": "「{type}」タイプの SSH キーはサポートされていません。",
+    "ssh-keys-import.key.exists": "SSH 公開キー (MD5:{fingerprint}) は、ユーザー「{user}」ですでに使用可能です。",
+    "ssh-keys-import.directory.failed": "ディレクトリ 'tmpfs/ssh-keys-import' の作成に失敗しました。",
+    "ssh-keys-import.imported": "ユーザー「{user}」の SSH 公開キー ({name}、{type}、MD5:{fingerprint}) をインポートしました。",
+    "ssh-keys-import.import.failed": "キーのインポートに失敗しました: {error}",
+    "ssh-keys-import.arguments.file": "引数が不足しています。ファイル名とユーザーを渡してください。",
+    "ssh-keys-import.file.missing": "ファイル「{file}」は存在しません。",
+    "ssh-keys-import.user.import.failed": "ユーザー「{user}」のキーのインポートに失敗しました。"
+  },
+  "schema": "54cdcab8a420cb935136ec8a624f3eeceed166b6b96d7dd67b4ef7d0dcd74ea7"
+}

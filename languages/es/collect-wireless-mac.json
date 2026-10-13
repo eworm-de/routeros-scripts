@@ -1,0 +1,25 @@
+{
+  "language": "es",
+  "messages": {
+    "collect-wireless-mac.marker.added": "Se agregó una entrada de lista de acceso para discapacitados con el comentario '--- recopilado arriba ---'.",
+    "collect-wireless-mac.device.gone": "El dispositivo ya desapareció... Ignorando.",
+    "collect-wireless-mac.lease.missing": "sin arrendamiento dhcp",
+    "collect-wireless-mac.hostname.missing": "sin nombre de host",
+    "collect-wireless-mac.dns.missing": "sin nombre DNS",
+    "collect-wireless-mac.first.seen": "Dirección MAC {mac} ({vendor}, {hostname}) vista por primera vez en {date} conectado al SSID {ssid}, interfaz {interface}",
+    "collect-wireless-mac.subject": "{mac} conectado a {ssid}",
+    "collect-wireless-mac.message": "Un dispositivo con dirección MAC desconocida conectado a {ssid} en {identity}.\n\n",
+    "collect-wireless-mac.mac.missing": "No hay dirección mac disponible... Ignorando.",
+    "collect-wireless-mac.label.controller": "Controlador",
+    "collect-wireless-mac.label.interface": "Interfaz",
+    "collect-wireless-mac.label.ssid": "SSID",
+    "collect-wireless-mac.label.mac": "MAC",
+    "collect-wireless-mac.label.vendor": "vendedor",
+    "collect-wireless-mac.label.hostname": "Nombre de host",
+    "collect-wireless-mac.label.address": "Dirección",
+    "collect-wireless-mac.label.dns": "nombre DNS",
+    "collect-wireless-mac.label.date": "Fecha",
+    "collect-wireless-mac.known": "Dirección MAC {mac} ya conocida: {comment}"
+  },
+  "schema": "70ad56ad671ad178315877f3d03eaddd505e04060e94d4c635cd2ebab32adee9"
+}

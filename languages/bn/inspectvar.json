@@ -1,0 +1,10 @@
+{
+  "language": "bn",
+  "messages": {
+    "inspectvar.type": "প্রকার",
+    "inspectvar.key": "চাবি",
+    "inspectvar.len": "len",
+    "inspectvar.value": "মান"
+  },
+  "schema": "2cbc53e8cc3687bd7d014271c8fdb7251bcf5b16476385468b3e5d11dc9dd5c4"
+}

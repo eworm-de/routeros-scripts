@@ -1,0 +1,17 @@
+{
+  "language": "zh-CN",
+  "messages": {
+    "notification-telegram.offline": "系统未完全连接，未冲洗。",
+    "notification-telegram.certificate.failed": "下载所需的证书失败。",
+    "notification-telegram.queue.empty": "从调度程序中刷新 Telegram 消息，但队列为空。",
+    "notification-telegram.queue.failed": "发送排队的 Telegram 消息失败：{error}",
+    "notification-telegram.fetch.failed": "获取数据失败：{error}",
+    "notification-telegram.message.none": "没有收到消息。",
+    "notification-telegram.chat.id": "聊天ID是：{id}",
+    "notification-telegram.thread.id": "线程 ID 为：{id}",
+    "notification-telegram.truncated": "消息太长，已被截断，截断_{percent}%_！",
+    "notification-telegram.send.failed": "发送电报通知失败：{error} - 正在排队...",
+    "notification-telegram.queued": "此消息自 _{date} {time}_ 起排队，可能已过时。"
+  },
+  "schema": "924e559ca736a5da1f8988a245b39db4d85bda9fd5e9d359b1d0b1ba41e16e5d"
+}

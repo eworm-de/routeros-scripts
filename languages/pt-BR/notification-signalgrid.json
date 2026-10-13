@@ -1,0 +1,12 @@
+{
+  "language": "pt-BR",
+  "messages": {
+    "notification-signalgrid.offline": "O sistema não está totalmente conectado; a fila não será processada.",
+    "notification-signalgrid.empty": "Processando mensagens do Signalgrid pelo agendador, mas a fila está vazia.",
+    "notification-signalgrid.queue.failed": "Falha ao enviar notificação do Signalgrid em fila: {error}",
+    "notification-signalgrid.certificate.failed": "Falha ao baixar o certificado necessário.",
+    "notification-signalgrid.sending.failed": "Falha ao enviar notificação do Signalgrid: {error} - Adicionando à fila...",
+    "notification-signalgrid.queued": "Esta mensagem está na fila desde {date} {time} e pode estar desatualizada."
+  },
+  "schema": "128aca9359451217298096f284f1811957b4079d0693132dbe948f2ced909a78"
+}

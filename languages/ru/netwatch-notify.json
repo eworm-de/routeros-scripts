@@ -1,0 +1,30 @@
+{
+  "language": "ru",
+  "messages": {
+    "netwatch-notify.type.host": "хозяин",
+    "netwatch-notify.type.service": "услуга",
+    "netwatch-notify.state.up": "вверх",
+    "netwatch-notify.state.down": "вниз",
+    "netwatch-notify.state.pre-down": "предварительное понижение",
+    "netwatch-notify.hook.failed": "Перехватчик {state} для {type} «{name}» не удалось запустить: {error}",
+    "netwatch-notify.hook.failed.message": "Крюк не сработал.",
+    "netwatch-notify.hook.syntax": "Перехватчик {state} для {type} '{name}' не прошел проверку синтаксиса.",
+    "netwatch-notify.hook.syntax.message": "Перехватчик не прошел проверку синтаксиса.",
+    "netwatch-notify.hook.ran": "Выполнил перехват {type} '{name}' {state}: {hook}",
+    "netwatch-notify.hook.ran.message": "Пробежал хук:\n{hook}",
+    "netwatch-notify.resolve.updated": "Имя «{resolve}» преобразуется в другой адрес {address}, обновление.",
+    "netwatch-notify.resolve.named.updated": "Имя «{resolve}» для {type} «{name}» разрешается в другой адрес {address}, обновление.",
+    "netwatch-notify.resolve.failed": "Разрешение имени «{resolve}» не удалось в третий раз: {error}",
+    "netwatch-notify.resolve.named.failed": "Разрешение имени «{resolve}» для {type} «{name}» не удалось в третий раз: {error}",
+    "netwatch-notify.up": "{type} '{name}' ({details}) активен.",
+    "netwatch-notify.up.message": "{type} '{name}' ({details}) выше {since}.\nНачиная с {down_since}, он не работал для проверок {count}.",
+    "netwatch-notify.note": "\n\nПримечание:\n{note}",
+    "netwatch-notify.up.subject": "Уведомление Netwatch: {name} вверх",
+    "netwatch-notify.down.subject": "Уведомление Netwatch: {name} отключен",
+    "netwatch-notify.down.waiting": "{type} '{name}' ({details}) недоступен для проверок {count}, остается {remaining}.",
+    "netwatch-notify.down.notified": "{type} '{name}' ({details}) недоступен для проверок {count}, о которых уже уведомлено.",
+    "netwatch-notify.down.parent": "{type} '{name}' ({details}) не работает для проверок {count}, родительский {type} {parent} не работает.",
+    "netwatch-notify.down.message": "{type} '{name}' ({details}) не работает с {since}."
+  },
+  "schema": "7599eb0829fe6e5e2de9cf05b5bf721fd5b4cd7ce0726daf8735d47e695d7240"
+}

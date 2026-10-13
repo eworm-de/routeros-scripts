@@ -1,0 +1,9 @@
+{
+  "language": "ru",
+  "messages": {
+    "dhcpv6-client-lease.context.invalid": "Этот скрипт должен запускаться из dhcp-клиента ipv6.",
+    "dhcpv6-client-lease.script.running": "Запуск скрипта с заказом {order}: {name}",
+    "dhcpv6-client-lease.script.failed": "Не удалось выполнить сценарий «{name}»: {error}."
+  },
+  "schema": "6945e4d13819da10f471d905a5fc37284b6cf1e482d9a7b526483b754951e02a"
+}

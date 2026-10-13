@@ -1,0 +1,9 @@
+{
+  "language": "pcm",
+  "messages": {
+    "sms-action.context": "This script suppose run from SMS hook with action=...",
+    "sms-action.running": "Dey act on SMS action '{action}': {code}",
+    "sms-action.syntax": "code for action '{action}' no pass syntax validation!"
+  },
+  "schema": "91ff5010d0d869687a0bb1c0989668afd4c77fed76f0d8728bca83f00940d48e"
+}

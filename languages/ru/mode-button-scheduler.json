@@ -1,0 +1,11 @@
+{
+  "language": "ru",
+  "messages": {
+    "mode-button-scheduler.scheduler.missing": "Планировщика не существует.",
+    "mode-button-scheduler.action.missing": "Для нажатия кнопки режима {count} действие не определено.",
+    "mode-button-scheduler.syntax": "Код для нажатия кнопки режима {count} не прошел проверку синтаксиса!",
+    "mode-button-scheduler.acting": "Действие при нажатии кнопки режима {count}: {code}",
+    "mode-button-scheduler.failed": "Код для нажатия кнопки режима {count} завершился с ошибкой времени выполнения: {error}."
+  },
+  "schema": "573b86779a15979155d7ff480e677e88dbe77a77cbd92ffaba77887856e8af91"
+}

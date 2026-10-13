@@ -1,0 +1,8 @@
+{
+  "language": "ru",
+  "messages": {
+    "capsman-rolling-upgrade.starting": "Начинается обновление для {name} ({identity})...",
+    "capsman-rolling-upgrade.vanished": "Удаленный CAP исчез, обновление было пропущено."
+  },
+  "schema": "518c446962bfccca4b56fa763c6aedb6d6e615b691208e3ffc397bbcd2c91de8"
+}

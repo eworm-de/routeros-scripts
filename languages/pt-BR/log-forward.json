@@ -1,0 +1,12 @@
+{
+  "language": "pt-BR",
+  "messages": {
+    "log-forward.limited": "Limite de frequência ativo; nenhum log será encaminhado!",
+    "log-forward.subject": "Encaminhamento de logs",
+    "log-forward.duplicates": " Mensagens repetidas várias vezes foram ignoradas.",
+    "log-forward.delaying": "\nLimite de frequência ativo; adiando o encaminhamento.",
+    "log-forward.message.single": "O log de {identity} contém esta mensagem após {uptime} de atividade.{duplicates}{delay}\n{messages}",
+    "log-forward.message.multiple": "O log de {identity} contém estas {count} mensagens após {uptime} de atividade.{duplicates}{delay}\n{messages}"
+  },
+  "schema": "295a2441ccf8e06593a7eedcf16e2ac316badd8c4111d4dab8823ac3b329473c"
+}

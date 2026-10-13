@@ -1,0 +1,10 @@
+{
+  "language": "es",
+  "messages": {
+    "ppp-on-up.context.invalid": "Se supone que este script se ejecuta desde el enlace del script ppp on-up.",
+    "ppp-on-up.up": "La interfaz PPP {interface} está activa.",
+    "ppp-on-up.script.running": "Script en ejecución: {name}",
+    "ppp-on-up.script.failed": "¡Error al ejecutar el script '{name}'!"
+  },
+  "schema": "948ef5fc1bb267e734267f57a5d70df419d106197075fec109f206534ce4493c"
+}

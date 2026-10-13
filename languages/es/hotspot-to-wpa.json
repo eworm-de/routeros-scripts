@@ -1,0 +1,8 @@
+{
+  "language": "es",
+  "messages": {
+    "hotspot-to-wpa.ignored": "{script}: Se ignora el inicio de sesión para {mac} en el punto de acceso '{hotspot}'.",
+    "hotspot-to-wpa.lease.missing": "{script}: ¡No encontré exactamente un contrato de arrendamiento para {mac}!"
+  },
+  "schema": "82d921421b5113cc10cc742bba242aca700d0a06c7bba7435e2d6ce8faa20f74"
+}

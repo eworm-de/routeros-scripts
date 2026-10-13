@@ -1,0 +1,11 @@
+{
+  "language": "fr",
+  "messages": {
+    "notification-gotify.offline": "Le système n’est pas entièrement connecté et ne se rince pas.",
+    "notification-gotify.queue.empty": "Vidage des messages Gotify du planificateur, mais la file d'attente est vide.",
+    "notification-gotify.queue.failed": "Échec de l'envoi du message Gotify en file d'attente : {error}",
+    "notification-gotify.send.failed": "Échec de l'envoi de la notification Gotify : {error} - Mise en file d'attente...",
+    "notification-gotify.queued": "Ce message a été mis en file d'attente depuis {date} {time} et est peut-être obsolète."
+  },
+  "schema": "3ca0bb174dd4fcbe639af5145d66a280408096f7c34f9d1dd0565c5061427859"
+}

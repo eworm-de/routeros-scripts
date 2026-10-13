@@ -1,0 +1,12 @@
+{
+  "language": "ar",
+  "messages": {
+    "notification-ntfy.offline": "لم يتم توصيل النظام بشكل كامل، وليس التنظيف.",
+    "notification-ntfy.queue.empty": "مسح رسائل Ntfy من المجدول، ولكن قائمة الانتظار فارغة.",
+    "notification-ntfy.queue.failed": "فشل إرسال رسالة Ntfy في قائمة الانتظار: {error}",
+    "notification-ntfy.send.failed": "فشل إرسال إشعار ntfy: {error} - قائمة الانتظار...",
+    "notification-ntfy.certificate.failed": "فشل تنزيل الشهادة المطلوبة.",
+    "notification-ntfy.queued": "تم وضع هذه الرسالة في قائمة الانتظار منذ {date} {time} وقد تكون قديمة."
+  },
+  "schema": "6734a9715e6b789bb7ff475fdc9f2b11391a7dcbd94aaef3413d695b035d493e"
+}

@@ -1,0 +1,11 @@
+{
+  "language": "id",
+  "messages": {
+    "update-tunnelbroker.certificate.failed": "Gagal mengunduh sertifikat yang diperlukan.",
+    "update-tunnelbroker.download.failed": "Gagal mengunduh: {error} - {count} menunggu percobaan ulang.",
+    "update-tunnelbroker.response.invalid": "Gagal mengirim alamat lokal ke tunnelbroker atau respons tidak terduga!",
+    "update-tunnelbroker.address.missing": "Alamat {address} tidak dikonfigurasi pada perangkat Anda. NAT oleh ISP?",
+    "update-tunnelbroker.updating": "Alamat lokal diubah, memperbarui konfigurasi terowongan dengan alamat: {address}"
+  },
+  "schema": "a1b3554a6dc3737e590e438648393e5c28b297b740eb02023c141abd6fe84d4e"
+}

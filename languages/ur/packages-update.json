@@ -1,0 +1,26 @@
+{
+  "language": "ur",
+  "messages": {
+    "packages-update.scheduler.exists": "ریبوٹ کے لیے شیڈولر پہلے سے موجود ہے۔",
+    "packages-update.scheduled": "{time} مقامی وقت ({timezone}) پر اپ ڈیٹ کے لیے شیڈول ریبوٹ۔",
+    "packages-update.license.expired": "لائسنس کی میعاد ختم، اپ گریڈ بلاک ہے۔",
+    "packages-update.backup.partition": "بیک اپ پارٹیشن سے بھاگنا، عمل کرنے سے انکار کرنا۔",
+    "packages-update.version.unknown": "تازہ ترین ورژن معلوم نہیں ہے۔",
+    "packages-update.version.installed": "ورژن {version} پہلے سے انسٹال ہے۔",
+    "packages-update.backup.running": "اپ ڈیٹ کرنے سے پہلے بیک اپ اسکرپٹ {name} چل رہا ہے۔",
+    "packages-update.backup.failed": "اپ ڈیٹ کرنے سے پہلے بیک اپ اسکرپٹ {name} چلانا ناکام ہوگیا!",
+    "packages-update.continue.prompt": "کیا آپ بہرحال جاری رکھنا چاہتے ہیں؟ [y/N]",
+    "packages-update.continue": "صارف نے بہرحال جاری رکھنے کی درخواست کی۔",
+    "packages-update.canceled.update": "منسوخ شدہ اپ ڈیٹ...",
+    "packages-update.canceled.noninteractive": "غیر انٹرایکٹو اپ ڈیٹ منسوخ کر دیا گیا۔",
+    "packages-update.downgrade.prompt": "تازہ ترین ورژن انسٹال کردہ ورژن سے پرانا ہے۔ ڈاؤن گریڈ کرنا چاہتے ہیں؟ [y/N]",
+    "packages-update.canceled": "منسوخ کر دیا گیا...",
+    "packages-update.downgrade.refused": "ڈاؤن گریڈ خود بخود انسٹال نہیں ہو رہا ہے۔",
+    "packages-update.download.failed": "پیکیج {name} کے لیے ڈاؤن لوڈ ناکام ہو گیا، اپ ڈیٹ روک دیا گیا۔",
+    "packages-update.downgrade.reboot": "ڈاؤن گریڈ کے لیے ریبوٹنگ۔",
+    "packages-update.reboot.prompt": "کیا آپ ریبوٹ شیڈول کرنا چاہتے ہیں (s) یا ابھی ریبوٹ کرنا چاہتے ہیں (r)؟ [s/R]",
+    "packages-update.update.reboot": "اپ ڈیٹ کے لیے ریبوٹ ہو رہا ہے۔",
+    "packages-update.scheduled.deferred": "{time} مقامی وقت ({timezone}) پر {interval} کے ذریعے موخر کر دی گئی اپ ڈیٹ کے لیے شیڈول ریبوٹ۔"
+  },
+  "schema": "77f3f83454477a8d375bfb399dd18ea210e50ceaf290213460a2f613ac47abd1"
+}

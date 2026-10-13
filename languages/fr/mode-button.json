@@ -1,0 +1,8 @@
+{
+  "language": "fr",
+  "messages": {
+    "mode-button.scheduler.creating": "{script} : Création du planning mode-button-scheduler, comptage des presses...",
+    "mode-button.scheduler.updating": "{script} : Mise à jour du planificateur mode-button-scheduler..."
+  },
+  "schema": "1b567608fb5b7d34f1710eac3a7c4e5740acbea43a5f928a6be5d5c6d189ed03"
+}

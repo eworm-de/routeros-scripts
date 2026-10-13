@@ -1,0 +1,12 @@
+{
+  "language": "ar",
+  "messages": {
+    "notification-signalgrid.offline": "لم يتم توصيل النظام بشكل كامل، وليس التنظيف.",
+    "notification-signalgrid.empty": "جارٍ مسح رسائل Signalgrid من المجدول، لكن قائمة الانتظار فارغة.",
+    "notification-signalgrid.queue.failed": "فشل إرسال إشعار Signalgrid الموجود في قائمة الانتظار: {error}",
+    "notification-signalgrid.certificate.failed": "فشل تنزيل الشهادة المطلوبة.",
+    "notification-signalgrid.sending.failed": "فشل إرسال إشعار Signalgrid: {error} - قائمة الانتظار...",
+    "notification-signalgrid.queued": "تم وضع هذه الرسالة في قائمة الانتظار منذ {date} {time} وقد تكون قديمة."
+  },
+  "schema": "128aca9359451217298096f284f1811957b4079d0693132dbe948f2ced909a78"
+}

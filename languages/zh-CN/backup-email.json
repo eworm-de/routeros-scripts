@@ -1,0 +1,18 @@
+{
+  "language": "zh-CN",
+  "messages": {
+    "backup-email.partition": "从备份分区运行，拒绝执行操作。",
+    "backup-email.directory": "创建目录失败！",
+    "backup-email.options": "配置为既不发送备份也不发送配置导出。",
+    "backup-email.none": "无",
+    "backup-email.label.backup": "备份文件",
+    "backup-email.label.export": "导出文件",
+    "backup-email.label.config": "配置文件",
+    "backup-email.email.unavailable": "未安装通过电子邮件发送通知的模块。",
+    "backup-email.email.failed": "文件仍然可用，但发送电子邮件失败。",
+    "backup-email.subject": "备份与配置",
+    "backup-email.message": "请参阅附件，了解 {identity} 的备份和配置导出。\n\n{device}\n\n{details}",
+    "backup-email.files.available": "文件仍然可用。"
+  },
+  "schema": "d64d6ec60b1db0d5105ecd3ee2f9ce710886b1860f5d2ef971c4aa2adcdf6722"
+}

@@ -1,0 +1,16 @@
+{
+  "language": "bn",
+  "messages": {
+    "backup-partition.copied": "'{name}' পার্টিশনে RouterOS কপি করা হয়েছে।",
+    "backup-partition.copy.failed": "'{name}' পার্টিশনে RouterOS অনুলিপি করতে ব্যর্থ হয়েছে: {error}",
+    "backup-partition.partition": "ব্যাকআপ পার্টিশন থেকে দৌড়াচ্ছে, কাজ করতে অস্বীকার করছে।",
+    "backup-partition.unavailable": "ডিভাইসে কোনো ফলব্যাক পার্টিশন নেই।",
+    "backup-partition.inactive": "সক্রিয় পার্টিশন থেকে ডিভাইস চলছে না।",
+    "backup-partition.fallback.missing": "'{name}' নামে কোনো নিষ্ক্রিয় পার্টিশন নেই।",
+    "backup-partition.prompt": "পার্টিশনের বিভিন্ন RouterOS সংস্করণ রয়েছে। '{name}'-এ কপি করবেন? [y/N]",
+    "backup-partition.saved": "'{name}' পার্টিশনে কনফিগারেশন সংরক্ষণ করা হয়েছে।",
+    "backup-partition.save.failed": "'{name}' পার্টিশনে কনফিগারেশন সংরক্ষণ করতে ব্যর্থ হয়েছে: {error}",
+    "backup-partition.running": "পার্টিশন থেকে চলছে '{name}'!"
+  },
+  "schema": "d37495d3faf22763093e64eb8145eb90d29a006fb0503cc939337741dfd80681"
+}

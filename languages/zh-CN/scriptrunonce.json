@@ -1,0 +1,11 @@
+{
+  "language": "zh-CN",
+  "messages": {
+    "scriptrunonce.url.missing": "脚本“{script}”不是 URL，且基本 URL 不可用。",
+    "scriptrunonce.fetch.failed": "获取脚本“{script}”失败！",
+    "scriptrunonce.syntax": "脚本“{script}”语法验证失败！",
+    "scriptrunonce.running": "现在运行脚本“{script}”。",
+    "scriptrunonce.failed": "脚本“{script}”无法运行：{error}"
+  },
+  "schema": "60deac34267f7cfb590d500ce671562bfd8cf79337f433f8b350281561a4ae52"
+}

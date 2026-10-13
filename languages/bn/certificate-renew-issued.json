@@ -1,0 +1,9 @@
+{
+  "language": "bn",
+  "messages": {
+    "certificate-renew-issued.exported": "'{name}'-এর জন্য একটি নতুন শংসাপত্র জারি করা হয়েছে, 'cert-issued/{name}.p12'-এ রপ্তানি করা হয়েছে।",
+    "certificate-renew-issued.directory.failed": "ডিরেক্টরি তৈরি করতে ব্যর্থ হয়েছে, সার্টিফিকেট রপ্তানি হচ্ছে না।",
+    "certificate-renew-issued.issued": "'{name}'-এর জন্য একটি নতুন শংসাপত্র জারি করা হয়েছে৷"
+  },
+  "schema": "9048d1a3bcb148168f2785f02dea50e8de90c9f3170cedabe6b72d99bc61a2fd"
+}

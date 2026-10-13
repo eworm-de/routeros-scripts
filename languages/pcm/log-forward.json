@@ -1,0 +1,12 @@
+{
+  "language": "pcm",
+  "messages": {
+    "log-forward.limited": "Rate limit dey work; we no go forward any logs!",
+    "log-forward.subject": "Log Forwarding",
+    "log-forward.duplicates": " Multi-repeated messages get don skipped.",
+    "log-forward.delaying": "\nRate limit dey work; we go wait before forwarding.",
+    "log-forward.message.single": "log on {identity} contains this message after {uptime} uptime.{duplicates}{delay}\n{messages}",
+    "log-forward.message.multiple": "log on {identity} contains these {count} messages after {uptime} uptime.{duplicates}{delay}\n{messages}"
+  },
+  "schema": "295a2441ccf8e06593a7eedcf16e2ac316badd8c4111d4dab8823ac3b329473c"
+}

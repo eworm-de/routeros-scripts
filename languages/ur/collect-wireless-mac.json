@@ -1,0 +1,25 @@
+{
+  "language": "ur",
+  "messages": {
+    "collect-wireless-mac.marker.added": "'--- اوپر جمع کردہ ---' تبصرہ کے ساتھ غیر فعال رسائی کی فہرست کا اندراج شامل کیا گیا۔",
+    "collect-wireless-mac.device.gone": "آلہ پہلے ہی چلا گیا ہے... نظر انداز کیا جا رہا ہے۔",
+    "collect-wireless-mac.lease.missing": "کوئی ڈی ایچ سی پی لیز نہیں ہے۔",
+    "collect-wireless-mac.hostname.missing": "کوئی میزبان نام نہیں",
+    "collect-wireless-mac.dns.missing": "کوئی ڈی این ایس کا نام نہیں۔",
+    "collect-wireless-mac.first.seen": "MAC ایڈریس {mac} ({vendor}, {hostname}) پہلی بار {date} پر دیکھا گیا جو SSID {ssid}، انٹرفیس {interface} سے منسلک ہے",
+    "collect-wireless-mac.subject": "{mac} {ssid} سے منسلک ہے۔",
+    "collect-wireless-mac.message": "نامعلوم MAC ایڈریس والا آلہ {identity} پر {ssid} سے منسلک ہے۔\n\n",
+    "collect-wireless-mac.mac.missing": "کوئی میک ایڈریس دستیاب نہیں... نظر انداز کیا جا رہا ہے۔",
+    "collect-wireless-mac.label.controller": "کنٹرولر",
+    "collect-wireless-mac.label.interface": "انٹرفیس",
+    "collect-wireless-mac.label.ssid": "SSID",
+    "collect-wireless-mac.label.mac": "میک",
+    "collect-wireless-mac.label.vendor": "فروش",
+    "collect-wireless-mac.label.hostname": "میزبان نام",
+    "collect-wireless-mac.label.address": "پتہ",
+    "collect-wireless-mac.label.dns": "DNS نام",
+    "collect-wireless-mac.label.date": "تاریخ",
+    "collect-wireless-mac.known": "MAC ایڈریس {mac} پہلے سے معلوم ہے: {comment}"
+  },
+  "schema": "70ad56ad671ad178315877f3d03eaddd505e04060e94d4c635cd2ebab32adee9"
+}

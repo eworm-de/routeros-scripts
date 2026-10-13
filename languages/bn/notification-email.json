@@ -1,0 +1,21 @@
+{
+  "language": "bn",
+  "messages": {
+    "notification-email.from": "{identity} রাউটরোস-স্ক্রিপ্টের মাধ্যমে <{address}>",
+    "notification-email.queue.empty": "শিডিউলার থেকে ই-মেইল বার্তা ফ্লাশ করা হচ্ছে, কিন্তু সারি খালি।",
+    "notification-email.checking": "প্রাথমিক পরীক্ষা করা হচ্ছে...",
+    "notification-email.scheduler.gone": "সময়সূচী চলে গেছে, বাতিল হচ্ছে।",
+    "notification-email.sending.busy": "মেল পাঠানো বর্তমানে চলছে, ফ্লাশ করা হচ্ছে না।",
+    "notification-email.time.unsynced": "সময় সিঙ্ক করা হয় না, ফ্লাশ করা হয় না।",
+    "notification-email.dns.failed": "সার্ভার ঠিকানা একটি DNS নাম এবং সমাধান ব্যর্থ, ফ্লাশিং নয়।",
+    "notification-email.certificate.failed": "প্রয়োজনীয় শংসাপত্র ডাউনলোড করা ব্যর্থ হয়েছে৷",
+    "notification-email.sending": "পাঠানো হচ্ছে...",
+    "notification-email.attach.missing": "'{file}' ফাইলটি বিদ্যমান নেই, সংযুক্ত করা যাবে না।",
+    "notification-email.send.failed": "সারিবদ্ধ মেল পাঠানো ব্যর্থ হয়েছে: {error}",
+    "notification-email.queue.purged": "সারি purged ছিল? প্রস্থান করছে।",
+    "notification-email.retry.waiting": "পুনরায় চেষ্টা করার জন্য অপেক্ষা করা হচ্ছে...",
+    "notification-email.truncated": "বার্তাটি খুব দীর্ঘ ছিল এবং কেটে ফেলা হয়েছে!",
+    "notification-email.queuing": "নতুন মেল সারিবদ্ধ হচ্ছে..."
+  },
+  "schema": "5a6236090c5b7c3f80f50b70e58e9489c8100e4505c9ddc4ee72854e4de47c20"
+}

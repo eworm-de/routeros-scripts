@@ -1,0 +1,9 @@
+{
+  "language": "zh-CN",
+  "messages": {
+    "hotspot-to-wpa-cleanup.connected": "MAC 地址为 {mac} 的客户端连接到 WPA，使租约静态。",
+    "hotspot-to-wpa-cleanup.disconnected": "MAC 地址为 {mac} 的客户端未连接到 WPA，已从访问列表中删除。",
+    "hotspot-to-wpa-cleanup.expired": "对于 {elapsed}，未看到 MAC 地址为 {mac} 的客户端，正在删除。"
+  },
+  "schema": "1ebc7ea0f3bc0cc65554da860eb4b0739adc55a3f127030c7d8a1c780e722a35"
+}

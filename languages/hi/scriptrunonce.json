@@ -1,0 +1,11 @@
+{
+  "language": "hi",
+  "messages": {
+    "scriptrunonce.url.missing": "स्क्रिप्ट '{script}' एक यूआरएल नहीं है और बेस यूआरएल उपलब्ध नहीं है।",
+    "scriptrunonce.fetch.failed": "'{script}' स्क्रिप्ट लाने में विफल!",
+    "scriptrunonce.syntax": "स्क्रिप्ट '{script}' सिंटैक्स सत्यापन विफल रही!",
+    "scriptrunonce.running": "अभी स्क्रिप्ट '{script}' चल रही है।",
+    "scriptrunonce.failed": "स्क्रिप्ट '{script}' चलने में विफल: {error}"
+  },
+  "schema": "60deac34267f7cfb590d500ce671562bfd8cf79337f433f8b350281561a4ae52"
+}

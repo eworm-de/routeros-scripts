@@ -1,0 +1,17 @@
+{
+  "language": "pcm",
+  "messages": {
+    "backup-cloud.partition": "Device dey run from backup partition; we no go do anything.",
+    "backup-cloud.directory": "No fit create folder!",
+    "backup-cloud.subject": "Cloud backup",
+    "backup-cloud.subject.failed": "Cloud backup no work",
+    "backup-cloud.message": "Don upload backup for {identity} go cloud.\n\n{device}\n\n{details}",
+    "backup-cloud.message.failed": "No fit upload backup for {identity} to cloud!\n\n{device}",
+    "backup-cloud.upload.failed": "No fit upload backup for {identity} to cloud!",
+    "backup-cloud.retry": "Retry successful, abeg discard previous connection errors.",
+    "backup-cloud.label.name": "Name",
+    "backup-cloud.label.size": "Size",
+    "backup-cloud.label.key": "Download key"
+  },
+  "schema": "1d68cb944d178c8731db42b15cc1dc9e76c76322543a57e366c56830ef3b644d"
+}

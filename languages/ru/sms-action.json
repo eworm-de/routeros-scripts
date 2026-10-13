@@ -1,0 +1,9 @@
+{
+  "language": "ru",
+  "messages": {
+    "sms-action.context": "Предполагается, что этот скрипт запускается с помощью SMS-перехватчика с действием =...",
+    "sms-action.running": "Действие по SMS-действию «{action}»: {code}",
+    "sms-action.syntax": "Код действия «{action}» не прошел проверку синтаксиса!"
+  },
+  "schema": "91ff5010d0d869687a0bb1c0989668afd4c77fed76f0d8728bca83f00940d48e"
+}

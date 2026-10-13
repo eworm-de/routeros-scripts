@@ -1,0 +1,10 @@
+{
+  "language": "ur",
+  "messages": {
+    "global-config.overlay.failed": "اوورلے یا اسنیپٹ {script} سے کنفیگریشن لوڈ کرنا ناکام ہو گیا: {error}",
+    "global-config.hello.subject": "ہیلو...",
+    "global-config.hello.message": "ہیلو ورلڈ، {identity} کالنگ!",
+    "global-config.not.ready": "عالمی تشکیل اور/یا افعال تیار نہیں ہیں۔"
+  },
+  "schema": "4dea7b8ee007cfceb44462e476d61a9ea4a4066a05150bd7d29153c38e31666f"
+}

@@ -1,0 +1,10 @@
+{
+  "language": "ar",
+  "messages": {
+    "ppp-on-up.context.invalid": "من المفترض أن يتم تشغيل هذا البرنامج النصي من ربط البرنامج النصي PPP on-up.",
+    "ppp-on-up.up": "واجهة PPP {interface} قيد التشغيل.",
+    "ppp-on-up.script.running": "تشغيل البرنامج النصي: {name}",
+    "ppp-on-up.script.failed": "فشل تشغيل البرنامج النصي \"{name}\"!"
+  },
+  "schema": "948ef5fc1bb267e734267f57a5d70df419d106197075fec109f206534ce4493c"
+}

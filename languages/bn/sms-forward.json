@@ -1,0 +1,18 @@
+{
+  "language": "bn",
+  "messages": {
+    "sms-forward.disabled": "এসএমএস প্রাপ্তি সক্ষম নয়।",
+    "sms-forward.interface.stopped": "LTE ইন্টারফেস চলমান অবস্থায় নেই, এড়িয়ে যাচ্ছে।",
+    "sms-forward.command.removed": "এসএমএস সরানো হচ্ছে, যা একটি স্ক্রিপ্ট শুরু করেছে।",
+    "sms-forward.remove.failed": "বার্তা সরাতে ব্যর্থ হয়েছে: {error}",
+    "sms-forward.received": "{timestamp}-এ {type} টাইপ করুন:\n{message}",
+    "sms-forward.hook.running": "চলমান হুক '{match}': {command}",
+    "sms-forward.hook.ran": "\n\nরান হুক '{match}':\n{command}",
+    "sms-forward.hook.failed": "হুকের জন্য কোড '{match}' চালাতে ব্যর্থ হয়েছে: {error}",
+    "sms-forward.hook.syntax": "হুকের কোড '{match}' সিনট্যাক্স যাচাইকরণ ব্যর্থ হয়েছে!",
+    "sms-forward.subject": "{phone} থেকে SMS ফরওয়ার্ডিং",
+    "sms-forward.message.one": "{phone}:{messages} থেকে {identity} এই বার্তাটি পেয়েছে",
+    "sms-forward.message.many": "{phone}:{messages} থেকে {identity} দ্বারা এই {count} বার্তাগুলি পেয়েছেন"
+  },
+  "schema": "b605613f43230d212520e682ee06789fe9ebdb37a25f5c21ba93719a7923e2a1"
+}

@@ -1,0 +1,11 @@
+{
+  "language": "en",
+  "messages": {
+    "update-tunnelbroker.certificate.failed": "Downloading required certificate failed.",
+    "update-tunnelbroker.download.failed": "Failed downloading: {error} - {count} retries pending.",
+    "update-tunnelbroker.response.invalid": "Failed sending the local address to tunnelbroker or unexpected response!",
+    "update-tunnelbroker.address.missing": "The address {address} is not configured on your device. NAT by ISP?",
+    "update-tunnelbroker.updating": "Local address changed, updating tunnel configuration with address: {address}"
+  },
+  "schema": "a1b3554a6dc3737e590e438648393e5c28b297b740eb02023c141abd6fe84d4e"
+}

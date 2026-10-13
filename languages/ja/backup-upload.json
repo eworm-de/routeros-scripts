@@ -1,0 +1,22 @@
+{
+  "language": "ja",
+  "messages": {
+    "backup-upload.partition": "バックアップ パーティションから実行され、動作を拒否します。",
+    "backup-upload.directory": "ディレクトリの作成に失敗しました!",
+    "backup-upload.options": "バックアップも構成エクスポートも送信しないように構成されています。",
+    "backup-upload.none": "なし",
+    "backup-upload.label.backup": "バックアップファイル",
+    "backup-upload.label.export": "エクスポートファイル",
+    "backup-upload.label.config": "設定ファイル",
+    "backup-upload.upload.backup.failed": "バックアップ ファイルのアップロードに失敗しました: {error}",
+    "backup-upload.upload.export.failed": "構成エクスポートのアップロードに失敗しました: {error}",
+    "backup-upload.upload.config.failed": "global-config-overlay のアップロードに失敗しました: {error}",
+    "backup-upload.subject": "バックアップと構成のアップロード",
+    "backup-upload.subject.failed": "バックアップと構成のアップロードが失敗する",
+    "backup-upload.message": "{identity} のバックアップと構成エクスポートのアップロード。\n\n{device}\n\n{details}",
+    "backup-upload.failed": "失敗しました",
+    "backup-upload.label.name": "    名前",
+    "backup-upload.label.size": "    サイズ"
+  },
+  "schema": "ac3b0aa1324d76ce3ef1515ba46a556bd27200aeea4ad75af6d1e26fd41bf67d"
+}

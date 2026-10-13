@@ -1,0 +1,9 @@
+{
+  "language": "ur",
+  "messages": {
+    "hotspot-to-wpa-lease.marker.added": "تبصرہ '--- ہاٹ سپاٹ سے ڈبلیو پی اے اوپر ---' کے ساتھ غیر فعال رسائی کی فہرست کا اندراج شامل کیا گیا۔",
+    "hotspot-to-wpa-lease.template.added": "ہاٹ اسپاٹ '{hotspot}' کے لیے رسائی کی فہرست میں ٹیمپلیٹ شامل کر دیا گیا۔",
+    "hotspot-to-wpa-lease.entry.updated": "میک ایڈریس {mac} (صارف {user}) کے لیے رسائی کی فہرست کے اندراج کو شامل کرنا/اپ ڈیٹ کرنا۔"
+  },
+  "schema": "f78d5db29b04af55a757a12886dca285667ff1378c2d7cd29bc37009f14f5ce8"
+}

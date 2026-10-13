@@ -1,0 +1,21 @@
+{
+  "language": "id",
+  "messages": {
+    "fw-addr-lists.crash.delay": "Subsistem skrip mungkin mogok, mungkin disebabkan oleh kami. Menunda!",
+    "fw-addr-lists.certificate.failed": "Pengunduhan sertifikat yang diperlukan ({list} / {url}) gagal, tetap coba.",
+    "fw-addr-lists.download.retry": "Gagal mengunduh daftar '{list}', {count}. coba dari: {url}",
+    "fw-addr-lists.download.failed": "Gagal mengunduh daftar '{list}' dari: {url}",
+    "fw-addr-lists.downloaded": "Mengunduh {size}B untuk daftar '{list}' dari: {url}",
+    "fw-addr-lists.branch": "Cabang penanganan: {branch}",
+    "fw-addr-lists.summary": "daftar: {list} ({total}) -- ditambahkan: {added} - diperbarui: {renewed} - dihapus: {removed}",
+    "fw-addr-lists.ipv4.renew": "Memperbarui alamat IPv4 {address} dalam daftar '{list}' dengan {timeout}.",
+    "fw-addr-lists.ipv4.remove": "Menghapus alamat IPv4 {address} dari daftar '{list}.",
+    "fw-addr-lists.ipv4.add": "Menambahkan alamat IPv4 {address} ke daftar '{list}' dengan {timeout}.",
+    "fw-addr-lists.ipv4.failed": "Gagal menambahkan alamat IPv4 {address} ke daftar '{list}': {error}",
+    "fw-addr-lists.ipv6.renew": "Memperbarui alamat IPv6 {address} dalam daftar '{list}' dengan {timeout}.",
+    "fw-addr-lists.ipv6.remove": "Menghapus alamat IPv6 {address} dari daftar '{list}.",
+    "fw-addr-lists.ipv6.add": "Menambahkan alamat IPv6 {address} ke daftar '{list}' dengan {timeout}.",
+    "fw-addr-lists.ipv6.failed": "Gagal menambahkan alamat IPv6 {address} ke daftar '{list}': {error}"
+  },
+  "schema": "42bcfb865c10957ae21b18aa798348228d56dea78dd75c130eee6af199b03277"
+}

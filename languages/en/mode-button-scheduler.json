@@ -1,0 +1,11 @@
+{
+  "language": "en",
+  "messages": {
+    "mode-button-scheduler.scheduler.missing": "Scheduler does not exist.",
+    "mode-button-scheduler.action.missing": "No action defined for {count} mode-button presses.",
+    "mode-button-scheduler.syntax": "The code for {count} mode-button presses failed syntax validation!",
+    "mode-button-scheduler.acting": "Acting on {count} mode-button presses: {code}",
+    "mode-button-scheduler.failed": "The code for {count} mode-button presses failed with runtime error: {error}"
+  },
+  "schema": "573b86779a15979155d7ff480e677e88dbe77a77cbd92ffaba77887856e8af91"
+}

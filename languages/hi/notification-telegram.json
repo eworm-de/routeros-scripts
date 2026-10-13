@@ -1,0 +1,17 @@
+{
+  "language": "hi",
+  "messages": {
+    "notification-telegram.offline": "सिस्टम पूरी तरह से कनेक्ट नहीं है, फ्लशिंग नहीं हो रही है।",
+    "notification-telegram.certificate.failed": "आवश्यक प्रमाणपत्र डाउनलोड करना विफल रहा.",
+    "notification-telegram.queue.empty": "शेड्यूलर से टेलीग्राम संदेशों को फ्लश किया जा रहा है, लेकिन कतार खाली है।",
+    "notification-telegram.queue.failed": "कतारबद्ध टेलीग्राम संदेश भेजना विफल: {error}",
+    "notification-telegram.fetch.failed": "डेटा प्राप्त करना विफल रहा: {error}",
+    "notification-telegram.message.none": "कोई संदेश प्राप्त नहीं हुआ.",
+    "notification-telegram.chat.id": "चैट आईडी है: {id}",
+    "notification-telegram.thread.id": "थ्रेड आईडी है: {id}",
+    "notification-telegram.truncated": "संदेश बहुत लंबा था और काट दिया गया है, काट दिया गया _{percent}%_!",
+    "notification-telegram.send.failed": "टेलीग्राम अधिसूचना भेजने में विफल: {error} - कतारबद्ध...",
+    "notification-telegram.queued": "यह संदेश _{date} {time}_ से कतारबद्ध था और अप्रचलित हो सकता है।"
+  },
+  "schema": "924e559ca736a5da1f8988a245b39db4d85bda9fd5e9d359b1d0b1ba41e16e5d"
+}

@@ -1,0 +1,12 @@
+{
+  "language": "ru",
+  "messages": {
+    "notification-signalgrid.offline": "Система не полностью подключена, не промывается.",
+    "notification-signalgrid.empty": "Сброс сообщений Signalgrid из планировщика, но очередь пуста.",
+    "notification-signalgrid.queue.failed": "Не удалось отправить поставленное в очередь уведомление Signalgrid: {error}",
+    "notification-signalgrid.certificate.failed": "Не удалось загрузить необходимый сертификат.",
+    "notification-signalgrid.sending.failed": "Не удалось отправить уведомление Signalgrid: {error} — очередь...",
+    "notification-signalgrid.queued": "Это сообщение было в очереди с {date} {time} и может устареть."
+  },
+  "schema": "128aca9359451217298096f284f1811957b4079d0693132dbe948f2ced909a78"
+}

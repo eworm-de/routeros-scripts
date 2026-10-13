@@ -1,0 +1,17 @@
+{
+  "language": "de",
+  "messages": {
+    "backup-cloud.partition": "Wird von der Backup-Partition ausgeführt und weigert sich zu handeln.",
+    "backup-cloud.directory": "Fehler beim Erstellen des Verzeichnisses!",
+    "backup-cloud.subject": "Cloud-Backup",
+    "backup-cloud.subject.failed": "Die Cloud-Sicherung ist fehlgeschlagen",
+    "backup-cloud.message": "Backup für {identity} in die Cloud hochgeladen.\n\n{device}\n\n{details}",
+    "backup-cloud.message.failed": "Das Hochladen des Backups für {identity} in die Cloud ist fehlgeschlagen!\n\n{device}",
+    "backup-cloud.upload.failed": "Das Hochladen des Backups für {identity} in die Cloud ist fehlgeschlagen!",
+    "backup-cloud.retry": "Wiederholung erfolgreich, bitte verwerfen Sie vorherige Verbindungsfehler.",
+    "backup-cloud.label.name": "Name",
+    "backup-cloud.label.size": "Größe",
+    "backup-cloud.label.key": "Schlüssel herunterladen"
+  },
+  "schema": "1d68cb944d178c8731db42b15cc1dc9e76c76322543a57e366c56830ef3b644d"
+}

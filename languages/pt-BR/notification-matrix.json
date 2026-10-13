@@ -1,0 +1,21 @@
+{
+  "language": "pt-BR",
+  "messages": {
+    "notification-matrix.offline": "O sistema não está totalmente conectado; a fila não será processada.",
+    "notification-matrix.queue.empty": "Processando mensagens do Matrix pelo agendador, mas a fila está vazia.",
+    "notification-matrix.queue.failed": "Falha ao enviar mensagem do Matrix na fila: {error}",
+    "notification-matrix.send.failed": "Falha ao enviar notificação do Matrix: {error} - Adicionando à fila...",
+    "notification-matrix.home.server": "O servidor principal é: {server}",
+    "notification-matrix.home.failed": "Falha ao obter o servidor principal: {error}",
+    "notification-matrix.access.token": "O token de acesso é: {token}",
+    "notification-matrix.login.failed": "Falha ao autenticar (e obter o token de acesso): {error}",
+    "notification-matrix.snippet.added": "Trecho de configuração adicionado. Agora crie uma sala e entre nela!",
+    "notification-matrix.snippet.failed": "Falha ao adicionar trecho de configuração: {error}",
+    "notification-matrix.room.joined": "Entrou na sala.",
+    "notification-matrix.room.failed": "Falha ao entrar na sala: {error}",
+    "notification-matrix.snippet.appended": "Configuração acrescentada ao trecho de configuração. Revise-o!",
+    "notification-matrix.snippet.append.failed": "Falha ao acrescentar configuração ao trecho: {error}",
+    "notification-matrix.queued": "Esta mensagem está na fila desde {date} e pode estar desatualizada."
+  },
+  "schema": "f843ad08937ad96c091b0aa66edd949e6e467c336607c9c73ff0270be3b95839"
+}

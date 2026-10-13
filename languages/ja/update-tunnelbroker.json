@@ -1,0 +1,11 @@
+{
+  "language": "ja",
+  "messages": {
+    "update-tunnelbroker.certificate.failed": "必要な証明書のダウンロードに失敗しました。",
+    "update-tunnelbroker.download.failed": "ダウンロードの失敗: {error} - {count} の再試行は保留中です。",
+    "update-tunnelbroker.response.invalid": "トンネルブローカーへのローカル アドレスの送信に失敗したか、予期しない応答が発生しました。",
+    "update-tunnelbroker.address.missing": "アドレス {address} はデバイスに構成されていません。 ISPによるNAT?",
+    "update-tunnelbroker.updating": "ローカル アドレスが変更され、アドレス {address} でトンネル構成が更新されました"
+  },
+  "schema": "a1b3554a6dc3737e590e438648393e5c28b297b740eb02023c141abd6fe84d4e"
+}

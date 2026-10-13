@@ -1,0 +1,17 @@
+{
+  "language": "ru",
+  "messages": {
+    "backup-cloud.partition": "Запуск из резервного раздела, отказывается действовать.",
+    "backup-cloud.directory": "Не удалось создать каталог!",
+    "backup-cloud.subject": "Облачное резервное копирование",
+    "backup-cloud.subject.failed": "Резервное копирование в облако не удалось",
+    "backup-cloud.message": "Загрузил резервную копию {identity} в облако.\n\n{device}\n\n{details}",
+    "backup-cloud.message.failed": "Не удалось загрузить резервную копию {identity} в облако!\n\n{device}",
+    "backup-cloud.upload.failed": "Не удалось загрузить резервную копию {identity} в облако!",
+    "backup-cloud.retry": "Повторите успешную попытку. Отбросьте предыдущие ошибки подключения.",
+    "backup-cloud.label.name": "Имя",
+    "backup-cloud.label.size": "Размер",
+    "backup-cloud.label.key": "Скачать ключ"
+  },
+  "schema": "1d68cb944d178c8731db42b15cc1dc9e76c76322543a57e366c56830ef3b644d"
+}

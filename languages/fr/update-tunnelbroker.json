@@ -1,0 +1,11 @@
+{
+  "language": "fr",
+  "messages": {
+    "update-tunnelbroker.certificate.failed": "Le téléchargement du certificat requis a échoué.",
+    "update-tunnelbroker.download.failed": "Échec du téléchargement : {error} - Nouvelles tentatives {count} en attente.",
+    "update-tunnelbroker.response.invalid": "Échec de l'envoi de l'adresse locale au tunnelbroker ou réponse inattendue !",
+    "update-tunnelbroker.address.missing": "L'adresse {address} n'est pas configurée sur votre appareil. NAT par FAI ?",
+    "update-tunnelbroker.updating": "Adresse locale modifiée, mise à jour de la configuration du tunnel avec l'adresse : {address}"
+  },
+  "schema": "a1b3554a6dc3737e590e438648393e5c28b297b740eb02023c141abd6fe84d4e"
+}

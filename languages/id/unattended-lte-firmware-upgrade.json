@@ -1,0 +1,13 @@
+{
+  "language": "id",
+  "messages": {
+    "unattended-lte-firmware-upgrade.query.failed": "Tidak bisa mendapatkan versi firmware LTE terbaru untuk antarmuka {interface}: {error}",
+    "unattended-lte-firmware-upgrade.scheduling": "Menjadwalkan peningkatan firmware LTE untuk antarmuka {interface}.",
+    "unattended-lte-firmware-upgrade.finished": "Peningkatan firmware LTE pada '{interface}' selesai, menunggu reset.",
+    "unattended-lte-firmware-upgrade.different": "Versi firmware LTE masih berbeda. Tetap saja pemutakhiran gagal?",
+    "unattended-lte-firmware-upgrade.failed": "Peningkatan firmware LTE pada '{interface}' gagal: {error}",
+    "unattended-lte-firmware-upgrade.current": "Firmware LTE diperbarui pada antarmuka {interface}.",
+    "unattended-lte-firmware-upgrade.missing": "Tidak ada informasi firmware LTE yang tersedia untuk antarmuka {interface}."
+  },
+  "schema": "f231d0e80dd157d0022fa102e5293133b9d7d9cc5d18785151ff81e3434c0c7b"
+}

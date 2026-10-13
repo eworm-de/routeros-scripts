@@ -1,0 +1,30 @@
+{
+  "language": "hi",
+  "messages": {
+    "netwatch-notify.type.host": "मेज़बान",
+    "netwatch-notify.type.service": "सेवा",
+    "netwatch-notify.state.up": "ऊपर",
+    "netwatch-notify.state.down": "नीचे",
+    "netwatch-notify.state.pre-down": "पूर्व-नीचे",
+    "netwatch-notify.hook.failed": "{type} '{name}' के लिए {state}-हुक चलने में विफल: {error}",
+    "netwatch-notify.hook.failed.message": "हुक चलने में विफल रहा.",
+    "netwatch-notify.hook.syntax": "{type} '{name}' के लिए {state}-हुक सिंटैक्स सत्यापन विफल रहा।",
+    "netwatch-notify.hook.syntax.message": "हुक सिंटैक्स सत्यापन में विफल रहा।",
+    "netwatch-notify.hook.ran": "{type} '{name}' {state} पर रैन हुक: {hook}",
+    "netwatch-notify.hook.ran.message": "रैन हुक:\n{hook}",
+    "netwatch-notify.resolve.updated": "नाम '{resolve}' अद्यतन होने पर भिन्न पते {address} पर हल हो जाता है।",
+    "netwatch-notify.resolve.named.updated": "{type} के लिए नाम '{resolve}' '{name}' अद्यतन करने पर भिन्न पते {address} पर हल हो जाता है।",
+    "netwatch-notify.resolve.failed": "'{resolve}' नाम का समाधान तीसरी बार विफल रहा: {error}",
+    "netwatch-notify.resolve.named.failed": "{type} '{name}' के लिए नाम '{resolve}' का समाधान तीसरी बार विफल रहा: {error}",
+    "netwatch-notify.up": "{type} '{name}' ({details}) ऊपर है।",
+    "netwatch-notify.up.message": "{type} '{name}' ({details}) {since} से ऊपर है।\nयह {down_since} के बाद से {count} चेक के लिए बंद था।",
+    "netwatch-notify.note": "\n\nध्यान दें:\n{note}",
+    "netwatch-notify.up.subject": "नेटवॉच सूचित करें: {name} ऊपर",
+    "netwatch-notify.down.subject": "नेटवॉच सूचित करें: {name} डाउन",
+    "netwatch-notify.down.waiting": "{type} '{name}' ({details}) {count} चेक, {remaining} के लिए बंद है।",
+    "netwatch-notify.down.notified": "{type} '{name}' ({details}) {count} चेक के लिए बंद है, पहले से ही सूचित किया गया है।",
+    "netwatch-notify.down.parent": "{type} '{name}' ({details}) {count} जांच के लिए बंद है, मूल {type} {parent} बंद है।",
+    "netwatch-notify.down.message": "{type} '{name}' ({details}) {since} के बाद से बंद है।"
+  },
+  "schema": "7599eb0829fe6e5e2de9cf05b5bf721fd5b4cd7ce0726daf8735d47e695d7240"
+}

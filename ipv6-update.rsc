@@ -9,14 +9,35 @@
 # update firewall and dns settings on IPv6 prefix change
 # https://rsc.eworm.de/doc/ipv6-update.md
 
+# BEGIN GENERATED LANGUAGE DATA
+# language, name=ipv6-update, schema=d502241c31fb73e9c3245e499a026333b5c7b5265d927b18a2a24bf7948fb823
+:global LanguageEnglish;
+:if ([ :typeof $LanguageEnglish ] != "array") do={ :set LanguageEnglish ({}); }
+:set ($LanguageEnglish->"ipv6-update.address.ignored") "An address ({address}) was acquired, not a prefix. Ignoring.";
+:set ($LanguageEnglish->"ipv6-update.context.invalid") "This script is supposed to run from ipv6 dhcp-client.";
+:set ($LanguageEnglish->"ipv6-update.dns.updating") "Updating DNS record for {name}{regexp} to {address}";
+:set ($LanguageEnglish->"ipv6-update.host.updating") "Updating IPv6 address list with new IPv6 host address {address} from interface {interface}";
+:set ($LanguageEnglish->"ipv6-update.interface.prefix.updating") "Updating IPv6 address list with new IPv6 prefix {prefix} from interface {interface}";
+:set ($LanguageEnglish->"ipv6-update.list.added") "Added dynamic ipv6 address list entry for ipv6-pool-{pool}";
+:set ($LanguageEnglish->"ipv6-update.prefix.invalid") "The prefix {prefix} is no longer valid. Ignoring.";
+:set ($LanguageEnglish->"ipv6-update.prefix.updating") "Updating IPv6 address list with new IPv6 prefix {prefix}";
+:set ($LanguageEnglish->"global-config.not.ready") "Global config and/or functions not ready.";
+:global GlobalNotReadyMessage;
+:if ([ :typeof $GlobalNotReadyMessage ] != "str") do={
+  :set GlobalNotReadyMessage ($LanguageEnglish->"global-config.not.ready");
+}
+# END GENERATED LANGUAGE DATA
+
 :onerror Err {
   :global GlobalConfigReady; :global GlobalFunctionsReady;
+  :global GlobalNotReadyMessage;
   :retry { :if ($GlobalConfigReady != true || $GlobalFunctionsReady != true) \
-      do={ :error ("Global config and/or functions not ready."); }; } delay=500ms max=50;
+      do={ :error $GlobalNotReadyMessage; }; } delay=500ms max=50;
   :local ScriptName [ :jobname ];
 
   :global EitherOr;
   :global LogPrint;
+  :global Translate;
   :global ParseKeyValueStore;
   :global ScriptLock;
 
@@ -32,24 +53,27 @@
   }
 
   :if ([ :typeof $NaAddress ] = "str") do={
-    $LogPrint info $ScriptName ("An address (" . $NaAddress . ") was acquired, not a prefix. Ignoring.");
+    $LogPrint info $ScriptName [ $Translate "ipv6-update.address.ignored" \
+        ({ "address"=$NaAddress }) ];
     :exit;
   }
 
   :if ([ :typeof $PdPrefix ] = "nothing" || [ :typeof $PdValid ] = "nothing") do={
-    $LogPrint error $ScriptName ("This script is supposed to run from ipv6 dhcp-client.");
+    $LogPrint error $ScriptName [ $Translate "ipv6-update.context.invalid" ];
     :exit;
   }
 
   :if ($PdValid != 1) do={
-    $LogPrint info $ScriptName ("The prefix " . $PdPrefix . " is no longer valid. Ignoring.");
+    $LogPrint info $ScriptName [ $Translate "ipv6-update.prefix.invalid" \
+        ({ prefix=[ :tostr $PdPrefix ] }) ];
     :exit;
   }
 
   :local Pool [ /ipv6/pool/get [ find where prefix=$PdPrefix ] name ];
   :if ([ :len [ /ipv6/firewall/address-list/find where comment=("ipv6-pool-" . $Pool) ] ] = 0) do={
     /ipv6/firewall/address-list/add list=("ipv6-pool-" . $Pool) address=:: comment=("ipv6-pool-" . $Pool) dynamic=yes;
-    $LogPrint info $ScriptName ("Added dynamic ipv6 address list entry for ipv6-pool-" . $Pool);
+    $LogPrint info $ScriptName [ $Translate "ipv6-update.list.added" \
+        ({ pool=$Pool }) ];
   }
   :local AddrList [ /ipv6/firewall/address-list/find where comment=("ipv6-pool-" . $Pool) ];
   :local OldPrefix [ /ipv6/firewall/address-list/get ($AddrList->0) address ];
@@ -60,7 +84,8 @@
   }
 
   :if ($OldPrefix != $PdPrefix) do={
-    $LogPrint info $ScriptName ("Updating IPv6 address list with new IPv6 prefix " . $PdPrefix);
+    $LogPrint info $ScriptName [ $Translate "ipv6-update.prefix.updating" \
+        ({ prefix=$PdPrefix }) ];
     /ipv6/firewall/address-list/set address=$PdPrefix $AddrList;
 
     # give the interfaces a moment to receive their addresses
@@ -80,12 +105,12 @@
           :local Address ($ListEntryVal->"address");
           :local Address ($Prefix | ([ :toip6 [ :pick $Address 0 [ :find $Address "/128" ] ] ] & ::ffff:ffff:ffff:ffff));
 
-          $LogPrint info $ScriptName ("Updating IPv6 address list with new IPv6 host address " . $Address . \
-            " from interface " . ($Comment->"interface"));
+          $LogPrint info $ScriptName [ $Translate "ipv6-update.host.updating" \
+              ({ address=$Address; interface=($Comment->"interface") }) ];
           /ipv6/firewall/address-list/set address=$Address $ListEntry;
         } else={
-          $LogPrint info $ScriptName ("Updating IPv6 address list with new IPv6 prefix " . $Prefix . \
-            " from interface " . ($Comment->"interface"));
+          $LogPrint info $ScriptName [ $Translate "ipv6-update.interface.prefix.updating" \
+              ({ prefix=$Prefix; interface=($Comment->"interface") }) ];
           /ipv6/firewall/address-list/set address=$Prefix $ListEntry;
         }
       }
@@ -102,8 +127,8 @@
         :set Prefix ([ :toip6 [ :pick $Prefix 0 [ :find $Prefix "/64" ] ] ] & ffff:ffff:ffff:ffff::);
         :local Address ($Prefix | ([ :toip6 ($RecordVal->"address") ] & ::ffff:ffff:ffff:ffff));
 
-        $LogPrint info $ScriptName ("Updating DNS record for " . ($RecordVal->"name") . \
-          ($RecordVal->"regexp") . " to " . $Address);
+        $LogPrint info $ScriptName [ $Translate "ipv6-update.dns.updating" \
+            ({ name=($RecordVal->"name"); regexp=[ :tostr ($RecordVal->"regexp") ]; address=$Address }) ];
         /ip/dns/static/set address=$Address $Record;
       }
     }

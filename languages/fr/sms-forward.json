@@ -1,0 +1,18 @@
+{
+  "language": "fr",
+  "messages": {
+    "sms-forward.disabled": "La réception de SMS n'est pas activée.",
+    "sms-forward.interface.stopped": "L'interface LTE n'est pas en état de fonctionnement, elle saute.",
+    "sms-forward.command.removed": "Suppression de SMS, qui a lancé un script.",
+    "sms-forward.remove.failed": "Échec de la suppression du message : {error}",
+    "sms-forward.received": "Sur {timestamp} type {type} :\n{message}",
+    "sms-forward.hook.running": "Crochet de course '{match}' : {command}",
+    "sms-forward.hook.ran": "\n\nCrochet exécuté '{match}' :\n{command}",
+    "sms-forward.hook.failed": "Le code du hook « {match} » n'a pas pu être exécuté : {error}",
+    "sms-forward.hook.syntax": "Le code du hook '{match}' a échoué à la validation de la syntaxe !",
+    "sms-forward.subject": "Transfert de SMS depuis {phone}",
+    "sms-forward.message.one": "Reçu ce message par {identity} de {phone} : {messages}",
+    "sms-forward.message.many": "Reçu ces messages {count} par {identity} de {phone} : {messages}"
+  },
+  "schema": "b605613f43230d212520e682ee06789fe9ebdb37a25f5c21ba93719a7923e2a1"
+}

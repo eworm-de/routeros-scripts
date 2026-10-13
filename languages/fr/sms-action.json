@@ -1,0 +1,9 @@
+{
+  "language": "fr",
+  "messages": {
+    "sms-action.context": "Ce script est censé s'exécuter à partir du hook SMS avec action=...",
+    "sms-action.running": "Action sur l'action SMS '{action}' : {code}",
+    "sms-action.syntax": "Le code de l'action « {action} » a échoué à la validation de la syntaxe !"
+  },
+  "schema": "91ff5010d0d869687a0bb1c0989668afd4c77fed76f0d8728bca83f00940d48e"
+}

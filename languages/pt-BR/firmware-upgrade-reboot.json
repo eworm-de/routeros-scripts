@@ -1,0 +1,10 @@
+{
+  "language": "pt-BR",
+  "messages": {
+    "firmware-upgrade-reboot.current": "O firmware atual e o disponível correspondem à versão {version}.",
+    "firmware-upgrade-reboot.downgrade": "Há outra versão de firmware disponível, mas ela é anterior à atual. Ignorando.",
+    "firmware-upgrade-reboot.upgrade": "A versão de firmware {version} está disponível; atualizando.",
+    "firmware-upgrade-reboot.reboot": "Firmware atualizado com sucesso; reiniciando."
+  },
+  "schema": "6029d1d4da514989c7a64a3ae717c2ca8f5f42f295ad0d203b8343cf7a2944a5"
+}

@@ -1,0 +1,10 @@
+{
+  "language": "pt-BR",
+  "messages": {
+    "ppp-on-up.context.invalid": "Este script deve ser executado pelo hook on-up do PPP.",
+    "ppp-on-up.up": "A interface PPP {interface} está ativa.",
+    "ppp-on-up.script.running": "Executando script: {name}",
+    "ppp-on-up.script.failed": "Falha ao executar o script '{name}'!"
+  },
+  "schema": "948ef5fc1bb267e734267f57a5d70df419d106197075fec109f206534ce4493c"
+}

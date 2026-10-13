@@ -10,10 +10,38 @@
 # create and upload backup and config file
 # https://rsc.eworm.de/doc/backup-upload.md
 
+# BEGIN GENERATED LANGUAGE DATA
+# language, name=backup-upload, schema=ac3b0aa1324d76ce3ef1515ba46a556bd27200aeea4ad75af6d1e26fd41bf67d
+:global LanguageEnglish;
+:if ([ :typeof $LanguageEnglish ] != "array") do={ :set LanguageEnglish ({}); }
+:set ($LanguageEnglish->"backup-upload.directory") "Failed creating directory!";
+:set ($LanguageEnglish->"backup-upload.failed") "failed";
+:set ($LanguageEnglish->"backup-upload.label.backup") "Backup file";
+:set ($LanguageEnglish->"backup-upload.label.config") "Config file";
+:set ($LanguageEnglish->"backup-upload.label.export") "Export file";
+:set ($LanguageEnglish->"backup-upload.label.name") "    name";
+:set ($LanguageEnglish->"backup-upload.label.size") "    size";
+:set ($LanguageEnglish->"backup-upload.message") "Backup and config export upload for {identity}.\0A\0A{device}\0A\0A{details}";
+:set ($LanguageEnglish->"backup-upload.none") "none";
+:set ($LanguageEnglish->"backup-upload.options") "Configured to send neither backup nor config export.";
+:set ($LanguageEnglish->"backup-upload.partition") "Running from backup partition, refusing to act.";
+:set ($LanguageEnglish->"backup-upload.subject") "Backup & Config upload";
+:set ($LanguageEnglish->"backup-upload.subject.failed") "Backup & Config upload with failure";
+:set ($LanguageEnglish->"backup-upload.upload.backup.failed") "Uploading backup file failed: {error}";
+:set ($LanguageEnglish->"backup-upload.upload.config.failed") "Uploading global-config-overlay failed: {error}";
+:set ($LanguageEnglish->"backup-upload.upload.export.failed") "Uploading configuration export failed: {error}";
+:set ($LanguageEnglish->"global-config.not.ready") "Global config and/or functions not ready.";
+:global GlobalNotReadyMessage;
+:if ([ :typeof $GlobalNotReadyMessage ] != "str") do={
+  :set GlobalNotReadyMessage ($LanguageEnglish->"global-config.not.ready");
+}
+# END GENERATED LANGUAGE DATA
+
 :onerror Err {
   :global GlobalConfigReady; :global GlobalFunctionsReady;
+  :global GlobalNotReadyMessage;
   :retry { :if ($GlobalConfigReady != true || $GlobalFunctionsReady != true) \
-      do={ :error ("Global config and/or functions not ready."); }; } delay=500ms max=50;
+      do={ :error $GlobalNotReadyMessage; }; } delay=500ms max=50;
   :local ScriptName [ :jobname ];
 
   :global BackupFileNameDate;
@@ -32,6 +60,7 @@
   :global CleanName;
   :global DeviceInfo;
   :global IfThenElse;
+  :global Translate;
   :global LogPrint;
   :global MkDir;
   :global RandomDelay;
@@ -46,7 +75,7 @@
 
   :if ($BackupSendBinary != true && \
        $BackupSendExport != true) do={
-    $LogPrint error $ScriptName ("Configured to send neither backup nor config export.");
+    $LogPrint error $ScriptName ([ $Translate "backup-upload.options" ]);
     :exit;
   }
 
@@ -56,7 +85,7 @@
   }
 
   :if ([ :len [ /system/scheduler/find where name="running-from-backup-partition" ] ] > 0) do={
-    $LogPrint warning $ScriptName ("Running from backup partition, refusing to act.");
+    $LogPrint warning $ScriptName ([ $Translate "backup-upload.partition" ]);
     :set PackagesUpdateBackupFailure true;
     :exit;
   }
@@ -79,7 +108,7 @@
   :local Failed 0;
 
   :if ([ $MkDir $DirName ] = false) do={
-    $LogPrint error $ScriptName ("Failed creating directory!");
+    $LogPrint error $ScriptName ([ $Translate "backup-upload.directory" ]);
     :exit;
   }
 
@@ -94,7 +123,7 @@
       :set BackupFile [ /file/get ($FilePath . ".backup") ];
       :set ($BackupFile->"name") ($FileName . ".backup");
     } do={
-      $LogPrint error $ScriptName ("Uploading backup file failed: " . $Err);
+      $LogPrint error $ScriptName ([ $Translate "backup-upload.upload.backup.failed" ({ error=$Err }) ]);
       :set BackupFile "failed";
       :set Failed 1;
     }
@@ -113,7 +142,7 @@
       :set ExportFile [ /file/get ($FilePath . ".rsc") ];
       :set ($ExportFile->"name") ($FileName . ".rsc");
     } do={
-      $LogPrint error $ScriptName ("Uploading configuration export failed: " . $Err);
+      $LogPrint error $ScriptName ([ $Translate "backup-upload.upload.export.failed" ({ error=$Err }) ]);
       :set ExportFile "failed";
       :set Failed 1;
     }
@@ -134,7 +163,7 @@
       :set ConfigFile [ /file/get ($FilePath . ".conf") ];
       :set ($ConfigFile->"name") ($FileName . ".conf");
     } do={
-      $LogPrint error $ScriptName ("Uploading global-config-overlay failed: " . $Err);
+      $LogPrint error $ScriptName ([ $Translate "backup-upload.upload.config.failed" ({ error=$Err }) ]);
       :set ConfigFile "failed";
       :set Failed 1;
     }
@@ -146,26 +175,25 @@
     :local Name $1;
     :local File $2;
 
+    :global Translate;
     :global FormatLine;
     :global HumanReadableNum;
     :global IfThenElse;
 
     :return \
       [ $IfThenElse ([ :typeof $File ] = "array") \
-        ($Name . ":\n" . [ $FormatLine "    name" ($File->"name") ] . "\n" . \
-          [ $FormatLine "    size" ([ $HumanReadableNum ($File->"size") 1024 ] . "B") ]) \
-        [ $FormatLine $Name $File ] ];
+        ($Name . ":\n" . [ $FormatLine [ $Translate "backup-upload.label.name" ] ($File->"name") ] . "\n" . \
+          [ $FormatLine [ $Translate "backup-upload.label.size" ] ([ $HumanReadableNum ($File->"size") 1024 ] . "B") ]) \
+        [ $FormatLine $Name [ $IfThenElse ($File = "none") [ $Translate "backup-upload.none" ] [ $IfThenElse ($File = "failed") [ $Translate "backup-upload.failed" ] $File ] ] ] ];
   }
 
   $SendNotification2 ({ origin=$ScriptName; silent=[ $IfThenElse ($Failed > 0) false true ]; \
     subject=[ $IfThenElse ($Failed > 0) \
-      ([ $SymbolForNotification "floppy-disk,warning-sign" ] . "Backup & Config upload with failure") \
-      ([ $SymbolForNotification "floppy-disk,arrow-up" ] . "Backup & Config upload") ]; \
-    message=("Backup and config export upload for " . $Identity . ".\n\n" . \
-      [ $DeviceInfo ] . "\n\n" . \
-      [ $FileInfo "Backup file" $BackupFile ] . "\n" . \
-      [ $FileInfo "Export file" $ExportFile ] . "\n" . \
-      [ $FileInfo "Config file" $ConfigFile ]) });
+      ([ $SymbolForNotification "floppy-disk,warning-sign" ] . [ $Translate "backup-upload.subject.failed" ]) \
+      ([ $SymbolForNotification "floppy-disk,arrow-up" ] . [ $Translate "backup-upload.subject" ]) ]; \
+    message=([ $Translate "backup-upload.message" ({ identity=$Identity; device=[ $DeviceInfo ]; details=([ $FileInfo [ $Translate "backup-upload.label.backup" ] $BackupFile ] . "\n" . \
+      [ $FileInfo [ $Translate "backup-upload.label.export" ] $ExportFile ] . "\n" . \
+      [ $FileInfo [ $Translate "backup-upload.label.config" ] $ConfigFile ]) }) ]) });
 
   :if ($Failed = 1) do={
     :set PackagesUpdateBackupFailure true;

@@ -1,0 +1,11 @@
+{
+  "language": "es",
+  "messages": {
+    "mode-button-scheduler.scheduler.missing": "El programador no existe.",
+    "mode-button-scheduler.action.missing": "No se ha definido ninguna acción para presionar el botón de modo {count}.",
+    "mode-button-scheduler.syntax": "¡El código para presionar el botón de modo {count} falló en la validación de sintaxis!",
+    "mode-button-scheduler.acting": "Actuando al presionar el botón de modo {count}: {code}",
+    "mode-button-scheduler.failed": "El código para presionar el botón de modo {count} falló con un error de tiempo de ejecución: {error}"
+  },
+  "schema": "573b86779a15979155d7ff480e677e88dbe77a77cbd92ffaba77887856e8af91"
+}

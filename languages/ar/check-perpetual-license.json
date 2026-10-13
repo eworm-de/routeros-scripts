@@ -1,0 +1,16 @@
+{
+  "language": "ar",
+  "messages": {
+    "check-perpetual-license.unsupported": "هذا الجهاز ليس لديه ترخيص دائم.",
+    "check-perpetual-license.expired.log": "انتهت صلاحية الترخيص الخاص بك على {date}!",
+    "check-perpetual-license.expired.subject": "انتهت صلاحية الترخيص!",
+    "check-perpetual-license.expired.message": "انتهت صلاحية ترخيصك على {date}، ولم يعد بإمكانك تحديث RouterOS على {identity}...",
+    "check-perpetual-license.warning.log": "ستنتهي صلاحية ترخيصك في {date}!",
+    "check-perpetual-license.warning.subject": "الترخيص على وشك الانتهاء!",
+    "check-perpetual-license.warning.message": "فشل تجديد ترخيصك وهو على وشك الانتهاء في {date} على {identity}...",
+    "check-perpetual-license.renewed.log": "تم تجديد الترخيص الخاص بك بنجاح.",
+    "check-perpetual-license.renewed.subject": "تم تجديد الترخيص",
+    "check-perpetual-license.renewed.message": "تم تجديد الترخيص الخاص بك بنجاح على {identity}. وهي صالحة الآن حتى {date}."
+  },
+  "schema": "32c55d22d323e366e19b8b016c5e836db00f7a8e885d0410216fa65ead84ab9d"
+}

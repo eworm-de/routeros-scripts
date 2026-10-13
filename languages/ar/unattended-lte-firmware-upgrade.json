@@ -1,0 +1,13 @@
+{
+  "language": "ar",
+  "messages": {
+    "unattended-lte-firmware-upgrade.query.failed": "تعذر الحصول على أحدث إصدار من البرنامج الثابت LTE للواجهة {interface}: {error}",
+    "unattended-lte-firmware-upgrade.scheduling": "جدولة ترقية البرامج الثابتة LTE للواجهة {interface}.",
+    "unattended-lte-firmware-upgrade.finished": "انتهت ترقية البرنامج الثابت LTE على \"{interface}\"، في انتظار إعادة التعيين.",
+    "unattended-lte-firmware-upgrade.different": "لا تزال إصدارات البرامج الثابتة LTE مختلفة. هل فشلت الترقية على أية حال؟",
+    "unattended-lte-firmware-upgrade.failed": "فشلت ترقية البرامج الثابتة LTE على \"{interface}\": {error}",
+    "unattended-lte-firmware-upgrade.current": "تم تحديث البرنامج الثابت LTE على الواجهة {interface}.",
+    "unattended-lte-firmware-upgrade.missing": "لا تتوفر معلومات عن البرامج الثابتة LTE للواجهة {interface}."
+  },
+  "schema": "f231d0e80dd157d0022fa102e5293133b9d7d9cc5d18785151ff81e3434c0c7b"
+}

@@ -1,0 +1,8 @@
+{
+  "language": "ur",
+  "messages": {
+    "ospf-to-leds.on": "OSPF مثال کے طور پر {name} میں {count} پڑوسی ہیں، جس کی قیادت کریں!",
+    "ospf-to-leds.off": "OSPF مثال کے طور پر {name} کا کوئی پڑوسی نہیں ہے، اس کی قیادت کی گئی ہے!"
+  },
+  "schema": "3ae94f59ba09e39d125716de2e5770c50637c8553a2b9dcfe750e4b2f06ecb8e"
+}

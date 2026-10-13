@@ -1,0 +1,13 @@
+{
+  "language": "pt-BR",
+  "messages": {
+    "unattended-lte-firmware-upgrade.query.failed": "Não foi possível obter a versão mais recente do firmware LTE para a interface {interface}: {error}",
+    "unattended-lte-firmware-upgrade.scheduling": "Agendando a atualização do firmware LTE para a interface {interface}.",
+    "unattended-lte-firmware-upgrade.finished": "A atualização do firmware LTE em '{interface}' terminou; aguardando a reinicialização.",
+    "unattended-lte-firmware-upgrade.different": "As versões do firmware LTE ainda são diferentes. A atualização falhou?",
+    "unattended-lte-firmware-upgrade.failed": "Falha na atualização do firmware LTE em '{interface}': {error}",
+    "unattended-lte-firmware-upgrade.current": "O firmware LTE está atualizado na interface {interface}.",
+    "unattended-lte-firmware-upgrade.missing": "Nenhuma informação de firmware LTE disponível para a interface {interface}."
+  },
+  "schema": "f231d0e80dd157d0022fa102e5293133b9d7d9cc5d18785151ff81e3434c0c7b"
+}

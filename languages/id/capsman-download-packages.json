@@ -1,0 +1,10 @@
+{
+  "language": "id",
+  "messages": {
+    "capsman-download-packages.path.undefined": "Jalur paket CAPsMAN tidak ditentukan, tidak dapat mengunduh paket.",
+    "capsman-download-packages.directory.failed": "Gagal membuat direktori di jalur paket CAPsMAN ({path})!",
+    "capsman-download-packages.directory.created": "Direktori dibuat di jalur paket CAPsMAN ({path}). Silakan letakkan paket Anda!",
+    "capsman-download-packages.defaults": "Tidak ada paket yang tersedia, mengunduh set default."
+  },
+  "schema": "59f845c7f49406ecd939f7b0cebfb7f994f70400db30d8b136359720c88ab147"
+}

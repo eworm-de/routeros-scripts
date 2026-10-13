@@ -1,0 +1,9 @@
+{
+  "language": "ar-EG",
+  "messages": {
+    "hotspot-to-wpa-lease.marker.added": "اتضاف إدخال قائمة الوصول المعطل مع التعليق \"--- نقطة الاتصال إلى WPA أعلاه ---\".",
+    "hotspot-to-wpa-lease.template.added": "اتضاف قالب في قائمة الوصول لنقطة الاتصال \"{hotspot}\".",
+    "hotspot-to-wpa-lease.entry.updated": "إضافة/تحديث إدخال قائمة الوصول لعنوان mac {mac} (المستخدم {user})."
+  },
+  "schema": "f78d5db29b04af55a757a12886dca285667ff1378c2d7cd29bc37009f14f5ce8"
+}

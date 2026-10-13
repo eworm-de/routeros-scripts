@@ -1,0 +1,17 @@
+{
+  "language": "zh-CN",
+  "messages": {
+    "backup-cloud.partition": "从备份分区运行，拒绝执行操作。",
+    "backup-cloud.directory": "创建目录失败！",
+    "backup-cloud.subject": "云备份",
+    "backup-cloud.subject.failed": "云备份失败",
+    "backup-cloud.message": "已将 {identity} 的备份上传到云端。\n\n{device}\n\n{details}",
+    "backup-cloud.message.failed": "将 {identity} 的备份上传到云端失败！\n\n{device}",
+    "backup-cloud.upload.failed": "将 {identity} 的备份上传到云端失败！",
+    "backup-cloud.retry": "重试成功，请丢弃之前的连接错误。",
+    "backup-cloud.label.name": "名称",
+    "backup-cloud.label.size": "尺寸",
+    "backup-cloud.label.key": "下载密钥"
+  },
+  "schema": "1d68cb944d178c8731db42b15cc1dc9e76c76322543a57e366c56830ef3b644d"
+}

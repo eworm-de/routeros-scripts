@@ -12,10 +12,27 @@
 # !! This is just a template to generate the real script!
 # !! Pattern '%TEMPL%' is replaced, paths are filtered.
 
+# BEGIN GENERATED LANGUAGE DATA
+# language, name=daily-psk, schema=64d2ff049c113163d9a5b4847306ad5ac276859115f25bfe3d397cc8b24a1ea0
+:global LanguageEnglish;
+:if ([ :typeof $LanguageEnglish ] != "array") do={ :set LanguageEnglish ({}); }
+:set ($LanguageEnglish->"daily-psk.date") "Date";
+:set ($LanguageEnglish->"daily-psk.message") "This is the daily PSK on {identity}:\0A\0A{ssid}\0A{psk}\0A{date}\0A\0AA client device specific rule must not exist!";
+:set ($LanguageEnglish->"daily-psk.sent") "Already sent a mail for SSID {ssid}, skipping.";
+:set ($LanguageEnglish->"daily-psk.subject") "daily PSK {ssid}";
+:set ($LanguageEnglish->"daily-psk.updating") "Updating daily PSK for '{ssid}' to '{psk}' (was '{previous}')";
+:set ($LanguageEnglish->"global-config.not.ready") "Global config and/or functions not ready.";
+:global GlobalNotReadyMessage;
+:if ([ :typeof $GlobalNotReadyMessage ] != "str") do={
+  :set GlobalNotReadyMessage ($LanguageEnglish->"global-config.not.ready");
+}
+# END GENERATED LANGUAGE DATA
+
 :onerror Err {
   :global GlobalConfigReady; :global GlobalFunctionsReady;
+  :global GlobalNotReadyMessage;
   :retry { :if ($GlobalConfigReady != true || $GlobalFunctionsReady != true) \
-      do={ :error ("Global config and/or functions not ready."); }; } delay=500ms max=50;
+      do={ :error $GlobalNotReadyMessage; }; } delay=500ms max=50;
   :local ScriptName [ :jobname ];
 
   :global DailyPskMatchComment;
@@ -24,6 +41,7 @@
 
   :global FormatLine;
   :global LogPrint;
+  :global Translate;
   :global ScriptLock;
   :global SendNotification2;
   :global SymbolForNotification;
@@ -78,7 +96,8 @@
     :local Skip 0;
 
     :if ($NewPsk != $OldPsk) do={
-      $LogPrint info $ScriptName ("Updating daily PSK for '" . $Ssid . "' to '" . $NewPsk . "' (was '" . $OldPsk . "')");
+      $LogPrint info $ScriptName [ $Translate "daily-psk.updating" \
+          ({ ssid=$Ssid; psk=$NewPsk; previous=$OldPsk }) ];
       /caps-man/access-list/set $AccList private-passphrase=$NewPsk;
       /interface/wifi/access-list/set $AccList passphrase=$NewPsk;
       /interface/wireless/access-list/set $AccList private-pre-shared-key=$NewPsk;
@@ -87,17 +106,16 @@
       :if ([ :len [ /interface/wifi/find where configuration.ssid=$Ssid !disabled ] ] > 0) do={
       :if ([ :len [ /interface/wireless/find where name=$IntName !disabled ] ] = 1) do={
         :if ($Seen->$Ssid = 1) do={
-          $LogPrint debug $ScriptName ("Already sent a mail for SSID " . $Ssid . ", skipping.");
+          $LogPrint debug $ScriptName [ $Translate "daily-psk.sent" \
+              ({ ssid=$Ssid }) ];
         } else={
           :local Link ($DailyPskQrCodeUrl . \
               "?scale=8&level=1&ssid=" . [ :convert to=url $Ssid ] . "&pass=" . [ :convert to=url $NewPsk ]);
           $SendNotification2 ({ origin=$ScriptName; silent=true; \
-            subject=([ $SymbolForNotification "calendar" ] . "daily PSK " . $Ssid); \
-            message=("This is the daily PSK on " . $Identity . ":\n\n" . \
-              [ $FormatLine "SSID" $Ssid 8 ] . "\n" . \
-              [ $FormatLine "PSK" $NewPsk 8 ] . "\n" . \
-              [ $FormatLine "Date" $Date 8 ] . "\n\n" . \
-              "A client device specific rule must not exist!"); link=$Link });
+            subject=([ $SymbolForNotification "calendar" ] . [ $Translate "daily-psk.subject" \
+                ({ ssid=$Ssid }) ]); \
+            message=([ $Translate "daily-psk.message" \
+                ({ identity=$Identity; ssid=[ $FormatLine "SSID" $Ssid 8 ]; psk=[ $FormatLine "PSK" $NewPsk 8 ]; date=[ $FormatLine [ $Translate "daily-psk.date" ] $Date 8 ] }) ]); link=$Link });
           :set ($Seen->$Ssid) 1;
         }
       }

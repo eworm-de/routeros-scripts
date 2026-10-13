@@ -1,0 +1,12 @@
+{
+  "language": "ja",
+  "messages": {
+    "notification-signalgrid.offline": "システムが完全に接続されておらず、フラッシュされていません。",
+    "notification-signalgrid.empty": "Signalgrid メッセージをスケジューラーからフラッシュしていますが、キューが空です。",
+    "notification-signalgrid.queue.failed": "キューに登録された Signalgrid 通知の送信に失敗しました: {error}",
+    "notification-signalgrid.certificate.failed": "必要な証明書のダウンロードに失敗しました。",
+    "notification-signalgrid.sending.failed": "Signalgrid 通知の送信に失敗しました: {error} - キュー中...",
+    "notification-signalgrid.queued": "このメッセージは {date} {time} 以降キューに入れられていたため、廃止された可能性があります。"
+  },
+  "schema": "128aca9359451217298096f284f1811957b4079d0693132dbe948f2ced909a78"
+}

@@ -1,0 +1,11 @@
+{
+  "language": "pcm",
+  "messages": {
+    "update-tunnelbroker.certificate.failed": "Dey download wey we need certificate no work.",
+    "update-tunnelbroker.download.failed": "No fit downloading: {error} - {count} retries pending.",
+    "update-tunnelbroker.response.invalid": "No fit send local address to tunnelbroker or response wey we no expect!",
+    "update-tunnelbroker.address.missing": "address {address} no get config on your device. NAT by ISP?",
+    "update-tunnelbroker.updating": "Local address don change; we dey update tunnel config with address: {address}"
+  },
+  "schema": "a1b3554a6dc3737e590e438648393e5c28b297b740eb02023c141abd6fe84d4e"
+}

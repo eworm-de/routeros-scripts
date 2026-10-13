@@ -1,0 +1,12 @@
+{
+  "language": "de",
+  "messages": {
+    "ipsec-to-dns.marker.added": "Deaktivierter statischer DNS-Eintrag mit dem Namen „{name}“ hinzugefügt.",
+    "ipsec-to-dns.peer.exists": "Peer {peer} ({name}) existiert noch. DNS-Eintrag wird nicht gelöscht.",
+    "ipsec-to-dns.peer.gone": "Peer {peer} ({name}) ist verschwunden und hat den DNS-Eintrag gelöscht.",
+    "ipsec-to-dns.current": "Der DNS-Eintrag für {name} muss nicht aktualisiert werden.",
+    "ipsec-to-dns.replacing": "Der DNS-Eintrag für {name} wird ersetzt. Die neue Adresse lautet {address}.",
+    "ipsec-to-dns.adding": "Neuer DNS-Eintrag für {name} hinzugefügt, Adresse ist {address}."
+  },
+  "schema": "ed1c281155d118ad0f626106c929affb97ffffbf416dd87053f0becd389012dc"
+}

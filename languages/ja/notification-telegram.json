@@ -1,0 +1,17 @@
+{
+  "language": "ja",
+  "messages": {
+    "notification-telegram.offline": "システムが完全に接続されておらず、フラッシュされていません。",
+    "notification-telegram.certificate.failed": "必要な証明書のダウンロードに失敗しました。",
+    "notification-telegram.queue.empty": "Telegram メッセージをスケジューラからフラッシュしていますが、キューは空です。",
+    "notification-telegram.queue.failed": "キューに入れられた Telegram メッセージの送信に失敗しました: {error}",
+    "notification-telegram.fetch.failed": "データの取得に失敗しました: {error}",
+    "notification-telegram.message.none": "メッセージは受信されませんでした。",
+    "notification-telegram.chat.id": "チャット ID は: {id}",
+    "notification-telegram.thread.id": "スレッドID: {id}",
+    "notification-telegram.truncated": "メッセージが長すぎるため切り詰められました。切り取られました _{percent}%_!",
+    "notification-telegram.send.failed": "Telegram 通知の送信に失敗しました: {error} - キュー中...",
+    "notification-telegram.queued": "このメッセージは _{date} {time}_ 以降キューに入れられていたため、廃止された可能性があります。"
+  },
+  "schema": "924e559ca736a5da1f8988a245b39db4d85bda9fd5e9d359b1d0b1ba41e16e5d"
+}

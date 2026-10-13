@@ -1,0 +1,16 @@
+{
+  "language": "pcm",
+  "messages": {
+    "backup-partition.copied": "Don copy RouterOS to partition '{name}'.",
+    "backup-partition.copy.failed": "No fit copy RouterOS to partition '{name}': {error}",
+    "backup-partition.partition": "Device dey run from backup partition; we no go do anything.",
+    "backup-partition.unavailable": "Device no get fallback partition.",
+    "backup-partition.inactive": "Device no dey run from active partition.",
+    "backup-partition.fallback.missing": "No inactive partition dey wey get name '{name}'.",
+    "backup-partition.prompt": "Partitions get different RouterOS versions. You wan copy am go '{name}'? [y/N]",
+    "backup-partition.saved": "Don save configuration to partition '{name}'.",
+    "backup-partition.save.failed": "No fit save configuration to partition '{name}': {error}",
+    "backup-partition.running": "Dey run from partition '{name}'!"
+  },
+  "schema": "d37495d3faf22763093e64eb8145eb90d29a006fb0503cc939337741dfd80681"
+}

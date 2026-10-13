@@ -1,0 +1,12 @@
+{
+  "language": "zh-CN",
+  "messages": {
+    "notification-signalgrid.offline": "系统未完全连接，未冲洗。",
+    "notification-signalgrid.empty": "从调度程序中刷新 Signalgrid 消息，但队列为空。",
+    "notification-signalgrid.queue.failed": "发送排队 Signalgrid 通知失败：{error}",
+    "notification-signalgrid.certificate.failed": "下载所需的证书失败。",
+    "notification-signalgrid.sending.failed": "发送 Signalgrid 通知失败：{error} - 正在排队...",
+    "notification-signalgrid.queued": "此消息自 {date} {time} 起排队，可能已过时。"
+  },
+  "schema": "128aca9359451217298096f284f1811957b4079d0693132dbe948f2ced909a78"
+}

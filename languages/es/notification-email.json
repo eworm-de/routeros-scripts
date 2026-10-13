@@ -1,0 +1,21 @@
+{
+  "language": "es",
+  "messages": {
+    "notification-email.from": "{identity} a través de scripts de enrutadores <{address}>",
+    "notification-email.queue.empty": "Eliminando mensajes de correo electrónico del programador, pero la cola está vacía.",
+    "notification-email.checking": "Haciendo comprobaciones iniciales...",
+    "notification-email.scheduler.gone": "El planificador desapareció, abortando.",
+    "notification-email.sending.busy": "El envío de correo está actualmente en curso, no se está descargando.",
+    "notification-email.time.unsynced": "El tiempo no está sincronizado, no se descarga.",
+    "notification-email.dns.failed": "La dirección del servidor es un nombre DNS y la resolución falla, no se vacía.",
+    "notification-email.certificate.failed": "Error al descargar el certificado requerido.",
+    "notification-email.sending": "Enviando...",
+    "notification-email.attach.missing": "El archivo '{file}' no existe, no se puede adjuntar.",
+    "notification-email.send.failed": "Error al enviar correo en cola: {error}",
+    "notification-email.queue.purged": "¿Se eliminó la cola? Saliendo.",
+    "notification-email.retry.waiting": "Esperando un nuevo intento...",
+    "notification-email.truncated": "¡El mensaje era demasiado largo y ha sido truncado!",
+    "notification-email.queuing": "Cola de correo nuevo..."
+  },
+  "schema": "5a6236090c5b7c3f80f50b70e58e9489c8100e4505c9ddc4ee72854e4de47c20"
+}

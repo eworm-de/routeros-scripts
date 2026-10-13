@@ -1,0 +1,16 @@
+{
+  "language": "de",
+  "messages": {
+    "ssh-keys-import.arguments.key": "Fehlende(s) Argument(e), bitte Schlüssel und Benutzer übergeben!",
+    "ssh-keys-import.user.missing": "Benutzer „{user}“ existiert nicht.",
+    "ssh-keys-import.type.unsupported": "SSH-Schlüssel vom Typ „{type}“ wird nicht unterstützt.",
+    "ssh-keys-import.key.exists": "Der öffentliche SSH-Schlüssel (MD5:{fingerprint}) ist bereits für den Benutzer „{user}“ verfügbar.",
+    "ssh-keys-import.directory.failed": "Das Erstellen des Verzeichnisses 'tmpfs/ssh-keys-import' ist fehlgeschlagen!",
+    "ssh-keys-import.imported": "Importierter öffentlicher SSH-Schlüssel ({name}, {type}, MD5:{fingerprint}) für Benutzer „{user}“.",
+    "ssh-keys-import.import.failed": "Fehler beim Importieren des Schlüssels: {error}",
+    "ssh-keys-import.arguments.file": "Fehlende(s) Argument(e), bitte geben Sie Dateinamen und Benutzer ein!",
+    "ssh-keys-import.file.missing": "Datei „{file}“ existiert nicht.",
+    "ssh-keys-import.user.import.failed": "Fehler beim Importieren des Schlüssels für Benutzer „{user}“."
+  },
+  "schema": "54cdcab8a420cb935136ec8a624f3eeceed166b6b96d7dd67b4ef7d0dcd74ea7"
+}

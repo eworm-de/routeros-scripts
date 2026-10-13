@@ -1,0 +1,30 @@
+{
+  "language": "ur",
+  "messages": {
+    "telegram-chat.certificate.failed": "مطلوبہ سرٹیفکیٹ ڈاؤن لوڈ کرنا ناکام ہو گیا۔",
+    "telegram-chat.fetch.failed": "بازیافت ناکام، {count}۔ کوشش کریں: {error}",
+    "telegram-chat.updates.failed": "اپ ڈیٹس حاصل کرنے میں ناکام۔",
+    "telegram-chat.update": "{id}: {update} کو اپ ڈیٹ کریں۔",
+    "telegram-chat.notice": "{id} اپ ڈیٹ کے لیے نوٹس بھیج رہا ہے۔",
+    "telegram-chat.subject": "ٹیلیگرام چیٹ",
+    "telegram-chat.greeting": "ہیلو {name}!\n\n",
+    "telegram-chat.directory.failed": "ڈائرکٹری بنانے میں ناکام!",
+    "telegram-chat.command.running": "{id}: {command} اپ ڈیٹ سے کمانڈ چل رہا ہے۔",
+    "telegram-chat.command.background": "کمانڈ ختم نہیں ہوئی، اب بھی پس منظر میں چل رہی ہے۔\n\n",
+    "telegram-chat.command.failed": "کمانڈ غلطی کے ساتھ ناکام ہو گیا!\n\n",
+    "telegram-chat.command": "حکم:\n{command}\n\n",
+    "telegram-chat.output": "آؤٹ پٹ:\n{output}",
+    "telegram-chat.output.empty": "کوئی آؤٹ پٹ نہیں۔",
+    "telegram-chat.command.syntax": "{id} اپ ڈیٹ کی کمانڈ نحو کی توثیق میں ناکام ہوگئی!",
+    "telegram-chat.command.syntax.message": "کمانڈ نحو کی توثیق میں ناکام!",
+    "telegram-chat.untrusted.message": "آپ پر بھروسہ نہیں ہے۔",
+    "telegram-chat.update.handled": "{id} اپ ڈیٹ کو پہلے سے ہینڈل کیا گیا ہے۔",
+    "telegram-chat.online.passive": "آن لائن، آپ کے حکم کے منتظر!",
+    "telegram-chat.online.active": "آن لائن (اور فعال!)، آپ کے حکم کے منتظر!",
+    "telegram-chat.state.active": "اب {id} اپ ڈیٹ سے فعال!",
+    "telegram-chat.state.passive": "{id} اپ ڈیٹ سے اب غیر فعال!",
+    "telegram-chat.untrusted.unnamed": "{id} اپ ڈیٹ میں صارف نام (ID {contact}) کے بغیر غیر بھروسہ مند رابطے سے پیغام موصول ہوا!",
+    "telegram-chat.untrusted.named": "{id} اپ ڈیٹ میں غیر بھروسہ مند رابطہ '{username}' (ID {contact}) سے ایک پیغام موصول ہوا!"
+  },
+  "schema": "23866b98057d30494867d66d781c3555fc2f373d9af75cb1aac34c965ee3bd54"
+}

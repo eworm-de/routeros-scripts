@@ -1,0 +1,12 @@
+{
+  "language": "ur",
+  "messages": {
+    "ipsec-to-dns.marker.added": "'{name}' نام کے ساتھ غیر فعال جامد ڈی این ایس ریکارڈ شامل کیا گیا۔",
+    "ipsec-to-dns.peer.exists": "پیر {peer} ({name}) اب بھی موجود ہے۔ DNS اندراج کو حذف نہیں کیا جا رہا ہے۔",
+    "ipsec-to-dns.peer.gone": "Peer {peer} ({name}) چلا گیا، DNS اندراج کو حذف کر رہا ہے۔",
+    "ipsec-to-dns.current": "{name} کے لیے DNS اندراج کو اپ ڈیٹ کرنے کی ضرورت نہیں ہے۔",
+    "ipsec-to-dns.replacing": "{name} کے لیے DNS اندراج کی جگہ، نیا پتہ {address} ہے۔",
+    "ipsec-to-dns.adding": "{name} کے لیے نیا DNS اندراج شامل کرنا، پتہ {address} ہے۔"
+  },
+  "schema": "ed1c281155d118ad0f626106c929affb97ffffbf416dd87053f0becd389012dc"
+}

@@ -1,0 +1,13 @@
+{
+  "language": "hi",
+  "messages": {
+    "unattended-lte-firmware-upgrade.query.failed": "इंटरफ़ेस {interface} के लिए नवीनतम LTE फ़र्मवेयर संस्करण प्राप्त नहीं हो सका: {error}",
+    "unattended-lte-firmware-upgrade.scheduling": "इंटरफ़ेस {interface} के लिए शेड्यूलिंग LTE फ़र्मवेयर अपग्रेड।",
+    "unattended-lte-firmware-upgrade.finished": "'{interface}' पर LTE फ़र्मवेयर अपग्रेड समाप्त हो गया है, रीसेट की प्रतीक्षा है।",
+    "unattended-lte-firmware-upgrade.different": "LTE फ़र्मवेयर संस्करण अभी भी भिन्न हैं। अपग्रेड वैसे भी विफल रहा?",
+    "unattended-lte-firmware-upgrade.failed": "'{interface}' पर LTE फर्मवेयर अपग्रेड विफल: {error}",
+    "unattended-lte-firmware-upgrade.current": "LTE फ़र्मवेयर इंटरफ़ेस {interface} पर अद्यतन है।",
+    "unattended-lte-firmware-upgrade.missing": "इंटरफ़ेस {interface} के लिए कोई LTE फ़र्मवेयर जानकारी उपलब्ध नहीं है।"
+  },
+  "schema": "f231d0e80dd157d0022fa102e5293133b9d7d9cc5d18785151ff81e3434c0c7b"
+}

@@ -1,0 +1,11 @@
+{
+  "language": "ar",
+  "messages": {
+    "daily-psk.updating": "تحديث PSK اليومي لـ \"{ssid}\" إلى \"{psk}\" (كان \"{previous}\")",
+    "daily-psk.sent": "تم بالفعل إرسال بريد لـ SSID {ssid}، مع التخطي.",
+    "daily-psk.subject": "يوميا PSK {ssid}",
+    "daily-psk.message": "هذا هو PSK اليومي على {identity}:\n\n{ssid}\n{psk}\n{date}\n\nيجب ألا تكون القاعدة الخاصة بجهاز العميل موجودة!",
+    "daily-psk.date": "التاريخ"
+  },
+  "schema": "64d2ff049c113163d9a5b4847306ad5ac276859115f25bfe3d397cc8b24a1ea0"
+}

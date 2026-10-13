@@ -1,0 +1,10 @@
+{
+  "language": "es",
+  "messages": {
+    "firmware-upgrade-reboot.current": "El firmware actual y actualizado coincide con la versión {version}.",
+    "firmware-upgrade-reboot.downgrade": "Hay una versión de firmware diferente disponible, pero es una degradación. Postergación.",
+    "firmware-upgrade-reboot.upgrade": "La versión de firmware {version} está disponible, actualizándose.",
+    "firmware-upgrade-reboot.reboot": "Actualización de firmware exitosa, reiniciando."
+  },
+  "schema": "6029d1d4da514989c7a64a3ae717c2ca8f5f42f295ad0d203b8343cf7a2944a5"
+}

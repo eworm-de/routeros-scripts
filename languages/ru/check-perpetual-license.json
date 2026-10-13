@@ -1,0 +1,16 @@
+{
+  "language": "ru",
+  "messages": {
+    "check-perpetual-license.unsupported": "Это устройство не имеет бессрочной лицензии.",
+    "check-perpetual-license.expired.log": "Срок действия вашей лицензии истек на {date}!",
+    "check-perpetual-license.expired.subject": "Срок действия лицензии истек!",
+    "check-perpetual-license.expired.message": "Срок действия вашей лицензии истек на {date}, вы больше не можете обновлять RouterOS на {identity}...",
+    "check-perpetual-license.warning.log": "Срок действия вашей лицензии истечет {date}!",
+    "check-perpetual-license.warning.subject": "Срок действия лицензии истекает!",
+    "check-perpetual-license.warning.message": "Ваша лицензия не была продлена, и ее срок действия истекает в {date} в {identity}...",
+    "check-perpetual-license.renewed.log": "Ваша лицензия была успешно продлена.",
+    "check-perpetual-license.renewed.subject": "Лицензия продлена",
+    "check-perpetual-license.renewed.message": "Ваша лицензия была успешно продлена на {identity}. Теперь он действителен до {date}."
+  },
+  "schema": "32c55d22d323e366e19b8b016c5e836db00f7a8e885d0410216fa65ead84ab9d"
+}

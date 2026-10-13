@@ -1,0 +1,12 @@
+{
+  "language": "zh-CN",
+  "messages": {
+    "dhcpv4-server-lease.context.invalid": "该脚本应该从 ip dhcp-server 运行。",
+    "dhcpv4-server-lease.script.running": "运行命令为 {order} 的脚本：{name}",
+    "dhcpv4-server-lease.script.failed": "运行脚本“{name}”失败：{error}",
+    "dhcpv4-server-lease.waiting": "更多调用正在等待，提前退出。",
+    "dhcpv4-server-lease.assigned": "DHCP 服务器 {server} 将租约 {address} 分配给 {mac}",
+    "dhcpv4-server-lease.deassigned": "DHCP 服务器 {server} 取消分配租约 {address} 至 {mac}"
+  },
+  "schema": "e8bd70cbac2cb60d46fce97c5cd6f4d6f35e4039991ffa0fb5fd3e1e1ac986c3"
+}

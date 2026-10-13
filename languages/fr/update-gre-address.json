@@ -1,0 +1,7 @@
+{
+  "language": "fr",
+  "messages": {
+    "update-gre-address.updating": "Mise à jour de l'adresse distante de l'interface {interface} vers {address}"
+  },
+  "schema": "0e2b08c61a2482826cdb76bf0519f2a4e13db3e71eb3bb4644023ef8e6cb4c86"
+}

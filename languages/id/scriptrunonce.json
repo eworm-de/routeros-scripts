@@ -1,0 +1,11 @@
+{
+  "language": "id",
+  "messages": {
+    "scriptrunonce.url.missing": "Skrip '{script}' bukan url dan url dasar tidak tersedia.",
+    "scriptrunonce.fetch.failed": "Gagal mengambil skrip '{script}'!",
+    "scriptrunonce.syntax": "Skrip '{script}' gagal dalam validasi sintaksis!",
+    "scriptrunonce.running": "Menjalankan skrip '{script}' sekarang.",
+    "scriptrunonce.failed": "Skrip '{script}' gagal dijalankan: {error}"
+  },
+  "schema": "60deac34267f7cfb590d500ce671562bfd8cf79337f433f8b350281561a4ae52"
+}

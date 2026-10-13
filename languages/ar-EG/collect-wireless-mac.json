@@ -1,0 +1,25 @@
+{
+  "language": "ar-EG",
+  "messages": {
+    "collect-wireless-mac.marker.added": "اتضاف إدخال قائمة الوصول المعطل مع التعليق \"--- تم جمعه أعلاه ---\".",
+    "collect-wireless-mac.device.gone": "الجهاز قد اختفى بالفعل... جارٍ التجاهل.",
+    "collect-wireless-mac.lease.missing": "مفيش إيجار dhcp",
+    "collect-wireless-mac.hostname.missing": "مفيش اسم مضيف",
+    "collect-wireless-mac.dns.missing": "مفيش اسم نظام أسماء النطاقات",
+    "collect-wireless-mac.first.seen": "عنوان MAC {mac} ({vendor}، {hostname}) شوهد لأول مرة على {date} المتصل بـ SSID {ssid}، الواجهة {interface}",
+    "collect-wireless-mac.subject": "{mac} متصل بـ {ssid}",
+    "collect-wireless-mac.message": "جهاز بعنوان MAC مش معروف متصل بـ {ssid} على {identity}.\n\n",
+    "collect-wireless-mac.mac.missing": "مفيش عنوان mac متاح... جارٍ التجاهل.",
+    "collect-wireless-mac.label.controller": "المراقب المالي",
+    "collect-wireless-mac.label.interface": "واجهة",
+    "collect-wireless-mac.label.ssid": "SSID",
+    "collect-wireless-mac.label.mac": "ماك",
+    "collect-wireless-mac.label.vendor": "بائع",
+    "collect-wireless-mac.label.hostname": "اسم المضيف",
+    "collect-wireless-mac.label.address": "العنوان",
+    "collect-wireless-mac.label.dns": "اسم DNS",
+    "collect-wireless-mac.label.date": "التاريخ",
+    "collect-wireless-mac.known": "عنوان MAC {mac} معروف بالفعل: {comment}"
+  },
+  "schema": "70ad56ad671ad178315877f3d03eaddd505e04060e94d4c635cd2ebab32adee9"
+}

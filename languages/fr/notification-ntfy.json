@@ -1,0 +1,12 @@
+{
+  "language": "fr",
+  "messages": {
+    "notification-ntfy.offline": "Le système n’est pas entièrement connecté et ne se rince pas.",
+    "notification-ntfy.queue.empty": "Vidage des messages Ntfy du planificateur, mais la file d'attente est vide.",
+    "notification-ntfy.queue.failed": "Échec de l'envoi du message Ntfy en file d'attente : {error}",
+    "notification-ntfy.send.failed": "Échec de l'envoi de la notification ntfy : {error} - Mise en file d'attente...",
+    "notification-ntfy.certificate.failed": "Le téléchargement du certificat requis a échoué.",
+    "notification-ntfy.queued": "Ce message a été mis en file d'attente depuis {date} {time} et est peut-être obsolète."
+  },
+  "schema": "6734a9715e6b789bb7ff475fdc9f2b11391a7dcbd94aaef3413d695b035d493e"
+}

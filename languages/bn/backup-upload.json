@@ -1,0 +1,22 @@
+{
+  "language": "bn",
+  "messages": {
+    "backup-upload.partition": "ব্যাকআপ পার্টিশন থেকে দৌড়াচ্ছে, কাজ করতে অস্বীকার করছে।",
+    "backup-upload.directory": "ডিরেক্টরি তৈরি করতে ব্যর্থ হয়েছে!",
+    "backup-upload.options": "ব্যাকআপ বা কনফিগার এক্সপোর্ট পাঠাতে কনফিগার করা হয়েছে।",
+    "backup-upload.none": "কোনটি",
+    "backup-upload.label.backup": "ব্যাকআপ ফাইল",
+    "backup-upload.label.export": "ফাইল রপ্তানি করুন",
+    "backup-upload.label.config": "কনফিগারেশন ফাইল",
+    "backup-upload.upload.backup.failed": "ব্যাকআপ ফাইল আপলোড ব্যর্থ হয়েছে: {error}",
+    "backup-upload.upload.export.failed": "আপলোড কনফিগারেশন এক্সপোর্ট ব্যর্থ হয়েছে: {error}",
+    "backup-upload.upload.config.failed": "global-config-overlay আপলোড করা ব্যর্থ হয়েছে: {error}৷",
+    "backup-upload.subject": "ব্যাকআপ এবং কনফিগার আপলোড",
+    "backup-upload.subject.failed": "ব্যাকআপ এবং কনফিগার ব্যর্থতার সাথে আপলোড",
+    "backup-upload.message": "{identity} এর জন্য ব্যাকআপ এবং কনফিগার এক্সপোর্ট আপলোড।\n\n{device}\n\n{details}",
+    "backup-upload.failed": "ব্যর্থ",
+    "backup-upload.label.name": "    নাম",
+    "backup-upload.label.size": "    আকার"
+  },
+  "schema": "ac3b0aa1324d76ce3ef1515ba46a556bd27200aeea4ad75af6d1e26fd41bf67d"
+}

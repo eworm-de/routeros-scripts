@@ -1,0 +1,21 @@
+{
+  "language": "ur",
+  "messages": {
+    "notification-email.from": "{identity} بذریعہ routeros-scripts <{address}>",
+    "notification-email.queue.empty": "شیڈولر سے ای میل پیغامات کو فلش کیا جا رہا ہے، لیکن قطار خالی ہے۔",
+    "notification-email.checking": "ابتدائی جانچ پڑتال کر رہے ہیں...",
+    "notification-email.scheduler.gone": "شیڈولر ختم ہو گیا ہے",
+    "notification-email.sending.busy": "میل بھیجنا فی الحال جاری ہے، فلش نہیں ہو رہا ہے۔",
+    "notification-email.time.unsynced": "وقت مطابقت پذیر نہیں ہے، فلش نہیں ہے.",
+    "notification-email.dns.failed": "سرور ایڈریس ایک DNS نام ہے اور حل کرنا ناکام ہو جاتا ہے، فلشنگ نہیں۔",
+    "notification-email.certificate.failed": "مطلوبہ سرٹیفکیٹ ڈاؤن لوڈ کرنا ناکام ہو گیا۔",
+    "notification-email.sending": "بھیج رہا ہے...",
+    "notification-email.attach.missing": "فائل '{file}' موجود نہیں ہے، منسلک نہیں ہو سکتی۔",
+    "notification-email.send.failed": "قطار میں لگی میل بھیجنا ناکام ہو گیا: {error}",
+    "notification-email.queue.purged": "قطار صاف کیا گیا تھا؟ باہر نکلنا۔",
+    "notification-email.retry.waiting": "دوبارہ کوشش کا انتظار ہے...",
+    "notification-email.truncated": "پیغام بہت لمبا تھا اور اسے چھوٹا کر دیا گیا ہے!",
+    "notification-email.queuing": "نئی میل کی قطار لگائی جا رہی ہے..."
+  },
+  "schema": "5a6236090c5b7c3f80f50b70e58e9489c8100e4505c9ddc4ee72854e4de47c20"
+}

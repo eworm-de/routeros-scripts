@@ -1,0 +1,12 @@
+{
+  "language": "ar-EG",
+  "messages": {
+    "log-forward.limited": "الحد الأقصى للسعر قيد التنفيذ، وعدم إعادة توجيه السجلات، إن وجدت!",
+    "log-forward.subject": "إعادة توجيه السجل",
+    "log-forward.duplicates": " تم تخطي الرسائل المتعددة المتكررة.",
+    "log-forward.delaying": "\nالحد الأقصى للسعر قيد التنفيذ، مما يؤدي إلى تأخير إعادة التوجيه.",
+    "log-forward.message.single": "يحتوي السجل الموجود على {identity} على الرسالة دي بعد وقت تشغيل {uptime}.{duplicates}{delay}\n{messages}",
+    "log-forward.message.multiple": "يحتوي السجل الموجود على {identity} على رسائل {count} هذه بعد وقت تشغيل {uptime}.{duplicates}{delay}\n{messages}"
+  },
+  "schema": "295a2441ccf8e06593a7eedcf16e2ac316badd8c4111d4dab8823ac3b329473c"
+}

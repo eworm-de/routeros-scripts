@@ -1,0 +1,18 @@
+{
+  "language": "ur",
+  "messages": {
+    "backup-email.partition": "بیک اپ پارٹیشن سے بھاگنا، عمل کرنے سے انکار کرنا۔",
+    "backup-email.directory": "ڈائرکٹری بنانے میں ناکام!",
+    "backup-email.options": "نہ تو بیک اپ اور نہ ہی کنفگ ایکسپورٹ بھیجنے کے لیے کنفیگر کیا گیا۔",
+    "backup-email.none": "کوئی نہیں",
+    "backup-email.label.backup": "بیک اپ فائل",
+    "backup-email.label.export": "فائل برآمد کریں۔",
+    "backup-email.label.config": "کنفگ فائل",
+    "backup-email.email.unavailable": "ای میل کے ذریعے اطلاعات بھیجنے کا ماڈیول انسٹال نہیں ہے۔",
+    "backup-email.email.failed": "فائلیں اب بھی دستیاب ہیں، ای میل بھیجنا ناکام ہو گیا۔",
+    "backup-email.subject": "بیک اپ اور ترتیب",
+    "backup-email.message": "{identity} کے لیے بیک اپ اور کنفیگریشن ایکسپورٹ کے لیے منسلک فائلیں دیکھیں۔\n\n{device}\n\n{details}",
+    "backup-email.files.available": "فائلیں اب بھی دستیاب ہیں۔"
+  },
+  "schema": "d64d6ec60b1db0d5105ecd3ee2f9ce710886b1860f5d2ef971c4aa2adcdf6722"
+}

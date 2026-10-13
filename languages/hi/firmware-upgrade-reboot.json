@@ -1,0 +1,10 @@
+{
+  "language": "hi",
+  "messages": {
+    "firmware-upgrade-reboot.current": "वर्तमान और अपग्रेड फ़र्मवेयर संस्करण {version} से मेल खाते हैं।",
+    "firmware-upgrade-reboot.downgrade": "भिन्न फ़र्मवेयर संस्करण उपलब्ध है, लेकिन यह एक डाउनग्रेड है। नजरअंदाज करना.",
+    "firmware-upgrade-reboot.upgrade": "अपग्रेड करते हुए फर्मवेयर संस्करण {version} उपलब्ध है।",
+    "firmware-upgrade-reboot.reboot": "फ़र्मवेयर अपग्रेड सफल, रीबूट हो रहा है।"
+  },
+  "schema": "6029d1d4da514989c7a64a3ae717c2ca8f5f42f295ad0d203b8343cf7a2944a5"
+}

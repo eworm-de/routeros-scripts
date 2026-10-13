@@ -1,0 +1,9 @@
+{
+  "language": "hi",
+  "messages": {
+    "sms-action.context": "यह स्क्रिप्ट एक्शन=... के साथ एसएमएस हुक से चलने वाली है।",
+    "sms-action.running": "एसएमएस कार्रवाई '{action}' पर कार्रवाई: {code}",
+    "sms-action.syntax": "कार्रवाई के लिए कोड '{action}' सिंटैक्स सत्यापन विफल रहा!"
+  },
+  "schema": "91ff5010d0d869687a0bb1c0989668afd4c77fed76f0d8728bca83f00940d48e"
+}

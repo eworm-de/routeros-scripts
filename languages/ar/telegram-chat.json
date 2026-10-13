@@ -1,0 +1,30 @@
+{
+  "language": "ar",
+  "messages": {
+    "telegram-chat.certificate.failed": "فشل تنزيل الشهادة المطلوبة.",
+    "telegram-chat.fetch.failed": "فشل الجلب، {count}. حاول: {error}",
+    "telegram-chat.updates.failed": "فشل الحصول على التحديثات.",
+    "telegram-chat.update": "تحديث {id}: {update}",
+    "telegram-chat.notice": "إرسال إشعار للتحديث {id}.",
+    "telegram-chat.subject": "دردشة برقية",
+    "telegram-chat.greeting": "مرحبًا {name}!\n\n",
+    "telegram-chat.directory.failed": "فشل إنشاء الدليل!",
+    "telegram-chat.command.running": "تشغيل الأمر من التحديث {id}: {command}",
+    "telegram-chat.command.background": "لم ينته الأمر، ولا يزال قيد التشغيل في الخلفية.\n\n",
+    "telegram-chat.command.failed": "فشل الأمر مع وجود خطأ!\n\n",
+    "telegram-chat.command": "الأمر:\n{command}\n\n",
+    "telegram-chat.output": "الإخراج:\n{output}",
+    "telegram-chat.output.empty": "لا يوجد إخراج.",
+    "telegram-chat.command.syntax": "فشل الأمر من التحديث {id} في التحقق من صحة بناء الجملة!",
+    "telegram-chat.command.syntax.message": "فشل الأمر في التحقق من صحة بناء الجملة!",
+    "telegram-chat.untrusted.message": "أنت غير موثوق.",
+    "telegram-chat.update.handled": "تمت معالجة التحديث {id} بالفعل.",
+    "telegram-chat.online.passive": "على الانترنت، في انتظار الأوامر الخاصة بك!",
+    "telegram-chat.online.active": "متصل بالإنترنت (ونشط!)، في انتظار أوامرك!",
+    "telegram-chat.state.active": "نشط الآن من التحديث {id}!",
+    "telegram-chat.state.passive": "الآن سلبي من التحديث {id}!",
+    "telegram-chat.untrusted.unnamed": "تم تلقي رسالة من جهة اتصال غير موثوقة بدون اسم مستخدم (المعرف {contact}) في التحديث {id}!",
+    "telegram-chat.untrusted.named": "تم تلقي رسالة من جهة اتصال غير موثوقة '{username}' (المعرف {contact}) في التحديث {id}!"
+  },
+  "schema": "23866b98057d30494867d66d781c3555fc2f373d9af75cb1aac34c965ee3bd54"
+}

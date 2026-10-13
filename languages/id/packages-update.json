@@ -1,0 +1,26 @@
+{
+  "language": "id",
+  "messages": {
+    "packages-update.scheduler.exists": "Penjadwal untuk reboot sudah ada.",
+    "packages-update.scheduled": "Reboot terjadwal untuk pembaruan pada {time} waktu setempat ({timezone}).",
+    "packages-update.license.expired": "Lisensi telah habis masa berlakunya, peningkatan versi diblokir.",
+    "packages-update.backup.partition": "Berjalan dari partisi cadangan, menolak untuk bertindak.",
+    "packages-update.version.unknown": "Versi terbaru tidak diketahui.",
+    "packages-update.version.installed": "Versi {version} sudah diinstal.",
+    "packages-update.backup.running": "Menjalankan skrip cadangan {name} sebelum pembaruan.",
+    "packages-update.backup.failed": "Menjalankan skrip cadangan {name} sebelum pembaruan gagal!",
+    "packages-update.continue.prompt": "Apakah Anda tetap ingin melanjutkan? [y/N]",
+    "packages-update.continue": "Pengguna tetap meminta untuk melanjutkan.",
+    "packages-update.canceled.update": "Pembaruan dibatalkan...",
+    "packages-update.canceled.noninteractive": "Membatalkan pembaruan non-interaktif.",
+    "packages-update.downgrade.prompt": "Versi terbaru lebih tua dari versi yang diinstal. Ingin menurunkan versi? [y/N]",
+    "packages-update.canceled": "Dibatalkan...",
+    "packages-update.downgrade.refused": "Tidak menginstal downgrade secara otomatis.",
+    "packages-update.download.failed": "Pengunduhan paket {name} gagal, pembaruan dibatalkan.",
+    "packages-update.downgrade.reboot": "Mem-boot ulang untuk menurunkan versi.",
+    "packages-update.reboot.prompt": "Ingin menjadwalkan reboot (s) atau reboot sekarang (r)? [s/R]",
+    "packages-update.update.reboot": "Mem-boot ulang untuk pembaruan.",
+    "packages-update.scheduled.deferred": "Reboot terjadwal untuk pembaruan pada {time} waktu setempat ({timezone}) ditunda hingga {interval}."
+  },
+  "schema": "77f3f83454477a8d375bfb399dd18ea210e50ceaf290213460a2f613ac47abd1"
+}

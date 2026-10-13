@@ -10,6 +10,22 @@
 # send notifications via Gotify (gotify.net)
 # https://rsc.eworm.de/doc/mod/notification-gotify.md
 
+# BEGIN GENERATED LANGUAGE DATA
+# language, name=notification-gotify, schema=3ca0bb174dd4fcbe639af5145d66a280408096f7c34f9d1dd0565c5061427859
+:global LanguageEnglish;
+:if ([ :typeof $LanguageEnglish ] != "array") do={ :set LanguageEnglish ({}); }
+:set ($LanguageEnglish->"notification-gotify.offline") "System is not fully connected, not flushing.";
+:set ($LanguageEnglish->"notification-gotify.queue.empty") "Flushing Gotify messages from scheduler, but queue is empty.";
+:set ($LanguageEnglish->"notification-gotify.queue.failed") "Sending queued Gotify message failed: {error}";
+:set ($LanguageEnglish->"notification-gotify.queued") "This message was queued since {date} {time} and may be obsolete.";
+:set ($LanguageEnglish->"notification-gotify.send.failed") "Failed sending Gotify notification: {error} - Queuing...";
+:set ($LanguageEnglish->"global-config.not.ready") "Global config and/or functions not ready.";
+:global GlobalNotReadyMessage;
+:if ([ :typeof $GlobalNotReadyMessage ] != "str") do={
+  :set GlobalNotReadyMessage ($LanguageEnglish->"global-config.not.ready");
+}
+# END GENERATED LANGUAGE DATA
+
 :global FlushGotifyQueue;
 :global NotificationFunctions;
 :global PurgeGotifyQueue;
@@ -22,9 +38,10 @@
 
   :global IsFullyConnected;
   :global LogPrint;
+  :global Translate;
 
   :if ([ $IsFullyConnected ] = false) do={
-    $LogPrint debug $0 ("System is not fully connected, not flushing.");
+    $LogPrint debug $0 [ $Translate "notification-gotify.offline" ];
     :return false;
   }
 
@@ -32,7 +49,7 @@
   :local QueueLen [ :len $GotifyQueue ];
 
   :if ([ :len [ /system/scheduler/find where name="_FlushGotifyQueue" ] ] > 0 && $QueueLen = 0) do={
-    $LogPrint warning $0 ("Flushing Gotify messages from scheduler, but queue is empty.");
+    $LogPrint warning $0 [ $Translate "notification-gotify.queue.empty" ];
   }
 
   :foreach Id,Message in=$GotifyQueue do={
@@ -43,7 +60,8 @@
           ($Message->"url") as-value;
         :set ($GotifyQueue->$Id);
       } do={
-        $LogPrint debug $0 ("Sending queued Gotify message failed: " . $Err);
+        $LogPrint debug $0 [ $Translate "notification-gotify.queue.failed" \
+            ({ error=$Err }) ];
         :set AllDone false;
       }
     }
@@ -73,6 +91,7 @@
   :global FetchUserAgentStr;
   :global IfThenElse;
   :global LogPrint;
+  :global Translate;
   :global SymbolForNotification;
 
   :local Server [ $EitherOr ($GotifyServerOverride->($Notification->"origin")) $GotifyServer ];
@@ -95,14 +114,15 @@
     /tool/fetch check-certificate=yes-without-crl output=none http-method=post \
       http-header-field=$Headers http-data=[ :serialize to=json $Message ] $Url as-value;
   } do={
-    $LogPrint info $0 ("Failed sending Gotify notification: " . $Err . " - Queuing...");
+    $LogPrint info $0 [ $Translate "notification-gotify.send.failed" \
+        ({ error=$Err }) ];
 
     :if ([ :typeof $GotifyQueue ] = "nothing") do={
       :set GotifyQueue ({});
     }
     :set ($Message->"message") (($Notification->"message") . "\n" . \
-      [ $SymbolForNotification "alarm-clock" ] . "This message was queued since " . \
-      [ /system/clock/get date ] . " " . [ /system/clock/get time ] . " and may be obsolete.");
+      [ $SymbolForNotification "alarm-clock" ] . [ $Translate "notification-gotify.queued" \
+          ({ date=[ /system/clock/get date ]; time=[ /system/clock/get time ] }) ]);
     :set ($GotifyQueue->[ :len $GotifyQueue ]) \
       { url=$Url; headers=$Headers; message=$Message };
     :if ([ :len [ /system/scheduler/find where name="_FlushGotifyQueue" ] ] = 0) do={

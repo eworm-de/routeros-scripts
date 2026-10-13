@@ -1,0 +1,26 @@
+{
+  "language": "zh-CN",
+  "messages": {
+    "packages-update.scheduler.exists": "用于重新启动的调度程序已存在。",
+    "packages-update.scheduled": "计划在 {time} 当地时间 ({timezone}) 重新启动以进行更新。",
+    "packages-update.license.expired": "许可证已过期，升级被阻止。",
+    "packages-update.backup.partition": "从备份分区运行，拒绝执行操作。",
+    "packages-update.version.unknown": "最新版本未知。",
+    "packages-update.version.installed": "版本 {version} 已安装。",
+    "packages-update.backup.running": "更新前运行备份脚本 {name}。",
+    "packages-update.backup.failed": "更新前运行备份脚本{name}失败！",
+    "packages-update.continue.prompt": "您还想继续吗？ [y/N]",
+    "packages-update.continue": "用户仍然请求继续。",
+    "packages-update.canceled.update": "取消更新...",
+    "packages-update.canceled.noninteractive": "取消非交互式更新。",
+    "packages-update.downgrade.prompt": "最新版本比已安装的版本旧。想降级吗？ [y/N]",
+    "packages-update.canceled": "取消...",
+    "packages-update.downgrade.refused": "不自动安装降级。",
+    "packages-update.download.failed": "下载 {name} 软件包失败，更新中止。",
+    "packages-update.downgrade.reboot": "重新启动以降级。",
+    "packages-update.reboot.prompt": "您想安排重启 (s)，还是立即重启 (r)？ [s/R]",
+    "packages-update.update.reboot": "重新启动以进行更新。",
+    "packages-update.scheduled.deferred": "计划在 {time} 本地时间 ({timezone}) 重新启动更新，被 {interval} 推迟。"
+  },
+  "schema": "77f3f83454477a8d375bfb399dd18ea210e50ceaf290213460a2f613ac47abd1"
+}

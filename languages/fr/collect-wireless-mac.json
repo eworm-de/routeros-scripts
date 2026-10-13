@@ -1,0 +1,25 @@
+{
+  "language": "fr",
+  "messages": {
+    "collect-wireless-mac.marker.added": "Ajout d'une entrée de liste d'accès désactivée avec le commentaire '--- collecté ci-dessus ---'.",
+    "collect-wireless-mac.device.gone": "Appareil déjà parti... Ignorant.",
+    "collect-wireless-mac.lease.missing": "pas de bail DHCP",
+    "collect-wireless-mac.hostname.missing": "pas de nom d'hôte",
+    "collect-wireless-mac.dns.missing": "pas de nom DNS",
+    "collect-wireless-mac.first.seen": "Adresse MAC {mac} ({vendor}, {hostname}) vue pour la première fois sur {date} connectée au SSID {ssid}, interface {interface}",
+    "collect-wireless-mac.subject": "{mac} connecté à {ssid}",
+    "collect-wireless-mac.message": "Un appareil avec une adresse MAC inconnue connecté à {ssid} sur {identity}.\n\n",
+    "collect-wireless-mac.mac.missing": "Aucune adresse Mac disponible... Ignorant.",
+    "collect-wireless-mac.label.controller": "Contrôleur",
+    "collect-wireless-mac.label.interface": "Interface",
+    "collect-wireless-mac.label.ssid": "SSID",
+    "collect-wireless-mac.label.mac": "MAC",
+    "collect-wireless-mac.label.vendor": "Vendeur",
+    "collect-wireless-mac.label.hostname": "Nom d'hôte",
+    "collect-wireless-mac.label.address": "Adresse",
+    "collect-wireless-mac.label.dns": "Nom DNS",
+    "collect-wireless-mac.label.date": "Date",
+    "collect-wireless-mac.known": "Adresse MAC {mac} déjà connue : {comment}"
+  },
+  "schema": "70ad56ad671ad178315877f3d03eaddd505e04060e94d4c635cd2ebab32adee9"
+}
