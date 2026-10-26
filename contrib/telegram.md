@@ -177,7 +177,7 @@ Notes
 
 #### telegram-chat
 
-    /save telegram-chat Chat with [telegram-chat](https://rsc.eworm.de/doc/telegram-chat.md).
+    /save telegram-chat Chat with your Mikrotik device and send commands via [telegram-chat](https://rsc.eworm.de/doc/telegram-chat.md).
 
 #### unattended-lte-firmware-upgrade
 
