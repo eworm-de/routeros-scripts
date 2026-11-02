@@ -37,16 +37,12 @@
     }
   }
 
-  :foreach Client in=[ /interface/wifi/registration-table/find where comment~"^hotspot-to-wpa:" ] do={
-    :local ClientVal [ /interface/wifi/registration-table/get $Client ];
-    :foreach Lease in=[ /ip/dhcp-server/lease/find where dynamic \
-        mac-address=($ClientVal->"mac-address") ] do={
-      :if (($DHCPServers->[ /ip/dhcp-server/lease/get $Lease server ]) > 0s) do={
-        $LogPrint info $ScriptName ("Client with mac address " . ($ClientVal->"mac-address") . \
-          " connected to WPA, making lease static.");
-        /ip/dhcp-server/lease/make-static $Lease;
-        /ip/dhcp-server/lease/set comment=($ClientVal->"comment") $Lease;
-      }
+  :foreach Lease in=[ /ip/dhcp-server/lease/find where dynamic comment~"^hotspot-to-wpa:" ] do={
+    :local LeaseVal [ /ip/dhcp-server/lease/get $Lease ];
+    :if (($DHCPServers->($LeaseVal->"server")) > 0s) do={
+      $LogPrint info $ScriptName ("Client with mac address " . $LeaseVal->"mac-address" . \
+        " connected to WPA, making lease static.");
+      /ip/dhcp-server/lease/make-static $Lease;
     }
   }
 
