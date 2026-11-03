@@ -42,7 +42,7 @@
     :local LeaseVal [ /ip/dhcp-server/lease/get $Lease ];
     :if (($DHCPServers->($LeaseVal->"server")) > 0s) do={
       $LogPrint info $ScriptName ("Client with mac address " . $LeaseVal->"mac-address" . \
-        " connected to WPA, making lease static.");
+        " connected to WPA (" . $LeaseVal->"server" . "), making lease static.");
       /ip/dhcp-server/lease/make-static $Lease;
     }
   }
