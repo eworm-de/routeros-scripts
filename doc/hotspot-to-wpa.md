@@ -52,12 +52,12 @@ and add a scheduler.
 
 For `wifi`:
 
-    $ScriptInstallUpdate hotspot-to-wpa-cleanup.wifi;
+    $ScriptInstallUpdate dhcp-lease-comment.wifi,hotspot-to-wpa-cleanup.wifi;
     /system/scheduler/add interval=1d name="hotspot-to-wpa-cleanup" on-event="/system/script/run hotspot-to-wpa-cleanup.wifi;" start-time=startup;
 
 For legacy CAPsMAN:
 
-    $ScriptInstallUpdate hotspot-to-wpa-cleanup.capsman;
+    $ScriptInstallUpdate dhcp-lease-comment.capsman,hotspot-to-wpa-cleanup.capsman;
     /system/scheduler/add interval=1d name="hotspot-to-wpa-cleanup" on-event="/system/script/run hotspot-to-wpa-cleanup.capsman;" start-time=startup;
 
 And add the lease script and matcher comment to your wpa interfaces' dhcp
@@ -120,6 +120,7 @@ passphrase from hotspot credentials.
 See also
 --------
 
+* [Comment DHCP leases with info from access list](dhcp-lease-comment.md)
 * [Run other scripts on IPv4 DHCP server lease](dhcpv4-server-lease.md)
 
 ---
