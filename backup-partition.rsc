@@ -41,6 +41,10 @@
     :return true;
   }
 
+  :local VersionFromString do={
+    :return ([ :toarray delimiter=" " $1 ]->1);
+  }
+
   :if ([ $ScriptLock $ScriptName ] = false) do={
     :set PackagesUpdateBackupFailure true;
     :exit;
@@ -91,7 +95,10 @@
       }
 
       :if ([ $ScriptFromTerminal $ScriptName ] = true) do={
-        :put ("The partitions have different RouterOS versions. Copy over to '" . ($FallbackToVal->"name") . "'? [y/N]");
+        :put ("The partitions have different RouterOS versions (" . \
+            [ $VersionFromString ($FallbackToVal->"version") ] . " vs. " . \
+            [ $VersionFromString ($ActiveRunningVal->"version") ] . "). Copy over to '" . \
+            ($FallbackToVal->"name") . "'? [y/N]");
         :if (([ /terminal/inkey timeout=60 ] % 32) = 25) do={
           :if ([ $CopyTo $ScriptName $FallbackTo ($FallbackToVal->"name") ] = false) do={
             :set PackagesUpdateBackupFailure true;
