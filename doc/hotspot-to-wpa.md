@@ -37,7 +37,7 @@ For `wifi`:
 
 For legacy CAPsMAN:
 
-    $ScriptInstallUpdate hotspot-to-wpa.wifi,hotspot-to-wpa-lease.capsman,dhcpv4-server-lease;
+    $ScriptInstallUpdate hotspot-to-wpa.capsman,hotspot-to-wpa-lease.capsman,dhcpv4-server-lease;
     /ip/hotspot/user/profile/set on-login="hotspot-to-wpa.capsman" [ find ];
 
 Finally ad add the lease script your hotspot interfaces' dhcp server.
