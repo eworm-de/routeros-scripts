@@ -12,14 +12,27 @@
 
 :global BridgePortVlan do={ :onerror Err {
   :local ConfigTo [ :tostr $1 ];
+  :local DownTime [ :totime $2 ];
 
   :global IfThenElse;
   :global LogPrint;
   :global ParseKeyValueStore;
 
+  :local Clock [ /system/clock/get ];
+  :local Now [ :totime (($Clock->"date") . " " . ($Clock->"time")) ];
+
   :local InterfaceReEnable ({});
   :foreach BridgePort in=[ /interface/bridge/port/find where comment ] do={
     :local BridgePortVal [ /interface/bridge/port/get $BridgePort ];
+
+    :if ($DownTime > 0s) do={
+      :local InterfaceVal [ /interface/get ($BridgePortVal->"interface") ];
+      :if ($InterfaceVal->"running" = true || $Now - [ :totime ($InterfaceVal->"last-link-down-time") ] < $DownTime) do={
+        $LogPrint debug $0 ("The interface " . $BridgePortVal->"interface" . " is up or expected down time not met, skipping.");
+        :continue;
+      }
+    }
+
     :foreach Config,Vlan in=[ $ParseKeyValueStore ($BridgePortVal->"comment") ] do={
       :if ($Config = $ConfigTo) do={
         :local DHCPClient [ /ip/dhcp-client/find where interface=$BridgePortVal->"interface" comment="toggle with bridge port" ];
