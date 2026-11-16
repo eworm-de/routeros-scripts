@@ -18,7 +18,7 @@
   :global ParseKeyValueStore;
 
   :local InterfaceReEnable ({});
-  :foreach BridgePort in=[ /interface/bridge/port/find where !(comment=[]) ] do={
+  :foreach BridgePort in=[ /interface/bridge/port/find where comment) ] do={
     :local BridgePortVal [ /interface/bridge/port/get $BridgePort ];
     :foreach Config,BridgeDefault in=[ $ParseKeyValueStore ($BridgePortVal->"comment") ] do={
       :if ($Config = $BridgePortTo) do={
