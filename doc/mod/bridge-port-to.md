@@ -39,10 +39,18 @@ Also dhcp client can be handled:
 
     /ip/dhcp-client/add comment="toggle with bridge port" disabled=no interface=en1;
 
-Add a scheduler to start with default setup on system startup:
+Add a scheduler to start nightly, preparing the configuration for next day:
+
+    /system/scheduler/add name="bridge-port-to" on-event=":global BridgePortTo; \$BridgePortTo default;" start-time=03:00:00 interval=1d;
+
+Or add a scheduler to start with default setup on system startup:
 
     $ScriptInstallUpdate global-wait;
-    /system/scheduler/add name=bridge-port-to on-event="/system/script/run global-wait; :global BridgePortTo; \$BridgePortTo default;" start-time=startup;
+    /system/scheduler/add name="bridge-port-to@startup" on-event="/system/script/run global-wait; :global BridgePortTo; \$BridgePortTo default;" start-time=startup;
+
+Just acting on interfaces not *running* is possible as well with this scheduler:
+
+    /system/scheduler/add name="bridge-port-to" on-event=":global BridgePortTo; \$BridgePortTo default 5m;" interval=5m;
 
 Usage and invocation
 --------------------
@@ -76,6 +84,12 @@ configuration:
 
 * Interfaces `en1` and `en2` are unchanged.
 * Interface `en3` is put in bridge `br-intern`.
+
+Giving an optional time value as second parameter is possible. A port is
+only handled if its interface is down (not *running*) for at least the
+given time:
+
+    $BridgePortTo default 5m;
 
 See also
 --------

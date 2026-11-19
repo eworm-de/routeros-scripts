@@ -44,10 +44,18 @@ Also dhcp client can be handled:
 
     /ip/dhcp-client/add comment="toggle with bridge port" disabled=no interface=en1;
 
-Add a scheduler to start with default setup on system startup:
+Add a scheduler to start nightly, preparing the configuration for next day:
+
+    /system/scheduler/add name="bridge-port-vlan" on-event=":global BridgePortVlan; \$BridgePortVlan default;" start-time=03:00:00 interval=1d;
+
+Or add a scheduler to start with default setup on system startup:
 
     $ScriptInstallUpdate global-wait;
-    /system/scheduler/add name=bridge-port-vlan on-event="/system/script/run global-wait; :global BridgePortVlan; \$BridgePortVlan default;" start-time=startup;
+    /system/scheduler/add name="bridge-port-vlan@startup" on-event="/system/script/run global-wait; :global BridgePortVlan; \$BridgePortVlan default;" start-time=startup;
+
+Just acting on interfaces not *running* is possible as well with this scheduler:
+
+    /system/scheduler/add name="bridge-port-vlan" on-event=":global BridgePortVlan; \$BridgePortVlan default 5m;" interval=5m;
 
 Usage and invocation
 --------------------
@@ -80,6 +88,12 @@ configuration:
 * Interface `en1` is unchanged.
 * Primary VLAN `extra` (via its ID `30`) is configured on `en2`.
 * Primary VLAN `extra` (ID `30`) is configured on `en3`.
+
+Giving an optional time value as second parameter is possible. A port is
+only handled if its interface is down (not *running*) for at least the
+given time:
+
+    $BridgePortTo default 5m;
 
 See also
 --------
