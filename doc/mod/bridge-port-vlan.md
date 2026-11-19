@@ -44,10 +44,14 @@ Also dhcp client can be handled:
 
     /ip/dhcp-client/add comment="toggle with bridge port" disabled=no interface=en1;
 
-Add a scheduler to start with default setup on system startup:
+Add a scheduler to start nightly, preparing the configuration for next day:
+
+    /system/scheduler/add name="bridge-port-vlan" on-event=":global BridgePortVlan; \$BridgePortVlan default;" start-time=03:00:00 interval=1d;
+
+Or add a scheduler to start with default setup on system startup:
 
     $ScriptInstallUpdate global-wait;
-    /system/scheduler/add name=bridge-port-vlan on-event="/system/script/run global-wait; :global BridgePortVlan; \$BridgePortVlan default;" start-time=startup;
+    /system/scheduler/add name="bridge-port-vlan@startup" on-event="/system/script/run global-wait; :global BridgePortVlan; \$BridgePortVlan default;" start-time=startup;
 
 Usage and invocation
 --------------------
